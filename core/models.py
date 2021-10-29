@@ -6,6 +6,21 @@ class User(AbstractUser):
     pass
 
 
+class UserModality(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
+
+
+class UserSite(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    site = models.ForeignKey("Site", on_delete=models.CASCADE)
+
+
+class UserHealthNetwork(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
+
+
 class Profile(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     manager = models.ForeignKey("User", on_delete=models.CASCADE, related_name="+")
@@ -81,21 +96,6 @@ class Product(models.Model):
 class Documentation(models.Model):
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
     documenation = models.FileField()
-
-
-class UserModality(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
-
-
-class UserSite(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    site = models.ForeignKey("Site", on_delete=models.CASCADE)
-
-
-class UserHealthNetwork(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
 
 
 class Notes(models.Model):
