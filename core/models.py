@@ -57,7 +57,7 @@ class RemoteLoginSession(models.Model):
     system = models.ForeignKey("System", on_delete=models.CASCADE)
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     work_order = models.CharField(max_length=32)
-    po_number = models.CharField(max_length=32)
+    purchase_order = models.CharField(max_length=32)
 
 
 class HealthNetwork(models.Model):
