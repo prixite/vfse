@@ -33,7 +33,11 @@ class Organization(models.Model):
     banner = models.ImageField(null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(null=True, blank=True)
     parent = models.ForeignKey(
-        "self", null=True, on_delete=models.SET_NULL, related_name="sub_organizations", blank=True,
+        "self",
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="sub_organizations",
+        blank=True,
     )
 
 

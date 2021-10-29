@@ -7,18 +7,24 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='organization',
-            name='background_color',
+            model_name="organization",
+            name="background_color",
             field=models.CharField(blank=True, max_length=8),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='parent',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='sub_organizations', to='core.organization'),
+            model_name="organization",
+            name="parent",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="sub_organizations",
+                to="core.organization",
+            ),
         ),
     ]
