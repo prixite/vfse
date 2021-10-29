@@ -29,11 +29,11 @@ class Profile(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=32)
     logo = models.ImageField(null=True, blank=True)
-    background_color = models.CharField(max_length=8)
+    background_color = models.CharField(max_length=8, blank=True)
     banner = models.ImageField(null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(null=True, blank=True)
     parent = models.ForeignKey(
-        "self", null=True, on_delete=models.SET_NULL, related_name="sub_organizations"
+        "self", null=True, on_delete=models.SET_NULL, related_name="sub_organizations", blank=True,
     )
 
 
