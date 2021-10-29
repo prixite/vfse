@@ -28,7 +28,9 @@ class Profile(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=32)
-    logo = models.FileField()
+    logo = models.ImageField(null=True, blank=True)
+    background_color = models.CharField(max_length=8)
+    banner = models.ImageField(null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(null=True, blank=True)
     parent = models.ForeignKey(
         "self", null=True, on_delete=models.SET_NULL, related_name="sub_organizations"
@@ -40,6 +42,15 @@ class Membership(models.Model):
         SUPER_ADMIN = "super-admin", "Super Admin"
         SUPER_MANAGER = "super-manager", "Super Manager"
         FSE_ADMIN = "fse-admin", "FSE Admin"
+        CUSTOMER_ADMIN = "customer-admin", "Customer Admin"
+        USER_ADMIN = "user-admin", "User Admin"
+        FSE = "fse", "Field Service Engineer"
+        END_USER = "end-user", "End User"
+        VIEW_ONLY = "view-only", "View Only"
+        ONE_TIME = "one-time", "One Time"
+        CRYO = "cryo", "Cryo"
+        CRYO_FSE = "cryo-fse", "Cryo FSE"
+        CRYO_ADMIN = "cryo-admin", "Cryo Admin"
 
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
@@ -61,6 +72,15 @@ class System(models.Model):
     site = models.ForeignKey("Site", on_delete=models.CASCADE)
     modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    image = models.ForeignKey("SystemImage", on_delete=models.SET_NULL, null=True)
+    software_version = models.CharField(max_length=32)
+    asset_number = models.CharField(max_length=32)
+    ip_address = models.GenericIPAddressField()
+    local_ae_title = models.CharField(max_length=32)
+
+
+class SystemImage(models.Model):
+    image = models.ImageField()
 
 
 class AuditTrail(models.Model):
@@ -80,11 +100,16 @@ class RemoteLoginSession(models.Model):
 
 class HealthNetwork(models.Model):
     name = models.CharField(max_length=32)
-    logo = models.FileField()
+    logo = models.ImageField()
 
 
 class Manufacturer(models.Model):
     name = models.CharField(max_length=32)
+    image = models.ForeignKey("ManufacturerImage", null=True, on_delete=models.SET_NULL)
+
+
+class ManufacturerImage(models.Model):
+    image = models.ImageField()
 
 
 class Product(models.Model):
