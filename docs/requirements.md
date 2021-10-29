@@ -1,16 +1,16 @@
 vFSE
 
- 
+
 
 Company name- 626
 
 Product - vFSE (virtual field service engineer)
 
- 
+
 
 When logging in, The first page is a login screen.
 
- 
+
 
 - The login screen will have a username and password.
 
@@ -18,23 +18,23 @@ When logging in, The first page is a login screen.
 
       After the user logs in, they will be asked for a MFA code. (Vendor will be determined between general 2fa or Duo push) Oauth will authenticate user with backend servers that are handling the remote connections.
 
- 
+
 
 The next page will be dependent on the user who logged in.
 
- 
+
 
 If the user is a Super admin - They will go to a page that will ask them which function they would like to log in to.
 
- 
+
 
 Options will be
 
- 
+
 
 - 3rd party Administration (will create new companies and allow the option of background color, logos fonts and banner information changes. Also sub customer level. For example Crothall can have prisma, advent and CHS but CHS can have just their own. Branding will be consistent with the Main third party account.
 
- 
+
 
 - Modality administration( Page where connected system information is added including IP address, Serial number, asset number, software version, system type etc.
 
@@ -44,7 +44,7 @@ Options will be
 
 - vFSE ( when a super user is logged in, it will default to 626 branding and colors.)
 
- 
+
 
 There will be several user roles and what those types of users can do.
 
@@ -72,11 +72,11 @@ There will be several user roles and what those types of users can do.
 
 - CRYOADMIN (person who can add systems to be monitored)
 
- 
+
 
 Modality administration page
 
- 
+
 
 This page will consist a list of all the modalities in the VFSE system. super users will be able to add systems to a global database with a customer classification where as customer admins will be able to add systems to only their account. Certain customers will have limited number of seats. (Systems they can add) and those will be determined by super user. Code will need to be inputted to add more systems. This page will dictated what systems will show up in vfse.  Results will be able to be filtered and system images will need to be selected. Those png images will be uploaded by super users.
 
@@ -84,7 +84,7 @@ When the user inputs the the information, they will need to select an image for 
 
 When a user is entering a system. It will start with selecting the location of the unit CUSTOMER > Health Network > Location (Address) > system info below
 
- 
+
 
 - Check box for Contract or T&M
 
@@ -128,9 +128,9 @@ Next will be a page in which all information will be added
 
 - Check box for connection monitoring. Will determine if the ping monitor will run on this system. This will show up on the dashboard on vfse home page.
 
- 
 
- 
+
+
 
 3rd party administration page
 
@@ -144,13 +144,13 @@ Page will begin with Customer (example Crothall)
 
 - Health Network (name and logo and colors)
 
- 
+
 
 User administration page -
 
 Only super user ( 626 ) or useradmin that has customeradmin as well)
 
- 
+
 
 - Role (Default FSE) Customer admin cannot create super admin or anything 626 related.
 
@@ -188,11 +188,11 @@ Only super user ( 626 ) or useradmin that has customeradmin as well)
 
 User management page will also list all users by the customer and health network in tree form for password or 2fa reset
 
- 
 
- 
 
- 
+
+
+
 
 Documentation administration page
 
@@ -200,13 +200,13 @@ Based on the systems in the database, documentation links for a particular syste
 
 - Manufacturer>Modality>Product (link) save button
 
- 
+
 
 vFSE Home page
 
 When on landing page, the page will contain the total number of systems the user has assigned to his account.
 
-There will be a small box that says 
+There will be a small box that says
 
 Connections being monitored= #
 
@@ -222,13 +222,13 @@ If a customer account it will only show heath network page.
 
 There will be a quick connect box on the side that will sort by asset number.
 
- 
+
 
 Monitoring box below vfse will have list of assets and green yellow red status
 
 The asset can be clicked and it will take it to the full monitoring page (Grafana link currently but soon will have its own info.
 
- 
+
 
 Systems will have a notes section for other remote engineers to leave notes. On a particular system for other remote users to see.
 
@@ -240,7 +240,7 @@ Prior to any remote connection, when a system is clicked, Prompt user and ask if
 
 - In not contract prompt for PO#
 
- 
+
 
 Needs to have logging for everything that happens on this site. Which user logs in and what they click etc. active time and needs a timer function once a system is clicked. When user signs off or closes page end timer.
 

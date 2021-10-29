@@ -15,6 +15,9 @@ class Organization(models.Model):
     name = models.CharField(max_length=32)
     logo = models.FileField()
     number_of_seats = models.PositiveIntegerField(null=True, blank=True)
+    parent = models.ForeignKey(
+        "self", null=True, on_delete=models.SET_NULL, related_name="sub_organizations"
+    )
 
 
 class Membership(models.Model):
