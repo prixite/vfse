@@ -3,7 +3,12 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    def get_organizations(self, roles=None):
+        queryset = Membership.objects.filter(user=self)
+        if roles is not None:
+            queryset = queryset.filter(role__in=roles)
+
+        return queryset.values_list("organization")
 
 
 class UserModality(models.Model):
@@ -22,8 +27,10 @@ class UserHealthNetwork(models.Model):
 
 
 class Profile(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
-    manager = models.ForeignKey("User", on_delete=models.CASCADE, related_name="+")
+    user = models.OneToOneField("User", on_delete=models.CASCADE)
+    manager = models.ForeignKey(
+        "User", on_delete=models.SET_NULL, related_name="+", null=True
+    )
 
 
 class Organization(models.Model):
@@ -32,6 +39,7 @@ class Organization(models.Model):
     background_color = models.CharField(max_length=8, blank=True)
     banner = models.ImageField(null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(null=True, blank=True)
+    is_default = models.BooleanField(default=False)
     parent = models.ForeignKey(
         "self",
         null=True,
@@ -39,6 +47,11 @@ class Organization(models.Model):
         related_name="sub_organizations",
         blank=True,
     )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["is_default"]),
+        ]
 
 
 class Membership(models.Model):
@@ -56,7 +69,9 @@ class Membership(models.Model):
         CRYO_FSE = "cryo-fse", "Cryo FSE"
         CRYO_ADMIN = "cryo-admin", "Cryo Admin"
 
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, related_name="memberships"
+    )
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     role = models.CharField(max_length=32, choices=Role.choices)
 
