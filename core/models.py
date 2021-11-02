@@ -3,6 +3,8 @@ from django.db import models
 
 
 class User(AbstractUser):
+    is_supermanager = models.BooleanField(default=False)
+
     def get_organizations(self, roles=None):
         queryset = Membership.objects.filter(user=self)
         if roles is not None:
