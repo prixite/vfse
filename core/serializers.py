@@ -34,3 +34,9 @@ class MeSerializer(serializers.ModelSerializer):
             }
 
         return sorted(flags)
+
+
+class HealthNetworkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.HealthNetwork
+        fields = ["name", "logo"]

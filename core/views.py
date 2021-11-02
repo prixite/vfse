@@ -1,7 +1,7 @@
 from django.views.generic.base import TemplateView
 from rest_framework.viewsets import ModelViewSet
 
-from core import serializers
+from core import models, serializers
 from core.models import Organization
 
 
@@ -34,3 +34,8 @@ class OrganizationViewSet(ModelViewSet):
         return queryset.filter(
             id__in=self.request.user.get_organizations(),
         )
+
+
+class HealthNetworkViewSet(ModelViewSet):
+    queryset = models.HealthNetwork.objects.all()
+    serializer_class = serializers.HealthNetworkSerializer

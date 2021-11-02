@@ -27,3 +27,7 @@ class BaseTestCase(TestCase):
         self.organization = factories.OrganizationFactory(
             super_managers=[self.super_manager],
         )
+
+        self.health_network = factories.HealthNetworkFactory(
+            organizations=[self.organization],
+        )

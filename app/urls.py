@@ -12,5 +12,13 @@ router.register(r"organizations", views.OrganizationViewSet)
 urlpatterns = [
     path("", login_required(views.HomeView.as_view())),
     path("admin/", admin.site.urls),
-    path(r"api/", include(router.urls)),
+    path("api/", include(router.urls)),
+    path(
+        "api/organizations/<str:organization_pk>/health_networks/",
+        views.HealthNetworkViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
 ]

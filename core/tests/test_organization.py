@@ -10,3 +10,10 @@ class OrganizationTestCase(BaseTestCase):
             organizations = response.json()
             self.assertEqual(len(organizations), 1)
             self.assertEqual(organizations[0]["name"], self.organization.name)
+
+    def test_organization_health_network_list(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/health_networks/"
+        )
+        self.assertEqual(len(response.json()), 1)

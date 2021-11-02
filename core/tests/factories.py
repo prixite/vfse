@@ -58,3 +58,26 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 class MembershipFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Membership
+
+
+class HealthNetworkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.HealthNetwork
+
+    name = factory.Sequence(lambda x: f"name-{x}")
+
+    @factory.post_generation
+    def organizations(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        relations = []
+        for organization in extracted or []:
+            relations.append(
+                models.OrganizationHealthNetwork(
+                    organization=organization,
+                    health_network=obj,
+                )
+            )
+
+        models.OrganizationHealthNetwork.objects.bulk_create(relations)
