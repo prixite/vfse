@@ -19,6 +19,13 @@ class UserModality(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "modality"], name="unique_user_modality"
+            ),
+        ]
+
 
 class UserSite(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
