@@ -15,6 +15,9 @@
 
 image: python:3.9.7
 
+variables:
+  SECRET_KEY: fake
+
 default:
   before_script:
     - pip install -r requirements-dev.txt
