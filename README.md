@@ -9,6 +9,8 @@ Create virtual environment.
 		pip install -r requirements-dev.txt
 
 
+Create an environment file (.env) in the root of the project. You can get the initial file by copying env.sample to .env.
+
 Run the project.
 
 		./manange.py runserver
