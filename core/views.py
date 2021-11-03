@@ -55,5 +55,7 @@ class OrganizationSiteViewSet(ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(
             organization_health_network__organization=self.kwargs["organization_pk"],
-            organization_health_network__health_network=self.kwargs["health_network_pk"],
+            organization_health_network__health_network=self.kwargs[
+                "health_network_pk"
+            ],
         )

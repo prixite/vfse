@@ -31,6 +31,6 @@ class OrganizationTestCase(BaseTestCase):
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
             response = self.client.get(
-                f"/api/organizations/{self.organization.id}/health_networks/{self.health_network.id}/sites/"
+                f"/api/organizations/{self.organization.id}/health_networks/{self.health_network.id}/sites/"  # noqa
             )
             self.assertEqual(len(response.json()), 1)

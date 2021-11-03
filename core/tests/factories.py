@@ -94,7 +94,9 @@ class SiteFactory(factory.django.DjangoModelFactory):
         if not create:
             return
 
-        obj.organization_health_network = models.OrganizationHealthNetwork.objects.create(
-            organization=kwargs["organization"],
-            health_network=kwargs["health_network"],
+        obj.organization_health_network = (
+            models.OrganizationHealthNetwork.objects.create(
+                organization=kwargs["organization"],
+                health_network=kwargs["health_network"],
+            )
         )
