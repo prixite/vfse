@@ -40,3 +40,9 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HealthNetwork
         fields = ["name", "logo"]
+
+
+class SiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Site
+        fields = ["name", "address"]

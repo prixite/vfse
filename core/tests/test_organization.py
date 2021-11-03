@@ -26,3 +26,11 @@ class OrganizationTestCase(BaseTestCase):
                 f"/api/organizations/{self.organization.id}/health_networks/"
             )
             self.assertEqual(len(response.json()), 1)
+
+    def test_site_list_super_users(self):
+        for user in [self.super_admin, self.super_manager]:
+            self.client.force_login(user)
+            response = self.client.get(
+                f"/api/organizations/{self.organization.id}/health_networks/{self.health_network.id}/sites/"
+            )
+            self.assertEqual(len(response.json()), 1)

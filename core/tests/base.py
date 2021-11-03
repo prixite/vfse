@@ -39,3 +39,8 @@ class BaseTestCase(TestCase):
         self.other_organization = factories.OrganizationFactory(
             customer_admins=[self.other_customer_admin],
         )
+
+        self.site = factories.SiteFactory(
+            organization_health_network__organization=self.organization,
+            organization_health_network__health_network=self.health_network,
+        )

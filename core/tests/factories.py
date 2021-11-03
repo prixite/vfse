@@ -81,3 +81,20 @@ class HealthNetworkFactory(factory.django.DjangoModelFactory):
             )
 
         models.OrganizationHealthNetwork.objects.bulk_create(relations)
+
+
+class SiteFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Site
+
+    name = factory.Sequence(lambda x: f"site-{x}")
+
+    @factory.post_generation
+    def organization_health_network(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        obj.organization_health_network = models.OrganizationHealthNetwork.objects.create(
+            organization=kwargs["organization"],
+            health_network=kwargs["health_network"],
+        )

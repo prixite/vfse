@@ -47,4 +47,12 @@ urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/organizations/<str:organization_pk>/health_networks/<str:health_network_pk>/sites/",
+        views.OrganizationSiteViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
 ]
