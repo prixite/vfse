@@ -8,7 +8,7 @@ class BaseTestCase(TestCase):
         self.client = client.Client()
 
         self.super_admin = factories.UserFactory(is_superuser=True)
-        self.super_manager = factories.UserFactory()
+        self.super_manager = factories.UserFactory(is_supermanager=True)
         self.fse_admin = factories.UserFactory()
         self.customer_admin = factories.UserFactory()
         self.user_admin = factories.UserFactory()
@@ -20,14 +20,22 @@ class BaseTestCase(TestCase):
         self.cryo_fse = factories.UserFactory()
         self.cryo_admin = factories.UserFactory()
 
+        self.other_customer_admin = factories.UserFactory()
+        self.other_user_admin = factories.UserFactory()
+
         self.default_organization = factories.OrganizationFactory(
             is_default=True,
         )
 
         self.organization = factories.OrganizationFactory(
-            super_managers=[self.super_manager],
+            customer_admins=[self.customer_admin],
+            fse_admins=[self.fse_admin],
         )
 
         self.health_network = factories.HealthNetworkFactory(
             organizations=[self.organization],
+        )
+
+        self.other_organization = factories.OrganizationFactory(
+            customer_admins=[self.other_customer_admin],
         )

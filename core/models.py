@@ -68,8 +68,6 @@ class Organization(models.Model):
 
 class Membership(models.Model):
     class Role(models.TextChoices):
-        SUPER_ADMIN = "super-admin", "Super Admin"
-        SUPER_MANAGER = "super-manager", "Super Manager"
         FSE_ADMIN = "fse-admin", "FSE Admin"
         CUSTOMER_ADMIN = "customer-admin", "Customer Admin"
         USER_ADMIN = "user-admin", "User Admin"

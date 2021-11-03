@@ -28,7 +28,7 @@ class OrganizationViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset.filter(is_default=False)
-        if self.request.user.is_superuser:
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
             return queryset
 
         return queryset.filter(
@@ -36,6 +36,13 @@ class OrganizationViewSet(ModelViewSet):
         )
 
 
-class HealthNetworkViewSet(ModelViewSet):
+class OrganizationHealthNetworkViewSet(ModelViewSet):
     queryset = models.HealthNetwork.objects.all()
     serializer_class = serializers.HealthNetworkSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(
+            id__in=models.OrganizationHealthNetwork.objects.filter(
+                organization=self.kwargs["organization_pk"],
+            ).values_list("health_network")
+        )

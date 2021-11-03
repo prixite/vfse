@@ -23,7 +23,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
             )
 
     @factory.post_generation
-    def super_managers(obj, create, extracted, **kwargs):
+    def fse_admins(obj, create, extracted, **kwargs):
         if not create:
             return
 
@@ -31,7 +31,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
             MembershipFactory(
                 organization=obj,
                 user=user,
-                role=models.Membership.Role.SUPER_MANAGER,
+                role=models.Membership.Role.FSE_ADMIN,
             )
 
 
