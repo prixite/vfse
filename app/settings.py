@@ -23,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(
+    DEBUG=(bool, False),
+    DATABASE_URL=(str, None),
+)
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
