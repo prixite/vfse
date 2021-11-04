@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  db:
+    image: postgres:13.4
+    env_file:
+      - ./docker/env.db
+
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    container_name: vfse
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    volumes:
+      - .:/opt/code
+    depends_on:
+      - db
