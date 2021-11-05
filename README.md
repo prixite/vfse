@@ -1,4 +1,4 @@
-# Virtual Field Service Engineer (vfse)
+# Virtual Field Service Engineer (vFSE)
 
 ## Installation
 
