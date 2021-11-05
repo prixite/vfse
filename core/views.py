@@ -69,3 +69,20 @@ class SiteSystemViewSet(ModelViewSet):
         return self.queryset.filter(
             site=self.kwargs["site_pk"],
         )
+
+
+class OrganizationUserViewSet(ModelViewSet):
+    queryset = models.Membership.objects.all()
+    serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(
+            organization=self.kwargs["organization_pk"],
+        )
+
+        if not (self.request.user.is_superuser or self.request.user.is_supermanager):
+            queryset = queryset.filter(
+                organization__in=self.request.user.get_organizations(),
+            )
+
+        return queryset.values_list("user")

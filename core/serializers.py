@@ -60,3 +60,13 @@ class SystemSerializer(serializers.ModelSerializer):
             "ip_address",
             "local_ae_title",
         ]
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+        ]

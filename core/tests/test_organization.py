@@ -35,6 +35,14 @@ class OrganizationTestCase(BaseTestCase):
             )
             self.assertEqual(len(response.json()), 1)
 
+    def test_user_list(self):
+        for user in [self.super_admin, self.super_manager]:
+            self.client.force_login(user)
+            response = self.client.get(
+                f"/api/organizations/{self.organization.id}/users/"
+            )
+            self.assertEqual(len(response.json()), 2)
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
