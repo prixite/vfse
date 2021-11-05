@@ -52,9 +52,9 @@ class Profile(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=32)
-    logo = models.ImageField(null=True, blank=True)
+    logo = models.ImageField(upload_to="organization/logo/", null=True, blank=True)
     background_color = models.CharField(max_length=8, blank=True)
-    banner = models.ImageField(null=True, blank=True)
+    banner = models.ImageField(upload_to="organization/banner/", null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(null=True, blank=True)
     is_default = models.BooleanField(default=False)
     parent = models.ForeignKey(
@@ -133,7 +133,7 @@ class System(models.Model):
 
 
 class SystemImage(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to="system-image/", default="", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -159,7 +159,7 @@ class RemoteLoginSession(models.Model):
 
 class HealthNetwork(models.Model):
     name = models.CharField(max_length=32, unique=True)
-    logo = models.ImageField()
+    logo = models.ImageField(upload_to="health-network/logo/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -172,7 +172,7 @@ class Manufacturer(models.Model):
 
 
 class ManufacturerImage(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to="manufacture/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -187,7 +187,7 @@ class Product(models.Model):
 
 class Documentation(models.Model):
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
-    documenation = models.FileField()
+    documenation = models.FileField(upload_to="documentation/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
