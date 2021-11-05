@@ -16,7 +16,8 @@
 image: python:3.9.7
 
 variables:
-  SECRET_KEY: fake
+  SECRET_KEY: "fake"
+  NPLUSONE_RAISE: "True"
 
 default:
   before_script:

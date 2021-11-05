@@ -26,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(
     DEBUG=(bool, False),
     DATABASE_URL=(str, None),
+    NPLUSONE_RAISE=(bool, False),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -63,6 +64,17 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+NPLUSONE_RAISE = env("NPLUSONE_RAISE")
+
+if NPLUSONE_RAISE:
+    INSTALLED_APPS += [
+        "nplusone.ext.django",
+    ]
+
+    MIDDLEWARE += [
+        "nplusone.ext.django.NPlusOneMiddleware",
+    ]
 
 STATIC_URL = "/static/"
 
