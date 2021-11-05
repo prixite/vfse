@@ -46,3 +46,17 @@ class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
         fields = ["name", "address"]
+
+
+class SystemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.System
+        fields = [
+            "modality",
+            "product",
+            "image",
+            "software_version",
+            "asset_number",
+            "ip_address",
+            "local_ae_title",
+        ]

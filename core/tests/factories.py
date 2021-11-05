@@ -94,3 +94,35 @@ class SiteFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"site-{x}")
     organization_health_network = factory.SubFactory(OrganizationHealthNetworkFactory)
+
+
+class ModalityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Modality
+
+
+class ManufacturerFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Manufacturer
+
+
+class ManufacturerModalityFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ManufacturerModality
+
+
+class ProductFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Product
+
+    manufacturer_modality = factory.SubFactory(ManufacturerModalityFactory)
+
+
+class SystemFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.System
+
+    site = factory.SubFactory(SiteFactory)
+    modality = factory.SubFactory(ModalityFactory)
+    product = factory.SubFactory(ProductFactory)
+    ip_address = "0.0.0.0"

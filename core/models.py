@@ -90,7 +90,7 @@ class Membership(models.Model):
         "User", on_delete=models.CASCADE, related_name="memberships"
     )
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
-    role = models.CharField(max_length=32, choices=Role.choices)
+    role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -177,9 +177,15 @@ class ManufacturerImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Product(models.Model):
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
+class ManufacturerModality(models.Model):
     manufacturer = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
+    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
+
+
+class Product(models.Model):
+    manufacturer_modality = models.ForeignKey(
+        "ManufacturerModality", on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

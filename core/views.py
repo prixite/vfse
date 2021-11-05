@@ -59,3 +59,13 @@ class OrganizationSiteViewSet(ModelViewSet):
                 "health_network_pk"
             ],
         )
+
+
+class SiteSystemViewSet(ModelViewSet):
+    queryset = models.System.objects.all()
+    serializer_class = serializers.SystemSerializer
+
+    def get_queryset(self):
+        return self.queryset.filter(
+            site=self.kwargs["site_pk"],
+        )

@@ -57,4 +57,12 @@ urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/sites/<str:site_pk>/systems/",
+        views.SiteSystemViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -100,10 +100,16 @@ class ManufacturerAdmin(admin.ModelAdmin):
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "modality",
-        "manufacturer",
+        "get_manufacturer",
+        "get_modality",
         "name",
     )
+
+    def get_manufacturer(self, obj):
+        return obj.manufacturer_modality.manufacturer
+
+    def get_modality(self, obj):
+        return obj.manufacturer_modality.modality
 
 
 @admin.register(models.Documentation)

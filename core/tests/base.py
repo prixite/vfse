@@ -44,3 +44,14 @@ class BaseTestCase(TestCase):
             organization_health_network__organization=self.organization,
             organization_health_network__health_network=self.health_network,
         )
+
+        self.product = factories.ProductFactory(
+            manufacturer_modality__manufacturer=factories.ManufacturerFactory(),
+            manufacturer_modality__modality=factories.ModalityFactory(),
+        )
+
+        self.system = factories.SystemFactory(
+            site=self.site,
+            product=self.product,
+            modality=self.product.manufacturer_modality.modality,
+        )
