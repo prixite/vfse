@@ -72,17 +72,34 @@ class SiteSystemViewSet(ModelViewSet):
 
 
 class OrganizationUserViewSet(ModelViewSet):
-    queryset = models.Membership.objects.all()
+    queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
-        queryset = self.queryset.filter(
+        membership = models.Membership.objects.filter(
             organization=self.kwargs["organization_pk"],
         )
 
         if not (self.request.user.is_superuser or self.request.user.is_supermanager):
-            queryset = queryset.filter(
+            membership = membership.filter(
                 organization__in=self.request.user.get_organizations(),
             )
 
-        return queryset.values_list("user")
+        return self.queryset.filter(id__in=membership.values_list("user"))
+
+
+class VfseSystemViewSet(ModelViewSet):
+    queryset = models.System.objects.all()
+    serializer_class = serializers.SystemSerializer
+
+    def get_queryset(self):
+        assigned = models.Seat.objects.filter(
+            organization=self.kwargs["organization_pk"],
+        )
+
+        if not (self.request.user.is_superuser or self.request.user.is_supermanager):
+            assigned = assigned.filter(
+                organization__in=self.request.user.get_organizations(),
+            )
+
+        return self.queryset.filter(id__in=assigned.values_list("system"))

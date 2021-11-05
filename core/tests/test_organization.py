@@ -1,3 +1,4 @@
+from core import models
 from core.tests.base import BaseTestCase
 
 
@@ -49,4 +50,19 @@ class SiteTestCase(BaseTestCase):
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
             response = self.client.get(f"/api/sites/{self.site.id}/systems/")
+            self.assertEqual(len(response.json()), 1)
+
+
+class VfseTestCase(BaseTestCase):
+    def test_list_cfse_systems(self):
+        models.Seat.objects.create(
+            organization=self.organization,
+            system=self.system,
+        )
+
+        for user in [self.super_admin, self.super_manager]:
+            self.client.force_login(user)
+            response = self.client.get(
+                f"/api/organizations/{self.organization.id}/vfse_systems/"
+            )
             self.assertEqual(len(response.json()), 1)

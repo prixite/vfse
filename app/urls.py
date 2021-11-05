@@ -58,6 +58,14 @@ urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/<str:organization_pk>/vfse_systems/",
+        views.VfseSystemViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<str:organization_pk>/health_networks/<str:health_network_pk>/sites/",  # noqa
         views.OrganizationSiteViewSet.as_view(
             {
