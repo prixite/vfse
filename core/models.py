@@ -20,6 +20,7 @@ class UserModality(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name_plural = "User modalities"
         constraints = [
             models.UniqueConstraint(
                 fields=["user", "modality"], name="unique_user_modality"
@@ -117,6 +118,9 @@ class Modality(models.Model):
     name = models.CharField(max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Modalities"
 
 
 class System(models.Model):
