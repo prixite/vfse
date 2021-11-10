@@ -8,3 +8,4 @@ static/
 media/
 node_modules/
 frontend/dist/
+.coverage

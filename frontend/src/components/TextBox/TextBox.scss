@@ -1,0 +1,29 @@
+input[type="text"] {
+	height: 48px;
+	width: 288px;
+	left: 0px;
+	top: 0px;
+	border-radius: 8px;
+	padding: 12px 16px 12px 16px;
+	border: 1px solid #D4D6DB;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 24px;
+
+	&:active:enabled {
+		border: 1px solid #773CBE
+	}
+
+	&:hover:enabled {
+		background: #773CBE0D;
+	}
+
+	&.error {
+		color: #FF2517;
+	}
+
+	&:disabled {
+		background: #F4F4F4;
+	}
+}
