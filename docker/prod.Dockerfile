@@ -27,6 +27,12 @@ RUN pip install pip==21.1.3
 
 WORKDIR /opt/code
 
+COPY package.json package.json
+
+COPY package-lock.json package-lock.json
+
+RUN npm install
+
 COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
