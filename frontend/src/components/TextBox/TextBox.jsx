@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function TextBox(props) {
   return (
-    <input type="text" placeholder={ props.placeholder } />
+    <input type="text" placeholder={ props.placeholder } className={ props.className } />
   )
 }
 

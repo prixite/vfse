@@ -18,4 +18,8 @@ input[type="text"] {
 	&:hover {
 		background: #773CBE0D;
 	}
+
+	&.error {
+		color: #FF2517;
+	}
 }
