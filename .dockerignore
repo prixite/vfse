@@ -1,0 +1,13 @@
+*
+!core
+!manage.py
+!requirements.txt
+!requirements-dev.txt
+!app
+!docker
+!frontend
+!package.json
+!package-lock.json
+!babel.config.json
+node_modules
+npm-debug.log
