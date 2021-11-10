@@ -1,7 +1,10 @@
 [run]
 omit =
     core/migrations/*
-    manage.py'
+    admin.py
+    apps.py
+    manage.py
+    app/*
 
 [report]
 # Regexes for lines to exclude from consideration
