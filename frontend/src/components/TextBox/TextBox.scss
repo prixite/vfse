@@ -11,15 +11,19 @@ input[type="text"] {
 	font-size: 16px;
 	line-height: 24px;
 
-	&:active {
+	&:active:enabled {
 		border: 1px solid #773CBE
 	}
 
-	&:hover {
+	&:hover:enabled {
 		background: #773CBE0D;
 	}
 
 	&.error {
 		color: #FF2517;
+	}
+
+	&:disabled {
+		background: #F4F4F4;
 	}
 }
