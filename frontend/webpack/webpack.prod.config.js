@@ -12,8 +12,8 @@ module.exports = {
         use: "babel-loader",
       },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
@@ -22,6 +22,7 @@ module.exports = {
     path: path.resolve(__dirname, "../dist/"),
     publicPath: "/dist/",
     filename: "bundle.js",
+    clean: true,
   },
   devServer: {
     contentBase: path.join(__dirname, "public/"),
