@@ -64,7 +64,7 @@ class HealthNetworkFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.HealthNetwork
 
-    name = factory.Sequence(lambda x: f"name-{x}")
+    name = factory.Sequence(lambda x: f"health-network-{x}")
 
     @factory.post_generation
     def organizations(obj, create, extracted, **kwargs):
@@ -100,10 +100,14 @@ class ModalityFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Modality
 
+    name = factory.Sequence(lambda x: f"modality-{x}")
+
 
 class ManufacturerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Manufacturer
+
+    name = factory.Sequence(lambda x: f"manufacturer-{x}")
 
 
 class ManufacturerModalityFactory(factory.django.DjangoModelFactory):
@@ -116,6 +120,7 @@ class ProductFactory(factory.django.DjangoModelFactory):
         model = models.Product
 
     manufacturer_modality = factory.SubFactory(ManufacturerModalityFactory)
+    name = factory.Sequence(lambda x: f"product-{x}")
 
 
 class SystemFactory(factory.django.DjangoModelFactory):
