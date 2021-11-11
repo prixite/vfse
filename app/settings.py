@@ -180,3 +180,6 @@ if not DEBUG:
 else:
     MEDIA_URL = "media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+# TODO: Change to real URL.
+LOGIN_URL = "/admin/"
