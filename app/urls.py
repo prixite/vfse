@@ -80,5 +80,6 @@ urlpatterns = [
             }
         ),
     ),
+    # Home should be the last mapping. We want everything else to pass to React.
     re_path(r"^.*$", login_required(views.HomeView.as_view()), name="home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
