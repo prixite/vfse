@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
 import SideBar from "../sidebar/SideBar";
 import Content from "../content/Content";
+import Header from "../header/Header";
 
 export default function App() {
   return (
@@ -23,8 +24,4 @@ export default function App() {
       </BrowserRouter>
     </React.Fragment>
   );
-}
-
-function Header() {
-  return <h1>vFSE</h1>;
 }
