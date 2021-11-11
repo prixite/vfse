@@ -30,7 +30,7 @@ services:
       - static_volume:/opt/code/static
       - shm:/dev/shm
     depends_on:
-      - web
+      - app
 
 volumes:
   static_volume:
