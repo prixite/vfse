@@ -32,7 +32,6 @@ urlpatterns = [
         name="schema-swagger-ui",
     ),
     path("admin/", admin.site.urls),
-    path("", login_required(views.HomeView.as_view())),
     path(
         "api/organizations/",
         views.OrganizationViewSet.as_view(
@@ -81,4 +80,5 @@ urlpatterns = [
             }
         ),
     ),
+    re_path(r"^.*$", login_required(views.HomeView.as_view()), name="home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
