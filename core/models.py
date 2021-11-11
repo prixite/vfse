@@ -202,7 +202,7 @@ class Documentation(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Notes(models.Model):
+class Note(models.Model):
     system = models.ForeignKey("System", on_delete=models.CASCADE)
     author = models.ForeignKey("User", on_delete=models.CASCADE)
     note = models.TextField()

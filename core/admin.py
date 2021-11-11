@@ -120,7 +120,7 @@ class DocumentationAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(models.Notes)
+@admin.register(models.Note)
 class NotesAdmin(admin.ModelAdmin):
     list_display = (
         "system",
