@@ -17,8 +17,7 @@ export default function App() {
             <SideBar />
           </div>
           <div className="content">
-            {" "}
-            <Content />{" "}
+            <Content />
           </div>
         </div>
       </BrowserRouter>
