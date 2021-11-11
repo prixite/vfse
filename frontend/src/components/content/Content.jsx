@@ -8,9 +8,6 @@ import Home from "./vfse/Vfse";
 export default function Content() {
   return (
     <Switch>
-      <Route path="/">
-        <Home />
-      </Route>
       <Route path="/organizations">
         <Organization />
       </Route>
@@ -22,6 +19,9 @@ export default function Content() {
       </Route>
       <Route path="/documentation">
         <Documentation />
+      </Route>
+      <Route path="/">
+        <Home />
       </Route>
     </Switch>
   );
