@@ -1,14 +1,18 @@
 import "./TextBox.scss";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 function TextBox(props) {
   return (
-    <input type="text" placeholder={ props.placeholder } className={ props.className } />
-  )
+    <input
+      type="text"
+      placeholder={props.placeholder}
+      className={props.className}
+    />
+  );
 }
 
 TextBox.propTypes = {
-  placeholder: PropTypes.string
-}
+  placeholder: PropTypes.string,
+};
 
 export default TextBox;

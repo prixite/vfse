@@ -8,11 +8,18 @@ import Content from "../content/Content";
 export default function App() {
   return (
     <React.Fragment>
-      <div><Header /></div>
+      <div>
+        <Header />
+      </div>
       <BrowserRouter>
-        <div className='mid'>
-          <div><SideBar /></div>
-          <div className="content"> <Content /> </div>
+        <div className="mid">
+          <div>
+            <SideBar />
+          </div>
+          <div className="content">
+            {" "}
+            <Content />{" "}
+          </div>
         </div>
       </BrowserRouter>
     </React.Fragment>

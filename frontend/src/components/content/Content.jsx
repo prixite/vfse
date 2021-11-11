@@ -1,23 +1,19 @@
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 export default function Content() {
   return (
-            <Switch>
-              <Route path="/about">
-                <About />
-              </Route>
-              <Route path="/users">
-                <Users />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-  )
+    <Switch>
+      <Route path="/about">
+        <About />
+      </Route>
+      <Route path="/users">
+        <Users />
+      </Route>
+      <Route path="/">
+        <Home />
+      </Route>
+    </Switch>
+  );
 }
 
 function Home() {

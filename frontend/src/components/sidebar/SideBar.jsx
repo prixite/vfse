@@ -15,5 +15,5 @@ export default function SideBar() {
         </li>
       </ul>
     </nav>
-  )
+  );
 }
