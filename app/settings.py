@@ -30,6 +30,7 @@ env = environ.Env(
     AWS_ACCESS_KEY_ID=(str, None),
     AWS_SECRET_ACCESS_KEY=(str, None),
     AWS_STORAGE_BUCKET_NAME=(str, None),
+    ALLOWED_HOSTS=(list, []),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -38,7 +39,7 @@ DEBUG = env("DEBUG")
 
 SECRET_KEY = env("SECRET_KEY")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 # Application definition
 
