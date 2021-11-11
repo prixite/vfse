@@ -14,7 +14,7 @@ export default function App() {
       </div>
       <BrowserRouter>
         <div className="mid">
-          <div>
+          <div className="sidebar">
             <SideBar />
           </div>
           <div className="content">

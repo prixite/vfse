@@ -1,4 +1,5 @@
 import { Switch, Route } from "react-router-dom";
+import DesignSystem from "./design-system/DesignSystem";
 import Documentation from "./documentation/Documentation";
 import Modality from "./modality/Modality";
 import Organization from "./organization/Organization";
@@ -19,6 +20,9 @@ export default function Content() {
       </Route>
       <Route path="/documentation">
         <Documentation />
+      </Route>
+      <Route path="/design">
+        <DesignSystem />
       </Route>
       <Route path="/">
         <Home />

@@ -8,4 +8,9 @@ div.mid {
   div.content {
     width: 100%;
   }
+
+  div.content,
+  div.sidebar {
+    padding: 10px;
+  }
 }

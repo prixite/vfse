@@ -19,6 +19,9 @@ export default function SideBar() {
         <li>
           <Link to="/documentation">Documentation</Link>
         </li>
+        <li>
+          <Link to="/design">Design System</Link>
+        </li>
       </ul>
     </nav>
   );
