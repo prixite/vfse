@@ -13,6 +13,7 @@ function TextBox(props) {
 
 TextBox.propTypes = {
   placeholder: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default TextBox;
