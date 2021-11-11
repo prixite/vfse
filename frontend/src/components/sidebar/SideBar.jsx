@@ -8,10 +8,16 @@ export default function SideBar() {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/about">About</Link>
+          <Link to="/organizations">Organizations</Link>
         </li>
         <li>
           <Link to="/users">Users</Link>
+        </li>
+        <li>
+          <Link to="/modality">Modality</Link>
+        </li>
+        <li>
+          <Link to="/documentation">Documentation</Link>
         </li>
       </ul>
     </nav>

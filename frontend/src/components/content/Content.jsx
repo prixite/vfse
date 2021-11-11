@@ -1,29 +1,28 @@
 import { Switch, Route } from "react-router-dom";
+import Documentation from "./documentation/Documentation";
+import Modality from "./modality/Modality";
+import Organization from "./organization/Organization";
+import User from "./user/User";
+import Home from "./vfse/Vfse";
 
 export default function Content() {
   return (
     <Switch>
-      <Route path="/about">
-        <About />
-      </Route>
-      <Route path="/users">
-        <Users />
-      </Route>
       <Route path="/">
         <Home />
       </Route>
+      <Route path="/organizations">
+        <Organization />
+      </Route>
+      <Route path="/users">
+        <User />
+      </Route>
+      <Route path="/modality">
+        <Modality />
+      </Route>
+      <Route path="/documentation">
+        <Documentation />
+      </Route>
     </Switch>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
