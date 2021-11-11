@@ -4,6 +4,14 @@ from core import models
 from core.models import ManufacturerImage, SystemImage
 
 
+@admin.register(models.User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = (
+        "username",
+        "email",
+    )
+
+
 @admin.register(models.UserModality)
 class UserModalityAdmin(admin.ModelAdmin):
     list_display = (
