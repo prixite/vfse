@@ -3,32 +3,19 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import "./App.scss";
+import SideBar from "../sidebar/SideBar";
 
 export default function App() {
   return (
     <React.Fragment>
       <div><Header /></div>
       <Router>
-        <div class='mid'>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/users">Users</Link>
-              </li>
-            </ul>
-          </nav>
-
-          <div class="content">
+        <div className='mid'>
+          <div><SideBar /></div>
+          <div className="content">
             <Switch>
               <Route path="/about">
                 <About />
@@ -44,7 +31,6 @@ export default function App() {
 
         </div>
       </Router>
-      <div><h2>Footer</h2></div>
     </React.Fragment>
   );
 }
