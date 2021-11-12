@@ -20,7 +20,7 @@ Create superuser.
 
 Run the backend.
 
-    	./manange.py runserver
+      ./manage.py runserver
 
 Build the frontend
 
