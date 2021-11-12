@@ -14,6 +14,10 @@ Run the migrations.
 
      ./manage.py migrate
 
+Create superuser.
+
+      ./manage.py createsuperuser
+
 Run the backend.
 
     	./manange.py runserver
