@@ -33,8 +33,8 @@ COPY package-lock.json package-lock.json
 
 RUN npm install
 
-COPY requirements.txt requirements.txt
+COPY requirements-prod.txt requirements-prod.txt
 
-RUN pip install -r requirements.txt
+RUN pip install -r requirements-prod.txt
 
 COPY . ./
