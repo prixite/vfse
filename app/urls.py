@@ -1,8 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.urls import path, re_path
+from django.urls.conf import include
 from drf_yasg2 import openapi
 from drf_yasg2.views import get_schema_view
 from rest_framework import permissions
@@ -80,7 +82,10 @@ urlpatterns = [
             }
         ),
     ),
-    path("accounts/login/", site.LoginView.as_view(), name="login"),
+    path(
+        "accounts/logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"
+    ),
+    path("accounts/", include("django.contrib.auth.urls")),
     # Home should be the last mapping. We want everything else to pass to React.
     re_path(r"^.*$", login_required(site.HomeView.as_view()), name="home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
