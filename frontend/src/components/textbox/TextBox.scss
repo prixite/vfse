@@ -1,3 +1,7 @@
+$primary-color: #773cbe;
+$error-color: #ff2517;
+$disabled-color: #f4f4f4;
+
 input[type="text"] {
   height: 48px;
   width: 288px;
@@ -12,18 +16,18 @@ input[type="text"] {
   line-height: 24px;
 
   &:active:enabled {
-    border: 1px solid #773cbe;
+    border: 1px solid $primary-color;
   }
 
   &:hover:enabled {
-    background: #773cbe0d;
+    background: #{$primary-color}0d;
   }
 
   &.error {
-    color: #ff2517;
+    color: $error-color;
   }
 
   &:disabled {
-    background: #f4f4f4;
+    background: $disabled-color;
   }
 }
