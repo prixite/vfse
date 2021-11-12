@@ -9,3 +9,4 @@ media/
 node_modules/
 frontend/dist/
 .coverage
+.DS_Store
