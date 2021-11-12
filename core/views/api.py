@@ -1,25 +1,7 @@
-from django.views.generic.base import TemplateView
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
 from core.models import Organization
-
-
-class HomeView(TemplateView):
-    template_name = "index.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated:
-            context["user_data"] = serializers.MeSerializer(
-                self.request.user,
-                context={
-                    "request": self.request,
-                },
-            ).data
-
-        return context
 
 
 class OrganizationViewSet(ModelViewSet):
