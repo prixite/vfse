@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 from django.urls import path, re_path
 from drf_yasg2 import openapi
 from drf_yasg2.views import get_schema_view
@@ -80,5 +81,5 @@ urlpatterns = [
         ),
     ),
     # Home should be the last mapping. We want everything else to pass to React.
-    re_path(r"^.*$", views.HomeView.as_view(), name="home"),
+    re_path(r"^.*$", login_required(views.HomeView.as_view()), name="home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
