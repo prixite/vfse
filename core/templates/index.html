@@ -1,17 +1,14 @@
-{% extends "base.html" %}
-
-{% load static %}
-{% block body %}
+{% extends "base.html" %} {% load static %} {% block body %}
 <body data-flags="{{ user_data.flags|join:',' }}">
   <div id="container">
     <div
       style="
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       "
-      >
+    >
       <div>Loading vFSE application 🚀</div>
     </div>
   </div>
