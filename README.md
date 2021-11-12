@@ -10,9 +10,17 @@ Create virtual environment.
 
 Create an environment file (.env) in the root of the project. You can get the initial file by copying env.sample to .env.
 
-Run the project.
+Run the backend.
 
     	./manange.py runserver
+
+Build the frontend
+
+      npm install
+
+Run the frontend dev server
+
+      npm run start
 
 Visit localhost:8000 to view the landing page.
 
