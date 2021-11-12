@@ -10,6 +10,10 @@ Create virtual environment.
 
 Create an environment file (.env) in the root of the project. You can get the initial file by copying env.sample to .env.
 
+Run the migrations.
+
+     ./manage.py migrate
+
 Run the backend.
 
     	./manange.py runserver
