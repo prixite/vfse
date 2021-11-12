@@ -1,13 +1,15 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.urls import path, re_path
+from django.urls.conf import include
 from drf_yasg2 import openapi
 from drf_yasg2.views import get_schema_view
 from rest_framework import permissions
 
-from core import views
+from core.views import api, site
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -34,7 +36,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path(
         "api/organizations/",
-        views.OrganizationViewSet.as_view(
+        api.OrganizationViewSet.as_view(
             {
                 "get": "list",
             }
@@ -42,7 +44,7 @@ urlpatterns = [
     ),
     path(
         "api/organizations/<str:organization_pk>/health_networks/",
-        views.OrganizationHealthNetworkViewSet.as_view(
+        api.OrganizationHealthNetworkViewSet.as_view(
             {
                 "get": "list",
             }
@@ -50,7 +52,7 @@ urlpatterns = [
     ),
     path(
         "api/organizations/<str:organization_pk>/users/",
-        views.OrganizationUserViewSet.as_view(
+        api.OrganizationUserViewSet.as_view(
             {
                 "get": "list",
             }
@@ -58,7 +60,7 @@ urlpatterns = [
     ),
     path(
         "api/organizations/<str:organization_pk>/vfse_systems/",
-        views.VfseSystemViewSet.as_view(
+        api.VfseSystemViewSet.as_view(
             {
                 "get": "list",
             }
@@ -66,7 +68,7 @@ urlpatterns = [
     ),
     path(
         "api/organizations/<str:organization_pk>/health_networks/<str:health_network_pk>/sites/",  # noqa
-        views.OrganizationSiteViewSet.as_view(
+        api.OrganizationSiteViewSet.as_view(
             {
                 "get": "list",
             }
@@ -74,12 +76,16 @@ urlpatterns = [
     ),
     path(
         "api/sites/<str:site_pk>/systems/",
-        views.SiteSystemViewSet.as_view(
+        api.SiteSystemViewSet.as_view(
             {
                 "get": "list",
             }
         ),
     ),
+    path(
+        "accounts/logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"
+    ),
+    path("accounts/", include("django.contrib.auth.urls")),
     # Home should be the last mapping. We want everything else to pass to React.
-    re_path(r"^.*$", login_required(views.HomeView.as_view()), name="home"),
+    re_path(r"^.*$", login_required(site.HomeView.as_view()), name="home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

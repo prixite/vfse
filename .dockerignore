@@ -3,6 +3,7 @@
 !manage.py
 !requirements.txt
 !requirements-dev.txt
+!requirements-prod.txt
 !app
 !docker
 !frontend

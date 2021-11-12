@@ -32,4 +32,6 @@ COPY requirements-dev.txt requirements-dev.txt
 
 RUN pip install -r requirements-dev.txt
 
+RUN pip install psycopg2==2.9.1
+
 COPY . ./
