@@ -54,9 +54,10 @@ INSTALLED_APPS = [
     # 3rd party apps
     "rest_framework",
     "storages",
+    "drf_yasg2",
     # apps
     "core",
-    "drf_yasg2",
+    "emailbackend",
 ]
 
 MIDDLEWARE = [
@@ -181,3 +182,5 @@ else:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 LOGIN_REDIRECT_URL = "/"
+
+EMAIL_BACKEND = 'emailbackend.backend.DatabaseBackend'
