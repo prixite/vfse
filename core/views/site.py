@@ -19,7 +19,3 @@ class HomeView(TemplateView):
             ).data
 
         return context
-
-
-class LoginView(auth_views.LoginView):
-    pass
