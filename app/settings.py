@@ -186,5 +186,5 @@ LOGIN_REDIRECT_URL = "/"
 EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"
     if DEBUG and not env("EMAIL_BACKEND")
-    else env("email_backend")
+    else env("EMAIL_BACKEND")
 )
