@@ -83,7 +83,33 @@ urlpatterns = [
         ),
     ),
     path(
+        "accounts/login/",
+        auth_views.LoginView.as_view(template_name="core/registration/login.html"),
+        name="logout",
+    ),
+    path(
         "accounts/logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"
+    ),
+    path(
+        "accounts/password_reset/",
+        auth_views.PasswordResetView.as_view(
+            template_name="core/registration/password_reset_form.html"
+        ),
+        name="password_reset",
+    ),
+    path(
+        "accounts/password_reset/",
+        auth_views.PasswordResetView.as_view(
+            template_name="core/registration/password_reset_form.html"
+        ),
+        name="password_reset",
+    ),
+    path(
+        "accounts/reset/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="core/registration/password_reset_confirm.html"
+        ),
+        name="password_reset_confirm",
     ),
     path("accounts/", include("django.contrib.auth.urls")),
     # Home should be the last mapping. We want everything else to pass to React.
