@@ -4,7 +4,6 @@ __pycache__
 db.sqlite3
 .env
 .idea/
-static/
 media/
 node_modules/
 frontend/dist/
