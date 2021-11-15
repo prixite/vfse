@@ -20,6 +20,8 @@ repos:
     rev: v2.2.1
     hooks:
       - id: prettier
+        files: \.(js|jsx|scss|css)$
+        exclude_types: [html]
 
   - repo: https://github.com/PyCQA/bandit
     rev: 1.6.2
