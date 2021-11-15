@@ -118,6 +118,13 @@ urlpatterns = [
         ),
         name="password_reset_done",
     ),
+    path(
+        "accounts/reset/done/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="core/registration/password_reset_complete.html",
+        ),
+        name="password_reset_complete",
+    ),
     path("accounts/", include("django.contrib.auth.urls")),
     # Home should be the last mapping. We want everything else to pass to React.
     re_path(r"^.*$", login_required(site.HomeView.as_view()), name="home"),
