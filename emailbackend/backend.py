@@ -1,4 +1,3 @@
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.mail.backends.base import BaseEmailBackend
 
 from emailbackend.models import Email
@@ -13,7 +12,7 @@ class DatabaseBackend(BaseEmailBackend):
         for email in email_messages:
             Email.objects.create(
                 email_from=email.from_email,
-                email_to=','.join(email.to),
+                email_to=",".join(email.to),
                 body=email.body,
                 html=email.alternatives[0][0] if email.alternatives else None,
                 subject=email.subject,

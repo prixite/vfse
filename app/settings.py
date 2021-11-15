@@ -183,4 +183,4 @@ else:
 
 LOGIN_REDIRECT_URL = "/"
 
-EMAIL_BACKEND = 'emailbackend.backend.DatabaseBackend'
+EMAIL_BACKEND = "emailbackend.backend.DatabaseBackend"

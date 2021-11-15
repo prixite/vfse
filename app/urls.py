@@ -105,11 +105,11 @@ urlpatterns = [
         name="password_reset",
     ),
     path(
-        'accounts/reset/<uidb64>/<token>/',
+        "accounts/reset/<uidb64>/<token>/",
         auth_views.PasswordResetConfirmView.as_view(
             template_name="core/registration/password_reset_confirm.html"
         ),
-        name='password_reset_confirm',
+        name="password_reset_confirm",
     ),
     path("accounts/", include("django.contrib.auth.urls")),
     # Home should be the last mapping. We want everything else to pass to React.

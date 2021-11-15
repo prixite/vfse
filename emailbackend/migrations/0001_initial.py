@@ -7,21 +7,28 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Email',
+            name="Email",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email_from', models.CharField(max_length=100)),
-                ('email_to', models.CharField(max_length=100)),
-                ('body', models.TextField()),
-                ('html', models.TextField()),
-                ('attachment', models.FileField(null=True, upload_to='')),
-                ('subject', models.CharField(max_length=500)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("email_from", models.CharField(max_length=100)),
+                ("email_to", models.CharField(max_length=100)),
+                ("body", models.TextField()),
+                ("html", models.TextField()),
+                ("attachment", models.FileField(null=True, upload_to="")),
+                ("subject", models.CharField(max_length=500)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

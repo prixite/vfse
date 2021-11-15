@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('emailbackend', '0001_initial'),
+        ("emailbackend", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='email',
-            name='attachment',
-            field=models.FileField(blank=True, null=True, upload_to=''),
+            model_name="email",
+            name="attachment",
+            field=models.FileField(blank=True, null=True, upload_to=""),
         ),
         migrations.AlterField(
-            model_name='email',
-            name='html',
+            model_name="email",
+            name="html",
             field=models.TextField(blank=True, null=True),
         ),
     ]
