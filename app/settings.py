@@ -31,6 +31,7 @@ env = environ.Env(
     AWS_SECRET_ACCESS_KEY=(str, None),
     AWS_STORAGE_BUCKET_NAME=(str, None),
     ALLOWED_HOSTS=(list, []),
+    EMAIL_BACKEND=(str, "django.core.mail.backends.console.EmailBackend"),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -182,4 +183,4 @@ else:
 
 LOGIN_REDIRECT_URL = "/"
 
-EMAIL_BACKEND = "emailbackend.backend.DatabaseBackend"
+EMAIL_BACKEND = env("EMAIL_BACKEND")
