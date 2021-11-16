@@ -1,11 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as CoreUserAdmin
 
 from core import models
 from core.models import ManufacturerImage, SystemImage
 
 
 @admin.register(models.User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(CoreUserAdmin):
     list_display = (
         "username",
         "email",
