@@ -45,8 +45,9 @@ class UserHealthNetwork(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField("User", on_delete=models.CASCADE)
     manager = models.ForeignKey(
-        "User", on_delete=models.SET_NULL, related_name="+", null=True
+        "User", on_delete=models.SET_NULL, related_name="+", null=True, blank=True,
     )
+    mfa_enabled = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

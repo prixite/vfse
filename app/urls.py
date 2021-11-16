@@ -126,6 +126,7 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/duo/login/", site.duo_login, name="duo_login"),
     # Home should be the last mapping. We want everything else to pass to React.
     re_path(r"^.*$", login_required(site.HomeView.as_view()), name="home"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
