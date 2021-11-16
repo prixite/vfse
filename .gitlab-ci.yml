@@ -18,6 +18,10 @@ image: python:3.9.7
 variables:
   SECRET_KEY: "fake"
   NPLUSONE_RAISE: "True"
+  DUO_CLIENT_ID: "fake"
+  DUO_CLIENT_SECRET: "fake"
+  DUO_API_HOSTNAME: "fake"
+  DUO_REDIRECT_URI: "fake"
 
 default:
   before_script:
