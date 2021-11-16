@@ -3,10 +3,9 @@ from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import views as auth_views
 from django.http import HttpResponseRedirect
-from django.shortcuts import resolve_url
+from django.shortcuts import render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
-from django.shortcuts import render
 
 from core import models, serializers
 

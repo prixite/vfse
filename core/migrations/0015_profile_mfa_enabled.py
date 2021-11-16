@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0014_auto_20211111_0809'),
+        ("core", "0014_auto_20211111_0809"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='mfa_enabled',
+            model_name="profile",
+            name="mfa_enabled",
             field=models.BooleanField(default=False),
         ),
     ]
