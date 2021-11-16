@@ -58,7 +58,7 @@ class LoginView(auth_views.LoginView):
 
 
 def duo_login(request):
-    if request.session.pop("state") == request.GET["state"]:
+    if request.session.pop("state") != request.GET["state"]:
         return render(request, "core/registration/mfa_failed.html")
 
     duo_client = duo_universal.Client(
