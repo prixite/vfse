@@ -32,6 +32,10 @@ env = environ.Env(
     AWS_STORAGE_BUCKET_NAME=(str, None),
     ALLOWED_HOSTS=(list, []),
     EMAIL_BACKEND=(str, None),
+    DUO_CLIENT_ID=(str, None),
+    DUO_CLIENT_SECRET=(str, None),
+    DUO_API_HOSTNAME=(str, None),
+    DUO_REDIRECT_URI=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
