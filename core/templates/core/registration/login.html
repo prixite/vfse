@@ -1,29 +1,54 @@
 {% extends "server_base.html" %} {% load static %} {% block content %}
-<form method="POST" action="{% url 'login' %}">
-  {% csrf_token %}
-  <table>
-    <tr>
-      <th><label for="id_username">Username:</label></th>
-      <td><input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username"></td>
-    </tr>
-    <tr>
-      <th><label for="id_password">Password:</label></th>
-      <td><input type="password" name="password" autocomplete="current-password" required id="id_password"></td>
-    </tr>
-    <tr>
-      <td>
-        <a href="/accounts/password_reset/">Forgot Password</a>
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>
-        <button type="submit">Login</button>
-      </td>
-      <td>
-        <button type="reset">Reset</button>
-      </td>
-    </tr>
-  </table>
-</form>
+<div class="row">
+  <div class="d-flex justify-content-center h-100 col-sm-6">
+    <div class="card" style="border-color: transparent;">
+      <div class="container">
+        <h3>Log In</h3>
+      </div>
+      <div class="container">
+        <span>To log in enter you details below</span>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <div>
+            <label for="Username"><b>Username</b></label>
+          </div>
+          <div class="input-group form-group">
+            <input type="text" class="form-control" placeholder="username" name="username" autofocus
+              autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
+          </div>
+          <div>
+            <label for="Password"><b>Password</b></label>
+          </div>
+          <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1"
+              name="password" autocomplete="current-password" required id="id_password" />
+            <div class="input-group-prepend">
+              <a class="btn btn-outline-secondary" href="#" role="button">
+                <i style="font-size: 20px;" class="fas fa-eye"></i>
+              </a>
+            </div>
+          </div>
+          <div class="d-flex">
+            <a style="color: #773CBE;" href="{% url 'password_reset' %}">Forgot your password?</a>
+          </div>
+          <br>
+          <div class="input-group form-group">
+            <input style="background-color: #773CBE; border-color: #773CBE;" type="submit" value="Login"
+              class="btn form-control btn-primary">
+          </div>
+          <div class="">
+            <div class="text-black-50">
+              Don't have an account?<a style="color: #773CBE;" href="#"> Register Now</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6" style="overflow: hidden; display: flex;justify-content: end; object-fit: cover;">
+    <img src='/static/assets/loginImage.png' style="object-fit: contain;" />
+  </div>
+</div>
 {% endblock content %}
