@@ -31,6 +31,11 @@ env = environ.Env(
     AWS_SECRET_ACCESS_KEY=(str, None),
     AWS_STORAGE_BUCKET_NAME=(str, None),
     ALLOWED_HOSTS=(list, []),
+    EMAIL_BACKEND=(str, None),
+    DUO_CLIENT_ID=(str, None),
+    DUO_CLIENT_SECRET=(str, None),
+    DUO_API_HOSTNAME=(str, None),
+    DUO_REDIRECT_URI=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -83,8 +88,9 @@ if NPLUSONE_RAISE:
 
 STATIC_URL = "/static/"
 
+STATIC_ROOT = BASE_DIR / "static"
+
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
     BASE_DIR / "frontend/dist/",
 ]
 
@@ -182,4 +188,13 @@ else:
 
 LOGIN_REDIRECT_URL = "/"
 
-EMAIL_BACKEND = "emailbackend.backend.DatabaseBackend"
+EMAIL_BACKEND = (
+    "django.core.mail.backends.console.EmailBackend"
+    if DEBUG and not env("EMAIL_BACKEND")
+    else env("EMAIL_BACKEND")
+)
+
+DUO_CLIENT_ID = env("DUO_CLIENT_ID")
+DUO_CLIENT_SECRET = env("DUO_CLIENT_SECRET")
+DUO_API_HOSTNAME = env("DUO_API_HOSTNAME")
+DUO_REDIRECT_URI = env("DUO_REDIRECT_URI")
