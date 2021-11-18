@@ -1,1 +1,17 @@
+.coverage
+.coveragerc
+.django
+.dockerignore
+.eslintrc.json
+.flake8
+.git
+.gitignore
+.gitlab-ci.yml
+.isort.cfg
+.pre-commit-config.yaml
 node_modules
+venv
+docker-compose*
+db.sqlite3
+docs
+media
