@@ -176,8 +176,33 @@ class System(models.Model):
     asset_number = models.CharField(max_length=32)
     ip_address = models.GenericIPAddressField()
     local_ae_title = models.CharField(max_length=32)
+    serial_number = models.CharField(max_length=32, blank=True, null=True)
+    location_in_building = models.CharField(max_length=32, blank=True, null=True)
+    system_contact_info = models.TextField(max_length=256, blank=True, null=True)
+    documentation_link = models.URLField(blank=True, null=True)
+    system_option = models.TextField(blank=True, null=True)
+    connection_monitoring = models.BooleanField(default=False)
+    other = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class SystemDetail(models.Model):
+    site = models.OneToOneField("System", on_delete=models.CASCADE)
+    his_ris_info_ip = models.GenericIPAddressField(blank=True, null=True)
+    his_ris_info_ae_title = models.CharField(max_length=32, blank=True, null=True)
+    his_ris_info_title = models.CharField(max_length=32, blank=True, null=True)
+    his_ris_info_port = models.IntegerField(blank=True, null=True)
+    dicom_info_ip = models.GenericIPAddressField(blank=True, null=True)
+    dicom_info_ae_title = models.CharField(max_length=32, blank=True, null=True)
+    dicom_info_title = models.CharField(max_length=32, blank=True, null=True)
+    dicom_info_port = models.IntegerField(blank=True, null=True)
+    mri_embedded_parameters_helium = models.CharField(
+        max_length=32, blank=True, null=True
+    )
+    mri_embedded_parameters_magnet_pressure = models.CharField(
+        max_length=32, blank=True, null=True
+    )
 
 
 class SystemImage(models.Model):
