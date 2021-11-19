@@ -87,6 +87,9 @@ class OrganizationHealthNetworkFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.OrganizationHealthNetwork
 
+    organization = factory.SubFactory(OrganizationFactory)
+    health_network = factory.SubFactory(HealthNetworkFactory)
+
 
 class SiteFactory(factory.django.DjangoModelFactory):
     class Meta:

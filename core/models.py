@@ -34,12 +34,24 @@ class UserSite(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "site"], name="unique_user_site"),
+        ]
+
 
 class UserHealthNetwork(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "health_network"], name="unique_user_health_network"
+            ),
+        ]
 
 
 class Profile(models.Model):
@@ -100,12 +112,28 @@ class Membership(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "organization", "role"],
+                name="unique_user_organization_role",
+            ),
+        ]
+
 
 class OrganizationHealthNetwork(models.Model):
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["organization", "health_network"],
+                name="unique_organization_health_network",
+            ),
+        ]
 
 
 class Site(models.Model):
@@ -118,6 +146,14 @@ class Site(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["organization_health_network", "name"],
+                name="unique_organization_health_network_name",
+            ),
+        ]
+
 
 class Modality(models.Model):
     name = models.CharField(max_length=32)
@@ -126,6 +162,9 @@ class Modality(models.Model):
 
     class Meta:
         verbose_name_plural = "Modalities"
+        constraints = [
+            models.UniqueConstraint(fields=["name"], name="unique_modality_name"),
+        ]
 
 
 class System(models.Model):
@@ -172,12 +211,22 @@ class HealthNetwork(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["name"], name="unique_health_network_name"),
+        ]
+
 
 class Manufacturer(models.Model):
     name = models.CharField(max_length=32)
     image = models.ForeignKey("ManufacturerImage", null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["name"], name="unique_manufacturer_name"),
+        ]
 
 
 class ManufacturerImage(models.Model):
@@ -190,6 +239,13 @@ class ManufacturerModality(models.Model):
     manufacturer = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
     modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["manufacturer", "modality"], name="unique_manufacturer_modality"
+            ),
+        ]
+
 
 class Product(models.Model):
     manufacturer_modality = models.ForeignKey(
@@ -198,6 +254,14 @@ class Product(models.Model):
     name = models.CharField(max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["manufacturer_modality", "name"],
+                name="unique_manufacturer_modality_name",
+            ),
+        ]
 
 
 class Documentation(models.Model):
@@ -220,3 +284,10 @@ class Seat(models.Model):
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["system", "organization"], name="unique_system_organization"
+            ),
+        ]

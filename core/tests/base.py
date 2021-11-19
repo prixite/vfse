@@ -32,17 +32,17 @@ class BaseTestCase(TestCase):
             fse_admins=[self.fse_admin],
         )
 
-        self.health_network = factories.HealthNetworkFactory(
-            organizations=[self.organization],
-        )
+        self.health_network = factories.HealthNetworkFactory()
 
         self.other_organization = factories.OrganizationFactory(
             customer_admins=[self.other_customer_admin],
         )
 
         self.site = factories.SiteFactory(
-            organization_health_network__organization=self.organization,
-            organization_health_network__health_network=self.health_network,
+            organization_health_network=factories.OrganizationHealthNetworkFactory(
+                organization=self.organization,
+                health_network=self.health_network,
+            )
         )
 
         self.product = factories.ProductFactory(
