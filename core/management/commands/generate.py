@@ -8,14 +8,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         factories.UserWithPasswordFactory(
-            username="umair@example.com",
-            is_superuser=True,
-            is_staff=True,
-            profile__mfa_enabled=True,
-        )
-
-        factories.UserWithPasswordFactory(
-            username="alex@example.com",
+            username="mfa@example.com",
             is_superuser=True,
             is_staff=True,
             profile__mfa_enabled=True,
