@@ -7,43 +7,57 @@ class Command(BaseCommand):
     help = "Generate fake date"
 
     def handle(self, *args, **options):
-        factories.UserFactory(is_superuser=True)
+        super_admin = factories.UserFactory(
+            is_superuser=True, is_staff=True, username="admin@example.com"
+        )
+        super_admin.set_password("admin")
+        super_admin.save()
+
         factories.UserFactory(is_supermanager=True)
+
         fse_admin = factories.UserFactory()
         customer_admin = factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
-        factories.UserFactory()
+        user_admin = factories.UserFactory()
+        fse = factories.UserFactory()
+        end_user = factories.UserFactory()
+        view_only = factories.UserFactory()
+        one_time = factories.UserFactory()
+        cryo = factories.UserFactory()
+        cryo_fse = factories.UserFactory()
+        cryo_admin = factories.UserFactory()
 
         other_customer_admin = factories.UserFactory()
-        factories.UserFactory()
+        other_user_admin = factories.UserFactory()
 
         factories.OrganizationFactory(
-            name="626",
             is_default=True,
         )
 
         organization = factories.OrganizationFactory(
-            customer_admins=[customer_admin],
-            fse_admins=[fse_admin],
+            fse_admin_roles=[fse_admin],
+            customer_admin_roles=[customer_admin],
+            user_admin_roles=[user_admin],
+            fse_roles=[fse],
+            end_user_roles=[end_user],
+            view_only_roles=[view_only],
+            one_time_roles=[one_time],
+            cryo_roles=[cryo],
+            cryo_fse_roles=[cryo_fse],
+            cryo_admin_roles=[cryo_admin],
         )
 
-        health_network = factories.HealthNetworkFactory(
-            organizations=[organization],
-        )
+        health_network = factories.HealthNetworkFactory()
 
         factories.OrganizationFactory(
-            customer_admins=[other_customer_admin],
+            customer_admin_roles=[other_customer_admin],
+            user_admin_roles=[other_user_admin],
         )
 
         site = factories.SiteFactory(
-            organization_health_network__organization=organization,
-            organization_health_network__health_network=health_network,
+            organization_health_network=factories.OrganizationHealthNetworkFactory(
+                organization=organization,
+                health_network=health_network,
+            )
         )
 
         product = factories.ProductFactory(
