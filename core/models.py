@@ -3,6 +3,16 @@ from django.db import models
 
 
 class User(AbstractUser):
+    # username is an email field. Use this instead of email attribute of user
+    # for email address.
+    username = models.EmailField(
+        "username",
+        unique=True,
+        error_messages={
+            "unique": "A user with that username already exists.",
+        },
+    )
+
     is_supermanager = models.BooleanField(default=False)
 
     def get_organizations(self, roles=None):
