@@ -101,6 +101,20 @@ class UserFactory(factory.django.DjangoModelFactory):
     )
 
 
+class UserWithPasswordFactory(UserFactory):
+    """
+    Do not use in tests. This is slow. This is mainly used for fake data generation.
+    """
+
+    @factory.post_generation
+    def password(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        obj.set_password("admin")
+        obj.save()
+
+
 @factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
     class Meta:
