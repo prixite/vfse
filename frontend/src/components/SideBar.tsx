@@ -30,11 +30,11 @@ export default function SideBar() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={"Organiations"} />
+          <ListItemText primary={"Organizations"} />
         </ListItem>
         <ListItem button component={Link} to="/users" key={"/users"}>
           <ListItemIcon>
-            <InboxIcon />
+            <InboxIcon sx={{ color: "white" }} />
           </ListItemIcon>
           <ListItemText primary={"Users"} />
         </ListItem>
