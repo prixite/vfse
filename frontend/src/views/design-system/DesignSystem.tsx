@@ -2,7 +2,7 @@ import React from "react";
 
 import TextBox from "@src/components/TextBox";
 
-export default function DesignSystem(props) {
+export default function DesignSystem() {
   return (
     <React.Fragment>
       <h1>Design System</h1>
