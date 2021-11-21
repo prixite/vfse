@@ -5,7 +5,7 @@ import { ThemeProvider } from "@mui/material";
 
 import "@src/index.scss";
 
-import App from "@src/components/app/App";
+import App from "@src/components/App";
 import theme from "@src/theme";
 
 ReactDOM.render(

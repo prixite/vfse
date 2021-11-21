@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
-import "./App.scss";
-import SideBar from "@src/components/sidebar/SideBar";
-import Content from "@src/components/content/Content";
-import Header from "@src/components/header/Header";
+import "@src/components/App.scss";
+import SideBar from "@src/components/SideBar";
+import Content from "@src/components/Content";
+import Header from "@src/components/Header";
 
 export default function App() {
   return (
