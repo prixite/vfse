@@ -1,10 +1,10 @@
 import { Switch, Route } from "react-router-dom";
-import DesignSystem from "@src/views/design-system/DesignSystem";
-import Documentation from "@src/views/documentation/Documentation";
-import Modality from "@src/views/modality/Modality";
-import Organization from "@src/views/organization/Organization";
-import User from "@src/views/user/User";
-import Home from "@src/views/vfse/Vfse";
+import DesignSystem from "../../views/design-system/DesignSystem";
+import Documentation from "../../views/documentation/Documentation";
+import Modality from "../../views/modality/Modality";
+import Organization from "../../views/organization/Organization";
+import User from "../../views/user/User";
+import Home from "../../views/vfse/Vfse";
 
 export default function Content() {
   return (
