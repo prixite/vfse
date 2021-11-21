@@ -1,11 +1,11 @@
 const path = require("path");
 
 module.exports = {
-  entry: ["./frontend/src/index.jsx"],
+  entry: ["./frontend/src/index.tsx"],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: "babel-loader",
       },
@@ -19,7 +19,7 @@ module.exports = {
     alias: {
       "@src": path.resolve("frontend/src/"),
     },
-    extensions: ["*", ".js", ".jsx"],
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
   },
   output: {
     path: path.resolve(__dirname, "../dist/"),
