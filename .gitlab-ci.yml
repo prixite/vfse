@@ -37,6 +37,7 @@ lint: # This job also runs in the test stage.
     - apt-get update -yqq
     - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
     - apt-get install -y nodejs
+    - npm install
     - pre-commit run --all
   artifacts:
     paths:
