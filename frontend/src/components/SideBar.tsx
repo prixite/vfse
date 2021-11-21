@@ -9,7 +9,7 @@ export default function SideBar() {
         width: 296,
         flexShrink: 0,
         borderRight: "1px solid #E5E7EB",
-        height: "100%",
+        height: 'calc(100vh - 64px)',
       }}
     >
       <List>
