@@ -2,9 +2,9 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import "./App.scss";
-import SideBar from "../sidebar/SideBar";
-import Content from "../content/Content";
-import Header from "../header/Header";
+import SideBar from "@src/components/sidebar/SideBar";
+import Content from "@src/components/content/Content";
+import Header from "@src/components/header/Header";
 
 export default function App() {
   return (

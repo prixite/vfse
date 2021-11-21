@@ -1,6 +1,6 @@
 import React from "react";
 
-import TextBox from "../../components/textbox/TextBox";
+import TextBox from "@src/components/textbox/TextBox";
 
 export default function DesignSystem(props) {
   return (

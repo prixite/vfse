@@ -16,6 +16,9 @@ module.exports = {
     ],
   },
   resolve: {
+    alias: {
+      "@src": path.resolve("frontend/src/"),
+    },
     extensions: ["*", ".js", ".jsx"],
   },
   output: {
