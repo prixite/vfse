@@ -11,7 +11,10 @@ export default function SideBar() {
         borderRight: "1px solid #E5E7EB",
         height: "calc(100vh - 64px)",
         backgroundColor: "#2A3242",
-        color: "white",
+        "& .MuiSvgIcon-root, & .MuiListItemText-root": {
+          color: "white",
+          opacity: 0.5,
+        },
       }}
     >
       <List>
@@ -34,7 +37,7 @@ export default function SideBar() {
         </ListItem>
         <ListItem button component={Link} to="/users" key={"/users"}>
           <ListItemIcon>
-            <InboxIcon sx={{ color: "white" }} />
+            <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Users"} />
         </ListItem>
