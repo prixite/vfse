@@ -29,6 +29,7 @@ class HomeView(TemplateView):
 
 class LoginView(auth_views.LoginView):
     template_name = "core/registration/login.html"
+    redirect_authenticated_user = True
 
     def form_valid(self, form):
         user = form.get_user()
