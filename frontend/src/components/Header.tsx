@@ -1,3 +1,4 @@
+import { Button, Typography } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 
@@ -11,7 +12,12 @@ export default function Header() {
         borderBottom: "1px solid #E5E7EB",
       }}
     >
-      <Toolbar></Toolbar>
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Logo
+        </Typography>
+        <Button href="/accounts/logout/">Logout</Button>
+      </Toolbar>
     </AppBar>
   );
 }
