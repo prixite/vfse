@@ -33,7 +33,7 @@ export default function SideBar() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary={"Organizations"} />
+          <ListItemText primary={"3rd party administration"} />
         </ListItem>
         <ListItem button component={Link} to="/users" key={"/users"}>
           <ListItemIcon>
