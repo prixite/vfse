@@ -1,3 +1,3 @@
-export default function Home() {
-  return <h2>Home</h2>;
+export default function Vfse() {
+  return <h2>vFSE</h2>;
 }

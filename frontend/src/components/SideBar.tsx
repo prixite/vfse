@@ -24,6 +24,7 @@ export default function SideBar() {
           </ListItemIcon>
           <ListItemText primary={"Home"} />
         </ListItem>
+
         <ListItem
           button
           component={Link}
@@ -35,18 +36,21 @@ export default function SideBar() {
           </ListItemIcon>
           <ListItemText primary={"3rd party administration"} />
         </ListItem>
+
         <ListItem button component={Link} to="/users" key={"/users"}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Users"} />
         </ListItem>
+
         <ListItem button component={Link} to="/modality" key={"/modality"}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Modality"} />
         </ListItem>
+
         <ListItem
           button
           component={Link}
@@ -57,6 +61,13 @@ export default function SideBar() {
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"Documentation"} />
+        </ListItem>
+
+        <ListItem button component={Link} to="/vfse" key={"/vfse"}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary={"vFSE"} />
         </ListItem>
       </List>
     </Box>
