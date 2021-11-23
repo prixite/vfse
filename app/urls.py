@@ -83,6 +83,11 @@ urlpatterns = [
         ),
     ),
     path(
+        "welcome/",
+        site.WelcomeView.as_view(),
+        name="welcome",
+    ),
+    path(
         "accounts/login/",
         site.LoginView.as_view(),
         name="login",

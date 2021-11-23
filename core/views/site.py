@@ -77,3 +77,20 @@ def duo_login(request):
 
     auth_login(request, models.User.objects.get(username=username))
     return HttpResponseRedirect(resolve_url(settings.LOGIN_REDIRECT_URL))
+
+
+class WelcomeView(TemplateView):
+    template_name = "half_image_base.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            context["user_data"] = serializers.MeSerializer(
+                self.request.user,
+                context={
+                    "request": self.request,
+                },
+            ).data
+
+        return context
