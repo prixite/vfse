@@ -25,7 +25,7 @@
             <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1"
               name="password" autocomplete="current-password" required id="id_password" />
             <div class="input-group-prepend">
-              <a class="btn btn-outline-secondary" href="#" role="button">
+              <a class="btn btn-outline-secondary" onclick="showHidePassword('id_password')" href="#" role="button">
                 <i style="font-size: 20px;" class="fas fa-eye"></i>
               </a>
             </div>
@@ -47,8 +47,8 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-6" style="overflow: hidden; display: flex;justify-content: end; object-fit: cover;">
-    <img src='/static/assets/loginImage.png' style="object-fit: contain;" />
+  <div class="col-sm-6" style="overflow: hidden; object-fit: cover;">
+    <img src='/static/assets/loginImage.svg' style="object-fit: contain;" />
   </div>
 </div>
 {% endblock content %}
