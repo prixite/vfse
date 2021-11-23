@@ -4,6 +4,15 @@ from django.db.models.signals import post_save
 from core import models
 
 
+def _add_member(organization, users, role):
+    for user in users or []:
+        MembershipFactory(
+            organization=organization,
+            user=user,
+            role=role,
+        )
+
+
 class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Organization
@@ -11,28 +20,74 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda x: f"organization-{x}")
 
     @factory.post_generation
-    def customer_admins(obj, create, extracted, **kwargs):
+    def fse_admin_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        for user in extracted or []:
-            MembershipFactory(
-                organization=obj,
-                user=user,
-                role=models.Membership.Role.CUSTOMER_ADMIN,
-            )
+        _add_member(obj, extracted, models.Membership.Role.FSE_ADMIN)
 
     @factory.post_generation
-    def fse_admins(obj, create, extracted, **kwargs):
+    def customer_admin_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        for user in extracted or []:
-            MembershipFactory(
-                organization=obj,
-                user=user,
-                role=models.Membership.Role.FSE_ADMIN,
-            )
+        _add_member(obj, extracted, models.Membership.Role.CUSTOMER_ADMIN)
+
+    @factory.post_generation
+    def user_admin_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.USER_ADMIN)
+
+    @factory.post_generation
+    def fse_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.FSE)
+
+    @factory.post_generation
+    def end_user_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.END_USER)
+
+    @factory.post_generation
+    def view_only_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.VIEW_ONLY)
+
+    @factory.post_generation
+    def one_time_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.ONE_TIME)
+
+    @factory.post_generation
+    def cryo_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.CRYO)
+
+    @factory.post_generation
+    def cryo_fse_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.CRYO_FSE)
+
+    @factory.post_generation
+    def cryo_admin_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Membership.Role.CRYO_ADMIN)
 
 
 @factory.django.mute_signals(post_save)
@@ -40,11 +95,24 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.User
 
-    email = factory.Sequence(lambda x: f"user-{x}@example.com")
-    username = factory.LazyAttribute(lambda x: x.email)
+    username = factory.Sequence(lambda x: f"user-{x}@example.com")
     profile = factory.RelatedFactory(
         "core.tests.factories.ProfileFactory", factory_related_name="user"
     )
+
+
+class UserWithPasswordFactory(UserFactory):
+    """
+    Do not use in tests. This is slow. This is mainly used for fake data generation.
+    """
+
+    @factory.post_generation
+    def password(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        obj.set_password("admin")
+        obj.save()
 
 
 @factory.django.mute_signals(post_save)
@@ -86,6 +154,9 @@ class HealthNetworkFactory(factory.django.DjangoModelFactory):
 class OrganizationHealthNetworkFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.OrganizationHealthNetwork
+
+    organization = factory.SubFactory(OrganizationFactory)
+    health_network = factory.SubFactory(HealthNetworkFactory)
 
 
 class SiteFactory(factory.django.DjangoModelFactory):

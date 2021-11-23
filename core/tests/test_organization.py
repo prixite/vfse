@@ -42,7 +42,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
             )
-            self.assertEqual(len(response.json()), 2)
+            self.assertEqual(len(response.json()), 10)
 
 
 class SiteTestCase(BaseTestCase):

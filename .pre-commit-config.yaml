@@ -20,7 +20,7 @@ repos:
     rev: v2.2.1
     hooks:
       - id: prettier
-        files: \.(js|jsx|scss|css)$
+        files: \.(ts|tsx|js|jsx|scss|css)$
         exclude_types: [html]
 
   - repo: https://github.com/PyCQA/bandit
@@ -33,12 +33,12 @@ repos:
     hooks:
       - id: flake8
 
-  # - repo: https://github.com/pre-commit/mirrors-eslint
-  #   rev: "v8.0.0-beta.2"
-  #   hooks:
-  #     - id: eslint
-  #       exclude: ^models/
-  #       verbose: true
-  #       args:
-  #         - --color
-  #         - --fix
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: "v8.0.0-beta.2"
+    hooks:
+      - id: eslint
+        exclude: ^models/
+        verbose: true
+        args:
+          - --color
+          - --fix

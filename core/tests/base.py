@@ -9,6 +9,7 @@ class BaseTestCase(TestCase):
 
         self.super_admin = factories.UserFactory(is_superuser=True)
         self.super_manager = factories.UserFactory(is_supermanager=True)
+
         self.fse_admin = factories.UserFactory()
         self.customer_admin = factories.UserFactory()
         self.user_admin = factories.UserFactory()
@@ -28,21 +29,30 @@ class BaseTestCase(TestCase):
         )
 
         self.organization = factories.OrganizationFactory(
-            customer_admins=[self.customer_admin],
-            fse_admins=[self.fse_admin],
+            fse_admin_roles=[self.fse_admin],
+            customer_admin_roles=[self.customer_admin],
+            user_admin_roles=[self.user_admin],
+            fse_roles=[self.fse],
+            end_user_roles=[self.end_user],
+            view_only_roles=[self.view_only],
+            one_time_roles=[self.one_time],
+            cryo_roles=[self.cryo],
+            cryo_fse_roles=[self.cryo_fse],
+            cryo_admin_roles=[self.cryo_admin],
         )
 
-        self.health_network = factories.HealthNetworkFactory(
-            organizations=[self.organization],
-        )
+        self.health_network = factories.HealthNetworkFactory()
 
         self.other_organization = factories.OrganizationFactory(
-            customer_admins=[self.other_customer_admin],
+            customer_admin_roles=[self.other_customer_admin],
+            user_admin_roles=[self.other_user_admin],
         )
 
         self.site = factories.SiteFactory(
-            organization_health_network__organization=self.organization,
-            organization_health_network__health_network=self.health_network,
+            organization_health_network=factories.OrganizationHealthNetworkFactory(
+                organization=self.organization,
+                health_network=self.health_network,
+            )
         )
 
         self.product = factories.ProductFactory(

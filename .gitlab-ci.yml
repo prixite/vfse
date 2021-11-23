@@ -27,10 +27,21 @@ default:
   before_script:
     - pip install -r requirements-dev.txt
 
+cache:
+  paths:
+    - node_modules/
+
 lint: # This job also runs in the test stage.
   stage: test # It can run at the same time as unit-test-job (in parallel).
   script:
+    - apt-get update -yqq
+    - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+    - apt-get install -y nodejs
+    - npm install
     - pre-commit run --all
+  artifacts:
+    paths:
+      - node_modules/
 
 test: # This job also runs in the test stage.
   stage: test # It can run at the same time as unit-test-job (in parallel).
