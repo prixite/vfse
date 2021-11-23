@@ -12,3 +12,15 @@
   overflow: hidden;
   height: 100vh;
 }
+
+.welcome .card .card-body {
+  display: flex;
+}
+
+.welcome .card .card-body div.item-col {
+  padding: 6px;
+}
+
+.welcome .card {
+  margin-top: 20px;
+}
