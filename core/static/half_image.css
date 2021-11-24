@@ -1,6 +1,39 @@
-.first-half div.content {
+.brand-color {
+  color: #773CBE !important;
+}
+
+.brand-background-color {
+  background-color: #773CBE !important;
+}
+
+.brand-border-color {
+  background-color: #773CBE !important;
+}
+
+form button {
+  background-color: #773CBE !important;
+  border-color: #773CBE !important;
+}
+
+form input:focus {
+  outline: 0 0 0 0 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+form input.is-invalid, form input:focus.is-invalid {
+  color: #FF2517;
+  background-color: rgba(255, 23, 23, 0.05);
+  border-color: 1px solid rgba(255, 37, 23, 1);
+}
+
+.half-image div.content {
+  margin-top: 18%;
+}
+
+.first-half div.content-wrapper {
   padding-left: 100px;
   padding-top: 20px;
+  height: 100vh;
 }
 
 .first-half img.logo {
@@ -23,4 +56,8 @@
 
 .welcome .card {
   margin-top: 20px;
+}
+
+.login-page form {
+  width: 400px;
 }
