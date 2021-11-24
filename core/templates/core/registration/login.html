@@ -1,49 +1,51 @@
 {% extends "half_image_base.html" %}
 {% load static %}
 {% block content %}
-<h3>Log In</h3>
-<div class="card login-page">
-  <div class="container">
-  </div>
-  <div class="container">
-    <span>To log in enter you details below</span>
-  </div>
-  <div class="card-body">
-    <form method="POST" action="{% url 'login' %}">
-      {% csrf_token %}
-      <div>
-        <label for="Username"><b>Username</b></label>
+
+<h2>Login</h2>
+
+<p>To sign in enter your details below</p>
+
+<div class="login-page">
+  <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="id_username" class="form-label">Username</label>
+      <input type="text"
+             class="form-control form-control-lg"
+             placeholder="Enter your username" name="username"
+             autocapitalize="none"
+             autocomplete="Username"
+             maxlength="150"
+             id="id_username" required autofocus>
+      {{ form.username.errors }}
+    </div>
+
+    <div class="mb-3">
+      <label for="id_password" class="form-label">Password</label>
+      <div class="input-group input-group-lg mb-3">
+        <input type="password"
+               class="form-control"
+               placeholder="Enter your password"
+               aria-describedby="basic-addon1"
+               name="password"
+               autocomplete="current-password"
+               id="id_password" required />
+
+        <a class="btn btn-outline-secondary" onclick="showHidePassword('id_password')" href="#" role="button">
+          <i class="fas fa-eye"></i>
+        </a>
       </div>
-      <div class="input-group form-group">
-        <input type="text" class="form-control" placeholder="username" name="username" autofocus
-                                                                       autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
-      </div>
-      <div>
-        <label for="Password"><b>Password</b></label>
-      </div>
-      <div class="input-group mb-3">
-        <input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1"
-                                                                           name="password" autocomplete="current-password" required id="id_password" />
-        <div class="input-group-prepend">
-          <a class="btn btn-outline-secondary" onclick="showHidePassword('id_password')" href="#" role="button">
-            <i style="font-size: 20px;" class="fas fa-eye"></i>
-          </a>
-        </div>
-      </div>
-      <div class="d-flex">
-        <a style="color: #773CBE;" href="{% url 'password_reset' %}">Forgot your password?</a>
-      </div>
-      <br>
-      <div class="input-group form-group">
-        <input style="background-color: #773CBE; border-color: #773CBE;" type="submit" value="Login"
-                                                                                       class="btn form-control btn-primary">
-      </div>
-      <div class="">
-        <div class="text-black-50">
-          Don't have an account?<a style="color: #773CBE;" href="#"> Register Now</a>
-        </div>
-      </div>
-    </form>
-  </div>
+      {{ form.password.errors }}
+    </div>
+
+    {{ form.errors }}
+
+    <p><a class='brand-color' href="{% url 'password_reset' %}">Forgot your password?</a></p>
+    <div class="d-grid"><button type="submit" class="btn btn-primary btn-lg mb-3">Login</button></div>
+    <p class="mb-3">Don't have an account?<a class="brand-color" href="#"> Register Now</a></p>
+
+  </form>
 </div>
 {% endblock content %}
