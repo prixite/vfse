@@ -59,10 +59,18 @@ form input:focus.is-invalid {
   margin-top: 20px;
 }
 
-.login-page form {
+.login-page form, .reset-password-page form, .reset-password-page p, .reset-done-page p {
   width: 400px;
 }
 
-.reset-password-page form, .reset-password-page p {
-  width: 400px;
+.login-page h2, .reset-password-page h2, .reset-done-page h2 {
+  font-weight: 800;
+}
+
+.reset-password-page .back-btn, .reset-done-page .back-btn {
+  color: black;
+}
+
+.reset-password-page .back-btn i, .reset-done-page .back-btn i {
+  font-size: 20px;
 }
