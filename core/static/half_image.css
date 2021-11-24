@@ -1,6 +1,7 @@
-.first-half div.content {
+.first-half div.content-wrapper {
   padding-left: 100px;
   padding-top: 20px;
+  height: 100vh;
 }
 
 .first-half img.logo {
@@ -23,4 +24,8 @@
 
 .welcome .card {
   margin-top: 20px;
+}
+
+div.content {
+  margin-top: 18%;
 }
