@@ -62,3 +62,7 @@ form input:focus.is-invalid {
 .login-page form {
   width: 400px;
 }
+
+.reset-password-page form, .reset-password-page p {
+  width: 400px;
+}
