@@ -1,18 +1,18 @@
 .brand-color {
-  color: #773CBE !important;
+  color: #773cbe !important;
 }
 
 .brand-background-color {
-  background-color: #773CBE !important;
+  background-color: #773cbe !important;
 }
 
 .brand-border-color {
-  background-color: #773CBE !important;
+  background-color: #773cbe !important;
 }
 
 form button {
-  background-color: #773CBE !important;
-  border-color: #773CBE !important;
+  background-color: #773cbe !important;
+  border-color: #773cbe !important;
 }
 
 form input:focus {
@@ -20,8 +20,9 @@ form input:focus {
   box-shadow: 0 0 0 0 !important;
 }
 
-form input.is-invalid, form input:focus.is-invalid {
-  color: #FF2517;
+form input.is-invalid,
+form input:focus.is-invalid {
+  color: #ff2517;
   background-color: rgba(255, 23, 23, 0.05);
   border-color: 1px solid rgba(255, 37, 23, 1);
 }
