@@ -13,7 +13,7 @@ else
 	args="${@:1}"
 fi
 
-container=vfse-container
+container=vfse
 
 docker inspect --format={{.State.Running}} $container &> /dev/null
 
