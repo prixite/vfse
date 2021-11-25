@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% load static %} {% block body %}
 <body data-flags="{{ user_data.flags|join:',' }}">
+  <form name="csrf">{% csrf_token %}</form>
   <div id="container">
     <div>Loading vFSE application 🚀</div>
   </div>

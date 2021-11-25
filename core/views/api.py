@@ -5,14 +5,14 @@ from core.models import Organization
 
 
 class OrganizationViewSet(ModelViewSet):
-    queryset = Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
 
     def get_queryset(self):
+        queryset = Organization.objects.all()
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return self.queryset
+            return queryset
 
-        return self.queryset.filter(
+        return queryset.filter(
             id__in=self.request.user.get_organizations(),
         )
 

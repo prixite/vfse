@@ -39,6 +39,7 @@ urlpatterns = [
         api.OrganizationViewSet.as_view(
             {
                 "get": "list",
+                "post": "create",
             }
         ),
     ),
