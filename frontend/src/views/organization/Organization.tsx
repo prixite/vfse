@@ -24,18 +24,16 @@ export default function Organization() {
   return (
     <Fragment>
       <h2>3rd Party Administration</h2>
-      {!isLoaded && <div>Loading</div>}
-      {isLoaded && (
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={items}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            checkboxSelection
-          />
-        </div>
-      )}
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={items}
+          columns={columns}
+          loading={!isLoaded}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+        />
+      </div>
     </Fragment>
   );
 }
