@@ -100,6 +100,13 @@ class Organization(models.Model):
             models.Index(fields=["is_default"]),
         ]
 
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name"],
+                name="unique_organization_name",
+            ),
+        ]
+
 
 class Membership(models.Model):
     class Role(models.TextChoices):
