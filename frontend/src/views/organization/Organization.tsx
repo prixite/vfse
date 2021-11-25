@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 
@@ -8,25 +9,32 @@ const columns = [
 
 export default function Organization() {
   const [items, setItems] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/api/organizations/")
       .then((response) => response.json())
       .then((result) => {
         setItems(result);
+        setIsLoaded(true);
       });
   });
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <Fragment>
       <h2>3rd Party Administration</h2>
-      <DataGrid
-        rows={items}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
-    </div>
+      {!isLoaded && <div>Loading</div>}
+      {isLoaded && (
+        <div style={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={items}
+            columns={columns}
+            pageSize={5}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
+        </div>
+      )}
+    </Fragment>
   );
 }
