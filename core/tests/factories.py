@@ -96,6 +96,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = models.User
 
     username = factory.Sequence(lambda x: f"user-{x}@example.com")
+    email = factory.LazyAttribute(lambda x: x.username)
     profile = factory.RelatedFactory(
         "core.tests.factories.ProfileFactory", factory_related_name="user"
     )
