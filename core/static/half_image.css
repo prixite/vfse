@@ -61,6 +61,7 @@ form input:focus.is-invalid {
 
 .login-page form,
 .reset-password-page form,
+.password-reset-confirm form,
 .reset-password-page p,
 .reset-done-page p {
   width: 400px;
