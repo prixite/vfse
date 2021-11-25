@@ -40,6 +40,16 @@ Make sure everything is working correctly by running
 
     pre-commit run --all
 
+## Generate test data
+You can run the following Django command to generate test data.
+
+    ./manage.py generate
+
+To regenerate test data.
+
+    ./manage.py flush
+    ./manage.py generate
+
 ### Setup pre-commit as pre-push hook
 
 To use `pre-push` hooks with pre-commit, run:
