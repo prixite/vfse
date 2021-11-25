@@ -6,7 +6,7 @@ from core import models
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
-        fields = ["name", "logo", "background_color", "banner", "number_of_seats"]
+        fields = ["id", "name", "logo", "background_color", "banner", "number_of_seats"]
 
 
 class MeSerializer(serializers.ModelSerializer):
