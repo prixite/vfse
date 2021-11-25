@@ -5,12 +5,18 @@
 Create virtual environment.
 
     	python3 -m venv venv
+
+Activate virtual environment. You need to activate virtual environment before running any Django command. For example, any command starting with manage.py is a Django command.
+
     	source venv/bin/activate
+
+Install dependencies in virtual environment. You will have to run this command whenever you pull new changes from the server.
+
     	pip install -r requirements-dev.txt
 
 Create an environment file (.env) in the root of the project. You can get the initial file by copying env.sample to .env.
 
-Run the migrations.
+Run the migrations. You will have to run this command whenever you pull new changes from the server.
 
      ./manage.py migrate
 
@@ -22,7 +28,7 @@ Run the backend.
 
       ./manage.py runserver
 
-Build the frontend
+Build the frontend. You need to run this command whenever you pull new changes from the server.
 
       npm install
 
@@ -31,14 +37,6 @@ Run the frontend dev server
       npm run start
 
 Visit localhost:8000 to view the landing page.
-
-## Setup pre-commit
-
-This project uses [pre-commit](https://pre-commit.com/) to ensure that code standard checks pass locally before pushing to the remote project repo. [Follow](https://pre-commit.com/#installation) the installation instructions, then set up hooks with `pre-commit install`.
-
-Make sure everything is working correctly by running
-
-    pre-commit run --all
 
 ## Generate test data
 You can run the following Django command to generate test data.
@@ -49,6 +47,14 @@ To regenerate test data.
 
     ./manage.py flush
     ./manage.py generate
+
+## Setup pre-commit
+
+This project uses [pre-commit](https://pre-commit.com/) to ensure that code standard checks pass locally before pushing to the remote project repo. [Follow](https://pre-commit.com/#installation) the installation instructions, then set up hooks with `pre-commit install`.
+
+Make sure everything is working correctly by running
+
+    pre-commit run --all
 
 ### Setup pre-commit as pre-push hook
 
