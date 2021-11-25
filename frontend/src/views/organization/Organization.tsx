@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
   { field: "name", headerName: "Name", width: 230 },
+  { field: "is_default", headerName: "Default?", width: 230 },
 ];
 
 export default function Organization() {
@@ -18,7 +19,7 @@ export default function Organization() {
         setItems(result);
         setIsLoaded(true);
       });
-  });
+  }, []);
 
   return (
     <Fragment>

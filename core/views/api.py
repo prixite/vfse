@@ -9,11 +9,10 @@ class OrganizationViewSet(ModelViewSet):
     serializer_class = serializers.OrganizationSerializer
 
     def get_queryset(self):
-        queryset = self.queryset.filter(is_default=False)
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return queryset
+            return self.queryset
 
-        return queryset.filter(
+        return self.queryset.filter(
             id__in=self.request.user.get_organizations(),
         )
 
