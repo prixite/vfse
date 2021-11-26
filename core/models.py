@@ -99,7 +99,7 @@ class Organization(models.Model):
         indexes = [
             models.Index(fields=["is_default"]),
         ]
-        ordering = ['name']
+        ordering = ["name"]
 
         constraints = [
             models.UniqueConstraint(
