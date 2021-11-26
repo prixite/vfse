@@ -94,7 +94,7 @@ urlpatterns = [
     ),
     path(
         "welcome/",
-        site.WelcomeView.as_view(),
+        login_required(site.WelcomeView.as_view()),
         name="welcome",
     ),
     path(
