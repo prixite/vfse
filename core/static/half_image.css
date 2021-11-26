@@ -61,12 +61,14 @@ form input:focus.is-invalid {
 
 .login-page form,
 .reset-password-page form,
+.password-reset-confirm form,
 .reset-password-page p,
 .reset-done-page p {
   width: 400px;
 }
 
 .login-page h2,
+.password-reset-confirm h2,
 .reset-password-page h2,
 .reset-done-page h2 {
   font-weight: 800;

@@ -99,6 +99,14 @@ class Organization(models.Model):
         indexes = [
             models.Index(fields=["is_default"]),
         ]
+        ordering = ["name"]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name"],
+                name="unique_organization_name",
+            ),
+        ]
 
 
 class Membership(models.Model):

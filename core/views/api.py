@@ -5,11 +5,10 @@ from core.models import Organization
 
 
 class OrganizationViewSet(ModelViewSet):
-    queryset = Organization.objects.all()
     serializer_class = serializers.OrganizationSerializer
 
     def get_queryset(self):
-        queryset = self.queryset.filter(is_default=False)
+        queryset = Organization.objects.all()
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return queryset
 
@@ -50,6 +49,20 @@ class SiteSystemViewSet(ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(
             site=self.kwargs["site_pk"],
+        )
+
+
+class UserViewSet(ModelViewSet):
+    serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.User.objects.all()
+
+        return models.User.objects.filter(
+            id__in=models.Membership.objects.filter(
+                organization__in=self.request.user.get_organizations(),
+            ).values_list("user")
         )
 
 
