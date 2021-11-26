@@ -34,7 +34,6 @@ form input:focus.is-invalid {
 .first-half div.content-wrapper {
   padding-left: 100px;
   padding-top: 20px;
-  height: 100vh;
 }
 
 .first-half img.logo {
@@ -43,20 +42,22 @@ form input:focus.is-invalid {
 
 .second-half {
   padding: 0;
-  overflow: hidden;
-  height: 100vh;
 }
 
-.welcome .card .card-body {
+.welcome-page .card .card-body {
   display: flex;
 }
 
-.welcome .card .card-body div.item-col {
+.welcome-page .card .card-body div.item-col {
   padding: 6px;
 }
 
-.welcome .card {
+.welcome-page .card {
   margin-top: 20px;
+}
+
+.welcome-page a.btn {
+  width: 250px;
 }
 
 .login-page form,
@@ -68,6 +69,7 @@ form input:focus.is-invalid {
 }
 
 .login-page h2,
+.welcome-page h2,
 .password-reset-confirm h2,
 .reset-password-page h2,
 .reset-done-page h2 {

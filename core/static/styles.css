@@ -50,3 +50,7 @@ input:focus {
   margin-left: 15px;
   margin-right: 5px;
 }
+
+.custom-Button {
+ background-color: #773CBD;
+}
