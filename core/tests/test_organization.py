@@ -49,10 +49,11 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(user)
         organizations = user.get_organizations()
         for org in organizations:
-            response = self.client.delete(
-                f"/api/organizations/{org[0]}/"
-            )
-            self.assertEqual(response.status_code,400)
+            if models.Organization.objects.get(id=org[0]).is_default:
+                response = self.client.delete(
+                    f"/api/organizations/{org[0]}/"
+                )
+                self.assertEqual(response.status_code,400)
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

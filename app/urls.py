@@ -44,7 +44,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<pk>/",
+        "api/organizations/<str:pk>/",
         api.OrganizationViewSet.as_view(
             {
                 'delete':'destroy'
