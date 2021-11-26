@@ -84,6 +84,15 @@ urlpatterns = [
         ),
     ),
     path(
+        "api/users/",
+        api.UserViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
         "welcome/",
         site.WelcomeView.as_view(),
         name="welcome",
