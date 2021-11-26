@@ -10,10 +10,10 @@ import Button from "@mui/material/Button";
 
 export default function AddUser(props) {
   const [username, setUsername] = useState("");
-  const onUsernameChange = (event) => setUsername(event.target.value);
+  const [email, setEmail] = useState("");
 
   const handleSave = (event) => {
-    props.add({ name: value });
+    props.add({ username, email });
   };
 
   return (
@@ -31,7 +31,7 @@ export default function AddUser(props) {
           fullWidth
           variant="standard"
           value={username}
-          onChange={onChange}
+          onChange={(event) => setUsername(event.target.value)}
         />
 
         <TextField
@@ -42,8 +42,8 @@ export default function AddUser(props) {
           type="text"
           fullWidth
           variant="standard"
-          value={value}
-          onChange={onChange}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
 
       </DialogContent>
