@@ -56,6 +56,10 @@ form input:focus.is-invalid {
   margin-top: 20px;
 }
 
+.welcome-page a.btn {
+  width: 250px;
+}
+
 .login-page form,
 .reset-password-page form,
 .password-reset-confirm form,
