@@ -35,7 +35,6 @@ export default function AddUser(props) {
         />
 
         <TextField
-          autoFocus
           margin="dense"
           id="email"
           label="Email"
