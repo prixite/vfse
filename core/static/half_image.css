@@ -68,6 +68,7 @@ form input:focus.is-invalid {
 }
 
 .login-page h2,
+.password-reset-confirm h2,
 .reset-password-page h2,
 .reset-done-page h2 {
   font-weight: 800;
