@@ -44,6 +44,15 @@ class OrganizationTestCase(BaseTestCase):
             )
             self.assertEqual(len(response.json()), 10)
 
+    def test_organization_prevent_delete_is_default(self):
+        user = self.customer_admin
+        self.client.force_login(user)
+        organizations = user.get_organizations()
+        for org in organizations:
+            response = self.client.delete(
+                f"/api/organizations/{org[0]}/"
+            )
+            self.assertEqual(response.status_code,400)
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

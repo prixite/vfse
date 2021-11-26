@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from django.core.exceptions import ValidationError
 
 from core import models, serializers
 from core.models import Organization
@@ -15,7 +16,12 @@ class OrganizationViewSet(ModelViewSet):
         return queryset.filter(
             id__in=self.request.user.get_organizations(),
         )
-
+    
+    def destroy(self,request,*args,**kwargs):
+        if self.get_object().is_default:
+            raise ValidationError('This is a default organization')
+        else:
+            return super().destroy(self,request,*args,**kwargs)
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
     queryset = models.HealthNetwork.objects.all()
