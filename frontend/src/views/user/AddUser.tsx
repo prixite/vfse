@@ -45,7 +45,6 @@ export default function AddUser(props) {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
-
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>Cancel</Button>
