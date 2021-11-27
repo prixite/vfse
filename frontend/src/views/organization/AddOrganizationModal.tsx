@@ -8,7 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
-export default function AddOrganization(props) {
+export default function AddOrganizationModal(props) {
   const [value, setValue] = useState("");
   const onChange = (event) => setValue(event.target.value);
 

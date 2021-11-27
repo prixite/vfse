@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 
-import AddOrganization from "@src/views/organization/AddOrganization";
+import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -53,10 +53,10 @@ export default function Organization() {
       <h2>3rd Party Administration</h2>
 
       <Button onClick={handleOpen} variant="contained">
-        Add Organization
+        Add Client
       </Button>
 
-      <AddOrganization add={add} open={open} handleClose={handleClose} />
+      <AddOrganizationModal add={add} open={open} handleClose={handleClose} />
 
       <div style={{ marginTop: "10px", height: 400, width: "100%" }}>
         <DataGrid
