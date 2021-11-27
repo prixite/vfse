@@ -64,6 +64,7 @@ export default function Organization() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
+              <TableCell align="right">Number of seats</TableCell>
               <TableCell align="right">Is Default?</TableCell>
               <TableCell align="right">Delete</TableCell>
             </TableRow>
@@ -75,6 +76,7 @@ export default function Organization() {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell scope="row">{row.name}</TableCell>
+                <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
                   <Button onClick={() => createDelete(row.id)}>Delete</Button>

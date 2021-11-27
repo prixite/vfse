@@ -9,12 +9,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
 export default function AddOrganizationModal(props) {
-  const [value, setValue] = useState("");
-  const onChange = (event) => setValue(event.target.value);
+  const [value, setValue] = useState({});
 
   const handleSave = (event) => {
-    props.add({ name: value });
+    props.add(value);
   };
+
+  console.log(value);
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
@@ -29,8 +30,18 @@ export default function AddOrganizationModal(props) {
           type="text"
           fullWidth
           variant="standard"
-          value={value}
-          onChange={onChange}
+          value={value["name"]}
+          onChange={(event) => setValue({...value, name: event.target.value})}
+        />
+        <TextField
+          margin="dense"
+          id="seats"
+          label="Number of seats"
+          type="text"
+          fullWidth
+          variant="standard"
+          value={value["number_of_seats"]}
+          onChange={(event) => setValue({...value, "number_of_seats": event.target.value})}
         />
       </DialogContent>
       <DialogActions>
