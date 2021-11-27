@@ -11,11 +11,11 @@ import Button from "@mui/material/Button";
 
 import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
 
-const refresh = (setItems) => {
-  fetch("/api/organizations/")
+const getUrl = (url, callback) => {
+  fetch(url)
     .then((response) => response.json())
     .then((result) => {
-      setItems(result);
+      callback(result);
     });
 };
 
@@ -30,23 +30,24 @@ const sendRequest = (url, method, data) => {
     });
 };
 
-function createAdd (setItems, handleClose, refresh) {
+function createAdd (setItems, handleClose) {
+  const url = "/api/organizations/";
   return (data) => {
-    sendRequest("/api/organizations/", "POST", data)
+    sendRequest(url, "POST", data)
     .then((response) => response.json())
     .then((result) => {
       handleClose();
-      refresh(setItems);
+      getUrl(url, setItems);
     });
   };
 }
 
-function createDelete(setItems, refresh) {
+function createDelete(setItems) {
   return  (id: number) => {
     sendRequest(`/api/organizations/${id}/`, "DELETE", {})
     .then((response) => response.json())
     .then((result) => {
-      refresh(setItems);
+      getUrl("/api/organizations/", setItems);
     });
   };
 }
@@ -58,7 +59,7 @@ export default function Organization() {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    refresh(setItems);
+    getUrl("/api/organizations/", setItems);
   }, []);
 
   return (
@@ -69,7 +70,7 @@ export default function Organization() {
         Add Client
       </Button>
 
-      <AddOrganizationModal add={createAdd(setItems, handleClose, refresh)} open={open} handleClose={handleClose} />
+      <AddOrganizationModal add={createAdd(setItems, handleClose)} open={open} handleClose={handleClose} />
 
       <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -88,7 +89,7 @@ export default function Organization() {
               >
                 <TableCell scope="row">{row.name}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
-                <TableCell align="right"><Button onClick={createDelete(row.id, refresh)}>Delete</Button></TableCell>
+                <TableCell align="right"><Button onClick={() => createDelete(row.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
