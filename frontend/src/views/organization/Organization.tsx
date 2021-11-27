@@ -12,25 +12,25 @@ import Button from "@mui/material/Button";
 import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
-function createAdd (setItems, handleClose) {
+function createAdd(setItems, handleClose) {
   const url = "/api/organizations/";
   return (data) => {
     sendRequest(url, "POST", data)
-    .then((response) => response.json())
-    .then((result) => {
-      handleClose();
-      getUrl(url, setItems);
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        handleClose();
+        getUrl(url, setItems);
+      });
   };
 }
 
 function createDelete(setItems) {
-  return  (id: number) => {
+  return (id: number) => {
     sendRequest(`/api/organizations/${id}/`, "DELETE", {})
-    .then((response) => response.json())
-    .then((result) => {
-      getUrl("/api/organizations/", setItems);
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        getUrl("/api/organizations/", setItems);
+      });
   };
 }
 
@@ -52,7 +52,11 @@ export default function Organization() {
         Add Client
       </Button>
 
-      <AddOrganizationModal add={createAdd(setItems, handleClose)} open={open} handleClose={handleClose} />
+      <AddOrganizationModal
+        add={createAdd(setItems, handleClose)}
+        open={open}
+        handleClose={handleClose}
+      />
 
       <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -71,7 +75,9 @@ export default function Organization() {
               >
                 <TableCell scope="row">{row.name}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
-                <TableCell align="right"><Button onClick={() => createDelete(row.id)}>Delete</Button></TableCell>
+                <TableCell align="right">
+                  <Button onClick={() => createDelete(row.id)}>Delete</Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

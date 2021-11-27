@@ -7,13 +7,12 @@ export const getUrl = (url, callback) => {
 };
 
 export const sendRequest = (url, method, data) => {
-    return fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
-      },
-      body: JSON.stringify(data),
-    });
+  return fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
+    },
+    body: JSON.stringify(data),
+  });
 };
-
