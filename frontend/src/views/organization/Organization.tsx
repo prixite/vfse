@@ -42,6 +42,20 @@ export default function Organization() {
       });
   };
 
+  const deleteOrganization = (id) => {
+    fetch(`/api/organizations/${id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        refresh();
+      });
+  };
+
   useEffect(() => {
     refresh();
   }, []);
@@ -62,6 +76,7 @@ export default function Organization() {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell align="right">Is Default?</TableCell>
+              <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -72,6 +87,7 @@ export default function Organization() {
               >
                 <TableCell scope="row">{row.name}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
+                <TableCell align="right"><Button onClick={deleteOrganization(row.id)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
