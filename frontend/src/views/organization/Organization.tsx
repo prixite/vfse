@@ -1,19 +1,18 @@
 import { Fragment } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 
 import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 230 },
-  { field: "is_default", headerName: "Default?", width: 230 },
-];
-
 export default function Organization() {
   const [items, setItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -24,7 +23,6 @@ export default function Organization() {
       .then((response) => response.json())
       .then((result) => {
         setItems(result);
-        setIsLoaded(true);
       });
   };
 
@@ -58,16 +56,27 @@ export default function Organization() {
 
       <AddOrganizationModal add={add} open={open} handleClose={handleClose} />
 
-      <div style={{ marginTop: "10px", height: 400, width: "100%" }}>
-        <DataGrid
-          rows={items}
-          columns={columns}
-          loading={!isLoaded}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-        />
-      </div>
+      <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Is Default?</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell scope="row">{row.name}</TableCell>
+                <TableCell align="right">{row.is_default.toString()}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Fragment>
   );
 }
