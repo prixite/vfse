@@ -11,64 +11,65 @@ import Button from "@mui/material/Button";
 
 import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
 
-export default function Organization() {
-  const [items, setItems] = useState([]);
+const refresh = (setItems) => {
+  fetch("/api/organizations/")
+    .then((response) => response.json())
+    .then((result) => {
+      setItems(result);
+    });
+};
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const refresh = () => {
-    fetch("/api/organizations/")
-      .then((response) => response.json())
-      .then((result) => {
-        setItems(result);
-      });
-  };
-
-  const add = (data) => {
-    fetch("/api/organizations/", {
-      method: "POST",
+const sendRequest = (url, method, data) => {
+    return fetch(url, {
+      method: method,
       headers: {
         "Content-Type": "application/json",
         "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
       },
       body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        handleClose();
-        refresh();
-      });
-  };
+    });
+};
 
-  const deleteOrganization = (id) => {
-    fetch(`/api/organizations/${id}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        refresh();
-      });
+function createAdd (setItems, handleClose, refresh) {
+  return (data) => {
+    sendRequest("/api/organizations/", "POST", data)
+    .then((response) => response.json())
+    .then((result) => {
+      handleClose();
+      refresh(setItems);
+    });
   };
+}
+
+function createDelete(setItems, refresh) {
+  return  (id: number) => {
+    sendRequest(`/api/organizations/${id}/`, "DELETE", {})
+    .then((response) => response.json())
+    .then((result) => {
+      refresh(setItems);
+    });
+  };
+}
+
+export default function Organization() {
+  const [items, setItems] = useState([]);
+
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    refresh();
+    refresh(setItems);
   }, []);
 
   return (
     <Fragment>
       <h2>3rd Party Administration</h2>
 
-      <Button onClick={handleOpen} variant="contained">
+      <Button onClick={() => setOpen(true)} variant="contained">
         Add Client
       </Button>
 
-      <AddOrganizationModal add={add} open={open} handleClose={handleClose} />
+      <AddOrganizationModal add={createAdd(setItems, handleClose, refresh)} open={open} handleClose={handleClose} />
 
       <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -87,7 +88,7 @@ export default function Organization() {
               >
                 <TableCell scope="row">{row.name}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
-                <TableCell align="right"><Button onClick={deleteOrganization(row.id)}>Delete</Button></TableCell>
+                <TableCell align="right"><Button onClick={createDelete(row.id, refresh)}>Delete</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
