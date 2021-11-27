@@ -12,16 +12,13 @@ import Button from "@mui/material/Button";
 import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
-function createAdd(setItems, handleClose) {
+function add(data, setItems) {
   const url = "/api/organizations/";
-  return (data) => {
-    sendRequest(url, "POST", data)
-      .then((response) => response.json())
-      .then((result) => {
-        handleClose();
-        getUrl(url, setItems);
-      });
-  };
+  sendRequest(url, "POST", data)
+    .then((response) => response.json())
+    .then((result) => {
+      getUrl(url, setItems);
+    });
 }
 
 function createDelete(setItems) {
@@ -39,6 +36,10 @@ export default function Organization() {
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+  const handleAdd = (data) => {
+    add(data, setItems);
+    handleClose();
+  };
 
   useEffect(() => {
     getUrl("/api/organizations/", setItems);
@@ -53,7 +54,7 @@ export default function Organization() {
       </Button>
 
       <AddOrganizationModal
-        add={createAdd(setItems, handleClose)}
+        add={handleAdd}
         open={open}
         handleClose={handleClose}
       />
