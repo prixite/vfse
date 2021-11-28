@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -9,8 +9,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
 export default function AddOrganizationModal(props) {
-  const [value, setValue] = useState({});
-
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>New Organization</DialogTitle>
@@ -23,9 +21,14 @@ export default function AddOrganizationModal(props) {
           label="Name"
           type="text"
           fullWidth
+          value={props.organization?.name ?? ""}
           variant="standard"
-          value={value["name"]}
-          onChange={(event) => setValue({ ...value, name: event.target.value })}
+          onChange={(event) =>
+            props.setOrganization({
+              ...props.organization,
+              name: event.target.value,
+            })
+          }
         />
         <TextField
           margin="dense"
@@ -34,15 +37,18 @@ export default function AddOrganizationModal(props) {
           type="text"
           fullWidth
           variant="standard"
-          value={value["number_of_seats"]}
+          value={props.organization?.number_of_seats ?? 0}
           onChange={(event) =>
-            setValue({ ...value, number_of_seats: event.target.value })
+            props.setOrganization({
+              ...props.organization,
+              number_of_seats: event.target.value,
+            })
           }
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>Cancel</Button>
-        <Button onClick={() => props.add(value)}>Add</Button>
+        <Button onClick={() => props.add(props.organization)}>Add</Button>
       </DialogActions>
     </Dialog>
   );

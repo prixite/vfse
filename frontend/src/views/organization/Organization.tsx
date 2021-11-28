@@ -33,6 +33,7 @@ function createDelete(setItems) {
 
 export default function Organization() {
   const [items, setItems] = useState([]);
+  const [organization, setOrganization] = useState(null);
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
@@ -49,12 +50,20 @@ export default function Organization() {
     <Fragment>
       <h2>3rd Party Administration</h2>
 
-      <Button onClick={() => setOpen(true)} variant="contained">
+      <Button
+        onClick={() => {
+          setOpen(true);
+          setOrganization(null);
+        }}
+        variant="contained"
+      >
         Add Client
       </Button>
 
       <AddOrganizationModal
         add={handleAdd}
+        organization={organization}
+        setOrganization={setOrganization}
         open={open}
         handleClose={handleClose}
       />
@@ -67,6 +76,7 @@ export default function Organization() {
               <TableCell align="right">Number of seats</TableCell>
               <TableCell align="right">Is Default?</TableCell>
               <TableCell align="right">Delete</TableCell>
+              <TableCell align="right">Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -80,6 +90,16 @@ export default function Organization() {
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
                   <Button onClick={() => createDelete(row.id)}>Delete</Button>
+                </TableCell>
+                <TableCell align="right">
+                  <Button
+                    onClick={() => {
+                      setOpen(true);
+                      setOrganization(row);
+                    }}
+                  >
+                    Edit
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
