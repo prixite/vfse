@@ -46,7 +46,7 @@ export default function Organization() {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
-  const handleAdd = (data) => {
+  const handleSave = (data) => {
     data.id === undefined ? add(data, setItems) : edit(data, setItems);
     handleClose();
   };
@@ -70,7 +70,7 @@ export default function Organization() {
       </Button>
 
       <OrganizationModal
-        add={handleAdd}
+        save={handleSave}
         organization={organization}
         setOrganization={setOrganization}
         open={open}

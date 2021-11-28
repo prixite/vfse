@@ -46,7 +46,7 @@ export default function OrganizationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>Cancel</Button>
-        <Button onClick={() => props.add(props.organization)}>Add</Button>
+        <Button onClick={() => props.save(props.organization)}>Save</Button>
       </DialogActions>
     </Dialog>
   );
