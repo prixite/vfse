@@ -21,6 +21,16 @@ function add(data, setItems) {
     });
 }
 
+function edit(organization, setItems) {
+  const { id, ...data } = organization;
+  const url = `/api/organizations/${id}/`;
+  sendRequest(url, "PATCH", data)
+    .then((response) => response.json())
+    .then((result) => {
+      getUrl("/api/organizations/", setItems);
+    });
+}
+
 function createDelete(setItems) {
   return (id: number) => {
     sendRequest(`/api/organizations/${id}/`, "DELETE", {})
@@ -34,11 +44,11 @@ function createDelete(setItems) {
 export default function Organization() {
   const [items, setItems] = useState([]);
   const [organization, setOrganization] = useState(null);
-
   const [open, setOpen] = useState(false);
+
   const handleClose = () => setOpen(false);
   const handleAdd = (data) => {
-    add(data, setItems);
+    data.id === undefined ? add(data, setItems) : edit(data, setItems);
     handleClose();
   };
 

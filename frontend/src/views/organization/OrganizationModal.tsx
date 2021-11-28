@@ -2,16 +2,16 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
 export default function OrganizationModal(props) {
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
-      <DialogTitle>New Organization</DialogTitle>
+      <DialogTitle>
+        {props.organization?.name ?? "New Organization"}
+      </DialogTitle>
       <DialogContent>
-        <DialogContentText>Add new organization.</DialogContentText>
         <TextField
           autoFocus
           margin="dense"

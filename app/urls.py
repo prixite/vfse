@@ -44,6 +44,14 @@ urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/<str:pk>/",
+        api.OrganizationViewSet.as_view(
+            {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<str:organization_pk>/health_networks/",
         api.OrganizationHealthNetworkViewSet.as_view(
             {
