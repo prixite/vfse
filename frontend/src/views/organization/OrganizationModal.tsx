@@ -6,7 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
-export default function AddOrganizationModal(props) {
+export default function OrganizationModal(props) {
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>New Organization</DialogTitle>

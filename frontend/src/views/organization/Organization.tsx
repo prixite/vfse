@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 
-import AddOrganizationModal from "@src/views/organization/AddOrganizationModal";
+import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
 function add(data, setItems) {
@@ -60,7 +60,7 @@ export default function Organization() {
         Add Client
       </Button>
 
-      <AddOrganizationModal
+      <OrganizationModal
         add={handleAdd}
         organization={organization}
         setOrganization={setOrganization}
