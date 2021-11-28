@@ -21,8 +21,7 @@ function add(data, setItems) {
     });
 }
 
-function edit(organization, setItems) {
-  const { id, ...data } = organization;
+function edit({ id, ...data }, setItems) {
   const url = `/api/organizations/${id}/`;
   sendRequest(url, "PATCH", data)
     .then((response) => response.json())
