@@ -35,14 +35,12 @@ function edit(data: Organization, setItems) {
     });
 }
 
-function createDelete(setItems) {
-  return (id: number) => {
-    sendRequest(`/api/organizations/${id}/`, "DELETE", {})
-      .then((response) => response.json())
-      .then(() => {
-        getUrl("/api/organizations/", setItems);
-      });
-  };
+function deleteOrganization(id: number, setItems) {
+  sendRequest(`/api/organizations/${id}/`, "DELETE", {})
+    .then((response) => response.json())
+    .then(() => {
+      getUrl("/api/organizations/", setItems);
+    });
 }
 
 export default function Organization() {
@@ -103,7 +101,9 @@ export default function Organization() {
                 <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => createDelete(row.id)}>Delete</Button>
+                  <Button onClick={() => deleteOrganization(row.id, setItems)}>
+                    Delete
+                  </Button>
                 </TableCell>
                 <TableCell align="right">
                   <Button
