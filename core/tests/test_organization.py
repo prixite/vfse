@@ -46,12 +46,16 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_organization_prevent_delete_is_default(self):
         user = self.super_admin
-        self.client.force_login(user)     
-        print(user.get_organizations())   
-        for organization, expected_error in [(self.organization,204),(self.default_organization,400)]:
+        self.client.force_login(user)
+        print(user.get_organizations())
+        for organization, expected_error in [
+            (self.organization, 204),
+            (self.default_organization, 400),
+        ]:
             print(models.Organization.objects.get(id=organization.id))
-            response = self.client.delete(f'/api/organizations/{organization.id}/')
-            self.assertEqual(response.status_code,expected_error)                      
+            response = self.client.delete(f"/api/organizations/{organization.id}/")
+            self.assertEqual(response.status_code, expected_error)
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
