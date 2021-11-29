@@ -57,7 +57,11 @@ class OrganizationTestCase(BaseTestCase):
     def test_organization_appearance(self):
         user = self.super_admin
         self.client.force_login(user)
-        # What it should be test against ??
+        response_get = self.client.get(f"/api/organizations/{self.default_organization.id}/appearance/")
+        self.assertEqual(response_get.status_code,200)
+
+        response_put = self.client.patch(f"/api/organizations/{self.default_organization.id}/appearance/",data={'appearance':{'color_one':'violet','font_one':'Impact'}})
+        self.assertEqual(response_put.status_code,200)
 
 
 class SiteTestCase(BaseTestCase):
