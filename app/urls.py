@@ -85,13 +85,15 @@ urlpatterns = [
             }
         ),
     ),
-    path("api/organizations/<str:pk>/appearance/",
+    path(
+        "api/organizations/<str:pk>/appearance/",
         api.OrganizaitionAppearanceViewSet.as_view(
             {
-                "get":"retrieve",
-                "patch":"partial_update",
+                "get": "retrieve",
+                "patch": "partial_update",
             }
-        )),
+        ),
+    ),
     path(
         "api/sites/<str:site_pk>/systems/",
         api.SiteSystemViewSet.as_view(

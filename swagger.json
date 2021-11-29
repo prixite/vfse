@@ -121,6 +121,57 @@
                 }
             ]
         },
+        "/organizations/{id}/appearance/": {
+            "get": {
+                "operationId": "organizations_appearance_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "patch": {
+                "operationId": "organizations_appearance_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/{organization_pk}/health_networks/": {
             "get": {
                 "operationId": "organizations_health_networks_list",
@@ -321,10 +372,50 @@
         }
     },
     "definitions": {
-        "Organization": {
-            "description": "Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, created_at, updated_at)",
+        "OrganizationApperance": {
+            "title": "Appearance",
+            "description": "",
             "required": [
-                "name"
+                "color_one",
+                "color_two",
+                "color_three",
+                "font_one",
+                "font_two"
+            ],
+            "type": "object",
+            "properties": {
+                "color_one": {
+                    "title": "Color one",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "color_two": {
+                    "title": "Color two",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "color_three": {
+                    "title": "Color three",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "font_one": {
+                    "title": "Font one",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "font_two": {
+                    "title": "Font two",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "Organization": {
+            "description": "Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, appearance, created_at, updated_at)",
+            "required": [
+                "name",
+                "appearance"
             ],
             "type": "object",
             "properties": {
@@ -368,6 +459,9 @@
                 "is_default": {
                     "title": "Is default",
                     "type": "boolean"
+                },
+                "appearance": {
+                    "$ref": "#/definitions/OrganizationApperance"
                 }
             }
         },

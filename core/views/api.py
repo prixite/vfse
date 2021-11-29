@@ -40,6 +40,8 @@ class OrganizaitionAppearanceViewSet(ModelViewSet):
 
     def get_queryset(self):
         return models.Organization.objects.filter(**self.kwargs)
+
+
 class OrganizationSiteViewSet(ModelViewSet):
     serializer_class = serializers.SiteSerializer
 

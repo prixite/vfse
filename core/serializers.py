@@ -9,9 +9,11 @@ class OrganizationApperanceSerializer(serializers.Serializer):
     color_three = serializers.CharField()
     font_one = serializers.CharField()
     font_two = serializers.CharField()
-    
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
     appearance = OrganizationApperanceSerializer()
+
     class Meta:
         model = models.Organization
         fields = [

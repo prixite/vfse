@@ -8,11 +8,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         appearance = {
-            'color_one':'red',
-            'color_two':'green',
-            'color_three':'blue',
-            'font_one':'helvetica',
-            'font_two':'calibri'
+            "color_one": "red",
+            "color_two": "green",
+            "color_three": "blue",
+            "font_one": "helvetica",
+            "font_two": "calibri",
         }
         factories.UserWithPasswordFactory(
             username="mfa@example.com",
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         factories.OrganizationFactory(
             is_default=True,
             name="626",
-            appearance = appearance,
+            appearance=appearance,
         )
 
         factories.OrganizationFactory(
@@ -47,7 +47,7 @@ class Command(BaseCommand):
                     username="other-user-admin@example.com"
                 )
             ],
-            appearance = appearance,
+            appearance=appearance,
         )
 
         factories.OrganizationFactory(
@@ -59,14 +59,14 @@ class Command(BaseCommand):
                         username="parent-customer-admin@example.com"
                     )
                 ],
-                appearance = appearance,
+                appearance=appearance,
             ),
             customer_admin_roles=[
                 factories.UserWithPasswordFactory(
                     username="child-customer-admin@example.com"
                 )
             ],
-            appearance = appearance,
+            appearance=appearance,
         )
 
         product = factories.ProductFactory(
@@ -102,7 +102,7 @@ class Command(BaseCommand):
             cryo_admin_roles=[
                 factories.UserWithPasswordFactory(username="cryo-admin@example.com")
             ],
-            appearance = appearance,
+            appearance=appearance,
         )
 
         factories.SystemFactory(
