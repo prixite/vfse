@@ -35,7 +35,7 @@ lint: # This job also runs in the test stage.
   stage: test # It can run at the same time as unit-test-job (in parallel).
   script:
     - apt-get update -yqq
-    - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+    - curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
     - apt-get install -y nodejs
     - npm install
     - pre-commit run --all
