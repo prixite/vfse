@@ -42,3 +42,10 @@ repos:
         args:
           - --color
           - --fix
+
+  - repo: local
+    hooks:
+      - id: openapi
+        name: check-openapi-spec-file
+        language: script
+        entry: ./scripts/generate_swagger.sh
