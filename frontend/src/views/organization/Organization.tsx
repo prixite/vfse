@@ -12,20 +12,25 @@ import Button from "@mui/material/Button";
 import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
-function add(data, setItems) {
+import { definitions } from "@src/schema";
+
+type Organization = definitions["Organization"];
+
+function add(data: Organization, setItems) {
   const url = "/api/organizations/";
   sendRequest(url, "POST", data)
     .then((response) => response.json())
-    .then((result) => {
+    .then(() => {
       getUrl(url, setItems);
     });
 }
 
-function edit({ id, ...data }, setItems) {
+function edit(data: Organization, setItems) {
+  let { id, ...organization } = data;
   const url = `/api/organizations/${id}/`;
-  sendRequest(url, "PATCH", data)
+  sendRequest(url, "PATCH", organization)
     .then((response) => response.json())
-    .then((result) => {
+    .then(() => {
       getUrl("/api/organizations/", setItems);
     });
 }
@@ -34,7 +39,7 @@ function createDelete(setItems) {
   return (id: number) => {
     sendRequest(`/api/organizations/${id}/`, "DELETE", {})
       .then((response) => response.json())
-      .then((result) => {
+      .then(() => {
         getUrl("/api/organizations/", setItems);
       });
   };
@@ -46,7 +51,7 @@ export default function Organization() {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => setOpen(false);
-  const handleSave = (data) => {
+  const handleSave = (data: Organization) => {
     data.id === undefined ? add(data, setItems) : edit(data, setItems);
     handleClose();
   };
