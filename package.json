@@ -4,7 +4,8 @@
   "description": "The frontend for vFSE",
   "scripts": {
     "start": "webpack watch --config frontend/webpack/webpack.dev.config.js",
-    "build": "webpack --config frontend/webpack/webpack.prod.config.js"
+    "build": "webpack --config frontend/webpack/webpack.prod.config.js",
+    "generate_schema": "openapi-typescript swagger.json --output frontend/src/schema.ts"
   },
   "keywords": [
     "vFSE"
