@@ -11,13 +11,14 @@ from rest_framework import permissions
 
 from core.views import api, site
 
+api_info = openapi.Info(
+    title="vFSE API documentation",
+    default_version="v1",
+    description="vFSE RESTfull API documentation.",
+    contact=openapi.Contact(email="contact@snippets.local"),
+)
+
 schema_view = get_schema_view(
-    openapi.Info(
-        title="vFSE API documentation",
-        default_version="v1",
-        description="vFSE RESTfull API documentation.",
-        contact=openapi.Contact(email="contact@snippets.local"),
-    ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
