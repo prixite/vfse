@@ -36,11 +36,9 @@ function edit(data: Organization, setItems) {
 }
 
 function deleteOrganization(id: number, setItems) {
-  sendRequest(`/api/organizations/${id}/`, "DELETE", {})
-    .then((response) => response.json())
-    .then(() => {
-      getUrl("/api/organizations/", setItems);
-    });
+  sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
+    getUrl("/api/organizations/", setItems);
+  });
 }
 
 export default function Organization() {
