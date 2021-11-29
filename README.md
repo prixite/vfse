@@ -65,7 +65,7 @@ To use `pre-push` hooks with pre-commit, run:
 
 ## Frontend <> Backend contract
 
-API definitions are available at http://localhost:8000/api/docs. We use [OpenAPI](https://swagger.io/specification/) specifications.
+API definitions are available at http://localhost:8000/openapi/. We use [OpenAPI](https://swagger.io/specification/) specifications.
 
 Generate OpenAPI specification. The output file should be committed.
 
