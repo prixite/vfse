@@ -200,5 +200,5 @@ DUO_API_HOSTNAME = env("DUO_API_HOSTNAME")
 DUO_REDIRECT_URI = env("DUO_REDIRECT_URI")
 
 SWAGGER_SETTINGS = {
-    'DEFAULT_INFO': 'app.urls.api_info',
+    "DEFAULT_INFO": "app.urls.api_info",
 }
