@@ -99,6 +99,19 @@
                     "organizations"
                 ]
             },
+            "delete": {
+                "operationId": "organizations_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "parameters": [
                 {
                     "name": "id",
@@ -348,6 +361,8 @@
                 "number_of_seats": {
                     "title": "Number of seats",
                     "type": "integer",
+                    "maximum": 200,
+                    "minimum": 0,
                     "x-nullable": true
                 },
                 "is_default": {

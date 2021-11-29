@@ -1,3 +1,4 @@
+from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
@@ -15,6 +16,12 @@ class OrganizationViewSet(ModelViewSet):
         return queryset.filter(
             id__in=self.request.user.get_organizations(),
         )
+
+    def destroy(self, request, *args, **kwargs):
+        if self.get_object().is_default:
+            raise ValidationError("Cannot delete default organization")
+
+        return super().destroy(request, *args, **kwargs)
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
