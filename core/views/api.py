@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from django.core.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError
 
 from core import models, serializers
 from core.models import Organization
@@ -19,7 +19,7 @@ class OrganizationViewSet(ModelViewSet):
     
     def destroy(self,request,*args,**kwargs):
         if self.get_object().is_default:
-            raise ValidationError('This is a default organization')
+            raise ValidationError('Cannot delete default organization')
         else:
             return super().destroy(self,request,*args,**kwargs)
 

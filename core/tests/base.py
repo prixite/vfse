@@ -26,6 +26,7 @@ class BaseTestCase(TestCase):
 
         self.default_organization = factories.OrganizationFactory(
             is_default=True,
+            # customer_admin_roles = [self.customer_admin]
         )
 
         self.organization = factories.OrganizationFactory(
