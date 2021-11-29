@@ -11,13 +11,14 @@ from rest_framework import permissions
 
 from core.views import api, site
 
+api_info = openapi.Info(
+    title="vFSE API documentation",
+    default_version="v1",
+    description="vFSE RESTfull API documentation.",
+    contact=openapi.Contact(email="contact@snippets.local"),
+)
+
 schema_view = get_schema_view(
-    openapi.Info(
-        title="vFSE API documentation",
-        default_version="v1",
-        description="vFSE RESTfull API documentation.",
-        contact=openapi.Contact(email="contact@snippets.local"),
-    ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
@@ -29,7 +30,7 @@ urlpatterns = [
         name="schema-json",
     ),
     path(
-        "api/docs/",
+        "openapi/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
@@ -47,7 +48,8 @@ urlpatterns = [
         "api/organizations/<str:pk>/",
         api.OrganizationViewSet.as_view(
             {
-                'delete':'destroy'
+                'delete':'destroy',
+                "patch": "partial_update",
             }
         ),
     ),
@@ -92,8 +94,17 @@ urlpatterns = [
         ),
     ),
     path(
+        "api/users/",
+        api.UserViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
         "welcome/",
-        site.WelcomeView.as_view(),
+        login_required(site.WelcomeView.as_view()),
         name="welcome",
     ),
     path(

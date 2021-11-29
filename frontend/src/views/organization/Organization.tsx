@@ -1,73 +1,125 @@
 import { Fragment } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 
-import AddOrganization from "@src/views/organization/AddOrganization";
+import OrganizationModal from "@src/views/organization/OrganizationModal";
+import { getUrl, sendRequest } from "@src/http";
 
-const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "name", headerName: "Name", width: 230 },
-  { field: "is_default", headerName: "Default?", width: 230 },
-];
+import { definitions } from "@src/schema";
+
+type Organization = definitions["Organization"];
+
+function add(data: Organization, setItems) {
+  const url = "/api/organizations/";
+  sendRequest(url, "POST", data)
+    .then((response) => response.json())
+    .then(() => {
+      getUrl(url, setItems);
+    });
+}
+
+function edit(data: Organization, setItems) {
+  let { id, ...organization } = data;
+  const url = `/api/organizations/${id}/`;
+  sendRequest(url, "PATCH", organization)
+    .then((response) => response.json())
+    .then(() => {
+      getUrl("/api/organizations/", setItems);
+    });
+}
+
+function deleteOrganization(id: number, setItems) {
+  sendRequest(`/api/organizations/${id}/`, "DELETE", {})
+    .then((response) => response.json())
+    .then(() => {
+      getUrl("/api/organizations/", setItems);
+    });
+}
 
 export default function Organization() {
   const [items, setItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
+  const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+
   const handleClose = () => setOpen(false);
-
-  const refresh = () => {
-    fetch("/api/organizations/")
-      .then((response) => response.json())
-      .then((result) => {
-        setItems(result);
-        setIsLoaded(true);
-      });
-  };
-
-  const add = (data) => {
-    fetch("/api/organizations/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        handleClose();
-        refresh();
-      });
+  const handleSave = (data: Organization) => {
+    data.id === undefined ? add(data, setItems) : edit(data, setItems);
+    handleClose();
   };
 
   useEffect(() => {
-    refresh();
+    getUrl("/api/organizations/", setItems);
   }, []);
 
   return (
     <Fragment>
       <h2>3rd Party Administration</h2>
 
-      <Button onClick={handleOpen} variant="contained">
-        Add Organization
+      <Button
+        onClick={() => {
+          setOpen(true);
+          setOrganization(null);
+        }}
+        variant="contained"
+      >
+        Add Client
       </Button>
 
-      <AddOrganization add={add} open={open} handleClose={handleClose} />
+      <OrganizationModal
+        save={handleSave}
+        organization={organization}
+        setOrganization={setOrganization}
+        open={open}
+        handleClose={handleClose}
+      />
 
-      <div style={{ marginTop: "10px", height: 400, width: "100%" }}>
-        <DataGrid
-          rows={items}
-          columns={columns}
-          loading={!isLoaded}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection
-        />
-      </div>
+      <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Number of seats</TableCell>
+              <TableCell align="right">Is Default?</TableCell>
+              <TableCell align="right">Delete</TableCell>
+              <TableCell align="right">Edit</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {items.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell scope="row">{row.name}</TableCell>
+                <TableCell align="right">{row.number_of_seats}</TableCell>
+                <TableCell align="right">{row.is_default.toString()}</TableCell>
+                <TableCell align="right">
+                  <Button onClick={() => deleteOrganization(row.id, setItems)}>
+                    Delete
+                  </Button>
+                </TableCell>
+                <TableCell align="right">
+                  <Button
+                    onClick={() => {
+                      setOpen(true);
+                      setOrganization(row);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Fragment>
   );
 }

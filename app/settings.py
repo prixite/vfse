@@ -186,7 +186,7 @@ else:
     MEDIA_URL = "media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/welcome/"
 
 EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"
@@ -198,3 +198,7 @@ DUO_CLIENT_ID = env("DUO_CLIENT_ID")
 DUO_CLIENT_SECRET = env("DUO_CLIENT_SECRET")
 DUO_API_HOSTNAME = env("DUO_API_HOSTNAME")
 DUO_REDIRECT_URI = env("DUO_REDIRECT_URI")
+
+SWAGGER_SETTINGS = {
+    "DEFAULT_INFO": "app.urls.api_info",
+}

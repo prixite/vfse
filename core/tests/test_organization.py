@@ -9,7 +9,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 2)
+            self.assertEqual(len(organizations), 3)
 
     def test_list_organizations(self):
         for user in [self.customer_admin, self.fse_admin]:

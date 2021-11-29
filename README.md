@@ -61,3 +61,17 @@ Make sure everything is working correctly by running
 To use `pre-push` hooks with pre-commit, run:
 
     pre-commit install --hook-type pre-push
+
+
+## Frontend <> Backend contract
+
+API definitions are available at http://localhost:8000/openapi/. We use [OpenAPI](https://swagger.io/specification/) specifications.
+
+Generate OpenAPI specification. The output file should be committed.
+
+    ./scripts/generate_swagger
+
+
+Generate TypeScript schema. The output file should be committed.
+
+    npm run generate_schema

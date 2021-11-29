@@ -8,29 +8,41 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
-export default function AddOrganization(props) {
-  const [value, setValue] = useState("");
-  const onChange = (event) => setValue(event.target.value);
+export default function AddUser(props) {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSave = (event) => {
-    props.add({ name: value });
+    props.add({ username, email });
   };
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
-      <DialogTitle>New Organization</DialogTitle>
+      <DialogTitle>New User</DialogTitle>
       <DialogContent>
-        <DialogContentText>Add new organization.</DialogContentText>
+        <DialogContentText>Add new user.</DialogContentText>
+
         <TextField
           autoFocus
           margin="dense"
-          id="name"
-          label="Name"
+          id="username"
+          label="Username"
           type="text"
           fullWidth
           variant="standard"
-          value={value}
-          onChange={onChange}
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
+
+        <TextField
+          margin="dense"
+          id="email"
+          label="Email"
+          type="text"
+          fullWidth
+          variant="standard"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
         />
       </DialogContent>
       <DialogActions>

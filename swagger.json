@@ -1,0 +1,489 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "vFSE API documentation",
+        "description": "vFSE RESTfull API documentation.",
+        "contact": {
+            "email": "contact@snippets.local"
+        },
+        "version": "v1"
+    },
+    "basePath": "/api",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Basic": {
+            "type": "basic"
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {
+        "/organizations/": {
+            "get": {
+                "operationId": "organizations_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Organization"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "post": {
+                "operationId": "organizations_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": []
+        },
+        "/organizations/{id}/": {
+            "patch": {
+                "operationId": "organizations_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{organization_pk}/health_networks/": {
+            "get": {
+                "operationId": "organizations_health_networks_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HealthNetwork"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "organization_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{organization_pk}/health_networks/{health_network_pk}/sites/": {
+            "get": {
+                "operationId": "organizations_health_networks_sites_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Site"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "health_network_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "organization_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{organization_pk}/users/": {
+            "get": {
+                "operationId": "organizations_users_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "organization_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{organization_pk}/vfse_systems/": {
+            "get": {
+                "operationId": "organizations_vfse_systems_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/System"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "organization_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/sites/{site_pk}/systems/": {
+            "get": {
+                "operationId": "sites_systems_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/System"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "sites"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "site_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/users/": {
+            "get": {
+                "operationId": "users_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "post": {
+                "operationId": "users_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        }
+    },
+    "definitions": {
+        "Organization": {
+            "description": "Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "readOnly": true,
+                    "x-nullable": true,
+                    "format": "uri"
+                },
+                "background_color": {
+                    "title": "Background color",
+                    "type": "string",
+                    "maxLength": 8
+                },
+                "banner": {
+                    "title": "Banner",
+                    "type": "string",
+                    "readOnly": true,
+                    "x-nullable": true,
+                    "format": "uri"
+                },
+                "number_of_seats": {
+                    "title": "Number of seats",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "is_default": {
+                    "title": "Is default",
+                    "type": "boolean"
+                }
+            }
+        },
+        "HealthNetwork": {
+            "description": "HealthNetwork(id, name, logo, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "readOnly": true,
+                    "format": "uri"
+                }
+            }
+        },
+        "Site": {
+            "description": "Site(id, organization_health_network, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "User": {
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "required": [
+                "username"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "first_name": {
+                    "title": "First name",
+                    "type": "string",
+                    "maxLength": 150
+                },
+                "last_name": {
+                    "title": "Last name",
+                    "type": "string",
+                    "maxLength": 150
+                },
+                "email": {
+                    "title": "Email address",
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 254
+                },
+                "username": {
+                    "title": "Username",
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 254,
+                    "minLength": 1
+                }
+            }
+        },
+        "System": {
+            "description": "System(id, site, modality, product, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, documentation_link, system_option, connection_monitoring, other, created_at, updated_at)",
+            "required": [
+                "modality",
+                "product",
+                "software_version",
+                "asset_number",
+                "ip_address",
+                "local_ae_title"
+            ],
+            "type": "object",
+            "properties": {
+                "modality": {
+                    "title": "Modality",
+                    "type": "integer"
+                },
+                "product": {
+                    "title": "Product",
+                    "type": "integer"
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "software_version": {
+                    "title": "Software version",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "asset_number": {
+                    "title": "Asset number",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "ip_address": {
+                    "title": "Ip address",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "local_ae_title": {
+                    "title": "Local ae title",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                }
+            }
+        }
+    }
+}
