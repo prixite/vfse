@@ -8,11 +8,13 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setAdministrationData } from "@src/reducers/ThirdPartyAdministration";
 import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
 import { definitions } from "@src/schema";
+import { RootState } from "@src/store/store";
 
 type Organization = definitions["Organization"];
 
@@ -42,24 +44,31 @@ function deleteOrganization(id: number, setItems) {
 }
 
 export default function Organization() {
-  const [items, setItems] = useState([]);
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-
+  const items = useSelector((state: RootState) => state.AdminReducer.value);
+  const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
   const handleSave = (data: Organization) => {
-    data.id === undefined ? add(data, setItems) : edit(data, setItems);
+    data.id === undefined
+      ? add(data, (resData) => {
+          dispatch(setAdministrationData(resData));
+        })
+      : edit(data, (resData) => {
+        dispatch(setAdministrationData(resData));
+        });
     handleClose();
   };
 
   useEffect(() => {
-    getUrl("/api/organizations/", setItems);
+    getUrl("/api/organizations/", (data) => {
+      dispatch(setAdministrationData(data));
+      console.log("tt", data);
+    });
   }, []);
-
   return (
     <Fragment>
       <h2>3rd Party Administration</h2>
-
       <Button
         onClick={() => {
           setOpen(true);
@@ -99,7 +108,9 @@ export default function Organization() {
                 <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => deleteOrganization(row.id, setItems)}>
+                  <Button
+                  // onClick={() => deleteOrganization(row.id, setItems)}
+                  >
                     Delete
                   </Button>
                 </TableCell>
