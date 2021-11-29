@@ -53,6 +53,11 @@ class OrganizationTestCase(BaseTestCase):
         ]:
             response = self.client.delete(f"/api/organizations/{organization.id}/")
             self.assertEqual(response.status_code, expected_error)
+    
+    def test_organization_appearance(self):
+        user = self.super_admin
+        self.client.force_login(user)
+        # What it should be test against ??
 
 
 class SiteTestCase(BaseTestCase):

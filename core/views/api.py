@@ -35,6 +35,11 @@ class OrganizationHealthNetworkViewSet(ModelViewSet):
         )
 
 
+class OrganizaitionAppearanceViewSet(ModelViewSet):
+    serializer_class = serializers.OrganizationSerializer
+
+    def get_queryset(self):
+        return models.Organization.objects.filter(**self.kwargs)
 class OrganizationSiteViewSet(ModelViewSet):
     serializer_class = serializers.SiteSerializer
 
@@ -47,7 +52,7 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class SiteSystemViewSet(ModelViewSet):    
+class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
 
     def get_queryset(self):
