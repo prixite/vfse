@@ -18,6 +18,13 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         model = models.Organization
 
     name = factory.Sequence(lambda x: f"organization-{x}")
+    appearance = {
+        "color_one": "red",
+        "color_two": "green",
+        "color_three": "blue",
+        "font_one": "helvetica",
+        "font_two": "calibri",
+    }
 
     @factory.post_generation
     def fse_admin_roles(obj, create, extracted, **kwargs):

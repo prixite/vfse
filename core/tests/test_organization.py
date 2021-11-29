@@ -57,11 +57,24 @@ class OrganizationTestCase(BaseTestCase):
     def test_organization_appearance(self):
         user = self.super_admin
         self.client.force_login(user)
-        response_get = self.client.get(f"/api/organizations/{self.default_organization.id}/appearance/")
-        self.assertEqual(response_get.status_code,200)
+        response_get = self.client.get(
+            f"/api/organizations/{self.default_organization.id}/appearance/"
+        )
+        self.assertEqual(response_get.status_code, 200)
 
-        response_put = self.client.patch(f"/api/organizations/{self.default_organization.id}/appearance/",data={'appearance':{'color_one':'violet','font_one':'Impact'}})
-        self.assertEqual(response_put.status_code,200)
+        response_put = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/appearance/",
+            data={
+                "appearance": {
+                    "color_one": "violet",
+                    "color_two": "pink",
+                    "color_three": "purple",
+                    "font_one": "Impact",
+                    "font_two": "Arial",
+                }
+            },
+        )
+        self.assertEqual(response_put.status_code, 200)
 
 
 class SiteTestCase(BaseTestCase):

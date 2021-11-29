@@ -7,13 +7,7 @@ class Command(BaseCommand):
     help = "Generate fake date"
 
     def handle(self, *args, **options):
-        appearance = {
-            "color_one": "red",
-            "color_two": "green",
-            "color_three": "blue",
-            "font_one": "helvetica",
-            "font_two": "calibri",
-        }
+
         factories.UserWithPasswordFactory(
             username="mfa@example.com",
             is_superuser=True,
@@ -32,7 +26,6 @@ class Command(BaseCommand):
         factories.OrganizationFactory(
             is_default=True,
             name="626",
-            appearance=appearance,
         )
 
         factories.OrganizationFactory(
@@ -47,7 +40,6 @@ class Command(BaseCommand):
                     username="other-user-admin@example.com"
                 )
             ],
-            appearance=appearance,
         )
 
         factories.OrganizationFactory(
@@ -59,14 +51,12 @@ class Command(BaseCommand):
                         username="parent-customer-admin@example.com"
                     )
                 ],
-                appearance=appearance,
             ),
             customer_admin_roles=[
                 factories.UserWithPasswordFactory(
                     username="child-customer-admin@example.com"
                 )
             ],
-            appearance=appearance,
         )
 
         product = factories.ProductFactory(
@@ -102,7 +92,6 @@ class Command(BaseCommand):
             cryo_admin_roles=[
                 factories.UserWithPasswordFactory(username="cryo-admin@example.com")
             ],
-            appearance=appearance,
         )
 
         factories.SystemFactory(
