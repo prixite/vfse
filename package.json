@@ -12,7 +12,8 @@
   "author": "Umair Khan",
   "license": "ISC",
   "engines": {
-    "node": "16.x"
+    "npm": ">=7.0.0",
+    "node": ">=17.0.0"
   },
   "dependencies": {
     "@emotion/react": "^11.6.0",
