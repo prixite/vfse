@@ -361,7 +361,7 @@
                 "number_of_seats": {
                     "title": "Number of seats",
                     "type": "integer",
-                    "maximum": 2147483647,
+                    "maximum": 200,
                     "minimum": 0,
                     "x-nullable": true
                 },

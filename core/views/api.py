@@ -20,8 +20,8 @@ class OrganizationViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         if self.get_object().is_default:
             raise ValidationError("Cannot delete default organization")
-        else:
-            return super().destroy(self, request, *args, **kwargs)
+
+        return super().destroy(request, *args, **kwargs)
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):

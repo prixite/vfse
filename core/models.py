@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -83,7 +84,9 @@ class Organization(models.Model):
     logo = models.ImageField(upload_to="organization/logo/", null=True, blank=True)
     background_color = models.CharField(max_length=8, blank=True)
     banner = models.ImageField(upload_to="organization/banner/", null=True, blank=True)
-    number_of_seats = models.PositiveIntegerField(null=True, blank=True)
+    number_of_seats = models.PositiveIntegerField(
+        null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]
+    )
     is_default = models.BooleanField(default=False)
     parent = models.ForeignKey(
         "self",
@@ -210,11 +213,19 @@ class SystemDetail(models.Model):
     his_ris_info_ip = models.GenericIPAddressField(blank=True, null=True)
     his_ris_info_ae_title = models.CharField(max_length=32, blank=True, null=True)
     his_ris_info_title = models.CharField(max_length=32, blank=True, null=True)
-    his_ris_info_port = models.IntegerField(blank=True, null=True)
+    his_ris_info_port = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MaxValueValidator(99999), MinValueValidator(0)],
+    )
     dicom_info_ip = models.GenericIPAddressField(blank=True, null=True)
     dicom_info_ae_title = models.CharField(max_length=32, blank=True, null=True)
     dicom_info_title = models.CharField(max_length=32, blank=True, null=True)
-    dicom_info_port = models.IntegerField(blank=True, null=True)
+    dicom_info_port = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MaxValueValidator(99999), MinValueValidator(0)],
+    )
     mri_embedded_parameters_helium = models.CharField(
         max_length=32, blank=True, null=True
     )
