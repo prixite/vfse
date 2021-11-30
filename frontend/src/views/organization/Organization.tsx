@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { setAdministrationData } from "@src/reducers/ThirdPartyAdministration";
+import { setOrganizationData } from "@src/reducers/Organization";
 import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
@@ -18,54 +18,56 @@ import { RootState } from "@src/store/store";
 
 type Organization = definitions["Organization"];
 
-function add(data: Organization, setItems) {
+const getOrganizationData = (dispatch) => {
+  getUrl("/api/organizations/", (result: Organization) =>
+    dispatch(setOrganizationData(result))
+  );
+};
+
+function add(data: Organization, dispatch) {
   const url = "/api/organizations/";
   sendRequest(url, "POST", data)
     .then((response) => response.json())
     .then(() => {
-      getUrl(url, setItems);
+      getOrganizationData(dispatch);
     });
 }
 
-function edit(data: Organization, setItems) {
+function edit(data: Organization, dispatch) {
   let { id, ...organization } = data;
   const url = `/api/organizations/${id}/`;
   sendRequest(url, "PATCH", organization)
     .then((response) => response.json())
     .then(() => {
-      getUrl("/api/organizations/", setItems);
+      getOrganizationData(dispatch);
     });
 }
 
-function deleteOrganization(id: number, setItems) {
+function deleteOrganization(id: number, dispatch) {
   sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
-    getUrl("/api/organizations/", setItems);
+    getOrganizationData(dispatch);
   });
 }
 
 export default function Organization() {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const items = useSelector((state: RootState) => state.AdminReducer.value);
+  const items = useSelector(
+    (state: RootState) => state.OrganizationReducer.value
+  );
   const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
   const handleSave = (data: Organization) => {
-    data.id === undefined
-      ? add(data, (resData) => {
-          dispatch(setAdministrationData(resData));
-        })
-      : edit(data, (resData) => {
-        dispatch(setAdministrationData(resData));
-        });
+    data.id === undefined ? add(data, dispatch) : edit(data, dispatch);
     handleClose();
   };
 
   useEffect(() => {
     getUrl("/api/organizations/", (data) => {
-      dispatch(setAdministrationData(data));
-      console.log("tt", data);
+      dispatch(setOrganizationData(data));
     });
   }, []);
+
   return (
     <Fragment>
       <h2>3rd Party Administration</h2>
@@ -108,9 +110,7 @@ export default function Organization() {
                 <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
-                  <Button
-                  // onClick={() => deleteOrganization(row.id, setItems)}
-                  >
+                  <Button onClick={() => deleteOrganization(row.id, dispatch)}>
                     Delete
                   </Button>
                 </TableCell>
