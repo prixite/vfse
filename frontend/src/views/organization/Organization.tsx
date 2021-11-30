@@ -8,58 +8,69 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
-
+import { useSelector, useDispatch } from "react-redux";
+import { setOrganizationData } from "@src/reducers/Organization";
 import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 
 import { definitions } from "@src/schema";
+import { RootState } from "@src/store/store";
 
 type Organization = definitions["Organization"];
 
-function add(data: Organization, setItems) {
+function getOrganizationData(dispatch) {
+  getUrl("/api/organizations/", (result: Organization) =>
+    dispatch(setOrganizationData(result))
+  );
+}
+
+function add(data: Organization, dispatch) {
   const url = "/api/organizations/";
   sendRequest(url, "POST", data)
     .then((response) => response.json())
     .then(() => {
-      getUrl(url, setItems);
+      getOrganizationData(dispatch);
     });
 }
 
-function edit(data: Organization, setItems) {
+function edit(data: Organization, dispatch) {
   let { id, ...organization } = data;
   const url = `/api/organizations/${id}/`;
   sendRequest(url, "PATCH", organization)
     .then((response) => response.json())
     .then(() => {
-      getUrl("/api/organizations/", setItems);
+      getOrganizationData(dispatch);
     });
 }
 
-function deleteOrganization(id: number, setItems) {
+function deleteOrganization(id: number, dispatch) {
   sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
-    getUrl("/api/organizations/", setItems);
+    getOrganizationData(dispatch);
   });
 }
 
 export default function Organization() {
-  const [items, setItems] = useState([]);
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-
+  const items = useSelector(
+    (state: RootState) => state.OrganizationReducer.value
+  );
+  const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
   const handleSave = (data: Organization) => {
-    data.id === undefined ? add(data, setItems) : edit(data, setItems);
+    data.id === undefined ? add(data, dispatch) : edit(data, dispatch);
     handleClose();
   };
 
   useEffect(() => {
-    getUrl("/api/organizations/", setItems);
+    getUrl("/api/organizations/", (data) => {
+      dispatch(setOrganizationData(data));
+    });
   }, []);
 
   return (
     <Fragment>
       <h2>3rd Party Administration</h2>
-
       <Button
         onClick={() => {
           setOpen(true);
@@ -99,7 +110,7 @@ export default function Organization() {
                 <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => deleteOrganization(row.id, setItems)}>
+                  <Button onClick={() => deleteOrganization(row.id, dispatch)}>
                     Delete
                   </Button>
                 </TableCell>
