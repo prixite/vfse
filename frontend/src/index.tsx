@@ -7,13 +7,16 @@ import "@src/index.scss";
 
 import App from "@src/components/App";
 import theme from "@src/theme";
-
+import { store } from "./store/store";
+import { Provider } from "react-redux";
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </React.StrictMode>
+  </Provider>,
   document.getElementById("container")
 );
