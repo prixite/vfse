@@ -55,7 +55,7 @@ export default function Organization() {
           dispatch(setAdministrationData(resData));
         })
       : edit(data, (resData) => {
-        dispatch(setAdministrationData(resData));
+          dispatch(setAdministrationData(resData));
         });
     handleClose();
   };

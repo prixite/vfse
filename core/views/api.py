@@ -25,11 +25,10 @@ class OrganizationViewSet(ModelViewSet):
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
-    queryset = models.HealthNetwork.objects.all()
     serializer_class = serializers.HealthNetworkSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(
+        return models.HealthNetwork.objects.filter(
             id__in=models.OrganizationHealthNetwork.objects.filter(
                 organization=self.kwargs["organization_pk"],
             ).values_list("health_network")
@@ -37,11 +36,10 @@ class OrganizationHealthNetworkViewSet(ModelViewSet):
 
 
 class OrganizationSiteViewSet(ModelViewSet):
-    queryset = models.Site.objects.all()
     serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(
+        return models.Site.objects.filter(
             organization_health_network__organization=self.kwargs["organization_pk"],
             organization_health_network__health_network=self.kwargs[
                 "health_network_pk"
@@ -50,11 +48,10 @@ class OrganizationSiteViewSet(ModelViewSet):
 
 
 class SiteSystemViewSet(ModelViewSet):
-    queryset = models.System.objects.all()
     serializer_class = serializers.SystemSerializer
 
     def get_queryset(self):
-        return self.queryset.filter(
+        return models.System.objects.filter(
             site=self.kwargs["site_pk"],
         )
 
@@ -74,7 +71,6 @@ class UserViewSet(ModelViewSet):
 
 
 class OrganizationUserViewSet(ModelViewSet):
-    queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
@@ -86,12 +82,10 @@ class OrganizationUserViewSet(ModelViewSet):
             membership = membership.filter(
                 organization__in=self.request.user.get_organizations(),
             )
-
-        return self.queryset.filter(id__in=membership.values_list("user"))
+        return models.User.objects.filter(id__in=membership.values_list("user"))
 
 
 class VfseSystemViewSet(ModelViewSet):
-    queryset = models.System.objects.all()
     serializer_class = serializers.SystemSerializer
 
     def get_queryset(self):
@@ -103,5 +97,4 @@ class VfseSystemViewSet(ModelViewSet):
             assigned = assigned.filter(
                 organization__in=self.request.user.get_organizations(),
             )
-
-        return self.queryset.filter(id__in=assigned.values_list("system"))
+        return models.System.objects.filter(id__in=assigned.values_list("system"))
