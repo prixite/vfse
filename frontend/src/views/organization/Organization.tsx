@@ -18,11 +18,11 @@ import { RootState } from "@src/store/store";
 
 type Organization = definitions["Organization"];
 
-const getOrganizationData = (dispatch) => {
+function getOrganizationData(dispatch) {
   getUrl("/api/organizations/", (result: Organization) =>
     dispatch(setOrganizationData(result))
   );
-};
+}
 
 function add(data: Organization, dispatch) {
   const url = "/api/organizations/";
