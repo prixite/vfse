@@ -1,4 +1,5 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
@@ -45,6 +46,26 @@ class OrganizationSiteViewSet(ModelViewSet):
                 "health_network_pk"
             ],
         )
+
+
+class OrganizationChildrenViewSet(OrganizationViewSet):
+    def get_serializer_class(self):
+        if self.action == "create":
+            return super().get_serializer_class()
+        return serializers.OrganizationSerializer
+
+    def get_user_organization(self):
+        return super().get_queryset()
+
+    def get_queryset(self):
+        return self.get_user_organization().filter(parents=self.kwargs["pk"])
+
+    def perform_craete(self, serializer):
+        get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
+        models.Organization.objects.filter(parent=self.kwargs["pk"]).update(parent=None)
+        self.get_user_organization().filter(
+            id__in=serializer.validated_data["children"]
+        ).update(parents=self.kwargs["pk"])
 
 
 class SiteSystemViewSet(ModelViewSet):

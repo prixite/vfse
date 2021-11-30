@@ -243,6 +243,60 @@
                 }
             ]
         },
+        "/orgnizations/{id}/children/": {
+            "get": {
+                "operationId": "orgnizations_children_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Organization"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "orgnizations"
+                ]
+            },
+            "post": {
+                "operationId": "orgnizations_children_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "orgnizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/sites/{site_pk}/systems/": {
             "get": {
                 "operationId": "sites_systems_list",
