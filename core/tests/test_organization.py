@@ -45,8 +45,7 @@ class OrganizationTestCase(BaseTestCase):
             self.assertEqual(len(response.json()), 10)
 
     def test_organization_prevent_delete_is_default(self):
-        user = self.super_admin
-        self.client.force_login(user)
+        self.client.force_login(self.super_admin)
         for organization, expected_error in [
             (self.organization, 204),
             (self.default_organization, 400),
@@ -54,27 +53,37 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.delete(f"/api/organizations/{organization.id}/")
             self.assertEqual(response.status_code, expected_error)
 
-    def test_organization_appearance(self):
-        user = self.super_admin
-        self.client.force_login(user)
-        response_get = self.client.get(
-            f"/api/organizations/{self.default_organization.id}/appearance/"
-        )
-        self.assertEqual(response_get.status_code, 200)
+    def test_get_organization_appearance(self):
+        self.client.force_login(self.customer_admin)
+        response = self.client.get(f"/api/organizations/")
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(response.json()[0]['appearance'], {
+            "color_one": "red",
+            "color_two": "green",
+            "color_three": "blue",
+            "font_one": "helvetica",
+            "font_two": "calibri",
+        })
 
-        response_put = self.client.patch(
-            f"/api/organizations/{self.default_organization.id}/appearance/",
-            data={
-                "appearance": {
+    def test_update_organization_appearance(self):
+        self.client.force_login(self.super_admin)
+        new_appearance ={
                     "color_one": "violet",
                     "color_two": "pink",
                     "color_three": "purple",
                     "font_one": "Impact",
                     "font_two": "Arial",
                 }
+        response = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/",
+            data={
+                "appearance": new_appearance,
             },
         )
-        self.assertEqual(response_put.status_code, 200)
+        self.assertEqual(response.status_code, 200)
+
+        self.default_organization.refresh_from_db()
+        self.assertDictEqual(self.default_organization.appearance, new_appearance)
 
 
 class SiteTestCase(BaseTestCase):
