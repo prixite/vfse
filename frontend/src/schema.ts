@@ -83,7 +83,7 @@ export interface definitions {
     banner?: string;
     number_of_seats?: number;
     is_default?: boolean;
-    appearance: definitions["OrganizationApperance"];
+    appearance?: definitions["OrganizationApperance"];
   };
   /** HealthNetwork(id, name, logo, created_at, updated_at) */
   HealthNetwork: {

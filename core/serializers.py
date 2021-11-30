@@ -3,6 +3,11 @@ from rest_framework import serializers
 from core import models
 
 
+class OrganizationAppearanceDefault:
+    def __call__(self):
+        return OrganizationApperanceSerializer().data
+
+
 class OrganizationApperanceSerializer(serializers.Serializer):
     color_one = serializers.CharField()
     color_two = serializers.CharField()
@@ -12,7 +17,9 @@ class OrganizationApperanceSerializer(serializers.Serializer):
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
-    appearance = OrganizationApperanceSerializer()
+    appearance = OrganizationApperanceSerializer(
+        default=OrganizationAppearanceDefault()
+    )
 
     class Meta:
         model = models.Organization
