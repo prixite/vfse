@@ -3,7 +3,17 @@ from rest_framework import serializers
 from core import models
 
 
+class OrganizationApperanceSerializer(serializers.Serializer):
+    color_one = serializers.CharField()
+    color_two = serializers.CharField()
+    color_three = serializers.CharField()
+    font_one = serializers.CharField()
+    font_two = serializers.CharField()
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
+    appearance = OrganizationApperanceSerializer()
+
     class Meta:
         model = models.Organization
         fields = [
@@ -14,6 +24,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "banner",
             "number_of_seats",
             "is_default",
+            "appearance",
         ]
 
 

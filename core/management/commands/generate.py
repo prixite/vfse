@@ -7,6 +7,7 @@ class Command(BaseCommand):
     help = "Generate fake date"
 
     def handle(self, *args, **options):
+
         factories.UserWithPasswordFactory(
             username="mfa@example.com",
             is_superuser=True,
