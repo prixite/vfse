@@ -10,6 +10,7 @@ export interface paths {
     parameters: {};
   };
   "/organizations/{id}/": {
+    delete: operations["organizations_delete"];
     patch: operations["organizations_partial_update"];
     parameters: {
       path: {
@@ -66,7 +67,14 @@ export interface paths {
 }
 
 export interface definitions {
-  /** Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, created_at, updated_at) */
+  OrganizationApperance: {
+    color_one: string;
+    color_two: string;
+    color_three: string;
+    font_one: string;
+    font_two: string;
+  };
+  /** Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, appearance, created_at, updated_at) */
   Organization: {
     id?: number;
     name: string;
@@ -75,6 +83,7 @@ export interface definitions {
     banner?: string;
     number_of_seats?: number;
     is_default?: boolean;
+    appearance: definitions["OrganizationApperance"];
   };
   /** HealthNetwork(id, name, logo, created_at, updated_at) */
   HealthNetwork: {
@@ -125,6 +134,16 @@ export interface operations {
       201: {
         schema: definitions["Organization"];
       };
+    };
+  };
+  organizations_delete: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      204: never;
     };
   };
   organizations_partial_update: {
