@@ -81,9 +81,9 @@ class Profile(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=32)
-    logo = models.ImageField(upload_to="organization/logo/", null=True, blank=True)
+    logo = models.URLField(null=True, blank=True)
     background_color = models.CharField(max_length=8, blank=True)
-    banner = models.ImageField(upload_to="organization/banner/", null=True, blank=True)
+    banner = models.URLField(null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(
         null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]
     )
@@ -236,7 +236,7 @@ class SystemDetail(models.Model):
 
 
 class SystemImage(models.Model):
-    image = models.ImageField(upload_to="system-image/", default="", blank=True)
+    image = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -262,7 +262,7 @@ class RemoteLoginSession(models.Model):
 
 class HealthNetwork(models.Model):
     name = models.CharField(max_length=32, unique=True)
-    logo = models.ImageField(upload_to="health-network/logo/")
+    logo = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -285,7 +285,7 @@ class Manufacturer(models.Model):
 
 
 class ManufacturerImage(models.Model):
-    image = models.ImageField(upload_to="manufacture/")
+    image = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

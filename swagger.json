@@ -433,9 +433,9 @@
                 "logo": {
                     "title": "Logo",
                     "type": "string",
-                    "readOnly": true,
-                    "x-nullable": true,
-                    "format": "uri"
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
                 },
                 "background_color": {
                     "title": "Background color",
@@ -445,9 +445,9 @@
                 "banner": {
                     "title": "Banner",
                     "type": "string",
-                    "readOnly": true,
-                    "x-nullable": true,
-                    "format": "uri"
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
                 },
                 "number_of_seats": {
                     "title": "Number of seats",
@@ -481,8 +481,9 @@
                 "logo": {
                     "title": "Logo",
                     "type": "string",
-                    "readOnly": true,
-                    "format": "uri"
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
                 }
             }
         },
