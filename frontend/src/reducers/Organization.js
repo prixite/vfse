@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const organizationSlice = createSlice({
-  name: "thirdPartyAdministration",
+  name: "Organization",
   initialState,
   reducers: {
     setOrganizationData: (state, action) => {
