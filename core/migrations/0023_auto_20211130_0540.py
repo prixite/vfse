@@ -6,33 +6,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0022_auto_20211129_0753'),
+        ("core", "0022_auto_20211129_0753"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='healthnetwork',
-            name='logo',
+            model_name="healthnetwork",
+            name="logo",
             field=models.URLField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='manufacturerimage',
-            name='image',
+            model_name="manufacturerimage",
+            name="image",
             field=models.URLField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='banner',
+            model_name="organization",
+            name="banner",
             field=models.URLField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='logo',
+            model_name="organization",
+            name="logo",
             field=models.URLField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='systemimage',
-            name='image',
+            model_name="systemimage",
+            name="image",
             field=models.URLField(),
         ),
     ]

@@ -55,25 +55,28 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_get_organization_appearance(self):
         self.client.force_login(self.customer_admin)
-        response = self.client.get(f"/api/organizations/")
+        response = self.client.get("/api/organizations/")
         self.assertEqual(response.status_code, 200)
-        self.assertDictEqual(response.json()[0]['appearance'], {
-            "color_one": "red",
-            "color_two": "green",
-            "color_three": "blue",
-            "font_one": "helvetica",
-            "font_two": "calibri",
-        })
+        self.assertDictEqual(
+            response.json()[0]["appearance"],
+            {
+                "color_one": "red",
+                "color_two": "green",
+                "color_three": "blue",
+                "font_one": "helvetica",
+                "font_two": "calibri",
+            },
+        )
 
     def test_update_organization_appearance(self):
         self.client.force_login(self.super_admin)
-        new_appearance ={
-                    "color_one": "violet",
-                    "color_two": "pink",
-                    "color_three": "purple",
-                    "font_one": "Impact",
-                    "font_two": "Arial",
-                }
+        new_appearance = {
+            "color_one": "violet",
+            "color_two": "pink",
+            "color_three": "purple",
+            "font_one": "Impact",
+            "font_two": "Arial",
+        }
         response = self.client.patch(
             f"/api/organizations/{self.default_organization.id}/",
             data={
