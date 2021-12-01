@@ -358,13 +358,19 @@
                     "type": "string",
                     "minLength": 1
                 }
+            },
+            "default": {
+                "color_one": "",
+                "color_two": "",
+                "color_three": "",
+                "font_one": "",
+                "font_two": ""
             }
         },
         "Organization": {
             "description": "Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, appearance, created_at, updated_at)",
             "required": [
-                "name",
-                "appearance"
+                "name"
             ],
             "type": "object",
             "properties": {
