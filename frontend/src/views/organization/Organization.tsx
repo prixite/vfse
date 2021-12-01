@@ -12,7 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setOrganizationData } from "@src/reducers/Organization";
 import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
-
+import { ToastContainer, toast } from "react-toastify";
+import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css";
 import { definitions } from "@src/schema";
 import { RootState } from "@src/store/store";
 
@@ -44,9 +45,10 @@ function edit(data: Organization, dispatch) {
 }
 
 function deleteOrganization(id: number, dispatch) {
-  sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
-    getOrganizationData(dispatch);
-  });
+  toast.success("Lorem ipsum dolor");
+  // sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
+  //   getOrganizationData(dispatch);
+  // });
 }
 
 export default function Organization() {
