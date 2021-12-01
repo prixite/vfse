@@ -27,7 +27,10 @@ class User(AbstractUser):
         if self.is_superuser or self.is_supermanager:
             return Organization.objects.get(is_default=True)
 
-        return self.get_organizations().filter(parent__isnull=True).first() or self.get_organizations().first()
+        return (
+            self.get_organizations().filter(parent__isnull=True).first()
+            or self.get_organizations().first()
+        )
 
 
 class UserModality(models.Model):
