@@ -340,7 +340,7 @@
         }
     },
     "definitions": {
-        "OrganizationApperance": {
+        "OrganizationAppearance": {
             "title": "Appearance",
             "description": "",
             "required": [
@@ -379,11 +379,11 @@
                 }
             },
             "default": {
-                "color_one": "",
-                "color_two": "",
-                "color_three": "",
-                "font_one": "",
-                "font_two": ""
+                "color_one": "#FFF",
+                "color_two": "#FFF",
+                "color_three": "#FFF",
+                "font_one": "#FFF",
+                "font_two": "#FFF"
             }
         },
         "Organization": {
@@ -436,7 +436,7 @@
                     "type": "boolean"
                 },
                 "appearance": {
-                    "$ref": "#/definitions/OrganizationApperance"
+                    "$ref": "#/definitions/OrganizationAppearance"
                 }
             }
         },

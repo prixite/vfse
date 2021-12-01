@@ -25,25 +25,33 @@ function getOrganizationData(dispatch) {
   );
 }
 
-function add(data: Organization, dispatch) {
+async function add(data: Organization, dispatch) {
   const url = "/api/organizations/";
-  sendRequest(url, "POST", data)
-    .then((response) => response.json())
-    .then(() => {
-      getOrganizationData(dispatch);
-      toast.success("Organization successfully created.");
-    });
+  const response = await sendRequest(url, "POST", data);
+  if (response.ok) {
+    getOrganizationData(dispatch);
+    toast.success("Organization successfully created.");
+  } else {
+    const data = await response.json();
+    for (const field in data) {
+      toast.error(`${field}: ${data[field][0]}`);
+    }
+  }
 }
 
-function edit(data: Organization, dispatch) {
+async function edit(data: Organization, dispatch) {
   let { id, ...organization } = data;
   const url = `/api/organizations/${id}/`;
-  sendRequest(url, "PATCH", organization)
-    .then((response) => response.json())
-    .then(() => {
-      getOrganizationData(dispatch);
-      toast.success("Organization successfully updated.");
-    });
+  const response = await sendRequest(url, "PATCH", organization);
+  if (response.ok) {
+    getOrganizationData(dispatch);
+    toast.success("Organization successfully updated.");
+  } else {
+    const data = await response.json();
+    for (const field in data) {
+      toast.error(`${field}: ${data[field][0]}`);
+    }
+  }
 }
 
 function deleteOrganization(id: number, dispatch) {

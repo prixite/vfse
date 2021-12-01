@@ -71,7 +71,7 @@ export interface paths {
 }
 
 export interface definitions {
-  OrganizationApperance: {
+  OrganizationAppearance: {
     color_one: string;
     color_two: string;
     color_three: string;
@@ -87,7 +87,7 @@ export interface definitions {
     banner?: string;
     number_of_seats?: number;
     is_default?: boolean;
-    appearance?: definitions["OrganizationApperance"];
+    appearance?: definitions["OrganizationAppearance"];
   };
   /** User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager) */
   Me: {

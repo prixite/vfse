@@ -88,6 +88,26 @@ class OrganizationTestCase(BaseTestCase):
         self.default_organization.refresh_from_db()
         self.assertDictEqual(self.default_organization.appearance, new_appearance)
 
+    def test_unique_name_constraint_while_create(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            "/api/organizations/",
+            data={
+                "name": self.default_organization.name,
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_unique_name_constraint_while_update(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/",
+            data={
+                "name": self.organization.name,
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

@@ -1,11 +1,12 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 
 from core import models
 
 
 class OrganizationAppearanceDefault:
     def __call__(self):
-        return OrganizationApperanceSerializer().data
+        return {x: "#FFF" for x in OrganizationAppearanceSerializer().data}
 
 
 class DefaultOrganizationDefault:
@@ -15,7 +16,7 @@ class DefaultOrganizationDefault:
         return serializer_field.context["request"].user.get_default_organization()
 
 
-class OrganizationApperanceSerializer(serializers.Serializer):
+class OrganizationAppearanceSerializer(serializers.Serializer):
     color_one = serializers.CharField()
     color_two = serializers.CharField()
     color_three = serializers.CharField()
@@ -24,8 +25,13 @@ class OrganizationApperanceSerializer(serializers.Serializer):
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
-    appearance = OrganizationApperanceSerializer(
+    appearance = OrganizationAppearanceSerializer(
         default=OrganizationAppearanceDefault()
+    )
+
+    name = serializers.CharField(
+        max_length=32,
+        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
     )
 
     class Meta:
