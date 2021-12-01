@@ -31,15 +31,15 @@ To regenerate test data.
 
 Run the backend.
 
-      ./manage.py runserver
+    ./manage.py runserver
 
 Build the frontend. You need to run this command whenever you pull new changes from the server.
 
-      npm install
+    npm install
 
 Run the frontend dev server
 
-      npm run start
+    npm run start
 
 Visit localhost:8000 to view the landing page.
 
