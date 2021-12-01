@@ -1,9 +1,9 @@
 .SideBar {
-  width: 296px;
-  flex-shrink: 0;
-  border-right: 1px solid #e5e7eb;
   height: 100vh;
   background-color: #2a3242;
+  .MuiDrawer-paper {
+    background-color: #2a3242;
+  }
   .MuiSvgIcon-root,
   .MuiListItemText-root {
     color: #fff;
