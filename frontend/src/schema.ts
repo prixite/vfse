@@ -4,6 +4,10 @@
  */
 
 export interface paths {
+  "/me/": {
+    get: operations["me_read"];
+    parameters: {};
+  };
   "/organizations/": {
     get: operations["organizations_list"];
     post: operations["organizations_create"];
@@ -85,6 +89,13 @@ export interface definitions {
     is_default?: boolean;
     appearance?: definitions["OrganizationApperance"];
   };
+  /** User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager) */
+  Me: {
+    first_name?: string;
+    last_name?: string;
+    flags?: string;
+    default_organization?: definitions["Organization"];
+  };
   /** HealthNetwork(id, name, logo, created_at, updated_at) */
   HealthNetwork: {
     name: string;
@@ -116,6 +127,14 @@ export interface definitions {
 }
 
 export interface operations {
+  me_read: {
+    parameters: {};
+    responses: {
+      200: {
+        schema: definitions["Me"];
+      };
+    };
+  };
   organizations_list: {
     parameters: {};
     responses: {

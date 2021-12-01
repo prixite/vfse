@@ -8,6 +8,13 @@ class OrganizationAppearanceDefault:
         return OrganizationApperanceSerializer().data
 
 
+class DefaultOrganizationDefault:
+    requires_context = True
+
+    def __call__(self, serializer_field):
+        return serializer_field.context["request"].user.get_default_organization()
+
+
 class OrganizationApperanceSerializer(serializers.Serializer):
     color_one = serializers.CharField()
     color_two = serializers.CharField()
@@ -36,11 +43,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class MeSerializer(serializers.ModelSerializer):
+    default_organization = OrganizationSerializer(default=DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
 
     class Meta:
         model = models.User
-        fields = ["first_name", "last_name", "flags"]
+        fields = ["first_name", "last_name", "flags", "default_organization"]
 
     def get_flags(self, user):
         organization_flag = "organization"
