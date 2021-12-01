@@ -1,22 +1,18 @@
-import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Button,
+} from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Link } from "react-router-dom";
+import "./SideBar.scss";
 
 export default function SideBar() {
   return (
-    <Box
-      sx={{
-        width: 296,
-        flexShrink: 0,
-        borderRight: "1px solid #E5E7EB",
-        height: "calc(100vh - 64px)",
-        backgroundColor: "#2A3242",
-        "& .MuiSvgIcon-root, & .MuiListItemText-root": {
-          color: "white",
-          opacity: 0.5,
-        },
-      }}
-    >
+    <Box className="SideBar">
       <List>
         <ListItem button component={Link} to="/" key={"/"}>
           <ListItemIcon>
@@ -68,6 +64,10 @@ export default function SideBar() {
             <InboxIcon />
           </ListItemIcon>
           <ListItemText primary={"vFSE"} />
+        </ListItem>
+
+        <ListItem button component="a" href="/accounts/logout/">
+          <ListItemText primary="Logout" />
         </ListItem>
       </List>
     </Box>

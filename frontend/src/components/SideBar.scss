@@ -1,0 +1,11 @@
+.SideBar {
+        width: 296px;
+        flex-shrink: 0;
+        border-right: 1px solid #E5E7EB;
+        height: 100vh;
+        background-color: #2A3242;
+        .MuiSvgIcon-root, .MuiListItemText-root {
+            color: #fff;
+            opacity: 0.5;
+        }
+    }
