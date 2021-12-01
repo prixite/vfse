@@ -5,6 +5,13 @@ from core import models, serializers
 from core.models import Organization
 
 
+class MeViewSet(ModelViewSet):
+    serializer_class = serializers.MeSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
 class OrganizationViewSet(ModelViewSet):
     serializer_class = serializers.OrganizationSerializer
 

@@ -23,6 +23,14 @@ class User(AbstractUser):
 
         return queryset.values_list("organization")
 
+    def get_default_organization(self):
+        if self.is_superuser or self.is_supermanager:
+            return Organization.objects.get(is_default=True)
+
+        organization = self.get_organizations().filter(parent__isnull=True).first()
+        if not organization:
+            return self.get_organizations().first()
+
 
 class UserModality(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
