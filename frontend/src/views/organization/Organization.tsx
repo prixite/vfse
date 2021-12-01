@@ -13,7 +13,7 @@ import { setOrganizationData } from "@src/reducers/Organization";
 import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
-import "!style-loader!css-loader!react-toastify/dist/ReactToastify.css";
+import "react-toastify/dist/ReactToastify.css";
 import { definitions } from "@src/schema";
 import { RootState } from "@src/store/store";
 
