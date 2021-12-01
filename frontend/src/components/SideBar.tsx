@@ -113,8 +113,8 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to="/organizations"
-            key={"/organizations"}
+            to="/organizations/"
+            key={"/organizations/"}
             style={collapsedLeftPadding}
           >
             <ListItemIcon>
@@ -125,8 +125,8 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to="/users"
-            key={"/users"}
+            to="/users/"
+            key={"/users/"}
             style={collapsedLeftPadding}
           >
             <ListItemIcon>
@@ -137,8 +137,8 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to="/modality"
-            key={"/modality"}
+            to="/modality/"
+            key={"/modality/"}
             style={collapsedLeftPadding}
           >
             <ListItemIcon>
@@ -149,8 +149,8 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to="/documentation"
-            key={"/documentation"}
+            to="/documentation/"
+            key={"/documentation/"}
             style={collapsedLeftPadding}
           >
             <ListItemIcon>
@@ -161,8 +161,8 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to="/vfse"
-            key={"/vfse"}
+            to="/vfse/"
+            key={"/vfse/"}
             style={collapsedLeftPadding}
           >
             <ListItemIcon>
