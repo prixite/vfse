@@ -4,21 +4,21 @@
 
 Create virtual environment.
 
-    	python3 -m venv venv
+    python3 -m venv venv
 
 Activate virtual environment. You need to activate virtual environment before running any Django command. For example, any command starting with manage.py is a Django command.
 
-    	source venv/bin/activate
+    source venv/bin/activate
 
 Install dependencies in virtual environment. You will have to run this command whenever you pull new changes from the server.
 
-    	pip install -r requirements-dev.txt
+    pip install -r requirements-dev.txt
 
 Create an environment file (.env) in the root of the project. You can get the initial file by copying env.sample to .env.
 
 Run the migrations. You will have to run this command whenever you pull new changes from the server.
 
-     ./manage.py migrate
+    ./manage.py migrate
 
 You can run the following Django command to generate test data.
 
