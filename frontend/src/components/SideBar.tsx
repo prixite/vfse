@@ -76,6 +76,8 @@ export default function SideBar() {
     setOpen(false);
   };
 
+  const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
+
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={open}>
@@ -101,7 +103,7 @@ export default function SideBar() {
             component={Link}
             to="/"
             key={"/"}
-            style={!open ? { paddingLeft: "22px" } : {}}
+            style={collapsedLeftPadding}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -113,7 +115,7 @@ export default function SideBar() {
             component={Link}
             to="/organizations"
             key={"/organizations"}
-            style={!open ? { paddingLeft: "22px" } : {}}
+            style={collapsedLeftPadding}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -125,7 +127,7 @@ export default function SideBar() {
             component={Link}
             to="/users"
             key={"/users"}
-            style={!open ? { paddingLeft: "22px" } : {}}
+            style={collapsedLeftPadding}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -137,7 +139,7 @@ export default function SideBar() {
             component={Link}
             to="/modality"
             key={"/modality"}
-            style={!open ? { paddingLeft: "22px" } : {}}
+            style={collapsedLeftPadding}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -149,7 +151,7 @@ export default function SideBar() {
             component={Link}
             to="/documentation"
             key={"/documentation"}
-            style={!open ? { paddingLeft: "22px" } : {}}
+            style={collapsedLeftPadding}
           >
             <ListItemIcon>
               <InboxIcon />
@@ -161,7 +163,7 @@ export default function SideBar() {
             component={Link}
             to="/vfse"
             key={"/vfse"}
-            style={!open ? { paddingLeft: "22px" } : {}}
+            style={collapsedLeftPadding}
           >
             <ListItemIcon>
               <InboxIcon />
