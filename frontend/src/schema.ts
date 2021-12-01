@@ -4,6 +4,11 @@
  */
 
 export interface paths {
+  "/health_network/": {
+    get: operations["health_network_list"];
+    post: operations["health_network_create"];
+    parameters: {};
+  };
   "/me/": {
     get: operations["me_read"];
     parameters: {};
@@ -71,6 +76,12 @@ export interface paths {
 }
 
 export interface definitions {
+  /** HealthNetwork(id, name, logo, created_at, updated_at) */
+  HealthNetwork: {
+    id?: number;
+    name: string;
+    logo?: string;
+  };
   OrganizationAppearance: {
     color_one: string;
     color_two: string;
@@ -95,11 +106,6 @@ export interface definitions {
     last_name?: string;
     flags?: string;
     default_organization?: definitions["Organization"];
-  };
-  /** HealthNetwork(id, name, logo, created_at, updated_at) */
-  HealthNetwork: {
-    name: string;
-    logo?: string;
   };
   /** Site(id, organization_health_network, name, address, created_at, updated_at) */
   Site: {
@@ -127,6 +133,26 @@ export interface definitions {
 }
 
 export interface operations {
+  health_network_list: {
+    parameters: {};
+    responses: {
+      200: {
+        schema: definitions["HealthNetwork"][];
+      };
+    };
+  };
+  health_network_create: {
+    parameters: {
+      body: {
+        data: definitions["HealthNetwork"];
+      };
+    };
+    responses: {
+      201: {
+        schema: definitions["HealthNetwork"];
+      };
+    };
+  };
   me_read: {
     parameters: {};
     responses: {

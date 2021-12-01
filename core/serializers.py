@@ -79,7 +79,7 @@ class MeSerializer(serializers.ModelSerializer):
 class HealthNetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HealthNetwork
-        fields = ["name", "logo"]
+        fields = ["id", "name", "logo"]
 
 
 class SiteSerializer(serializers.ModelSerializer):

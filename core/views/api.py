@@ -105,3 +105,10 @@ class VfseSystemViewSet(ModelViewSet):
                 organization__in=self.request.user.get_organizations(),
             )
         return models.System.objects.filter(id__in=assigned.values_list("system"))
+
+
+class HealthNetworkViewSet(ModelViewSet):
+    serializer_class = serializers.HealthNetworkSerializer
+
+    def get_queryset(self):
+        return models.HealthNetwork.objects.all()

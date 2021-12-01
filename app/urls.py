@@ -99,6 +99,15 @@ api_urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/health_network/",
+        api.HealthNetworkViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
 ]
 
 urlpatterns = (

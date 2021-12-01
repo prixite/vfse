@@ -26,6 +26,53 @@
         }
     ],
     "paths": {
+        "/health_network/": {
+            "get": {
+                "operationId": "health_network_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HealthNetwork"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "health_network"
+                ]
+            },
+            "post": {
+                "operationId": "health_network_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HealthNetwork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/HealthNetwork"
+                        }
+                    }
+                },
+                "tags": [
+                    "health_network"
+                ]
+            },
+            "parameters": []
+        },
         "/me/": {
             "get": {
                 "operationId": "me_read",
@@ -340,6 +387,33 @@
         }
     },
     "definitions": {
+        "HealthNetwork": {
+            "description": "HealthNetwork(id, name, logo, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                }
+            }
+        },
         "OrganizationAppearance": {
             "title": "Appearance",
             "description": "",
@@ -461,28 +535,6 @@
                 },
                 "default_organization": {
                     "$ref": "#/definitions/Organization"
-                }
-            }
-        },
-        "HealthNetwork": {
-            "description": "HealthNetwork(id, name, logo, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "logo": {
-                    "title": "Logo",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "x-nullable": true
                 }
             }
         },
