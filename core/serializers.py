@@ -62,15 +62,40 @@ class MeSerializer(serializers.ModelSerializer):
         documentation_flag = "documentation"
         vfse_flag = "vfse"
 
-        flags = set()
         if user.is_superuser:
-            flags |= {
-                organization_flag,
+            return sorted(
+                {
+                    organization_flag,
+                    modality_flag,
+                    user_flag,
+                    documentation_flag,
+                    vfse_flag,
+                }
+            )
+
+        if user.is_supermanager:
+            return {
                 modality_flag,
-                user_flag,
-                documentation_flag,
-                vfse_flag,
             }
+
+        Role = models.Membership.Role
+        to_modules = {
+            Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag},
+            Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
+            Role.USER_ADMIN: {user_flag},
+            Role.FSE: {vfse_flag},
+            Role.END_USER: {modality_flag},
+            Role.VIEW_ONLY: {modality_flag},
+        }
+
+        flags = set()
+        for membership in models.Membership.objects.filter(
+            user=user,
+            organization=user.get_default_organization(),
+        ):
+            flags |= to_modules[membership.role]
 
         return sorted(flags)
 

@@ -3,12 +3,13 @@ from core.tests.base import BaseTestCase
 
 class MeTestCase(BaseTestCase):
     def test_me(self):
-        for user, flags in [
+        for user, flags, organization_id in [
             (
                 self.super_admin,
                 ["documentation", "modality", "organization", "user", "vfse"],
+                self.default_organization.id,
             ),
-            (self.customer_admin, []),
+            (self.customer_admin, ["modality", "organization"], self.organization.id),
         ]:
             self.client.force_login(user)
             response = self.client.get("/api/me/")
@@ -27,4 +28,4 @@ class MeTestCase(BaseTestCase):
                 },
             )
 
-            self.assertTrue(data["organization"]["is_default"])
+            self.assertTrue(data["organization"]["id"], organization_id)
