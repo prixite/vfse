@@ -21,7 +21,7 @@ class User(AbstractUser):
         if roles is not None:
             queryset = queryset.filter(role__in=roles)
 
-        return queryset.values_list("organization",flat=True)
+        return queryset.values_list("organization", flat=True)
 
     def get_default_organization(self):
         if self.is_superuser or self.is_supermanager:
@@ -133,6 +133,8 @@ class Organization(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
 class Membership(models.Model):
     class Role(models.TextChoices):
         FSE_ADMIN = "fse-admin", "FSE Admin"

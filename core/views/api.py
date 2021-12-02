@@ -55,7 +55,7 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class OrganizationChildrenViewSet(OrganizationViewSet): 
+class OrganizationChildrenViewSet(OrganizationViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationChildrenSeriazler
@@ -65,7 +65,7 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
         return super().get_queryset()
 
     def get_queryset(self):
-        return super().get_queryset().exclude(id=self.kwargs['pk'])
+        return super().get_queryset().exclude(id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
@@ -77,7 +77,7 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
                 raise exceptions.PermissionDenied()
         print(serializer.validated_data)
 
-        orgs.exclude(id__in=serializer.validated_data['children']).update(parent=None)
+        orgs.exclude(id__in=serializer.validated_data["children"]).update(parent=None)
         orgs.filter(id__in=serializer.validated_data["children"]).update(
             parent=self.kwargs["pk"]
         )

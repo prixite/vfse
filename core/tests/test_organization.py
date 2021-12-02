@@ -1,5 +1,3 @@
-from django.http import response
-
 from core import models
 from core.tests.base import BaseTestCase
 

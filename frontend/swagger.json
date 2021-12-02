@@ -560,6 +560,11 @@
                 },
                 "appearance": {
                     "$ref": "#/definitions/OrganizationAppearance"
+                },
+                "parent": {
+                    "title": "Parent",
+                    "type": "integer",
+                    "x-nullable": true
                 }
             }
         },

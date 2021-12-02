@@ -45,7 +45,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "number_of_seats",
             "is_default",
             "appearance",
-            "parent"
+            "parent",
         ]
 
 
