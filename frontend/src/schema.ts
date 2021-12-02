@@ -60,6 +60,15 @@ export interface paths {
       };
     };
   };
+  "/orgnizations/{id}/children/": {
+    get: operations["orgnizations_children_list"];
+    post: operations["orgnizations_children_create"];
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+  };
   "/sites/{site_pk}/systems/": {
     get: operations["sites_systems_list"];
     parameters: {
@@ -252,6 +261,33 @@ export interface operations {
     responses: {
       200: {
         schema: definitions["System"][];
+      };
+    };
+  };
+  orgnizations_children_list: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        schema: definitions["Organization"][];
+      };
+    };
+  };
+  orgnizations_children_create: {
+    parameters: {
+      path: {
+        id: string;
+      };
+      body: {
+        data: definitions["Organization"];
+      };
+    };
+    responses: {
+      201: {
+        schema: definitions["Organization"];
       };
     };
   };

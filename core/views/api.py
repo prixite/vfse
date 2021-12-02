@@ -70,13 +70,16 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
     def perform_craete(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
         organizations = models.Organization.objects.filter(parent=self.kwargs["pk"])
-        if organizations.filter(id__in=self.request.user.get_managed_organizations()).exists():
+        if organizations.filter(
+            id__in=self.request.user.get_managed_organizations()
+        ).exists():
             organizations.update(parent=None)
             self.get_user_organization().filter(
                 id__in=serializer.validated_data["children"]
             ).update(parents=self.kwargs["pk"])
         else:
             raise exceptions.PermissionDenied()
+
 
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer

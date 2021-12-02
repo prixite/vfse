@@ -33,7 +33,10 @@ class User(AbstractUser):
         )
 
     def get_managed_organizations(self):
-        self.get_organizations(roles=Membership.Role.CUSTOMER_ADMIN).values('organization')
+        self.get_organizations(roles=Membership.Role.CUSTOMER_ADMIN).values(
+            "organization"
+        )
+
 
 class UserModality(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
