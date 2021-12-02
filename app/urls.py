@@ -23,18 +23,15 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-urlpatterns = [
-    re_path(
-        r"^swagger(?P<format>\.json|\.yaml)$",
-        schema_view.without_ui(cache_timeout=0),
-        name="schema-json",
-    ),
+api_urlpatterns = [
     path(
-        "openapi/",
-        schema_view.with_ui("swagger", cache_timeout=0),
-        name="schema-swagger-ui",
+        "api/me/",
+        api.MeViewSet.as_view(
+            {
+                "get": "retrieve",
+            }
+        ),
     ),
-    path("admin/", admin.site.urls),
     path(
         "api/organizations/",
         api.OrganizationViewSet.as_view(
@@ -107,55 +104,84 @@ urlpatterns = [
         ),
     ),
     path(
-        "welcome/",
-        login_required(site.WelcomeView.as_view()),
-        name="welcome",
-    ),
-    path(
-        "accounts/login/",
-        site.LoginView.as_view(),
-        name="login",
-    ),
-    path(
-        "accounts/logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"
-    ),
-    path(
-        "accounts/password_reset/",
-        auth_views.PasswordResetView.as_view(
-            template_name="core/registration/password_reset_form.html"
+        "api/health_network/",
+        api.HealthNetworkViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
         ),
-        name="password_reset",
     ),
-    path(
-        "accounts/password_reset/",
-        auth_views.PasswordResetView.as_view(
-            template_name="core/registration/password_reset_form.html"
+]
+
+urlpatterns = (
+    api_urlpatterns
+    + [
+        re_path(
+            r"^swagger(?P<format>\.json|\.yaml)$",
+            schema_view.without_ui(cache_timeout=0),
+            name="schema-json",
         ),
-        name="password_reset",
-    ),
-    path(
-        "accounts/password_reset/done/",
-        auth_views.PasswordResetDoneView.as_view(
-            template_name="core/registration/password_reset_done.html",
+        path(
+            "openapi/",
+            schema_view.with_ui("swagger", cache_timeout=0),
+            name="schema-swagger-ui",
         ),
-        name="password_reset_done",
-    ),
-    path(
-        "accounts/reset/<uidb64>/<token>/",
-        auth_views.PasswordResetConfirmView.as_view(
-            template_name="core/registration/password_reset_confirm.html"
+        path("admin/", admin.site.urls),
+        path(
+            "welcome/",
+            login_required(site.WelcomeView.as_view()),
+            name="welcome",
         ),
-        name="password_reset_confirm",
-    ),
-    path(
-        "accounts/reset/done/",
-        auth_views.PasswordResetCompleteView.as_view(
-            template_name="core/registration/password_reset_complete.html",
+        path(
+            "accounts/login/",
+            site.LoginView.as_view(),
+            name="login",
         ),
-        name="password_reset_complete",
-    ),
-    path("accounts/", include("django.contrib.auth.urls")),
-    path("accounts/duo/login/", site.duo_login, name="duo_login"),
-    # Home should be the last mapping. We want everything else to pass to React.
-    re_path(r"^.*$", login_required(site.HomeView.as_view()), name="home"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        path(
+            "accounts/logout/",
+            auth_views.LogoutView.as_view(next_page="/"),
+            name="logout",
+        ),
+        path(
+            "accounts/password_reset/",
+            auth_views.PasswordResetView.as_view(
+                template_name="core/registration/password_reset_form.html"
+            ),
+            name="password_reset",
+        ),
+        path(
+            "accounts/password_reset/",
+            auth_views.PasswordResetView.as_view(
+                template_name="core/registration/password_reset_form.html"
+            ),
+            name="password_reset",
+        ),
+        path(
+            "accounts/password_reset/done/",
+            auth_views.PasswordResetDoneView.as_view(
+                template_name="core/registration/password_reset_done.html",
+            ),
+            name="password_reset_done",
+        ),
+        path(
+            "accounts/reset/<uidb64>/<token>/",
+            auth_views.PasswordResetConfirmView.as_view(
+                template_name="core/registration/password_reset_confirm.html"
+            ),
+            name="password_reset_confirm",
+        ),
+        path(
+            "accounts/reset/done/",
+            auth_views.PasswordResetCompleteView.as_view(
+                template_name="core/registration/password_reset_complete.html",
+            ),
+            name="password_reset_complete",
+        ),
+        path("accounts/", include("django.contrib.auth.urls")),
+        path("accounts/duo/login/", site.duo_login, name="duo_login"),
+        # Home should be the last mapping. We want everything else to pass to React.
+        re_path(r"^$|^.+/$", login_required(site.HomeView.as_view()), name="home"),
+    ]
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+)

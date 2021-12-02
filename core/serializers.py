@@ -1,10 +1,23 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+from rest_framework.validators import UniqueValidator
 
 from core import models
 
 
-class OrganizationApperanceSerializer(serializers.Serializer):
+class OrganizationAppearanceDefault:
+    def __call__(self):
+        return {x: "#FFF" for x in OrganizationAppearanceSerializer().data}
+
+
+class DefaultOrganizationDefault:
+    requires_context = True
+
+    def __call__(self, serializer_field):
+        return serializer_field.context["request"].user.get_default_organization()
+
+
+class OrganizationAppearanceSerializer(serializers.Serializer):
     color_one = serializers.CharField()
     color_two = serializers.CharField()
     color_three = serializers.CharField()
@@ -13,7 +26,14 @@ class OrganizationApperanceSerializer(serializers.Serializer):
 
 
 class OrganizationSerializer(serializers.ModelSerializer):
-    appearance = OrganizationApperanceSerializer()
+    appearance = OrganizationAppearanceSerializer(
+        default=OrganizationAppearanceDefault()
+    )
+
+    name = serializers.CharField(
+        max_length=32,
+        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
+    )
 
     class Meta:
         model = models.Organization
@@ -41,11 +61,12 @@ class OrganizationChildrenSeriazler(serializers.Serializer):
 
 
 class MeSerializer(serializers.ModelSerializer):
+    default_organization = OrganizationSerializer(default=DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
 
     class Meta:
         model = models.User
-        fields = ["first_name", "last_name", "flags"]
+        fields = ["first_name", "last_name", "flags", "default_organization"]
 
     def get_flags(self, user):
         organization_flag = "organization"
@@ -70,7 +91,7 @@ class MeSerializer(serializers.ModelSerializer):
 class HealthNetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HealthNetwork
-        fields = ["name", "logo"]
+        fields = ["id", "name", "logo"]
 
 
 class SiteSerializer(serializers.ModelSerializer):

@@ -4,6 +4,15 @@
  */
 
 export interface paths {
+  "/health_network/": {
+    get: operations["health_network_list"];
+    post: operations["health_network_create"];
+    parameters: {};
+  };
+  "/me/": {
+    get: operations["me_read"];
+    parameters: {};
+  };
   "/organizations/": {
     get: operations["organizations_list"];
     post: operations["organizations_create"];
@@ -67,7 +76,13 @@ export interface paths {
 }
 
 export interface definitions {
-  OrganizationApperance: {
+  /** HealthNetwork(id, name, logo, created_at, updated_at) */
+  HealthNetwork: {
+    id?: number;
+    name: string;
+    logo?: string;
+  };
+  OrganizationAppearance: {
     color_one: string;
     color_two: string;
     color_three: string;
@@ -83,12 +98,14 @@ export interface definitions {
     banner?: string;
     number_of_seats?: number;
     is_default?: boolean;
-    appearance: definitions["OrganizationApperance"];
+    appearance?: definitions["OrganizationAppearance"];
   };
-  /** HealthNetwork(id, name, logo, created_at, updated_at) */
-  HealthNetwork: {
-    name: string;
-    logo?: string;
+  /** User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager) */
+  Me: {
+    first_name?: string;
+    last_name?: string;
+    flags?: string;
+    default_organization?: definitions["Organization"];
   };
   /** Site(id, organization_health_network, name, address, created_at, updated_at) */
   Site: {
@@ -116,6 +133,34 @@ export interface definitions {
 }
 
 export interface operations {
+  health_network_list: {
+    parameters: {};
+    responses: {
+      200: {
+        schema: definitions["HealthNetwork"][];
+      };
+    };
+  };
+  health_network_create: {
+    parameters: {
+      body: {
+        data: definitions["HealthNetwork"];
+      };
+    };
+    responses: {
+      201: {
+        schema: definitions["HealthNetwork"];
+      };
+    };
+  };
+  me_read: {
+    parameters: {};
+    responses: {
+      200: {
+        schema: definitions["Me"];
+      };
+    };
+  };
   organizations_list: {
     parameters: {};
     responses: {

@@ -1,0 +1,12 @@
+.SideBar {
+  height: 100vh;
+  background-color: #2a3242;
+  .MuiDrawer-paper {
+    background-color: #2a3242;
+  }
+  .MuiSvgIcon-root,
+  .MuiListItemText-root {
+    color: #fff;
+    opacity: 0.5;
+  }
+}

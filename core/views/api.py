@@ -6,6 +6,13 @@ from core import models, serializers
 from core.models import Organization
 
 
+class MeViewSet(ModelViewSet):
+    serializer_class = serializers.MeSerializer
+
+    def get_object(self):
+        return self.request.user
+
+
 class OrganizationViewSet(ModelViewSet):
     serializer_class = serializers.OrganizationSerializer
 
@@ -119,3 +126,10 @@ class VfseSystemViewSet(ModelViewSet):
                 organization__in=self.request.user.get_organizations(),
             )
         return models.System.objects.filter(id__in=assigned.values_list("system"))
+
+
+class HealthNetworkViewSet(ModelViewSet):
+    serializer_class = serializers.HealthNetworkSerializer
+
+    def get_queryset(self):
+        return models.HealthNetwork.objects.all()
