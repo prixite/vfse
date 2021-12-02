@@ -32,6 +32,8 @@ class User(AbstractUser):
             or self.get_organizations().first()
         )
 
+    def get_managed_organizations(self):
+        self.get_organizations(roles=Membership.Role.CUSTOMER_ADMIN).values('organization')
 
 class UserModality(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)

@@ -1,4 +1,4 @@
-from rest_framework.exceptions import ValidationError
+from rest_framework import exceptions
 from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 
@@ -27,7 +27,7 @@ class OrganizationViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         if self.get_object().is_default:
-            raise ValidationError("Cannot delete default organization")
+            raise exceptions.ValidationError("Cannot delete default organization")
 
         return super().destroy(request, *args, **kwargs)
 
@@ -69,11 +69,14 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
 
     def perform_craete(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
-        models.Organization.objects.filter(parent=self.kwargs["pk"]).update(parent=None)
-        self.get_user_organization().filter(
-            id__in=serializer.validated_data["children"]
-        ).update(parents=self.kwargs["pk"])
-
+        organizations = models.Organization.objects.filter(parent=self.kwargs["pk"])
+        if organizations.filter(id__in=self.request.user.get_managed_organizations()).exists():
+            organizations.update(parent=None)
+            self.get_user_organization().filter(
+                id__in=serializer.validated_data["children"]
+            ).update(parents=self.kwargs["pk"])
+        else:
+            raise exceptions.PermissionDenied()
 
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
