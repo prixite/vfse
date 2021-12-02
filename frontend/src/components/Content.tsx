@@ -1,11 +1,11 @@
 import { Switch, Route } from "react-router-dom";
 import { Box } from "@mui/material";
-import Documentation from "@src/views/documentation/Documentation";
-import Modality from "@src/views/modality/Modality";
+import DocumentationView from "@src/views/documentation/Documentation";
+import ModalityView from "@src/views/modality/Modality";
 import OrganizationView from "@src/views/organization/Organization";
-import User from "@src/views/user/User";
-import Vfse from "@src/views/vfse/Vfse";
-import Home from "@src/views/home/Home";
+import UserView from "@src/views/user/User";
+import VfseView from "@src/views/vfse/Vfse";
+import HomeView from "@src/views/home/Home";
 
 export default function Content() {
   return (
@@ -15,19 +15,19 @@ export default function Content() {
           <OrganizationView />
         </Route>
         <Route path="/users">
-          <User />
+          <UserView />
         </Route>
         <Route path="/modality">
-          <Modality />
+          <ModalityView />
         </Route>
         <Route path="/documentation">
-          <Documentation />
+          <DocumentationView />
         </Route>
         <Route path="/vfse">
-          <Vfse />
+          <VfseView />
         </Route>
         <Route path="/">
-          <Home />
+          <HomeView />
         </Route>
       </Switch>
     </Box>

@@ -11,7 +11,7 @@ const columns = [
   { field: "email", headerName: "Email", width: 230 },
 ];
 
-export default function Organization() {
+export default function UserView() {
   const [items, setItems] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
