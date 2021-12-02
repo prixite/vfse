@@ -26,10 +26,12 @@ class Command(BaseCommand):
         factories.OrganizationFactory(
             is_default=True,
             name="626",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
         )
 
         factories.OrganizationFactory(
             name="Other Organization",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             customer_admin_roles=[
                 factories.UserWithPasswordFactory(
                     username="other-customer-admin@example.com"
@@ -44,8 +46,10 @@ class Command(BaseCommand):
 
         factories.OrganizationFactory(
             name="Child Organization",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             parent=factories.OrganizationFactory(
                 name="Parent Organization",
+                logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",  # noqa
                 customer_admin_roles=[
                     factories.UserWithPasswordFactory(
                         username="parent-customer-admin@example.com"
@@ -66,6 +70,7 @@ class Command(BaseCommand):
 
         organization = factories.OrganizationFactory(
             name="Organization",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             fse_admin_roles=[
                 factories.UserWithPasswordFactory(username="fse-admin@example.com")
             ],
