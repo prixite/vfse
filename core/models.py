@@ -27,9 +27,15 @@ class User(AbstractUser):
         if self.is_superuser or self.is_supermanager:
             return Organization.objects.get(is_default=True)
 
+        organizations = Organization.objects.filter(
+            id__in=self.get_organizations(),
+        )
+
         return (
-            self.get_organizations().filter(parent__isnull=True).first()
-            or self.get_organizations().first()
+            organizations.filter(
+                parent__isnull=True,
+            ).first()
+            or organizations.first()
         )
 
 
