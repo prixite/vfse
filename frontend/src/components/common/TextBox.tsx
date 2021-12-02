@@ -1,5 +1,5 @@
 import React from "react";
-import "./TextBox.scss";
+import "@src/components/common/TextBox.scss";
 
 interface textboxProps {
   placeholder: string;

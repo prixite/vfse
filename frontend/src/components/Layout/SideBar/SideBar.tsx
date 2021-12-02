@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import {
   Box,
   Drawer as MuiDrawer,
@@ -14,9 +14,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Link } from "react-router-dom";
-import { Routes } from "@src/Routes/Routes";
+import { routes } from "@src/Routes/Routes";
 import { routeItem } from "@src/helpers/interfaces";
-import "./SideBar.scss";
+import "@src/components/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 320;
 
@@ -82,7 +82,7 @@ export default function SideBar() {
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
-    Routes.map((prop: routeItem, key: number) => {
+    routes.map((prop: routeItem, key: number) => {
       return (
         <ListItem
           button
