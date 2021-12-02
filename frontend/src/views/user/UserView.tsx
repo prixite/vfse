@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 
-import AddUser from "@src/views/user/AddUser";
+import AddUser from "@src/components/Smart/AddUser/AddUser";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -11,7 +11,7 @@ const columns = [
   { field: "email", headerName: "Email", width: 230 },
 ];
 
-export default function Organization() {
+export default function UserView() {
   const [items, setItems] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 

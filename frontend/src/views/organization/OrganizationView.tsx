@@ -9,15 +9,13 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { setOrganizationData } from "@src/reducers/Organization";
-import OrganizationModal from "@src/views/organization/OrganizationModal";
+import { setOrganizationData } from "@src/store/reducers/Organization";
+import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { definitions } from "@src/schema";
 import { RootState } from "@src/store/store";
-
-type Organization = definitions["Organization"];
+import { Organization } from "@src/store/api";
 
 function getOrganizationData(dispatch) {
   getUrl("/api/organizations/", (result: Organization) =>
@@ -61,7 +59,7 @@ function deleteOrganization(id: number, dispatch) {
   });
 }
 
-export default function Organization() {
+export default function OrganizationView() {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
   const items = useSelector(

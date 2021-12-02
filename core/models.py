@@ -27,9 +27,15 @@ class User(AbstractUser):
         if self.is_superuser or self.is_supermanager:
             return Organization.objects.get(is_default=True)
 
+        organizations = Organization.objects.filter(
+            id__in=self.get_organizations(),
+        )
+
         return (
-            self.get_organizations().filter(parent__isnull=True).first()
-            or self.get_organizations().first()
+            organizations.filter(
+                parent__isnull=True,
+            ).first()
+            or organizations.first()
         )
 
     def get_managed_organizations(self):
@@ -96,7 +102,6 @@ class Profile(models.Model):
 class Organization(models.Model):
     name = models.CharField(max_length=32)
     logo = models.URLField(null=True, blank=True)
-    background_color = models.CharField(max_length=8, blank=True)
     banner = models.URLField(null=True, blank=True)
     number_of_seats = models.PositiveIntegerField(
         null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]
