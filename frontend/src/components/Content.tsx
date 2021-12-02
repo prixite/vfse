@@ -1,6 +1,6 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Box } from "@mui/material";
-import { routes } from "@src/Routes/Routes";
+import { routes } from "@src/routes/routes";
 
 const Content = () => {
   return (
