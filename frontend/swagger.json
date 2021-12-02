@@ -462,7 +462,7 @@
         },
         "Organization": {
             "title": "Organization",
-            "description": "Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, appearance, created_at, updated_at)",
+            "description": "Organization(id, name, logo, banner, number_of_seats, is_default, parent, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -485,11 +485,6 @@
                     "format": "uri",
                     "maxLength": 200,
                     "x-nullable": true
-                },
-                "background_color": {
-                    "title": "Background color",
-                    "type": "string",
-                    "maxLength": 8
                 },
                 "banner": {
                     "title": "Banner",

@@ -177,7 +177,6 @@ export type Organization = {
   id?: number;
   name: string;
   logo?: string | null;
-  background_color?: string;
   banner?: string | null;
   number_of_seats?: number | null;
   is_default?: boolean;

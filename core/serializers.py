@@ -40,7 +40,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "logo",
-            "background_color",
             "banner",
             "number_of_seats",
             "is_default",
