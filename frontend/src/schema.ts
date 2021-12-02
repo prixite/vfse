@@ -27,6 +27,15 @@ export interface paths {
       };
     };
   };
+  "/organizations/{id}/children/": {
+    get: operations["organizations_children_list"];
+    post: operations["organizations_children_create"];
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+  };
   "/organizations/{organization_pk}/health_networks/": {
     get: operations["organizations_health_networks_list"];
     parameters: {
@@ -57,15 +66,6 @@ export interface paths {
     parameters: {
       path: {
         organization_pk: string;
-      };
-    };
-  };
-  "/orgnizations/{id}/children/": {
-    get: operations["orgnizations_children_list"];
-    post: operations["orgnizations_children_create"];
-    parameters: {
-      path: {
-        id: string;
       };
     };
   };
@@ -115,6 +115,9 @@ export interface definitions {
     last_name?: string;
     flags?: string;
     default_organization?: definitions["Organization"];
+  };
+  OrganizationChildrenSeriazler: {
+    children: number[];
   };
   /** Site(id, organization_health_network, name, address, created_at, updated_at) */
   Site: {
@@ -215,6 +218,33 @@ export interface operations {
       };
     };
   };
+  organizations_children_list: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      200: {
+        schema: definitions["Organization"][];
+      };
+    };
+  };
+  organizations_children_create: {
+    parameters: {
+      path: {
+        id: string;
+      };
+      body: {
+        data: definitions["OrganizationChildrenSeriazler"];
+      };
+    };
+    responses: {
+      201: {
+        schema: definitions["OrganizationChildrenSeriazler"];
+      };
+    };
+  };
   organizations_health_networks_list: {
     parameters: {
       path: {
@@ -261,33 +291,6 @@ export interface operations {
     responses: {
       200: {
         schema: definitions["System"][];
-      };
-    };
-  };
-  orgnizations_children_list: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      200: {
-        schema: definitions["Organization"][];
-      };
-    };
-  };
-  orgnizations_children_create: {
-    parameters: {
-      path: {
-        id: string;
-      };
-      body: {
-        data: definitions["Organization"];
-      };
-    };
-    responses: {
-      201: {
-        schema: definitions["Organization"];
       };
     };
   };

@@ -21,7 +21,7 @@ class User(AbstractUser):
         if roles is not None:
             queryset = queryset.filter(role__in=roles)
 
-        return queryset.values_list("organization")
+        return queryset.values_list("organization",flat=True)
 
     def get_default_organization(self):
         if self.is_superuser or self.is_supermanager:
@@ -33,9 +33,9 @@ class User(AbstractUser):
         )
 
     def get_managed_organizations(self):
-        self.get_organizations(roles=Membership.Role.CUSTOMER_ADMIN).values(
-            "organization"
-        )
+        if self.is_superuser:
+            return Organization.objects.all()
+        return self.get_organizations(roles=[Membership.Role.CUSTOMER_ADMIN])
 
 
 class UserModality(models.Model):
@@ -126,7 +126,8 @@ class Organization(models.Model):
             ),
         ]
 
-
+    def __str__(self) -> str:
+        return self.name
 class Membership(models.Model):
     class Role(models.TextChoices):
         FSE_ADMIN = "fse-admin", "FSE Admin"

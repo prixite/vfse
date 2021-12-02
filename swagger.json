@@ -187,6 +187,60 @@
                 }
             ]
         },
+        "/organizations/{id}/children/": {
+            "get": {
+                "operationId": "organizations_children_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Organization"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "post": {
+                "operationId": "organizations_children_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationChildrenSeriazler"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationChildrenSeriazler"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/{organization_pk}/health_networks/": {
             "get": {
                 "operationId": "organizations_health_networks_list",
@@ -303,60 +357,6 @@
             "parameters": [
                 {
                     "name": "organization_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/orgnizations/{id}/children/": {
-            "get": {
-                "operationId": "orgnizations_children_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Organization"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "orgnizations"
-                ]
-            },
-            "post": {
-                "operationId": "orgnizations_children_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Organization"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Organization"
-                        }
-                    }
-                },
-                "tags": [
-                    "orgnizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -589,6 +589,22 @@
                 },
                 "default_organization": {
                     "$ref": "#/definitions/Organization"
+                }
+            }
+        },
+        "OrganizationChildrenSeriazler": {
+            "description": "",
+            "required": [
+                "children"
+            ],
+            "type": "object",
+            "properties": {
+                "children": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },

@@ -50,11 +50,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class OrganizationChildrenSeriazler(serializers.Serializer):
-    children = serializers.IntegerField(many=True)
+    children = serializers.ListField(child=serializers.IntegerField())
 
     def validate(self, attrs):
-        if self.context["view"].get_user_organizations().filter(
-            id_in=attrs["children"]
+        if self.context["view"].get_user_organization().filter(
+            id__in=attrs["children"]
         ).count() != len(attrs["children"]):
             raise ValidationError("Some Organizations are not accessible")
         return attrs

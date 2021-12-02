@@ -83,7 +83,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/orgnizations/<str:pk>/children/",
+        "api/organizations/<str:pk>/children/",
         api.OrganizationChildrenViewSet.as_view({"get": "list", "post": "create"}),
     ),
     path(

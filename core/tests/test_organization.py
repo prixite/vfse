@@ -1,3 +1,5 @@
+from django.http import response
+
 from core import models
 from core.tests.base import BaseTestCase
 
@@ -107,6 +109,13 @@ class OrganizationTestCase(BaseTestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_add_child_organizations(self):
+        self.client.force_login(self.customer_admin)
+        response = self.clien.POST(
+            f"/api/organizations/{self.organization.id}/children/"
+        )
+        print(response.json())
 
 
 class SiteTestCase(BaseTestCase):

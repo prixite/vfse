@@ -55,30 +55,32 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class OrganizationChildrenViewSet(OrganizationViewSet):
+class OrganizationChildrenViewSet(OrganizationViewSet): 
     def get_serializer_class(self):
         if self.action == "create":
-            return super().get_serializer_class()
+            return serializers.OrganizationChildrenSeriazler
         return serializers.OrganizationSerializer
 
     def get_user_organization(self):
         return super().get_queryset()
 
     def get_queryset(self):
-        return self.get_user_organization().filter(parents=self.kwargs["pk"])
+        return self.get_user_organization().filter(parent__id=self.kwargs["pk"])
 
-    def perform_craete(self, serializer):
+    def perform_create(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
-        organizations = models.Organization.objects.filter(parent=self.kwargs["pk"])
-        if organizations.filter(
-            id__in=self.request.user.get_managed_organizations()
-        ).exists():
-            organizations.update(parent=None)
-            self.get_user_organization().filter(
-                id__in=serializer.validated_data["children"]
-            ).update(parents=self.kwargs["pk"])
-        else:
-            raise exceptions.PermissionDenied()
+        orgs = self.get_user_organization()
+        managed_orgs = self.request.user.get_managed_organizations()
+
+        if not int(self.kwargs["pk"]) in managed_orgs:
+            if not orgs.filter(id__in=managed_orgs):
+                raise exceptions.PermissionDenied()
+        print(serializer.validated_data)
+
+        orgs.exclude(id__in=serializer.validated_data['children']).update(parent=None)
+        orgs.filter(id__in=serializer.validated_data["children"]).update(
+            parent=self.kwargs["pk"]
+        )
 
 
 class SiteSystemViewSet(ModelViewSet):
