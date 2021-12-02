@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 
 from core import models
 
@@ -26,6 +27,17 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "is_default",
             "appearance",
         ]
+
+
+class OrganizationChildrenSeriazler(serializers.Serializer):
+    children = serializers.IntegerField(many=True)
+
+    def validate(self, attrs):
+        if self.context["view"].get_user_organizations().filter(
+            id_in=attrs["children"]
+        ).count() != len(attrs["children"]):
+            raise ValidationError("Some Organizations are not accessible")
+        return attrs
 
 
 class MeSerializer(serializers.ModelSerializer):
