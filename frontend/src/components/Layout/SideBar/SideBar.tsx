@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import {
   Box,
   Drawer as MuiDrawer,
@@ -14,7 +14,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Link } from "react-router-dom";
-import "./SideBar.scss";
+import { routes } from "@src/routes/routes";
+import { routeItem } from "@src/helpers/interfaces";
+import "@src/components/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 320;
 
@@ -78,6 +80,25 @@ export default function SideBar() {
 
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
 
+  // this function creates the links and collapses that appear in the sidebar (left menu)
+  const createLinks = () =>
+    routes.map((prop: routeItem, key: number) => {
+      return (
+        <ListItem
+          button
+          component={Link}
+          to={prop.path}
+          key={prop.path}
+          style={collapsedLeftPadding}
+        >
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary={prop.name} />
+        </ListItem>
+      );
+    });
+
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
       <Drawer variant="permanent" open={open}>
@@ -98,78 +119,7 @@ export default function SideBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem
-            button
-            component={Link}
-            to="/"
-            key={"/"}
-            style={collapsedLeftPadding}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Home"} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to="/organizations/"
-            key={"/organizations/"}
-            style={collapsedLeftPadding}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"3rd party administration"} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to="/users/"
-            key={"/users/"}
-            style={collapsedLeftPadding}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Users"} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to="/modality/"
-            key={"/modality/"}
-            style={collapsedLeftPadding}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Modality"} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to="/documentation/"
-            key={"/documentation/"}
-            style={collapsedLeftPadding}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Documentation"} />
-          </ListItem>
-          <ListItem
-            button
-            component={Link}
-            to="/vfse/"
-            key={"/vfse/"}
-            style={collapsedLeftPadding}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={"vFSE"} />
-          </ListItem>
+          {createLinks()}
           <ListItem button component="a" href="/accounts/logout/">
             <ListItemText primary="Logout" />
           </ListItem>
