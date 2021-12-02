@@ -65,7 +65,7 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
         return super().get_queryset()
 
     def get_queryset(self):
-        return self.get_user_organization().filter(parent__id=self.kwargs["pk"])
+        return super().get_queryset().exclude(id=self.kwargs['pk'])
 
     def perform_create(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
