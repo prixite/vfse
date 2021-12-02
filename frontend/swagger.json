@@ -461,7 +461,7 @@
             }
         },
         "Organization": {
-            "title": "Default organization",
+            "title": "Organization",
             "description": "Organization(id, name, logo, background_color, banner, number_of_seats, is_default, parent, appearance, created_at, updated_at)",
             "required": [
                 "name"
@@ -533,7 +533,7 @@
                     "type": "string",
                     "readOnly": true
                 },
-                "default_organization": {
+                "organization": {
                     "$ref": "#/definitions/Organization"
                 }
             }

@@ -49,12 +49,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class MeSerializer(serializers.ModelSerializer):
-    default_organization = OrganizationSerializer(default=DefaultOrganizationDefault())
+    organization = OrganizationSerializer(default=DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
 
     class Meta:
         model = models.User
-        fields = ["first_name", "last_name", "flags", "default_organization"]
+        fields = ["first_name", "last_name", "flags", "organization"]
 
     def get_flags(self, user):
         organization_flag = "organization"

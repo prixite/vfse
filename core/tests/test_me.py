@@ -20,4 +20,4 @@ class MeTestCase(BaseTestCase):
             },
         )
 
-        self.assertTrue(data["default_organization"]["is_default"])
+        self.assertTrue(data["organization"]["is_default"])

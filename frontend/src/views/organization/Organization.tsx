@@ -14,10 +14,8 @@ import OrganizationModal from "@src/views/organization/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { definitions } from "@src/schema";
 import { RootState } from "@src/store/store";
-
-type Organization = definitions["Organization"];
+import { Organization } from "@src/store/api";
 
 function getOrganizationData(dispatch) {
   getUrl("/api/organizations/", (result: Organization) =>
@@ -61,7 +59,7 @@ function deleteOrganization(id: number, dispatch) {
   });
 }
 
-export default function Organization() {
+export default function OrganizationView() {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
   const items = useSelector(
