@@ -1,4 +1,5 @@
-from rest_framework.exceptions import ValidationError
+from rest_framework import exceptions, viewsets
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
@@ -28,7 +29,7 @@ class OrganizationViewSet(ModelViewSet):
 
     def destroy(self, request, *args, **kwargs):
         if self.get_object().is_default:
-            raise ValidationError("Cannot delete default organization")
+            raise exceptions.ValidationError("Cannot delete default organization")
 
         return super().destroy(request, *args, **kwargs)
 
@@ -53,6 +54,43 @@ class OrganizationSiteViewSet(ModelViewSet):
             organization_health_network__health_network=self.kwargs[
                 "health_network_pk"
             ],
+        )
+
+
+class OrganizationChildrenViewSet(viewsets.ModelViewSet):
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.OrganizationChildrenSerializer
+        return serializers.OrganizationSerializer
+
+    def get_user_organization(self):
+        queryset = models.Organization.objects.all()
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return queryset
+
+        return queryset.filter(
+            id__in=self.request.user.get_organizations(),
+        )
+
+    def get_queryset(self):
+        return self.get_user_organization().filter(parent=self.kwargs["pk"])
+
+    def perform_create(self, serializer):
+        get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
+        organizations = self.get_user_organization()
+
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            if not organizations.filter(
+                id__in=self.request.user.get_managed_organizations(),
+                pk=self.kwargs["pk"],
+            ).exists():
+                raise exceptions.PermissionDenied()
+
+        organizations.exclude(id__in=serializer.validated_data["children"]).update(
+            parent=None
+        )
+        organizations.filter(id__in=serializer.validated_data["children"]).update(
+            parent=self.kwargs["pk"]
         )
 
 

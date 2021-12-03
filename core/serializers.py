@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
 
 from core import models
@@ -44,7 +45,24 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "number_of_seats",
             "is_default",
             "appearance",
+            "parent",
         ]
+
+
+class OrganizationChildrenSerializer(serializers.Serializer):
+    children = serializers.ListField(child=serializers.IntegerField())
+
+    def validate(self, attrs):
+        user = self.context["request"].user
+        if user.is_superuser or user.is_supermanager:
+            return attrs
+
+        if len(set(user.get_organizations()) & set(attrs["children"])) != len(
+            attrs["children"]
+        ):
+            raise ValidationError("Some Organizations are not accessible")
+
+        return attrs
 
 
 class MeSerializer(serializers.ModelSerializer):
