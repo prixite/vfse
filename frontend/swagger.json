@@ -261,6 +261,31 @@
                     "organizations"
                 ]
             },
+            "post": {
+                "operationId": "organizations_health_networks_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationHealthNetworkCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationHealthNetworkCreate"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "parameters": [
                 {
                     "name": "organization_pk",
@@ -605,6 +630,22 @@
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "OrganizationHealthNetworkCreate": {
+            "description": "",
+            "required": [
+                "health_networks"
+            ],
+            "type": "object",
+            "properties": {
+                "health_networks": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
                 }
             }
         },

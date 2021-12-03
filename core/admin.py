@@ -148,3 +148,4 @@ class SeatAdmin(admin.ModelAdmin):
 
 admin.site.register(SystemImage)
 admin.site.register(ManufacturerImage)
+admin.site.register(models.OrganizationHealthNetwork)

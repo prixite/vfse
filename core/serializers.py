@@ -49,6 +49,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
         ]
 
 
+class OrganizationHealthNetworkCreateSerializer(serializers.Serializer):
+    health_networks = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.HealthNetwork.objects.all()
+    )
+
+
 class OrganizationChildrenSerializer(serializers.Serializer):
     children = serializers.ListField(child=serializers.IntegerField())
 
