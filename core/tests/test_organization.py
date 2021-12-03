@@ -123,6 +123,23 @@ class OrganizationTestCase(BaseTestCase):
             ).count(),
             1,
         )
+    def test_delete_permissions_super_admin(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.delete(f"/api/organizations/{self.organization.id}/")
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_permissions_customer_admin(self):
+        self.client.force_login(self.customer_admin)
+        response = self.client.delete(f"/api/organizations/{self.organization.id}/")
+        self.assertEqual(response.status_code, 403)
+
+    def test_update_permissions(self):
+        for user, status_code in [(self.super_admin, 200), (self.customer_admin, 200)]:
+            self.client.force_login(user)
+            response = self.client.patch(
+                f"/api/organizations/{self.organization.id}/", data={"name": "new name"}
+            )
+            self.assertEqual(response.status_code, status_code)
 
 
 class SiteTestCase(BaseTestCase):
