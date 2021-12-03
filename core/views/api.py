@@ -59,12 +59,12 @@ class OrganizationHealthNetworkViewSet(ModelViewSet):
             self.get_user_organizations(), id=self.kwargs["organization_pk"]
         )
         models.OrganizationHealthNetwork.objects.filter(
-            organization__id=self.kwargs["organization_pk"]
+            organization=self.kwargs["organization_pk"]
         ).delete()
         new_health_networks = [
             models.OrganizationHealthNetwork(
                 organization_id=self.kwargs["organization_pk"],
-                health_network_id=health_network,
+                health_network=health_network,
             )
             for health_network in serializer.validated_data["health_networks"]
         ]

@@ -641,11 +641,11 @@
             "type": "object",
             "properties": {
                 "health_networks": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
+                    },
+                    "uniqueItems": true
                 }
             }
         },
