@@ -39,8 +39,8 @@ class User(AbstractUser):
         )
 
     def get_managed_organizations(self):
-        if self.is_superuser:
-            return Organization.objects.all()
+        if self.is_superuser or self.is_supermanager:
+            return Organization.objects.all().values_list("organizations")
         return self.get_organizations(roles=[Membership.Role.CUSTOMER_ADMIN])
 
 

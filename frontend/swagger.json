@@ -216,7 +216,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/OrganizationChildrenSeriazler"
+                            "$ref": "#/definitions/OrganizationChildren"
                         }
                     }
                 ],
@@ -224,7 +224,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/OrganizationChildrenSeriazler"
+                            "$ref": "#/definitions/OrganizationChildren"
                         }
                     }
                 },
@@ -592,7 +592,7 @@
                 }
             }
         },
-        "OrganizationChildrenSeriazler": {
+        "OrganizationChildren": {
             "description": "",
             "required": [
                 "children"

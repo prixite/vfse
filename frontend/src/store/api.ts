@@ -68,7 +68,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.id}/children/`,
         method: "POST",
-        body: queryArg.organizationChildrenSeriazler,
+        body: queryArg.organizationChildren,
       }),
     }),
     organizationsHealthNetworksList: build.query<
@@ -153,10 +153,10 @@ export type OrganizationsChildrenListApiArg = {
   id: string;
 };
 export type OrganizationsChildrenCreateApiResponse =
-  /** status 201  */ OrganizationChildrenSeriazler;
+  /** status 201  */ OrganizationChildren;
 export type OrganizationsChildrenCreateApiArg = {
   id: string;
-  organizationChildrenSeriazler: OrganizationChildrenSeriazler;
+  organizationChildren: OrganizationChildren;
 };
 export type OrganizationsHealthNetworksListApiResponse =
   /** status 200  */ HealthNetwork[];
@@ -216,7 +216,7 @@ export type Me = {
   flags?: string;
   organization?: Organization;
 };
-export type OrganizationChildrenSeriazler = {
+export type OrganizationChildren = {
   children: number[];
 };
 export type Site = {

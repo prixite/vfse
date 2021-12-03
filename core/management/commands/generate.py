@@ -44,29 +44,23 @@ class Command(BaseCommand):
             ],
         )
         customer_admin = factories.UserWithPasswordFactory(
-                        username="parent-customer-admin@example.com"
-                    )
+            username="parent-customer-admin@example.com"
+        )
         factories.OrganizationFactory(
             name="Child Organization",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             parent=factories.OrganizationFactory(
                 name="Parent Organization",
                 logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",  # noqa
-                customer_admin_roles=[
-                    customer_admin
-                ],
+                customer_admin_roles=[customer_admin],
             ),
-            customer_admin_roles=[
-                customer_admin
-            ],
+            customer_admin_roles=[customer_admin],
         )
 
         factories.OrganizationFactory(
             name="Child Organization 2",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-            customer_admin_roles=[
-                customer_admin
-            ],
+            customer_admin_roles=[customer_admin],
         )
 
         product = factories.ProductFactory(

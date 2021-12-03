@@ -1,5 +1,5 @@
 from django.db.models import Q
-from rest_framework import exceptions
+from rest_framework import exceptions, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 
@@ -56,19 +56,24 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class OrganizationChildrenViewSet(OrganizationViewSet):
+class OrganizationChildrenViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
-            return serializers.OrganizationChildrenSeriazler
+            return serializers.OrganizationChildrenSerializer
         return serializers.OrganizationSerializer
 
     def get_user_organization(self):
-        return super().get_queryset()
+        queryset = Organization.objects.all()
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return queryset
+
+        return queryset.filter(
+            id__in=self.request.user.get_organizations(),
+        )
 
     def get_queryset(self):
         return (
-            super()
-            .get_queryset()
+            self.get_user_organization()
             .filter(Q(parent__id=self.kwargs["pk"]) | Q(parent__isnull=True))
             .exclude(id=self.kwargs["pk"])
         )
@@ -78,8 +83,10 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
         orgs = self.get_user_organization()
         managed_orgs = self.request.user.get_managed_organizations()
 
-        if not int(self.kwargs["pk"]) in managed_orgs or not orgs.filter(id__in=managed_orgs):
-                raise exceptions.PermissionDenied()
+        if not int(self.kwargs["pk"]) in managed_orgs or not orgs.filter(
+            id__in=managed_orgs
+        ):
+            raise exceptions.PermissionDenied()
 
         orgs.exclude(id__in=serializer.validated_data["children"]).update(parent=None)
         orgs.filter(id__in=serializer.validated_data["children"]).update(

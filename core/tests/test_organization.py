@@ -1,4 +1,5 @@
 from core import models
+from core.tests import factories
 from core.tests.base import BaseTestCase
 
 
@@ -12,7 +13,7 @@ class OrganizationTestCase(BaseTestCase):
             self.assertEqual(len(organizations), 5)
 
     def test_list_organizations(self):
-        for user,orgs in [(self.customer_admin,3),(self.fse_admin,1)]:
+        for user, orgs in [(self.customer_admin, 3), (self.fse_admin, 1)]:
             self.client.force_login(user)
             response = self.client.get("/api/organizations/")
 
@@ -108,23 +109,27 @@ class OrganizationTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_add_child_organizations(self):
+    def test_get_child_organizations(self):
         self.client.force_login(self.customer_admin)
         response = self.client.get(
-            f"/api/organizations/{self.organization.id}/children/")
-        self.assertEqual(response.status_code,200)
-        self.assertEqual(response.json()[0]['parent'],2)
-        self.assertEqual(response.json()[1]['parent'],None)
-    
+            f"/api/organizations/{self.organization.id}/children/"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["parent"], 2)
+        self.assertEqual(response.json()[1]["parent"], None)
+
     def test_add_child_orgaization(self):
         self.client.force_login(self.customer_admin)
+        child = factories.OrganizationFactory(
+            customer_admin_roles=[self.customer_admin]
+        )
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/children/",
-            data = {
-                'children':[4]
-            }
+            data={"children": [child.id]},
         )
-        self.assertEqual(response.status_code,201)
+        self.assertEqual(response.status_code, 201)
+        child.refresh_from_db()
+        self.assertEqual(child.parent.id, self.organization.id)
 
 
 class SiteTestCase(BaseTestCase):

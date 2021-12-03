@@ -49,7 +49,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         ]
 
 
-class OrganizationChildrenSeriazler(serializers.Serializer):
+class OrganizationChildrenSerializer(serializers.Serializer):
     children = serializers.ListField(child=serializers.IntegerField())
 
     def validate(self, attrs):
