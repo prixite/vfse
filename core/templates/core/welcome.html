@@ -7,6 +7,7 @@
 	<p>Please select options below</p>
 
 
+	{% if "organization" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col'>
@@ -25,7 +26,9 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
+	{% if "modality" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col'>
@@ -44,7 +47,9 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
+	{% if "user" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col'>
@@ -63,7 +68,9 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
+	{% if "documentation" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col'>
@@ -82,7 +89,9 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
+	{% if "vfse" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col'>
@@ -101,6 +110,7 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 
 </div>
 {% endblock %}
