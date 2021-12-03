@@ -248,6 +248,7 @@ export type User = {
   last_name?: string;
   email?: string;
   username: string;
+  is_active?: boolean;
 };
 export type System = {
   modality: number;
