@@ -33,13 +33,18 @@ class OrganizationViewSet(ModelViewSet):
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
-
     def get_queryset(self):
-        print(self.kwargs)
         return models.HealthNetwork.objects.filter(
             id__in=models.OrganizationHealthNetwork.objects.filter(
                 organization=self.kwargs["organization_pk"],
             ).values_list("health_network")
+        )
+
+    def get_user_organizations(self):
+        if self.request.user.is_superuser or self.request.user.is_superuser:
+            return models.Organization.objects.all()
+        return models.Organization.objects.filter(
+            id__in=self.request.user.get_organizations()
         )
 
     def get_serializer_class(self):
@@ -48,11 +53,16 @@ class OrganizationHealthNetworkViewSet(ModelViewSet):
         return serializers.HealthNetworkSerializer
 
     def perform_create(self, serializer):
-        get_object_or_404(self.request.user.get_organizations(), pk=self.kwargs["organization_pk"])
-        models.OrganizationHealthNetwork.objects.filter(organization__id=self.kwargs["organization_pk"]).delete()
+        get_object_or_404(
+            self.get_user_organizations(), id=self.kwargs["organization_pk"]
+        )
+        models.OrganizationHealthNetwork.objects.filter(
+            organization__id=self.kwargs["organization_pk"]
+        ).delete()
         new_health_networks = [
             models.OrganizationHealthNetwork(
-                organization_id=self.kwargs["organization_pk"], health_network_id=health_network
+                organization_id=self.kwargs["organization_pk"],
+                health_network_id=health_network,
             )
             for health_network in serializer.validated_data["health_networks"]
         ]
