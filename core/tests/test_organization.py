@@ -9,15 +9,15 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 3)
+            self.assertEqual(len(organizations), 5)
 
     def test_list_organizations(self):
-        for user in [self.customer_admin, self.fse_admin]:
+        for user,orgs in [(self.customer_admin,3),(self.fse_admin,1)]:
             self.client.force_login(user)
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 1)
+            self.assertEqual(len(organizations), orgs)
             self.assertEqual(organizations[0]["name"], self.organization.name)
 
     def test_organization_health_network_list(self):
@@ -110,10 +110,21 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_add_child_organizations(self):
         self.client.force_login(self.customer_admin)
-        response = self.clien.POST(
-            f"/api/organizations/{self.organization.id}/children/"
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/children/")
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.json()[0]['parent'],2)
+        self.assertEqual(response.json()[1]['parent'],None)
+    
+    def test_add_child_orgaization(self):
+        self.client.force_login(self.customer_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/children/",
+            data = {
+                'children':[4]
+            }
         )
-        print(response.json())
+        self.assertEqual(response.status_code,201)
 
 
 class SiteTestCase(BaseTestCase):

@@ -78,10 +78,8 @@ class OrganizationChildrenViewSet(OrganizationViewSet):
         orgs = self.get_user_organization()
         managed_orgs = self.request.user.get_managed_organizations()
 
-        if not int(self.kwargs["pk"]) in managed_orgs:
-            if not orgs.filter(id__in=managed_orgs):
+        if not int(self.kwargs["pk"]) in managed_orgs or not orgs.filter(id__in=managed_orgs):
                 raise exceptions.PermissionDenied()
-        print(serializer.validated_data)
 
         orgs.exclude(id__in=serializer.validated_data["children"]).update(parent=None)
         orgs.filter(id__in=serializer.validated_data["children"]).update(
