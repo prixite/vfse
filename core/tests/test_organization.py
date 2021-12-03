@@ -10,7 +10,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 3)
+            self.assertEqual(len(organizations), 4)
 
     def test_list_organizations(self):
         for user in [self.customer_admin, self.fse_admin]:
@@ -18,7 +18,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 1)
+            self.assertEqual(len(organizations), 2)
             self.assertEqual(organizations[0]["name"], self.organization.name)
 
     def test_organization_health_network_list(self):
@@ -123,6 +123,36 @@ class OrganizationTestCase(BaseTestCase):
             ).count(),
             1,
         )
+
+    def test_get_child_organizations(self):
+        self.client.force_login(self.customer_admin)
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/children/"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()[0]["parent"], self.organization.id)
+
+    def test_add_child_orgaization(self):
+        self.client.force_login(self.customer_admin)
+        child = factories.OrganizationFactory(
+            customer_admin_roles=[self.customer_admin]
+        )
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/children/",
+            data={"children": [child.id]},
+        )
+        self.assertEqual(response.status_code, 201)
+        child.refresh_from_db()
+        self.assertEqual(child.parent.id, self.organization.id)
+
+    def test_add_other_child_orgaization(self):
+        self.client.force_login(self.customer_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/children/",
+            data={"children": [self.other_organization.id]},
+        )
+        self.assertEqual(response.status_code, 400)
+
     def test_delete_permissions_super_admin(self):
         self.client.force_login(self.super_admin)
         response = self.client.delete(f"/api/organizations/{self.organization.id}/")
