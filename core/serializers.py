@@ -1,3 +1,4 @@
+from django.http import Http404
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -45,6 +46,17 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "is_default",
             "appearance",
         ]
+
+
+class OrganizationHealthNetworkCreateSerializer(serializers.Serializer):
+    health_networks = serializers.ListField(child=serializers.IntegerField())
+
+    def validate(self, attrs):
+        if models.HealthNetwork.objects.filter(
+            id__in=attrs["health_networks"]
+        ).count() != len(attrs["health_networks"]):
+            raise Http404
+        return attrs
 
 
 class MeSerializer(serializers.ModelSerializer):

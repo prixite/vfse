@@ -1,4 +1,5 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
@@ -32,14 +33,30 @@ class OrganizationViewSet(ModelViewSet):
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
-    serializer_class = serializers.HealthNetworkSerializer
 
     def get_queryset(self):
+        print(self.kwargs)
         return models.HealthNetwork.objects.filter(
             id__in=models.OrganizationHealthNetwork.objects.filter(
                 organization=self.kwargs["organization_pk"],
             ).values_list("health_network")
         )
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.OrganizationHealthNetworkCreateSerializer
+        return serializers.HealthNetworkSerializer
+
+    def perform_create(self, serializer):
+        get_object_or_404(self.request.user.get_organizations(), pk=self.kwargs["organization_pk"])
+        models.OrganizationHealthNetwork.objects.filter(organization__id=self.kwargs["organization_pk"]).delete()
+        new_health_networks = [
+            models.OrganizationHealthNetwork(
+                organization_id=self.kwargs["organization_pk"], health_network_id=health_network
+            )
+            for health_network in serializer.validated_data["health_networks"]
+        ]
+        models.OrganizationHealthNetwork.objects.bulk_create(new_health_networks)
 
 
 class OrganizationSiteViewSet(ModelViewSet):

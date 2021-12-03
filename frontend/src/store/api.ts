@@ -63,6 +63,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.organizationPk}/health_networks/`,
       }),
     }),
+    organizationsHealthNetworksCreate: build.mutation<
+      OrganizationsHealthNetworksCreateApiResponse,
+      OrganizationsHealthNetworksCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
+        method: "POST",
+        body: queryArg.organizationHealthNetworkCreate,
+      }),
+    }),
     organizationsHealthNetworksSitesList: build.query<
       OrganizationsHealthNetworksSitesListApiResponse,
       OrganizationsHealthNetworksSitesListApiArg
@@ -136,6 +146,12 @@ export type OrganizationsHealthNetworksListApiResponse =
 export type OrganizationsHealthNetworksListApiArg = {
   organizationPk: string;
 };
+export type OrganizationsHealthNetworksCreateApiResponse =
+  /** status 201  */ OrganizationHealthNetworkCreate;
+export type OrganizationsHealthNetworksCreateApiArg = {
+  organizationPk: string;
+  organizationHealthNetworkCreate: OrganizationHealthNetworkCreate;
+};
 export type OrganizationsHealthNetworksSitesListApiResponse =
   /** status 200  */ Site[];
 export type OrganizationsHealthNetworksSitesListApiArg = {
@@ -188,6 +204,9 @@ export type Me = {
   flags?: string;
   organization?: Organization;
 };
+export type OrganizationHealthNetworkCreate = {
+  health_networks: number[];
+};
 export type Site = {
   name: string;
   address: string;
@@ -217,6 +236,7 @@ export const {
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
+  useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksSitesListQuery,
   useOrganizationsUsersListQuery,
   useOrganizationsVfseSystemsListQuery,
