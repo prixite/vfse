@@ -1,8 +1,9 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
-from core.models import Organization
+from core.permissions import OrganizationDetailPermission
 
 
 class MeViewSet(ModelViewSet):
@@ -14,9 +15,10 @@ class MeViewSet(ModelViewSet):
 
 class OrganizationViewSet(ModelViewSet):
     serializer_class = serializers.OrganizationSerializer
+    permission_classes = [IsAuthenticated, OrganizationDetailPermission]
 
     def get_queryset(self):
-        queryset = Organization.objects.all()
+        queryset = models.Organization.objects.all()
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return queryset
 
