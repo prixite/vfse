@@ -209,4 +209,4 @@ class SystemFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     modality = factory.SubFactory(ModalityFactory)
     product = factory.SubFactory(ProductFactory)
-    ip_address = "0.0.0.0"
+    ip_address = "127.0.0.1"

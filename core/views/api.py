@@ -64,7 +64,7 @@ class OrganizationChildrenViewSet(viewsets.ModelViewSet):
         return serializers.OrganizationSerializer
 
     def get_user_organization(self):
-        queryset = Organization.objects.all()
+        queryset = models.Organization.objects.all()
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return queryset
 
@@ -73,20 +73,23 @@ class OrganizationChildrenViewSet(viewsets.ModelViewSet):
         )
 
     def get_queryset(self):
-        return self.get_user_organization().filter(parent__id=self.kwargs["pk"])
+        return self.get_user_organization().filter(parent=self.kwargs["pk"])
 
     def perform_create(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
-        orgs = self.get_user_organization()
-        managed_orgs = self.request.user.get_managed_organizations()
+        organizations = self.get_user_organization()
 
-        if not int(self.kwargs["pk"]) in managed_orgs or not orgs.filter(
-            id__in=managed_orgs
-        ):
-            raise exceptions.PermissionDenied()
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            if not organizations.filter(
+                id__in=self.request.user.get_managed_organizations(),
+                pk=self.kwargs["pk"],
+            ).exists():
+                raise exceptions.PermissionDenied()
 
-        orgs.exclude(id__in=serializer.validated_data["children"]).update(parent=None)
-        orgs.filter(id__in=serializer.validated_data["children"]).update(
+        organizations.exclude(id__in=serializer.validated_data["children"]).update(
+            parent=None
+        )
+        organizations.filter(id__in=serializer.validated_data["children"]).update(
             parent=self.kwargs["pk"]
         )
 

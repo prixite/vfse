@@ -53,10 +53,15 @@ class OrganizationChildrenSerializer(serializers.Serializer):
     children = serializers.ListField(child=serializers.IntegerField())
 
     def validate(self, attrs):
-        if self.context["view"].get_user_organization().filter(
-            id__in=attrs["children"]
-        ).count() != len(attrs["children"]):
+        user = self.context["request"].user
+        if user.is_superuser or user.is_supermanager:
+            return attrs
+
+        if len(set(user.get_organizations()) & set(attrs["children"])) != len(
+            attrs["children"]
+        ):
             raise ValidationError("Some Organizations are not accessible")
+
         return attrs
 
 
