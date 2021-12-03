@@ -57,12 +57,6 @@ class Command(BaseCommand):
             customer_admin_roles=[customer_admin],
         )
 
-        factories.OrganizationFactory(
-            name="Child Organization 2",
-            logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-            customer_admin_roles=[customer_admin],
-        )
-
         product = factories.ProductFactory(
             manufacturer_modality__manufacturer=factories.ManufacturerFactory(),
             manufacturer_modality__modality=factories.ModalityFactory(),

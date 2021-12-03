@@ -10,15 +10,15 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 5)
+            self.assertEqual(len(organizations), 4)
 
     def test_list_organizations(self):
-        for user, orgs in [(self.customer_admin, 3), (self.fse_admin, 1)]:
+        for user in [self.customer_admin, self.fse_admin]:
             self.client.force_login(user)
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), orgs)
+            self.assertEqual(len(organizations), 2)
             self.assertEqual(organizations[0]["name"], self.organization.name)
 
     def test_organization_health_network_list(self):
@@ -115,8 +115,7 @@ class OrganizationTestCase(BaseTestCase):
             f"/api/organizations/{self.organization.id}/children/"
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()[0]["parent"], 2)
-        self.assertEqual(response.json()[1]["parent"], None)
+        self.assertEqual(response.json()[0]["parent"], self.organization.id)
 
     def test_add_child_orgaization(self):
         self.client.force_login(self.customer_admin)

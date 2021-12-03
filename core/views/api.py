@@ -1,4 +1,3 @@
-from django.db.models import Q
 from rest_framework import exceptions, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
@@ -72,11 +71,7 @@ class OrganizationChildrenViewSet(viewsets.ModelViewSet):
         )
 
     def get_queryset(self):
-        return (
-            self.get_user_organization()
-            .filter(Q(parent__id=self.kwargs["pk"]) | Q(parent__isnull=True))
-            .exclude(id=self.kwargs["pk"])
-        )
+        return self.get_user_organization().filter(parent__id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
         get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])

@@ -44,11 +44,9 @@ class BaseTestCase(TestCase):
         self.health_network = factories.HealthNetworkFactory()
 
         self.child_organization = factories.OrganizationFactory(
-            customer_admin_roles=[self.customer_admin], parent=self.organization
-        )
-
-        self.child_organization_2 = factories.OrganizationFactory(
             customer_admin_roles=[self.customer_admin],
+            parent=self.organization,
+            fse_admin_roles=[self.fse_admin],
         )
 
         self.other_organization = factories.OrganizationFactory(
