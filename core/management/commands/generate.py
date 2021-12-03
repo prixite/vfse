@@ -55,7 +55,9 @@ class Command(BaseCommand):
                 customer_admin_roles=[parent_customer_admin],
             ),
             customer_admin_roles=[
-                "child-customer-admin@example.com",
+                factories.UserFactory(
+                    username="child-customer-admin@example.com",
+                ),
                 parent_customer_admin,
             ],
         )
