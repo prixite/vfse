@@ -41,6 +41,21 @@ class User(AbstractUser):
     def get_managed_organizations(self):
         return self.get_organizations(roles=[Membership.Role.CUSTOMER_ADMIN])
 
+    def get_organization_health_networks(self, organization_pk):
+        accessible_health_networks = OrganizationHealthNetwork.objects.filter(
+            organization=organization_pk,
+        ).values_list("health_network")
+
+        if not (self.is_superuser or self.is_supermanager):
+            accessible_health_networks = accessible_health_networks.filter(
+                organization__in=self.get_organizations(),
+                health_network__in=self.health_networks.all().values_list(
+                    "health_network"
+                ),
+            )
+
+        return accessible_health_networks
+
 
 class UserModality(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)

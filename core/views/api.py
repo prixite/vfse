@@ -36,20 +36,10 @@ class OrganizationViewSet(ModelViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
     def get_queryset(self):
-        accessible_health_networks = models.OrganizationHealthNetwork.objects.filter(
-            organization=self.kwargs["organization_pk"],
-        ).values_list("health_network")
-
-        if not (self.request.user.is_superuser or self.request.user.is_supermanager):
-            accessible_health_networks = accessible_health_networks.filter(
-                organization__in=self.request.user.get_organizations(),
-                health_network__in=self.request.user.health_networks.all().values_list(
-                    "health_network"
-                ),
-            )
-
         return models.HealthNetwork.objects.filter(
-            id__in=accessible_health_networks,
+            id__in=self.request.user.get_organization_health_networks(
+                self.kwargs["organization_pk"]
+            ),
         ).prefetch_related("sites")
 
     def get_user_organizations(self):
@@ -85,21 +75,11 @@ class OrganizationSiteViewSet(ModelViewSet):
     serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
-        accessible_health_networks = models.OrganizationHealthNetwork.objects.filter(
-            organization=self.kwargs["organization_pk"],
-        ).values_list("health_network")
-
-        if not (self.request.user.is_superuser or self.request.user.is_supermanager):
-            accessible_health_networks = accessible_health_networks.filter(
-                organization__in=self.request.user.get_organizations(),
-                health_network__in=self.request.user.health_networks.all().values_list(
-                    "health_network"
-                ),
-            )
-
         return models.Site.objects.filter(
             health_network=self.kwargs["health_network_pk"],
-            health_network__in=accessible_health_networks,
+            health_network__in=self.request.user.get_organization_health_networks(
+                self.kwargs["organization_pk"]
+            ),
         )
 
 
