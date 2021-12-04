@@ -310,33 +310,10 @@ class ManufacturerImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class ManufacturerModality(models.Model):
-    manufacturer = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["manufacturer", "modality"], name="unique_manufacturer_modality"
-            ),
-        ]
-
-
 class Product(models.Model):
-    manufacturer_modality = models.ForeignKey(
-        "ManufacturerModality", on_delete=models.CASCADE
-    )
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["manufacturer_modality", "name"],
-                name="unique_manufacturer_modality_name",
-            ),
-        ]
 
 
 class Documentation(models.Model):
