@@ -43,9 +43,11 @@ class Command(BaseCommand):
                 )
             ],
         )
+
         parent_customer_admin = factories.UserWithPasswordFactory(
             username="parent-customer-admin@example.com"
         )
+
         factories.OrganizationFactory(
             name="Child Organization",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
@@ -63,8 +65,7 @@ class Command(BaseCommand):
         )
 
         product = factories.ProductFactory(
-            manufacturer_modality__manufacturer=factories.ManufacturerFactory(),
-            manufacturer_modality__modality=factories.ModalityFactory(),
+            manufacturer=factories.ManufacturerFactory(),
         )
 
         organization = factories.OrganizationFactory(
@@ -105,8 +106,11 @@ class Command(BaseCommand):
                     health_network=factories.HealthNetworkFactory(),
                 )
             ),
-            product=product,
-            modality=product.manufacturer_modality.modality,
+            product_model=factories.ProductModelFactory(
+                product=product,
+                modality=factories.ModalityFactory(),
+                documentation=factories.DocumentationFactory(),
+            ),
         )
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))

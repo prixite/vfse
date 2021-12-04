@@ -103,8 +103,6 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = models.User
 
     username = factory.Sequence(lambda x: f"user-{x}@example.com")
-    first_name = factory.LazyAttribute(lambda x: f"First-{x}")
-    last_name = factory.LazyAttribute(lambda x: f"Last-{x}")
     email = factory.LazyAttribute(lambda x: x.username)
     profile = factory.RelatedFactory(
         "core.tests.factories.ProfileFactory", factory_related_name="user"
@@ -191,17 +189,25 @@ class ManufacturerFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda x: f"manufacturer-{x}")
 
 
-class ManufacturerModalityFactory(factory.django.DjangoModelFactory):
+class DocumentationFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = models.ManufacturerModality
+        model = models.Documentation
 
 
 class ProductFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Product
 
-    manufacturer_modality = factory.SubFactory(ManufacturerModalityFactory)
     name = factory.Sequence(lambda x: f"product-{x}")
+
+
+class ProductModelFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductModel
+
+    product = factory.SubFactory(ProductFactory)
+    modality = factory.SubFactory(ModalityFactory)
+    documentation = factory.SubFactory(DocumentationFactory)
 
 
 class SystemFactory(factory.django.DjangoModelFactory):
@@ -209,6 +215,5 @@ class SystemFactory(factory.django.DjangoModelFactory):
         model = models.System
 
     site = factory.SubFactory(SiteFactory)
-    modality = factory.SubFactory(ModalityFactory)
-    product = factory.SubFactory(ProductFactory)
+    product_model = factory.SubFactory(ProductModelFactory)
     ip_address = "127.0.0.1"

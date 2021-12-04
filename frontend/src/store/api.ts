@@ -251,8 +251,8 @@ export type User = {
   is_active?: boolean;
 };
 export type System = {
-  modality: number;
-  product: number;
+  site: number;
+  product_model: number;
   image?: number | null;
   software_version: string;
   asset_number: string;
