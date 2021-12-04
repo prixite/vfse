@@ -193,6 +193,8 @@ class DocumentationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Documentation
 
+    url = "http://example.com/doc.pdf"
+
 
 class ProductFactory(factory.django.DjangoModelFactory):
     class Meta:
