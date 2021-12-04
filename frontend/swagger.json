@@ -713,10 +713,10 @@
             }
         },
         "System": {
-            "description": "System(id, site, modality, product, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, documentation_link, system_option, connection_monitoring, other, created_at, updated_at)",
+            "description": "System(id, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, connection_monitoring, other, created_at, updated_at)",
             "required": [
-                "modality",
-                "product",
+                "site",
+                "product_model",
                 "software_version",
                 "asset_number",
                 "ip_address",
@@ -724,12 +724,12 @@
             ],
             "type": "object",
             "properties": {
-                "modality": {
-                    "title": "Modality",
+                "site": {
+                    "title": "Site",
                     "type": "integer"
                 },
-                "product": {
-                    "title": "Product",
+                "product_model": {
+                    "title": "Product model",
                     "type": "integer"
                 },
                 "image": {

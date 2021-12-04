@@ -140,8 +140,8 @@ class SystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.System
         fields = [
-            "modality",
-            "product",
+            "site",
+            "product_model",
             "image",
             "software_version",
             "asset_number",

@@ -196,6 +196,9 @@ class Site(models.Model):
             ),
         ]
 
+    def __str__(self):
+        return f"{self.name} - {self.address}"
+
 
 class Modality(models.Model):
     name = models.CharField(max_length=32)
@@ -208,11 +211,13 @@ class Modality(models.Model):
             models.UniqueConstraint(fields=["name"], name="unique_modality_name"),
         ]
 
+    def __str__(self):
+        return self.name
+
 
 class System(models.Model):
     site = models.ForeignKey("Site", on_delete=models.CASCADE)
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
-    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    product_model = models.ForeignKey("ProductModel", on_delete=models.CASCADE)
     image = models.ForeignKey("SystemImage", on_delete=models.SET_NULL, null=True)
     software_version = models.CharField(max_length=32)
     asset_number = models.CharField(max_length=32)
@@ -221,7 +226,6 @@ class System(models.Model):
     serial_number = models.CharField(max_length=32, blank=True, null=True)
     location_in_building = models.CharField(max_length=32, blank=True, null=True)
     system_contact_info = models.TextField(max_length=256, blank=True, null=True)
-    documentation_link = models.URLField(blank=True, null=True)
     system_option = models.TextField(blank=True, null=True)
     connection_monitoring = models.BooleanField(default=False)
     other = models.TextField(null=True, blank=True)
@@ -291,17 +295,18 @@ class HealthNetwork(models.Model):
             models.UniqueConstraint(fields=["name"], name="unique_health_network_name"),
         ]
 
+    def __str__(self):
+        return self.name
+
 
 class Manufacturer(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, unique=True)
     image = models.ForeignKey("ManufacturerImage", null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["name"], name="unique_manufacturer_name"),
-        ]
+    def __str__(self):
+        return self.name
 
 
 class ManufacturerImage(models.Model):
@@ -310,40 +315,31 @@ class ManufacturerImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class ManufacturerModality(models.Model):
-    manufacturer = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["manufacturer", "modality"], name="unique_manufacturer_modality"
-            ),
-        ]
-
-
 class Product(models.Model):
-    manufacturer_modality = models.ForeignKey(
-        "ManufacturerModality", on_delete=models.CASCADE
-    )
     name = models.CharField(max_length=32)
+    manufacturer = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["manufacturer_modality", "name"],
-                name="unique_manufacturer_modality_name",
+                fields=["name", "manufacturer"],
+                name="unique_product_name_manufacturer",
             ),
         ]
+
+    def __str__(self):
+        return self.name
 
 
 class Documentation(models.Model):
-    product = models.ForeignKey("Product", on_delete=models.CASCADE)
-    documenation = models.FileField(upload_to="documentation/")
+    url = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.url
 
 
 class Note(models.Model):
@@ -365,4 +361,22 @@ class Seat(models.Model):
             models.UniqueConstraint(
                 fields=["system", "organization"], name="unique_system_organization"
             ),
+        ]
+
+
+class ProductModel(models.Model):
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    model = models.CharField(max_length=50)
+    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
+    documentation = models.ForeignKey(
+        "Documentation", null=True, on_delete=models.SET_NULL
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product", "model"], name="unique_product_model"
+            )
         ]

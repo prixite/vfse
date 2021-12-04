@@ -72,8 +72,8 @@ class ModalityAdmin(admin.ModelAdmin):
 @admin.register(models.System)
 class SystemAdmin(admin.ModelAdmin):
     list_display = (
-        "modality",
-        "product",
+        "product_model",
+        "site",
         "ip_address",
     )
 
@@ -109,23 +109,17 @@ class ManufacturerAdmin(admin.ModelAdmin):
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "get_manufacturer",
-        "get_modality",
+        "manufacturer",
         "name",
     )
 
-    def get_manufacturer(self, obj):
-        return obj.manufacturer_modality.manufacturer
 
-    def get_modality(self, obj):
-        return obj.manufacturer_modality.modality
-
-
-@admin.register(models.Documentation)
-class DocumentationAdmin(admin.ModelAdmin):
+@admin.register(models.ProductModel)
+class ProductModelAdmin(admin.ModelAdmin):
     list_display = (
         "product",
-        "documenation",
+        "model",
+        "modality",
     )
 
 
@@ -149,3 +143,4 @@ class SeatAdmin(admin.ModelAdmin):
 admin.site.register(SystemImage)
 admin.site.register(ManufacturerImage)
 admin.site.register(models.OrganizationHealthNetwork)
+admin.site.register(models.Documentation)

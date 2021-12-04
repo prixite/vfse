@@ -62,12 +62,14 @@ class BaseTestCase(TestCase):
         )
 
         self.product = factories.ProductFactory(
-            manufacturer_modality__manufacturer=factories.ManufacturerFactory(),
-            manufacturer_modality__modality=factories.ModalityFactory(),
+            manufacturer=factories.ManufacturerFactory(),
         )
 
         self.system = factories.SystemFactory(
             site=self.site,
-            product=self.product,
-            modality=self.product.manufacturer_modality.modality,
+            product_model=factories.ProductModelFactory(
+                product=self.product,
+                modality=factories.ModalityFactory(),
+                documentation=factories.DocumentationFactory(),
+            ),
         )
