@@ -41,8 +41,6 @@ class BaseTestCase(TestCase):
             cryo_admin_roles=[self.cryo_admin],
         )
 
-        self.health_network = factories.HealthNetworkFactory()
-
         self.child_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.customer_admin],
             parent=self.organization,
@@ -54,11 +52,12 @@ class BaseTestCase(TestCase):
             user_admin_roles=[self.other_user_admin],
         )
 
+        self.health_network = factories.HealthNetworkFactory(
+            organizations=[self.organization],
+        )
+
         self.site = factories.SiteFactory(
-            organization_health_network=factories.OrganizationHealthNetworkFactory(
-                organization=self.organization,
-                health_network=self.health_network,
-            )
+            health_network=self.health_network,
         )
 
         self.product = factories.ProductFactory(

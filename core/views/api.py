@@ -177,4 +177,6 @@ class HealthNetworkViewSet(ModelViewSet):
     serializer_class = serializers.HealthNetworkSerializer
 
     def get_queryset(self):
-        return models.HealthNetwork.objects.all()
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.HealthNetwork.objects.all()
+        return models.HealthNetwork.objects.none()

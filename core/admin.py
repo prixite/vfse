@@ -61,7 +61,7 @@ class MembershipAdmin(admin.ModelAdmin):
 
 @admin.register(models.Site)
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ("organization_health_network", "name", "address")
+    list_display = ("health_network", "name", "address")
 
 
 @admin.register(models.Modality)

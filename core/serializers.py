@@ -124,16 +124,18 @@ class MeSerializer(serializers.ModelSerializer):
         return sorted(flags)
 
 
-class HealthNetworkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.HealthNetwork
-        fields = ["id", "name", "logo"]
-
-
 class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
-        fields = ["name", "address"]
+        fields = ["id", "name", "address"]
+
+
+class HealthNetworkSerializer(serializers.ModelSerializer):
+    sites = SiteSerializer(many=True)
+
+    class Meta:
+        model = models.HealthNetwork
+        fields = ["id", "name", "logo", "sites"]
 
 
 class SystemSerializer(serializers.ModelSerializer):

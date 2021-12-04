@@ -179,9 +179,10 @@ class OrganizationHealthNetwork(models.Model):
 
 
 class Site(models.Model):
-    organization_health_network = models.ForeignKey(
-        "OrganizationHealthNetwork",
+    health_network = models.ForeignKey(
+        "HealthNetwork",
         on_delete=models.CASCADE,
+        related_name="sites",
     )
     name = models.CharField(max_length=32)
     address = models.TextField()
@@ -191,8 +192,8 @@ class Site(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["organization_health_network", "name"],
-                name="unique_organization_health_network_name",
+                fields=["health_network", "name"],
+                name="unique_health_network_site_name",
             ),
         ]
 
