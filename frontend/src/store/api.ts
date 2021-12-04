@@ -204,10 +204,16 @@ export type UsersCreateApiResponse = /** status 201  */ User;
 export type UsersCreateApiArg = {
   user: User;
 };
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+};
 export type HealthNetwork = {
   id?: number;
   name: string;
   logo?: string | null;
+  sites: Site[];
 };
 export type Appearance = {
   color_one: string;
@@ -237,10 +243,6 @@ export type OrganizationChildren = {
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
-};
-export type Site = {
-  name: string;
-  address: string;
 };
 export type User = {
   id?: number;

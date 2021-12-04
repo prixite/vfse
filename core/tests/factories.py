@@ -188,7 +188,7 @@ class SiteFactory(factory.django.DjangoModelFactory):
         model = models.Site
 
     name = factory.Sequence(lambda x: f"site-{x}")
-    address = factory.Faker('address')
+    address = factory.Faker("address")
     health_network = factory.SubFactory(HealthNetworkFactory)
 
 

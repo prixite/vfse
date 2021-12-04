@@ -7,25 +7,33 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0028_remove_nulls'),
+        ("core", "0028_remove_nulls"),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='site',
-            name='unique_organization_health_network_name',
+            model_name="site",
+            name="unique_organization_health_network_name",
         ),
         migrations.RemoveField(
-            model_name='site',
-            name='organization_health_network',
+            model_name="site",
+            name="organization_health_network",
         ),
         migrations.AddField(
-            model_name='site',
-            name='health_network',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='sites', to='core.healthnetwork'),
+            model_name="site",
+            name="health_network",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="sites",
+                to="core.healthnetwork",
+            ),
         ),
         migrations.AddConstraint(
-            model_name='site',
-            constraint=models.UniqueConstraint(fields=('health_network', 'name'), name='unique_health_network_site_name'),
+            model_name="site",
+            constraint=models.UniqueConstraint(
+                fields=("health_network", "name"),
+                name="unique_health_network_site_name",
+            ),
         ),
     ]

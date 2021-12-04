@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import exceptions, viewsets
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -36,11 +37,21 @@ class OrganizationViewSet(ModelViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet):
     def get_queryset(self):
+        accessible_health_networks = models.OrganizationHealthNetwork.objects.filter(
+            organization=self.kwargs["organization_pk"],
+        ).values_list("health_network")
+
+        if not (self.request.user.is_superuser or self.request.user.is_supermanager):
+            accessible_health_networks = accessible_health_networks.filter(
+                organization__in=self.request.user.get_organizations(),
+                health_network__in=self.request.user.health_networks.all().values_list(
+                    "health_network"
+                ),
+            )
+
         return models.HealthNetwork.objects.filter(
-            id__in=models.OrganizationHealthNetwork.objects.filter(
-                organization=self.kwargs["organization_pk"],
-            ).values_list("health_network")
-        )
+            id__in=accessible_health_networks,
+        ).prefetch_related("sites")
 
     def get_user_organizations(self):
         if self.request.user.is_superuser or self.request.user.is_superuser:
@@ -75,11 +86,9 @@ class OrganizationSiteViewSet(ModelViewSet):
     serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
+        # Fix user level and organization level permissions
         return models.Site.objects.filter(
-            organization_health_network__organization=self.kwargs["organization_pk"],
-            organization_health_network__health_network=self.kwargs[
-                "health_network_pk"
-            ],
+            Q(health_network=self.kwargs["health_network_pk"]),
         )
 
 
@@ -178,5 +187,5 @@ class HealthNetworkViewSet(ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.HealthNetwork.objects.all()
+            return models.HealthNetwork.objects.all().prefetch_related("sites")
         return models.HealthNetwork.objects.none()

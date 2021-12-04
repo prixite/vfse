@@ -466,10 +466,37 @@
         }
     },
     "definitions": {
+        "Site": {
+            "description": "Site(id, health_network, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
         "HealthNetwork": {
             "description": "HealthNetwork(id, name, logo, created_at, updated_at)",
             "required": [
-                "name"
+                "name",
+                "sites"
             ],
             "type": "object",
             "properties": {
@@ -490,6 +517,13 @@
                     "format": "uri",
                     "maxLength": 200,
                     "x-nullable": true
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    }
                 }
             }
         },
@@ -646,27 +680,6 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
-                }
-            }
-        },
-        "Site": {
-            "description": "Site(id, organization_health_network, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
                 }
             }
         },

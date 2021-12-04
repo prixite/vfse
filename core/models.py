@@ -70,7 +70,9 @@ class UserSite(models.Model):
 
 
 class UserHealthNetwork(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, related_name="health_networks"
+    )
     health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
