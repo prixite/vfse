@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import OrganizationReducer from "@src/store/reducers/Organization";
-import { api } from "@src/store/api";
+import organizationReducer from "@src/store/reducers/organization";
+import { api } from "@src/store/reducers/api";
 
 export const store = configureStore({
   reducer: {
-    OrganizationReducer: OrganizationReducer,
+    organizationReducer: organizationReducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
