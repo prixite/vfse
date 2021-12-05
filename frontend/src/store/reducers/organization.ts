@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const organizationSlice = createSlice({
-  name: "Organization",
+  name: "organization",
   initialState,
   reducers: {
     setOrganizationData: (state, action) => {
