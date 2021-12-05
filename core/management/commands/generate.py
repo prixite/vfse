@@ -68,7 +68,7 @@ class Command(BaseCommand):
             manufacturer=factories.ManufacturerFactory(),
         )
 
-        organization = factories.OrganizationFactory(
+        factories.OrganizationFactory(
             name="Organization",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             fse_admin_roles=[
@@ -101,10 +101,7 @@ class Command(BaseCommand):
 
         factories.SystemFactory(
             site=factories.SiteFactory(
-                organization_health_network=factories.OrganizationHealthNetworkFactory(
-                    organization=organization,
-                    health_network=factories.HealthNetworkFactory(),
-                )
+                health_network=factories.HealthNetworkFactory(),
             ),
             product_model=factories.ProductModelFactory(
                 product=product,
