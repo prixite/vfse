@@ -9,13 +9,13 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { setOrganizationData } from "@src/store/reducers/Organization";
+import { setOrganizationData } from "@src/store/reducers/organization";
 import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RootState } from "@src/store/store";
-import { Organization } from "@src/store/api";
+import { Organization } from "@src/store/reducers/api";
 
 function getOrganizationData(dispatch) {
   getUrl("/api/organizations/", (result: Organization) =>
