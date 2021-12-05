@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { RootState } from "@src/store/store";
 import { Organization } from "@src/store/api";
+import { useOrganizationsListQuery } from "@src/store/api";
 
 function getOrganizationData(dispatch) {
   getUrl("/api/organizations/", (result: Organization) =>
@@ -62,21 +63,23 @@ function deleteOrganization(id: number, dispatch) {
 export default function OrganizationView() {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const items = useSelector(
-    (state: RootState) => state.OrganizationReducer.value
-  );
-  const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
   const handleSave = (data: Organization) => {
     data.id === undefined ? add(data, dispatch) : edit(data, dispatch);
     handleClose();
   };
 
-  useEffect(() => {
-    getUrl("/api/organizations/", (data) => {
-      dispatch(setOrganizationData(data));
-    });
-  }, []);
+  const {
+    data: items,
+    isLoading,
+    isSuccess,
+    isError,
+    error
+  } = useOrganizationsListQuery()
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
 
   return (
     <Fragment>
