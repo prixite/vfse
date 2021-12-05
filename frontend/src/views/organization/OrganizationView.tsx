@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { setOrganizationData } from "@src/store/reducers/organization";
+import { setOrganizationData } from "@src/store/reducers/organizationSlice";
 import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
 import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
