@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import fields, serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
 
@@ -163,3 +163,7 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "is_active",
         ]
+
+
+class UserDeactivateSerializer(serializers.Serializer):
+    user= serializers.ListField(child=serializers.IntegerField())
