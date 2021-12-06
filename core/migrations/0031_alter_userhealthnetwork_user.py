@@ -8,13 +8,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0030_make_health_network_not_null'),
+        ("core", "0030_make_health_network_not_null"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userhealthnetwork',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='health_networks', to=settings.AUTH_USER_MODEL),
+            model_name="userhealthnetwork",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="health_networks",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
