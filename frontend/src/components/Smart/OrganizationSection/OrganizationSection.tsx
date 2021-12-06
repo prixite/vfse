@@ -6,7 +6,6 @@ import { useState } from "react";
 import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/Presentational/ClientCard/ClientCard";
 import "@src/components/Smart/OrganizationSection/OrganizationSection.scss";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   useOrganizationsListQuery,
