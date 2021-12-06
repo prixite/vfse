@@ -6,77 +6,27 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
-import { useSelector, useDispatch } from "react-redux";
-import { setOrganizationData } from "@src/store/reducers/organization";
 import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
-import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RootState } from "@src/store/store";
-import { Organization } from "@src/store/reducers/api";
-
-function getOrganizationData(dispatch) {
-  getUrl("/api/organizations/", (result: Organization) =>
-    dispatch(setOrganizationData(result))
-  );
-}
-
-async function add(data: Organization, dispatch) {
-  const url = "/api/organizations/";
-  const response = await sendRequest(url, "POST", data);
-  if (response.ok) {
-    getOrganizationData(dispatch);
-    toast.success("Organization successfully created.");
-  } else {
-    const data = await response.json();
-    for (const field in data) {
-      toast.error(`${field}: ${data[field][0]}`);
-    }
-  }
-}
-
-async function edit(data: Organization, dispatch) {
-  let { id, ...organization } = data;
-  const url = `/api/organizations/${id}/`;
-  const response = await sendRequest(url, "PATCH", organization);
-  if (response.ok) {
-    getOrganizationData(dispatch);
-    toast.success("Organization successfully updated.");
-  } else {
-    const data = await response.json();
-    for (const field in data) {
-      toast.error(`${field}: ${data[field][0]}`);
-    }
-  }
-}
-
-function deleteOrganization(id: number, dispatch) {
-  sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
-    getOrganizationData(dispatch);
-    toast.success("Organization successfully deleted.");
-  });
-}
+import {
+  useOrganizationsListQuery,
+  useOrganizationsDeleteMutation,
+} from "@src/store/reducers/api";
 
 export default function OrganizationView() {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const items = useSelector(
-    (state: RootState) => state.OrganizationReducer.value
-  );
-  const dispatch = useDispatch();
   const handleClose = () => setOpen(false);
-  const handleSave = (data: Organization) => {
-    data.id === undefined ? add(data, dispatch) : edit(data, dispatch);
-    handleClose();
-  };
 
-  useEffect(() => {
-    getUrl("/api/organizations/", (data) => {
-      dispatch(setOrganizationData(data));
-    });
-  }, []);
+  const { data: items, refetch, isLoading } = useOrganizationsListQuery();
+  const [deleteOrganization] = useOrganizationsDeleteMutation();
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
 
   return (
     <Fragment>
@@ -92,11 +42,11 @@ export default function OrganizationView() {
       </Button>
 
       <OrganizationModal
-        save={handleSave}
         organization={organization}
         setOrganization={setOrganization}
         open={open}
         handleClose={handleClose}
+        refetch={refetch}
       />
 
       <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
@@ -120,7 +70,15 @@ export default function OrganizationView() {
                 <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => deleteOrganization(row.id, dispatch)}>
+                  <Button
+                    onClick={async () => {
+                      await deleteOrganization({
+                        id: row.id.toString(),
+                      }).unwrap();
+                      toast.success("Organization successfully deleted");
+                      refetch();
+                    }}
+                  >
                     Delete
                   </Button>
                 </TableCell>

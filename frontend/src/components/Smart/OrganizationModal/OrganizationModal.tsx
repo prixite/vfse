@@ -4,8 +4,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
+
+import {
+  useOrganizationsCreateMutation,
+  useOrganizationsPartialUpdateMutation,
+} from "@src/store/reducers/api";
 
 export default function OrganizationModal(props) {
+  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
+  const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>
@@ -46,7 +55,24 @@ export default function OrganizationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>Cancel</Button>
-        <Button onClick={() => props.save(props.organization)}>Save</Button>
+        <Button
+          onClick={async () => {
+            if (props.organization.id) {
+              const { id, ...organization } = props.organization;
+              await updateOrganization({ id, organization }).unwrap();
+              toast.success("Organization successfully updated");
+            } else {
+              await addNewOrganization({
+                organization: props.organization,
+              }).unwrap();
+              toast.success("Organization successfully added");
+            }
+            props.handleClose();
+            props.refetch(); // TODO: invalidate cache instead of this.
+          }}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );
