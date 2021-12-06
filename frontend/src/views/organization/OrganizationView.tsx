@@ -24,35 +24,6 @@ function getOrganizationData(dispatch) {
   );
 }
 
-async function add(data: Organization, dispatch) {
-  const url = "/api/organizations/";
-  const response = await sendRequest(url, "POST", data);
-  if (response.ok) {
-    getOrganizationData(dispatch);
-    toast.success("Organization successfully created.");
-  } else {
-    const data = await response.json();
-    for (const field in data) {
-      toast.error(`${field}: ${data[field][0]}`);
-    }
-  }
-}
-
-async function edit(data: Organization, dispatch) {
-  let { id, ...organization } = data;
-  const url = `/api/organizations/${id}/`;
-  const response = await sendRequest(url, "PATCH", organization);
-  if (response.ok) {
-    getOrganizationData(dispatch);
-    toast.success("Organization successfully updated.");
-  } else {
-    const data = await response.json();
-    for (const field in data) {
-      toast.error(`${field}: ${data[field][0]}`);
-    }
-  }
-}
-
 function deleteOrganization(id: number, dispatch) {
   sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
     getOrganizationData(dispatch);
@@ -64,10 +35,6 @@ export default function OrganizationView() {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
-  const handleSave = (data: Organization) => {
-    data.id === undefined ? add(data, dispatch) : edit(data, dispatch);
-    handleClose();
-  };
 
   const { data: items, refetch, isLoading } = useOrganizationsListQuery();
 
@@ -89,7 +56,6 @@ export default function OrganizationView() {
       </Button>
 
       <OrganizationModal
-        save={handleSave}
         organization={organization}
         setOrganization={setOrganization}
         open={open}

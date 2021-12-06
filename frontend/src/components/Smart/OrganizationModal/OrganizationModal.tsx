@@ -5,10 +5,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 
-import { useOrganizationsCreateMutation } from "@src/store/reducers/api";
+import {
+  useOrganizationsCreateMutation,
+  useOrganizationsPartialUpdateMutation,
+} from "@src/store/reducers/api";
 
 export default function OrganizationModal(props) {
   const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
+  const [updateOrganization] = useOrganizationsPartialUpdateMutation();
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
@@ -52,9 +56,14 @@ export default function OrganizationModal(props) {
         <Button onClick={props.handleClose}>Cancel</Button>
         <Button
           onClick={async () => {
-            await addNewOrganization({
-              organization: props.organization,
-            }).unwrap();
+            if (props.organization.id) {
+              const { id, ...organization } = props.organization;
+              await updateOrganization({ id, organization }).unwrap();
+            } else {
+              await addNewOrganization({
+                organization: props.organization,
+              }).unwrap();
+            }
             props.handleClose();
             props.refetch(); // TODO: invalidate cache instead of this.
           }}
