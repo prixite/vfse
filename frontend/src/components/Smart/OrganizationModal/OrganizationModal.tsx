@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
 
 import {
   useOrganizationsCreateMutation,
@@ -59,10 +60,12 @@ export default function OrganizationModal(props) {
             if (props.organization.id) {
               const { id, ...organization } = props.organization;
               await updateOrganization({ id, organization }).unwrap();
+              toast.success("Organization successfully updated");
             } else {
               await addNewOrganization({
                 organization: props.organization,
               }).unwrap();
+              toast.success("Organization successfully added");
             }
             props.handleClose();
             props.refetch(); // TODO: invalidate cache instead of this.

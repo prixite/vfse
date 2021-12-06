@@ -6,30 +6,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
-import { useSelector, useDispatch } from "react-redux";
-import { setOrganizationData } from "@src/store/reducers/organizationSlice";
 import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
-import { getUrl, sendRequest } from "@src/http";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RootState } from "@src/store/store";
-import { Organization } from "@src/store/reducers/api";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
-
-function getOrganizationData(dispatch) {
-  getUrl("/api/organizations/", (result: Organization) =>
-    dispatch(setOrganizationData(result))
-  );
-}
-
-function deleteOrganization(id: number, dispatch) {
-  sendRequest(`/api/organizations/${id}/`, "DELETE", {}).then(() => {
-    getOrganizationData(dispatch);
-    toast.success("Organization successfully deleted.");
-  });
-}
+import {
+  useOrganizationsListQuery,
+  useOrganizationsDeleteMutation,
+} from "@src/store/reducers/api";
 
 export default function OrganizationView() {
   const [organization, setOrganization] = useState(null);
@@ -37,6 +22,7 @@ export default function OrganizationView() {
   const handleClose = () => setOpen(false);
 
   const { data: items, refetch, isLoading } = useOrganizationsListQuery();
+  const [deleteOrganization] = useOrganizationsDeleteMutation();
 
   if (isLoading) {
     return <p>Loading</p>;
@@ -84,7 +70,15 @@ export default function OrganizationView() {
                 <TableCell align="right">{row.number_of_seats}</TableCell>
                 <TableCell align="right">{row.is_default.toString()}</TableCell>
                 <TableCell align="right">
-                  <Button onClick={() => deleteOrganization(row.id, dispatch)}>
+                  <Button
+                    onClick={async () => {
+                      await deleteOrganization({
+                        id: row.id.toString(),
+                      }).unwrap();
+                      toast.success("Organization successfully deleted");
+                      refetch();
+                    }}
+                  >
                     Delete
                   </Button>
                 </TableCell>
