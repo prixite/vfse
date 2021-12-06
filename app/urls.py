@@ -52,12 +52,7 @@ api_urlpatterns = [
     ),
     path(
         "api/organizations/<str:organization_pk>/health_networks/",
-        api.OrganizationHealthNetworkViewSet.as_view(
-            {
-                "get": "list",
-                "post": "create"
-                 }
-                ),
+        api.OrganizationHealthNetworkViewSet.as_view({"get": "list", "post": "create"}),
     ),
     path(
         "api/organizations/<str:organization_pk>/users/",
@@ -106,11 +101,7 @@ api_urlpatterns = [
     ),
     path(
         "api/users/<str:pk>/deactivate/",
-        api.UserDeactivateViewSet.as_view(
-            {
-            "patch": "partial_update",
-            "get":"list"}
-            ),
+        api.UserDeactivateViewSet.as_view({"patch": "partial_update", "get": "list"}),
     ),
     path(
         "api/health_network/",

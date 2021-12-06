@@ -181,13 +181,12 @@ class HealthNetworkViewSet(ModelViewSet):
             return models.HealthNetwork.objects.all().prefetch_related("sites")
         return models.HealthNetwork.objects.none()
 
+
 class UserDeactivateViewSet(ModelViewSet):
-    
     def get_serializer_class(self):
-        if self.action =='partial_update':
+        if self.action == "partial_update":
             return serializers.UserDeactivateSerializer
         return serializers.UserSerializer
-
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
@@ -201,7 +200,7 @@ class UserDeactivateViewSet(ModelViewSet):
             )
         )
 
-    def perform_update(self, serializer):        
+    def perform_update(self, serializer):
         models.User.objects.filter(id__in=serializer.validated_data["user_id"]).update(
             is_active=False
         )

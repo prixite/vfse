@@ -463,6 +463,60 @@
                 ]
             },
             "parameters": []
+        },
+        "/users/{id}/deactivate/": {
+            "get": {
+                "operationId": "users_deactivate_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "patch": {
+                "operationId": "users_deactivate_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserDeactivate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/UserDeactivate"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         }
     },
     "definitions": {
@@ -772,6 +826,22 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
+                }
+            }
+        },
+        "UserDeactivate": {
+            "description": "",
+            "required": [
+                "user"
+            ],
+            "type": "object",
+            "properties": {
+                "user": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         }
