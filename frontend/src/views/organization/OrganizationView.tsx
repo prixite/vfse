@@ -72,9 +72,6 @@ export default function OrganizationView() {
   const {
     data: items,
     isLoading,
-    isSuccess,
-    isError,
-    error
   } = useOrganizationsListQuery()
 
   if (isLoading) {
