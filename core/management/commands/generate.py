@@ -110,4 +110,6 @@ class Command(BaseCommand):
             ),
         )
 
+        factories.OrganizationFactory.create_batch(20)
+
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
