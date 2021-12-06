@@ -201,6 +201,7 @@ class UserDeactivateViewSet(ModelViewSet):
         )
 
     def perform_update(self, serializer):
-        models.User.objects.filter(id__in=serializer.validated_data["user_id"]).update(
+
+        models.User.objects.filter(id__in=serializer.validated_data["user"]).update(
             is_active=False
         )
