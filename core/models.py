@@ -115,7 +115,7 @@ class Profile(models.Model):
     can_leave_notes = models.BooleanField(default=True)
     is_view_only = models.BooleanField(default=False)
     is_one_time = models.BooleanField(default=True)
-    one_time_complete=models.BooleanField(default=True)
+    one_time_complete = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
