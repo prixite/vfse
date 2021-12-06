@@ -164,27 +164,24 @@ class HealthNetworkViewSet(ModelViewSet):
 
 class UserDeactivateViewSet(ModelViewSet):
     def get_serializer_class(self):
-        if self.action == "partial_update":
-            return serializers.UserDeactivateSerializer
-        return serializers.UserSerializer
+        return serializers.UserDeactivateSerializer
 
     def get_queryset(self):
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        if self.request.user.is_superuser:
             return models.User.objects.all()
 
         return models.User.objects.filter(
             id__in=models.Membership.objects.filter(
                 organization__in=self.request.user.get_organizations(
-                    role=[models.Membership.Role.USER_ADMIN]
-                ).values_list("user")
-            )
+                    roles=[models.Membership.Role.USER_ADMIN]
+                )
+            ).values_list("user")
         )
 
     def partial_update(self, request, *args, **kwargs):
-        users = self.get_queryset()
-        seriazlier = self.get_serializer(data=request.data, partial=True)
-        if seriazlier.is_valid():
-            users.filter(username__in=seriazlier.validated_data["users"]).update(
-                is_active=False
-            )
-        return Response(seriazlier.data)
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        models.User.objects.filter(
+            id__in=[x.id for x in serializer.validated_data["users"]]
+        ).update(is_active=False)
+        return Response(serializer.data)
