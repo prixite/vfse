@@ -1,10 +1,11 @@
-from rest_framework import exceptions, viewsets
+from rest_framework import exceptions
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
 from core.permissions import OrganizationDetailPermission
+from core.views import mixins
 
 
 class MeViewSet(ModelViewSet):
@@ -14,18 +15,12 @@ class MeViewSet(ModelViewSet):
         return self.request.user
 
 
-class OrganizationViewSet(ModelViewSet):
+class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
     permission_classes = [IsAuthenticated, OrganizationDetailPermission]
 
     def get_queryset(self):
-        queryset = models.Organization.objects.all()
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return queryset
-
-        return queryset.filter(
-            id__in=self.request.user.get_organizations(),
-        )
+        return super().get_user_organizations()
 
     def destroy(self, request, *args, **kwargs):
         if self.get_object().is_default:
@@ -34,20 +29,13 @@ class OrganizationViewSet(ModelViewSet):
         return super().destroy(request, *args, **kwargs)
 
 
-class OrganizationHealthNetworkViewSet(ModelViewSet):
+class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
         return models.HealthNetwork.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
                 self.kwargs["organization_pk"]
             ),
         ).prefetch_related("sites")
-
-    def get_user_organizations(self):
-        if self.request.user.is_superuser or self.request.user.is_superuser:
-            return models.Organization.objects.all()
-        return models.Organization.objects.filter(
-            id__in=self.request.user.get_organizations()
-        )
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -56,7 +44,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         get_object_or_404(
-            self.get_user_organizations(), id=self.kwargs["organization_pk"]
+            super().get_user_organizations(), id=self.kwargs["organization_pk"]
         )
         models.OrganizationHealthNetwork.objects.filter(
             organization=self.kwargs["organization_pk"]
@@ -83,27 +71,18 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class OrganizationChildrenViewSet(viewsets.ModelViewSet):
+class OrganizationChildrenViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationChildrenSerializer
         return serializers.OrganizationSerializer
 
-    def get_user_organization(self):
-        queryset = models.Organization.objects.all()
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return queryset
-
-        return queryset.filter(
-            id__in=self.request.user.get_organizations(),
-        )
-
     def get_queryset(self):
-        return self.get_user_organization().filter(parent=self.kwargs["pk"])
+        return super().get_user_organizations().filter(parent=self.kwargs["pk"])
 
     def perform_create(self, serializer):
-        get_object_or_404(self.get_user_organization(), pk=self.kwargs["pk"])
-        organizations = self.get_user_organization()
+        get_object_or_404(super().get_user_organizations(), pk=self.kwargs["pk"])
+        organizations = super().get_user_organizations()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             if not organizations.filter(
