@@ -171,6 +171,20 @@ class OrganizationTestCase(BaseTestCase):
             )
             self.assertEqual(response.status_code, status_code)
 
+    def test_user_deactivate(self):
+        for user in [self.user_admin]:
+            self.client.force_login(user)
+
+            user = factories.UserFactory(
+                is_active=True, organizations=[self.organization]
+            )
+            response = self.client.patch(
+                "/api/users/deactivate/", data={"users": [user.id]}
+            )
+            self.assertEqual(response.status_code, 200)
+            user.refresh_from_db()
+            self.assertEqual(user.is_active, False)
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

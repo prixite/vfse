@@ -163,3 +163,20 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "is_active",
         ]
+
+
+class UserDeactivateSerializer(serializers.Serializer):
+    users = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.User.objects.all()
+    )
+
+    def validate(self, attrs):
+        if self.context["request"].user.is_superuser:
+            return attrs
+
+        if len(set(self.context["view"].get_queryset()) & set(attrs["users"])) != len(
+            attrs["users"]
+        ):
+            raise ValidationError("Some users are not accessible")
+
+        return attrs
