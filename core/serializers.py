@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
@@ -169,15 +171,15 @@ class UpsertUserSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     email = serializers.EmailField()
-    phone = serializers.CharField()  # Shouls start with +1
+    phone = serializers.CharField()
     role = serializers.ChoiceField(
         choices=models.Membership.Role, default=models.Membership.Role.FSE
     )
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     customer = serializers.PrimaryKeyRelatedField(
-        queryset=models.Organization.objects.filter(
-            id__in=self.context["request"].user.get_organizations()
-        )
+        queryset=models.Organization.objects.all()
+        #     id__in=self.context["request"].user.get_organizations()
+        # )
     )
     sites = serializers.PrimaryKeyRelatedField(
         many=True, queryset=models.Site.objects.all()
@@ -192,3 +194,18 @@ class UpsertUserSerializer(serializers.Serializer):
     one_time = serializers.BooleanField()
 
     # Add Phone validation, Customer validation.
+
+    def validate_phone(self, value):
+        result = re.match("(?P<phone>\+1\d{10}$)", value)
+
+        if result:
+            raise ValidationError(
+                "Invalid phone number",
+                code="invalid",
+                params={
+                    "value": value,
+                },
+            )
+
+    def validate_customer(self, value):
+        pass

@@ -126,7 +126,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/users/`,
         method: "POST",
-        body: queryArg.user,
+        body: queryArg.upsertUser,
       }),
     }),
   }),
@@ -200,9 +200,9 @@ export type SitesSystemsListApiArg = {
 };
 export type UsersListApiResponse = /** status 200  */ User[];
 export type UsersListApiArg = void;
-export type UsersCreateApiResponse = /** status 201  */ User;
+export type UsersCreateApiResponse = /** status 201  */ UpsertUser;
 export type UsersCreateApiArg = {
-  user: User;
+  upsertUser: UpsertUser;
 };
 export type Site = {
   id?: number;
@@ -260,6 +260,32 @@ export type System = {
   asset_number: string;
   ip_address: string;
   local_ae_title: string;
+};
+export type UpsertUser = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  role?:
+    | "fse-admin"
+    | "customer-admin"
+    | "user-admin"
+    | "fse"
+    | "end-user"
+    | "view-only"
+    | "one-time"
+    | "cryo"
+    | "cryo-fse"
+    | "cryo-admin";
+  manager: number;
+  customer: number;
+  sites: number[];
+  modalities: number[];
+  fse_accessible: boolean;
+  audit_enabled: boolean;
+  can_leave_notes: boolean;
+  view_only: boolean;
+  one_time: boolean;
 };
 export const {
   useHealthNetworkListQuery,

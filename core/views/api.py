@@ -109,7 +109,10 @@ class SiteSystemViewSet(ModelViewSet):
 
 
 class UserViewSet(ModelViewSet):
-    serializer_class = serializers.UserSerializer
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.UpsertUserSerializer
+        return serializers.UserSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
@@ -120,6 +123,11 @@ class UserViewSet(ModelViewSet):
                 organization__in=self.request.user.get_organizations(),
             ).values_list("user")
         )
+
+    def perform_create(self, serializer):
+        # Do the save logic here
+        # return super().perform_create(serializer)
+        pass
 
 
 class OrganizationUserViewSet(ModelViewSet):
