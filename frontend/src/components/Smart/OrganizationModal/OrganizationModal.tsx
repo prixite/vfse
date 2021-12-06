@@ -4,7 +4,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
-import { useState } from "react";
 
 import { useOrganizationsCreateMutation } from "@src/store/reducers/api";
 
@@ -28,9 +27,10 @@ export default function OrganizationModal(props) {
           variant="standard"
           onChange={(event) =>
             props.setOrganization({
-            ...props.organization,
-            name: event.target.value,
-          })}
+              ...props.organization,
+              name: event.target.value,
+            })
+          }
         />
         <TextField
           margin="dense"
@@ -50,11 +50,17 @@ export default function OrganizationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>Cancel</Button>
-        <Button onClick={async () => {
-          console.log(props.organization);
-          await addNewOrganization(props.organization).unwrap();
-          props.handleClose();
-        }}>Save</Button>
+        <Button
+          onClick={async () => {
+            await addNewOrganization({
+              organization: props.organization,
+            }).unwrap();
+            props.handleClose();
+            props.refetch(); // TODO: invalidate cache instead of this.
+          }}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

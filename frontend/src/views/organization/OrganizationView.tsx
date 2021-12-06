@@ -69,10 +69,7 @@ export default function OrganizationView() {
     handleClose();
   };
 
-  const {
-    data: items,
-    isLoading,
-  } = useOrganizationsListQuery()
+  const { data: items, refetch, isLoading } = useOrganizationsListQuery();
 
   if (isLoading) {
     return <p>Loading</p>;
@@ -97,6 +94,7 @@ export default function OrganizationView() {
         setOrganization={setOrganization}
         open={open}
         handleClose={handleClose}
+        refetch={refetch}
       />
 
       <TableContainer component={Paper} sx={{ marginTop: "10px" }}>
