@@ -5,7 +5,6 @@ from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
 from core.permissions import OrganizationDetailPermission
-
 from core.views import mixins
 
 
