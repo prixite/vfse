@@ -8,6 +8,7 @@ from core.permissions import OrganizationDetailPermission
 
 from . import mixins
 
+
 class MeViewSet(ModelViewSet):
     serializer_class = serializers.MeSerializer
 
@@ -15,7 +16,7 @@ class MeViewSet(ModelViewSet):
         return self.request.user
 
 
-class OrganizationViewSet(ModelViewSet,mixins.UserOganizationMixin):
+class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
     permission_classes = [IsAuthenticated, OrganizationDetailPermission]
 
@@ -29,7 +30,7 @@ class OrganizationViewSet(ModelViewSet,mixins.UserOganizationMixin):
         return super().destroy(request, *args, **kwargs)
 
 
-class OrganizationHealthNetworkViewSet(ModelViewSet,mixins.UserOganizationMixin):
+class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
         return models.HealthNetwork.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
@@ -44,7 +45,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet,mixins.UserOganizationMixin)
 
     def perform_create(self, serializer):
         get_object_or_404(
-            super().get_user_organizations(),id=self.kwargs["organization_pk"]
+            super().get_user_organizations(), id=self.kwargs["organization_pk"]
         )
         models.OrganizationHealthNetwork.objects.filter(
             organization=self.kwargs["organization_pk"]
@@ -71,7 +72,7 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class OrganizationChildrenViewSet(ModelViewSet,mixins.UserOganizationMixin):
+class OrganizationChildrenViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationChildrenSerializer
