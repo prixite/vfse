@@ -114,7 +114,6 @@ api_urlpatterns = [
         api.UserDeactivateViewSet.as_view(
             {
                 "patch": "partial_update",
-                "get":"list"
             }
         ),
     ),

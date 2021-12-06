@@ -184,7 +184,7 @@ class UserDeactivateViewSet(ModelViewSet):
         users = self.get_queryset()
         seriazlier = self.get_serializer(data=request.data, partial=True)
         if seriazlier.is_valid():
-            users.filter(id__in=seriazlier.validated_data["users"]).update(
+            users.filter(username__in=seriazlier.validated_data["users"]).update(
                 is_active=False
             )
         return Response(seriazlier.data)

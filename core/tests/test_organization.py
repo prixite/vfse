@@ -175,13 +175,14 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
 
         user = factories.UserFactory(is_active=True)
-        response = self.client.patch('/api/users/deactivate/',
-        data={
-            'users':[user.id]
-        })        
-        self.assertEqual(response.status_code,200)
+        response = self.client.patch(
+            "/api/users/deactivate/", data={"users": [user.id]}
+        )
+        self.assertEqual(response.status_code, 200)
         user.refresh_from_db()
-        self.assertEqual(user.is_active,False)
+        self.assertEqual(user.is_active, False)
+
+
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
         for user in [self.super_admin, self.super_manager]:

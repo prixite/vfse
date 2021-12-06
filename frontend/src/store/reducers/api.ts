@@ -134,7 +134,7 @@ const injectedRtkApi = api.injectEndpoints({
       UsersDeactivatePartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/users/${queryArg.id}/deactivate/`,
+        url: `/users/deactivate/`,
         method: "PATCH",
         body: queryArg.userDeactivate,
       }),
@@ -217,7 +217,6 @@ export type UsersCreateApiArg = {
 export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserDeactivate;
 export type UsersDeactivatePartialUpdateApiArg = {
-  id: string;
   userDeactivate: UserDeactivate;
 };
 export type Site = {

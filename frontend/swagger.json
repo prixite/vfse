@@ -464,7 +464,7 @@
             },
             "parameters": []
         },
-        "/users/{id}/deactivate/": {
+        "/users/deactivate/": {
             "patch": {
                 "operationId": "users_deactivate_partial_update",
                 "description": "",
@@ -490,14 +490,7 @@
                     "users"
                 ]
             },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
+            "parameters": []
         }
     },
     "definitions": {
@@ -818,11 +811,11 @@
             "type": "object",
             "properties": {
                 "users": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
+                    },
+                    "uniqueItems": true
                 }
             }
         }

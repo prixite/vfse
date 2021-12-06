@@ -166,4 +166,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserDeactivateSerializer(serializers.Serializer):
-    users = serializers.ListField(child=serializers.IntegerField())
+    users = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.User.objects.all()
+    )
