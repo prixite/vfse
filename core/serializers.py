@@ -166,4 +166,4 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserDeactivateSerializer(serializers.Serializer):
-    user = serializers.ListField(child=serializers.IntegerField())
+    users = serializers.ListField(child=serializers.IntegerField())

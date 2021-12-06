@@ -465,25 +465,6 @@
             "parameters": []
         },
         "/users/{id}/deactivate/": {
-            "get": {
-                "operationId": "users_deactivate_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/User"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "users"
-                ]
-            },
             "patch": {
                 "operationId": "users_deactivate_partial_update",
                 "description": "",
@@ -832,11 +813,11 @@
         "UserDeactivate": {
             "description": "",
             "required": [
-                "user"
+                "users"
             ],
             "type": "object",
             "properties": {
-                "user": {
+                "users": {
                     "description": "",
                     "type": "array",
                     "items": {

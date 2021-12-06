@@ -129,12 +129,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.user,
       }),
     }),
-    usersDeactivateList: build.query<
-      UsersDeactivateListApiResponse,
-      UsersDeactivateListApiArg
-    >({
-      query: (queryArg) => ({ url: `/users/${queryArg.id}/deactivate/` }),
-    }),
     usersDeactivatePartialUpdate: build.mutation<
       UsersDeactivatePartialUpdateApiResponse,
       UsersDeactivatePartialUpdateApiArg
@@ -220,10 +214,6 @@ export type UsersCreateApiResponse = /** status 201  */ User;
 export type UsersCreateApiArg = {
   user: User;
 };
-export type UsersDeactivateListApiResponse = /** status 200  */ User[];
-export type UsersDeactivateListApiArg = {
-  id: string;
-};
 export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserDeactivate;
 export type UsersDeactivatePartialUpdateApiArg = {
@@ -288,7 +278,7 @@ export type System = {
   local_ae_title: string;
 };
 export type UserDeactivate = {
-  user: number[];
+  users: number[];
 };
 export const {
   useHealthNetworkListQuery,
@@ -308,6 +298,5 @@ export const {
   useSitesSystemsListQuery,
   useUsersListQuery,
   useUsersCreateMutation,
-  useUsersDeactivateListQuery,
   useUsersDeactivatePartialUpdateMutation,
 } = injectedRtkApi;

@@ -1,6 +1,7 @@
 from rest_framework import exceptions
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
@@ -179,8 +180,11 @@ class UserDeactivateViewSet(ModelViewSet):
             )
         )
 
-    def perform_update(self, serializer):
-
-        models.User.objects.filter(id__in=serializer.validated_data["user"]).update(
-            is_active=False
-        )
+    def partial_update(self, request, *args, **kwargs):
+        users = self.get_queryset()
+        seriazlier = self.get_serializer(data=request.data, partial=True)
+        if seriazlier.is_valid():
+            users.filter(id__in=seriazlier.validated_data["users"]).update(
+                is_active=False
+            )
+        return Response(seriazlier.data)
