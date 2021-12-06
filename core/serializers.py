@@ -163,3 +163,21 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "is_active",
         ]
+
+class UpsertUserSerializer(serializers.Serializer):
+    first_name= serializers.CharField()
+    last_name= serializers.CharField()
+    email = serializers.EmailField()
+    phone = serializers.CharField() #Shouls start with +1
+    role = serializers.ChoiceField(choices=models.Membership.Role,default=models.Membership.Role.FSE)
+    manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
+    customer = serializers.PrimaryKeyRelatedField(queryset=models.Organization.objects.filter(id__in= self.context['request'].user.get_organizations()))
+    sites = serializers.PrimaryKeyRelatedField(many=True,queryset=models.Site.objects.all())
+    modalities = serializers.PrimaryKeyRelatedField(many=True,queryset=models.Modality.objects.all())
+    fse_accessible = serializers.BooleanField()
+    audit_enabled = serializers.BooleanField()
+    can_leave_notes= serializers.BooleanField()
+    view_only=serializers.BooleanField()
+    one_time = serializers.BooleanField()
+
+    # Add Phone validation, Customer validation.
