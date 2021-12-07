@@ -1,11 +1,11 @@
 import React, { ReactChildren, ReactChild } from "react";
-import "./Layout.scss";
-import SideBar from "@src/components/Layout/SideBar/SideBar";
+import "./PageLayout.scss";
+import SideBar from "@src/components/shared/Layout/SideBar/SideBar";
 
 interface LayoutProps {
   children: ReactChild | ReactChildren;
 }
-const Layout = ({ children }: LayoutProps) => {
+const PageLayout = ({ children }: LayoutProps) => {
   return (
     <div className="Layout">
       <SideBar />
@@ -14,4 +14,4 @@ const Layout = ({ children }: LayoutProps) => {
   );
 };
 
-export default Layout;
+export default PageLayout;

@@ -1,5 +1,5 @@
 import React from "react";
-import OrganizationSection from "@src/components/Smart/OrganizationSection/OrganizationSection";
+import OrganizationSection from "@src/components/common/Smart/OrganizationSection/OrganizationSection";
 const OrganizationView = () => {
   return (
     <>

@@ -14,9 +14,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Link } from "react-router-dom";
-import { routes } from "@src/routes/routes";
-import { routeItem } from "@src/helpers/interfaces";
-import "@src/components/Layout/SideBar/SideBar.scss";
+import { routes } from "@src/routes";
+import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
+import "@src/components/shared/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 320;
 
