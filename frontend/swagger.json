@@ -869,14 +869,6 @@
                     "type": "integer"
                 },
                 "sites": {
-        "UserDeactivate": {
-            "description": "",
-            "required": [
-                "users"
-            ],
-            "type": "object",
-            "properties": {
-                "users": {
                     "type": "array",
                     "items": {
                         "type": "integer"
@@ -909,6 +901,22 @@
                 "one_time_complete": {
                     "title": "One time complete",
                     "type": "boolean"
+                }
+            }
+        },
+        "UserDeactivate": {
+            "description": "",
+            "required": [
+                "users"
+            ],
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
                 }
             }
         }

@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0032_profile_phone'),
+        ("core", "0032_profile_phone"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='view_only',
+            model_name="profile",
+            name="view_only",
             field=models.BooleanField(default=False),
         ),
     ]

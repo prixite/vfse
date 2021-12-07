@@ -8,43 +8,47 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0030_make_health_network_not_null'),
+        ("core", "0030_make_health_network_not_null"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='audit_enabled',
+            model_name="profile",
+            name="audit_enabled",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='can_leave_notes',
+            model_name="profile",
+            name="can_leave_notes",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='fse_accessible',
+            model_name="profile",
+            name="fse_accessible",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='is_one_time',
+            model_name="profile",
+            name="is_one_time",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='is_view_only',
+            model_name="profile",
+            name="is_view_only",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='one_time_complete',
+            model_name="profile",
+            name="one_time_complete",
             field=models.BooleanField(default=True),
         ),
         migrations.AlterField(
-            model_name='userhealthnetwork',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='health_networks', to=settings.AUTH_USER_MODEL),
+            model_name="userhealthnetwork",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="health_networks",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

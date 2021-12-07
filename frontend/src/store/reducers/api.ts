@@ -301,6 +301,7 @@ export type UpsertUser = {
   can_leave_notes: boolean;
   view_only: boolean;
   one_time_complete: boolean;
+};
 export type UserDeactivate = {
   users: number[];
 };

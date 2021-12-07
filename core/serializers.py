@@ -218,6 +218,8 @@ class UpsertUserSerializer(serializers.Serializer):
                 )
             return value
         return value
+
+
 class UserDeactivateSerializer(serializers.Serializer):
     users = serializers.PrimaryKeyRelatedField(
         many=True, queryset=models.User.objects.all()
