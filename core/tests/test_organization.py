@@ -185,6 +185,47 @@ class OrganizationTestCase(BaseTestCase):
             user.refresh_from_db()
             self.assertEqual(user.is_active, False)
 
+    def test_user_upsert(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john@doe.com",
+            "phone": "+19876543210",
+            "role": models.Membership.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "one_time_complete": "false",
+            "view_only": "false",
+        }
+        response = self.client.post(
+            "/api/users/",
+            data=user_data,
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(
+            models.UserModality.objects.filter(
+                user__username=user_data["email"]
+            ).exists(),
+            True,
+        )
+        self.assertEqual(
+            models.UserSite.objects.filter(user__username=user_data["email"]).exists(),
+            True,
+        )
+        self.assertEqual(
+            models.Membership.objects.filter(
+                user__username=user_data["email"], role=user_data["role"]
+            ).exists(),
+            True,
+        )
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

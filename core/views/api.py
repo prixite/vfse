@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import exceptions
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -110,7 +111,10 @@ class SiteSystemViewSet(ModelViewSet):
 
 
 class UserViewSet(ModelViewSet):
-    serializer_class = serializers.UserSerializer
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.UpsertUserSerializer
+        return serializers.UserSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
@@ -121,6 +125,46 @@ class UserViewSet(ModelViewSet):
                 organization__in=self.request.user.get_organizations(),
             ).values_list("user")
         )
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        user = models.User.objects.create_user(
+            username=serializer.validated_data["email"],
+            **{
+                key: serializer.validated_data[key]
+                for key in ["email", "first_name", "last_name"]
+            }
+        )
+        models.Membership.objects.create(
+            organization=serializer.validated_data["organization"],
+            role=serializer.validated_data["role"],
+            user=user,
+        )
+        models.Profile.objects.filter(user=user).update(
+            **{
+                key: serializer.validated_data[key]
+                for key in [
+                    "manager",
+                    "phone",
+                    "fse_accessible",
+                    "audit_enabled",
+                    "can_leave_notes",
+                    "view_only",
+                    "one_time_complete",
+                ]
+            }
+        )
+
+        sites = [
+            models.UserSite(user=user, site=site)
+            for site in serializer.validated_data["sites"]
+        ]
+        models.UserSite.objects.bulk_create(sites)
+        modalities = [
+            models.UserModality(user=user, modality=modality)
+            for modality in serializer.validated_data["modalities"]
+        ]
+        models.UserModality.objects.bulk_create(modalities)
 
 
 class OrganizationUserViewSet(ModelViewSet):
