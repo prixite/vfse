@@ -811,7 +811,7 @@
                 "email",
                 "phone",
                 "manager",
-                "customer",
+                "organization",
                 "sites",
                 "modalities",
                 "fse_accessible",
@@ -864,8 +864,8 @@
                     "title": "Manager",
                     "type": "integer"
                 },
-                "customer": {
-                    "title": "Customer",
+                "organization": {
+                    "title": "Organization",
                     "type": "integer"
                 },
                 "sites": {

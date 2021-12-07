@@ -293,7 +293,7 @@ export type UpsertUser = {
     | "cryo-fse"
     | "cryo-admin";
   manager: number;
-  customer: number;
+  organization: number;
   sites: number[];
   modalities: number[];
   fse_accessible: boolean;
