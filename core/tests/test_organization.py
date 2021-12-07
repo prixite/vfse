@@ -185,7 +185,10 @@ class OrganizationTestCase(BaseTestCase):
             user.refresh_from_db()
             self.assertEqual(user.is_active, False)
 
-
+    def test_user_login_non_active(self):
+        in_active_user = factories.UserWithPasswordFactory(is_active=False)
+        response= self.client.login(username=in_active_user.username,password='admin')
+        self.assertEqual(response,False)
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
         for user in [self.super_admin, self.super_manager]:
