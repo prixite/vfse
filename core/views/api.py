@@ -128,7 +128,6 @@ class UserViewSet(ModelViewSet):
 
     @transaction.atomic
     def perform_create(self, serializer):
-        print(serializer.validated_data)
         user = models.User.objects.create_user(
             username=serializer.validated_data["email"],
             **{
@@ -156,10 +155,16 @@ class UserViewSet(ModelViewSet):
             }
         )
 
-        models.Site.objects.create(user=user, site=serializer.validated_data["site"])
-        models.UserModality.objects.create(
-            user=user, modality=serializer.validated_data["modality"]
-        )
+        sites = [
+            models.UserSite(user=user, site=site)
+            for site in serializer.validated_data["sites"]
+        ]
+        models.UserSite.objects.bulk_create(sites)
+        modalities = [
+            models.UserModality(user=user, modality=modality)
+            for modality in serializer.validated_data["modalities"]
+        ]
+        models.UserModality.objects.bulk_create(modalities)
 
 
 class OrganizationUserViewSet(ModelViewSet):
