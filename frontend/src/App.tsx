@@ -1,15 +1,15 @@
 import React from "react";
 import { ToastContainer } from "react-toastify";
 import "@src/App.scss";
-import Layout from "@src/components/Layout/Layout";
-import Content from "@src/components/Content";
+import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
+import RoutesHOC from "@src/components/hoc/routesHOC";
 export default function App() {
   return (
     <>
       <ToastContainer />
-      <Layout>
-        <Content />
-      </Layout>
+      <PageLayout>
+        <RoutesHOC />
+      </PageLayout>
     </>
   );
 }
