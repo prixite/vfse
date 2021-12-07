@@ -136,7 +136,7 @@ class UserViewSet(ModelViewSet):
             }
         )
         models.Membership.objects.create(
-            organization=serializer.validated_data["customer"],
+            organization=serializer.validated_data["organization"],
             role=serializer.validated_data["role"],
             user=user,
         )

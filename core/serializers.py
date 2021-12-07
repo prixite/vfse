@@ -176,7 +176,7 @@ class UpsertUserSerializer(serializers.Serializer):
         choices=models.Membership.Role, default=models.Membership.Role.FSE
     )
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
-    customer = serializers.PrimaryKeyRelatedField(
+    organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
     )
     sites = serializers.PrimaryKeyRelatedField(
@@ -201,7 +201,7 @@ class UpsertUserSerializer(serializers.Serializer):
             )
         return value
 
-    def validate_customer(self, value):
+    def validate_organization(self, value):
         if not self.context["request"].user.is_superuser:
             managed_org = (
                 models.Organization.objects.filter(

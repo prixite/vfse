@@ -194,7 +194,7 @@ class OrganizationTestCase(BaseTestCase):
                 "phone": "+19876543210",
                 "role": models.Membership.Role.FSE,
                 "manager": self.customer_admin.id,
-                "customer": self.organization.id,
+                "organization": self.organization.id,
                 "sites": [self.site.id],
                 "modalities": [self.modality.id],
                 "fse_accessible": "false",
