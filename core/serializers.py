@@ -210,7 +210,6 @@ class UpsertUserSerializer(serializers.Serializer):
                 .filter(id=value.id)
                 .exists()
             )
-            print(managed_org)
             if not managed_org:
                 raise ValidationError(
                     "Some organizations are not accessible",
