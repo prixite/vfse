@@ -200,7 +200,7 @@ class OrganizationTestCase(BaseTestCase):
             "fse_accessible": "false",
             "audit_enabled": "false",
             "can_leave_notes": "false",
-            "one_time_complete": "false",
+            "is_one_time": "false",
             "view_only": "false",
         }
         response = self.client.post(
@@ -226,7 +226,12 @@ class OrganizationTestCase(BaseTestCase):
             True,
         )
 
+    # def test_one_time_login(self):
+    #     user = factories.UserWithPasswordFactory()
+    #     user.profile.is_one_time=True
+    #     user.save()
 
+        # self.client.login(user)
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
         for user in [self.super_admin, self.super_manager]:
