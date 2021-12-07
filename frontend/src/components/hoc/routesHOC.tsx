@@ -1,8 +1,8 @@
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Box } from "@mui/material";
-import { routes } from "@src/routes/routes";
+import { routes } from "@src/routes";
 
-const Content = () => {
+const RoutesHOC = () => {
   return (
     <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#F5F6F7" }}>
       <Switch>
@@ -19,4 +19,4 @@ const Content = () => {
     </Box>
   );
 };
-export default Content;
+export default RoutesHOC;

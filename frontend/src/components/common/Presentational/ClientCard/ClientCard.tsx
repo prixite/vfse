@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
-import "@src/components/Presentational/ClientCard/ClientCard.scss";
+import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { toast } from "react-toastify";
 interface ClientCardProps {

@@ -3,9 +3,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useState } from "react";
-import OrganizationModal from "@src/components/Smart/OrganizationModal/OrganizationModal";
-import ClientCard from "@src/components/Presentational/ClientCard/ClientCard";
-import "@src/components/Smart/OrganizationSection/OrganizationSection.scss";
+import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
+import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
+import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import "react-toastify/dist/ReactToastify.css";
 import {
   useOrganizationsListQuery,
