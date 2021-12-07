@@ -7,7 +7,7 @@ from django.shortcuts import render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
 
-from core import models, serializers
+from core import forms, models, serializers
 
 
 class HomeView(TemplateView):
@@ -30,6 +30,7 @@ class HomeView(TemplateView):
 class LoginView(auth_views.LoginView):
     template_name = "core/registration/login.html"
     redirect_authenticated_user = True
+    form_class = forms.UserLoginForm
 
     def form_valid(self, form):
         user = form.get_user()

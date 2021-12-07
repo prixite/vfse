@@ -226,12 +226,18 @@ class OrganizationTestCase(BaseTestCase):
             True,
         )
 
-    # def test_one_time_login(self):
-    #     user = factories.UserWithPasswordFactory()
-    #     user.profile.is_one_time=True
-    #     user.save()
+    def test_one_time_login(self):
+        user = factories.UserWithPasswordFactory()
+        user.profile.is_one_time = True
+        user.set_password("admin")
+        user.profile.save()
+        user.save()
+        user.refresh_from_db()
+        login_status = self.client.login(username=user.username, password="admin")
+        print(login_status)
+        # Test to be completed
 
-        # self.client.login(user)
+
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
         for user in [self.super_admin, self.super_manager]:
