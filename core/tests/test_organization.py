@@ -187,8 +187,9 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_user_login_non_active(self):
         in_active_user = factories.UserWithPasswordFactory(is_active=False)
-        response= self.client.login(username=in_active_user.username,password='admin')
-        self.assertEqual(response,False)
+        response = self.client.login(username=in_active_user.username, password="admin")
+        self.assertEqual(response, False)
+
     def test_user_upsert(self):
         self.client.force_login(self.super_admin)
         user_data = {
