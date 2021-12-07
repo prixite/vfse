@@ -109,13 +109,15 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
+    phone = models.CharField(max_length=15, default="")
     mfa_enabled = models.BooleanField(default=False)
     fse_accessible = models.BooleanField(default=False)
     audit_enabled = models.BooleanField(default=True)
     can_leave_notes = models.BooleanField(default=True)
     is_view_only = models.BooleanField(default=False)
     is_one_time = models.BooleanField(default=True)
-    one_time_complete = models.BooleanField(default=True)
+    view_only = models.BooleanField(default=False)
+    one_time_complete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -285,7 +285,7 @@ export type UpsertUser = {
   audit_enabled: boolean;
   can_leave_notes: boolean;
   view_only: boolean;
-  one_time: boolean;
+  one_time_complete: boolean;
 };
 export const {
   useHealthNetworkListQuery,

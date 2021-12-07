@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import exceptions
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -124,10 +125,40 @@ class UserViewSet(ModelViewSet):
             ).values_list("user")
         )
 
+    @transaction.atomic
     def perform_create(self, serializer):
-        # Do the save logic here
-        # return super().perform_create(serializer)
-        pass
+        print(serializer.validated_data)
+        user = models.User.objects.create_user(
+            username=serializer.validated_data["email"],
+            **{
+                key: serializer.validated_data[key]
+                for key in ["email", "first_name", "last_name"]
+            }
+        )
+        models.Membership.objects.create(
+            organization=serializer.validated_data["customer"],
+            role=serializer.validated_data["role"],
+            user=user,
+        )
+        models.Profile.objects.filter(user=user).update(
+            **{
+                key: serializer.validated_data[key]
+                for key in [
+                    "manager",
+                    "phone",
+                    "fse_accessible",
+                    "audit_enabled",
+                    "can_leave_notes",
+                    "view_only",
+                    "one_time_complete",
+                ]
+            }
+        )
+
+        models.Site.objects.create(user=user, site=serializer.validated_data["site"])
+        models.UserModality.objects.create(
+            user=user, modality=serializer.validated_data["modality"]
+        )
 
 
 class OrganizationUserViewSet(ModelViewSet):

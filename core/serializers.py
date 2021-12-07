@@ -178,8 +178,6 @@ class UpsertUserSerializer(serializers.Serializer):
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     customer = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
-        #     id__in=self.context["request"].user.get_organizations()
-        # )
     )
     sites = serializers.PrimaryKeyRelatedField(
         many=True, queryset=models.Site.objects.all()
@@ -191,21 +189,32 @@ class UpsertUserSerializer(serializers.Serializer):
     audit_enabled = serializers.BooleanField()
     can_leave_notes = serializers.BooleanField()
     view_only = serializers.BooleanField()
-    one_time = serializers.BooleanField()
-
-    # Add Phone validation, Customer validation.
+    one_time_complete = serializers.BooleanField()
 
     def validate_phone(self, value):
-        result = re.match("(?P<phone>\+1\d{10}$)", value)
+        result = re.match(r"(?P<phone>\+1\d{10}$)", value)
 
-        if result:
+        if not result:
             raise ValidationError(
-                "Invalid phone number",
+                "Invalid.id phone number",
                 code="invalid",
-                params={
-                    "value": value,
-                },
             )
+        return value
 
     def validate_customer(self, value):
-        pass
+        if not self.context["request"].user.is_superuser:
+            managed_org = (
+                models.Organization.objects.filter(
+                    id__in=self.context["request"].user.get_organizations()
+                )
+                .filter(id=value.id)
+                .exists()
+            )
+            print(managed_org)
+            if not managed_org:
+                raise ValidationError(
+                    "Some organizations are not accessible",
+                    code="invalid",
+                )
+            return value
+        return value

@@ -790,7 +790,7 @@
                 "audit_enabled",
                 "can_leave_notes",
                 "view_only",
-                "one_time"
+                "one_time_complete"
             ],
             "type": "object",
             "properties": {
@@ -870,8 +870,8 @@
                     "title": "View only",
                     "type": "boolean"
                 },
-                "one_time": {
-                    "title": "One time",
+                "one_time_complete": {
+                    "title": "One time complete",
                     "type": "boolean"
                 }
             }
