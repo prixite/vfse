@@ -463,6 +463,34 @@
                 ]
             },
             "parameters": []
+        },
+        "/users/deactivate/": {
+            "patch": {
+                "operationId": "users_deactivate_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserDeactivate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/UserDeactivate"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
         }
     },
     "definitions": {
@@ -841,6 +869,14 @@
                     "type": "integer"
                 },
                 "sites": {
+        "UserDeactivate": {
+            "description": "",
+            "required": [
+                "users"
+            ],
+            "type": "object",
+            "properties": {
+                "users": {
                     "type": "array",
                     "items": {
                         "type": "integer"

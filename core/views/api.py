@@ -2,6 +2,7 @@ from django.db import transaction
 from rest_framework import exceptions
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from core import models, serializers
@@ -198,3 +199,28 @@ class HealthNetworkViewSet(ModelViewSet):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.HealthNetwork.objects.all().prefetch_related("sites")
         return models.HealthNetwork.objects.none()
+
+
+class UserDeactivateViewSet(ModelViewSet):
+    def get_serializer_class(self):
+        return serializers.UserDeactivateSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.User.objects.all()
+
+        return models.User.objects.filter(
+            id__in=models.Membership.objects.filter(
+                organization__in=self.request.user.get_organizations(
+                    roles=[models.Membership.Role.USER_ADMIN]
+                )
+            ).values_list("user")
+        )
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        models.User.objects.filter(
+            id__in=[x.id for x in serializer.validated_data["users"]]
+        ).update(is_active=False)
+        return Response(serializer.data)

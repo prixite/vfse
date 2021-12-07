@@ -108,6 +108,23 @@ class UserFactory(factory.django.DjangoModelFactory):
         "core.tests.factories.ProfileFactory", factory_related_name="user"
     )
 
+    @factory.post_generation
+    def organizations(
+        user,
+        create,
+        organizations,
+        **kwargs,
+    ):
+        if not create:
+            return
+
+        for organization in organizations or []:
+            MembershipFactory(
+                organization=organization,
+                user=user,
+                role=kwargs.get("role", models.Membership.Role.FSE),
+            )
+
 
 class UserWithPasswordFactory(UserFactory):
     """

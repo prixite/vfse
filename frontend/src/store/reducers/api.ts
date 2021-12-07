@@ -129,6 +129,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.upsertUser,
       }),
     }),
+    usersDeactivatePartialUpdate: build.mutation<
+      UsersDeactivatePartialUpdateApiResponse,
+      UsersDeactivatePartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/deactivate/`,
+        method: "PATCH",
+        body: queryArg.userDeactivate,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -203,6 +213,11 @@ export type UsersListApiArg = void;
 export type UsersCreateApiResponse = /** status 201  */ UpsertUser;
 export type UsersCreateApiArg = {
   upsertUser: UpsertUser;
+};
+export type UsersDeactivatePartialUpdateApiResponse =
+  /** status 200  */ UserDeactivate;
+export type UsersDeactivatePartialUpdateApiArg = {
+  userDeactivate: UserDeactivate;
 };
 export type Site = {
   id?: number;
@@ -286,6 +301,8 @@ export type UpsertUser = {
   can_leave_notes: boolean;
   view_only: boolean;
   one_time_complete: boolean;
+export type UserDeactivate = {
+  users: number[];
 };
 export const {
   useHealthNetworkListQuery,
@@ -305,4 +322,5 @@ export const {
   useSitesSystemsListQuery,
   useUsersListQuery,
   useUsersCreateMutation,
+  useUsersDeactivatePartialUpdateMutation,
 } = injectedRtkApi;
