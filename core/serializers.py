@@ -1,3 +1,5 @@
+import re
+
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
@@ -163,6 +165,58 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "is_active",
         ]
+
+
+class UpsertUserSerializer(serializers.Serializer):
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    email = serializers.EmailField()
+    phone = serializers.CharField()
+    role = serializers.ChoiceField(
+        choices=models.Membership.Role, default=models.Membership.Role.FSE
+    )
+    manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
+    organization = serializers.PrimaryKeyRelatedField(
+        queryset=models.Organization.objects.all()
+    )
+    sites = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.Site.objects.all()
+    )
+    modalities = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.Modality.objects.all()
+    )
+    fse_accessible = serializers.BooleanField()
+    audit_enabled = serializers.BooleanField()
+    can_leave_notes = serializers.BooleanField()
+    view_only = serializers.BooleanField()
+    one_time_complete = serializers.BooleanField()
+
+    def validate_phone(self, value):
+        result = re.match(r"(?P<phone>\+1\d{10}$)", value)
+
+        if not result:
+            raise ValidationError(
+                "Invalid.id phone number",
+                code="invalid",
+            )
+        return value
+
+    def validate_organization(self, value):
+        if not self.context["request"].user.is_superuser:
+            managed_org = (
+                models.Organization.objects.filter(
+                    id__in=self.context["request"].user.get_organizations()
+                )
+                .filter(id=value.id)
+                .exists()
+            )
+            if not managed_org:
+                raise ValidationError(
+                    "Some organizations are not accessible",
+                    code="invalid",
+                )
+            return value
+        return value
 
 
 class UserDeactivateSerializer(serializers.Serializer):
