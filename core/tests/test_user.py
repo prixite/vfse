@@ -1,3 +1,5 @@
+from django import test
+
 from core.tests import factories
 from core.tests.base import BaseTestCase
 
@@ -9,3 +11,12 @@ class UserTestCase(BaseTestCase):
             username=in_active_user.username, password="admin"
         )
         self.assertEqual(response, False)
+
+    def test_user_login(self):
+        user = factories.UserWithPasswordFactory()
+        response = test.Client().post(
+            "/accounts/login/",
+            {"username": user.username, "password": "admin"},
+        )
+        print(response)
+        print(response.content.decode())
