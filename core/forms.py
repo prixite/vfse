@@ -6,6 +6,8 @@ class UserLoginForm(AuthenticationForm):
     def confirm_login_allowed(self, user):
         if user.profile.is_one_time and user.profile.one_time_complete:
             raise ValidationError(
-                self.error_messages["invalid_login"], code="invalid_login"
+                self.error_messages["invalid_login"],
+                code="invalid_login",
+                params={"username": self.username_field.verbose_name},
             )
         return super().confirm_login_allowed(user)
