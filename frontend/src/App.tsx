@@ -14,6 +14,10 @@ export default function App() {
     dispatch(updateMe(data));
   }
 
+  if (isFetching) {
+    return <p>Loading</p>;
+  }
+
   return (
     <>
       <ToastContainer />
