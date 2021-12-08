@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { HexColorPicker, HexColorInput } from "react-colorful";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
-import "rc-color-picker/assets/index.css";
 import "react-toastify/dist/ReactToastify.css";
-import ColorPicker from "rc-color-picker";
 import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import {
@@ -31,12 +30,12 @@ const OrganizationSection = () => {
 
   const handleClose = () => setOpen(false);
 
-  function changeSideBarColor(colors) {
-    dispatch(updateSideBarColor({ color: colors.color }));
+  function changeSideBarColor(color) {
+    dispatch(updateSideBarColor({ color: color }));
   }
 
-  function changeButtonColor(colors) {
-    dispatch(updateButtonColor({ color: colors.color }));
+  function changeButtonColor(color) {
+    dispatch(updateButtonColor({ color: color }));
   }
 
   if (isLoading) {
@@ -50,16 +49,22 @@ const OrganizationSection = () => {
         <div style={{ display: "flex" }}>
           <div style={{ marginTop: "20px" }}>
             <h4>Sidebar: </h4>
-            <ColorPicker
-              animation="slide-up"
+            <HexColorPicker
+              color={sideBarBackground}
+              onChange={changeSideBarColor}
+            />
+            <HexColorInput
               color={sideBarBackground}
               onChange={changeSideBarColor}
             />
           </div>
           <div style={{ marginTop: "20px", marginLeft: "20px" }}>
             <h4>Buttons: </h4>
-            <ColorPicker
-              animation="slide-up"
+            <HexColorPicker
+              color={buttonBackground}
+              onChange={changeButtonColor}
+            />
+            <HexColorInput
               color={buttonBackground}
               onChange={changeButtonColor}
             />
