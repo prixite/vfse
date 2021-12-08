@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import {
   Box,
@@ -13,23 +15,23 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import { Link } from "react-router-dom";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 320;
 
-const openedMixin = (theme: Theme): CSSObject => ({
+const openedMixin = (theme: Theme, bgcolor: string): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+  backgroundColor: bgcolor,
 });
 
-const closedMixin = (theme: Theme): CSSObject => ({
+const closedMixin = (theme: Theme, bgcolor: string): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -39,6 +41,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
+  backgroundColor: bgcolor,
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -52,23 +55,24 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+})(({ theme, open, bgcolor }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
+    ...openedMixin(theme, bgcolor),
+    "& .MuiDrawer-paper": openedMixin(theme, bgcolor),
   }),
   ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
+    ...closedMixin(theme, bgcolor),
+    "& .MuiDrawer-paper": closedMixin(theme, bgcolor),
   }),
 }));
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
+  const { sideBarBackground } = useSelector((state: any) => state.myTheme);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -101,7 +105,7 @@ export default function SideBar() {
 
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} bgcolor={sideBarBackground}>
         <DrawerHeader
           style={
             open ? { justifyContent: "flex-end" } : { justifyContent: "center" }
