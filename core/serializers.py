@@ -191,7 +191,7 @@ class UpsertUserSerializer(serializers.Serializer):
     audit_enabled = serializers.BooleanField(source="profile.audit_enabled")
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     view_only = serializers.BooleanField(source="profile.view_only")
-    one_time_complete = serializers.BooleanField(source="profile.one_time_complete")
+    is_one_time = serializers.BooleanField(source="profile.is_one_time")
 
     def validate_phone(self, value):
         result = re.match(r"(?P<phone>\+1\d{10}$)", value)

@@ -150,7 +150,7 @@ class UserViewSet(ModelViewSet):
         )
         models.Profile.objects.filter(user=user).update(
             **{
-                key: serializer.validated_data['profile'][key]
+                key: serializer.validated_data["profile"][key]
                 for key in [
                     "manager",
                     "phone",
