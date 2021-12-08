@@ -158,7 +158,7 @@ class UserViewSet(ModelViewSet):
                     "audit_enabled",
                     "can_leave_notes",
                     "view_only",
-                    "one_time_complete",
+                    "is_one_time",
                 ]
             }
         )

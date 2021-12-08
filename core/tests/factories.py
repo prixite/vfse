@@ -146,6 +146,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         model = models.Profile
 
     user = factory.SubFactory(UserFactory, profile=None)
+    is_one_time = False
 
 
 class MembershipFactory(factory.django.DjangoModelFactory):
