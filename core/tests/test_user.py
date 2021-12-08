@@ -1,5 +1,4 @@
 from django import test
-from rest_framework.exceptions import ValidationError
 
 from core.tests import factories
 from core.tests.base import BaseTestCase
@@ -29,12 +28,13 @@ class UserTestCase(BaseTestCase):
         user = factories.UserWithPasswordFactory(
             profile__is_one_time=True, profile__one_time_complete=True
         )
-        with self.assertRaises(ValidationError):
-            test.Client().post(
-                "/accounts/login/",
-                data={
-                    "username": user.username,
-                    "password": "admin",
-                },
-                follow=True,
-            )
+        response = test.Client().post(
+            "/accounts/login/",
+            data={
+                "username": user.username,
+                "password": "admin",
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.context["user"].is_authenticated, False)
