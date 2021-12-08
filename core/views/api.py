@@ -112,7 +112,7 @@ class SiteSystemViewSet(ModelViewSet):
 
 class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
-        if self.action == "create":
+        if self.action == "create" or 'partial_update':
             return serializers.UpsertUserSerializer
         return serializers.UserSerializer
 
@@ -135,8 +135,9 @@ class UserViewSet(ModelViewSet):
                 for key in ["email", "first_name", "last_name"]
             }
         )
+        print(serializer.validated_data)
         models.Membership.objects.create(
-            organization=serializer.validated_data["organization"],
+            organization=serializer.validated_data["get_organizations"],
             role=serializer.validated_data["role"],
             user=user,
         )
@@ -166,6 +167,10 @@ class UserViewSet(ModelViewSet):
         ]
         models.UserModality.objects.bulk_create(modalities)
 
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer()
+        serializers.is_valid()
+        return Response(serializer.data)
 
 class OrganizationUserViewSet(ModelViewSet):
     serializer_class = serializers.UserSerializer
