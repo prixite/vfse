@@ -228,13 +228,18 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_one_time_login(self):
         user = factories.UserWithPasswordFactory()
-        response = self.client.post('/accounts/login/',
-        data={
-            "username":user.username,
-            "password":'admin',
-        },follow=True)
+        response = self.client.post(
+            "/accounts/login/",
+            data={
+                "username": user.username,
+                "password": "admin",
+            },
+            follow=True,
+        )
 
-        print(response.content.decode(),response.redirect_chain)
+        print(response.content.decode(), response.redirect_chain)
+
+
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
         for user in [self.super_admin, self.super_manager]:
