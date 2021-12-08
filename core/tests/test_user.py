@@ -1,3 +1,5 @@
+from django import test
+
 from core.tests import factories
 from core.tests.base import BaseTestCase
 
@@ -9,3 +11,30 @@ class UserTestCase(BaseTestCase):
             username=in_active_user.username, password="admin"
         )
         self.assertEqual(response, False)
+
+    def test_one_time_login(self):
+        user = factories.UserWithPasswordFactory(profile__is_one_time=True)
+        response = test.Client().post(
+            "/accounts/login/",
+            data={
+                "username": user.username,
+                "password": "admin",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.context["user"].is_authenticated, True)
+
+    def test_one_time_login_complete(self):
+        user = factories.UserWithPasswordFactory(
+            profile__is_one_time=True, profile__one_time_complete=True
+        )
+        response = test.Client().post(
+            "/accounts/login/",
+            data={
+                "username": user.username,
+                "password": "admin",
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.context["user"].is_authenticated, False)

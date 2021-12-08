@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.signals import user_logged_in
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -15,3 +16,10 @@ def create_profile(
 ):
     if created:
         models.Profile.objects.create(user=instance)
+
+
+@receiver(user_logged_in)
+def use_one_time_login(sender, request, user, **kwargs):
+    if user.profile.is_one_time and not user.profile.one_time_complete:
+        user.profile.one_time_complete = True
+        user.profile.save()
