@@ -1,6 +1,5 @@
-from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from django.core.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError
 
 class UserLoginForm(AuthenticationForm):
     
@@ -10,15 +9,4 @@ class UserLoginForm(AuthenticationForm):
                 self.error_messages['invalid_login'],
                 code='invalid_login'
             )
-        else:
-            user.profile.one_time_complete = True
-            user.profile.save()
-            
-        if not user.is_active:
-            raise ValidationError(
-                self.error_messages['invalid_login'],
-                code='invalid_login'
-            )
-
-        super().confirm_login_allowed
-
+        return super().confirm_login_allowed()
