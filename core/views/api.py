@@ -112,7 +112,7 @@ class SiteSystemViewSet(ModelViewSet):
 
 class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
-        if self.action == "create" or 'partial_update':
+        if self.action in ["create", "partial_update", "retrieve"]:
             return serializers.UpsertUserSerializer
         return serializers.UserSerializer
 
@@ -122,9 +122,17 @@ class UserViewSet(ModelViewSet):
 
         return models.User.objects.filter(
             id__in=models.Membership.objects.filter(
-                organization__in=self.request.user.get_organizations(),
+                organization__in=self.request.user.get_organizations(
+                    roles=[models.Membership.Role.USER_ADMIN]
+                ),
             ).values_list("user")
         )
+
+    def retrieve(self, request, *args, **kwargs):
+        get_object_or_404(self.get_queryset(), id=self.kwargs["pk"])
+        user = models.User.objects.get(id=self.kwargs["pk"])
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
 
     @transaction.atomic
     def perform_create(self, serializer):
@@ -135,15 +143,14 @@ class UserViewSet(ModelViewSet):
                 for key in ["email", "first_name", "last_name"]
             }
         )
-        print(serializer.validated_data)
         models.Membership.objects.create(
-            organization=serializer.validated_data["get_organizations"],
+            organization=serializer.validated_data["organization"],
             role=serializer.validated_data["role"],
             user=user,
         )
         models.Profile.objects.filter(user=user).update(
             **{
-                key: serializer.validated_data[key]
+                key: serializer.validated_data['profile'][key]
                 for key in [
                     "manager",
                     "phone",
@@ -167,10 +174,11 @@ class UserViewSet(ModelViewSet):
         ]
         models.UserModality.objects.bulk_create(modalities)
 
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer()
-        serializers.is_valid()
-        return Response(serializer.data)
+    # def update(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer()
+    #     serializer.is_valid()
+    #     return Response(serializer.data)
+
 
 class OrganizationUserViewSet(ModelViewSet):
     serializer_class = serializers.UserSerializer

@@ -110,6 +110,15 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/users/<str:pk>/",
+        api.UserViewSet.as_view(
+            {
+                "get": "retrieve",
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/users/deactivate/",
         api.UserDeactivateViewSet.as_view(
             {

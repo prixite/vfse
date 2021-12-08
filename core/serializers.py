@@ -171,27 +171,27 @@ class UpsertUserSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     email = serializers.EmailField()
-    phone = serializers.CharField(source='profile.phone')
+    phone = serializers.CharField(source="profile.phone")
     role = serializers.ChoiceField(
-        choices=models.Membership.Role, default=models.Membership.Role.FSE
+        choices=models.Membership.Role, default=models.Membership.Role.USER_ADMIN
     )
-    # manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
-    organization = serializers.ChoiceField(
-        source='get_organizations',
-        choices=models.Organization.objects.all()
+    manager = serializers.PrimaryKeyRelatedField(
+        source="profile.manager", queryset=models.User.objects.all()
     )
-    # sites = serializers.PrimaryKeyRelatedField(
-    #     many=True, queryset=models.Site.objects.all()
-    # )
-    # modalities = serializers.PrimaryKeyRelatedField(
-    #     many=True, queryset=models.Modality.objects.all()
-    # )
-    fse_accessible = serializers.BooleanField(source='profile.fse_accessible')
-    audit_enabled = serializers.BooleanField(source='profile.audit_enabled')
-    can_leave_notes = serializers.BooleanField(source='profile.can_leave_notes')
-    view_only = serializers.BooleanField(source='profile.view_only')
-    one_time_complete = serializers.BooleanField(source='profile.one_time_complete')
-
+    organization = serializers.PrimaryKeyRelatedField(
+        queryset=models.Organization.objects.all()
+    )
+    sites = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.Site.objects.all()
+    )
+    modalities = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.Modality.objects.all()
+    )
+    fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
+    audit_enabled = serializers.BooleanField(source="profile.audit_enabled")
+    can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
+    view_only = serializers.BooleanField(source="profile.view_only")
+    one_time_complete = serializers.BooleanField(source="profile.one_time_complete")
 
     def validate_phone(self, value):
         result = re.match(r"(?P<phone>\+1\d{10}$)", value)

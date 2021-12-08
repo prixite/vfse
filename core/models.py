@@ -58,7 +58,9 @@ class User(AbstractUser):
 
 
 class UserModality(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE,related_name='modalities')
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, related_name="modalities"
+    )
     modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -73,7 +75,7 @@ class UserModality(models.Model):
 
 
 class UserSite(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE,related_name='sites')
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="sites")
     site = models.ForeignKey("Site", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
