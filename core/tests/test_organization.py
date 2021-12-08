@@ -200,7 +200,7 @@ class OrganizationTestCase(BaseTestCase):
             "fse_accessible": "false",
             "audit_enabled": "false",
             "can_leave_notes": "false",
-            "one_time_complete": "false",
+            "is_one_time": "false",
             "view_only": "false",
         }
         response = self.client.post(
