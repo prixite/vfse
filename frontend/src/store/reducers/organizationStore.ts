@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const organizationSlice = createSlice({
-  name: "currentOrganization",
+export const meSlice = createSlice({
+  name: "me",
   initialState: {
-    current_organization : {}
+    me : {}
   },
   reducers: {
-    updateCurrentOrganization: (state, action) => {
-      state.current_organization = action.payload.data;
+    updateMe: (state, action) => {
+      state.me = action.payload;
     },
   }
 });
 
-export const { updateCurrentOrganization} = organizationSlice.actions;
-export default organizationSlice.reducer;
+export const { updateMe } = meSlice.actions;
+export default meSlice.reducer;
