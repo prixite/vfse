@@ -9,7 +9,7 @@ from core import models
 
 class OrganizationAppearanceDefault:
     def __call__(self):
-        return {x: "#FFF" for x in OrganizationAppearanceSerializer().data}
+        return {x: "#773CBD" for x in OrganizationAppearanceSerializer().data}
 
 
 class DefaultOrganizationDefault:
@@ -23,6 +23,8 @@ class OrganizationAppearanceSerializer(serializers.Serializer):
     color_one = serializers.CharField()
     color_two = serializers.CharField()
     color_three = serializers.CharField()
+    sidebar_color = serializers.CharField()
+    primary_color = serializers.CharField()
     font_one = serializers.CharField()
     font_two = serializers.CharField()
 
