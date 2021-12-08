@@ -3,7 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 
-import AddUser from "@src/components/Smart/AddUser/AddUser";
+import AddUser from "@src/components/common/Smart/AddUser/AddUser";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
