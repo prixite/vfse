@@ -8,4 +8,4 @@ class UserLoginForm(AuthenticationForm):
             raise ValidationError(
                 self.error_messages["invalid_login"], code="invalid_login"
             )
-        return super().confirm_login_allowed()
+        return super().confirm_login_allowed(user)
