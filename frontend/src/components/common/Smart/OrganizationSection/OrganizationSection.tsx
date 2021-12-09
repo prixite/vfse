@@ -17,16 +17,19 @@ import {
 } from "@src/store/reducers/themeStore";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import { localizedData } from "@src/helpers/utils/language";
 
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
+  const constantData: object = localizedData()?.organization;
+  const { allClients, btnFilter, btnAddClients } = constantData;
+  const { data: items, refetch, isLoading } = useOrganizationsListQuery();
+  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { sideBarBackground, buttonBackground } = useAppSelector(
     (state) => state.myTheme
   );
   const dispatch = useAppDispatch();
-  const { data: items, refetch, isLoading } = useOrganizationsListQuery();
-  const [deleteOrganization] = useOrganizationsDeleteMutation();
 
   const handleClose = () => setOpen(false);
 
@@ -45,7 +48,7 @@ const OrganizationSection = () => {
   return (
     <>
       <Box component="div" className="OrganizationSection">
-        <h2>All Clients</h2>
+        <h2>{allClients}</h2>
         <div style={{ display: "flex" }}>
           <div style={{ marginTop: "20px" }}>
             <h4>Sidebar: </h4>
@@ -75,7 +78,7 @@ const OrganizationSection = () => {
             <Button variant="contained" className="Filterbtn">
               <div className="btn-content">
                 <FilterAltIcon style={{ marginRight: "9px" }} />
-                <span>Filter</span>
+                <span>{btnFilter}</span>
               </div>
             </Button>
 
@@ -104,7 +107,7 @@ const OrganizationSection = () => {
           >
             <div className="btn-content">
               <AddIcon />
-              <span>Add Clients</span>
+              <span>{btnAddClients}</span>
             </div>
           </Button>
         </Box>
