@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import {
   Box,
@@ -18,8 +17,6 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
-import { RootState } from "@src/store/store";
-import { Me } from "@src/store/reducers/api";
 import { useAppSelector } from "@src/store/hooks";
 
 const drawerWidth = 320;
@@ -93,10 +90,9 @@ export default function SideBar() {
   const createLinks = () =>
     routes
       .filter((item) => me.flags.indexOf(item.flag) !== -1)
-      .map((prop: routeItem, key: number) => {
+      .map((prop: routeItem) => {
         return (
           <ListItem
-            key={key}
             button
             component={Link}
             to={prop.path}
