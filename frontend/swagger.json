@@ -410,6 +410,57 @@
                 }
             ]
         },
+        "/products/models/": {
+            "get": {
+                "operationId": "products_models_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductModel"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": []
+        },
+        "/products/models/{id}/": {
+            "get": {
+                "operationId": "products_models_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductModel"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/sites/{site_pk}/systems/": {
             "get": {
                 "operationId": "sites_systems_list",
@@ -844,6 +895,24 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
+                }
+            }
+        },
+        "ProductModel": {
+            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
+            "required": [
+                "product",
+                "modality"
+            ],
+            "type": "object",
+            "properties": {
+                "product": {
+                    "title": "Product",
+                    "type": "integer"
+                },
+                "modality": {
+                    "title": "Modality",
+                    "type": "integer"
                 }
             }
         },
