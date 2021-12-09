@@ -15,7 +15,7 @@ import { localizedData } from "@src/helpers/utils/language";
 export default function OrganizationModal(props) {
   const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
-  const constantData: object = localizedData();
+  const constantData: object = localizedData()?.organization?.popUp;
   const {
     popUpNewOrganization,
     newOrganizationName,

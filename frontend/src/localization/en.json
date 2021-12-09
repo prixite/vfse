@@ -1,18 +1,24 @@
 {
-    "addUser": "Add User",
-    "addNewUser": "Add new user",
-    "newUser": "New User",
-    "userAdministration": "User Administration",
-    "userNameText": "Username",
-    "emailText": "Email",
-    "btnAdd": "Add",
-    "btnCancel": "Cancel",
-    "allClients": "All Clients",
-    "btnFilter": "Filter",
-    "btnAddClients": "Add Clients",
-    "popUpNewOrganization": "New Organization",
-    "newOrganizationName": "Name",
-    "newOrganizationSeats": "Number of Seats",
-    "newOrganizationBtnSave": "Save",
-    "newOrganizationBtnCancel": "Cancel"
+    "users":{
+            "addUser": "Add User",
+            "addNewUser": "Add new user",
+            "newUser": "New User",
+            "userAdministration": "User Administration",
+            "userNameText": "Username",
+            "emailText": "Email",
+            "btnAdd": "Add",
+            "btnCancel": "Cancel"
+    },
+    "organization":{
+            "allClients": "All Clients",
+            "btnFilter": "Filter",
+            "btnAddClients": "Add Clients",
+            "popUp":{
+                "popUpNewOrganization": "New Organization",
+                "newOrganizationName": "Name",
+                "newOrganizationSeats": "Number of Seats",
+                "newOrganizationBtnSave": "Save",
+                "newOrganizationBtnCancel": "Cancel"
+            }
+    }
 }

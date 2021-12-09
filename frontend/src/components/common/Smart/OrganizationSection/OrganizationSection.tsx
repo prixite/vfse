@@ -22,7 +22,7 @@ import { localizedData } from "@src/helpers/utils/language";
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const constantData: object = localizedData();
+  const constantData: object = localizedData()?.organization;
   const { allClients, btnFilter, btnAddClients } = constantData;
   const { data: items, refetch, isLoading } = useOrganizationsListQuery();
   const [deleteOrganization] = useOrganizationsDeleteMutation();

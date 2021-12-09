@@ -18,7 +18,7 @@ export default function UserView() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const constantData: object = localizedData();
+  const constantData: object = localizedData()?.users;
   const { addUser, userAdministration } = constantData;
 
   const currentOrganization = useAppSelector(

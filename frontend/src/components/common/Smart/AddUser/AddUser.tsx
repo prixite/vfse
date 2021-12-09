@@ -12,7 +12,7 @@ import { localizedData } from "@src/helpers/utils/language";
 export default function AddUser(props) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const constantData: object = localizedData();
+  const constantData: object = localizedData()?.users;
   const { emailText, userNameText, addNewUser, newUser, btnAdd, btnCancel } =
     constantData;
 
