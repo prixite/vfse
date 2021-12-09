@@ -43,7 +43,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
             )
-            self.assertEqual(len(response.json()), 10)
+            self.assertEqual(len(response.json()), 14)
 
     def test_organization_prevent_delete_is_default(self):
         self.client.force_login(self.super_admin)

@@ -18,6 +18,7 @@ import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 import { useAppSelector } from "@src/store/hooks";
+import { useMeReadQuery } from "@src/store/reducers/api";
 
 const drawerWidth = 320;
 
@@ -74,7 +75,11 @@ export default function SideBar() {
   const [open, setOpen] = React.useState(true);
   const { sideBarBackground } = useAppSelector((state) => state.myTheme);
 
-  const { me } = useAppSelector((state) => state.me);
+  const { data: me, isFetching } = useMeReadQuery();
+
+  if (isFetching) {
+    return <p>Loading</p>;
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
