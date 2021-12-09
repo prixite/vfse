@@ -256,6 +256,8 @@ export type Appearance = {
   color_one: string;
   color_two: string;
   color_three: string;
+  sidebar_color: string;
+  primary_color: string;
   font_one: string;
   font_two: string;
 };

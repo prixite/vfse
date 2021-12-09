@@ -64,6 +64,8 @@ class OrganizationTestCase(BaseTestCase):
                 "color_one": "red",
                 "color_two": "green",
                 "color_three": "blue",
+                "sidebar_color": "red",
+                "primary_color": "#773CBD",
                 "font_one": "helvetica",
                 "font_two": "calibri",
             },
@@ -75,6 +77,8 @@ class OrganizationTestCase(BaseTestCase):
             "color_one": "violet",
             "color_two": "pink",
             "color_three": "purple",
+            "sidebar_color": "red",
+            "primary_color": "red",
             "font_one": "Impact",
             "font_two": "Arial",
         }

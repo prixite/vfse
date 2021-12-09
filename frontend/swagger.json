@@ -613,6 +613,8 @@
                 "color_one",
                 "color_two",
                 "color_three",
+                "sidebar_color",
+                "primary_color",
                 "font_one",
                 "font_two"
             ],
@@ -633,6 +635,16 @@
                     "type": "string",
                     "minLength": 1
                 },
+                "sidebar_color": {
+                    "title": "Sidebar color",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "primary_color": {
+                    "title": "Primary color",
+                    "type": "string",
+                    "minLength": 1
+                },
                 "font_one": {
                     "title": "Font one",
                     "type": "string",
@@ -645,11 +657,13 @@
                 }
             },
             "default": {
-                "color_one": "#FFF",
-                "color_two": "#FFF",
-                "color_three": "#FFF",
-                "font_one": "#FFF",
-                "font_two": "#FFF"
+                "color_one": "#773CBD",
+                "color_two": "#773CBD",
+                "color_three": "#773CBD",
+                "sidebar_color": "#773CBD",
+                "primary_color": "#773CBD",
+                "font_one": "#773CBD",
+                "font_two": "#773CBD"
             }
         },
         "Organization": {

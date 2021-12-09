@@ -22,6 +22,8 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         "color_one": "red",
         "color_two": "green",
         "color_three": "blue",
+        "sidebar_color": "red",
+        "primary_color": "#773CBD",
         "font_one": "helvetica",
         "font_two": "calibri",
     }
