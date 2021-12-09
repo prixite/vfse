@@ -493,22 +493,6 @@
             "parameters": []
         },
         "/users/{id}/": {
-            "get": {
-                "operationId": "users_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/UpsertUser"
-                        }
-                    }
-                },
-                "tags": [
-                    "users"
-                ]
-            },
             "patch": {
                 "operationId": "users_partial_update",
                 "description": "",
@@ -923,7 +907,7 @@
                         "cryo-fse",
                         "cryo-admin"
                     ],
-                    "default": "user-admin"
+                    "default": "fse"
                 },
                 "manager": {
                     "title": "Manager",

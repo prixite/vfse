@@ -139,9 +139,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userDeactivate,
       }),
     }),
-    usersRead: build.query<UsersReadApiResponse, UsersReadApiArg>({
-      query: (queryArg) => ({ url: `/users/${queryArg.id}/` }),
-    }),
     usersPartialUpdate: build.mutation<
       UsersPartialUpdateApiResponse,
       UsersPartialUpdateApiArg
@@ -231,10 +228,6 @@ export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserDeactivate;
 export type UsersDeactivatePartialUpdateApiArg = {
   userDeactivate: UserDeactivate;
-};
-export type UsersReadApiResponse = /** status 200  */ UpsertUser;
-export type UsersReadApiArg = {
-  id: string;
 };
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
@@ -348,6 +341,5 @@ export const {
   useUsersListQuery,
   useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,
-  useUsersReadQuery,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;

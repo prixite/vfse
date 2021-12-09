@@ -121,7 +121,6 @@ api_urlpatterns = [
         "api/users/<str:pk>/",
         api.UserViewSet.as_view(
             {
-                "get": "retrieve",
                 "patch": "partial_update",
             }
         ),

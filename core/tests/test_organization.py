@@ -189,7 +189,7 @@ class OrganizationTestCase(BaseTestCase):
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, False)
 
-    def test_user_upsert(self):
+    def test_user_upsert_insert(self):
         self.client.force_login(self.super_admin)
         user_data = {
             "first_name": "John",
@@ -226,6 +226,45 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(
             models.Membership.objects.filter(
                 user__username=user_data["email"], role=user_data["role"]
+            ).exists(),
+            True,
+        )
+
+    def test_user_upsert_edit(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john@doe.com",
+            "phone": "+19876543210",
+            "role": models.Membership.Role.FSE_ADMIN,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+        }
+        response = self.client.patch(
+            f"/api/users/{self.end_user.id}/",
+            data=user_data,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            models.UserModality.objects.filter(user__email=user_data["email"]).exists(),
+            True,
+        )
+        self.assertEqual(
+            models.UserSite.objects.filter(user__email=user_data["email"]).exists(),
+            True,
+        )
+        self.assertEqual(
+            models.Membership.objects.filter(
+                user__email=user_data["email"], role=user_data["role"]
             ).exists(),
             True,
         )
