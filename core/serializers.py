@@ -236,3 +236,10 @@ class UserDeactivateSerializer(serializers.Serializer):
             raise ValidationError("Some users are not accessible")
 
         return attrs
+
+
+class ModalitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Modality
+        fields = ['name']
