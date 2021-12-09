@@ -1,13 +1,15 @@
 {
     "users":{
             "addUser": "Add User",
-            "addNewUser": "Add new user",
-            "newUser": "New User",
             "userAdministration": "User Administration",
-            "userNameText": "Username",
-            "emailText": "Email",
-            "btnAdd": "Add",
-            "btnCancel": "Cancel"
+            "popUp":{
+                "userNameText": "Username",
+                "emailText": "Email",
+                "btnAdd": "Add",
+                "btnCancel": "Cancel",
+                "addNewUser": "Add new user",
+                "newUser": "New User"
+            }
     },
     "organization":{
             "allClients": "All Clients",
