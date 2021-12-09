@@ -232,12 +232,18 @@ class UserDeactivateViewSet(ModelViewSet):
 
 
 class ModalitiesViewSet(ModelViewSet):
-    
+
     serializer_class = serializers.ModalitySerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.Modality.objects.all()
-        user_orgs = self.request.user.get_organizations(roles=models.Membership.Role.FSE_ADMIN)
-        members = models.Membership.objects.filter(organization__in=user_orgs).values_list('user',flat=True)
-        return models.Modality.objects.filter(id__in=models.UserModality.objects.filter(user__in=members))
+        user_orgs = self.request.user.get_organizations(
+            roles=models.Membership.Role.FSE_ADMIN
+        )
+        members = models.Membership.objects.filter(
+            organization__in=user_orgs
+        ).values_list("user", flat=True)
+        return models.Modality.objects.filter(
+            id__in=models.UserModality.objects.filter(user__in=members)
+        )

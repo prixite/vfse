@@ -127,12 +127,12 @@ api_urlpatterns = [
         ),
     ),
     path(
-        'api/modalities/',
+        "api/modalities/",
         api.ModalitiesViewSet.as_view(
             {
-                'get':'list',
+                "get": "list",
             }
-        )
+        ),
     ),
 ]
 
