@@ -126,6 +126,14 @@ api_urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/modalities/",
+        api.ModalityViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
 ]
 
 urlpatterns = (

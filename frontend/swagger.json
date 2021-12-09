@@ -92,6 +92,28 @@
             },
             "parameters": []
         },
+        "/modalities/": {
+            "get": {
+                "operationId": "modalities_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Modality"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "modalities"
+                ]
+            },
+            "parameters": []
+        },
         "/organizations/": {
             "get": {
                 "operationId": "organizations_list",
@@ -683,6 +705,21 @@
                 },
                 "organization": {
                     "$ref": "#/definitions/Organization"
+                }
+            }
+        },
+        "Modality": {
+            "description": "Modality(id, name, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
                 }
             }
         },
