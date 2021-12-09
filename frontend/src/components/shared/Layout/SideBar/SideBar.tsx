@@ -76,11 +76,6 @@ export default function SideBar() {
   const { sideBarBackground } = useAppSelector((state) => state.myTheme);
 
   const { data: me, isFetching } = useMeReadQuery();
-
-  if (isFetching) {
-    return <p>Loading</p>;
-  }
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };

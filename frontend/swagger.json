@@ -92,6 +92,28 @@
             },
             "parameters": []
         },
+        "/modalities/": {
+            "get": {
+                "operationId": "modalities_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Modality"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "modalities"
+                ]
+            },
+            "parameters": []
+        },
         "/organizations/": {
             "get": {
                 "operationId": "organizations_list",
@@ -559,9 +581,8 @@
             "title": "Appearance",
             "description": "",
             "required": [
-                "color_one",
-                "color_two",
-                "color_three",
+                "sidebar_text",
+                "button_text",
                 "sidebar_color",
                 "primary_color",
                 "font_one",
@@ -569,18 +590,13 @@
             ],
             "type": "object",
             "properties": {
-                "color_one": {
-                    "title": "Color one",
+                "sidebar_text": {
+                    "title": "Sidebar text",
                     "type": "string",
                     "minLength": 1
                 },
-                "color_two": {
-                    "title": "Color two",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "color_three": {
-                    "title": "Color three",
+                "button_text": {
+                    "title": "Button text",
                     "type": "string",
                     "minLength": 1
                 },
@@ -606,9 +622,8 @@
                 }
             },
             "default": {
-                "color_one": "#773CBD",
-                "color_two": "#773CBD",
-                "color_three": "#773CBD",
+                "sidebar_text": "#773CBD",
+                "button_text": "#773CBD",
                 "sidebar_color": "#773CBD",
                 "primary_color": "#773CBD",
                 "font_one": "#773CBD",
@@ -690,6 +705,21 @@
                 },
                 "organization": {
                     "$ref": "#/definitions/Organization"
+                }
+            }
+        },
+        "Modality": {
+            "description": "Modality(id, name, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
                 }
             }
         },

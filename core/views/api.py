@@ -229,3 +229,18 @@ class UserDeactivateViewSet(ModelViewSet):
             id__in=[x.id for x in serializer.validated_data["users"]]
         ).update(is_active=False)
         return Response(serializer.data)
+
+
+class ModalityViewSet(ModelViewSet):
+
+    serializer_class = serializers.ModalitySerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.Modality.objects.all()
+
+        return models.Modality.objects.filter(
+            id__in=models.UserModality.objects.filter(
+                user=self.request.user
+            ).values_list("modality")
+        )

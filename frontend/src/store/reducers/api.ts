@@ -20,6 +20,12 @@ const injectedRtkApi = api.injectEndpoints({
     meRead: build.query<MeReadApiResponse, MeReadApiArg>({
       query: () => ({ url: `/me/` }),
     }),
+    modalitiesList: build.query<
+      ModalitiesListApiResponse,
+      ModalitiesListApiArg
+    >({
+      query: () => ({ url: `/modalities/` }),
+    }),
     organizationsList: build.query<
       OrganizationsListApiResponse,
       OrganizationsListApiArg
@@ -151,6 +157,8 @@ export type HealthNetworkCreateApiArg = {
 };
 export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
+export type ModalitiesListApiResponse = /** status 200  */ Modality[];
+export type ModalitiesListApiArg = void;
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = void;
 export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
@@ -231,9 +239,8 @@ export type HealthNetwork = {
   sites: Site[];
 };
 export type Appearance = {
-  color_one: string;
-  color_two: string;
-  color_three: string;
+  sidebar_text: string;
+  button_text: string;
   sidebar_color: string;
   primary_color: string;
   font_one: string;
@@ -254,6 +261,9 @@ export type Me = {
   last_name?: string;
   flags?: string;
   organization?: Organization;
+};
+export type Modality = {
+  name: string;
 };
 export type OrganizationChildren = {
   children: number[];
@@ -311,6 +321,7 @@ export const {
   useHealthNetworkListQuery,
   useHealthNetworkCreateMutation,
   useMeReadQuery,
+  useModalitiesListQuery,
   useOrganizationsListQuery,
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,

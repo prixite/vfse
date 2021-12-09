@@ -10,22 +10,31 @@ import {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
+import { localizedData } from "@src/helpers/utils/language";
 
 export default function OrganizationModal(props) {
   const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const constantData: object = localizedData()?.organization?.popUp;
+  const {
+    popUpNewOrganization,
+    newOrganizationName,
+    newOrganizationSeats,
+    newOrganizationBtnSave,
+    newOrganizationBtnCancel,
+  } = constantData;
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
       <DialogTitle>
-        {props.organization?.name ?? "New Organization"}
+        {props.organization?.name ?? popUpNewOrganization}
       </DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
           id="name"
-          label="Name"
+          label={newOrganizationName}
           type="text"
           fullWidth
           value={props.organization?.name ?? ""}
@@ -40,7 +49,7 @@ export default function OrganizationModal(props) {
         <TextField
           margin="dense"
           id="seats"
-          label="Number of seats"
+          label={newOrganizationSeats}
           type="text"
           fullWidth
           variant="standard"
@@ -54,7 +63,7 @@ export default function OrganizationModal(props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose}>Cancel</Button>
+        <Button onClick={props.handleClose}>{newOrganizationBtnCancel}</Button>
         <Button
           onClick={async () => {
             if (props.organization.id) {
@@ -71,7 +80,7 @@ export default function OrganizationModal(props) {
             props.refetch(); // TODO: invalidate cache instead of this.
           }}
         >
-          Save
+          {newOrganizationBtnSave}
         </Button>
       </DialogActions>
     </Dialog>
