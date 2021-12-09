@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import AddUser from "@src/components/common/Smart/AddUser/AddUser";
 import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
 import { useAppSelector } from "@src/store/hooks";
+import { localizedData } from "@src/helpers/utils/language";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -17,6 +18,8 @@ export default function UserView() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const constantData: object = localizedData();
+  const { addUser, userAdministration } = constantData;
 
   const currentOrganization = useAppSelector(
     (state) => state.organization.currentOrganization
@@ -52,10 +55,10 @@ export default function UserView() {
 
   return (
     <Fragment>
-      <h2>User Administration</h2>
+      <h2>{userAdministration}</h2>
 
       <Button onClick={handleOpen} variant="contained">
-        Add User
+        {addUser}
       </Button>
 
       <AddUser add={add} open={open} handleClose={handleClose} />

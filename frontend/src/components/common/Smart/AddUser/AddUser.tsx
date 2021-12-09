@@ -7,10 +7,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { localizedData } from "@src/helpers/utils/language";
 
 export default function AddUser(props) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const constantData: object = localizedData();
+  const { emailText, userNameText, addNewUser, newUser, btnAdd, btnCancel } =
+    constantData;
 
   const handleSave = (event) => {
     props.add({ username, email });
@@ -18,15 +22,15 @@ export default function AddUser(props) {
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
-      <DialogTitle>New User</DialogTitle>
+      <DialogTitle>{newUser}</DialogTitle>
       <DialogContent>
-        <DialogContentText>Add new user.</DialogContentText>
+        <DialogContentText>{`${addNewUser}.`}</DialogContentText>
 
         <TextField
           autoFocus
           margin="dense"
           id="username"
-          label="Username"
+          label={userNameText}
           type="text"
           fullWidth
           variant="standard"
@@ -37,7 +41,7 @@ export default function AddUser(props) {
         <TextField
           margin="dense"
           id="email"
-          label="Email"
+          label={emailText}
           type="text"
           fullWidth
           variant="standard"
@@ -46,8 +50,8 @@ export default function AddUser(props) {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose}>Cancel</Button>
-        <Button onClick={handleSave}>Add</Button>
+        <Button onClick={props.handleClose}>{btnCancel}</Button>
+        <Button onClick={handleSave}>{btnAdd}</Button>
       </DialogActions>
     </Dialog>
   );
