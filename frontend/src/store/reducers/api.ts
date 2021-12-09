@@ -231,9 +231,8 @@ export type HealthNetwork = {
   sites: Site[];
 };
 export type Appearance = {
-  color_one: string;
-  color_two: string;
-  color_three: string;
+  sidebar_text: string;
+  button_text: string;
   sidebar_color: string;
   primary_color: string;
   font_one: string;

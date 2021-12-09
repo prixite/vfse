@@ -559,9 +559,8 @@
             "title": "Appearance",
             "description": "",
             "required": [
-                "color_one",
-                "color_two",
-                "color_three",
+                "sidebar_text",
+                "button_text",
                 "sidebar_color",
                 "primary_color",
                 "font_one",
@@ -569,18 +568,13 @@
             ],
             "type": "object",
             "properties": {
-                "color_one": {
-                    "title": "Color one",
+                "sidebar_text": {
+                    "title": "Sidebar text",
                     "type": "string",
                     "minLength": 1
                 },
-                "color_two": {
-                    "title": "Color two",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "color_three": {
-                    "title": "Color three",
+                "button_text": {
+                    "title": "Button text",
                     "type": "string",
                     "minLength": 1
                 },
@@ -606,9 +600,8 @@
                 }
             },
             "default": {
-                "color_one": "#773CBD",
-                "color_two": "#773CBD",
-                "color_three": "#773CBD",
+                "sidebar_text": "#773CBD",
+                "button_text": "#773CBD",
                 "sidebar_color": "#773CBD",
                 "primary_color": "#773CBD",
                 "font_one": "#773CBD",

@@ -20,9 +20,8 @@ class DefaultOrganizationDefault:
 
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
-    color_one = serializers.CharField()
-    color_two = serializers.CharField()
-    color_three = serializers.CharField()
+    sidebar_text = serializers.CharField()
+    button_text = serializers.CharField()
     sidebar_color = serializers.CharField()
     primary_color = serializers.CharField()
     font_one = serializers.CharField()
