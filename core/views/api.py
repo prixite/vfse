@@ -171,14 +171,14 @@ class OrganizationUserViewSet(ModelViewSet):
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.User.objects.all()
+
         membership = models.Membership.objects.filter(
             organization=self.kwargs["organization_pk"],
+            organization__in=self.request.user.get_organizations(),
         )
 
-        if not (self.request.user.is_superuser or self.request.user.is_supermanager):
-            membership = membership.filter(
-                organization__in=self.request.user.get_organizations(),
-            )
         return models.User.objects.filter(id__in=membership.values_list("user"))
 
 

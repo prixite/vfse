@@ -1,9 +1,11 @@
 import { Fragment } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 
 import AddUser from "@src/components/common/Smart/AddUser/AddUser";
+import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
+import { useAppSelector } from "@src/store/hooks";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
@@ -12,21 +14,25 @@ const columns = [
 ];
 
 export default function UserView() {
-  const [items, setItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const refresh = () => {
-    fetch("/api/users/")
-      .then((response) => response.json())
-      .then((result) => {
-        setItems(result);
-        setIsLoaded(true);
-      });
-  };
+  const currentOrganization = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
+
+  const {
+    data: items,
+    refetch,
+    isLoading,
+  } = useOrganizationsUsersListQuery({
+    organizationPk: currentOrganization.id.toString(),
+  });
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
 
   const add = (data) => {
     fetch("/api/users/", {
@@ -40,13 +46,9 @@ export default function UserView() {
       .then((response) => response.json())
       .then((result) => {
         handleClose();
-        refresh();
+        refetch();
       });
   };
-
-  useEffect(() => {
-    refresh();
-  }, []);
 
   return (
     <Fragment>
@@ -62,7 +64,7 @@ export default function UserView() {
         <DataGrid
           rows={items}
           columns={columns}
-          loading={!isLoaded}
+          loading={isLoading}
           pageSize={5}
           rowsPerPageOptions={[5]}
           checkboxSelection

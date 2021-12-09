@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     myTheme: themeReducer,
-    organizationReducer: organizationReducer,
+    organization: organizationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
