@@ -1,5 +1,5 @@
-import React, { ReactChildren, ReactChild } from "react";
-import "./PageLayout.scss";
+import { ReactChildren, ReactChild } from "react";
+import "@src/components/shared/Layout/PageLayout/PageLayout.scss";
 import SideBar from "@src/components/shared/Layout/SideBar/SideBar";
 
 interface LayoutProps {
