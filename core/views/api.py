@@ -244,3 +244,10 @@ class ModalityViewSet(ModelViewSet):
                 user=self.request.user
             ).values_list("modality")
         )
+
+
+class ManfucturerViewSet(ModelViewSet):
+    serializer_class = serializers.ManufacturerSerializer
+
+    def get_queryset(self):
+        return models.Manufacturer.objects.all()

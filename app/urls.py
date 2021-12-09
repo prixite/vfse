@@ -134,6 +134,15 @@ api_urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/manufacturers/",
+        api.ManfucturerViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
 ]
 
 urlpatterns = (

@@ -73,6 +73,53 @@
             },
             "parameters": []
         },
+        "/manufacturers/": {
+            "get": {
+                "operationId": "manufacturers_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Manufacturer"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "post": {
+                "operationId": "manufacturers_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Manufacturer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Manufacturer"
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "parameters": []
+        },
         "/me/": {
             "get": {
                 "operationId": "me_read",
@@ -574,6 +621,26 @@
                     "items": {
                         "$ref": "#/definitions/Site"
                     }
+                }
+            }
+        },
+        "Manufacturer": {
+            "description": "Manufacturer(id, name, image, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
                 }
             }
         },

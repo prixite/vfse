@@ -255,3 +255,10 @@ class SystemFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     product_model = factory.SubFactory(ProductModelFactory)
     ip_address = "127.0.0.1"
+
+
+class ManufacturerImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ManufacturerImage
+
+    image = "http://example.com/image.jpeg"
