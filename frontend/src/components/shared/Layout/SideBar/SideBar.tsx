@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import {
   Box,
@@ -18,6 +17,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
+import { useAppSelector } from "@src/store/hooks";
 
 const drawerWidth = 320;
 
@@ -72,7 +72,9 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
-  const { sideBarBackground } = useSelector((state: any) => state.myTheme);
+  const { sideBarBackground } = useAppSelector((state) => state.myTheme);
+
+  const { me } = useAppSelector((state) => state.me);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,22 +88,24 @@ export default function SideBar() {
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
-    routes.map((prop: routeItem, key: number) => {
-      return (
-        <ListItem
-          button
-          component={Link}
-          to={prop.path}
-          key={prop.path}
-          style={collapsedLeftPadding}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary={prop.name} />
-        </ListItem>
-      );
-    });
+    routes
+      .filter((item) => me.flags.indexOf(item.flag) !== -1)
+      .map((prop: routeItem) => {
+        return (
+          <ListItem
+            button
+            component={Link}
+            to={prop.path}
+            key={prop.path}
+            style={collapsedLeftPadding}
+          >
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={prop.name} />
+          </ListItem>
+        );
+      });
 
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>

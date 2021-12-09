@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { HexColorPicker, HexColorInput } from "react-colorful";
-import { useDispatch, useSelector } from "react-redux";
 import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,25 +16,26 @@ import {
   updateButtonColor,
 } from "@src/store/reducers/themeStore";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const { sideBarBackground, buttonBackground } = useSelector(
-    (state: any) => state.myTheme
+  const { sideBarBackground, buttonBackground } = useAppSelector(
+    (state) => state.myTheme
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { data: items, refetch, isLoading } = useOrganizationsListQuery();
   const [deleteOrganization] = useOrganizationsDeleteMutation();
 
   const handleClose = () => setOpen(false);
 
-  function changeSideBarColor(color) {
-    dispatch(updateSideBarColor({ color: color }));
+  function changeSideBarColor(color: string) {
+    dispatch(updateSideBarColor(color));
   }
 
-  function changeButtonColor(color) {
-    dispatch(updateButtonColor({ color: color }));
+  function changeButtonColor(color: string) {
+    dispatch(updateButtonColor(color));
   }
 
   if (isLoading) {

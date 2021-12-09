@@ -1,17 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface ThemeColorState {
+  sideBarBackground: string;
+  buttonBackground: string;
+}
+
+const initialState: ThemeColorState = {
+  sideBarBackground: "#2a3242",
+  buttonBackground: "#773cbe",
+};
 
 export const themeSlice = createSlice({
   name: "themeColor",
-  initialState: {
-    sideBarBackground: "#2a3242",
-    buttonBackground: "#773cbe",
-  },
+  initialState,
   reducers: {
-    updateSideBarColor: (state, action) => {
-      state.sideBarBackground = action.payload.color;
+    updateSideBarColor: (state, action: PayloadAction<string>) => {
+      state.sideBarBackground = action.payload;
     },
-    updateButtonColor: (state, action) => {
-      state.buttonBackground = action.payload.color;
+    updateButtonColor: (state, action: PayloadAction<string>) => {
+      state.buttonBackground = action.payload;
     },
   },
 });
