@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { HexColorPicker, HexColorInput } from "react-colorful";
 import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -10,6 +11,8 @@ import ClientCard from "@src/components/common/Presentational/ClientCard/ClientC
 import {
   useOrganizationsListQuery,
   useOrganizationsDeleteMutation,
+  useOrganizationsPartialUpdateMutation,
+  Organization,
 } from "@src/store/reducers/api";
 import {
   updateSideBarColor,
@@ -17,6 +20,7 @@ import {
 } from "@src/store/reducers/themeStore";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
@@ -24,19 +28,51 @@ const OrganizationSection = () => {
   const { sideBarBackground, buttonBackground } = useAppSelector(
     (state) => state.myTheme
   );
+  const currentOrganization = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
   const dispatch = useAppDispatch();
   const { data: items, refetch, isLoading } = useOrganizationsListQuery();
   const [deleteOrganization] = useOrganizationsDeleteMutation();
+  const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
 
   const handleClose = () => setOpen(false);
 
+  var currentOrganiationDummyData: Organization = JSON.parse(
+    JSON.stringify(currentOrganization)
+  );
+
   function changeSideBarColor(color: string) {
     dispatch(updateSideBarColor(color));
+    if (!isLoading) {
+      currentOrganiationDummyData = compileOrganizationColorObject(
+        currentOrganiationDummyData,
+        color,
+        "sidebar_color"
+      );
+      updateOrganizationColor();
+    }
   }
 
   function changeButtonColor(color: string) {
     dispatch(updateButtonColor(color));
+    if (!isLoading) {
+      currentOrganiationDummyData = compileOrganizationColorObject(
+        currentOrganiationDummyData,
+        color,
+        "primary_color"
+      );
+      updateOrganizationColor();
+    }
   }
+
+  const updateOrganizationColor = async () => {
+    await organizationsPartialUpdate({
+      id: currentOrganization.id.toString(),
+      organization: currentOrganiationDummyData,
+    }).unwrap();
+    toast.success("Current organization successfully Update");
+  };
 
   if (isLoading) {
     return <p>Loading</p>;
