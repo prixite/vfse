@@ -135,7 +135,7 @@ export default function SideBar() {
     });
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
-      <Drawer variant="permanent" open={open} bgcolor={sideBarBackground}>
+      <Drawer variant="permanent" open={open} bgcolor={sideBarBackground} textcolor={sideBarTextColor}>
         <List className="leftLists">
           <ListItem button component="a" href="/">
             <ListItemIcon>
