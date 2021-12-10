@@ -5,23 +5,26 @@ import {
   Box,
   Drawer as MuiDrawer,
   List,
-  Divider,
-  IconButton,
   ListItem,
   ListItemText,
   ListItemIcon,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
+import Icon from "@src/assets/images/client.png";
+import Logo from "@src/assets/images/logo.png";
+import SearchIcon from "@src/assets/images/searchIcon.png";
+import PlusIcon from "@src/assets/images/plusIcon.png";
+import OpenBtn from "@src/assets/images/opendrawer.png";
+import CloseBtn from "@src/assets/images/down.png";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 import { useAppSelector } from "@src/store/hooks";
 import { useMeReadQuery } from "@src/store/reducers/api";
-import DefaultLogo from "@src/assets/626-Logo-White.png";
 
-const drawerWidth = 320;
+const drawerWidth = 400;
+
+const clients = ["cllient1", "cllient2", "cllient3"];
 
 const openedMixin = (
   theme: Theme,
@@ -56,15 +59,6 @@ const closedMixin = (
   color: textcolor,
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open, bgcolor, textcolor }) => ({
@@ -84,10 +78,10 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
+  const [currentClient, setCurrentClient] = React.useState("cllient1");
   const { sideBarBackground, sideBarTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  console.log(sideBarBackground, sideBarTextColor);
 
   const { data: me, isFetching } = useMeReadQuery();
   const handleDrawerOpen = () => {
@@ -121,36 +115,74 @@ export default function SideBar() {
         );
       });
 
+  const createClients = () =>
+    clients.map((item: string) => {
+      return (
+        <ListItem
+          button
+          key={item}
+          style={collapsedLeftPadding}
+          onClick={() => setCurrentClient(item)}
+        >
+          <ListItemIcon className={`client-image`}>
+            <img
+              src={Icon}
+              className={`img ${currentClient === item ? "active" : ""}`}
+            />
+          </ListItemIcon>
+        </ListItem>
+      );
+    });
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
-      <Drawer
-        variant="permanent"
-        open={open}
-        bgcolor={sideBarBackground}
-        textcolor={sideBarTextColor}
-      >
-        <DrawerHeader
-          style={
-            open ? { justifyContent: "flex-end" } : { justifyContent: "center" }
-          }
-        >
-          <img src={DefaultLogo} width={50} />
-          {open ? (
-            <IconButton onClick={handleDrawerClose}>
-              <MenuOpenIcon />
-            </IconButton>
-          ) : (
-            <IconButton onClick={handleDrawerOpen}>
-              <MenuIcon />
-            </IconButton>
-          )}
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {createLinks()}
+      <Drawer variant="permanent" open={open} bgcolor={sideBarBackground}>
+        <List className="leftLists">
+          <ListItem button component="a" href="/">
+            <ListItemIcon>
+              <img src={Logo} />
+            </ListItemIcon>
+          </ListItem>
+          <ListItem button component="a" href="/" className="item-margin">
+            <ListItemIcon>
+              <img src={PlusIcon} />
+            </ListItemIcon>
+          </ListItem>
+          <ListItem
+            button
+            component="a"
+            href="/"
+            className="item-margin"
+            style={{ marginBottom: "40px" }}
+          >
+            <ListItemIcon>
+              <img src={SearchIcon} />
+            </ListItemIcon>
+          </ListItem>
+          {createClients()}
           <ListItem button component="a" href="/accounts/logout/">
             <ListItemText primary="Logout" />
           </ListItem>
+          <ListItem
+            button
+            className="drawer-btn open-btn"
+            onClick={handleDrawerOpen}
+          >
+            <ListItemIcon>
+              <img src={OpenBtn} />
+            </ListItemIcon>
+          </ListItem>
+        </List>
+        <List style={{ position: "relative" }}>
+          <ListItem
+            button
+            className="drawer-btn open-btn"
+            onClick={handleDrawerClose}
+          >
+            <ListItemIcon>
+              <img src={CloseBtn} />
+            </ListItemIcon>
+          </ListItem>
+          {createLinks()}
         </List>
       </Drawer>
     </Box>

@@ -4,4 +4,53 @@
   .MuiDrawer-paper {
     background-color: #2a3242;
   }
+  .MuiPaper-root {
+    display: flex;
+    flex-direction: row;
+  }
+  .MuiSvgIcon-root,
+  .MuiListItemText-root {
+    color: #fff;
+    opacity: 0.5;
+  }
+  .leftLists {
+    position: relative;
+    width: 80px;
+    background-color: #0d192f;
+    height: 100%;
+  }
+  .MuiListItem-root {
+    justify-content: center;
+  }
+  .MuiListItemIcon-root {
+    min-width: fit-content;
+  }
+  .client-image {
+    margin-bottom: 20px;
+    min-width: 38px;
+    width: 38px;
+    height: 38px;
+  }
+  .item-margin {
+    margin-top: 50px;
+  }
+  .img {
+    height: inherit;
+    width: inherit;
+    border-radius: 50%;
+  }
+  .active {
+    border: 4px solid #773cbd;
+    border-radius: 50%;
+  }
+  .drawer-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    &.open-btn {
+      position: absolute;
+      bottom: 98px;
+      left: 23.5px;
+    }
+  }
 }
