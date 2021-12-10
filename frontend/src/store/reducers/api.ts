@@ -135,6 +135,22 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.organizationPk}/vfse_systems/`,
       }),
     }),
+    productsModelsList: build.query<
+      ProductsModelsListApiResponse,
+      ProductsModelsListApiArg
+    >({
+      query: () => ({ url: `/products/models/` }),
+    }),
+    productsModelsPartialUpdate: build.mutation<
+      ProductsModelsPartialUpdateApiResponse,
+      ProductsModelsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/models/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.productModel,
+      }),
+    }),
     sitesSystemsList: build.query<
       SitesSystemsListApiResponse,
       SitesSystemsListApiArg
@@ -244,6 +260,14 @@ export type OrganizationsVfseSystemsListApiResponse =
 export type OrganizationsVfseSystemsListApiArg = {
   organizationPk: string;
 };
+export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
+export type ProductsModelsListApiArg = void;
+export type ProductsModelsPartialUpdateApiResponse =
+  /** status 200  */ ProductModel;
+export type ProductsModelsPartialUpdateApiArg = {
+  id: string;
+  productModel: ProductModel;
+};
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
   sitePk: string;
@@ -329,6 +353,12 @@ export type System = {
   ip_address: string;
   local_ae_title: string;
 };
+export type ProductModel = {
+  id?: number;
+  product: number;
+  modality: number;
+  documentation?: number | null;
+};
 export type UpsertUser = {
   first_name: string;
   last_name: string;
@@ -376,6 +406,8 @@ export const {
   useOrganizationsHealthNetworksSitesListQuery,
   useOrganizationsUsersListQuery,
   useOrganizationsVfseSystemsListQuery,
+  useProductsModelsListQuery,
+  useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,
   useUsersListQuery,
   useUsersCreateMutation,

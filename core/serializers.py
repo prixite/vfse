@@ -248,11 +248,12 @@ class ModalitySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Modality
         fields = ["name"]
-class ProductModelSerializer(serializers.Serializer):
-    name = serializers.CharField(source='product.name')
-    manufacturer = serializers.CharField(source = 'product.manufacturer.name')
-    documentation_link = serializers.CharField(source='documentation.url')
-    modality = serializers.CharField(source='modality.name')
+
+
+class ProductModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProductModel
+        fields = ["id", "product", "modality", "documentation"]
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):

@@ -278,11 +278,22 @@ class ModalityViewSet(ModelViewSet):
                 user=self.request.user
             ).values_list("modality")
         )
+
+
 class ProductModelViewSet(ModelViewSet):
     serializer_class = serializers.ProductModelSerializer
 
     def get_queryset(self):
-        return models.ProductModel.objects.all()
+        if self.request.user.is_superuser or self.request.user.is_superuser:
+            return models.ProductModel.objects.all()
+        products = models.System.objects.filter(
+            id__in=models.Seat.objects.filter(
+                organization__in=self.request.user.get_organizations(
+                    roles=[models.Membership.Role.FSE_ADMIN]
+                )
+            )
+        ).values_list("product_model")
+        return models.ProductModel.objects.filter(id__in=products)
 
 
 class ManfucturerViewSet(ModelViewSet):

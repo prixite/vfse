@@ -480,18 +480,24 @@
             "parameters": []
         },
         "/products/models/{id}/": {
-            "get": {
-                "operationId": "products_models_list",
+            "patch": {
+                "operationId": "products_models_partial_update",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProductModel"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ProductModel"
-                            }
+                            "$ref": "#/definitions/ProductModel"
                         }
                     }
                 },
@@ -1008,6 +1014,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "product": {
                     "title": "Product",
                     "type": "integer"
@@ -1015,6 +1026,11 @@
                 "modality": {
                     "title": "Modality",
                     "type": "integer"
+                },
+                "documentation": {
+                    "title": "Documentation",
+                    "type": "integer",
+                    "x-nullable": true
                 }
             }
         },
