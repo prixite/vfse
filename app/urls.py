@@ -118,6 +118,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/users/<str:pk>/",
+        api.UserViewSet.as_view(
+            {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/health_network/",
         api.HealthNetworkViewSet.as_view(
             {

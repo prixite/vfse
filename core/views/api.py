@@ -112,7 +112,7 @@ class SiteSystemViewSet(ModelViewSet):
 
 class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
-        if self.action == "create":
+        if self.action in ["create", "partial_update"]:
             return serializers.UpsertUserSerializer
         return serializers.UserSerializer
 
@@ -122,7 +122,9 @@ class UserViewSet(ModelViewSet):
 
         return models.User.objects.filter(
             id__in=models.Membership.objects.filter(
-                organization__in=self.request.user.get_organizations(),
+                organization__in=self.request.user.get_organizations(
+                    roles=[models.Membership.Role.USER_ADMIN]
+                ),
             ).values_list("user")
         )
 
@@ -140,7 +142,12 @@ class UserViewSet(ModelViewSet):
             role=serializer.validated_data["role"],
             user=user,
         )
-        models.Profile.objects.filter(user=user).update(
+        self.update_profile(serializer, user.id)
+        self.add_sites(serializer, user.id)
+        self.add_modalities(serializer, user.id)
+
+    def update_profile(self, serializer, user_id):
+        models.Profile.objects.filter(user_id=user_id).update(
             **{
                 key: serializer.validated_data[key]
                 for key in [
@@ -155,16 +162,43 @@ class UserViewSet(ModelViewSet):
             }
         )
 
+    def add_sites(self, serializer, user_id):
         sites = [
-            models.UserSite(user=user, site=site)
+            models.UserSite(user_id=user_id, site=site)
             for site in serializer.validated_data["sites"]
         ]
         models.UserSite.objects.bulk_create(sites)
+
+    def add_modalities(self, serializer, user_id):
         modalities = [
-            models.UserModality(user=user, modality=modality)
+            models.UserModality(user_id=user_id, modality=modality)
             for modality in serializer.validated_data["modalities"]
         ]
         models.UserModality.objects.bulk_create(modalities)
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
+        if serializer.is_valid():
+            models.User.objects.filter(id=kwargs["pk"]).update(
+                **{
+                    key: serializer.validated_data[key]
+                    for key in ["first_name", "last_name", "email"]
+                }
+            )
+            models.Membership.objects.filter(user__id=kwargs["pk"]).update(
+                organization=serializer.validated_data["organization"],
+                role=serializer.validated_data["role"],
+            )
+            self.update_profile(serializer, kwargs["pk"])
+
+            models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
+            self.add_sites(serializer, kwargs["pk"])
+
+            models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
+            self.add_modalities(serializer, kwargs["pk"])
+
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 class OrganizationUserViewSet(ModelViewSet):
