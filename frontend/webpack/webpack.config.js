@@ -13,6 +13,10 @@ module.exports = {
         test: /\.s?[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
     ],
   },
   resolve: {
@@ -23,7 +27,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "../dist/"),
-    publicPath: "/dist/",
+    publicPath: "/static/",
     filename: "bundle.js",
     clean: true,
   },
