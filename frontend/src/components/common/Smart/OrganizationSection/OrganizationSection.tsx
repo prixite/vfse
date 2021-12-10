@@ -18,6 +18,8 @@ import {
 import {
   updateSideBarColor,
   updateButtonColor,
+  updateSideBarTextColor,
+  updateButtonTextColor,
 } from "@src/store/reducers/themeStore";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
@@ -31,9 +33,12 @@ const OrganizationSection = () => {
   const { allClients, btnFilter, btnAddClients } = constantData;
   const { data: items, refetch, isLoading } = useOrganizationsListQuery();
   const [deleteOrganization] = useOrganizationsDeleteMutation();
-  const { sideBarBackground, buttonBackground } = useAppSelector(
-    (state) => state.myTheme
-  );
+  const {
+    sideBarBackground,
+    buttonBackground,
+    sideBarTextColor,
+    buttonTextColor,
+  } = useAppSelector((state) => state.myTheme);
   const currentOrganization = useAppSelector(
     (state) => state.organization.currentOrganization
   );
@@ -70,16 +75,40 @@ const OrganizationSection = () => {
     }
   }
 
+  function changeSideBarTextColor(color: string) {
+    dispatch(updateSideBarTextColor(color));
+    if (!isLoading) {
+      currentOrganiationDummyData = compileOrganizationColorObject(
+        currentOrganiationDummyData,
+        color,
+        "sidebar_text"
+      );
+      updateOrganizationColor();
+    }
+  }
+
+  function changeButtonTextColor(color: string) {
+    dispatch(updateButtonTextColor(color));
+    if (!isLoading) {
+      currentOrganiationDummyData = compileOrganizationColorObject(
+        currentOrganiationDummyData,
+        color,
+        "button_text"
+      );
+      updateOrganizationColor();
+    }
+  }
+
   const updateOrganizationColor = async () => {
     await organizationsPartialUpdate({
       id: currentOrganization.id.toString(),
       organization: currentOrganiationDummyData,
     }).unwrap();
-    toast.success("Current organization successfully Update");
+    toast.success("Current organization theme successfully updated.");
   };
 
   if (isLoading) {
-    return <p>Loading</p>;
+    return <p>Loading...</p>;
   }
 
   return (
@@ -99,6 +128,20 @@ const OrganizationSection = () => {
               title="Buttons:"
               color={buttonBackground}
               onChange={changeButtonColor}
+            />
+          </div>
+          <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+            <ColorPicker
+              title="Sidebar Text:"
+              color={sideBarTextColor}
+              onChange={changeSideBarTextColor}
+            />
+          </div>
+          <div style={{ marginTop: "20px", marginLeft: "20px" }}>
+            <ColorPicker
+              title="Buttons Text:"
+              color={buttonTextColor}
+              onChange={changeButtonTextColor}
             />
           </div>
         </div>
@@ -126,7 +169,10 @@ const OrganizationSection = () => {
             />
           </Box>
           <Button
-            style={{ backgroundColor: buttonBackground }}
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
             onClick={() => {
               setOpen(true);
               setOrganization(null);

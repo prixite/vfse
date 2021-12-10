@@ -23,7 +23,11 @@ import DefaultLogo from "@src/assets/626-Logo-White.png";
 
 const drawerWidth = 320;
 
-const openedMixin = (theme: Theme, bgcolor: string): CSSObject => ({
+const openedMixin = (
+  theme: Theme,
+  bgcolor: string,
+  textcolor: string
+): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -31,9 +35,14 @@ const openedMixin = (theme: Theme, bgcolor: string): CSSObject => ({
   }),
   overflowX: "hidden",
   backgroundColor: bgcolor,
+  color: textcolor,
 });
 
-const closedMixin = (theme: Theme, bgcolor: string): CSSObject => ({
+const closedMixin = (
+  theme: Theme,
+  bgcolor: string,
+  textcolor: string
+): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -44,6 +53,7 @@ const closedMixin = (theme: Theme, bgcolor: string): CSSObject => ({
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
   backgroundColor: bgcolor,
+  color: textcolor,
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -57,24 +67,27 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open, bgcolor }) => ({
+})(({ theme, open, bgcolor, textcolor }) => ({
   width: drawerWidth,
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
   ...(open && {
-    ...openedMixin(theme, bgcolor),
-    "& .MuiDrawer-paper": openedMixin(theme, bgcolor),
+    ...openedMixin(theme, bgcolor, textcolor),
+    "& .MuiDrawer-paper": openedMixin(theme, bgcolor, textcolor),
   }),
   ...(!open && {
-    ...closedMixin(theme, bgcolor),
-    "& .MuiDrawer-paper": closedMixin(theme, bgcolor),
+    ...closedMixin(theme, bgcolor, textcolor),
+    "& .MuiDrawer-paper": closedMixin(theme, bgcolor, textcolor),
   }),
 }));
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
-  const { sideBarBackground } = useAppSelector((state) => state.myTheme);
+  const { sideBarBackground, sideBarTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
+  console.log(sideBarBackground, sideBarTextColor);
 
   const { data: me, isFetching } = useMeReadQuery();
   const handleDrawerOpen = () => {
@@ -110,7 +123,12 @@ export default function SideBar() {
 
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
-      <Drawer variant="permanent" open={open} bgcolor={sideBarBackground}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        bgcolor={sideBarBackground}
+        textcolor={sideBarTextColor}
+      >
         <DrawerHeader
           style={
             open ? { justifyContent: "flex-end" } : { justifyContent: "center" }
