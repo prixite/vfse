@@ -31,6 +31,18 @@ const ClientCard = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleEditAppearance = () => {
+    setOpen(true);
+    setOrganization(row);
+  };
+
+  const handleDeleteOrganization = async () => {
+    await deleteOrganization({
+      id: id.toString(),
+    }).unwrap();
+    toast.success("Organization successfully deleted");
+    refetch();
+  };
   return (
     <Box component="div" className="ClientCard">
       <div className="ClientCard__Header">
@@ -49,26 +61,9 @@ const ClientCard = ({
             className="dropdownMenu"
             onClose={handleClose}
           >
-            <MenuItem
-              onClick={() => {
-                setOpen(true);
-                setOrganization(row);
-              }}
-            >
-              Edit appearance
-            </MenuItem>
+            <MenuItem onClick={handleEditAppearance}>Edit appearance</MenuItem>
             <MenuItem onClick={handleClose}>Add new HealthNetwork</MenuItem>
-            <MenuItem
-              onClick={async () => {
-                await deleteOrganization({
-                  id: id.toString(),
-                }).unwrap();
-                toast.success("Organization successfully deleted");
-                refetch();
-              }}
-            >
-              Delete
-            </MenuItem>
+            <MenuItem onClick={handleDeleteOrganization}>Delete</MenuItem>
           </Menu>
         </div>
       </div>

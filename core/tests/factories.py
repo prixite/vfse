@@ -19,10 +19,9 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"organization-{x}")
     appearance = {
-        "color_one": "red",
-        "color_two": "green",
-        "color_three": "blue",
-        "sidebar_color": "red",
+        "sidebar_text": "#773CBD",
+        "button_text": "#773CBD",
+        "sidebar_color": "#773CBD",
         "primary_color": "#773CBD",
         "font_one": "helvetica",
         "font_two": "calibri",

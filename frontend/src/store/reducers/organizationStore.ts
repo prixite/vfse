@@ -1,21 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Me } from "@src/store/reducers/api";
+import { Organization } from "@src/store/reducers/api";
 
-interface MeState {
-  me: Me;
+interface OrganizationState {
+  currentOrganization: Organization;
 }
 
-const initialState: MeState = { me: {} };
+const initialState: OrganizationState = { currentOrganization: null };
 
-export const meSlice = createSlice({
-  name: "me",
+export const organizationSlice = createSlice({
+  name: "organization",
   initialState,
   reducers: {
-    updateMe: (state, action) => {
-      state.me = action.payload;
+    setCurrentOrganization: (state, action) => {
+      state.currentOrganization = action.payload.currentOrganiation;
     },
   },
 });
 
-export const { updateMe } = meSlice.actions;
-export default meSlice.reducer;
+export const { setCurrentOrganization } = organizationSlice.actions;
+export default organizationSlice.reducer;

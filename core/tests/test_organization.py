@@ -43,7 +43,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
             )
-            self.assertEqual(len(response.json()), 10)
+            self.assertEqual(len(response.json()), 14)
 
     def test_organization_prevent_delete_is_default(self):
         self.client.force_login(self.super_admin)
@@ -61,10 +61,9 @@ class OrganizationTestCase(BaseTestCase):
         self.assertDictEqual(
             response.json()[0]["appearance"],
             {
-                "color_one": "red",
-                "color_two": "green",
-                "color_three": "blue",
-                "sidebar_color": "red",
+                "sidebar_text": "#773CBD",
+                "button_text": "#773CBD",
+                "sidebar_color": "#773CBD",
                 "primary_color": "#773CBD",
                 "font_one": "helvetica",
                 "font_two": "calibri",
@@ -74,13 +73,12 @@ class OrganizationTestCase(BaseTestCase):
     def test_update_organization_appearance(self):
         self.client.force_login(self.super_admin)
         new_appearance = {
-            "color_one": "violet",
-            "color_two": "pink",
-            "color_three": "purple",
-            "sidebar_color": "red",
-            "primary_color": "red",
-            "font_one": "Impact",
-            "font_two": "Arial",
+            "sidebar_text": "#773CBD",
+            "button_text": "#773CBD",
+            "sidebar_color": "#773CBD",
+            "primary_color": "#773CBD",
+            "font_one": "helvetica",
+            "font_two": "arial",
         }
         response = self.client.patch(
             f"/api/organizations/{self.default_organization.id}/",

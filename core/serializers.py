@@ -20,9 +20,8 @@ class DefaultOrganizationDefault:
 
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
-    color_one = serializers.CharField()
-    color_two = serializers.CharField()
-    color_three = serializers.CharField()
+    sidebar_text = serializers.CharField()
+    button_text = serializers.CharField()
     sidebar_color = serializers.CharField()
     primary_color = serializers.CharField()
     font_one = serializers.CharField()
@@ -236,3 +235,9 @@ class UserDeactivateSerializer(serializers.Serializer):
             raise ValidationError("Some users are not accessible")
 
         return attrs
+
+
+class ModalitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Modality
+        fields = ["name"]

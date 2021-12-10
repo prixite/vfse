@@ -1,0 +1,26 @@
+{
+    "users":{
+            "addUser": "Add User",
+            "userAdministration": "User Administration",
+            "popUp":{
+                "userNameText": "Username",
+                "emailText": "Email",
+                "btnAdd": "Add",
+                "btnCancel": "Cancel",
+                "addNewUser": "Add new user",
+                "newUser": "New User"
+            }
+    },
+    "organization":{
+            "allClients": "All Clients",
+            "btnFilter": "Filter",
+            "btnAddClients": "Add Clients",
+            "popUp":{
+                "popUpNewOrganization": "New Organization",
+                "newOrganizationName": "Name",
+                "newOrganizationSeats": "Number of Seats",
+                "newOrganizationBtnSave": "Save",
+                "newOrganizationBtnCancel": "Cancel"
+            }
+    }
+}
