@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
+import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import {
   useOrganizationsListQuery,
   useOrganizationsDeleteMutation,
@@ -87,23 +88,15 @@ const OrganizationSection = () => {
         <h2>{allClients}</h2>
         <div style={{ display: "flex" }}>
           <div style={{ marginTop: "20px" }}>
-            <h4>Sidebar: </h4>
-            <HexColorPicker
-              color={sideBarBackground}
-              onChange={changeSideBarColor}
-            />
-            <HexColorInput
+            <ColorPicker
+              title="Sidebar:"
               color={sideBarBackground}
               onChange={changeSideBarColor}
             />
           </div>
           <div style={{ marginTop: "20px", marginLeft: "20px" }}>
-            <h4>Buttons: </h4>
-            <HexColorPicker
-              color={buttonBackground}
-              onChange={changeButtonColor}
-            />
-            <HexColorInput
+            <ColorPicker
+              title="Buttons:"
               color={buttonBackground}
               onChange={changeButtonColor}
             />
