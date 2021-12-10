@@ -161,6 +161,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userDeactivate,
       }),
     }),
+    usersPartialUpdate: build.mutation<
+      UsersPartialUpdateApiResponse,
+      UsersPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.upsertUser,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -248,6 +258,11 @@ export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserDeactivate;
 export type UsersDeactivatePartialUpdateApiArg = {
   userDeactivate: UserDeactivate;
+};
+export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
+export type UsersPartialUpdateApiArg = {
+  id: string;
+  upsertUser: UpsertUser;
 };
 export type Site = {
   id?: number;
@@ -365,4 +380,5 @@ export const {
   useUsersListQuery,
   useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersPartialUpdateMutation,
 } = injectedRtkApi;
