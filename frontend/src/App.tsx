@@ -8,6 +8,8 @@ import { useAppDispatch } from "@src/store/hooks";
 import {
   updateButtonColor,
   updateSideBarColor,
+  updateButtonTextColor,
+  updateSideBarTextColor,
 } from "./store/reducers/themeStore";
 
 export default function App() {
@@ -19,6 +21,8 @@ export default function App() {
     dispatch(setCurrentOrganization({ currentOrganiation: organizationData }));
     dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
     dispatch(updateButtonColor(organizationData.appearance.primary_color));
+    dispatch(updateSideBarTextColor(organizationData.appearance.sidebar_text));
+    dispatch(updateButtonTextColor(organizationData.appearance.button_text));
   }
 
   if (isFetching) {
