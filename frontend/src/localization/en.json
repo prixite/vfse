@@ -21,6 +21,12 @@
                 "newOrganizationSeats": "Number of Seats",
                 "newOrganizationBtnSave": "Save",
                 "newOrganizationBtnCancel": "Cancel"
+            },
+            "deleteDialog" : {
+                "dialogMessage" : "Are you sure you want to delete",
+                "noButton" : "No",
+                "yesButton" : "Yes"
             }
+
     }
 }
