@@ -62,7 +62,9 @@ class BaseTestCase(TestCase):
         )
 
         self.product = factories.ProductFactory(
-            manufacturer=factories.ManufacturerFactory(),
+            manufacturer=factories.ManufacturerFactory(
+                image=factories.ManufacturerImageFactory()
+            ),
         )
 
         self.modality = factories.ModalityFactory()

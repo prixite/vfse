@@ -5,13 +5,20 @@ import RoutesHOC from "@src/components/hoc/routesHOC";
 import { useMeReadQuery } from "@src/store/reducers/api";
 import { setCurrentOrganization } from "@src/store/reducers/organizationStore";
 import { useAppDispatch } from "@src/store/hooks";
+import {
+  updateButtonColor,
+  updateSideBarColor,
+} from "./store/reducers/themeStore";
 
 export default function App() {
   const dispatch = useAppDispatch();
   const { data, isFetching } = useMeReadQuery();
 
   if (!isFetching) {
-    dispatch(setCurrentOrganization({ currentOrganiation: data.organization }));
+    let organizationData = data.organization;
+    dispatch(setCurrentOrganization({ currentOrganiation: organizationData }));
+    dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
+    dispatch(updateButtonColor(organizationData.appearance.primary_color));
   }
 
   if (isFetching) {

@@ -17,6 +17,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.healthNetwork,
       }),
     }),
+    manufacturersList: build.query<
+      ManufacturersListApiResponse,
+      ManufacturersListApiArg
+    >({
+      query: () => ({ url: `/manufacturers/` }),
+    }),
+    manufacturersCreate: build.mutation<
+      ManufacturersCreateApiResponse,
+      ManufacturersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/manufacturers/`,
+        method: "POST",
+        body: queryArg.manufacturer,
+      }),
+    }),
     meRead: build.query<MeReadApiResponse, MeReadApiArg>({
       query: () => ({ url: `/me/` }),
     }),
@@ -145,6 +161,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userDeactivate,
       }),
     }),
+    usersPartialUpdate: build.mutation<
+      UsersPartialUpdateApiResponse,
+      UsersPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.upsertUser,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -154,6 +180,12 @@ export type HealthNetworkListApiArg = void;
 export type HealthNetworkCreateApiResponse = /** status 201  */ HealthNetwork;
 export type HealthNetworkCreateApiArg = {
   healthNetwork: HealthNetwork;
+};
+export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
+export type ManufacturersListApiArg = void;
+export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
+export type ManufacturersCreateApiArg = {
+  manufacturer: Manufacturer;
 };
 export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
@@ -227,6 +259,11 @@ export type UsersDeactivatePartialUpdateApiResponse =
 export type UsersDeactivatePartialUpdateApiArg = {
   userDeactivate: UserDeactivate;
 };
+export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
+export type UsersPartialUpdateApiArg = {
+  id: string;
+  upsertUser: UpsertUser;
+};
 export type Site = {
   id?: number;
   name: string;
@@ -237,6 +274,10 @@ export type HealthNetwork = {
   name: string;
   logo?: string | null;
   sites: Site[];
+};
+export type Manufacturer = {
+  name: string;
+  image?: number | null;
 };
 export type Appearance = {
   sidebar_text: string;
@@ -320,6 +361,8 @@ export type UserDeactivate = {
 export const {
   useHealthNetworkListQuery,
   useHealthNetworkCreateMutation,
+  useManufacturersListQuery,
+  useManufacturersCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
   useOrganizationsListQuery,
@@ -337,4 +380,5 @@ export const {
   useUsersListQuery,
   useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersPartialUpdateMutation,
 } = injectedRtkApi;

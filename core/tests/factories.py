@@ -19,9 +19,9 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"organization-{x}")
     appearance = {
-        "sidebar_text": "#773CBD",
-        "button_text": "#773CBD",
-        "sidebar_color": "#773CBD",
+        "sidebar_text": "#94989E",
+        "button_text": "#FFFFFF",
+        "sidebar_color": "#142139",
         "primary_color": "#773CBD",
         "font_one": "helvetica",
         "font_two": "calibri",
@@ -255,3 +255,10 @@ class SystemFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     product_model = factory.SubFactory(ProductModelFactory)
     ip_address = "127.0.0.1"
+
+
+class ManufacturerImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ManufacturerImage
+
+    image = "http://example.com/image.jpeg"

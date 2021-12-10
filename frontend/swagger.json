@@ -73,6 +73,53 @@
             },
             "parameters": []
         },
+        "/manufacturers/": {
+            "get": {
+                "operationId": "manufacturers_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Manufacturer"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "post": {
+                "operationId": "manufacturers_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Manufacturer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Manufacturer"
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "parameters": []
+        },
         "/me/": {
             "get": {
                 "operationId": "me_read",
@@ -564,6 +611,41 @@
                 ]
             },
             "parameters": []
+        },
+        "/users/{id}/": {
+            "patch": {
+                "operationId": "users_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpsertUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/UpsertUser"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         }
     },
     "definitions": {
@@ -628,6 +710,26 @@
                 }
             }
         },
+        "Manufacturer": {
+            "description": "Manufacturer(id, name, image, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
         "OrganizationAppearance": {
             "title": "Appearance",
             "description": "",
@@ -673,12 +775,12 @@
                 }
             },
             "default": {
-                "sidebar_text": "#773CBD",
-                "button_text": "#773CBD",
-                "sidebar_color": "#773CBD",
+                "sidebar_text": "#94989E",
+                "button_text": "#FFFFFF",
+                "sidebar_color": "#142139",
                 "primary_color": "#773CBD",
-                "font_one": "#773CBD",
-                "font_two": "#773CBD"
+                "font_one": "helvetica",
+                "font_two": "calibri"
             }
         },
         "Organization": {

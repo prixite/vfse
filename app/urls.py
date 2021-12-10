@@ -118,6 +118,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/users/<str:pk>/",
+        api.UserViewSet.as_view(
+            {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/health_network/",
         api.HealthNetworkViewSet.as_view(
             {
@@ -139,6 +147,15 @@ api_urlpatterns = [
         api.ProductModelViewSet.as_view(
             {
                 "patch": "partial_update",
+            }
+        )
+    ),
+    path(
+        "api/manufacturers/",
+        api.ManfucturerViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
             }
         ),
     ),

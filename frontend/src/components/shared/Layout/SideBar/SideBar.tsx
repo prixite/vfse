@@ -19,6 +19,7 @@ import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 import { useAppSelector } from "@src/store/hooks";
 import { useMeReadQuery } from "@src/store/reducers/api";
+import DefaultLogo from "@src/assets/626-Logo-White.png";
 
 const drawerWidth = 320;
 
@@ -76,11 +77,6 @@ export default function SideBar() {
   const { sideBarBackground } = useAppSelector((state) => state.myTheme);
 
   const { data: me, isFetching } = useMeReadQuery();
-
-  if (isFetching) {
-    return <p>Loading</p>;
-  }
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -120,6 +116,7 @@ export default function SideBar() {
             open ? { justifyContent: "flex-end" } : { justifyContent: "center" }
           }
         >
+          <img src={DefaultLogo} width={50} />
           {open ? (
             <IconButton onClick={handleDrawerClose}>
               <MenuOpenIcon />
