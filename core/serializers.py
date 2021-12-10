@@ -9,7 +9,14 @@ from core import models
 
 class OrganizationAppearanceDefault:
     def __call__(self):
-        return {x: "#773CBD" for x in OrganizationAppearanceSerializer().data}
+        return {
+            "sidebar_text": "#94989E",
+            "button_text": "#FFFFFF",
+            "sidebar_color": "#142139",
+            "primary_color": "#773CBD",
+            "font_one": "helvetica",
+            "font_two": "calibri",
+        }
 
 
 class DefaultOrganizationDefault:

@@ -61,9 +61,9 @@ class OrganizationTestCase(BaseTestCase):
         self.assertDictEqual(
             response.json()[0]["appearance"],
             {
-                "sidebar_text": "#773CBD",
-                "button_text": "#773CBD",
-                "sidebar_color": "#773CBD",
+                "sidebar_text": "#94989E",
+                "button_text": "#FFFFFF",
+                "sidebar_color": "#142139",
                 "primary_color": "#773CBD",
                 "font_one": "helvetica",
                 "font_two": "calibri",
