@@ -1,3 +1,57 @@
+@font-face {
+  font-family: "ProximaNova-Regular";
+  src: url("/static/assets/fonts/ProximaNova-Regular.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNova-Thin";
+  src: url("/static/assets/fonts/ProximaNova-Thin.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "ProximaNova-Extrabold";
+  src: url("/static/assets/fonts/ProximaNova-Extrabold.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNova-Bold";
+  src: url("/static/assets/fonts/ProximaNova-Bold.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNova-Black";
+  src: url("/static/assets/fonts/ProximaNova-Black.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNova-AltThin";
+  src: url("/static/assets/fonts/ProximaNova-AltThin.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNova-AltLight";
+  src: url("/static/assets/fonts/ProximaNova-AltLight.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ProximaNova-AltBold";
+  src: url("/static/assets/fonts/ProximaNova-AltBold.otf") format("opentype");
+  font-display: swap;
+  font-weight: normal;
+}
+
+* {
+  font-family: "ProximaNova-Regular", sans-serif;
+}
+
 .brand-color {
   color: #773cbe !important;
 }
