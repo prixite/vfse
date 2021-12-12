@@ -250,6 +250,12 @@ class ModalitySerializer(serializers.ModelSerializer):
         fields = ["name"]
 
 
+class ProductModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProductModel
+        fields = ["id", "product", "modality", "documentation"]
+
+
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Manufacturer

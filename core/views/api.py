@@ -280,6 +280,13 @@ class ModalityViewSet(ModelViewSet):
         )
 
 
+class ProductModelViewSet(ModelViewSet):
+    serializer_class = serializers.ProductModelSerializer
+
+    def get_queryset(self):
+        return models.ProductModel.objects.all()
+
+
 class ManfucturerViewSet(ModelViewSet):
     serializer_class = serializers.ManufacturerSerializer
 
