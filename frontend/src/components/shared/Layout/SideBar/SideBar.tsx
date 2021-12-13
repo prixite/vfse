@@ -20,7 +20,11 @@ import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 import { useAppSelector } from "@src/store/hooks";
-import { useMeReadQuery } from "@src/store/reducers/api";
+import {
+  Organization,
+  useMeReadQuery,
+  useOrganizationsListQuery,
+} from "@src/store/reducers/api";
 
 const drawerWidth = 400;
 
@@ -78,12 +82,14 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
-  const [currentClient, setCurrentClient] = React.useState("cllient1");
+  const [currentClient, setCurrentClient] = React.useState({});
+  const { data: items, isLoading: isOrgListLoading } =
+    useOrganizationsListQuery();
   const { sideBarBackground, sideBarTextColor } = useAppSelector(
     (state) => state.myTheme
   );
 
-  const { data: me, isFetching } = useMeReadQuery();
+  const { data: me } = useMeReadQuery();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -116,18 +122,20 @@ export default function SideBar() {
       });
 
   const createClients = () =>
-    clients.map((item: string) => {
+    items.slice(0, 5).map((item: Organization) => {
       return (
         <ListItem
           button
-          key={item}
+          key={item.id}
           style={collapsedLeftPadding}
           onClick={() => setCurrentClient(item)}
         >
           <ListItemIcon className={`client-image`}>
             <img
-              src={Icon}
-              className={`img ${currentClient === item ? "active" : ""}`}
+              src={item.logo}
+              className={`img ${
+                currentClient.name === item.name ? "active" : ""
+              }`}
             />
           </ListItemIcon>
         </ListItem>
@@ -163,7 +171,7 @@ export default function SideBar() {
               <img src={SearchIcon} />
             </ListItemIcon>
           </ListItem>
-          {createClients()}
+          {!isOrgListLoading && createClients()}
           <ListItem button component="a" href="/accounts/logout/">
             <ListItemText primary="Logout" />
           </ListItem>

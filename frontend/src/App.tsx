@@ -18,7 +18,7 @@ export default function App() {
 
   if (!isFetching) {
     let organizationData = data.organization;
-    dispatch(setCurrentOrganization({ currentOrganiation: organizationData }));
+    dispatch(setCurrentOrganization({ currentOrganization: organizationData }));
     dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
     dispatch(updateButtonColor(organizationData.appearance.primary_color));
     dispatch(updateSideBarTextColor(organizationData.appearance.sidebar_text));
