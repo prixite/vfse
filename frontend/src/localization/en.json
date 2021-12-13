@@ -28,5 +28,11 @@
                 "yesButton" : "Yes"
             }
 
+    },
+    "page404" : {
+        "title" : "URL doesn't exist",
+        "description" : "Looks like you're followed a broken link or entered a URL that doesn't exist on this site.",
+        "backbtn" : "GO BACK"
     }
+
 }

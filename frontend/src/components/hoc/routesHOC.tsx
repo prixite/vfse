@@ -1,6 +1,8 @@
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { Box } from "@mui/material";
 import { routes } from "@src/routes";
+import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
+import HomeView from "@src/views/home/HomeView";
 
 const RoutesHOC = () => {
   return (
@@ -14,7 +16,8 @@ const RoutesHOC = () => {
             exact
           />
         ))}
-        <Redirect to="/" />
+        <Route path="/" component={HomeView} exact />
+        <Route path="*" component={NotFoundPage} />
       </Switch>
     </Box>
   );
