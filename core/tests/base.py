@@ -1,4 +1,5 @@
 from django.test import TestCase
+from core.models import System
 
 from core.tests import client, factories
 
@@ -75,4 +76,9 @@ class BaseTestCase(TestCase):
                 modality=self.modality,
                 documentation=factories.DocumentationFactory(),
             ),
+        )
+
+        self.note = factories.SystemNoteFactory(
+            system = self.system,
+            author = self.super_admin
         )

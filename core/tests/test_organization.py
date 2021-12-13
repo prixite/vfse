@@ -275,6 +275,25 @@ class SiteTestCase(BaseTestCase):
             response = self.client.get(f"/api/sites/{self.site.id}/systems/")
             self.assertEqual(len(response.json()), 1)
 
+    def test_list_system_notes(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get(F'/api/systems/{self.system.id}/notes/')
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(len(response.json()),1)
+
+    def test_create_system_notes(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f'/api/systems/{self.system.id}/notes/',
+            data={
+                'system':self.system.id,
+                'author':self.super_admin.id,
+                'note':'Test Notes',
+            }
+        )
+
+        self.assertEqual(response.status_code,201)
+        self.assertTrue(models.Note.objects.filter(note='Test Notes').exists())
 
 class VfseTestCase(BaseTestCase):
     def test_list_cfse_systems(self):

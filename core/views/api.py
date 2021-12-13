@@ -292,3 +292,14 @@ class ManfucturerViewSet(ModelViewSet):
 
     def get_queryset(self):
         return models.Manufacturer.objects.all()
+
+
+class SystemNoteViewSet(ModelViewSet):
+    serializer_class = serializers.SystemNotesSerializer
+    lookup_url_kwarg = 'system_id'
+
+    def get_queryset(self):
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.Note.objects.filter(system_id=self.kwargs['system_id'])
+        return models.Note.objects.filter(system_id=self.kwargs['system_id'],author=self.request.user)
+        
