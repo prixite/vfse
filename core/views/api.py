@@ -304,3 +304,17 @@ class SystemNoteViewSet(ModelViewSet):
         return models.Note.objects.filter(
             system_id=self.kwargs["system_id"], author=self.request.user
         )
+
+
+class SystemImageViewSet(ModelViewSet):
+    serializer_class = serializers.SystemImageSerializer
+
+    def get_queryset(self):
+        return models.SystemImage.objects.all()
+
+
+class ManufacturerImagesViewSet(ModelViewSet):
+    serializer_class = serializers.ManufacturerImageSerializer
+
+    def get_queryset(self):
+        return models.ManufacturerImage.objects.all()

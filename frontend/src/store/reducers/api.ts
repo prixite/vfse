@@ -33,6 +33,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.manufacturer,
       }),
     }),
+    manufacturersImagesList: build.query<
+      ManufacturersImagesListApiResponse,
+      ManufacturersImagesListApiArg
+    >({
+      query: () => ({ url: `/manufacturers/images/` }),
+    }),
+    manufacturersImagesCreate: build.mutation<
+      ManufacturersImagesCreateApiResponse,
+      ManufacturersImagesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/manufacturers/images/`,
+        method: "POST",
+        body: queryArg.manufacturerImage,
+      }),
+    }),
     meRead: build.query<MeReadApiResponse, MeReadApiArg>({
       query: () => ({ url: `/me/` }),
     }),
@@ -157,20 +173,20 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/sites/${queryArg.sitePk}/systems/` }),
     }),
-    systemsNotesList: build.query<
-      SystemsNotesListApiResponse,
-      SystemsNotesListApiArg
+    systemsImagesList: build.query<
+      SystemsImagesListApiResponse,
+      SystemsImagesListApiArg
     >({
-      query: (queryArg) => ({ url: `/systems/${queryArg.systemId}/notes/` }),
+      query: () => ({ url: `/systems/images/` }),
     }),
-    systemsNotesCreate: build.mutation<
-      SystemsNotesCreateApiResponse,
-      SystemsNotesCreateApiArg
+    systemsImagesCreate: build.mutation<
+      SystemsImagesCreateApiResponse,
+      SystemsImagesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/images/`,
         method: "POST",
-        body: queryArg.systemNotes,
+        body: queryArg.systemImage,
       }),
     }),
     usersList: build.query<UsersListApiResponse, UsersListApiArg>({
@@ -218,6 +234,14 @@ export type ManufacturersListApiArg = void;
 export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
 export type ManufacturersCreateApiArg = {
   manufacturer: Manufacturer;
+};
+export type ManufacturersImagesListApiResponse =
+  /** status 200  */ ManufacturerImage[];
+export type ManufacturersImagesListApiArg = void;
+export type ManufacturersImagesCreateApiResponse =
+  /** status 201  */ ManufacturerImage;
+export type ManufacturersImagesCreateApiArg = {
+  manufacturerImage: ManufacturerImage;
 };
 export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
@@ -288,14 +312,11 @@ export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
   sitePk: string;
 };
-export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
-export type SystemsNotesListApiArg = {
-  systemId: string;
-};
-export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
-export type SystemsNotesCreateApiArg = {
-  systemId: string;
-  systemNotes: SystemNotes;
+export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
+export type SystemsImagesListApiArg = void;
+export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
+export type SystemsImagesCreateApiArg = {
+  systemImage: SystemImage;
 };
 export type UsersListApiResponse = /** status 200  */ User[];
 export type UsersListApiArg = void;
@@ -327,6 +348,9 @@ export type HealthNetwork = {
 export type Manufacturer = {
   name: string;
   image?: number | null;
+};
+export type ManufacturerImage = {
+  image?: string | null;
 };
 export type Appearance = {
   sidebar_text: string;
@@ -384,11 +408,8 @@ export type ProductModel = {
   modality: number;
   documentation?: number | null;
 };
-export type SystemNotes = {
-  system: number;
-  author: number;
-  note: string;
-  created_at?: string;
+export type SystemImage = {
+  image: string;
 };
 export type UpsertUser = {
   first_name: string;
@@ -424,6 +445,8 @@ export const {
   useHealthNetworkCreateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
+  useManufacturersImagesListQuery,
+  useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
   useOrganizationsListQuery,
@@ -440,8 +463,8 @@ export const {
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,
-  useSystemsNotesListQuery,
-  useSystemsNotesCreateMutation,
+  useSystemsImagesListQuery,
+  useSystemsImagesCreateMutation,
   useUsersListQuery,
   useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,

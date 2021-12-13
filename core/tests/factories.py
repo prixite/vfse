@@ -267,3 +267,10 @@ class ManufacturerImageFactory(factory.django.DjangoModelFactory):
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Note
+
+
+class SystemImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SystemImage
+
+    image = "http://example.com/systemimage.jpeg"

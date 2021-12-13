@@ -120,6 +120,53 @@
             },
             "parameters": []
         },
+        "/manufacturers/images/": {
+            "get": {
+                "operationId": "manufacturers_images_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ManufacturerImage"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "post": {
+                "operationId": "manufacturers_images_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ManufacturerImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/ManufacturerImage"
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "parameters": []
+        },
         "/me/": {
             "get": {
                 "operationId": "me_read",
@@ -543,9 +590,9 @@
                 }
             ]
         },
-        "/systems/{system_id}/notes/": {
+        "/systems/images/": {
             "get": {
-                "operationId": "systems_notes_list",
+                "operationId": "systems_images_list",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -554,7 +601,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/SystemNotes"
+                                "$ref": "#/definitions/SystemImage"
                             }
                         }
                     }
@@ -564,7 +611,7 @@
                 ]
             },
             "post": {
-                "operationId": "systems_notes_create",
+                "operationId": "systems_images_create",
                 "description": "",
                 "parameters": [
                     {
@@ -572,7 +619,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/SystemNotes"
+                            "$ref": "#/definitions/SystemImage"
                         }
                     }
                 ],
@@ -580,7 +627,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/SystemNotes"
+                            "$ref": "#/definitions/SystemImage"
                         }
                     }
                 },
@@ -588,14 +635,7 @@
                     "systems"
                 ]
             },
-            "parameters": [
-                {
-                    "name": "system_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
+            "parameters": []
         },
         "/users/": {
             "get": {
@@ -786,6 +826,19 @@
                 "image": {
                     "title": "Image",
                     "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
+        "ManufacturerImage": {
+            "description": "ManufacturerImage(id, image, created_at, updated_at)",
+            "type": "object",
+            "properties": {
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
                     "x-nullable": true
                 }
             }
@@ -1088,33 +1141,19 @@
                 }
             }
         },
-        "SystemNotes": {
-            "description": "Note(id, system, author, note, created_at, updated_at)",
+        "SystemImage": {
+            "description": "SystemImage(id, image, created_at, updated_at)",
             "required": [
-                "system",
-                "author",
-                "note"
+                "image"
             ],
             "type": "object",
             "properties": {
-                "system": {
-                    "title": "System",
-                    "type": "integer"
-                },
-                "author": {
-                    "title": "Author",
-                    "type": "integer"
-                },
-                "note": {
-                    "title": "Note",
+                "image": {
+                    "title": "Image",
                     "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
                     "minLength": 1
-                },
-                "created_at": {
-                    "title": "Created at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
                 }
             }
         },
