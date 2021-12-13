@@ -189,6 +189,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemImage,
       }),
     }),
+    systemsNotesList: build.query<
+      SystemsNotesListApiResponse,
+      SystemsNotesListApiArg
+    >({
+      query: (queryArg) => ({ url: `/systems/${queryArg.systemId}/notes/` }),
+    }),
+    systemsNotesCreate: build.mutation<
+      SystemsNotesCreateApiResponse,
+      SystemsNotesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/${queryArg.systemId}/notes/`,
+        method: "POST",
+        body: queryArg.systemNotes,
+      }),
+    }),
     usersList: build.query<UsersListApiResponse, UsersListApiArg>({
       query: () => ({ url: `/users/` }),
     }),
@@ -318,6 +334,15 @@ export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
 export type SystemsImagesCreateApiArg = {
   systemImage: SystemImage;
 };
+export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
+export type SystemsNotesListApiArg = {
+  systemId: string;
+};
+export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
+export type SystemsNotesCreateApiArg = {
+  systemId: string;
+  systemNotes: SystemNotes;
+};
 export type UsersListApiResponse = /** status 200  */ User[];
 export type UsersListApiArg = void;
 export type UsersCreateApiResponse = /** status 201  */ UpsertUser;
@@ -411,6 +436,12 @@ export type ProductModel = {
 export type SystemImage = {
   image: string;
 };
+export type SystemNotes = {
+  system: number;
+  author: number;
+  note: string;
+  created_at?: string;
+};
 export type UpsertUser = {
   first_name: string;
   last_name: string;
@@ -465,6 +496,8 @@ export const {
   useSitesSystemsListQuery,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
+  useSystemsNotesListQuery,
+  useSystemsNotesCreateMutation,
   useUsersListQuery,
   useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,
