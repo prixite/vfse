@@ -418,6 +418,16 @@ export type User = {
   username: string;
   is_active?: boolean;
 };
+export type HisRisInfo = {
+  ip: string;
+  title: string;
+  port: number;
+  ae_title: string;
+};
+export type MriEmbeddedParameters = {
+  helium: string;
+  magnet_pressure: string;
+};
 export type System = {
   site: number;
   product_model: number;
@@ -426,6 +436,9 @@ export type System = {
   asset_number: string;
   ip_address: string;
   local_ae_title: string;
+  his_ris_info?: HisRisInfo;
+  dicom_info?: HisRisInfo;
+  mri_embedded_parameters?: MriEmbeddedParameters;
 };
 export type ProductModel = {
   id?: number;

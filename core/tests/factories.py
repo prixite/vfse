@@ -255,6 +255,19 @@ class SystemFactory(factory.django.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
     product_model = factory.SubFactory(ProductModelFactory)
     ip_address = "127.0.0.1"
+    his_ris_info = {
+        "ip": "192.187.23.23",
+        "title": "HIS System 1",
+        "ae_title": "HS1",
+        "port": 2000,
+    }
+    dicom_info = {
+        "ip": "192.0.0.9",
+        "title": "Dicom System 1",
+        "ae_title": "dS1",
+        "port": 2850,
+    }
+    mri_embedded_parameters = {"helium": "Strong", "magnet_pressure": "Low"}
 
 
 class ManufacturerImageFactory(factory.django.DjangoModelFactory):

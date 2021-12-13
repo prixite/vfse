@@ -26,6 +26,34 @@ class DefaultOrganizationDefault:
         return serializer_field.context["request"].user.get_default_organization()
 
 
+class HisInfoDefault:
+    def __call__(self):
+        return {
+            "ip": "192.187.23.23",
+            "title": "HIS System 1",
+            "ae_title": "HS1",
+            "port": 2000,
+        }
+
+
+class DicomInfoDefault:
+    def __call__(self):
+        return {
+            "ip": "192.0.0.9",
+            "title": "Dicom System 1",
+            "ae_title": "dS1",
+            "port": 2850,
+        }
+
+
+class MriInfoDefault:
+    def __call__(self):
+        return {
+            "helium": "High",
+            "magnet_pressure": "strong",
+        }
+
+
 class OrganizationAppearanceSerializer(serializers.Serializer):
     sidebar_text = serializers.CharField()
     button_text = serializers.CharField()
@@ -148,7 +176,23 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "logo", "sites"]
 
 
+class SystemInfoSerializer(serializers.Serializer):
+    ip = serializers.IPAddressField()
+    title = serializers.CharField()
+    port = serializers.IntegerField()
+    ae_title = serializers.CharField()
+
+
+class MriInfoSerializer(serializers.Serializer):
+    helium = serializers.CharField()
+    magnet_pressure = serializers.CharField()
+
+
 class SystemSerializer(serializers.ModelSerializer):
+    his_ris_info = SystemInfoSerializer(default=HisInfoDefault())
+    dicom_info = SystemInfoSerializer(default=DicomInfoDefault())
+    mri_embedded_parameters = MriInfoSerializer(default=MriInfoDefault())
+
     class Meta:
         model = models.System
         fields = [
@@ -159,6 +203,9 @@ class SystemSerializer(serializers.ModelSerializer):
             "asset_number",
             "ip_address",
             "local_ae_title",
+            "his_ris_info",
+            "dicom_info",
+            "mri_embedded_parameters",
         ]
 
 

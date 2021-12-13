@@ -244,6 +244,7 @@ class Modality(models.Model):
 
 
 class System(models.Model):
+    name = models.CharField(max_length=50)
     site = models.ForeignKey("Site", on_delete=models.CASCADE)
     product_model = models.ForeignKey("ProductModel", on_delete=models.CASCADE)
     image = models.ForeignKey("SystemImage", on_delete=models.SET_NULL, null=True)
@@ -257,34 +258,13 @@ class System(models.Model):
     system_option = models.TextField(blank=True, null=True)
     connection_monitoring = models.BooleanField(default=False)
     other = models.TextField(null=True, blank=True)
+
+    his_ris_info = models.JSONField(default=dict)
+    dicom_info = models.JSONField(default=dict)
+    mri_embedded_parameters = models.JSONField(default=dict)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class SystemDetail(models.Model):
-    site = models.OneToOneField("System", on_delete=models.CASCADE)
-    his_ris_info_ip = models.GenericIPAddressField(blank=True, null=True)
-    his_ris_info_ae_title = models.CharField(max_length=32, blank=True, null=True)
-    his_ris_info_title = models.CharField(max_length=32, blank=True, null=True)
-    his_ris_info_port = models.IntegerField(
-        null=True,
-        blank=True,
-        validators=[MaxValueValidator(99999), MinValueValidator(0)],
-    )
-    dicom_info_ip = models.GenericIPAddressField(blank=True, null=True)
-    dicom_info_ae_title = models.CharField(max_length=32, blank=True, null=True)
-    dicom_info_title = models.CharField(max_length=32, blank=True, null=True)
-    dicom_info_port = models.IntegerField(
-        null=True,
-        blank=True,
-        validators=[MaxValueValidator(99999), MinValueValidator(0)],
-    )
-    mri_embedded_parameters_helium = models.CharField(
-        max_length=32, blank=True, null=True
-    )
-    mri_embedded_parameters_magnet_pressure = models.CharField(
-        max_length=32, blank=True, null=True
-    )
 
 
 class SystemImage(models.Model):
