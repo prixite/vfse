@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { HexColorPicker, HexColorInput } from "react-colorful";
 import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
@@ -20,17 +18,21 @@ import {
   updateSideBarTextColor,
   updateButtonTextColor,
 } from "@src/store/reducers/themeStore";
+import { setCurrentOrganization } from "@src/store/reducers/organizationStore";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import { localizedData } from "@src/helpers/utils/language";
+import { updateOrganizationColor } from "@src/services/organizationService";
 
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
+  const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
+  const { data: organizationList, refetch } = useOrganizationsListQuery();
   const constantData: any = localizedData()?.organization;
   const { allClients, btnFilter, btnAddClients } = constantData;
-  const { data: organizationList, refetch } = useOrganizationsListQuery();
+
   const {
     sideBarBackground,
     buttonBackground,
@@ -41,8 +43,6 @@ const OrganizationSection = () => {
     (state) => state.organization.currentOrganization
   );
   const dispatch = useAppDispatch();
-  const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
-
   const handleClose = () => setOpen(false);
 
   var currentOrganiationDummyData: Organization = JSON.parse(
@@ -56,7 +56,15 @@ const OrganizationSection = () => {
       color,
       "sidebar_color"
     );
-    updateOrganizationColor();
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   function changeButtonColor(color: string) {
@@ -66,7 +74,15 @@ const OrganizationSection = () => {
       color,
       "primary_color"
     );
-    updateOrganizationColor();
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   function changeSideBarTextColor(color: string) {
@@ -76,7 +92,15 @@ const OrganizationSection = () => {
       color,
       "sidebar_text"
     );
-    updateOrganizationColor();
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   function changeButtonTextColor(color: string) {
@@ -86,16 +110,16 @@ const OrganizationSection = () => {
       color,
       "button_text"
     );
-    updateOrganizationColor();
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
-
-  const updateOrganizationColor = async () => {
-    await organizationsPartialUpdate({
-      id: currentOrganization.id.toString(),
-      organization: currentOrganiationDummyData,
-    }).unwrap();
-    toast.success("Current organization theme successfully updated.");
-  };
 
   return (
     <>
