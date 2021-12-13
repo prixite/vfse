@@ -168,6 +168,15 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/systems/<str:system_id>/notes/",
+        api.SystemNoteViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
         "api/systems/images/",
         api.SystemImageViewSet.as_view(
             {

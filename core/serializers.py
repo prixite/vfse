@@ -262,6 +262,12 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         fields = ["name", "image"]
 
 
+class SystemNotesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Note
+        fields = ["system", "author", "note", "created_at"]
+
+
 class SystemImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SystemImage

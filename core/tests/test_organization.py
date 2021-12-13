@@ -275,30 +275,9 @@ class SiteTestCase(BaseTestCase):
             response = self.client.get(f"/api/sites/{self.site.id}/systems/")
             self.assertEqual(len(response.json()), 1)
 
-    def test_list_system_images(self):
-        self.client.force_login(self.super_admin)
-        response = self.client.get("/api/systems/images/")
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()), models.SystemImage.objects.all().count())
-
-    def test_create_system_images(self):
-        self.client.force_login(self.super_admin)
-        response = self.client.post(
-            "/api/systems/images/",
-            data={"image": "http://example.com/newsystemimage.jpeg"},
-        )
-
-        self.assertEqual(response.status_code, 201)
-        self.assertTrue(
-            models.SystemImage.objects.filter(
-                image="http://example.com/newsystemimage.jpeg"
-            ).exists()
-        )
-
 
 class VfseTestCase(BaseTestCase):
-    def test_list_cfse_systems(self):
+    def test_list_vfse_systems(self):
         models.Seat.objects.create(
             organization=self.organization,
             system=self.system,
