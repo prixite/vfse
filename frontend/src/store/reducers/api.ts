@@ -33,6 +33,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.manufacturer,
       }),
     }),
+    manufacturersImagesList: build.query<
+      ManufacturersImagesListApiResponse,
+      ManufacturersImagesListApiArg
+    >({
+      query: () => ({ url: `/manufacturers/images/` }),
+    }),
+    manufacturersImagesCreate: build.mutation<
+      ManufacturersImagesCreateApiResponse,
+      ManufacturersImagesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/manufacturers/images/`,
+        method: "POST",
+        body: queryArg.manufacturerImage,
+      }),
+    }),
     meRead: build.query<MeReadApiResponse, MeReadApiArg>({
       query: () => ({ url: `/me/` }),
     }),
@@ -219,6 +235,14 @@ export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
 export type ManufacturersCreateApiArg = {
   manufacturer: Manufacturer;
 };
+export type ManufacturersImagesListApiResponse =
+  /** status 200  */ ManufacturerImage[];
+export type ManufacturersImagesListApiArg = void;
+export type ManufacturersImagesCreateApiResponse =
+  /** status 201  */ ManufacturerImage;
+export type ManufacturersImagesCreateApiArg = {
+  manufacturerImage: ManufacturerImage;
+};
 export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
@@ -325,6 +349,9 @@ export type Manufacturer = {
   name: string;
   image?: number | null;
 };
+export type ManufacturerImage = {
+  image?: string | null;
+};
 export type Appearance = {
   sidebar_text: string;
   button_text: string;
@@ -418,6 +445,8 @@ export const {
   useHealthNetworkCreateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
+  useManufacturersImagesListQuery,
+  useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
   useOrganizationsListQuery,
