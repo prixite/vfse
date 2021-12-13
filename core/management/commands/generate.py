@@ -100,6 +100,7 @@ class Command(BaseCommand):
         )
 
         factories.SystemFactory(
+            name="System object 1",
             site=factories.SiteFactory(
                 health_network=factories.HealthNetworkFactory(),
             ),

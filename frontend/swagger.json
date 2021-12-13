@@ -956,8 +956,71 @@
                 }
             }
         },
+        "SystemInfo": {
+            "title": "His ris info",
+            "description": "",
+            "required": [
+                "ip",
+                "title",
+                "port",
+                "ae_title"
+            ],
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "title": "Ip",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "port": {
+                    "title": "Port",
+                    "type": "integer"
+                },
+                "ae_title": {
+                    "title": "Ae title",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "ip": "192.187.23.23",
+                "title": "HIS System 1",
+                "port": 2000,
+                "ae_title": "HS1"
+            }
+        },
+        "MriInfo": {
+            "title": "Mri embedded parameters",
+            "description": "",
+            "required": [
+                "helium",
+                "magnet_pressure"
+            ],
+            "type": "object",
+            "properties": {
+                "helium": {
+                    "title": "Helium",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "magnet_pressure": {
+                    "title": "Magnet pressure",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "helium": "High",
+                "magnet_pressure": "strong"
+            }
+        },
         "System": {
-            "description": "System(id, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, connection_monitoring, other, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, created_at, updated_at)",
             "required": [
                 "site",
                 "product_model",
@@ -1003,6 +1066,15 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
+                },
+                "his_ris_info": {
+                    "$ref": "#/definitions/SystemInfo"
+                },
+                "dicom_info": {
+                    "$ref": "#/definitions/SystemInfo"
+                },
+                "mri_embedded_parameters": {
+                    "$ref": "#/definitions/MriInfo"
                 }
             }
         },
