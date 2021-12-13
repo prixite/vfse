@@ -167,6 +167,15 @@ api_urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/manufacturers/images/",
+        api.ManufacturerImagesViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
 ]
 
 urlpatterns = (
