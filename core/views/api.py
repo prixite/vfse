@@ -217,7 +217,10 @@ class OrganizationUserViewSet(ModelViewSet):
 
 
 class VfseSystemViewSet(ModelViewSet):
-    serializer_class = serializers.SystemSerializer
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.SystemSeatSeriazlier
+        return serializers.SeatSerializer
 
     def get_queryset(self):
         assigned = models.Seat.objects.filter(
@@ -228,7 +231,19 @@ class VfseSystemViewSet(ModelViewSet):
             assigned = assigned.filter(
                 organization__in=self.request.user.get_organizations(),
             )
-        return models.System.objects.filter(id__in=assigned.values_list("system"))
+        return assigned
+
+    def perform_create(self, serializer):
+        seats = [
+            models.Seat(organization_id=self.kwargs["organization_pk"], system=system)
+            for system in serializer.validated_data["ids"]
+        ]
+        models.Seat.objects.bulk_create(seats)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context["organization_pk"] = self.kwargs["organization_pk"]
+        return context
 
 
 class HealthNetworkViewSet(ModelViewSet):

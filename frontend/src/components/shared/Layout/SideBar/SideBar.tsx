@@ -28,8 +28,6 @@ import {
 
 const drawerWidth = 400;
 
-const clients = ["cllient1", "cllient2", "cllient3"];
-
 const openedMixin = (
   theme: Theme,
   bgcolor: string,
@@ -83,7 +81,7 @@ const Drawer = styled(MuiDrawer, {
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
   const [currentClient, setCurrentClient] = React.useState({});
-  const { data: items, isLoading: isOrgListLoading } =
+  const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery();
   const { sideBarBackground, sideBarTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -122,7 +120,7 @@ export default function SideBar() {
       });
 
   const createClients = () =>
-    items.slice(0, 5).map((item: Organization) => {
+    organizationsList.slice(0, 5).map((item: Organization) => {
       return (
         <ListItem
           button

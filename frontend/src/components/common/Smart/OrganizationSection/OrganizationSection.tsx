@@ -9,7 +9,6 @@ import ClientCard from "@src/components/common/Presentational/ClientCard/ClientC
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import {
   useOrganizationsListQuery,
-  useOrganizationsDeleteMutation,
   useOrganizationsPartialUpdateMutation,
   Organization,
 } from "@src/store/reducers/api";
@@ -29,10 +28,8 @@ import { updateOrganizationColor } from "@src/services/organizationService";
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
-  const { data: items, refetch, isLoading } = useOrganizationsListQuery();
-  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
-
+  const { data: organizationList, refetch } = useOrganizationsListQuery();
   const constantData: any = localizedData()?.organization;
   const { allClients, btnFilter, btnAddClients } = constantData;
 
@@ -54,86 +51,74 @@ const OrganizationSection = () => {
 
   function changeSideBarColor(color: string) {
     dispatch(updateSideBarColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "sidebar_color"
-      );
-      dispatch(
-        setCurrentOrganization({
-          currentOrganization: currentOrganiationDummyData,
-        })
-      );
-      updateOrganizationColor(
-        organizationsPartialUpdate,
-        currentOrganiationDummyData
-      );
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "sidebar_color"
+    );
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   function changeButtonColor(color: string) {
     dispatch(updateButtonColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "primary_color"
-      );
-      dispatch(
-        setCurrentOrganization({
-          currentOrganization: currentOrganiationDummyData,
-        })
-      );
-      updateOrganizationColor(
-        organizationsPartialUpdate,
-        currentOrganiationDummyData
-      );
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "primary_color"
+    );
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   function changeSideBarTextColor(color: string) {
     dispatch(updateSideBarTextColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "sidebar_text"
-      );
-      dispatch(
-        setCurrentOrganization({
-          currentOrganization: currentOrganiationDummyData,
-        })
-      );
-      updateOrganizationColor(
-        organizationsPartialUpdate,
-        currentOrganiationDummyData
-      );
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "sidebar_text"
+    );
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   function changeButtonTextColor(color: string) {
     dispatch(updateButtonTextColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "button_text"
-      );
-      dispatch(
-        setCurrentOrganization({
-          currentOrganization: currentOrganiationDummyData,
-        })
-      );
-      updateOrganizationColor(
-        organizationsPartialUpdate,
-        currentOrganiationDummyData
-      );
-    }
-  }
-
-  if (isLoading) {
-    return <p>Loading...</p>;
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "button_text"
+    );
+    dispatch(
+      setCurrentOrganization({
+        currentOrganization: currentOrganiationDummyData,
+      })
+    );
+    updateOrganizationColor(
+      organizationsPartialUpdate,
+      currentOrganiationDummyData
+    );
   }
 
   return (
@@ -212,20 +197,21 @@ const OrganizationSection = () => {
           </Button>
         </Box>
         <Grid container spacing={2} className="OrganizationSection__AllClients">
-          {items.map((item, key) => (
-            <Grid key={key} item xs={3}>
-              <ClientCard
-                setOpen={setOpen}
-                setOrganization={setOrganization}
-                row={item}
-                deleteOrganization={deleteOrganization}
-                refetch={refetch}
-                id={item.id}
-                name={item.name}
-                logo={item.logo}
-              />
-            </Grid>
-          ))}
+          {organizationList &&
+            organizationList?.length &&
+            organizationList.map((item, key) => (
+              <Grid key={key} item xs={3}>
+                <ClientCard
+                  setOpen={setOpen}
+                  setOrganization={setOrganization}
+                  row={item}
+                  refetch={refetch}
+                  id={item.id}
+                  name={item.name}
+                  logo={item.logo}
+                />
+              </Grid>
+            ))}
         </Grid>
         <OrganizationModal
           organization={organization}
