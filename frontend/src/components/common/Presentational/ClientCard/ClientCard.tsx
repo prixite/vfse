@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
+import { useOrganizationsDeleteMutation } from "@src/store/reducers/api";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/common/Smart/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
@@ -8,7 +9,6 @@ interface ClientCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
   row: object;
-  deleteOrganization: any;
   refetch: any;
   id: number;
   logo: string;
@@ -18,7 +18,6 @@ const ClientCard = ({
   id,
   logo,
   name,
-  deleteOrganization,
   refetch,
   row,
   setOpen,
@@ -27,6 +26,7 @@ const ClientCard = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
+  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const handleModalOpen = () => {
     setOpenModal(true);
     handleClose();

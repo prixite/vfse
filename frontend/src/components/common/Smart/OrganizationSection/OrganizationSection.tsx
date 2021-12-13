@@ -11,7 +11,6 @@ import ClientCard from "@src/components/common/Presentational/ClientCard/ClientC
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import {
   useOrganizationsListQuery,
-  useOrganizationsDeleteMutation,
   useOrganizationsPartialUpdateMutation,
   Organization,
 } from "@src/store/reducers/api";
@@ -31,8 +30,7 @@ const OrganizationSection = () => {
   const [open, setOpen] = useState(false);
   const constantData: any = localizedData()?.organization;
   const { allClients, btnFilter, btnAddClients } = constantData;
-  const { data: items, refetch, isLoading } = useOrganizationsListQuery();
-  const [deleteOrganization] = useOrganizationsDeleteMutation();
+  const { data: organizationList, refetch } = useOrganizationsListQuery();
   const {
     sideBarBackground,
     buttonBackground,
@@ -53,50 +51,42 @@ const OrganizationSection = () => {
 
   function changeSideBarColor(color: string) {
     dispatch(updateSideBarColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "sidebar_color"
-      );
-      updateOrganizationColor();
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "sidebar_color"
+    );
+    updateOrganizationColor();
   }
 
   function changeButtonColor(color: string) {
     dispatch(updateButtonColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "primary_color"
-      );
-      updateOrganizationColor();
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "primary_color"
+    );
+    updateOrganizationColor();
   }
 
   function changeSideBarTextColor(color: string) {
     dispatch(updateSideBarTextColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "sidebar_text"
-      );
-      updateOrganizationColor();
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "sidebar_text"
+    );
+    updateOrganizationColor();
   }
 
   function changeButtonTextColor(color: string) {
     dispatch(updateButtonTextColor(color));
-    if (!isLoading) {
-      currentOrganiationDummyData = compileOrganizationColorObject(
-        currentOrganiationDummyData,
-        color,
-        "button_text"
-      );
-      updateOrganizationColor();
-    }
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "button_text"
+    );
+    updateOrganizationColor();
   }
 
   const updateOrganizationColor = async () => {
@@ -106,10 +96,6 @@ const OrganizationSection = () => {
     }).unwrap();
     toast.success("Current organization theme successfully updated.");
   };
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <>
@@ -187,20 +173,21 @@ const OrganizationSection = () => {
           </Button>
         </Box>
         <Grid container spacing={2} className="OrganizationSection__AllClients">
-          {items.map((item, key) => (
-            <Grid key={key} item xs={3}>
-              <ClientCard
-                setOpen={setOpen}
-                setOrganization={setOrganization}
-                row={item}
-                deleteOrganization={deleteOrganization}
-                refetch={refetch}
-                id={item.id}
-                name={item.name}
-                logo={item.logo}
-              />
-            </Grid>
-          ))}
+          {organizationList &&
+            organizationList?.length &&
+            organizationList.map((item, key) => (
+              <Grid key={key} item xs={3}>
+                <ClientCard
+                  setOpen={setOpen}
+                  setOrganization={setOrganization}
+                  row={item}
+                  refetch={refetch}
+                  id={item.id}
+                  name={item.name}
+                  logo={item.logo}
+                />
+              </Grid>
+            ))}
         </Grid>
         <OrganizationModal
           organization={organization}
