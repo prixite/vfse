@@ -307,3 +307,15 @@ class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Manufacturer
         fields = ["name", "image"]
+
+
+class SystemImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SystemImage
+        fields = ["image"]
+
+
+class ManufacturerImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ManufacturerImage
+        fields = ["image"]

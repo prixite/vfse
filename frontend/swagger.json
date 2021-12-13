@@ -120,6 +120,53 @@
             },
             "parameters": []
         },
+        "/manufacturers/images/": {
+            "get": {
+                "operationId": "manufacturers_images_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ManufacturerImage"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "post": {
+                "operationId": "manufacturers_images_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ManufacturerImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/ManufacturerImage"
+                        }
+                    }
+                },
+                "tags": [
+                    "manufacturers"
+                ]
+            },
+            "parameters": []
+        },
         "/me/": {
             "get": {
                 "operationId": "me_read",
@@ -543,6 +590,53 @@
                 }
             ]
         },
+        "/systems/images/": {
+            "get": {
+                "operationId": "systems_images_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SystemImage"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "systems"
+                ]
+            },
+            "post": {
+                "operationId": "systems_images_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/SystemImage"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/SystemImage"
+                        }
+                    }
+                },
+                "tags": [
+                    "systems"
+                ]
+            },
+            "parameters": []
+        },
         "/users/": {
             "get": {
                 "operationId": "users_list",
@@ -732,6 +826,19 @@
                 "image": {
                     "title": "Image",
                     "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
+        "ManufacturerImage": {
+            "description": "ManufacturerImage(id, image, created_at, updated_at)",
+            "type": "object",
+            "properties": {
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
                     "x-nullable": true
                 }
             }
@@ -1103,6 +1210,22 @@
                     "title": "Documentation",
                     "type": "integer",
                     "x-nullable": true
+                }
+            }
+        },
+        "SystemImage": {
+            "description": "SystemImage(id, image, created_at, updated_at)",
+            "required": [
+                "image"
+            ],
+            "type": "object",
+            "properties": {
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
                 }
             }
         },
