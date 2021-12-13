@@ -260,3 +260,9 @@ class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Manufacturer
         fields = ["name", "image"]
+
+
+class SystemImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SystemImage
+        fields=['image']

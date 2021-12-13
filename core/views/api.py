@@ -292,3 +292,10 @@ class ManfucturerViewSet(ModelViewSet):
 
     def get_queryset(self):
         return models.Manufacturer.objects.all()
+
+
+class SystemImageViewSet(ModelViewSet):
+    serializer_class = serializers.SystemImageSerializer
+
+    def get_queryset(self):
+        return models.SystemImage.objects.all()
