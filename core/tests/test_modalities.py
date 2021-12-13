@@ -8,5 +8,3 @@ class ModalityTestCase(BaseTestCase):
         response = self.client.get("/api/modalities/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), models.Modality.objects.all().count())
-
-    
