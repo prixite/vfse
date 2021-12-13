@@ -446,20 +446,27 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/users/": {
+        "/organizations/{organization_pk}/seats/": {
             "get": {
-                "operationId": "organizations_users_list",
+                "operationId": "organizations_seats_list",
                 "description": "",
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/User"
-                            }
-                        }
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "post": {
+                "operationId": "organizations_seats_create",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": ""
                     }
                 },
                 "tags": [
@@ -475,9 +482,9 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/vfse_systems/": {
+        "/organizations/{organization_pk}/users/": {
             "get": {
-                "operationId": "organizations_vfse_systems_list",
+                "operationId": "organizations_users_list",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -486,7 +493,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/System"
+                                "$ref": "#/definitions/User"
                             }
                         }
                     }
@@ -1117,6 +1124,34 @@
                 }
             }
         },
+        "ProductModel": {
+            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
+            "required": [
+                "product",
+                "modality"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "product": {
+                    "title": "Product",
+                    "type": "integer"
+                },
+                "modality": {
+                    "title": "Modality",
+                    "type": "integer"
+                },
+                "documentation": {
+                    "title": "Documentation",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
         "SystemInfo": {
             "title": "His ris info",
             "description": "",
@@ -1236,34 +1271,6 @@
                 },
                 "mri_embedded_parameters": {
                     "$ref": "#/definitions/MriInfo"
-                }
-            }
-        },
-        "ProductModel": {
-            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
-            "required": [
-                "product",
-                "modality"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "product": {
-                    "title": "Product",
-                    "type": "integer"
-                },
-                "modality": {
-                    "title": "Modality",
-                    "type": "integer"
-                },
-                "documentation": {
-                    "title": "Documentation",
-                    "type": "integer",
-                    "x-nullable": true
                 }
             }
         },
