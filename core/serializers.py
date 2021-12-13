@@ -261,7 +261,8 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         model = models.Manufacturer
         fields = ["name", "image"]
 
+
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Note
-        fields = ['system','author','note','created_at']
+        fields = ["system", "author", "note", "created_at"]

@@ -168,14 +168,14 @@ api_urlpatterns = [
         ),
     ),
     path(
-        'api/systems/<str:system_id>/notes/',
+        "api/systems/<str:system_id>/notes/",
         api.SystemNoteViewSet.as_view(
             {
-                'get':'list',
-                'post':'create',
+                "get": "list",
+                "post": "create",
             }
-        )
-    )
+        ),
+    ),
 ]
 
 urlpatterns = (
