@@ -217,8 +217,6 @@ class OrganizationUserViewSet(ModelViewSet):
 
 
 class VfseSystemViewSet(ModelViewSet):
-    # serializer_class = serializers.SystemSerializer
-
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.SystemSeatSeriazlier
