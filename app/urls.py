@@ -72,6 +72,7 @@ api_urlpatterns = [
         api.VfseSystemViewSet.as_view(
             {
                 "get": "list",
+                "post": "create",
             }
         ),
     ),

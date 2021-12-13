@@ -135,20 +135,29 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.organizationPk}/health_networks/${queryArg.healthNetworkPk}/sites/`,
       }),
     }),
+    organizationsSeatsList: build.query<
+      OrganizationsSeatsListApiResponse,
+      OrganizationsSeatsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.organizationPk}/seats/`,
+      }),
+    }),
+    organizationsSeatsCreate: build.mutation<
+      OrganizationsSeatsCreateApiResponse,
+      OrganizationsSeatsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.organizationPk}/seats/`,
+        method: "POST",
+      }),
+    }),
     organizationsUsersList: build.query<
       OrganizationsUsersListApiResponse,
       OrganizationsUsersListApiArg
     >({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.organizationPk}/users/`,
-      }),
-    }),
-    organizationsVfseSystemsList: build.query<
-      OrganizationsVfseSystemsListApiResponse,
-      OrganizationsVfseSystemsListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/vfse_systems/`,
       }),
     }),
     productsModelsList: build.query<
@@ -307,13 +316,16 @@ export type OrganizationsHealthNetworksSitesListApiArg = {
   healthNetworkPk: string;
   organizationPk: string;
 };
-export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
-export type OrganizationsUsersListApiArg = {
+export type OrganizationsSeatsListApiResponse = unknown;
+export type OrganizationsSeatsListApiArg = {
   organizationPk: string;
 };
-export type OrganizationsVfseSystemsListApiResponse =
-  /** status 200  */ System[];
-export type OrganizationsVfseSystemsListApiArg = {
+export type OrganizationsSeatsCreateApiResponse = unknown;
+export type OrganizationsSeatsCreateApiArg = {
+  organizationPk: string;
+};
+export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
+export type OrganizationsUsersListApiArg = {
   organizationPk: string;
 };
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
@@ -418,6 +430,12 @@ export type User = {
   username: string;
   is_active?: boolean;
 };
+export type ProductModel = {
+  id?: number;
+  product: number;
+  modality: number;
+  documentation?: number | null;
+};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -439,12 +457,6 @@ export type System = {
   his_ris_info?: HisRisInfo;
   dicom_info?: HisRisInfo;
   mri_embedded_parameters?: MriEmbeddedParameters;
-};
-export type ProductModel = {
-  id?: number;
-  product: number;
-  modality: number;
-  documentation?: number | null;
 };
 export type SystemImage = {
   image: string;
@@ -502,8 +514,9 @@ export const {
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksSitesListQuery,
+  useOrganizationsSeatsListQuery,
+  useOrganizationsSeatsCreateMutation,
   useOrganizationsUsersListQuery,
-  useOrganizationsVfseSystemsListQuery,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,

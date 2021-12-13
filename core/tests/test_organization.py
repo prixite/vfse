@@ -289,3 +289,42 @@ class VfseTestCase(BaseTestCase):
                 f"/api/organizations/{self.organization.id}/seats/"
             )
             self.assertEqual(len(response.json()), 1)
+
+    def test_create_vfse_systems_invalid(self):
+        self.client.force_login(self.super_admin)
+        new_system = factories.SystemFactory(
+            site=self.site,
+            image=factories.SystemImageFactory(),
+            product_model=factories.ProductModelFactory(
+                product=factories.ProductFactory(
+                    manufacturer=factories.ManufacturerFactory(
+                        image=factories.ManufacturerImageFactory()
+                    ),
+                ),
+                modality=self.modality,
+                documentation=factories.DocumentationFactory(),
+            ),
+        )
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/seats/",
+            data={
+                "ids": [self.system.id, new_system.id],
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_vfse_systems_valid(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/seats/",
+            data={
+                "ids": [self.system.id],
+            },
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            len(models.Seat.objects.filter(organization=self.organization))
+            <= self.organization.number_of_seats
+        )

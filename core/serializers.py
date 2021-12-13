@@ -325,3 +325,25 @@ class ManufacturerImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ManufacturerImage
         fields = ["image"]
+
+
+class SystemSeatSeriazlier(serializers.Serializer):
+    ids = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.System.objects.all()
+    )
+
+    def validate(self, attrs):
+        occupied_seats = models.Seat.objects.filter(
+            organization_id=self.context["organization_pk"]
+        ).count()
+        if models.Organization.objects.get(
+            id=self.context["organization_pk"]
+        ).number_of_seats - occupied_seats < len(attrs["ids"]):
+            raise ValidationError("Seats not available")
+        return attrs
+
+
+class SeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Seat
+        fields = ["system", "organization"]
