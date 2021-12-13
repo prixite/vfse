@@ -6,32 +6,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0033_auto_20211209_0738'),
+        ("core", "0033_auto_20211209_0738"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='system',
-            name='dicom_info',
+            model_name="system",
+            name="dicom_info",
             field=models.JSONField(default=dict),
         ),
         migrations.AddField(
-            model_name='system',
-            name='his_ris_info',
+            model_name="system",
+            name="his_ris_info",
             field=models.JSONField(default=dict),
         ),
         migrations.AddField(
-            model_name='system',
-            name='mri_embedded_parameters',
+            model_name="system",
+            name="mri_embedded_parameters",
             field=models.JSONField(default=dict),
         ),
         migrations.AddField(
-            model_name='system',
-            name='name',
-            field=models.CharField(default='', max_length=50),
+            model_name="system",
+            name="name",
+            field=models.CharField(default="", max_length=50),
             preserve_default=False,
         ),
         migrations.DeleteModel(
-            name='SystemDetail',
+            name="SystemDetail",
         ),
     ]
