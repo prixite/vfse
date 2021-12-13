@@ -286,6 +286,6 @@ class VfseTestCase(BaseTestCase):
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
             response = self.client.get(
-                f"/api/organizations/{self.organization.id}/vfse_systems/"
+                f"/api/organizations/{self.organization.id}/seats/"
             )
             self.assertEqual(len(response.json()), 1)
