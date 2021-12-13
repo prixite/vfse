@@ -262,6 +262,12 @@ class ManufacturerSerializer(serializers.ModelSerializer):
         fields = ["name", "image"]
 
 
+class SystemImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SystemImage
+        fields = ["image"]
+
+
 class ManufacturerImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ManufacturerImage

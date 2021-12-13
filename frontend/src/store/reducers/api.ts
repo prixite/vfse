@@ -173,6 +173,22 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/sites/${queryArg.sitePk}/systems/` }),
     }),
+    systemsImagesList: build.query<
+      SystemsImagesListApiResponse,
+      SystemsImagesListApiArg
+    >({
+      query: () => ({ url: `/systems/images/` }),
+    }),
+    systemsImagesCreate: build.mutation<
+      SystemsImagesCreateApiResponse,
+      SystemsImagesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/images/`,
+        method: "POST",
+        body: queryArg.systemImage,
+      }),
+    }),
     usersList: build.query<UsersListApiResponse, UsersListApiArg>({
       query: () => ({ url: `/users/` }),
     }),
@@ -296,6 +312,12 @@ export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
   sitePk: string;
 };
+export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
+export type SystemsImagesListApiArg = void;
+export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
+export type SystemsImagesCreateApiArg = {
+  systemImage: SystemImage;
+};
 export type UsersListApiResponse = /** status 200  */ User[];
 export type UsersListApiArg = void;
 export type UsersCreateApiResponse = /** status 201  */ UpsertUser;
@@ -386,6 +408,9 @@ export type ProductModel = {
   modality: number;
   documentation?: number | null;
 };
+export type SystemImage = {
+  image: string;
+};
 export type UpsertUser = {
   first_name: string;
   last_name: string;
@@ -438,6 +463,8 @@ export const {
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,
+  useSystemsImagesListQuery,
+  useSystemsImagesCreateMutation,
   useUsersListQuery,
   useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,
