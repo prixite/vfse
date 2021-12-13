@@ -70,7 +70,7 @@ class BaseTestCase(TestCase):
         self.modality = factories.ModalityFactory()
         self.system = factories.SystemFactory(
             site=self.site,
-            image = factories.SystemImageFactory(),
+            image=factories.SystemImageFactory(),
             product_model=factories.ProductModelFactory(
                 product=self.product,
                 modality=self.modality,

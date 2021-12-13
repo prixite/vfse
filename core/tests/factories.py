@@ -263,6 +263,7 @@ class ManufacturerImageFactory(factory.django.DjangoModelFactory):
 
     image = "http://example.com/image.jpeg"
 
+
 class SystemImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemImage

@@ -168,13 +168,13 @@ api_urlpatterns = [
         ),
     ),
     path(
-        'api/systems/images/',
+        "api/systems/images/",
         api.SystemImageViewSet.as_view(
             {
-                'get':'list',
-                'post':'create',
+                "get": "list",
+                "post": "create",
             }
-        )
+        ),
     ),
 ]
 
