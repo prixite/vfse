@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
+import { Box, Grid } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
+import OrganizationViewBtns from "@src/components/common/Presentational/OrganizationViewBtns/OrganizationViewBtns";
 import {
   useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,
@@ -24,7 +22,6 @@ import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateOrganizationColor } from "@src/services/organizationService";
-import OrganizationViewBtns from "@src/components/common/Presentational/OrganizationViewBtns/OrganizationViewBtns";
 
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
@@ -32,7 +29,7 @@ const OrganizationSection = () => {
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
   const { data: organizationList, refetch } = useOrganizationsListQuery();
   const constantData: any = localizedData()?.organization;
-  const { allClients, btnFilter, btnAddClients } = constantData;
+  const { allClients } = constantData;
 
   const {
     sideBarBackground,

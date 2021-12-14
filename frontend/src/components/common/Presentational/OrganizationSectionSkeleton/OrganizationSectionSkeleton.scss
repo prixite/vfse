@@ -1,0 +1,10 @@
+.OrganizationSectionSkeleton {
+    margin-top: 15px !important;
+    &__CardsGrid {
+        margin-top: 9px !important;
+        .cardSkeleton{
+            width: inherit;
+            padding: 16px 0 0 16px;
+        }
+    }
+}
