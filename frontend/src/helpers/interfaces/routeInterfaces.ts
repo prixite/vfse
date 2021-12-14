@@ -3,6 +3,7 @@ interface routeItem {
   path: string;
   component: any;
   flag: string;
+  icon: any;
 }
 
 export type { routeItem };

@@ -4,6 +4,9 @@ import OrganizationView from "@src/views/organization/OrganizationView";
 import UserView from "@src/views/user/UserView";
 import VfseView from "@src/views/vfse/VfseView";
 import HomeView from "@src/views/home/HomeView";
+import ArticleIcon from "@mui/icons-material/Article";
+import GroupIcon from "@mui/icons-material/Group";
+import HomeIcon from "@mui/icons-material/Home";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 export const routes: routeItem[] = [
   {
@@ -11,19 +14,34 @@ export const routes: routeItem[] = [
     path: "/organizations/",
     component: OrganizationView,
     flag: "organization",
+    icon: HomeIcon,
   },
-  { name: "Users", path: "/users/", component: UserView, flag: "user" },
+  {
+    name: "User Administration",
+    path: "/users/",
+    component: UserView,
+    flag: "user",
+    icon: GroupIcon,
+  },
   {
     name: "Modality",
     path: "/modality/",
     component: ModalityView,
     flag: "modality",
+    icon: HomeIcon,
   },
   {
-    name: "Documentation",
+    name: "Documentation database",
     path: "/documentation/",
     component: Documentation,
     flag: "documentation",
+    icon: ArticleIcon,
   },
-  { name: "vFSE", path: "/vfse/", component: VfseView, flag: "vfse" },
+  {
+    name: "vFSE",
+    path: "/vfse/",
+    component: VfseView,
+    flag: "vfse",
+    icon: HomeIcon,
+  },
 ];
