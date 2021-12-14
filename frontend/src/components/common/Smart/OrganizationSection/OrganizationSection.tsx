@@ -24,6 +24,7 @@ import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateOrganizationColor } from "@src/services/organizationService";
+import OrganizationViewBtns from "@src/components/common/Presentational/OrganizationViewBtns/OrganizationViewBtns";
 
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
@@ -155,47 +156,7 @@ const OrganizationSection = () => {
             />
           </div>
         </div>
-        <Box component="div" className="OrganizationSection__Header">
-          <Box component="div" className="InputSection">
-            <Button variant="contained" className="Filterbtn">
-              <div className="btn-content">
-                <FilterAltIcon style={{ marginRight: "9px" }} />
-                <span>{btnFilter}</span>
-              </div>
-            </Button>
-
-            <TextField
-              id="search-clients"
-              className="Search-input"
-              variant="outlined"
-              placeholder="Search"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Button
-            style={{
-              backgroundColor: buttonBackground,
-              color: buttonTextColor,
-            }}
-            onClick={() => {
-              setOpen(true);
-              setOrganization(null);
-            }}
-            variant="contained"
-            className="AddClientsbtn"
-          >
-            <div className="btn-content">
-              <AddIcon />
-              <span>{btnAddClients}</span>
-            </div>
-          </Button>
-        </Box>
+        <OrganizationViewBtns />
         <Grid container spacing={2} className="OrganizationSection__AllClients">
           {organizationList &&
             organizationList?.length &&
