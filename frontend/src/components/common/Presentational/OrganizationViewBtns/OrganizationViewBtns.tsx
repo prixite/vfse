@@ -7,9 +7,7 @@ import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scs
 import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
 
-const OrganizationViewBtns = () => {
-  const [organization, setOrganization] = useState(null);
-  const [open, setOpen] = useState(false);
+const OrganizationViewBtns = ({ setOpen, setOrganization }) => {
   const constantData: any = localizedData()?.organization;
   const { btnFilter, btnAddClients } = constantData;
 

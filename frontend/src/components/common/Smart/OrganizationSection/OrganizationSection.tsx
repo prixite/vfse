@@ -153,7 +153,10 @@ const OrganizationSection = () => {
             />
           </div>
         </div>
-        <OrganizationViewBtns />
+        <OrganizationViewBtns
+          setOpen={setOpen}
+          setOrganization={setOrganization}
+        />
         <Grid container spacing={2} className="OrganizationSection__AllClients">
           {organizationList &&
             organizationList?.length &&

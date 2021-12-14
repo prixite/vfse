@@ -5,6 +5,7 @@ import { useOrganizationsDeleteMutation } from "@src/store/reducers/api";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/common/Smart/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
+import { DeleteOrganizationService } from "@src/services/organizationService";
 interface ClientCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
@@ -47,11 +48,8 @@ const ClientCard = ({
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    await deleteOrganization({
-      id: id.toString(),
-    }).unwrap();
+    await DeleteOrganizationService(id, deleteOrganization, refetch);
     toast.success("Organization successfully deleted");
-    refetch();
   };
   return (
     <>
