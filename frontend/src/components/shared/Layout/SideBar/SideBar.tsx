@@ -8,14 +8,17 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  Collapse,
+  ListItemButton,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import Icon from "@src/assets/images/client.png";
+import user from "@src/assets/images/user.png";
+import SearchIcon from "@mui/icons-material/Search";
+import AddIcon from "@mui/icons-material/Add";
 import Logo from "@src/assets/images/logo.png";
-import SearchIcon from "@src/assets/images/searchIcon.png";
-import PlusIcon from "@src/assets/images/plusIcon.png";
+// import SearchIcon from "@src/assets/images/searchIcon.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
 import CloseBtn from "@src/assets/images/down.png";
+import TopicIcon from "@mui/icons-material/Topic";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
@@ -80,14 +83,27 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
+  const [openList, setOpenList] = React.useState(false);
   const [currentClient, setCurrentClient] = React.useState({});
+  const [currentRoute, setCurrentRoute] = React.useState(
+    "3rd party administration"
+  );
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery();
-  const { sideBarBackground, sideBarTextColor } = useAppSelector(
-    (state) => state.myTheme
-  );
+  const {
+    sideBarBackground,
+    sideBarTextColor,
+    buttonTextColor,
+    buttonBackground,
+  } = useAppSelector((state) => state.myTheme);
 
-  const { data: me } = useMeReadQuery();
+  const { data: me, isFetching } = useMeReadQuery();
+
+  const handleClick = () => {
+    setOpenList(!openList);
+    setCurrentRoute("Modality Administration");
+  };
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -109,10 +125,18 @@ export default function SideBar() {
             component={Link}
             to={prop.path}
             key={prop.path}
-            style={collapsedLeftPadding}
+            className={currentRoute === prop.name ? "active-link" : ""}
+            style={{
+              backgroundColor:
+                currentRoute === prop.name ? buttonBackground : "",
+              color: currentRoute === prop.name ? buttonTextColor : "",
+            }}
+            onClick={() => setCurrentRoute(prop.name)}
           >
-            <ListItemIcon>
-              <InboxIcon />
+            <ListItemIcon
+              style={{ color: sideBarTextColor, marginRight: "10px" }}
+            >
+              <prop.icon />
             </ListItemIcon>
             <ListItemText primary={prop.name} />
           </ListItem>
@@ -128,13 +152,12 @@ export default function SideBar() {
           style={collapsedLeftPadding}
           onClick={() => setCurrentClient(item)}
         >
-          <ListItemIcon className={`client-image`}>
-            <img
-              src={item.logo}
-              className={`img ${
-                currentClient.name === item.name ? "active" : ""
-              }`}
-            />
+          <ListItemIcon
+            className={`client-image ${
+              currentClient.name === item.name ? "active" : ""
+            }`}
+          >
+            <img src={item.logo} className={`img`} />
           </ListItemIcon>
         </ListItem>
       );
@@ -154,8 +177,8 @@ export default function SideBar() {
             </ListItemIcon>
           </ListItem>
           <ListItem button component="a" href="/" className="item-margin">
-            <ListItemIcon>
-              <img src={PlusIcon} />
+            <ListItemIcon style={{ color: sideBarTextColor }}>
+              <AddIcon />
             </ListItemIcon>
           </ListItem>
           <ListItem
@@ -165,8 +188,8 @@ export default function SideBar() {
             className="item-margin"
             style={{ marginBottom: "40px" }}
           >
-            <ListItemIcon>
-              <img src={SearchIcon} />
+            <ListItemIcon style={{ color: sideBarTextColor }}>
+              <SearchIcon />
             </ListItemIcon>
           </ListItem>
           {!isOrgListLoading && createClients()}
@@ -182,8 +205,13 @@ export default function SideBar() {
               <img src={OpenBtn} />
             </ListItemIcon>
           </ListItem>
+          <ListItem button className="user-image">
+            <ListItemIcon>
+              <img src={user} className="image" />
+            </ListItemIcon>
+          </ListItem>
         </List>
-        <List style={{ position: "relative" }}>
+        <List style={{ position: "relative" }} className="right-content">
           <ListItem
             button
             className="drawer-btn open-btn"
@@ -193,6 +221,43 @@ export default function SideBar() {
               <img src={CloseBtn} />
             </ListItemIcon>
           </ListItem>
+          <ListItem
+            button
+            component={Link}
+            to="/modality/"
+            key="/modality/"
+            onClick={handleClick}
+            className={
+              currentRoute === "Modality Administration" ? "active-link" : ""
+            }
+            style={{
+              backgroundColor:
+                currentRoute === "Modality Administration"
+                  ? buttonBackground
+                  : "",
+              color:
+                currentRoute === "Modality Administration"
+                  ? buttonTextColor
+                  : "",
+            }}
+          >
+            <ListItemIcon
+              style={{ color: sideBarTextColor, marginRight: "10px" }}
+            >
+              <TopicIcon />
+            </ListItemIcon>
+            <ListItemText primary="Modality Administration" />
+          </ListItem>
+          <Collapse in={openList} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="All Networks" />
+              </ListItemButton>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="All Networks" />
+              </ListItemButton>
+            </List>
+          </Collapse>
           {createLinks()}
         </List>
       </Drawer>
