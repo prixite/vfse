@@ -11,6 +11,10 @@ import {
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
+import {
+  updateOrganizationService,
+  addNewOrganizationService,
+} from "@src/services/organizationService";
 
 export default function OrganizationModal(props) {
   const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
@@ -23,6 +27,27 @@ export default function OrganizationModal(props) {
     newOrganizationBtnSave,
     newOrganizationBtnCancel,
   } = constantData;
+
+  const handleSetNewOrganization = async () => {
+    if (props.organization.id) {
+      const { id, ...organization } = props.organization;
+      await updateOrganizationService(
+        id,
+        organization,
+        updateOrganization,
+        props.refetch
+      );
+      toast.success("Organization successfully updated");
+    } else {
+      await addNewOrganizationService(
+        props.organization,
+        addNewOrganization,
+        props.refetch
+      );
+      toast.success("Organization successfully added");
+    }
+    props.handleClose();
+  };
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
@@ -64,22 +89,7 @@ export default function OrganizationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>{newOrganizationBtnCancel}</Button>
-        <Button
-          onClick={async () => {
-            if (props.organization.id) {
-              const { id, ...organization } = props.organization;
-              await updateOrganization({ id, organization }).unwrap();
-              toast.success("Organization successfully updated");
-            } else {
-              await addNewOrganization({
-                organization: props.organization,
-              }).unwrap();
-              toast.success("Organization successfully added");
-            }
-            props.handleClose();
-            props.refetch(); // TODO: invalidate cache instead of this.
-          }}
-        >
+        <Button onClick={handleSetNewOrganization}>
           {newOrganizationBtnSave}
         </Button>
       </DialogActions>
