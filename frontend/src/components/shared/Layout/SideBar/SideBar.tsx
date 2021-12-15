@@ -119,9 +119,6 @@ export default function SideBar() {
             component={Link}
             to={prop.path}
             key={prop.path}
-            style={{
-              opacity: 0.3,
-            }}
             className={currentRoute === prop.name ? "active-link" : ""}
             onClick={() => setCurrentRoute(prop.name)}
           >
