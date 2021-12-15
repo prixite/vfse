@@ -29,6 +29,7 @@ class BaseTestCase(TestCase):
         )
 
         self.organization = factories.OrganizationFactory(
+            is_customer=True,
             number_of_seats=1,
             fse_admin_roles=[self.fse_admin],
             customer_admin_roles=[self.customer_admin],

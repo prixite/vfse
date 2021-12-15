@@ -31,6 +31,7 @@ class Command(BaseCommand):
 
         factories.OrganizationFactory(
             name="Other Organization",
+            is_customer=True,
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             customer_admin_roles=[
                 factories.UserWithPasswordFactory(
