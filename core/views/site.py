@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import views as auth_views
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, resolve_url
+from django.shortcuts import redirect, render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
 
@@ -93,5 +93,20 @@ class WelcomeView(TemplateView):
                     "request": self.request,
                 },
             ).data
-
         return context
+
+    def get(self, request, *args, **kwargs):
+        flags = list(self.get_context_data()["user_data"]["flags"])
+
+        if not flags or len(flags) > 1:
+            return super().get(request, *args, **kwargs)
+
+        redirect_map = {
+            "organization": "/organizations/",
+            "user": "/users/",
+            "modality": "/modality/",
+            "documentation": "/documentation/",
+            "vfse": "/vfse/",
+        }
+
+        return redirect(redirect_map[flags[0]])
