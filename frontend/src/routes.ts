@@ -10,6 +10,13 @@ import HomeIcon from "@mui/icons-material/Home";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 export const routes: routeItem[] = [
   {
+    name: "Modality Administration",
+    path: "/modality/",
+    component: ModalityView,
+    flag: "modality",
+    icon: HomeIcon,
+  },
+  {
     name: "3rd party administration",
     path: "/organizations/",
     component: OrganizationView,
@@ -22,13 +29,6 @@ export const routes: routeItem[] = [
     component: UserView,
     flag: "user",
     icon: GroupIcon,
-  },
-  {
-    name: "Modality",
-    path: "/modality/",
-    component: ModalityView,
-    flag: "modality",
-    icon: HomeIcon,
   },
   {
     name: "Documentation database",

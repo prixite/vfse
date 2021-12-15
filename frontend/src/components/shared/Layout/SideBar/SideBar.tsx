@@ -8,8 +8,6 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Collapse,
-  ListItemButton,
 } from "@mui/material";
 import user from "@src/assets/images/user.png";
 import SearchIcon from "@mui/icons-material/Search";
@@ -84,9 +82,8 @@ const Drawer = styled(MuiDrawer, {
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
   const [currentClient, setCurrentClient] = React.useState({});
-  const [currentRoute, setCurrentRoute] = React.useState(
-    "3rd party administration"
-  );
+  const pathRoute = window.location.pathname;
+  const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery({ page: 1 });
   const {
@@ -119,8 +116,8 @@ export default function SideBar() {
             component={Link}
             to={prop.path}
             key={prop.path}
-            className={currentRoute === prop.name ? "active-link" : ""}
-            onClick={() => setCurrentRoute(prop.name)}
+            className={currentRoute === prop.path ? "active-link" : ""}
+            onClick={() => setCurrentRoute(prop.path)}
           >
             <ListItemIcon
               style={{ color: sideBarTextColor, marginRight: "10px" }}
