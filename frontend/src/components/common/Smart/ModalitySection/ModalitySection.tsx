@@ -32,11 +32,7 @@ const ModalitySection = () => {
     <>
       <Box component="div" className="ModalitySection">
         <h2>{title}</h2>
-        <TopViewBtns
-          setOpen={setOpen}
-          path="modality"
-          setData={setNetwork}
-        />
+        <TopViewBtns setOpen={setOpen} path="modality" setData={setNetwork} />
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
           {networksData &&
             networksData?.length &&
