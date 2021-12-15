@@ -96,15 +96,17 @@ class WelcomeView(TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
-        context = self.get_context_data()
-        if len(context["user_data"]["flags"]) == 1:
-            return redirect(
-                "/"
-                + context["user_data"]["flags"].pop()
-                + (
-                    "s/"
-                    if context["user_data"]["flags"] in ["organization", "user"]
-                    else "/"
-                )
-            )
-        return self.render_to_response(context)
+        flags = self.get_context_data()['user_data']['flags']
+
+        if not flags or len(flags) > 1:
+            return super().get(request,*args,**kwargs)
+        
+        redirect_map = {
+            "organization": "/organizations/",
+            "user": "/users/",
+            "modality": "/modality/",
+            "documentation": "/documentation/",
+            "vfse": "/vfse/",
+        }
+
+        return redirect(redirect_map[flags[0]])
