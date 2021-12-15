@@ -11,22 +11,40 @@
                 "newUser": "New User"
             }
     },
+    "modalities":{
+        "title": "All Networks",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Network",
+        "popUp":{
+            "popUpNewNetwork": "New Network",
+            "newNetworkName": "Name",
+            "newNetworkSeats": "Number of Seats",
+            "newNetworkBtnSave": "Save",
+            "newNetworkBtnCancel": "Cancel"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
+
+    },
     "organization":{
-            "allClients": "All Clients",
-            "btnFilter": "Filter",
-            "btnAddClients": "Add Clients",
-            "popUp":{
-                "popUpNewOrganization": "New Organization",
-                "newOrganizationName": "Name",
-                "newOrganizationSeats": "Number of Seats",
-                "newOrganizationBtnSave": "Save",
-                "newOrganizationBtnCancel": "Cancel"
-            },
-            "deleteDialog" : {
-                "dialogMessage" : "Are you sure you want to delete",
-                "noButton" : "No",
-                "yesButton" : "Yes"
-            }
+        "title": "All Clients",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Clients",
+        "popUp":{
+            "popUpNewOrganization": "New Organization",
+            "newOrganizationName": "Name",
+            "newOrganizationSeats": "Number of Seats",
+            "newOrganizationBtnSave": "Save",
+            "newOrganizationBtnCancel": "Cancel"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
 
     },
     "page404" : {

@@ -8,8 +8,6 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Collapse,
-  ListItemButton,
 } from "@mui/material";
 import user from "@src/assets/images/user.png";
 import SearchIcon from "@mui/icons-material/Search";
@@ -86,7 +84,7 @@ export default function SideBar() {
   const [openList, setOpenList] = React.useState(false);
   const [currentClient, setCurrentClient] = React.useState({});
   const [currentRoute, setCurrentRoute] = React.useState(
-    "3rd party administration"
+    "Modality Administration"
   );
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery({ page: 1 });
@@ -221,7 +219,7 @@ export default function SideBar() {
               <img src={CloseBtn} />
             </ListItemIcon>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             button
             component={Link}
             to="/modality/"
@@ -257,7 +255,7 @@ export default function SideBar() {
                 <ListItemText primary="All Networks" />
               </ListItemButton>
             </List>
-          </Collapse>
+          </Collapse> */}
           {createLinks()}
         </List>
       </Drawer>

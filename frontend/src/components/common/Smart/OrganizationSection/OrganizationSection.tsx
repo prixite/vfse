@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
-import OrganizationViewBtns from "@src/components/common/Presentational/OrganizationViewBtns/OrganizationViewBtns";
+import TopViewBtns from "@src/components/common/Presentational/TopViewBtns/TopViewBtns";
 import {
   useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,
@@ -31,7 +31,7 @@ const OrganizationSection = () => {
     page: 1,
   });
   const constantData: any = localizedData()?.organization;
-  const { allClients } = constantData;
+  const { title } = constantData;
 
   const {
     sideBarBackground,
@@ -124,7 +124,7 @@ const OrganizationSection = () => {
   return (
     <>
       <Box component="div" className="OrganizationSection">
-        <h2>{allClients}</h2>
+        <h2>{title}</h2>
         <div style={{ display: "flex" }}>
           <div style={{ marginTop: "20px" }}>
             <ColorPicker
@@ -155,9 +155,10 @@ const OrganizationSection = () => {
             />
           </div>
         </div>
-        <OrganizationViewBtns
+        <TopViewBtns
           setOpen={setOpen}
-          setOrganization={setOrganization}
+          path="organizations"
+          setData={setOrganization}
         />
         <Grid container spacing={2} className="OrganizationSection__AllClients">
           {organizationList &&

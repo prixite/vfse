@@ -7,9 +7,15 @@ import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scs
 import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
 
-const OrganizationViewBtns = ({ setOpen, setOrganization }) => {
-  const constantData: any = localizedData()?.organization;
-  const { btnFilter, btnAddClients } = constantData;
+const TopViewBtns = ({ setOpen, path, setData }) => {
+  let constantData: any;
+  if(path == "modality-administration") {
+    constantData = localizedData()?.modalities;
+  } else if (path == "organizations") {
+    constantData = localizedData()?.organization;
+  }
+  
+  const { btnFilter, btnAdd } = constantData;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -47,18 +53,18 @@ const OrganizationViewBtns = ({ setOpen, setOrganization }) => {
           }}
           onClick={() => {
             setOpen(true);
-            setOrganization(null);
+            setData(null);
           }}
           variant="contained"
           className="AddClientsbtn"
         >
           <div className="btn-content">
             <AddIcon />
-            <span>{btnAddClients}</span>
+            <span>{btnAdd}</span>
           </div>
         </Button>
       </Box>
     </>
   );
 };
-export default OrganizationViewBtns;
+export default TopViewBtns;
