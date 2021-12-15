@@ -11,7 +11,7 @@ import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 export const routes: routeItem[] = [
   {
     name: "Modality Administration",
-    path: "/modality-administration/",
+    path: "/modality/",
     component: ModalityView,
     flag: "modality",
     icon: HomeIcon,

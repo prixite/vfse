@@ -4,9 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import TopViewBtns from "@src/components/common/Presentational/TopViewBtns/TopViewBtns";
-import {
-  useOrganizationsHealthNetworksListQuery
-} from "@src/store/reducers/api";
+import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
 
 import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
@@ -22,10 +20,11 @@ const ModalitySection = () => {
     (state) => state.organization.currentOrganization
   );
 
-  const { data: networksData, refetch: orgNetworkRefetch } = useOrganizationsHealthNetworksListQuery({
-    page: 1,
-    organizationPk: currentOrganization.id.toString()
-  })
+  const { data: networksData, refetch: orgNetworkRefetch } =
+    useOrganizationsHealthNetworksListQuery({
+      page: 1,
+      organizationPk: currentOrganization.id.toString(),
+    });
 
   const handleClose = () => setOpen(false);
 
@@ -35,7 +34,7 @@ const ModalitySection = () => {
         <h2>{title}</h2>
         <TopViewBtns
           setOpen={setOpen}
-          path="modality-administration"
+          path="modality"
           setData={setNetwork}
         />
         <Grid container spacing={2} className="ModalitySection__AllNetworks">

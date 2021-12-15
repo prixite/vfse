@@ -9,12 +9,10 @@ export default function ModalityView() {
 
   const { isLoading } = useOrganizationsHealthNetworksListQuery({
     page: 1,
-    organizationPk: currentOrganization.id.toString()
-  })
+    organizationPk: currentOrganization.id.toString(),
+  });
 
   return (
-    <>
-      {!isLoading ? <ModalitySection /> : <OrganizationSectionSkeleton />}
-    </>
+    <>{!isLoading ? <ModalitySection /> : <OrganizationSectionSkeleton />}</>
   );
 }

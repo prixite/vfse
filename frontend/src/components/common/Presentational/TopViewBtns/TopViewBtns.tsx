@@ -8,12 +8,12 @@ import { localizedData } from "@src/helpers/utils/language";
 
 const TopViewBtns = ({ setOpen, path, setData }) => {
   let constantData: any;
-  if(path == "modality-administration") {
+  if (path == "modality") {
     constantData = localizedData()?.modalities;
   } else if (path == "organizations") {
     constantData = localizedData()?.organization;
   }
-  
+
   const { btnFilter, btnAdd } = constantData;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
