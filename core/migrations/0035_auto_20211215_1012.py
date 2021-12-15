@@ -6,52 +6,52 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0034_auto_20211213_0404'),
+        ("core", "0034_auto_20211213_0404"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='healthnetwork',
-            options={'ordering': ['-id']},
+            name="healthnetwork",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='manufacturer',
-            options={'ordering': ['-id']},
+            name="manufacturer",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='manufacturerimage',
-            options={'ordering': ['-id']},
+            name="manufacturerimage",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='modality',
-            options={'ordering': ['-id'], 'verbose_name_plural': 'Modalities'},
+            name="modality",
+            options={"ordering": ["-id"], "verbose_name_plural": "Modalities"},
         ),
         migrations.AlterModelOptions(
-            name='note',
-            options={'ordering': ['-id']},
+            name="note",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='seat',
-            options={'ordering': ['-id']},
+            name="seat",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='site',
-            options={'ordering': ['-id']},
+            name="site",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='system',
-            options={'ordering': ['-id']},
+            name="system",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='systemimage',
-            options={'ordering': ['-id']},
+            name="systemimage",
+            options={"ordering": ["-id"]},
         ),
         migrations.AlterModelOptions(
-            name='user',
-            options={'ordering': ['-id']},
+            name="user",
+            options={"ordering": ["-id"]},
         ),
         migrations.RemoveField(
-            model_name='organization',
-            name='parent',
+            model_name="organization",
+            name="parent",
         ),
     ]
