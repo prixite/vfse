@@ -31,12 +31,7 @@ class User(AbstractUser):
             id__in=self.get_organizations(),
         )
 
-        return (
-            organizations.filter(
-                parent__isnull=True,
-            ).first()
-            or organizations.first()
-        )
+        return organizations.first()
 
     def get_managed_organizations(self):
         return self.get_organizations(roles=[Membership.Role.CUSTOMER_ADMIN])
@@ -135,13 +130,6 @@ class Organization(models.Model):
         null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]
     )
     is_default = models.BooleanField(default=False)
-    parent = models.ForeignKey(
-        "self",
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="sub_organizations",
-        blank=True,
-    )
     appearance = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

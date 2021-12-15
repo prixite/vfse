@@ -44,7 +44,6 @@ class BaseTestCase(TestCase):
 
         self.child_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.customer_admin],
-            parent=self.organization,
             fse_admin_roles=[self.fse_admin],
         )
 
