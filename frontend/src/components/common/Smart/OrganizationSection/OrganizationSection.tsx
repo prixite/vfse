@@ -27,7 +27,9 @@ const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
-  const { data: organizationList, refetch } = useOrganizationsListQuery();
+  const { data: organizationList, refetch } = useOrganizationsListQuery({
+    page: 1,
+  });
   const constantData: any = localizedData()?.organization;
   const { allClients } = constantData;
 

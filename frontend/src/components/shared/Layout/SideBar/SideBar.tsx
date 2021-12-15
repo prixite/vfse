@@ -89,7 +89,7 @@ export default function SideBar() {
     "3rd party administration"
   );
   const { data: organizationsList, isLoading: isOrgListLoading } =
-    useOrganizationsListQuery();
+    useOrganizationsListQuery({ page: 1 });
   const {
     sideBarBackground,
     sideBarTextColor,

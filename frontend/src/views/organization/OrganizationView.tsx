@@ -2,7 +2,7 @@ import OrganizationSection from "@src/components/common/Smart/OrganizationSectio
 import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import OrganizationSectionSkeleton from "@src/components/common/Presentational/OrganizationSectionSkeleton/OrganizationSectionSkeleton";
 const OrganizationView = () => {
-  const { isLoading } = useOrganizationsListQuery();
+  const { isLoading } = useOrganizationsListQuery({ page: 1 });
   return (
     <>
       {!isLoading ? <OrganizationSection /> : <OrganizationSectionSkeleton />}
