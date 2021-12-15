@@ -3,10 +3,9 @@ import { Box, Grid } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
-import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import TopViewBtns from "@src/components/common/Presentational/TopViewBtns/TopViewBtns";
 import {
-  useOrganizationsListQuery
+  useOrganizationsHealthNetworksListQuery
 } from "@src/store/reducers/api";
 
 import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
@@ -16,15 +15,18 @@ import { localizedData } from "@src/helpers/utils/language";
 const ModalitySection = () => {
   const [network, setNetwork] = useState(null);
   const [open, setOpen] = useState(false);
-  const { data: organizationList, refetch } = useOrganizationsListQuery({
-    page: 1,
-  });
   const constantData: any = localizedData()?.modalities;
   const { title } = constantData;
 
   const currentOrganization = useAppSelector(
     (state) => state.organization.currentOrganization
   );
+
+  const { data: networksData, refetch: orgNetworkRefetch } = useOrganizationsHealthNetworksListQuery({
+    page: 1,
+    organizationPk: currentOrganization.id.toString()
+  })
+
   const handleClose = () => setOpen(false);
 
   return (
@@ -37,15 +39,15 @@ const ModalitySection = () => {
           setData={setNetwork}
         />
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
-          {organizationList &&
-            organizationList?.length &&
-            organizationList.map((item, key) => (
+          {networksData &&
+            networksData?.length &&
+            networksData.map((item, key) => (
               <Grid key={key} item xs={3}>
                 <ClientCard
                   setOpen={setOpen}
                   setOrganization={setNetwork}
                   row={item}
-                  refetch={refetch}
+                  refetch={orgNetworkRefetch}
                   id={item.id}
                   name={item.name}
                   logo={item.logo}
@@ -58,7 +60,7 @@ const ModalitySection = () => {
           setOrganization={setNetwork}
           open={open}
           handleClose={handleClose}
-          refetch={refetch}
+          refetch={orgNetworkRefetch}
         />
       </Box>
     </>
