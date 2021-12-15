@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     "rest_framework",
     "drf_yasg2",
+    'drf_link_header_pagination',
     # apps
     "core",
     "emailbackend",
@@ -176,7 +177,9 @@ AUTH_USER_MODEL = "core.User"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
-    ]
+    ],
+    'DEFAULT_PAGINATION_CLASS':'drf_link_header_pagination.LinkHeaderPagination',
+    'PAGE_SIZE':50
 }
 
 

@@ -56,6 +56,8 @@ class User(AbstractUser):
 
         return accessible_health_networks
 
+    class Meta:
+       ordering= ['-id']
 
 class UserModality(models.Model):
     user = models.ForeignKey(
@@ -223,6 +225,7 @@ class Site(models.Model):
                 name="unique_health_network_site_name",
             ),
         ]
+        ordering= ['-id']
 
     def __str__(self):
         return f"{self.name} - {self.address}"
@@ -238,6 +241,7 @@ class Modality(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["name"], name="unique_modality_name"),
         ]
+        ordering= ['-id']
 
     def __str__(self):
         return self.name
@@ -266,11 +270,16 @@ class System(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+       ordering= ['-id']
 
 class SystemImage(models.Model):
     image = models.URLField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+       ordering= ['-id']
 
 
 class AuditTrail(models.Model):
@@ -306,6 +315,9 @@ class HealthNetwork(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+       ordering= ['-id']
+
 
 class Manufacturer(models.Model):
     name = models.CharField(max_length=32, unique=True)
@@ -315,6 +327,9 @@ class Manufacturer(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+       ordering= ['-id']
 
 
 class ManufacturerImage(models.Model):
@@ -322,6 +337,8 @@ class ManufacturerImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+       ordering= ['-id']
 
 class Product(models.Model):
     name = models.CharField(max_length=32)
@@ -357,6 +374,8 @@ class Note(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering =['-id']
 
 class Seat(models.Model):
     system = models.ForeignKey("System", on_delete=models.CASCADE)
@@ -370,6 +389,7 @@ class Seat(models.Model):
                 fields=["system", "organization"], name="unique_system_organization"
             ),
         ]
+        ordering=['-id']
 
 
 class ProductModel(models.Model):
