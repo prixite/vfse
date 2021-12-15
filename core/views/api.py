@@ -30,6 +30,11 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         return super().destroy(request, *args, **kwargs)
 
+    def perform_create(self, serializer):
+        models.Organization.objects.create(
+            **serializer.validated_data, is_customer=True
+        )
+
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):

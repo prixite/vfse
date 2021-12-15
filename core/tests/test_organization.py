@@ -4,6 +4,31 @@ from core.tests.base import BaseTestCase
 
 
 class OrganizationTestCase(BaseTestCase):
+    def test_create_organization_is_customer(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            "/api/organizations/",
+            data={
+                "name": "Test Organization",
+                "logo": "https://picsum.photos/200",
+                "banner": "https://picsum.photos/200",
+                "number_of_seats": 10,
+                "is_default": False,
+                "appearance": {
+                    "sidebar_text": "#773CBD",
+                    "button_text": "#773CBD",
+                    "sidebar_color": "#773CBD",
+                    "primary_color": "#773CBD",
+                    "font_one": "helvetica",
+                    "font_two": "arial",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.Organization.objects.get(name="Test Organization").is_customer
+        )
+
     def test_list_organizations_super_users(self):
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
