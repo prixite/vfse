@@ -73,7 +73,6 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
 
