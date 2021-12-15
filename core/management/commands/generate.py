@@ -51,11 +51,6 @@ class Command(BaseCommand):
         factories.OrganizationFactory(
             name="Child Organization",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-            parent=factories.OrganizationFactory(
-                name="Parent Organization",
-                logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",  # noqa
-                customer_admin_roles=[parent_customer_admin],
-            ),
             customer_admin_roles=[
                 factories.UserFactory(
                     username="child-customer-admin@example.com",

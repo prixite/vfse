@@ -31,12 +31,7 @@ class User(AbstractUser):
             id__in=self.get_organizations(),
         )
 
-        return (
-            organizations.filter(
-                parent__isnull=True,
-            ).first()
-            or organizations.first()
-        )
+        return organizations.first()
 
     def get_managed_organizations(self):
         return self.get_organizations(roles=[Membership.Role.CUSTOMER_ADMIN])
