@@ -100,6 +100,7 @@ form input:focus.is-invalid {
 
 .welcome-page .card .card-body {
   display: flex;
+  padding: 1% 1%;
 }
 
 .welcome-page .card .card-body div.item-col {

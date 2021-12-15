@@ -31,13 +31,6 @@ export const routes: routeItem[] = [
     icon: GroupIcon,
   },
   {
-    name: "Modality",
-    path: "/modality/",
-    component: ModalityView,
-    flag: "modality",
-    icon: HomeIcon,
-  },
-  {
     name: "Documentation database",
     path: "/documentation/",
     component: Documentation,

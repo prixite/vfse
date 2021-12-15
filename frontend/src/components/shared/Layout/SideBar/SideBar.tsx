@@ -81,7 +81,6 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
-  const [openList, setOpenList] = React.useState(false);
   const [currentClient, setCurrentClient] = React.useState({});
   const [currentRoute, setCurrentRoute] = React.useState(
     "Modality Administration"
@@ -96,11 +95,6 @@ export default function SideBar() {
   } = useAppSelector((state) => state.myTheme);
 
   const { data: me, isFetching } = useMeReadQuery();
-
-  const handleClick = () => {
-    setOpenList(!openList);
-    setCurrentRoute("Modality Administration");
-  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -123,12 +117,10 @@ export default function SideBar() {
             component={Link}
             to={prop.path}
             key={prop.path}
-            className={currentRoute === prop.name ? "active-link" : ""}
             style={{
-              backgroundColor:
-                currentRoute === prop.name ? buttonBackground : "",
-              color: currentRoute === prop.name ? buttonTextColor : "",
+              opacity: 0.3,
             }}
+            className={currentRoute === prop.name ? "active-link" : ""}
             onClick={() => setCurrentRoute(prop.name)}
           >
             <ListItemIcon
@@ -219,43 +211,6 @@ export default function SideBar() {
               <img src={CloseBtn} />
             </ListItemIcon>
           </ListItem>
-          {/* <ListItem
-            button
-            component={Link}
-            to="/modality/"
-            key="/modality/"
-            onClick={handleClick}
-            className={
-              currentRoute === "Modality Administration" ? "active-link" : ""
-            }
-            style={{
-              backgroundColor:
-                currentRoute === "Modality Administration"
-                  ? buttonBackground
-                  : "",
-              color:
-                currentRoute === "Modality Administration"
-                  ? buttonTextColor
-                  : "",
-            }}
-          >
-            <ListItemIcon
-              style={{ color: sideBarTextColor, marginRight: "10px" }}
-            >
-              <TopicIcon />
-            </ListItemIcon>
-            <ListItemText primary="Modality Administration" />
-          </ListItem>
-          <Collapse in={openList} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemText primary="All Networks" />
-              </ListItemButton>
-              <ListItemButton sx={{ pl: 4 }}>
-                <ListItemText primary="All Networks" />
-              </ListItemButton>
-            </List>
-          </Collapse> */}
           {createLinks()}
         </List>
       </Drawer>

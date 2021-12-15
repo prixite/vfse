@@ -126,35 +126,6 @@ class OrganizationTestCase(BaseTestCase):
             1,
         )
 
-    def test_get_child_organizations(self):
-        self.client.force_login(self.customer_admin)
-        response = self.client.get(
-            f"/api/organizations/{self.organization.id}/children/"
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json()[0]["parent"], self.organization.id)
-
-    def test_add_child_orgaization(self):
-        self.client.force_login(self.customer_admin)
-        child = factories.OrganizationFactory(
-            customer_admin_roles=[self.customer_admin]
-        )
-        response = self.client.post(
-            f"/api/organizations/{self.organization.id}/children/",
-            data={"children": [child.id]},
-        )
-        self.assertEqual(response.status_code, 201)
-        child.refresh_from_db()
-        self.assertEqual(child.parent.id, self.organization.id)
-
-    def test_add_other_child_orgaization(self):
-        self.client.force_login(self.customer_admin)
-        response = self.client.post(
-            f"/api/organizations/{self.organization.id}/children/",
-            data={"children": [self.other_organization.id]},
-        )
-        self.assertEqual(response.status_code, 400)
-
     def test_delete_permissions_super_admin(self):
         self.client.force_login(self.super_admin)
         response = self.client.delete(f"/api/organizations/{self.organization.id}/")

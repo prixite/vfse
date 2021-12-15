@@ -108,25 +108,6 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    organizationsChildrenList: build.query<
-      OrganizationsChildrenListApiResponse,
-      OrganizationsChildrenListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/children/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    organizationsChildrenCreate: build.mutation<
-      OrganizationsChildrenCreateApiResponse,
-      OrganizationsChildrenCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/children/`,
-        method: "POST",
-        body: queryArg.organizationChildren,
-      }),
-    }),
     organizationsHealthNetworksList: build.query<
       OrganizationsHealthNetworksListApiResponse,
       OrganizationsHealthNetworksListApiArg
@@ -364,23 +345,6 @@ export type OrganizationsDeleteApiResponse = unknown;
 export type OrganizationsDeleteApiArg = {
   id: string;
 };
-export type OrganizationsChildrenListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Organization[];
-};
-export type OrganizationsChildrenListApiArg = {
-  id: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type OrganizationsChildrenCreateApiResponse =
-  /** status 201  */ OrganizationChildren;
-export type OrganizationsChildrenCreateApiArg = {
-  id: string;
-  organizationChildren: OrganizationChildren;
-};
 export type OrganizationsHealthNetworksListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
@@ -547,7 +511,6 @@ export type Organization = {
   number_of_seats?: number | null;
   is_default?: boolean;
   appearance?: Appearance;
-  parent?: number | null;
 };
 export type Me = {
   first_name?: string;
@@ -557,9 +520,6 @@ export type Me = {
 };
 export type Modality = {
   name: string;
-};
-export type OrganizationChildren = {
-  children: number[];
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
@@ -651,8 +611,6 @@ export const {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
-  useOrganizationsChildrenListQuery,
-  useOrganizationsChildrenCreateMutation,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksSitesListQuery,
