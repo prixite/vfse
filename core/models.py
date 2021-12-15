@@ -135,13 +135,6 @@ class Organization(models.Model):
         null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]
     )
     is_default = models.BooleanField(default=False)
-    parent = models.ForeignKey(
-        "self",
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name="sub_organizations",
-        blank=True,
-    )
     appearance = models.JSONField(default=dict)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

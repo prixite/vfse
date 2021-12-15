@@ -93,22 +93,6 @@ class OrganizationHealthNetworkCreateSerializer(serializers.Serializer):
     )
 
 
-class OrganizationChildrenSerializer(serializers.Serializer):
-    children = serializers.ListField(child=serializers.IntegerField())
-
-    def validate(self, attrs):
-        user = self.context["request"].user
-        if user.is_superuser or user.is_supermanager:
-            return attrs
-
-        if len(set(user.get_organizations()) & set(attrs["children"])) != len(
-            attrs["children"]
-        ):
-            raise ValidationError("Some Organizations are not accessible")
-
-        return attrs
-
-
 class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()

@@ -85,15 +85,6 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/children/",
-        api.OrganizationChildrenViewSet.as_view(
-            {
-                "get": "list",
-                "post": "create",
-            }
-        ),
-    ),
-    path(
         "api/sites/<str:site_pk>/systems/",
         api.SiteSystemViewSet.as_view(
             {

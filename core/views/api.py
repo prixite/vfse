@@ -73,33 +73,6 @@ class OrganizationSiteViewSet(ModelViewSet):
         )
 
 
-class OrganizationChildrenViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    def get_serializer_class(self):
-        if self.action == "create":
-            return serializers.OrganizationChildrenSerializer
-        return serializers.OrganizationSerializer
-
-    def get_queryset(self):
-        return super().get_user_organizations().filter(parent=self.kwargs["pk"])
-
-    def perform_create(self, serializer):
-        get_object_or_404(super().get_user_organizations(), pk=self.kwargs["pk"])
-        organizations = super().get_user_organizations()
-
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            if not organizations.filter(
-                id__in=self.request.user.get_managed_organizations(),
-                pk=self.kwargs["pk"],
-            ).exists():
-                raise exceptions.PermissionDenied()
-
-        organizations.exclude(id__in=serializer.validated_data["children"]).update(
-            parent=None
-        )
-        organizations.filter(id__in=serializer.validated_data["children"]).update(
-            parent=self.kwargs["pk"]
-        )
-
 
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
