@@ -17,6 +17,13 @@ export const routes: routeItem[] = [
     flag : "all",
     icon : CategoryIcon
  },
+ {
+    name: "Modality Administration",
+    path: "/modality/",
+    component: ModalityView,
+    flag: "modality",
+    icon: HomeIcon,
+  },
   {
     name: "3rd party administration",
     path: "/organizations/",
@@ -30,13 +37,6 @@ export const routes: routeItem[] = [
     component: UserView,
     flag: "user",
     icon: GroupIcon,
-  },
-  {
-    name: "Modality",
-    path: "/modality/",
-    component: ModalityView,
-    flag: "modality",
-    icon: HomeIcon,
   },
   {
     name: "Documentation database",
