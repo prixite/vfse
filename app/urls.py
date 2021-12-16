@@ -33,7 +33,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/customers/",
+        "api/organizations/",
         api.CustomerViewSet.as_view(
             {
                 "get": "list",

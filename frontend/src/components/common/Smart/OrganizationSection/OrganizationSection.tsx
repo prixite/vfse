@@ -6,7 +6,7 @@ import ClientCard from "@src/components/common/Presentational/ClientCard/ClientC
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import TopViewBtns from "@src/components/common/Presentational/TopViewBtns/TopViewBtns";
 import {
-  useOrganizationsCustomersListQuery,
+  useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,
   Organization,
 } from "@src/store/reducers/api";
@@ -27,10 +27,9 @@ const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [open, setOpen] = useState(false);
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
-  const { data: organizationList, refetch } =
-    useOrganizationsCustomersListQuery({
-      page: 1,
-    });
+  const { data: organizationList, refetch } = useOrganizationsListQuery({
+    page: 1,
+  });
   const constantData: any = localizedData()?.organization;
   const { title } = constantData;
 

@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 
 import {
-  useOrganizationsCustomersCreateMutation,
+  useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
@@ -17,8 +17,7 @@ import {
 } from "@src/services/organizationService";
 
 export default function OrganizationModal(props) {
-  const [addNewOrganization, { isLoading }] =
-    useOrganizationsCustomersCreateMutation();
+  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const constantData: object = localizedData()?.organization?.popUp;
   const {

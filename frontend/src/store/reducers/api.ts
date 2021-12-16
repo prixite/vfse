@@ -70,21 +70,21 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
-    organizationsCustomersList: build.query<
-      OrganizationsCustomersListApiResponse,
-      OrganizationsCustomersListApiArg
+    organizationsList: build.query<
+      OrganizationsListApiResponse,
+      OrganizationsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/organizations/customers/`,
+        url: `/organizations/`,
         params: { page: queryArg.page },
       }),
     }),
-    organizationsCustomersCreate: build.mutation<
-      OrganizationsCustomersCreateApiResponse,
-      OrganizationsCustomersCreateApiArg
+    organizationsCreate: build.mutation<
+      OrganizationsCreateApiResponse,
+      OrganizationsCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/organizations/customers/`,
+        url: `/organizations/`,
         method: "POST",
         body: queryArg.organization,
       }),
@@ -321,19 +321,18 @@ export type ModalitiesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsCustomersListApiResponse = /** status 200  */ {
+export type OrganizationsListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Organization[];
 };
-export type OrganizationsCustomersListApiArg = {
+export type OrganizationsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsCustomersCreateApiResponse =
-  /** status 201  */ Organization;
-export type OrganizationsCustomersCreateApiArg = {
+export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
+export type OrganizationsCreateApiArg = {
   organization: Organization;
 };
 export type OrganizationsPartialUpdateApiResponse =
@@ -608,8 +607,8 @@ export const {
   useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
-  useOrganizationsCustomersListQuery,
-  useOrganizationsCustomersCreateMutation,
+  useOrganizationsListQuery,
+  useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,

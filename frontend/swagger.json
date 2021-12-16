@@ -328,9 +328,9 @@
             },
             "parameters": []
         },
-        "/organizations/customers/": {
+        "/organizations/": {
             "get": {
-                "operationId": "organizations_customers_list",
+                "operationId": "organizations_list",
                 "description": "",
                 "parameters": [
                     {
@@ -379,7 +379,7 @@
                 ]
             },
             "post": {
-                "operationId": "organizations_customers_create",
+                "operationId": "organizations_create",
                 "description": "",
                 "parameters": [
                     {
