@@ -2,16 +2,21 @@ import { useEffect, useCallback } from "react";
 import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
-import debounce from 'debounce';
+import debounce from "debounce";
 import AddIcon from "@mui/icons-material/Add";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
-import {
-  useOrganizationsListQuery,
-} from "@src/store/reducers/api";
+import { useOrganizationsListQuery } from "@src/store/reducers/api";
 
-const TopViewBtns = ({ setOpen, path, setData, setOrganizationsList, searchText, setSearchText }) => {
+const TopViewBtns = ({
+  setOpen,
+  path,
+  setData,
+  setOrganizationsList,
+  searchText,
+  setSearchText,
+}) => {
   let constantData: any;
   if (path == "modality") {
     constantData = localizedData()?.modalities;
@@ -33,21 +38,23 @@ const TopViewBtns = ({ setOpen, path, setData, setOrganizationsList, searchText,
     setSearchText(e.target.value);
   };
 
-  const onEventSearch = useCallback(debounce((searchQuery) => {
-     if(searchQuery?.length > 2)
-     { 
-       const organizations = { query: searchQuery }
-        const  result = organizationList?.filter((data) => {
+  const onEventSearch = useCallback(
+    debounce((searchQuery) => {
+      if (searchQuery?.length > 2) {
+        const organizations = { query: searchQuery };
+        const result = organizationList?.filter((data) => {
           return data?.name?.toLowerCase().search(searchQuery) != -1;
         });
-       organizations.results = result;
-       setOrganizationsList(organizations);
-     }
-  }, 500), []);
+        organizations.results = result;
+        setOrganizationsList(organizations);
+      }
+    }, 500),
+    []
+  );
 
-  useEffect(()=>{
+  useEffect(() => {
     onEventSearch(searchText);
-  }, [searchText])
+  }, [searchText]);
 
   return (
     <>

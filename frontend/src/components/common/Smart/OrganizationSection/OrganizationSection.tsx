@@ -26,13 +26,13 @@ import { updateOrganizationColor } from "@src/services/organizationService";
 const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [organizationsList, setOrganizationsList] = useState({});
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
   const { data: organizationList, refetch } = useOrganizationsListQuery({
     page: 1,
   });
-  
+
   const constantData: any = localizedData()?.organization;
   const { title } = constantData;
 
@@ -167,12 +167,10 @@ const OrganizationSection = () => {
           setSearchText={setSearchText}
         />
         <Grid container spacing={2} className="OrganizationSection__AllClients">
-          {
-          searchText?.length > 2 
-          ?
-             organizationsList && 
-              organizationsList?.results?.length &&
-              organizationsList?.query === searchText ? 
+          {searchText?.length > 2 ? (
+            organizationsList &&
+            organizationsList?.results?.length &&
+            organizationsList?.query === searchText ? (
               organizationsList?.results?.map((item, key) => (
                 <Grid key={key} item xs={3}>
                   <ClientCard
@@ -186,25 +184,30 @@ const OrganizationSection = () => {
                   />
                 </Grid>
               ))
-            : organizationsList?.query === searchText ? <p style={{marginTop: '20px', marginLeft: '20px'}}>no results found</p> : ''
-          :
-              organizationList &&
-              organizationList?.length ?
-              organizationList.map((item, key) => (
-                <Grid key={key} item xs={3}>
-                  <ClientCard
-                    setOpen={setOpen}
-                    setOrganization={setOrganization}
-                    row={item}
-                    refetch={refetch}
-                    id={item.id}
-                    name={item.name}
-                    logo={item.logo}
-                  />
-                </Grid>
-              ))
-              : ''
-            }
+            ) : organizationsList?.query === searchText ? (
+              <p style={{ marginTop: "20px", marginLeft: "20px" }}>
+                no results found
+              </p>
+            ) : (
+              ""
+            )
+          ) : organizationList && organizationList?.length ? (
+            organizationList.map((item, key) => (
+              <Grid key={key} item xs={3}>
+                <ClientCard
+                  setOpen={setOpen}
+                  setOrganization={setOrganization}
+                  row={item}
+                  refetch={refetch}
+                  id={item.id}
+                  name={item.name}
+                  logo={item.logo}
+                />
+              </Grid>
+            ))
+          ) : (
+            ""
+          )}
         </Grid>
         <OrganizationModal
           organization={organization}
