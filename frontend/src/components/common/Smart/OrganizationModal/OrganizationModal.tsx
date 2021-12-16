@@ -17,7 +17,8 @@ import {
 } from "@src/services/organizationService";
 
 export default function OrganizationModal(props) {
-  const [addNewOrganization, { isLoading }] = useOrganizationsCustomersCreateMutation();
+  const [addNewOrganization, { isLoading }] =
+    useOrganizationsCustomersCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const constantData: object = localizedData()?.organization?.popUp;
   const {
