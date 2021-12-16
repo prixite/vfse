@@ -7,17 +7,17 @@ import AppearanceView from "./views/appearance/AppearanceView";
 import ArticleIcon from "@mui/icons-material/Article";
 import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
-import CategoryIcon from '@mui/icons-material/Category';
+import CategoryIcon from "@mui/icons-material/Category";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 export const routes: routeItem[] = [
   {
-    name : "Appearance",
-    path : "/appearance/",
-    component : AppearanceView,
-    flag : "all",
-    icon : CategoryIcon
- },
- {
+    name: "Appearance",
+    path: "/appearance/",
+    component: AppearanceView,
+    flag: "all",
+    icon: CategoryIcon,
+  },
+  {
     name: "Modality Administration",
     path: "/modality/",
     component: ModalityView,
