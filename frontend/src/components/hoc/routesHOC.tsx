@@ -10,7 +10,7 @@ const RoutesHOC = () => {
       <Switch>
         {routes.map((route, key) => (
           <Route
-            path={route.path}
+            path={`/client/:id${route.path}`}
             component={route.component}
             key={key}
             exact

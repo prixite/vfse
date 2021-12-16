@@ -93,6 +93,9 @@ export default function SideBar() {
     buttonTextColor,
     buttonBackground,
   } = useAppSelector((state) => state.myTheme);
+  const currentOrganization = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
 
   const { data: me, isFetching } = useMeReadQuery();
 
@@ -117,7 +120,7 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to={prop.path}
+            to={`/client/${currentOrganization?.id}${prop.path}`}
             key={prop.path}
             className={currentRoute === prop.path ? "active-link" : ""}
             onClick={() => setCurrentRoute(prop.path)}
