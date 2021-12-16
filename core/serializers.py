@@ -87,7 +87,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 class OrganizationHealthNetworkCreateSerializer(serializers.Serializer):
     health_networks = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.HealthNetwork.objects.all()
+        many=True, queryset=models.Organization.objects.all()
     )
 
 
@@ -148,14 +148,6 @@ class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
         fields = ["id", "name", "address"]
-
-
-class HealthNetworkSerializer(serializers.ModelSerializer):
-    sites = SiteSerializer(many=True)
-
-    class Meta:
-        model = models.HealthNetwork
-        fields = ["id", "name", "logo", "sites"]
 
 
 class SystemInfoSerializer(serializers.Serializer):

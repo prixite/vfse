@@ -17,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/health_network/`,
         method: "POST",
-        body: queryArg.healthNetwork,
+        body: queryArg.organization,
       }),
     }),
     manufacturersList: build.query<
@@ -270,15 +270,15 @@ export type HealthNetworkListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
-  results: HealthNetwork[];
+  results: Organization[];
 };
 export type HealthNetworkListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type HealthNetworkCreateApiResponse = /** status 201  */ HealthNetwork;
+export type HealthNetworkCreateApiResponse = /** status 201  */ Organization;
 export type HealthNetworkCreateApiArg = {
-  healthNetwork: HealthNetwork;
+  organization: Organization;
 };
 export type ManufacturersListApiResponse = /** status 200  */ {
   count: number;
@@ -349,7 +349,7 @@ export type OrganizationsHealthNetworksListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
-  results: HealthNetwork[];
+  results: Organization[];
 };
 export type OrganizationsHealthNetworksListApiArg = {
   organizationPk: string;
@@ -477,24 +477,6 @@ export type UsersPartialUpdateApiArg = {
   id: string;
   upsertUser: UpsertUser;
 };
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-};
-export type HealthNetwork = {
-  id?: number;
-  name: string;
-  logo?: string | null;
-  sites: Site[];
-};
-export type Manufacturer = {
-  name: string;
-  image?: number | null;
-};
-export type ManufacturerImage = {
-  image?: string | null;
-};
 export type Appearance = {
   sidebar_text: string;
   button_text: string;
@@ -511,6 +493,13 @@ export type Organization = {
   number_of_seats?: number | null;
   appearance?: Appearance;
 };
+export type Manufacturer = {
+  name: string;
+  image?: number | null;
+};
+export type ManufacturerImage = {
+  image?: string | null;
+};
 export type Me = {
   first_name?: string;
   last_name?: string;
@@ -522,6 +511,11 @@ export type Modality = {
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
+};
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
 };
 export type User = {
   id?: number;

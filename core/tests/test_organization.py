@@ -138,7 +138,7 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_add_organization_health_networks(self):
         self.client.force_login(self.fse_admin)
-        new_health_network = factories.HealthNetworkFactory()
+        new_health_network = factories.OrganizationFactory()
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/health_networks/",
             data={"health_networks": [new_health_network.id]},

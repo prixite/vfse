@@ -45,16 +45,16 @@ class CustomerViewSet(OrganizationViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
-        return models.HealthNetwork.objects.filter(
+        return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
                 self.kwargs["organization_pk"]
             ),
-        ).prefetch_related("sites")
+        )
 
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationHealthNetworkCreateSerializer
-        return serializers.HealthNetworkSerializer
+        return serializers.OrganizationSerializer
 
     def perform_create(self, serializer):
         get_object_or_404(
@@ -78,7 +78,7 @@ class OrganizationSiteViewSet(ModelViewSet):
 
     def get_queryset(self):
         return models.Site.objects.filter(
-            health_network=self.kwargs["health_network_pk"],
+            # health_network=self.kwargs["health_network_pk"],
             health_network__in=self.request.user.get_organization_health_networks(
                 self.kwargs["organization_pk"]
             ),
@@ -231,7 +231,7 @@ class VfseSystemViewSet(ModelViewSet):
 
 
 class HealthNetworkViewSet(ModelViewSet):
-    serializer_class = serializers.HealthNetworkSerializer
+    serializer_class = serializers.OrganizationSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:

@@ -50,11 +50,9 @@ class BaseTestCase(TestCase):
         )
 
         self.health_network = factories.OrganizationHealthNetworkFactory(
-            organization=self.organization,
-            health_network = self.other_organization
+            organization=self.organization, health_network=self.other_organization
         )
 
-        
         self.site = factories.SiteFactory(
             health_network=factories.HealthNetworkFactory(),
         )

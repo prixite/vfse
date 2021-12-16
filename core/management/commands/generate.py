@@ -49,7 +49,7 @@ class Command(BaseCommand):
             manufacturer=factories.ManufacturerFactory(),
         )
 
-        organization = factories.OrganizationFactory(
+        factories.OrganizationFactory(
             name="Organization",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             is_customer=True,
@@ -94,6 +94,6 @@ class Command(BaseCommand):
         )
 
         factories.OrganizationFactory.create_batch(20, is_customer=True)
-        factories.HealthNetworkFactory.create_batch(20, organizations=[organization])
+        factories.HealthNetworkFactory.create_batch(20)
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
