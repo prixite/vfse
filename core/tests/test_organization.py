@@ -7,7 +7,7 @@ class OrganizationTestCase(BaseTestCase):
     def test_create_customer_organization(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
-            "/api/organizations/customers/",
+            "/api/organizations/",
             data={
                 "name": "Test Organization",
                 "logo": "https://picsum.photos/200",
@@ -35,7 +35,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 3)
+            self.assertEqual(len(organizations), 2)
 
     def test_list_organizations(self):
         for user in [self.customer_admin, self.fse_admin]:
