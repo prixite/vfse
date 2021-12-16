@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
-import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
-import { useOrganizationsDeleteMutation } from "@src/store/reducers/api";
+import locationLogo from "@src/assets/images/locationIcon.svg";
+import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
-import { DeleteOrganizationService } from "@src/services/organizationService";
-interface ClientCardProps {
+
+interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
   row: object;
@@ -15,19 +15,10 @@ interface ClientCardProps {
   logo: string;
   name: string;
 }
-const ClientCard = ({
-  id,
-  logo,
-  name,
-  refetch,
-  row,
-  setOpen,
-  setOrganization,
-}: ClientCardProps) => {
+const NetworkCard = ({ logo, name }: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
-  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const handleModalOpen = () => {
     setOpenModal(true);
     handleClose();
@@ -41,20 +32,15 @@ const ClientCard = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleEditAppearance = () => {
-    setOpen(true);
-    setOrganization(row);
-  };
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    await DeleteOrganizationService(id, deleteOrganization, refetch);
-    toast.success("Organization successfully deleted");
+    toast.success("Network successfully deleted");
   };
   return (
     <>
-      <Box component="div" className="ClientCard">
-        <div className="ClientCard__Header">
+      <Box component="div" className="NetworkCard">
+        <div className="NetworkCard__Header">
           <h3 className="ClientName">{name}</h3>
           <div>
             <MoreVertIcon
@@ -67,19 +53,26 @@ const ClientCard = ({
               aria-labelledby="client-options-button"
               anchorEl={anchorEl}
               open={open}
-              className="dropdownMenu"
+              className="Network-dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem onClick={handleEditAppearance}>
-                Edit appearance
+              <MenuItem onClick={handleClose}>
+                <span style={{ marginLeft: "12px" }}>Edit</span>
               </MenuItem>
-              <MenuItem onClick={handleClose}>Add new HealthNetwork</MenuItem>
-              <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+              <MenuItem onClick={handleModalOpen}>
+                <span style={{ marginLeft: "12px" }}>Delete</span>
+              </MenuItem>
             </Menu>
           </div>
         </div>
-        <div className="ClientCard__Logo">
+        <div className="NetworkCard__Logo">
           <img src={logo} />
+        </div>
+        <div className="location-logo">
+          <div className="location-logo__content">
+            <img src={locationLogo} />
+            <p className="text">16 sites</p>
+          </div>
         </div>
       </Box>
       <ConfirmationModal
@@ -92,4 +85,4 @@ const ClientCard = ({
   );
 };
 
-export default ClientCard;
+export default NetworkCard;

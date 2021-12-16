@@ -43,7 +43,9 @@ const TopViewBtns = ({
       if (searchQuery?.length > 2) {
         const organizations = { query: searchQuery };
         const result = organizationList?.filter((data) => {
-          return data?.name?.toLowerCase().search(searchQuery) != -1;
+          return (
+            data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+          );
         });
         organizations.results = result;
         setOrganizationsList(organizations);

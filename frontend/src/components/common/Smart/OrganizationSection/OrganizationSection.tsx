@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Box, Grid } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
-import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
+import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
-import TopViewBtns from "@src/components/common/Presentational/TopViewBtns/TopViewBtns";
+import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import {
   useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,

@@ -1,6 +1,6 @@
 import ModalitySection from "@src/components/common/Smart/ModalitySection/ModalitySection";
 import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
-import OrganizationSectionSkeleton from "@src/components/common/Presentational/OrganizationSectionSkeleton/OrganizationSectionSkeleton";
+import SectionSkeleton from "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton";
 import { useAppSelector } from "@src/store/hooks";
 export default function ModalityView() {
   const currentOrganization = useAppSelector(
@@ -12,7 +12,5 @@ export default function ModalityView() {
     organizationPk: currentOrganization.id.toString(),
   });
 
-  return (
-    <>{!isLoading ? <ModalitySection /> : <OrganizationSectionSkeleton />}</>
-  );
+  return <>{!isLoading ? <ModalitySection /> : <SectionSkeleton />}</>;
 }
