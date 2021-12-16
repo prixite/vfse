@@ -1,0 +1,27 @@
+.dropzone-style {
+  border: 1px dashed #a7aeb2;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  img {
+    margin-bottom: 12px;
+  }
+  p {
+    font-size: 14px;
+  }
+  .browse-btn {
+    background: rgba(177, 113, 255, 0.2);
+    color: black;
+    width: 78px;
+    height: 24px;
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+  .file-info {
+    font-size: 12px;
+    margin-top: 8px;
+    color: #94989e;
+  }
+}
