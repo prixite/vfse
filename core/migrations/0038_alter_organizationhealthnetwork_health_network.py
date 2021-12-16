@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0037_merge_20211216_0758'),
+        ("core", "0037_merge_20211216_0758"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='organizationhealthnetwork',
-            name='health_network',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='health_networks', to='core.organization'),
+            model_name="organizationhealthnetwork",
+            name="health_network",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="health_networks",
+                to="core.organization",
+            ),
         ),
     ]
