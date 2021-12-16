@@ -1303,7 +1303,7 @@
         },
         "Organization": {
             "title": "Organization",
-            "description": "Organization(id, name, logo, banner, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "description": "Organization(id, name, logo, banner, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -1340,10 +1340,6 @@
                     "maximum": 200,
                     "minimum": 0,
                     "x-nullable": true
-                },
-                "is_default": {
-                    "title": "Is default",
-                    "type": "boolean"
                 },
                 "appearance": {
                     "$ref": "#/definitions/OrganizationAppearance"

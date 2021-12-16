@@ -81,7 +81,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "logo",
             "banner",
             "number_of_seats",
-            "is_default",
             "appearance",
         ]
 
