@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Box, Grid } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
-import OrganizationModal from "@src/components/common/Smart/OrganizationModal/OrganizationModal";
-import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
-import TopViewBtns from "@src/components/common/Presentational/TopViewBtns/TopViewBtns";
+import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModal";
+import NetworkCard from "@src/components/common/Presentational/NetworkCard/NetworkCard";
+import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
 
 import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
 
 const ModalitySection = () => {
@@ -16,14 +15,10 @@ const ModalitySection = () => {
   const constantData: any = localizedData()?.modalities;
   const { title } = constantData;
 
-  const currentOrganization = useAppSelector(
-    (state) => state.organization.currentOrganization
-  );
-
   const { data: networksData, refetch: orgNetworkRefetch } =
     useOrganizationsHealthNetworksListQuery({
       page: 1,
-      organizationPk: currentOrganization.id.toString(),
+      organizationPk: "3",
     });
 
   const handleClose = () => setOpen(false);
@@ -38,7 +33,7 @@ const ModalitySection = () => {
             networksData?.length &&
             networksData.map((item, key) => (
               <Grid key={key} item xs={3}>
-                <ClientCard
+                <NetworkCard
                   setOpen={setOpen}
                   setOrganization={setNetwork}
                   row={item}
@@ -50,13 +45,7 @@ const ModalitySection = () => {
               </Grid>
             ))}
         </Grid>
-        <OrganizationModal
-          organization={network}
-          setOrganization={setNetwork}
-          open={open}
-          handleClose={handleClose}
-          refetch={orgNetworkRefetch}
-        />
+        <NetworkModal open={open} handleClose={handleClose} />
       </Box>
     </>
   );
