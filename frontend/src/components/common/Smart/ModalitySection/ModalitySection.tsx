@@ -5,7 +5,7 @@ import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModa
 import NetworkCard from "@src/components/common/Presentational/NetworkCard/NetworkCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
-
+import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
@@ -15,10 +15,14 @@ const ModalitySection = () => {
   const constantData: any = localizedData()?.modalities;
   const { title } = constantData;
 
+  const currentOrganization = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
+
   const { data: networksData, refetch: orgNetworkRefetch } =
     useOrganizationsHealthNetworksListQuery({
       page: 1,
-      organizationPk: "3",
+      organizationPk: currentOrganization.id.toString(),
     });
 
   const handleClose = () => setOpen(false);
