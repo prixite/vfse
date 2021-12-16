@@ -19,14 +19,14 @@ export const routes: routeItem[] = [
   },
   {
     name: "Modality Administration",
-    path: "/modality/",
+    path: "/networks/",
     component: ModalityView,
     flag: "modality",
     icon: HomeIcon,
   },
   {
     name: "3rd party administration",
-    path: "/organizations/",
+    path: "/",
     component: OrganizationView,
     flag: "organization",
     icon: HomeIcon,
