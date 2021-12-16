@@ -1341,10 +1341,6 @@
                     "minimum": 0,
                     "x-nullable": true
                 },
-                "is_default": {
-                    "title": "Is default",
-                    "type": "boolean"
-                },
                 "appearance": {
                     "$ref": "#/definitions/OrganizationAppearance"
                 }

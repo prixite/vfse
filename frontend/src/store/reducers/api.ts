@@ -509,7 +509,6 @@ export type Organization = {
   logo?: string | null;
   banner?: string | null;
   number_of_seats?: number | null;
-  is_default?: boolean;
   appearance?: Appearance;
 };
 export type Me = {
