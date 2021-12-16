@@ -89,6 +89,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organization,
       }),
     }),
+    organizationsCustomersList: build.query<
+      OrganizationsCustomersListApiResponse,
+      OrganizationsCustomersListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/customers/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    organizationsCustomersCreate: build.mutation<
+      OrganizationsCustomersCreateApiResponse,
+      OrganizationsCustomersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/customers/`,
+        method: "POST",
+        body: queryArg.organization,
+      }),
+    }),
     organizationsPartialUpdate: build.mutation<
       OrganizationsPartialUpdateApiResponse,
       OrganizationsPartialUpdateApiArg
@@ -333,6 +352,21 @@ export type OrganizationsListApiArg = {
 };
 export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type OrganizationsCreateApiArg = {
+  organization: Organization;
+};
+export type OrganizationsCustomersListApiResponse = /** status 200  */ {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Organization[];
+};
+export type OrganizationsCustomersListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type OrganizationsCustomersCreateApiResponse =
+  /** status 201  */ Organization;
+export type OrganizationsCustomersCreateApiArg = {
   organization: Organization;
 };
 export type OrganizationsPartialUpdateApiResponse =
@@ -609,6 +643,8 @@ export const {
   useModalitiesListQuery,
   useOrganizationsListQuery,
   useOrganizationsCreateMutation,
+  useOrganizationsCustomersListQuery,
+  useOrganizationsCustomersCreateMutation,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,

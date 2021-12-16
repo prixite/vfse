@@ -42,6 +42,15 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/customers/",
+        api.CustomerViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<str:pk>/",
         api.OrganizationViewSet.as_view(
             {

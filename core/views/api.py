@@ -30,6 +30,13 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         return super().destroy(request, *args, **kwargs)
 
+
+class CustomerViewSet(OrganizationViewSet):
+    def get_queryset(self):
+        return (
+            super().get_user_organizations().filter(is_customer=True, is_default=False)
+        )
+
     def perform_create(self, serializer):
         models.Organization.objects.create(
             **serializer.validated_data, is_customer=True
