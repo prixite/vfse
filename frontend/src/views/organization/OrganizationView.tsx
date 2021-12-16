@@ -1,8 +1,8 @@
 import OrganizationSection from "@src/components/common/Smart/OrganizationSection/OrganizationSection";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
+import { useOrganizationsCustomersListQuery } from "@src/store/reducers/api";
 import OrganizationSectionSkeleton from "@src/components/common/Presentational/OrganizationSectionSkeleton/OrganizationSectionSkeleton";
 const OrganizationView = () => {
-  const { isLoading } = useOrganizationsListQuery({ page: 1 });
+  const { isLoading } = useOrganizationsCustomersListQuery({ page: 1 });
   return (
     <>
       {!isLoading ? <OrganizationSection /> : <OrganizationSectionSkeleton />}

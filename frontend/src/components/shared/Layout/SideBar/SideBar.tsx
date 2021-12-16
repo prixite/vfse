@@ -24,7 +24,7 @@ import { useAppSelector } from "@src/store/hooks";
 import {
   Organization,
   useMeReadQuery,
-  useOrganizationsListQuery,
+  useOrganizationsCustomersListQuery,
 } from "@src/store/reducers/api";
 
 const drawerWidth = 400;
@@ -85,7 +85,7 @@ export default function SideBar() {
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { data: organizationsList, isLoading: isOrgListLoading } =
-    useOrganizationsListQuery({ page: 1 });
+    useOrganizationsCustomersListQuery({ page: 1 });
   const {
     sideBarBackground,
     sideBarTextColor,
