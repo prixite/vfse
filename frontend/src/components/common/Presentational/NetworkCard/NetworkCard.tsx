@@ -15,10 +15,7 @@ interface NetworkCardProps {
   logo: string;
   name: string;
 }
-const NetworkCard = ({
-  logo,
-  name,
-}: NetworkCardProps) => {
+const NetworkCard = ({ logo, name }: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
@@ -59,8 +56,12 @@ const NetworkCard = ({
               className="Network-dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}><span style={{marginLeft: '12px'}}>Edit</span></MenuItem>
-              <MenuItem onClick={handleModalOpen}><span style={{marginLeft: '12px'}}>Delete</span></MenuItem>
+              <MenuItem onClick={handleClose}>
+                <span style={{ marginLeft: "12px" }}>Edit</span>
+              </MenuItem>
+              <MenuItem onClick={handleModalOpen}>
+                <span style={{ marginLeft: "12px" }}>Delete</span>
+              </MenuItem>
             </Menu>
           </div>
         </div>

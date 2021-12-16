@@ -18,15 +18,13 @@ export default function NetworkModal(props) {
   } = constantData;
 
   const handleSetNewNetwork = async () => {
-      toast.success("Organization successfully added");
-      props.handleClose();
+    toast.success("Organization successfully added");
+    props.handleClose();
   };
 
   return (
     <Dialog open={props.open} onClose={props.handleClose}>
-      <DialogTitle>
-        {popUpNewNetwork}
-      </DialogTitle>
+      <DialogTitle>{popUpNewNetwork}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
@@ -50,9 +48,7 @@ export default function NetworkModal(props) {
       </DialogContent>
       <DialogActions>
         <Button onClick={props.handleClose}>{newNetworkBtnCancel}</Button>
-        <Button onClick={handleSetNewNetwork}>
-          {newNetworkBtnSave}
-        </Button>
+        <Button onClick={handleSetNewNetwork}>{newNetworkBtnSave}</Button>
       </DialogActions>
     </Dialog>
   );
