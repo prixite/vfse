@@ -26,6 +26,7 @@ import {
   useMeReadQuery,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
+import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
 
 const drawerWidth = 400;
 
@@ -185,9 +186,6 @@ export default function SideBar() {
             </ListItemIcon>
           </ListItem>
           {!isOrgListLoading && createClients()}
-          <ListItem button component="a" href="/accounts/logout/">
-            <ListItemText primary="Logout" />
-          </ListItem>
           <ListItem
             button
             className="drawer-btn open-btn"
@@ -199,7 +197,7 @@ export default function SideBar() {
           </ListItem>
           <ListItem button className="user-image">
             <ListItemIcon>
-              <img src={user} className="image" />
+              <ProfilePopOver user={user} className="image" />
             </ListItemIcon>
           </ListItem>
         </List>
