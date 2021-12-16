@@ -49,13 +49,14 @@ class BaseTestCase(TestCase):
             is_customer=True,
         )
 
-        self.health_network = factories.HealthNetworkFactory(
-            organizations=[self.organization],
-            users=[self.customer_admin],
+        self.health_network = factories.OrganizationHealthNetworkFactory(
+            organization=self.organization,
+            health_network = self.other_organization
         )
 
+        
         self.site = factories.SiteFactory(
-            health_network=self.health_network,
+            health_network=factories.HealthNetworkFactory(),
         )
 
         self.product = factories.ProductFactory(
