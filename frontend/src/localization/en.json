@@ -35,10 +35,21 @@
         "btnAdd": "Add Clients",
         "popUp":{
             "popUpNewOrganization": "New Organization",
-            "newOrganizationName": "Name",
+            "newOrganizationPageTrackerdesc1": "Step",
+            "newOrganizationPageTrackerdesc2": "of 2",
+            "newOrganizationName": "Client Name",
             "newOrganizationSeats": "Number of Seats",
-            "newOrganizationBtnSave": "Save",
-            "newOrganizationBtnCancel": "Cancel"
+            "newOrganizationBtnSave": "Add",
+            "newOrganizationBtnCancel": "Cancel",
+            "newOrganizationLogo": "Logo",
+            "newOrganizationColor1": "Color #1",
+            "newOrganizationColor2": "Color #2",
+            "newOrganizationColor3": "Color #3",
+            "newOrganizationColor4": "Color #4",
+            "newOrganizationFont1": "Font #1",
+            "newOrganizationFont2": "Font #2",
+            "newOrganizationHealthNetworks": "Health networks",
+            "newOrganizationAddNetwork": "Add Network"
         },
         "deleteDialog" : {
             "dialogMessage" : "Are you sure you want to delete",
@@ -55,6 +66,20 @@
     "page505" : {
         "title" : "505 Server Error",
         "description" : "Please, try again later or contact us  if the problem persists"
+    },
+    "dropzone" : {
+        "heading" : "Drag & Drop",
+        "description" : " files here or",
+        "button" : "Browse",
+        "info" : "up to 20mb"
+    },
+    "healthNetwork" : {
+        "name" : "Health Network Name",
+        "logo" : "Logo",
+        "color1" : "Color #1",
+        "color2" : "Color #2",
+        "color3" : "Color #3",
+        "color4" : "Color #4"
     }
 
 

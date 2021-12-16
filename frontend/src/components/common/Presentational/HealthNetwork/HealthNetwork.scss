@@ -1,33 +1,40 @@
-.health-section{
-    padding: 14px;
-    background: #FCFCFD;
-    border: 1px solid #D9DBDD;
-    margin-top: 20px;
-    .info-label{
-        font-weight: 600;
-        margin-bottom: 6px;
+.health-section {
+  padding: 14px;
+  background: #fcfcfd;
+  border: 1px solid #d9dbdd;
+  margin-top: 20px;
+  .info-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .info-field {
+    width: 360px;
+    height: 48px;
+    .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+      border: 1px solid #d4d6db;
+      border-radius: 8px;
     }
-    .info-field{
-        width: 365px;
-        height: 48px;
-        border-radius: 8px;
+    input {
+      border: 1px solid #d4d6db;
+      border-radius: 8px;
     }
-    .health-info{
+  }
+  .health-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .color-section {
+      display: flex;
+      flex-direction: column;
+      width: 54%;
+      padding-left: 15px;
+      margin-top: 25px;
+
+      .color-pickers {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        .color-section{
-            display: flex;
-            flex-direction: column;
-            width: 54%;
-            padding-left: 15px;
-            margin-top: 25px;
-
-            .color-pickers{
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
-        }
+      }
     }
+  }
 }
