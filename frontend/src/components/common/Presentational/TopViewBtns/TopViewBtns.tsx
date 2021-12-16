@@ -1,12 +1,22 @@
+import { useEffect, useCallback } from "react";
 import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
+import debounce from "debounce";
 import AddIcon from "@mui/icons-material/Add";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import { useOrganizationsListQuery } from "@src/store/reducers/api";
 
-const TopViewBtns = ({ setOpen, path, setData }) => {
+const TopViewBtns = ({
+  setOpen,
+  path,
+  setData,
+  setOrganizationsList,
+  searchText,
+  setSearchText,
+}) => {
   let constantData: any;
   if (path == "modality") {
     constantData = localizedData()?.modalities;
@@ -19,6 +29,32 @@ const TopViewBtns = ({ setOpen, path, setData }) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+
+  const { data: organizationList } = useOrganizationsListQuery({
+    page: 1,
+  });
+
+  const handleInput = (e) => {
+    setSearchText(e.target.value);
+  };
+
+  const onEventSearch = useCallback(
+    debounce((searchQuery) => {
+      if (searchQuery?.length > 2) {
+        const organizations = { query: searchQuery };
+        const result = organizationList?.filter((data) => {
+          return data?.name?.toLowerCase().search(searchQuery) != -1;
+        });
+        organizations.results = result;
+        setOrganizationsList(organizations);
+      }
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    onEventSearch(searchText);
+  }, [searchText]);
 
   return (
     <>
@@ -35,6 +71,7 @@ const TopViewBtns = ({ setOpen, path, setData }) => {
             id="search-clients"
             className="Search-input"
             variant="outlined"
+            onChange={handleInput}
             placeholder="Search"
             InputProps={{
               startAdornment: (
