@@ -1303,7 +1303,7 @@
         },
         "Organization": {
             "title": "Organization",
-            "description": "Organization(id, name, logo, banner, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "description": "Organization(id, name, logo, banner, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],

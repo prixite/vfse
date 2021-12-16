@@ -31,6 +31,7 @@ class Command(BaseCommand):
 
         factories.OrganizationFactory(
             name="Other Organization",
+            is_customer=True,
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
             customer_admin_roles=[
                 factories.UserWithPasswordFactory(
@@ -44,28 +45,14 @@ class Command(BaseCommand):
             ],
         )
 
-        parent_customer_admin = factories.UserWithPasswordFactory(
-            username="parent-customer-admin@example.com"
-        )
-
-        factories.OrganizationFactory(
-            name="Child Organization",
-            logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-            customer_admin_roles=[
-                factories.UserFactory(
-                    username="child-customer-admin@example.com",
-                ),
-                parent_customer_admin,
-            ],
-        )
-
         product = factories.ProductFactory(
             manufacturer=factories.ManufacturerFactory(),
         )
 
-        factories.OrganizationFactory(
+        organization = factories.OrganizationFactory(
             name="Organization",
             logo="https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+            is_customer=True,
             fse_admin_roles=[
                 factories.UserWithPasswordFactory(username="fse-admin@example.com")
             ],
@@ -106,6 +93,7 @@ class Command(BaseCommand):
             ),
         )
 
-        factories.OrganizationFactory.create_batch(20)
+        factories.OrganizationFactory.create_batch(20, is_customer=True)
+        factories.HealthNetworkFactory.create_batch(20, organizations=[organization])
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))

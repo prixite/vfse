@@ -29,6 +29,7 @@ class BaseTestCase(TestCase):
         )
 
         self.organization = factories.OrganizationFactory(
+            is_customer=True,
             number_of_seats=1,
             fse_admin_roles=[self.fse_admin],
             customer_admin_roles=[self.customer_admin],
@@ -42,14 +43,10 @@ class BaseTestCase(TestCase):
             cryo_admin_roles=[self.cryo_admin],
         )
 
-        self.child_organization = factories.OrganizationFactory(
-            customer_admin_roles=[self.customer_admin],
-            fse_admin_roles=[self.fse_admin],
-        )
-
         self.other_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.other_customer_admin],
             user_admin_roles=[self.other_user_admin],
+            is_customer=True,
         )
 
         self.health_network = factories.HealthNetworkFactory(
