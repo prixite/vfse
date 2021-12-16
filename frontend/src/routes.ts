@@ -3,12 +3,20 @@ import ModalityView from "@src/views/modality/ModalityView";
 import OrganizationView from "@src/views/organization/OrganizationView";
 import UserView from "@src/views/user/UserView";
 import VfseView from "@src/views/vfse/VfseView";
-import HomeView from "@src/views/home/HomeView";
+import AppearanceView from "./views/appearance/AppearanceView";
 import ArticleIcon from "@mui/icons-material/Article";
 import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
+import CategoryIcon from "@mui/icons-material/Category";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 export const routes: routeItem[] = [
+  {
+    name: "Appearance",
+    path: "/appearance/",
+    component: AppearanceView,
+    flag: "all",
+    icon: CategoryIcon,
+  },
   {
     name: "Modality Administration",
     path: "/modality/",

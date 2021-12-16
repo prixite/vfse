@@ -81,7 +81,8 @@ const Drawer = styled(MuiDrawer, {
 
 export default function SideBar() {
   const [open, setOpen] = React.useState(true);
-  const [currentClient, setCurrentClient] = React.useState({});
+  const [currentClient, setCurrentClient] =
+    React.useState<Organization>(Object);
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { data: organizationsList, isLoading: isOrgListLoading } =
@@ -108,7 +109,9 @@ export default function SideBar() {
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
-      .filter((item) => me.flags.indexOf(item.flag) !== -1)
+      .filter(
+        (item) => me.flags.indexOf(item.flag) !== -1 || item.flag === "all"
+      )
       .map((prop: routeItem) => {
         return (
           <ListItem

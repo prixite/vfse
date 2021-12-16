@@ -1,0 +1,72 @@
+.AppearanceSection {
+  &__clientSection {
+    margin-top: 32px;
+    background-color: #fff;
+    padding: 42px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .labels {
+      margin-bottom: 6px;
+    }
+    .clientName {
+      width: 40%;
+      margin-bottom: 26px;
+      .nameInput {
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+        .MuiOutlinedInput-notchedOutline {
+          border-color: #d4d6db;
+        }
+        input {
+          padding: 12px 16px 12px 16px;
+          border: 1px solid #d4d6db;
+          border-radius: 8px;
+          &::placeholder {
+            color: #85878f;
+          }
+        }
+      }
+    }
+    .clientTheming {
+      width: 100%;
+      display: flex;
+      margin-bottom: 24px;
+      .clientLogo {
+        width: 40%;
+        .logo {
+          width: 100%;
+          height: 163px;
+          border: 1px solid #d4d6db;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+      .colorSection {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        .appearanceColorSection {
+          margin-left: 28px;
+          margin-right: 22px;
+          margin-bottom: 18px;
+        }
+      }
+    }
+    .clientFonts {
+      display: flex;
+      width: 100%;
+      align-items: flex-end;
+      .font-demo {
+        margin-right: 25px;
+        font-size: 32px;
+      }
+      .font-section {
+        margin-right: 15px;
+      }
+    }
+  }
+}
