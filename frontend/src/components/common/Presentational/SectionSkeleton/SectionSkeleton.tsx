@@ -1,10 +1,10 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import ClientCardSkeleton from "@src/components/common/Presentational/ClientCardSkeleton/ClientCardSkeleton";
+import CardSkeleton from "@src/components/common/Presentational/CardSkeleton/CardSkeleton";
 import { Grid, Box } from "@mui/material";
-import "@src/components/common/Presentational/OrganizationSectionSkeleton/OrganizationSectionSkeleton.scss";
+import "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton.scss";
 
-const OrganizationSectionSkeleton = () => {
+const SectionSkeleton = () => {
   return (
     <>
       <Box component="div" className="OrganizationSectionSkeleton">
@@ -16,7 +16,7 @@ const OrganizationSectionSkeleton = () => {
         >
           {Array(16).fill(
             <Grid xs={3} className="cardSkeleton">
-              <ClientCardSkeleton />
+              <CardSkeleton />
             </Grid>
           )}
         </Grid>
@@ -24,4 +24,4 @@ const OrganizationSectionSkeleton = () => {
     </>
   );
 };
-export default OrganizationSectionSkeleton;
+export default SectionSkeleton;

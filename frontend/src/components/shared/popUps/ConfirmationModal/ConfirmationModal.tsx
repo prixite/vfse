@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { localizedData } from "@src/helpers/utils/language";
-import "@src/components/common/Smart/ConfirmationModal/ConfirmationModal.scss";
+import "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal.scss";
 import ModalIcon from "@src/assets/modalicon.png";
 
 const ConfirmationModal = ({
