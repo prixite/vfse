@@ -131,16 +131,15 @@ class MeSerializer(serializers.ModelSerializer):
                 modality_flag,
             }
 
-        Role = models.Membership.Role
         to_modules = {
-            Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag},
-            Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
-            Role.USER_ADMIN: {user_flag},
-            Role.FSE: {vfse_flag},
-            Role.END_USER: {modality_flag},
-            Role.VIEW_ONLY: {modality_flag},
+            models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            models.Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag},
+            models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            models.Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
+            models.Role.USER_ADMIN: {user_flag},
+            models.Role.FSE: {vfse_flag},
+            models.Role.END_USER: {modality_flag},
+            models.Role.VIEW_ONLY: {modality_flag},
         }
 
         flags = set()
@@ -224,7 +223,7 @@ class UpsertUserSerializer(serializers.Serializer):
     email = serializers.EmailField()
     phone = serializers.CharField()
     role = serializers.ChoiceField(
-        choices=models.Membership.Role, default=models.Membership.Role.FSE
+        choices=models.Role, default=models.Role.FSE
     )
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     organization = serializers.PrimaryKeyRelatedField(
