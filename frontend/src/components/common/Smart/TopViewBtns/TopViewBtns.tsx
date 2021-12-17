@@ -18,10 +18,12 @@ const TopViewBtns = ({
   setSearchText,
 }) => {
   let constantData: any;
-  if (path == "modality") {
+  if (path === "modality") {
     constantData = localizedData()?.modalities;
-  } else if (path == "organizations") {
+  } else if (path === "organizations") {
     constantData = localizedData()?.organization;
+  } else if (path === "sites") {
+    constantData = localizedData()?.sites;
   }
 
   const { btnFilter, btnAdd } = constantData;

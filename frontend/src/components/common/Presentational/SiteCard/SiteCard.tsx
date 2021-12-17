@@ -5,23 +5,18 @@ import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
-interface ClientCardProps {
+interface SiteCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
   row: object;
   refetch: any;
   id: number;
   name: string;
-  machines: Array,
-  location: string,
-  connections: number,
+  machines: Array<String>;
+  location: string;
+  connections: number;
 }
-const SiteCard = ({
-  name,
-  machines,
-  location,
-  connections,
-}: ClientCardProps) => {
+const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
@@ -62,9 +57,7 @@ const SiteCard = ({
               className="Site-dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem>
-                Edit
-              </MenuItem>
+              <MenuItem>Edit</MenuItem>
               <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
             </Menu>
           </div>
@@ -73,7 +66,20 @@ const SiteCard = ({
               <img src={locationLogo} />
               <p className="text">{location}</p>
             </div>
+          </div>
         </div>
+        <div className="machines-info">
+          {machines && machines?.length
+            ? machines?.map((item, index) => (
+                <div key={index} className="text">
+                  {item}
+                </div>
+              ))
+            : ""}
+        </div>
+        <div className="connections">
+          <div className="dot" />
+          <span className="text">{`${connections} connections`}</span>
         </div>
       </Box>
       <ConfirmationModal

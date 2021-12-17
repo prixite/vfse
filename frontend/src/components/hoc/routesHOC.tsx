@@ -19,7 +19,11 @@ const RoutesHOC = () => {
             exact
           />
         ))}
-         <Route path="/client/:id/:networkId/sites" component={SitesView} exact />
+        <Route
+          path="/client/:id/:networkId/sites"
+          component={SitesView}
+          exact
+        />
         <Route path="/" component={HomeView} exact />
         <Route path="*" component={NotFoundPage} />
       </Switch>

@@ -1,5 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Box, Menu, MenuItem } from "@mui/material";
+import { constants } from "@src/helpers/utils/constants";
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -15,10 +17,13 @@ interface NetworkCardProps {
   logo: string;
   name: string;
 }
-const NetworkCard = ({ logo, name }: NetworkCardProps) => {
+const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const { organizationRoute } = constants;
   const open = Boolean(anchorEl);
+  let { id } = useParams();
+
   const handleModalOpen = () => {
     setOpenModal(true);
     handleClose();
@@ -38,50 +43,56 @@ const NetworkCard = ({ logo, name }: NetworkCardProps) => {
     toast.success("Network successfully deleted");
   };
   return (
-    <>
-      <Box component="div" className="NetworkCard">
-        <div className="NetworkCard__Header">
-          <h3 className="ClientName">{name}</h3>
-          <div>
-            <MoreVertIcon
-              id="client-options-button"
-              className="dropdown"
-              onClick={handleClick}
-            />
-            <Menu
-              id="demo-positioned-menu"
-              aria-labelledby="client-options-button"
-              anchorEl={anchorEl}
-              open={open}
-              className="Network-dropdownMenu"
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>
-                <span style={{ marginLeft: "12px" }}>Edit</span>
-              </MenuItem>
-              <MenuItem onClick={handleModalOpen}>
-                <span style={{ marginLeft: "12px" }}>Delete</span>
-              </MenuItem>
-            </Menu>
+    <div className="NetworkCard">
+      <Link
+        to={`/${organizationRoute}/${id}/${networkId}/sites`}
+        key={id}
+        style={{ textDecoration: "none" }}
+      >
+        <Box component="div" className="card">
+          <div className="card__Header">
+            <h3 className="ClientName">{name}</h3>
           </div>
-        </div>
-        <div className="NetworkCard__Logo">
-          <img src={logo} />
-        </div>
-        <div className="location-logo">
-          <div className="location-logo__content">
-            <img src={locationLogo} />
-            <p className="text">16 sites</p>
+          <div className="card__Logo">
+            <img src={logo} />
           </div>
-        </div>
-      </Box>
+          <div className="location-logo">
+            <div className="location-logo__content">
+              <img src={locationLogo} />
+              <p className="text">16 sites</p>
+            </div>
+          </div>
+        </Box>
+      </Link>
+      <div className="dropdownIcon">
+        <MoreVertIcon
+          id="client-options-button"
+          className="dropdown"
+          onClick={handleClick}
+        />
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="client-options-button"
+          anchorEl={anchorEl}
+          open={open}
+          className="Network-dropdownMenu"
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleClose}>
+            <span style={{ marginLeft: "12px" }}>Edit</span>
+          </MenuItem>
+          <MenuItem onClick={handleModalOpen}>
+            <span style={{ marginLeft: "12px" }}>Delete</span>
+          </MenuItem>
+        </Menu>
+      </div>
       <ConfirmationModal
         name={name}
         open={openModal}
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteOrganization}
       />
-    </>
+    </div>
   );
 };
 

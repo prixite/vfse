@@ -30,6 +30,25 @@
         }
 
     },
+    "sites":{
+        "title": "All Sites",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Site",
+        "popUp":{
+            "popUpNewNetwork": "Add Network",
+            "newNetworkAddSite": "Add Site",
+            "newNetworkLogo": "Logo",
+            "newNetworkName": "Health Network",
+            "newNetworkBtnSave": "Add",
+            "newNetworkBtnCancel": "Cancel"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
+
+    },
     "organization":{
         "title": "All Clients",
         "btnFilter": "Filter",
