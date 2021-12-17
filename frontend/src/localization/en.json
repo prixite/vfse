@@ -16,10 +16,11 @@
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
         "popUp":{
-            "popUpNewNetwork": "New Network",
-            "newNetworkName": "Name",
-            "newNetworkSeats": "Number of Seats",
-            "newNetworkBtnSave": "Save",
+            "popUpNewNetwork": "Add Network",
+            "newNetworkAddSite": "Add Site",
+            "newNetworkLogo": "Logo",
+            "newNetworkName": "Health Network",
+            "newNetworkBtnSave": "Add",
             "newNetworkBtnCancel": "Cancel"
         },
         "deleteDialog" : {
@@ -80,7 +81,9 @@
         "color2" : "Color #2",
         "color3" : "Color #3",
         "color4" : "Color #4"
+    },
+    "siteSection" : {
+        "site": "Site Name #"
     }
-
 
 }

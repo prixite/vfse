@@ -1,0 +1,107 @@
+.network-modal {
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    width: 784px;
+    max-width: 800px;
+  }
+  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+    border-bottom: 1px solid #d9dbdd;
+    .title-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      font-family: "ProximaNova-Regular" !important;
+      .modal-header {
+        font-weight: 600;
+      }
+      .dialog-page {
+        font-size: 16px;
+        .pg-number {
+          padding: 7px 30px;
+        }
+        .cross-btn {
+          width: 15px;
+          height: 15px;
+          margin-left: 12px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    font-family: "ProximaNova-Regular" !important;
+    .dropzone-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .network-info {
+      margin-top: 24px;
+      .info-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .info-field {
+        width: 356px;
+        height: 48px !important;
+        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+          border: 1px solid #d4d6db;
+          border-radius: 8px;
+          height: 48px !important;
+        }
+        input {
+          border: 1px solid transparent;
+          height: 8px;
+          border-radius: 8px;
+        }
+      }
+      .location {
+        width: 100%;
+        .location-icon {
+          width: 14px;
+          height: 20px;
+        }
+      }
+      .heading-btn {
+        text-transform: capitalize;
+        font-size: 16px;
+        .add-btn {
+          margin-right: 14px;
+        }
+      }
+    }
+  }
+  .css-hlj6pa-MuiDialogActions-root {
+    justify-content: center;
+    .cancel-btn {
+      background: #efe1ff;
+      color: #773cbd;
+      width: 47%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-transform: capitalize;
+      &:hover {
+        background: #efe1ff;
+        color: #773cbd;
+      }
+    }
+    .add-btn {
+      color: #fff;
+      background: #773cbd;
+      width: 47%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-left: 16px !important;
+      text-transform: capitalize;
+      &:hover {
+        color: #fff;
+        background: #773cbd;
+      }
+    }
+  }
+}

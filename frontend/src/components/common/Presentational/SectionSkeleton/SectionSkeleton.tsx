@@ -15,7 +15,7 @@ const SectionSkeleton = () => {
           className="OrganizationSectionSkeleton__CardsGrid"
         >
           {Array(16).fill(
-            <Grid xs={3} className="cardSkeleton">
+            <Grid item={true} xs={3} className="cardSkeleton">
               <CardSkeleton />
             </Grid>
           )}
