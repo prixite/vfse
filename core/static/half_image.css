@@ -98,6 +98,10 @@ form input:focus.is-invalid {
   padding: 0;
 }
 
+.second-half img {
+  width: 100%;
+}
+
 .welcome-page .card .card-body {
   display: flex;
   padding: 1% 1%;
