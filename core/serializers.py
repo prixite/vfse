@@ -63,6 +63,12 @@ class OrganizationAppearanceSerializer(serializers.Serializer):
     font_two = serializers.CharField()
 
 
+class SiteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Site
+        fields = ["id", "name", "address"]
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
     appearance = OrganizationAppearanceSerializer(
         default=OrganizationAppearanceDefault()
@@ -73,6 +79,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=models.Organization.objects.all())],
     )
 
+    sites = SiteSerializer(many=True)
+
     class Meta:
         model = models.Organization
         fields = [
@@ -82,6 +90,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "banner",
             "number_of_seats",
             "appearance",
+            "sites",
         ]
 
 
@@ -144,10 +153,8 @@ class MeSerializer(serializers.ModelSerializer):
         return sorted(flags)
 
 
-class SiteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Site
-        fields = ["id", "name", "address"]
+class HealthNetworkSerializer(OrganizationSerializer):
+    pass
 
 
 class SystemInfoSerializer(serializers.Serializer):
