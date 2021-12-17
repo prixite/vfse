@@ -51,24 +51,18 @@ class CustomerViewSet(OrganizationViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
             # TODO: Find a way to do this with ORM.
             return models.Organization.objects.raw(
                 "select distinct org.* from core_organization as org "
                 "inner join core_organizationhealthnetwork as org_health on "
                 "org.id = org_health.health_network_id"
             )
-
-        return (
-            super()
-            .get_user_organizations()
-            .filter(
-                id__in=self.request.user.get_organization_health_networks(
-                    self.kwargs["organization_pk"]
-                ),
-            )
-            .prefetch_related("sites")
-        )
+        return models.Organization.objects.filter(
+            id__in=self.request.user.get_organization_health_networks(
+                self.kwargs["organization_pk"]
+            ),
+        ).prefetch_related("sites")
 
     def get_serializer_class(self):
         if self.action == "create":

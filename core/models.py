@@ -50,14 +50,9 @@ class User(AbstractUser):
         return self.get_organizations(roles=[Role.CUSTOMER_ADMIN])
 
     def get_organization_health_networks(self, organization_pk):
-        accessible_health_networks = OrganizationHealthNetwork.objects.filter(
-            organization=organization_pk,
-        )
-        if not (self.is_superuser or self.is_supermanager):
-            accessible_health_networks = accessible_health_networks.filter(
-                organization__in=self.get_organizations()
-            )
-        return accessible_health_networks.values_list("health_network")
+        return OrganizationHealthNetwork.objects.filter(
+            organization=organization_pk, organization__in=self.get_organizations()
+        ).values_list("health_network")
 
     class Meta:
         ordering = ["-id"]
