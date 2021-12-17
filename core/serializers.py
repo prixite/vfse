@@ -114,6 +114,7 @@ class MeSerializer(serializers.ModelSerializer):
         user_flag = "user"
         documentation_flag = "documentation"
         vfse_flag = "vfse"
+        appearance_flag = "appearance"
 
         if user.is_superuser:
             return sorted(
@@ -123,17 +124,16 @@ class MeSerializer(serializers.ModelSerializer):
                     user_flag,
                     documentation_flag,
                     vfse_flag,
+                    appearance_flag,
                 }
             )
 
         if user.is_supermanager:
-            return {
-                modality_flag,
-            }
+            return {modality_flag}
 
         to_modules = {
             models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            models.Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag},
+            models.Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag, appearance_flag},
             models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
             models.Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
             models.Role.USER_ADMIN: {user_flag},

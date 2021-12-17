@@ -115,9 +115,7 @@ export default function SideBar() {
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
-      .filter(
-        (item) => me.flags.indexOf(item.flag) !== -1 || item.flag === "all"
-      )
+      .filter((item) => me.flags.indexOf(item.flag) !== -1)
       .map((prop: routeItem) => {
         return (
           <ListItem

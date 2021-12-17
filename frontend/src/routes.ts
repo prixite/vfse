@@ -14,7 +14,7 @@ export const routes: routeItem[] = [
     name: "Appearance",
     path: "/appearance/",
     component: AppearanceView,
-    flag: "all",
+    flag: "appearance",
     icon: CategoryIcon,
   },
   {
