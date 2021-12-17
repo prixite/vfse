@@ -34,7 +34,13 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 class CustomerViewSet(OrganizationViewSet):
     def get_queryset(self):
         return (
-            super().get_user_organizations().filter(is_customer=True, is_default=False)
+            super()
+            .get_user_organizations()
+            .filter(
+                is_customer=True,
+                is_default=False,
+            )
+            .prefetch_related("sites")
         )
 
     def perform_create(self, serializer):
