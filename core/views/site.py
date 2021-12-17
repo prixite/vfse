@@ -107,6 +107,7 @@ class WelcomeView(TemplateView):
             "modality": "/modality/",
             "documentation": "/documentation/",
             "vfse": "/vfse/",
+            "appearance":f"/appearance/{self.request.user.get_default_organization().id}/"
         }
 
         return redirect(redirect_map[flags[0]])
