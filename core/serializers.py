@@ -114,7 +114,7 @@ class MeSerializer(serializers.ModelSerializer):
         user_flag = "user"
         documentation_flag = "documentation"
         vfse_flag = "vfse"
-        appearance_flag='appearance'
+        appearance_flag = "appearance"
 
         if user.is_superuser:
             return sorted(
@@ -129,10 +129,7 @@ class MeSerializer(serializers.ModelSerializer):
             )
 
         if user.is_supermanager:
-            return {
-                modality_flag,
-                appearance_flag
-            }
+            return {modality_flag, appearance_flag}
 
         Role = models.Membership.Role
         to_modules = {
