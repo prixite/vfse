@@ -7,23 +7,34 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0037_merge_20211216_0758'),
+        ("core", "0037_merge_20211216_0758"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='site',
-            name='organization',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='sites', to='core.organization'),
+            model_name="site",
+            name="organization",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="sites",
+                to="core.organization",
+            ),
         ),
         migrations.AlterField(
-            model_name='organizationhealthnetwork',
-            name='health_network',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='health_networks', to='core.organization'),
+            model_name="organizationhealthnetwork",
+            name="health_network",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="health_networks",
+                to="core.organization",
+            ),
         ),
         migrations.AlterField(
-            model_name='site',
-            name='health_network',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.healthnetwork'),
+            model_name="site",
+            name="health_network",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="core.healthnetwork"
+            ),
         ),
     ]

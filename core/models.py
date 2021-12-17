@@ -198,9 +198,10 @@ class Site(models.Model):
     health_network = models.ForeignKey(
         "HealthNetwork",
         on_delete=models.CASCADE,
+        null=True,
     )
     organization = models.ForeignKey(
-        "Organization", on_delete=models.CASCADE, related_name="sites", null=True
+        "Organization", on_delete=models.CASCADE, related_name="sites"
     )
     name = models.CharField(max_length=32)
     address = models.TextField()
