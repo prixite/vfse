@@ -33,7 +33,8 @@ class UserSiteAdmin(admin.ModelAdmin):
 class UserHealthNetworkAdmin(admin.ModelAdmin):
     list_display = (
         "user",
-        "health_network",
+        "organization_health_network",
+        "role",
     )
 
 

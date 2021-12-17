@@ -3,6 +3,19 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
+class Role(models.TextChoices):
+    FSE_ADMIN = "fse-admin", "FSE Admin"
+    CUSTOMER_ADMIN = "customer-admin", "Customer Admin"
+    USER_ADMIN = "user-admin", "User Admin"
+    FSE = "fse", "Field Service Engineer"
+    END_USER = "end-user", "End User"
+    VIEW_ONLY = "view-only", "View Only"
+    ONE_TIME = "one-time", "One Time"
+    CRYO = "cryo", "Cryo"
+    CRYO_FSE = "cryo-fse", "Cryo FSE"
+    CRYO_ADMIN = "cryo-admin", "Cryo Admin"
+
+
 class User(AbstractUser):
     # username is an email field. Use this instead of email attribute of user
     # for email address.
@@ -34,17 +47,12 @@ class User(AbstractUser):
         return organizations.first()
 
     def get_managed_organizations(self):
-        return self.get_organizations(roles=[Membership.Role.CUSTOMER_ADMIN])
+        return self.get_organizations(roles=[Role.CUSTOMER_ADMIN])
 
     def get_organization_health_networks(self, organization_pk):
-        accessible_health_networks = OrganizationHealthNetwork.objects.filter(
-            organization=organization_pk,
-        )
-        if not (self.is_superuser or self.is_supermanager):
-            accessible_health_networks = accessible_health_networks.filter(
-                organization__in=self.get_organizations()
-            )
-        return accessible_health_networks.values_list("health_network")
+        return OrganizationHealthNetwork.objects.filter(
+            organization=organization_pk, organization__in=self.get_organizations()
+        ).values_list("health_network")
 
     class Meta:
         ordering = ["-id"]
@@ -83,14 +91,18 @@ class UserHealthNetwork(models.Model):
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="health_networks"
     )
-    health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
+    organization_health_network = models.ForeignKey(
+        "OrganizationHealthNetwork", on_delete=models.CASCADE
+    )
+    role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "health_network"], name="unique_user_health_network"
+                fields=["user", "organization_health_network"],
+                name="unique_user_organization_health_network",
             ),
         ]
 
@@ -148,22 +160,12 @@ class Organization(models.Model):
 
 
 class Membership(models.Model):
-    class Role(models.TextChoices):
-        FSE_ADMIN = "fse-admin", "FSE Admin"
-        CUSTOMER_ADMIN = "customer-admin", "Customer Admin"
-        USER_ADMIN = "user-admin", "User Admin"
-        FSE = "fse", "Field Service Engineer"
-        END_USER = "end-user", "End User"
-        VIEW_ONLY = "view-only", "View Only"
-        ONE_TIME = "one-time", "One Time"
-        CRYO = "cryo", "Cryo"
-        CRYO_FSE = "cryo-fse", "Cryo FSE"
-        CRYO_ADMIN = "cryo-admin", "Cryo Admin"
-
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="memberships"
     )
-    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
+    organization = models.ForeignKey(
+        "Organization", on_delete=models.CASCADE, limit_choices_to={"is_customer": True}
+    )
     role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -171,8 +173,8 @@ class Membership(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "organization", "role"],
-                name="unique_user_organization_role",
+                fields=["user", "organization"],
+                name="unique_user_organization",
             ),
         ]
 
@@ -183,7 +185,6 @@ class OrganizationHealthNetwork(models.Model):
         "Organization", on_delete=models.CASCADE, related_name="health_networks"
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         constraints = [

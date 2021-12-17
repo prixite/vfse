@@ -124,6 +124,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.organizationPk}/seats/`,
         method: "POST",
+        body: queryArg.systemSeatSeriazlier,
       }),
     }),
     organizationsSitesList: build.query<
@@ -142,6 +143,16 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.organizationPk}/users/`,
         params: { page: queryArg.page },
+      }),
+    }),
+    organizationsUsersCreate: build.mutation<
+      OrganizationsUsersCreateApiResponse,
+      OrganizationsUsersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.organizationPk}/users/`,
+        method: "POST",
+        body: queryArg.upsertUser,
       }),
     }),
     productsModelsList: build.query<
@@ -208,19 +219,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/systems/${queryArg.systemId}/notes/`,
         method: "POST",
         body: queryArg.systemNotes,
-      }),
-    }),
-    usersList: build.query<UsersListApiResponse, UsersListApiArg>({
-      query: (queryArg) => ({
-        url: `/users/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    usersCreate: build.mutation<UsersCreateApiResponse, UsersCreateApiArg>({
-      query: (queryArg) => ({
-        url: `/users/`,
-        method: "POST",
-        body: queryArg.upsertUser,
       }),
     }),
     usersDeactivatePartialUpdate: build.mutation<
@@ -329,15 +327,22 @@ export type OrganizationsHealthNetworksCreateApiArg = {
   organizationPk: string;
   organizationHealthNetworkCreate: OrganizationHealthNetworkCreate;
 };
-export type OrganizationsSeatsListApiResponse = unknown;
+export type OrganizationsSeatsListApiResponse = /** status 200  */ {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Seat[];
+};
 export type OrganizationsSeatsListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsSeatsCreateApiResponse = unknown;
+export type OrganizationsSeatsCreateApiResponse =
+  /** status 201  */ SystemSeatSeriazlier;
 export type OrganizationsSeatsCreateApiArg = {
   organizationPk: string;
+  systemSeatSeriazlier: SystemSeatSeriazlier;
 };
 export type OrganizationsSitesListApiResponse = /** status 200  */ {
   count: number;
@@ -360,6 +365,11 @@ export type OrganizationsUsersListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
+};
+export type OrganizationsUsersCreateApiResponse = /** status 201  */ UpsertUser;
+export type OrganizationsUsersCreateApiArg = {
+  organizationPk: string;
+  upsertUser: UpsertUser;
 };
 export type ProductsModelsListApiResponse = /** status 200  */ {
   count: number;
@@ -418,20 +428,6 @@ export type SystemsNotesCreateApiArg = {
   systemId: string;
   systemNotes: SystemNotes;
 };
-export type UsersListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: User[];
-};
-export type UsersListApiArg = {
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type UsersCreateApiResponse = /** status 201  */ UpsertUser;
-export type UsersCreateApiArg = {
-  upsertUser: UpsertUser;
-};
 export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserDeactivate;
 export type UsersDeactivatePartialUpdateApiArg = {
@@ -485,12 +481,17 @@ export type HealthNetwork = {
   name: string;
   logo?: string | null;
   banner?: string | null;
-  number_of_seats?: number | null;
-  appearance?: Appearance;
   sites?: Site[];
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
+};
+export type Seat = {
+  system: number;
+  organization: number;
+};
+export type SystemSeatSeriazlier = {
+  ids: number[];
 };
 export type User = {
   id?: number;
@@ -499,6 +500,32 @@ export type User = {
   email?: string;
   username: string;
   is_active?: boolean;
+};
+export type UpsertUser = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  role?:
+    | "fse-admin"
+    | "customer-admin"
+    | "user-admin"
+    | "fse"
+    | "end-user"
+    | "view-only"
+    | "one-time"
+    | "cryo"
+    | "cryo-fse"
+    | "cryo-admin";
+  manager: number;
+  organization: number;
+  sites: number[];
+  modalities: number[];
+  fse_accessible: boolean;
+  audit_enabled: boolean;
+  can_leave_notes: boolean;
+  view_only: boolean;
+  is_one_time: boolean;
 };
 export type ProductModel = {
   id?: number;
@@ -537,32 +564,6 @@ export type SystemNotes = {
   note: string;
   created_at?: string;
 };
-export type UpsertUser = {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  role?:
-    | "fse-admin"
-    | "customer-admin"
-    | "user-admin"
-    | "fse"
-    | "end-user"
-    | "view-only"
-    | "one-time"
-    | "cryo"
-    | "cryo-fse"
-    | "cryo-admin";
-  manager: number;
-  organization: number;
-  sites: number[];
-  modalities: number[];
-  fse_accessible: boolean;
-  audit_enabled: boolean;
-  can_leave_notes: boolean;
-  view_only: boolean;
-  is_one_time: boolean;
-};
 export type UserDeactivate = {
   users: number[];
 };
@@ -583,6 +584,7 @@ export const {
   useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
   useOrganizationsUsersListQuery,
+  useOrganizationsUsersCreateMutation,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,
@@ -590,8 +592,6 @@ export const {
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
-  useUsersListQuery,
-  useUsersCreateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;
