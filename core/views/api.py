@@ -166,6 +166,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
 
     @transaction.atomic
     def perform_create(self, serializer):
+        # TODO: Add permission class to allow only user admin
         user = models.User.objects.create_user(
             username=serializer.validated_data["email"],
             **{
