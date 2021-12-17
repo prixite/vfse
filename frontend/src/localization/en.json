@@ -64,6 +64,11 @@
         "description" : "Looks like you're followed a broken link or entered a URL that doesn't exist on this site.",
         "backbtn" : "GO BACK"
     },
+    "dataNotFound" : {
+        "title" : "No Data Found!",
+        "description" : "Try Again",
+        "backbtn" : "GO BACK"
+    },
     "page505" : {
         "title" : "505 Server Error",
         "description" : "Please, try again later or contact us  if the problem persists"
