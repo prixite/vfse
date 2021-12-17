@@ -20,11 +20,14 @@ const ModalitySection = () => {
     (state) => state.organization.currentOrganization
   );
 
-  const { data: networksData, isLoading: isNetworkDataLoading, refetch: orgNetworkRefetch } =
-    useOrganizationsHealthNetworksListQuery({
-      page: 1,
-      organizationPk: currentOrganization?.id.toString(),
-    });
+  const {
+    data: networksData,
+    isLoading: isNetworkDataLoading,
+    refetch: orgNetworkRefetch,
+  } = useOrganizationsHealthNetworksListQuery({
+    page: 1,
+    organizationPk: currentOrganization?.id.toString(),
+  });
 
   const handleClose = () => setOpen(false);
 
@@ -34,29 +37,25 @@ const ModalitySection = () => {
         <h2>{title}</h2>
         <TopViewBtns setOpen={setOpen} path="modality" setData={setNetwork} />
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
-          {
-            networksData?.length ?
-            networksData?.map((item, key) => (
-              <Grid key={key} item xs={3}>
-                <NetworkCard
-                  setOpen={setOpen}
-                  setOrganization={setNetwork}
-                  row={item}
-                  refetch={orgNetworkRefetch}
-                  id={item.id}
-                  name={item.name}
-                  logo={item.logo}
-                />
-              </Grid>
-            )):''}
+          {networksData?.length
+            ? networksData?.map((item, key) => (
+                <Grid key={key} item xs={3}>
+                  <NetworkCard
+                    setOpen={setOpen}
+                    setOrganization={setNetwork}
+                    row={item}
+                    refetch={orgNetworkRefetch}
+                    id={item.id}
+                    name={item.name}
+                    logo={item.logo}
+                  />
+                </Grid>
+              ))
+            : ""}
         </Grid>
         <NetworkModal open={open} handleClose={handleClose} />
       </Box>
-      {
-        !isNetworkDataLoading && !networksData?.length ? (
-          <NoDataFound/>
-        ): ''
-        }
+      {!isNetworkDataLoading && !networksData?.length ? <NoDataFound /> : ""}
     </>
   );
 };
