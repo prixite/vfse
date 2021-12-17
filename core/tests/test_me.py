@@ -6,7 +6,14 @@ class MeTestCase(BaseTestCase):
         for user, flags, organization_id in [
             (
                 self.super_admin,
-                ["documentation", "modality", "organization", "user", "vfse"],
+                [
+                    "appearance",
+                    "documentation",
+                    "modality",
+                    "organization",
+                    "user",
+                    "vfse",
+                ],
                 self.default_organization.id,
             ),
             (self.customer_admin, ["modality", "organization"], self.organization.id),

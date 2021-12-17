@@ -23,6 +23,6 @@ class DataAttribtueTestCase(BaseTestCase):
         self.assertEqual(
             self.extract_data_attributes(response.content.decode()),
             {
-                "data-flags": "documentation,modality,organization,user,vfse",
+                "data-flags": "appearance,documentation,modality,organization,user,vfse",  # noqa
             },
         )
