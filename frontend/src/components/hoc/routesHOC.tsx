@@ -4,6 +4,7 @@ import { routes } from "@src/routes";
 import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import HomeView from "@src/views/home/HomeView";
 import { constants } from "@src/helpers/utils/constants";
+import SitesView from "@src/views/sites/SitesView";
 
 const RoutesHOC = () => {
   const { organizationRoute } = constants;
@@ -18,6 +19,7 @@ const RoutesHOC = () => {
             exact
           />
         ))}
+         <Route path="/client/:id/:networkId/sites" component={SitesView} exact />
         <Route path="/" component={HomeView} exact />
         <Route path="*" component={NotFoundPage} />
       </Switch>

@@ -1,0 +1,55 @@
+.OrganizationSection {
+    &__Header {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 23px;
+      .InputSection {
+        display: flex;
+        .Filterbtn {
+          border: 1px solid #d4d6db;
+          background-color: #fff;
+          margin-right: 8px;
+          border-radius: 8px;
+          padding: 8px 16px 8px 9px;
+          color: #696f77;
+          box-shadow: unset;
+          font-family: "ProximaNova-Regular";
+          font-style: normal;
+          font-weight: 400;
+          .btn-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+        .Search-input {
+          border: 1px solid #d4d6db;
+          background-color: #fff;
+          border-radius: 8px;
+          height: 100%;
+          .MuiOutlinedInput-root {
+            height: 100%;
+          }
+          input {
+            padding: 8px 16px 8px 9px;
+          }
+        }
+      }
+      .AddClientsbtn {
+        font-family: "ProximaNova-Regular" !important;
+        .btn-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          span {
+            font-weight: 600;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    &__AllClients {
+      margin-top: 9px !important;
+    }
+  }
+  

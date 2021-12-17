@@ -1,33 +1,30 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
-import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
-import { useOrganizationsDeleteMutation } from "@src/store/reducers/api";
+import locationLogo from "@src/assets/images/locationIcon.svg";
+import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
-import { DeleteOrganizationService } from "@src/services/organizationService";
 interface ClientCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
   row: object;
   refetch: any;
   id: number;
-  logo: string;
   name: string;
+  machines: Array,
+  location: string,
+  connections: number,
 }
-const ClientCard = ({
-  id,
-  logo,
+const SiteCard = ({
   name,
-  refetch,
-  row,
-  setOpen,
-  setOrganization,
+  machines,
+  location,
+  connections,
 }: ClientCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
-  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const handleModalOpen = () => {
     setOpenModal(true);
     handleClose();
@@ -41,20 +38,15 @@ const ClientCard = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleEditAppearance = () => {
-    setOpen(true);
-    setOrganization(row);
-  };
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    await DeleteOrganizationService(id, deleteOrganization, refetch);
     toast.success("Organization successfully deleted");
   };
   return (
     <>
-      <Box component="div" className="ClientCard">
-        <div className="ClientCard__Header">
+      <Box component="div" className="SiteCard">
+        <div className="SiteCard__Header">
           <h3 className="ClientName">{name}</h3>
           <div>
             <MoreVertIcon
@@ -67,19 +59,21 @@ const ClientCard = ({
               aria-labelledby="client-options-button"
               anchorEl={anchorEl}
               open={open}
-              className="dropdownMenu"
+              className="Site-dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem onClick={handleEditAppearance}>
-                Edit appearance
+              <MenuItem>
+                Edit
               </MenuItem>
-              <MenuItem onClick={handleClose}>Add new HealthNetwork</MenuItem>
               <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
             </Menu>
           </div>
+          <div className="location-logo">
+            <div className="location-logo__content">
+              <img src={locationLogo} />
+              <p className="text">{location}</p>
+            </div>
         </div>
-        <div className="ClientCard__Logo">
-          <img src={logo} />
         </div>
       </Box>
       <ConfirmationModal
@@ -92,4 +86,4 @@ const ClientCard = ({
   );
 };
 
-export default ClientCard;
+export default SiteCard;

@@ -2,26 +2,34 @@ import { useState } from "react";
 import { Box, Grid } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
-import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
-import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
 
-const OrganizationSection = () => {
-  const [organization, setOrganization] = useState(null);
-  const [organizationsList, setOrganizationsList] = useState({});
+const sitesData = [
+    {
+        id: 3,
+        logo: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+        name: "Organization",
+        number_of_seats: null,
+        machines: ['MRI-3', 'CT-2'],
+        connections: 6,
+        location: '7171 N Dale Mabry Nwy'
+    }
+];
+
+const SiteSection = () => {
+  const [site, setSite] = useState(null);
+  const [sitesList, setSitesList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
-  const { data: organizationList, refetch } = useOrganizationsListQuery({
-    page: 1,
-  });
 
   const constantData: any = localizedData()?.organization;
   const { title } = constantData;
 
   const handleClose = () => setOpen(false);
+
 
   return (
     <>
@@ -30,48 +38,44 @@ const OrganizationSection = () => {
         <TopViewBtns
           setOpen={setOpen}
           path="organizations"
-          setData={setOrganization}
-          setList={setOrganizationsList}
-          actualData={organizationList}
+          setData={setSite}
+          setList={setSitesList}
+          actualData={sitesData}
           searchText={searchText}
           setSearchText={setSearchText}
         />
         <Grid container spacing={2} className="OrganizationSection__AllClients">
           {searchText?.length > 2 ? (
-            organizationsList &&
-            organizationsList?.results?.length &&
-            organizationsList?.query === searchText ? (
-              organizationsList?.results?.map((item, key) => (
+            sitesList &&
+            sitesList?.results?.length &&
+            sitesList?.query === searchText ? (
+                sitesList?.results?.map((item, key) => (
                 <Grid key={key} item xs={3}>
-                  <ClientCard
-                    setOpen={setOpen}
-                    setOrganization={setOrganization}
-                    row={item}
-                    refetch={refetch}
-                    id={item.id}
+                  <SiteCard
                     name={item.name}
                     logo={item.logo}
+                    machines={item.machines}
+                    location={item.location}
+                    connections={item.connections}
                   />
                 </Grid>
               ))
-            ) : organizationsList?.query === searchText ? (
+            ) : sitesList?.query === searchText ? (
               <p style={{ marginTop: "20px", marginLeft: "20px" }}>
                 no results found
               </p>
             ) : (
               ""
             )
-          ) : organizationList && organizationList?.length ? (
-            organizationList.map((item, key) => (
+          ) : sitesData && sitesData?.length ? (
+            sitesData.map((item, key) => (
               <Grid key={key} item xs={3}>
-                <ClientCard
-                  setOpen={setOpen}
-                  setOrganization={setOrganization}
-                  row={item}
-                  refetch={refetch}
-                  id={item.id}
+                <SiteCard
                   name={item.name}
-                  logo={item.appearance.logo}
+                  logo={item.logo}
+                  machines={item.machines}
+                  location={item.location}
+                  connections={item.connections}
                 />
               </Grid>
             ))
@@ -80,14 +84,13 @@ const OrganizationSection = () => {
           )}
         </Grid>
         <OrganizationModal
-          organization={organization}
-          setOrganization={setOrganization}
+          organization={site}
+          setOrganization={setSite}
           open={open}
           handleClose={handleClose}
-          refetch={refetch}
         />
       </Box>
     </>
   );
 };
-export default OrganizationSection;
+export default SiteSection;
