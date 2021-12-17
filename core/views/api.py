@@ -130,14 +130,17 @@ class UserViewSet(ModelViewSet):
                 for key in ["email", "first_name", "last_name"]
             }
         )
-        models.Membership.objects.create(
-            organization=serializer.validated_data["organization"],
-            role=serializer.validated_data["role"],
-            user=user,
-        )
+        self.create_membership(serializer,user.id)
         self.update_profile(serializer, user.id)
         self.add_sites(serializer, user.id)
         self.add_modalities(serializer, user.id)
+
+    def create_membership(self,serializer,user_id):
+        models.Membership.objects.create(
+            organization=serializer.validated_data["organization"],
+            role=serializer.validated_data["role"],
+            user_id=user_id,
+        )
 
     def update_profile(self, serializer, user_id):
         models.Profile.objects.filter(user_id=user_id).update(
@@ -194,7 +197,7 @@ class UserViewSet(ModelViewSet):
         return Response(serializer.errors)
 
 
-class OrganizationUserViewSet(ModelViewSet):
+class OrganizationUserViewSet(UserViewSet):
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
@@ -208,7 +211,13 @@ class OrganizationUserViewSet(ModelViewSet):
 
         return models.User.objects.filter(id__in=membership.values_list("user"))
 
-
+    def create_membership(self,serializer,user_id):
+        models.Membership.objects.create(
+            parent_id=self.kwargs['organization_pk'],
+            organization=serializer.validated_data["organization"],
+            role=serializer.validated_data["role"],
+            user_id=user_id,
+        )
 class VfseSystemViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":

@@ -18,6 +18,22 @@ class OrganizationAppearanceDefault:
             "font_two": "calibri",
         }
 
+class ParentAppearanceDefault:
+    requires_context = True
+
+    def __call__(self, serializer_field):
+        data = models.Organization.objects.filter(
+            id__in=models.Membership.objects.filter(
+                user=serializer_field.context["request"].user
+            )
+            .values("parent")
+            .distinct(),
+            is_customer=False,
+        )
+        if data:
+            return data.first().appearance
+        return models.Organization.objects.get(is_default=True).appearance
+
 
 class DefaultOrganizationDefault:
     requires_context = True
@@ -74,6 +90,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         default=OrganizationAppearanceDefault()
     )
 
+    parent_appearance = OrganizationAppearanceSerializer(default=ParentAppearanceDefault(),read_only=True)
     name = serializers.CharField(
         max_length=32,
         validators=[UniqueValidator(queryset=models.Organization.objects.all())],
@@ -90,6 +107,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "banner",
             "number_of_seats",
             "appearance",
+            "parent_appearance",
             "sites",
         ]
 

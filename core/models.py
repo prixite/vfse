@@ -163,6 +163,7 @@ class Membership(models.Model):
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="memberships"
     )
+    parent = models.ForeignKey('Organization',on_delete=models.SET_NULL,null=True,related_name='parent')
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
     created_at = models.DateTimeField(auto_now_add=True)

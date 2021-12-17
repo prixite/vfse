@@ -27,5 +27,5 @@ class MeTestCase(BaseTestCase):
                     "flags": flags,
                 },
             )
-
+            self.assertTrue('parent_appearance' in data['organization'].keys())
             self.assertTrue(data["organization"]["id"], organization_id)
