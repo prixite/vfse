@@ -1,25 +1,6 @@
 import { emptySplitApi as api } from "@src/store/emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
-    healthNetworkList: build.query<
-      HealthNetworkListApiResponse,
-      HealthNetworkListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/health_network/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    healthNetworkCreate: build.mutation<
-      HealthNetworkCreateApiResponse,
-      HealthNetworkCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/health_network/`,
-        method: "POST",
-        body: queryArg.healthNetwork,
-      }),
-    }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
       ManufacturersListApiArg
@@ -127,15 +108,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organizationHealthNetworkCreate,
       }),
     }),
-    organizationsHealthNetworksSitesList: build.query<
-      OrganizationsHealthNetworksSitesListApiResponse,
-      OrganizationsHealthNetworksSitesListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/health_networks/${queryArg.healthNetworkPk}/sites/`,
-        params: { page: queryArg.page },
-      }),
-    }),
     organizationsSeatsList: build.query<
       OrganizationsSeatsListApiResponse,
       OrganizationsSeatsListApiArg
@@ -152,6 +124,15 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.organizationPk}/seats/`,
         method: "POST",
+      }),
+    }),
+    organizationsSitesList: build.query<
+      OrganizationsSitesListApiResponse,
+      OrganizationsSitesListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.organizationPk}/sites/`,
+        params: { page: queryArg.page },
       }),
     }),
     organizationsUsersList: build.query<
@@ -266,20 +247,6 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
-export type HealthNetworkListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: HealthNetwork[];
-};
-export type HealthNetworkListApiArg = {
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type HealthNetworkCreateApiResponse = /** status 201  */ HealthNetwork;
-export type HealthNetworkCreateApiArg = {
-  healthNetwork: HealthNetwork;
-};
 export type ManufacturersListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
@@ -362,19 +329,6 @@ export type OrganizationsHealthNetworksCreateApiArg = {
   organizationPk: string;
   organizationHealthNetworkCreate: OrganizationHealthNetworkCreate;
 };
-export type OrganizationsHealthNetworksSitesListApiResponse =
-  /** status 200  */ {
-    count: number;
-    next?: string | null;
-    previous?: string | null;
-    results: Site[];
-  };
-export type OrganizationsHealthNetworksSitesListApiArg = {
-  healthNetworkPk: string;
-  organizationPk: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
 export type OrganizationsSeatsListApiResponse = unknown;
 export type OrganizationsSeatsListApiArg = {
   organizationPk: string;
@@ -384,6 +338,17 @@ export type OrganizationsSeatsListApiArg = {
 export type OrganizationsSeatsCreateApiResponse = unknown;
 export type OrganizationsSeatsCreateApiArg = {
   organizationPk: string;
+};
+export type OrganizationsSitesListApiResponse = /** status 200  */ {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: Site[];
+};
+export type OrganizationsSitesListApiArg = {
+  organizationPk: string;
+  /** A page number within the paginated result set. */
+  page?: number;
 };
 export type OrganizationsUsersListApiResponse = /** status 200  */ {
   count: number;
@@ -477,6 +442,13 @@ export type UsersPartialUpdateApiArg = {
   id: string;
   upsertUser: UpsertUser;
 };
+export type Manufacturer = {
+  name: string;
+  image?: number | null;
+};
+export type ManufacturerImage = {
+  image?: string | null;
+};
 export type Appearance = {
   sidebar_text: string;
   button_text: string;
@@ -490,22 +462,6 @@ export type Site = {
   name: string;
   address: string;
 };
-export type HealthNetwork = {
-  id?: number;
-  name: string;
-  logo?: string | null;
-  banner?: string | null;
-  number_of_seats?: number | null;
-  appearance?: Appearance;
-  sites: Site[];
-};
-export type Manufacturer = {
-  name: string;
-  image?: number | null;
-};
-export type ManufacturerImage = {
-  image?: string | null;
-};
 export type Organization = {
   id?: number;
   name: string;
@@ -513,7 +469,7 @@ export type Organization = {
   banner?: string | null;
   number_of_seats?: number | null;
   appearance?: Appearance;
-  sites: Site[];
+  sites?: Site[];
 };
 export type Me = {
   first_name?: string;
@@ -523,6 +479,15 @@ export type Me = {
 };
 export type Modality = {
   name: string;
+};
+export type HealthNetwork = {
+  id?: number;
+  name: string;
+  logo?: string | null;
+  banner?: string | null;
+  number_of_seats?: number | null;
+  appearance?: Appearance;
+  sites?: Site[];
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
@@ -602,8 +567,6 @@ export type UserDeactivate = {
   users: number[];
 };
 export const {
-  useHealthNetworkListQuery,
-  useHealthNetworkCreateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,
@@ -616,9 +579,9 @@ export const {
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksCreateMutation,
-  useOrganizationsHealthNetworksSitesListQuery,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
+  useOrganizationsSitesListQuery,
   useOrganizationsUsersListQuery,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,

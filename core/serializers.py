@@ -79,7 +79,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=models.Organization.objects.all())],
     )
 
-    sites = SiteSerializer(many=True)
+    sites = SiteSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Organization

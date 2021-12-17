@@ -45,11 +45,16 @@ class CustomerViewSet(OrganizationViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
-        return models.HealthNetwork.objects.filter(
-            id__in=self.request.user.get_organization_health_networks(
-                self.kwargs["organization_pk"]
-            ),
-        ).prefetch_related("sites")
+        return (
+            super()
+            .get_user_organizations()
+            .filter(
+                id__in=self.request.user.get_organization_health_networks(
+                    self.kwargs["organization_pk"]
+                ),
+            )
+            .prefetch_related("sites")
+        )
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -73,15 +78,13 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         models.OrganizationHealthNetwork.objects.bulk_create(new_health_networks)
 
 
-class OrganizationSiteViewSet(ModelViewSet):
+class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
         return models.Site.objects.filter(
-            health_network=self.kwargs["health_network_pk"],
-            health_network__in=self.request.user.get_organization_health_networks(
-                self.kwargs["organization_pk"]
-            ),
+            organization=self.kwargs["organization_pk"],
+            organization__in=self.get_user_organizations(),
         )
 
 
@@ -228,15 +231,6 @@ class VfseSystemViewSet(ModelViewSet):
         context = super().get_serializer_context()
         context["organization_pk"] = self.kwargs["organization_pk"]
         return context
-
-
-class HealthNetworkViewSet(ModelViewSet):
-    serializer_class = serializers.HealthNetworkSerializer
-
-    def get_queryset(self):
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.HealthNetwork.objects.all().prefetch_related("sites")
-        return models.HealthNetwork.objects.none()
 
 
 class UserDeactivateViewSet(ModelViewSet):
