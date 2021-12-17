@@ -120,6 +120,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         )
 
     def update(self, request, *args, **kwargs):
+        # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid():
             models.User.objects.filter(id=kwargs["pk"]).update(
