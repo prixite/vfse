@@ -26,83 +26,6 @@
         }
     ],
     "paths": {
-        "/health_network/": {
-            "get": {
-                "operationId": "health_network_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/HealthNetwork"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "health_network"
-                ]
-            },
-            "post": {
-                "operationId": "health_network_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/HealthNetwork"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/HealthNetwork"
-                        }
-                    }
-                },
-                "tags": [
-                    "health_network"
-                ]
-            },
-            "parameters": []
-        },
         "/manufacturers/": {
             "get": {
                 "operationId": "manufacturers_list",
@@ -537,9 +460,53 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/health_networks/{health_network_pk}/sites/": {
+        "/organizations/{organization_pk}/seats/": {
             "get": {
-                "operationId": "organizations_health_networks_sites_list",
+                "operationId": "organizations_seats_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "post": {
+                "operationId": "organizations_seats_create",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "organization_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{organization_pk}/sites/": {
+            "get": {
+                "operationId": "organizations_sites_list",
                 "description": "",
                 "parameters": [
                     {
@@ -581,56 +548,6 @@
                                 }
                             }
                         }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "health_network_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "organization_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/organizations/{organization_pk}/seats/": {
-            "get": {
-                "operationId": "organizations_seats_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "post": {
-                "operationId": "organizations_seats_create",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "201": {
-                        "description": ""
                     }
                 },
                 "tags": [
@@ -1154,67 +1071,6 @@
         }
     },
     "definitions": {
-        "Site": {
-            "description": "Site(id, health_network, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
-                }
-            }
-        },
-        "HealthNetwork": {
-            "description": "HealthNetwork(id, name, logo, created_at, updated_at)",
-            "required": [
-                "name",
-                "sites"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "logo": {
-                    "title": "Logo",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "x-nullable": true
-                },
-                "sites": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Site"
-                    }
-                }
-            }
-        },
         "Manufacturer": {
             "description": "Manufacturer(id, name, image, created_at, updated_at)",
             "required": [
@@ -1301,6 +1157,32 @@
                 "font_two": "calibri"
             }
         },
+        "Site": {
+            "description": "Site(id, health_network, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
         "Organization": {
             "title": "Organization",
             "description": "Organization(id, name, logo, banner, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
@@ -1343,6 +1225,14 @@
                 },
                 "appearance": {
                     "$ref": "#/definitions/OrganizationAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    },
+                    "readOnly": true
                 }
             }
         },
@@ -1382,6 +1272,58 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
+                }
+            }
+        },
+        "HealthNetwork": {
+            "description": "Organization(id, name, logo, banner, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                },
+                "banner": {
+                    "title": "Banner",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                },
+                "number_of_seats": {
+                    "title": "Number of seats",
+                    "type": "integer",
+                    "maximum": 200,
+                    "minimum": 0,
+                    "x-nullable": true
+                },
+                "appearance": {
+                    "$ref": "#/definitions/OrganizationAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    },
+                    "readOnly": true
                 }
             }
         },

@@ -155,10 +155,7 @@ class MembershipFactory(factory.django.DjangoModelFactory):
         model = models.Membership
 
 
-class HealthNetworkFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.HealthNetwork
-
+class HealthNetworkFactory(OrganizationFactory):
     name = factory.Sequence(lambda x: f"health-network-{x}")
 
     @factory.post_generation
@@ -177,22 +174,6 @@ class HealthNetworkFactory(factory.django.DjangoModelFactory):
 
         models.OrganizationHealthNetwork.objects.bulk_create(relations)
 
-    @factory.post_generation
-    def users(obj, create, extracted, **kwargs):
-        if not create:
-            return
-
-        relations = []
-        for user in extracted or []:
-            relations.append(
-                models.UserHealthNetwork(
-                    user=user,
-                    health_network=obj,
-                )
-            )
-
-        models.UserHealthNetwork.objects.bulk_create(relations)
-
 
 class OrganizationHealthNetworkFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -208,7 +189,7 @@ class SiteFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"site-{x}")
     address = factory.Faker("address")
-    health_network = factory.SubFactory(HealthNetworkFactory)
+    organization = factory.SubFactory(OrganizationFactory)
 
 
 class ModalityFactory(factory.django.DjangoModelFactory):

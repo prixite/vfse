@@ -84,7 +84,7 @@ class Command(BaseCommand):
         factories.SystemFactory(
             name="System object 1",
             site=factories.SiteFactory(
-                health_network=factories.HealthNetworkFactory(),
+                organization=factories.HealthNetworkFactory(),
             ),
             product_model=factories.ProductModelFactory(
                 product=product,

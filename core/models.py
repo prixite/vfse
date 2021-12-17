@@ -39,17 +39,12 @@ class User(AbstractUser):
     def get_organization_health_networks(self, organization_pk):
         accessible_health_networks = OrganizationHealthNetwork.objects.filter(
             organization=organization_pk,
-        ).values_list("health_network")
-
+        )
         if not (self.is_superuser or self.is_supermanager):
             accessible_health_networks = accessible_health_networks.filter(
-                organization__in=self.get_organizations(),
-                health_network__in=self.health_networks.all().values_list(
-                    "health_network"
-                ),
+                organization__in=self.get_organizations()
             )
-
-        return accessible_health_networks
+        return accessible_health_networks.values_list("health_network")
 
     class Meta:
         ordering = ["-id"]
@@ -184,7 +179,9 @@ class Membership(models.Model):
 
 class OrganizationHealthNetwork(models.Model):
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
-    health_network = models.ForeignKey("HealthNetwork", on_delete=models.CASCADE)
+    health_network = models.ForeignKey(
+        "Organization", on_delete=models.CASCADE, related_name="health_networks"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -201,7 +198,10 @@ class Site(models.Model):
     health_network = models.ForeignKey(
         "HealthNetwork",
         on_delete=models.CASCADE,
-        related_name="sites",
+        null=True,
+    )
+    organization = models.ForeignKey(
+        "Organization", on_delete=models.CASCADE, related_name="sites"
     )
     name = models.CharField(max_length=32)
     address = models.TextField()

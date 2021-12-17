@@ -77,7 +77,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:organization_pk>/health_networks/<str:health_network_pk>/sites/",  # noqa
+        "api/organizations/<str:organization_pk>/sites/",
         api.OrganizationSiteViewSet.as_view(
             {
                 "get": "list",
@@ -114,15 +114,6 @@ api_urlpatterns = [
         api.UserViewSet.as_view(
             {
                 "patch": "partial_update",
-            }
-        ),
-    ),
-    path(
-        "api/health_network/",
-        api.HealthNetworkViewSet.as_view(
-            {
-                "get": "list",
-                "post": "create",
             }
         ),
     ),
