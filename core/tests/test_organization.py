@@ -190,7 +190,7 @@ class OrganizationTestCase(BaseTestCase):
             "last_name": "Doe",
             "email": "john@doe.com",
             "phone": "+19876543210",
-            "role": models.Membership.Role.FSE,
+            "role": models.Role.FSE,
             "manager": self.customer_admin.id,
             "organization": self.organization.id,
             "sites": [self.site.id],
@@ -202,7 +202,7 @@ class OrganizationTestCase(BaseTestCase):
             "view_only": "false",
         }
         response = self.client.post(
-            "/api/users/",
+            f"/api/organizations/{self.organization.id}/users/",
             data=user_data,
         )
 
@@ -231,7 +231,7 @@ class OrganizationTestCase(BaseTestCase):
             "last_name": "Doe",
             "email": "john@doe.com",
             "phone": "+19876543210",
-            "role": models.Membership.Role.FSE_ADMIN,
+            "role": models.Role.FSE_ADMIN,
             "manager": self.customer_admin.id,
             "organization": self.organization.id,
             "sites": [self.site.id],

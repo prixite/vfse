@@ -11,7 +11,7 @@ class OrganizationDetailPermission(BasePermission):
         if request.method.lower() == "patch":
             return models.Organization.objects.filter(
                 id__in=request.user.get_organizations(
-                    roles=[models.Membership.Role.CUSTOMER_ADMIN]
+                    roles=[models.Role.CUSTOMER_ADMIN]
                 ),
                 id=organization.id,
             ).exists()

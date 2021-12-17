@@ -222,9 +222,7 @@ class UpsertUserSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     email = serializers.EmailField()
     phone = serializers.CharField()
-    role = serializers.ChoiceField(
-        choices=models.Role, default=models.Role.FSE
-    )
+    role = serializers.ChoiceField(choices=models.Role, default=models.Role.FSE)
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
@@ -328,11 +326,16 @@ class SystemSeatSeriazlier(serializers.Serializer):
     )
 
     def validate(self, attrs):
+        if getattr(self.context["view"], "swagger_fake_view", False):
+            # Short circuit this when openapi code is running.
+            return attrs
+
+        organization_pk = self.context["view"].kwargs["organization_pk"]
         occupied_seats = models.Seat.objects.filter(
-            organization_id=self.context["organization_pk"]
+            organization_id=organization_pk
         ).count()
         if models.Organization.objects.get(
-            id=self.context["organization_pk"]
+            id=organization_pk
         ).number_of_seats - occupied_seats < len(attrs["ids"]):
             raise ValidationError("Seats not available")
         return attrs

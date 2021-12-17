@@ -96,7 +96,9 @@ class UserHealthNetwork(models.Model):
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="health_networks"
     )
-    organization_health_network = models.ForeignKey("OrganizationHealthNetwork", on_delete=models.CASCADE)
+    organization_health_network = models.ForeignKey(
+        "OrganizationHealthNetwork", on_delete=models.CASCADE
+    )
     role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -104,7 +106,8 @@ class UserHealthNetwork(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "organization_health_network"], name="unique_user_organization_health_network"
+                fields=["user", "organization_health_network"],
+                name="unique_user_organization_health_network",
             ),
         ]
 

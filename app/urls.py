@@ -64,6 +64,7 @@ api_urlpatterns = [
         api.OrganizationUserViewSet.as_view(
             {
                 "get": "list",
+                "post": "create",
             }
         ),
     ),
@@ -89,15 +90,6 @@ api_urlpatterns = [
         api.SiteSystemViewSet.as_view(
             {
                 "get": "list",
-            }
-        ),
-    ),
-    path(
-        "api/users/",
-        api.UserViewSet.as_view(
-            {
-                "get": "list",
-                "post": "create",
             }
         ),
     ),
