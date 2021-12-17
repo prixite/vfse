@@ -174,8 +174,8 @@ class Membership(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "organization", "role"],
-                name="unique_user_organization_role",
+                fields=["user", "organization"],
+                name="unique_user_organization",
             ),
         ]
 
