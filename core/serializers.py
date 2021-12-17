@@ -18,6 +18,7 @@ class OrganizationAppearanceDefault:
             "font_two": "calibri",
         }
 
+
 class ParentAppearanceDefault:
     requires_context = True
 
@@ -90,7 +91,9 @@ class OrganizationSerializer(serializers.ModelSerializer):
         default=OrganizationAppearanceDefault()
     )
 
-    parent_appearance = OrganizationAppearanceSerializer(default=ParentAppearanceDefault(),read_only=True)
+    parent_appearance = OrganizationAppearanceSerializer(
+        default=ParentAppearanceDefault(), read_only=True
+    )
     name = serializers.CharField(
         max_length=32,
         validators=[UniqueValidator(queryset=models.Organization.objects.all())],

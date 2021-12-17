@@ -7,13 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0039_fix_nulls_in_site'),
+        ("core", "0039_fix_nulls_in_site"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='membership',
-            name='parent',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='parent', to='core.organization'),
+            model_name="membership",
+            name="parent",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="parent",
+                to="core.organization",
+            ),
         ),
     ]
