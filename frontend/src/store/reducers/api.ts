@@ -17,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/health_network/`,
         method: "POST",
-        body: queryArg.organization,
+        body: queryArg.healthNetwork,
       }),
     }),
     manufacturersList: build.query<
@@ -270,15 +270,15 @@ export type HealthNetworkListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
-  results: Organization[];
+  results: HealthNetwork[];
 };
 export type HealthNetworkListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type HealthNetworkCreateApiResponse = /** status 201  */ Organization;
+export type HealthNetworkCreateApiResponse = /** status 201  */ HealthNetwork;
 export type HealthNetworkCreateApiArg = {
-  organization: Organization;
+  healthNetwork: HealthNetwork;
 };
 export type ManufacturersListApiResponse = /** status 200  */ {
   count: number;
@@ -349,7 +349,7 @@ export type OrganizationsHealthNetworksListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
-  results: Organization[];
+  results: HealthNetwork[];
 };
 export type OrganizationsHealthNetworksListApiArg = {
   organizationPk: string;
@@ -485,13 +485,19 @@ export type Appearance = {
   font_one: string;
   font_two: string;
 };
-export type Organization = {
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+};
+export type HealthNetwork = {
   id?: number;
   name: string;
   logo?: string | null;
   banner?: string | null;
   number_of_seats?: number | null;
   appearance?: Appearance;
+  sites: Site[];
 };
 export type Manufacturer = {
   name: string;
@@ -499,6 +505,15 @@ export type Manufacturer = {
 };
 export type ManufacturerImage = {
   image?: string | null;
+};
+export type Organization = {
+  id?: number;
+  name: string;
+  logo?: string | null;
+  banner?: string | null;
+  number_of_seats?: number | null;
+  appearance?: Appearance;
+  sites: Site[];
 };
 export type Me = {
   first_name?: string;
@@ -511,11 +526,6 @@ export type Modality = {
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
-};
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
 };
 export type User = {
   id?: number;

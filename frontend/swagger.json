@@ -65,7 +65,7 @@
                                 "results": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Organization"
+                                        "$ref": "#/definitions/HealthNetwork"
                                     }
                                 }
                             }
@@ -85,7 +85,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Organization"
+                            "$ref": "#/definitions/HealthNetwork"
                         }
                     }
                 ],
@@ -93,7 +93,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/Organization"
+                            "$ref": "#/definitions/HealthNetwork"
                         }
                     }
                 },
@@ -492,7 +492,7 @@
                                 "results": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/definitions/Organization"
+                                        "$ref": "#/definitions/HealthNetwork"
                                     }
                                 }
                             }
@@ -1207,10 +1207,37 @@
                 "font_two": "calibri"
             }
         },
-        "Organization": {
+        "Site": {
+            "description": "Site(id, health_network, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "HealthNetwork": {
             "description": "Organization(id, name, logo, banner, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
-                "name"
+                "name",
+                "sites"
             ],
             "type": "object",
             "properties": {
@@ -1248,6 +1275,13 @@
                 },
                 "appearance": {
                     "$ref": "#/definitions/OrganizationAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    }
                 }
             }
         },
@@ -1281,6 +1315,59 @@
                     "format": "uri",
                     "maxLength": 200,
                     "x-nullable": true
+                }
+            }
+        },
+        "Organization": {
+            "title": "Organization",
+            "description": "Organization(id, name, logo, banner, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name",
+                "sites"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                },
+                "banner": {
+                    "title": "Banner",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                },
+                "number_of_seats": {
+                    "title": "Number of seats",
+                    "type": "integer",
+                    "maximum": 200,
+                    "minimum": 0,
+                    "x-nullable": true
+                },
+                "appearance": {
+                    "$ref": "#/definitions/OrganizationAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    }
                 }
             }
         },
@@ -1336,32 +1423,6 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
-                }
-            }
-        },
-        "Site": {
-            "description": "Site(id, health_network, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
                 }
             }
         },

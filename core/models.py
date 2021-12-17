@@ -199,7 +199,9 @@ class Site(models.Model):
         "HealthNetwork",
         on_delete=models.CASCADE,
     )
-    organization = models.ForeignKey("Organization", on_delete=models.CASCADE, related_name="sites")
+    organization = models.ForeignKey(
+        "Organization", on_delete=models.CASCADE, related_name="sites", null=True
+    )
     name = models.CharField(max_length=32)
     address = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
