@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import AddBtn from "@src/assets/svgs/add.svg";
-import "@src/components/common/Smart/OrganizationModal/OrganizationModal.scss";
+import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 import { toast } from "react-toastify";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
