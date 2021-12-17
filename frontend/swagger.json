@@ -1226,9 +1226,6 @@
                 "appearance": {
                     "$ref": "#/definitions/OrganizationAppearance"
                 },
-                "parent_appearance": {
-                    "$ref": "#/definitions/OrganizationAppearance"
-                },
                 "sites": {
                     "description": "",
                     "type": "array",

@@ -469,7 +469,6 @@ export type Organization = {
   banner?: string | null;
   number_of_seats?: number | null;
   appearance?: Appearance;
-  parent_appearance?: Appearance;
   sites?: Site[];
 };
 export type Me = {

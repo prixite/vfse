@@ -19,22 +19,6 @@ class OrganizationAppearanceDefault:
         }
 
 
-class ParentAppearanceDefault:
-    requires_context = True
-
-    def __call__(self, serializer_field):
-        user = serializer_field.context["request"].user
-        if organization_pk := serializer_field.context["view"].kwargs.get(
-            "organization_pk"
-        ) and not (user.is_superuser or user.is_supermanager):
-            membership = models.Membership.objects.select_related("parent").get(
-                user=serializer_field.context["request"].user,
-                organization_id=organization_pk,
-            )
-            if membership.parent:
-                return membership.parent.appearance
-
-
 class DefaultOrganizationDefault:
     requires_context = True
 
@@ -90,9 +74,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
         default=OrganizationAppearanceDefault()
     )
 
-    parent_appearance = OrganizationAppearanceSerializer(
-        default=ParentAppearanceDefault(), read_only=True
-    )
     name = serializers.CharField(
         max_length=32,
         validators=[UniqueValidator(queryset=models.Organization.objects.all())],
@@ -109,7 +90,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "banner",
             "number_of_seats",
             "appearance",
-            "parent_appearance",
             "sites",
         ]
 
