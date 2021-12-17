@@ -1310,19 +1310,6 @@
                     "maxLength": 200,
                     "x-nullable": true
                 },
-                "number_of_seats": {
-                    "title": "Number of seats",
-                    "type": "integer",
-                    "maximum": 200,
-                    "minimum": 0,
-                    "x-nullable": true
-                },
-                "appearance": {
-                    "$ref": "#/definitions/OrganizationAppearance"
-                },
-                "parent_appearance": {
-                    "$ref": "#/definitions/OrganizationAppearance"
-                },
                 "sites": {
                     "description": "",
                     "type": "array",

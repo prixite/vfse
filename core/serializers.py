@@ -23,17 +23,16 @@ class ParentAppearanceDefault:
     requires_context = True
 
     def __call__(self, serializer_field):
-        data = models.Organization.objects.filter(
-            id__in=models.Membership.objects.filter(
-                user=serializer_field.context["request"].user
+        user = serializer_field.context["request"].user
+        if organization_pk := serializer_field.context["view"].kwargs.get(
+            "organization_pk"
+        ) and not (user.is_superuser or user.is_supermanager):
+            membership = models.Membership.objects.select_related("parent").get(
+                user=serializer_field.context["request"].user,
+                organization_id=organization_pk,
             )
-            .values("parent")
-            .distinct(),
-            is_customer=False,
-        )
-        if data:
-            return data.first().appearance
-        return models.Organization.objects.get(is_default=True).appearance
+            if membership.parent:
+                return membership.parent.appearance
 
 
 class DefaultOrganizationDefault:
@@ -174,8 +173,23 @@ class MeSerializer(serializers.ModelSerializer):
         return sorted(flags)
 
 
-class HealthNetworkSerializer(OrganizationSerializer):
-    pass
+class HealthNetworkSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        max_length=32,
+        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
+    )
+
+    sites = SiteSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Organization
+        fields = [
+            "id",
+            "name",
+            "logo",
+            "banner",
+            "sites",
+        ]
 
 
 class SystemInfoSerializer(serializers.Serializer):
