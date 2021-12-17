@@ -17,6 +17,7 @@ import Logo from "@src/assets/images/logo.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
 import CloseBtn from "@src/assets/images/down.png";
 import TopicIcon from "@mui/icons-material/Topic";
+import { constants } from "@src/helpers/utils/constants";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
@@ -86,6 +87,7 @@ export default function SideBar() {
     React.useState<Organization>(Object);
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
+  const { organizationRoute } = constants;
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery({ page: 1 });
   const {
@@ -121,7 +123,7 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to={`/client/${currentOrganization?.id}${prop.path}`}
+            to={`/${organizationRoute}/${currentOrganization?.id}${prop.path}`}
             key={prop.path}
             className={currentRoute === prop.path ? "active-link" : ""}
             onClick={() => setCurrentRoute(prop.path)}
@@ -141,6 +143,8 @@ export default function SideBar() {
       return (
         <ListItem
           button
+          component={Link}
+          to={`/${organizationRoute}/${item?.id}`}
           key={item.id}
           style={collapsedLeftPadding}
           onClick={() => setCurrentClient(item)}
