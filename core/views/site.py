@@ -101,14 +101,16 @@ class WelcomeView(TemplateView):
         if not flags or len(flags) > 1:
             return super().get(request, *args, **kwargs)
 
-        appearance_url = f"/appearance/{self.request.user.get_default_organization().id}/"
+        appearance_url = (
+            f"/appearance/{self.request.user.get_default_organization().id}/"
+        )
         redirect_map = {
             "organization": "/organizations/",
             "user": "/users/",
             "modality": "/modality/",
             "documentation": "/documentation/",
             "vfse": "/vfse/",
-            "appearance":appearance_url,
+            "appearance": appearance_url,
         }
 
         return redirect(redirect_map[flags[0]])
