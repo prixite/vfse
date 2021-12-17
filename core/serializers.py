@@ -131,16 +131,15 @@ class MeSerializer(serializers.ModelSerializer):
         if user.is_supermanager:
             return {modality_flag, appearance_flag}
 
-        Role = models.Membership.Role
         to_modules = {
-            Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag},
-            Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
-            Role.USER_ADMIN: {user_flag},
-            Role.FSE: {vfse_flag},
-            Role.END_USER: {modality_flag},
-            Role.VIEW_ONLY: {modality_flag},
+            models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            models.Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag},
+            models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            models.Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
+            models.Role.USER_ADMIN: {user_flag},
+            models.Role.FSE: {vfse_flag},
+            models.Role.END_USER: {modality_flag},
+            models.Role.VIEW_ONLY: {modality_flag},
         }
 
         flags = set()
@@ -153,8 +152,23 @@ class MeSerializer(serializers.ModelSerializer):
         return sorted(flags)
 
 
-class HealthNetworkSerializer(OrganizationSerializer):
-    pass
+class HealthNetworkSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        max_length=32,
+        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
+    )
+
+    sites = SiteSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Organization
+        fields = [
+            "id",
+            "name",
+            "logo",
+            "banner",
+            "sites",
+        ]
 
 
 class SystemInfoSerializer(serializers.Serializer):
@@ -208,9 +222,7 @@ class UpsertUserSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     email = serializers.EmailField()
     phone = serializers.CharField()
-    role = serializers.ChoiceField(
-        choices=models.Membership.Role, default=models.Membership.Role.FSE
-    )
+    role = serializers.ChoiceField(choices=models.Role, default=models.Role.FSE)
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
@@ -314,11 +326,16 @@ class SystemSeatSeriazlier(serializers.Serializer):
     )
 
     def validate(self, attrs):
+        if getattr(self.context["view"], "swagger_fake_view", False):
+            # Short circuit this when openapi code is running.
+            return attrs
+
+        organization_pk = self.context["view"].kwargs["organization_pk"]
         occupied_seats = models.Seat.objects.filter(
-            organization_id=self.context["organization_pk"]
+            organization_id=organization_pk
         ).count()
         if models.Organization.objects.get(
-            id=self.context["organization_pk"]
+            id=organization_pk
         ).number_of_seats - occupied_seats < len(attrs["ids"]):
             raise ValidationError("Seats not available")
         return attrs

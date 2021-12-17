@@ -21,6 +21,7 @@ class HomeView(TemplateView):
                 self.request.user,
                 context={
                     "request": self.request,
+                    "view": self,
                 },
             ).data
 
@@ -91,6 +92,7 @@ class WelcomeView(TemplateView):
                 self.request.user,
                 context={
                     "request": self.request,
+                    "view": self,
                 },
             ).data
         return context

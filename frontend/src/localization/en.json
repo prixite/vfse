@@ -16,10 +16,11 @@
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
         "popUp":{
-            "popUpNewNetwork": "New Network",
-            "newNetworkName": "Name",
-            "newNetworkSeats": "Number of Seats",
-            "newNetworkBtnSave": "Save",
+            "popUpNewNetwork": "Add Network",
+            "newNetworkAddSite": "Add Site",
+            "newNetworkLogo": "Logo",
+            "newNetworkName": "Health Network",
+            "newNetworkBtnSave": "Add",
             "newNetworkBtnCancel": "Cancel"
         },
         "deleteDialog" : {
@@ -63,6 +64,11 @@
         "description" : "Looks like you're followed a broken link or entered a URL that doesn't exist on this site.",
         "backbtn" : "GO BACK"
     },
+    "dataNotFound" : {
+        "title" : "No Data Found!",
+        "description" : "Try Again",
+        "backbtn" : "GO BACK"
+    },
     "page505" : {
         "title" : "505 Server Error",
         "description" : "Please, try again later or contact us  if the problem persists"
@@ -80,7 +86,9 @@
         "color2" : "Color #2",
         "color3" : "Color #3",
         "color4" : "Color #4"
+    },
+    "siteSection" : {
+        "site": "Site Name #"
     }
-
 
 }

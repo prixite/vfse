@@ -27,5 +27,4 @@ class MeTestCase(BaseTestCase):
                     "flags": flags,
                 },
             )
-
             self.assertTrue(data["organization"]["id"], organization_id)

@@ -27,6 +27,7 @@ import {
 export default function OrganizationModal(props) {
   const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const [networks, setNetworks] = useState([1]);
   const constantData: object = localizedData()?.organization?.popUp;
   const {
     popUpNewOrganization,
@@ -59,77 +60,13 @@ export default function OrganizationModal(props) {
     setPage(event.target.value);
   };
 
-  function changeSideBarColor(color: string) {
-    dispatch(updateSideBarColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "sidebar_color"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeSideBarColor(color: string) {}
 
-  function changeButtonColor(color: string) {
-    dispatch(updateButtonColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "primary_color"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeButtonColor(color: string) {}
 
-  function changeSideBarTextColor(color: string) {
-    dispatch(updateSideBarTextColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "sidebar_text"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeSideBarTextColor(color: string) {}
 
-  function changeButtonTextColor(color: string) {
-    dispatch(updateButtonTextColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "button_text"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeButtonTextColor(color: string) {}
 
   const handleSetNewOrganization = async () => {
     if (props.organization.id) {
@@ -150,6 +87,10 @@ export default function OrganizationModal(props) {
       toast.success("Organization successfully added");
     }
     props.handleClose();
+  };
+
+  const addNetworks = () => {
+    setNetworks([...networks, networks.length]);
   };
 
   return (
@@ -302,13 +243,14 @@ export default function OrganizationModal(props) {
                 <span className="heading-txt">
                   {newOrganizationHealthNetworks}
                 </span>
-                <Button className="heading-btn">
+                <Button className="heading-btn" onClick={addNetworks}>
                   <img src={AddBtn} className="add-btn" />
                   {newOrganizationAddNetwork}
                 </Button>
               </div>
-              <HealthNetwork />
-              <HealthNetwork />
+              {networks.map((network) => (
+                <HealthNetwork />
+              ))}
             </>
           )}
         </div>

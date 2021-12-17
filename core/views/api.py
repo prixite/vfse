@@ -51,16 +51,18 @@ class CustomerViewSet(OrganizationViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
-        return (
-            super()
-            .get_user_organizations()
-            .filter(
-                id__in=self.request.user.get_organization_health_networks(
-                    self.kwargs["organization_pk"]
-                ),
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            # TODO: Find a way to do this with ORM.
+            return models.Organization.objects.raw(
+                "select distinct org.* from core_organization as org "
+                "inner join core_organizationhealthnetwork as org_health on "
+                "org.id = org_health.health_network_id"
             )
-            .prefetch_related("sites")
-        )
+        return models.Organization.objects.filter(
+            id__in=self.request.user.get_organization_health_networks(
+                self.kwargs["organization_pk"]
+            ),
+        ).prefetch_related("sites")
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -103,11 +105,9 @@ class SiteSystemViewSet(ModelViewSet):
         )
 
 
-class UserViewSet(ModelViewSet):
+class UserViewSet(ModelViewSet, mixins.UserMixin):
     def get_serializer_class(self):
-        if self.action in ["create", "partial_update"]:
-            return serializers.UpsertUserSerializer
-        return serializers.UserSerializer
+        return serializers.UpsertUserSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
@@ -115,61 +115,12 @@ class UserViewSet(ModelViewSet):
 
         return models.User.objects.filter(
             id__in=models.Membership.objects.filter(
-                organization__in=self.request.user.get_organizations(
-                    roles=[models.Membership.Role.USER_ADMIN]
-                ),
+                organization__in=self.request.user.get_organizations(),
             ).values_list("user")
         )
 
-    @transaction.atomic
-    def perform_create(self, serializer):
-        user = models.User.objects.create_user(
-            username=serializer.validated_data["email"],
-            **{
-                key: serializer.validated_data[key]
-                for key in ["email", "first_name", "last_name"]
-            }
-        )
-        models.Membership.objects.create(
-            organization=serializer.validated_data["organization"],
-            role=serializer.validated_data["role"],
-            user=user,
-        )
-        self.update_profile(serializer, user.id)
-        self.add_sites(serializer, user.id)
-        self.add_modalities(serializer, user.id)
-
-    def update_profile(self, serializer, user_id):
-        models.Profile.objects.filter(user_id=user_id).update(
-            **{
-                key: serializer.validated_data[key]
-                for key in [
-                    "manager",
-                    "phone",
-                    "fse_accessible",
-                    "audit_enabled",
-                    "can_leave_notes",
-                    "view_only",
-                    "is_one_time",
-                ]
-            }
-        )
-
-    def add_sites(self, serializer, user_id):
-        sites = [
-            models.UserSite(user_id=user_id, site=site)
-            for site in serializer.validated_data["sites"]
-        ]
-        models.UserSite.objects.bulk_create(sites)
-
-    def add_modalities(self, serializer, user_id):
-        modalities = [
-            models.UserModality(user_id=user_id, modality=modality)
-            for modality in serializer.validated_data["modalities"]
-        ]
-        models.UserModality.objects.bulk_create(modalities)
-
     def update(self, request, *args, **kwargs):
+        # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid():
             models.User.objects.filter(id=kwargs["pk"]).update(
@@ -178,10 +129,12 @@ class UserViewSet(ModelViewSet):
                     for key in ["first_name", "last_name", "email"]
                 }
             )
-            models.Membership.objects.filter(user__id=kwargs["pk"]).update(
+
+            models.Membership.objects.filter(
+                user_id=kwargs["pk"],
                 organization=serializer.validated_data["organization"],
-                role=serializer.validated_data["role"],
-            )
+            ).update(role=serializer.validated_data["role"])
+
             self.update_profile(serializer, kwargs["pk"])
 
             models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
@@ -194,8 +147,11 @@ class UserViewSet(ModelViewSet):
         return Response(serializer.errors)
 
 
-class OrganizationUserViewSet(ModelViewSet):
-    serializer_class = serializers.UserSerializer
+class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.UpsertUserSerializer
+        return serializers.UserSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
@@ -207,6 +163,21 @@ class OrganizationUserViewSet(ModelViewSet):
         )
 
         return models.User.objects.filter(id__in=membership.values_list("user"))
+
+    @transaction.atomic
+    def perform_create(self, serializer):
+        # TODO: Add permission class to allow only user admin
+        user = models.User.objects.create_user(
+            username=serializer.validated_data["email"],
+            **{
+                key: serializer.validated_data[key]
+                for key in ["email", "first_name", "last_name"]
+            }
+        )
+        self.create_membership(serializer, user.id)
+        self.update_profile(serializer, user.id)
+        self.add_sites(serializer, user.id)
+        self.add_modalities(serializer, user.id)
 
 
 class VfseSystemViewSet(ModelViewSet):
@@ -233,11 +204,6 @@ class VfseSystemViewSet(ModelViewSet):
         ]
         models.Seat.objects.bulk_create(seats)
 
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context["organization_pk"] = self.kwargs["organization_pk"]
-        return context
-
 
 class UserDeactivateViewSet(ModelViewSet):
     def get_serializer_class(self):
@@ -250,7 +216,7 @@ class UserDeactivateViewSet(ModelViewSet):
         return models.User.objects.filter(
             id__in=models.Membership.objects.filter(
                 organization__in=self.request.user.get_organizations(
-                    roles=[models.Membership.Role.USER_ADMIN]
+                    roles=[models.Role.USER_ADMIN]
                 )
             ).values_list("user")
         )

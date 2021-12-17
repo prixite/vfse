@@ -16,77 +16,13 @@ const HealthNetwork = () => {
   const constantData: object = localizedData()?.healthNetwork;
   const { name, logo, color1, color2, color3, color4 } = constantData;
 
-  function changeSideBarColor(color: string) {
-    dispatch(updateSideBarColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "sidebar_color"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeSideBarColor(color: string) {}
 
-  function changeButtonColor(color: string) {
-    dispatch(updateButtonColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "primary_color"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeButtonColor(color: string) {}
 
-  function changeSideBarTextColor(color: string) {
-    dispatch(updateSideBarTextColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "sidebar_text"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeSideBarTextColor(color: string) {}
 
-  function changeButtonTextColor(color: string) {
-    dispatch(updateButtonTextColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "button_text"
-    );
-    dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
-      })
-    );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-  }
+  function changeButtonTextColor(color: string) {}
 
   return (
     <div className="health-section">

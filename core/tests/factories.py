@@ -32,70 +32,70 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.FSE_ADMIN)
+        _add_member(obj, extracted, models.Role.FSE_ADMIN)
 
     @factory.post_generation
     def customer_admin_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.CUSTOMER_ADMIN)
+        _add_member(obj, extracted, models.Role.CUSTOMER_ADMIN)
 
     @factory.post_generation
     def user_admin_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.USER_ADMIN)
+        _add_member(obj, extracted, models.Role.USER_ADMIN)
 
     @factory.post_generation
     def fse_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.FSE)
+        _add_member(obj, extracted, models.Role.FSE)
 
     @factory.post_generation
     def end_user_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.END_USER)
+        _add_member(obj, extracted, models.Role.END_USER)
 
     @factory.post_generation
     def view_only_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.VIEW_ONLY)
+        _add_member(obj, extracted, models.Role.VIEW_ONLY)
 
     @factory.post_generation
     def one_time_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.ONE_TIME)
+        _add_member(obj, extracted, models.Role.ONE_TIME)
 
     @factory.post_generation
     def cryo_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.CRYO)
+        _add_member(obj, extracted, models.Role.CRYO)
 
     @factory.post_generation
     def cryo_fse_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.CRYO_FSE)
+        _add_member(obj, extracted, models.Role.CRYO_FSE)
 
     @factory.post_generation
     def cryo_admin_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Membership.Role.CRYO_ADMIN)
+        _add_member(obj, extracted, models.Role.CRYO_ADMIN)
 
 
 @factory.django.mute_signals(post_save)
@@ -123,7 +123,7 @@ class UserFactory(factory.django.DjangoModelFactory):
             MembershipFactory(
                 organization=organization,
                 user=user,
-                role=kwargs.get("role", models.Membership.Role.FSE),
+                role=kwargs.get("role", models.Role.FSE),
             )
 
 

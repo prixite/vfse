@@ -1,28 +1,37 @@
 .ClientCard {
-  width: inherit;
-  height: 187px;
-  background-color: #fff;
-  box-shadow: 0px 2px 12px rgba(198, 198, 198, 0.25);
-  border-radius: 4px;
-  padding: 13px;
-  &__Header {
-    display: flex;
-    justify-content: space-between;
-    .ClientName {
-      color: #111827;
-      font-size: 18px;
-      font-weight: 800;
+  position: relative;
+  .card {
+    width: inherit;
+    height: 187px;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0px 2px 12px rgba(198, 198, 198, 0.25);
+    border-radius: 4px;
+    padding: 13px;
+    &__Header {
+      display: flex;
+      justify-content: space-between;
+      .ClientName {
+        color: #111827;
+        font-size: 18px;
+        font-weight: 800;
+      }
     }
-    .dropdown {
-      cursor: pointer;
-      color: #6b7280;
+    &__Logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 32px;
     }
   }
-  &__Logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 32px;
+  .dropdown {
+    cursor: pointer;
+    color: #6b7280;
+  }
+  .dropdownIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
   }
 }
 
