@@ -33,7 +33,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class CustomerViewSet(OrganizationViewSet):
     def get_queryset(self):
-        name = self.request.query_params.get('name')
+        name = self.request.query_params.get("name")
         orgs = (
             super()
             .get_user_organizations()

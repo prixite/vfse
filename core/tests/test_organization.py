@@ -48,7 +48,7 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_list_organizations_filter(self):
         self.client.force_login(self.super_admin)
-        response = self.client.get(f'/api/organizations/?name={self.organization.name}')
+        response = self.client.get(f"/api/organizations/?name={self.organization.name}")
 
         organizations = response.json()
         self.assertEqual(len(organizations), 1)
