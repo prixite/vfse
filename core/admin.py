@@ -29,15 +29,6 @@ class UserSiteAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(models.UserHealthNetwork)
-class UserHealthNetworkAdmin(admin.ModelAdmin):
-    list_display = (
-        "user",
-        "organization_health_network",
-        "role",
-    )
-
-
 @admin.register(models.Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
@@ -62,7 +53,7 @@ class MembershipAdmin(admin.ModelAdmin):
 
 @admin.register(models.Site)
 class SiteAdmin(admin.ModelAdmin):
-    list_display = ("health_network", "name", "address")
+    list_display = ("organization", "name", "address")
 
 
 @admin.register(models.Modality)
@@ -95,12 +86,6 @@ class RemoteLoginSessionAdmin(admin.ModelAdmin):
         "work_order",
         "purchase_order",
     )
-
-
-@admin.register(models.HealthNetwork)
-class HealthNetworkAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-
 
 @admin.register(models.Manufacturer)
 class ManufacturerAdmin(admin.ModelAdmin):
