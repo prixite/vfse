@@ -1146,7 +1146,7 @@
             }
         },
         "Site": {
-            "description": "Site(id, health_network, organization, name, address, created_at, updated_at)",
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
                 "address"

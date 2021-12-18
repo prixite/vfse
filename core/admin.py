@@ -87,6 +87,7 @@ class RemoteLoginSessionAdmin(admin.ModelAdmin):
         "purchase_order",
     )
 
+
 @admin.register(models.Manufacturer)
 class ManufacturerAdmin(admin.ModelAdmin):
     list_display = ("name",)

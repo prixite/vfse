@@ -6,26 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0041_alter_userhealthnetwork_organization_health_network'),
+        ("core", "0041_alter_userhealthnetwork_organization_health_network"),
     ]
 
     operations = [
         migrations.RemoveConstraint(
-            model_name='site',
-            name='unique_health_network_site_name',
+            model_name="site",
+            name="unique_health_network_site_name",
         ),
         migrations.RemoveField(
-            model_name='site',
-            name='health_network',
+            model_name="site",
+            name="health_network",
         ),
         migrations.AddConstraint(
-            model_name='site',
-            constraint=models.UniqueConstraint(fields=('organization', 'name'), name='unique_health_network_site_name'),
+            model_name="site",
+            constraint=models.UniqueConstraint(
+                fields=("organization", "name"), name="unique_health_network_site_name"
+            ),
         ),
         migrations.DeleteModel(
-            name='HealthNetwork',
+            name="HealthNetwork",
         ),
         migrations.DeleteModel(
-            name='UserHealthNetwork',
+            name="UserHealthNetwork",
         ),
     ]
