@@ -33,7 +33,8 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class CustomerViewSet(OrganizationViewSet):
     def get_queryset(self):
-        return (
+        name = self.request.query_params.get('name')
+        orgs = (
             super()
             .get_user_organizations()
             .filter(
@@ -42,6 +43,10 @@ class CustomerViewSet(OrganizationViewSet):
             )
             .prefetch_related("sites")
         )
+
+        if name:
+            orgs = orgs.filter(name__icontains=name)
+        return orgs
 
     def perform_create(self, serializer):
         models.Organization.objects.create(
