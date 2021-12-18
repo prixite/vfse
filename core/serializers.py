@@ -345,3 +345,8 @@ class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Seat
         fields = ["system", "organization"]
+
+
+class MetaSerialzer(serializers.Serializer):
+    profile_picture = serializers.URLField()
+    title = serializers.CharField()
