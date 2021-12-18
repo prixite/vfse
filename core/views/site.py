@@ -83,13 +83,13 @@ def duo_login(request):
 
 class WelcomeView(TemplateView):
     template_name = "core/welcome.html"
-    prefix = '/clients/{}'
-    redirect_map={
-        'organization':"/",
-        'modality':'/networks/',
-        'user':'/users/',
-        'documentation':'/documentation/',
-        'vfse':'/vfse/',
+    prefix = "/clients/{}"
+    redirect_map = {
+        "organization": "/",
+        "modality": "/networks/",
+        "user": "/users/",
+        "documentation": "/documentation/",
+        "vfse": "/vfse/",
     }
 
     def get_context_data(self, **kwargs):
@@ -104,7 +104,10 @@ class WelcomeView(TemplateView):
                 },
             ).data
         client_id = self.request.user.get_default_organization().id
-        context['url_map'] = {key:self.prefix.format(client_id)+value for key,value in self.redirect_map.items()}
+        context["url_map"] = {
+            key: self.prefix.format(client_id) + value
+            for key, value in self.redirect_map.items()
+        }
         return context
 
     def get(self, request, *args, **kwargs):
@@ -114,4 +117,4 @@ class WelcomeView(TemplateView):
         if not flags or len(flags) > 1:
             return super().get(request, *args, **kwargs)
 
-        return redirect(context['url_map'][flags[0]])
+        return redirect(context["url_map"][flags[0]])
