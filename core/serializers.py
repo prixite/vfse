@@ -16,6 +16,9 @@ class OrganizationAppearanceDefault:
             "primary_color": "#773CBD",
             "font_one": "helvetica",
             "font_two": "calibri",
+            "logo": "http://example.com/logo.png",
+            "banner": "http://example.com/banner.jpg",
+            "icon": "http://example.com/icon.ico",
         }
 
 
@@ -61,6 +64,9 @@ class OrganizationAppearanceSerializer(serializers.Serializer):
     primary_color = serializers.CharField()
     font_one = serializers.CharField()
     font_two = serializers.CharField()
+    logo = serializers.URLField()
+    banner = serializers.URLField()
+    icon = serializers.URLField()
 
 
 class SiteSerializer(serializers.ModelSerializer):
@@ -86,8 +92,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
-            "logo",
-            "banner",
             "number_of_seats",
             "appearance",
             "sites",
@@ -165,8 +169,6 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
-            "logo",
-            "banner",
             "sites",
         ]
 

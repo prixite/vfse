@@ -25,6 +25,9 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         "primary_color": "#773CBD",
         "font_one": "helvetica",
         "font_two": "calibri",
+        "logo": "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+        "banner": "http://example.com/image.jpg",
+        "icon": "http://example.com/icon.ico",
     }
 
     @factory.post_generation
