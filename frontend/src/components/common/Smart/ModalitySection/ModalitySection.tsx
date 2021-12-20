@@ -16,8 +16,8 @@ const ModalitySection = () => {
   const constantData: any = localizedData()?.modalities;
   const { title } = constantData;
 
-  const currentOrganization = useAppSelector(
-    (state) => state.organization.currentOrganization
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
   );
 
   const {
@@ -26,7 +26,7 @@ const ModalitySection = () => {
     refetch: orgNetworkRefetch,
   } = useOrganizationsHealthNetworksListQuery({
     page: 1,
-    organizationPk: currentOrganization?.id.toString(),
+    organizationPk: selectedOrganization?.id.toString(),
   });
 
   const handleClose = () => setOpen(false);

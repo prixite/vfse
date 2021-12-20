@@ -16,13 +16,13 @@ import {
   updateSideBarTextColor,
   updateButtonTextColor,
 } from "@src/store/reducers/themeStore";
-import { setCurrentOrganization } from "@src/store/reducers/organizationStore";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import { updateOrganizationColor } from "@src/services/organizationService";
 const AppearanceSection = () => {
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
   const dispatch = useAppDispatch();
-  const currentOrganization = useAppSelector(
-    (state) => state.organization.currentOrganization
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
   );
   const {
     sideBarBackground,
@@ -32,7 +32,7 @@ const AppearanceSection = () => {
   } = useAppSelector((state) => state.myTheme);
 
   var currentOrganiationDummyData: Organization = JSON.parse(
-    JSON.stringify(currentOrganization)
+    JSON.stringify(selectedOrganization)
   );
   const changeSideBarColor = (color: string) => {
     dispatch(updateSideBarColor(color));
@@ -42,8 +42,8 @@ const AppearanceSection = () => {
       "sidebar_color"
     );
     dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
       })
     );
     updateOrganizationColor(
@@ -60,8 +60,8 @@ const AppearanceSection = () => {
       "primary_color"
     );
     dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
       })
     );
     updateOrganizationColor(
@@ -78,8 +78,8 @@ const AppearanceSection = () => {
       "sidebar_text"
     );
     dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
       })
     );
     updateOrganizationColor(
@@ -96,8 +96,8 @@ const AppearanceSection = () => {
       "button_text"
     );
     dispatch(
-      setCurrentOrganization({
-        currentOrganization: currentOrganiationDummyData,
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
       })
     );
     updateOrganizationColor(
@@ -108,14 +108,14 @@ const AppearanceSection = () => {
 
   return (
     <Box component="div" className="AppearanceSection">
-      <h2>{currentOrganization?.name}</h2>
+      <h2>{selectedOrganization?.name}</h2>
       <Box component="div" className="AppearanceSection__clientSection">
         <Box component="div" className="clientName">
           <h4 className="labels">Client Name</h4>
           <TextField
             disabled
             className="nameInput"
-            placeholder={currentOrganization?.name}
+            placeholder={selectedOrganization?.name}
             variant="outlined"
           />
         </Box>
@@ -123,7 +123,7 @@ const AppearanceSection = () => {
           <Box component="div" className="clientLogo">
             <h4 className="labels">Logo</h4>
             <Box component="div" className="logo">
-              <img src={currentOrganization?.logo} />
+              <img src={selectedOrganization?.logo} />
             </Box>
           </Box>
           <Box component="div" className="colorSection">

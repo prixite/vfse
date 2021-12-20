@@ -84,6 +84,7 @@ const TopViewBtns = ({
             id="search-clients"
             className="Search-input"
             variant="outlined"
+            // autoFocus={path === "organizations" ? true : false}
             onChange={handleInput}
             placeholder="Search"
             InputProps={{

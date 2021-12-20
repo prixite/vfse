@@ -21,8 +21,8 @@ export default function UserView() {
   const constantData: object = localizedData()?.users;
   const { addUser, userAdministration } = constantData;
 
-  const currentOrganization = useAppSelector(
-    (state) => state.organization.currentOrganization
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
   );
 
   const {
@@ -30,7 +30,7 @@ export default function UserView() {
     refetch,
     isLoading,
   } = useOrganizationsUsersListQuery({
-    organizationPk: currentOrganization.id.toString(),
+    organizationPk: selectedOrganization.id.toString(),
   });
 
   if (isLoading) {

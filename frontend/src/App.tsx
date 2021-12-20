@@ -3,7 +3,10 @@ import "@src/App.scss";
 import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import RoutesHOC from "@src/components/hoc/routesHOC";
 import { useMeReadQuery } from "@src/store/reducers/api";
-import { setCurrentOrganization } from "@src/store/reducers/organizationStore";
+import {
+  setCurrentOrganization,
+  setSelectedOrganization,
+} from "@src/store/reducers/organizationStore";
 import { useAppDispatch } from "@src/store/hooks";
 import {
   updateButtonColor,
@@ -19,6 +22,9 @@ export default function App() {
   if (!isFetching) {
     let organizationData = data.organization;
     dispatch(setCurrentOrganization({ currentOrganization: organizationData }));
+    dispatch(
+      setSelectedOrganization({ selectedOrganization: organizationData })
+    );
     dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
     dispatch(updateButtonColor(organizationData.appearance.primary_color));
     dispatch(updateSideBarTextColor(organizationData.appearance.sidebar_text));
