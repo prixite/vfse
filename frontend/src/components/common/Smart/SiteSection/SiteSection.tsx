@@ -26,7 +26,7 @@ const SiteSection = () => {
   const [open, setOpen] = useState(false);
 
   const constantData: any = localizedData()?.sites;
-  const { title } = constantData;
+  const { title, noResultMsg } = constantData;
 
   const handleClose = () => setOpen(false);
 
@@ -60,7 +60,7 @@ const SiteSection = () => {
               ))
             ) : sitesList?.query === searchText ? (
               <p style={{ marginTop: "20px", marginLeft: "20px" }}>
-                no results found
+                {noResultMsg}
               </p>
             ) : (
               ""

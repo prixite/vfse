@@ -7,7 +7,7 @@ import { constants } from "@src/helpers/utils/constants";
 import SitesView from "@src/views/sites/SitesView";
 
 const RoutesHOC = () => {
-  const { organizationRoute } = constants;
+  const { organizationRoute, networkRoute, sitesRoute } = constants;
   return (
     <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#F5F6F7" }}>
       <Switch>
@@ -20,7 +20,7 @@ const RoutesHOC = () => {
           />
         ))}
         <Route
-          path="/client/:id/:networkId/sites"
+          path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}`}
           component={SitesView}
           exact
         />

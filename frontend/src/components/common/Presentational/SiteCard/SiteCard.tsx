@@ -5,6 +5,7 @@ import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
+import { localizedData } from "@src/helpers/utils/language";
 interface SiteCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
@@ -19,6 +20,9 @@ interface SiteCardProps {
 const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const constantData: any = localizedData()?.sites;
+  const { cardPopUp } = constantData;
+
   const open = Boolean(anchorEl);
   const handleModalOpen = () => {
     setOpenModal(true);
@@ -57,8 +61,10 @@ const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
               className="Site-dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem>Edit</MenuItem>
-              <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+              <MenuItem>{cardPopUp?.editSite}</MenuItem>
+              <MenuItem onClick={handleModalOpen}>
+                {cardPopUp?.deleteSite}
+              </MenuItem>
             </Menu>
           </div>
           <div className="location-logo">

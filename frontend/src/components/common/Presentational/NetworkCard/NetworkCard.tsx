@@ -5,6 +5,7 @@ import { constants } from "@src/helpers/utils/constants";
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { localizedData } from "@src/helpers/utils/language";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { toast } from "react-toastify";
 
@@ -20,7 +21,9 @@ interface NetworkCardProps {
 const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const { organizationRoute } = constants;
+  const { organizationRoute, networkRoute, sitesRoute } = constants;
+  const constantData: any = localizedData()?.modalities;
+  const { cardPopUp } = constantData;
   const open = Boolean(anchorEl);
   let { id } = useParams();
 
@@ -45,7 +48,7 @@ const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
   return (
     <div className="NetworkCard">
       <Link
-        to={`/${organizationRoute}/${id}/${networkId}/sites`}
+        to={`/${organizationRoute}/${id}/${networkRoute}/${networkId}/${sitesRoute}`}
         key={id}
         style={{ textDecoration: "none" }}
       >
@@ -79,10 +82,10 @@ const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
           onClose={handleClose}
         >
           <MenuItem onClick={handleClose}>
-            <span style={{ marginLeft: "12px" }}>Edit</span>
+            <span style={{ marginLeft: "12px" }}>{cardPopUp?.edit}</span>
           </MenuItem>
           <MenuItem onClick={handleModalOpen}>
-            <span style={{ marginLeft: "12px" }}>Delete</span>
+            <span style={{ marginLeft: "12px" }}>{cardPopUp?.delete}</span>
           </MenuItem>
         </Menu>
       </div>
