@@ -74,11 +74,11 @@ form input:focus {
   box-shadow: 0 0 0 0 !important;
 }
 
-
-.form-control.is-invalid, .was-validated .form-control:invalid{
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
   color: #ff2517 !important;
   background-color: rgba(255, 23, 23, 0.05) !important;
-  border: 2px solid rgb(255, 37, 23,1) !important;
+  border: 2px solid rgb(255, 37, 23, 1) !important;
   background-image: unset;
 }
 
@@ -157,6 +157,6 @@ form input:focus {
   font-size: 20px;
 }
 
-.password-reset-confirm span{
+.password-reset-confirm span {
   font-size: 16px;
 }
