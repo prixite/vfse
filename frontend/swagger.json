@@ -1397,6 +1397,32 @@
                 }
             }
         },
+        "MetaSerialzer": {
+            "title": "Meta",
+            "description": "",
+            "required": [
+                "profile_picture",
+                "title"
+            ],
+            "type": "object",
+            "properties": {
+                "profile_picture": {
+                    "title": "Profile picture",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "profile_picture": "",
+                "title": ""
+            }
+        },
         "UpsertUser": {
             "description": "",
             "required": [
@@ -1416,6 +1442,9 @@
             ],
             "type": "object",
             "properties": {
+                "meta": {
+                    "$ref": "#/definitions/MetaSerialzer"
+                },
                 "first_name": {
                     "title": "First name",
                     "type": "string",

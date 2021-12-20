@@ -501,7 +501,12 @@ export type User = {
   username: string;
   is_active?: boolean;
 };
+export type Meta = {
+  profile_picture: string;
+  title: string;
+};
 export type UpsertUser = {
+  meta?: Meta;
   first_name: string;
   last_name: string;
   email: string;

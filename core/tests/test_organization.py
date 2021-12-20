@@ -196,6 +196,10 @@ class OrganizationTestCase(BaseTestCase):
     def test_user_upsert_insert(self):
         self.client.force_login(self.super_admin)
         user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
             "first_name": "John",
             "last_name": "Doe",
             "email": "john@doe.com",
@@ -215,7 +219,6 @@ class OrganizationTestCase(BaseTestCase):
             f"/api/organizations/{self.organization.id}/users/",
             data=user_data,
         )
-
         self.assertEqual(response.status_code, 201)
         self.assertEqual(
             models.UserModality.objects.filter(

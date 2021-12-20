@@ -117,6 +117,7 @@ class Profile(models.Model):
         blank=True,
     )
     phone = models.CharField(max_length=15, default="")
+    meta = models.JSONField(default=dict)
     mfa_enabled = models.BooleanField(default=False)
     fse_accessible = models.BooleanField(default=False)
     audit_enabled = models.BooleanField(default=True)
