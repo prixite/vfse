@@ -90,6 +90,14 @@ const ClientCard = ({
           aria-labelledby="client-options-button"
           anchorEl={anchorEl}
           open={open}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
           className="dropdownMenu"
           onClose={handleClose}
         >

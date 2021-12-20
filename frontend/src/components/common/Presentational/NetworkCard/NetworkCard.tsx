@@ -78,6 +78,14 @@ const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
           aria-labelledby="client-options-button"
           anchorEl={anchorEl}
           open={open}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
           className="Network-dropdownMenu"
           onClose={handleClose}
         >
