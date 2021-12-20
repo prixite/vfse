@@ -123,8 +123,8 @@ form input:focus.is-invalid {
 .reset-password-page form,
 .password-reset-confirm form,
 .reset-password-page p,
-.reset-done-page p, 
-.alert{
+.reset-done-page p,
+.alert {
   width: 400px;
 }
 
@@ -146,12 +146,12 @@ form input:focus.is-invalid {
   font-size: 20px;
 }
 
-.alert-danger{
+.alert-danger {
   color: #ff2517;
   background-color: 1px solid rgba(255, 37, 23, 1);
   border: none;
 }
 
-.alert-danger span{
+.alert-danger span {
   font-size: 20px;
 }
