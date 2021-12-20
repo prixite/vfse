@@ -13,16 +13,19 @@ import { openAddModal } from "@src/store/reducers/appStore";
 const TopViewBtns = ({
   path,
   setData,
-  setOrganizationsList,
+  setList,
+  actualData,
   searchText,
   setSearchText,
 }) => {
   const dispatch = useAppDispatch();
   let constantData: any;
-  if (path == "modality") {
+  if (path === "modality") {
     constantData = localizedData()?.modalities;
-  } else if (path == "organizations") {
+  } else if (path === "organizations") {
     constantData = localizedData()?.organization;
+  } else if (path === "sites") {
+    constantData = localizedData()?.sites;
   }
 
   const { btnFilter, btnAdd } = constantData;
@@ -31,10 +34,6 @@ const TopViewBtns = ({
     (state) => state.myTheme
   );
 
-  const { data: organizationList } = useOrganizationsListQuery({
-    page: 1,
-  });
-
   const handleInput = (e) => {
     setSearchText(e.target.value);
   };
@@ -42,14 +41,14 @@ const TopViewBtns = ({
   const onEventSearch = useCallback(
     debounce((searchQuery) => {
       if (searchQuery?.length > 2) {
-        const organizations = { query: searchQuery };
-        const result = organizationList?.filter((data) => {
+        const newList = { query: searchQuery };
+        const result = actualData?.filter((data) => {
           return (
             data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
           );
         });
-        organizations.results = result;
-        setOrganizationsList(organizations);
+        newList.results = result;
+        setList(newList);
       }
     }, 500),
     []

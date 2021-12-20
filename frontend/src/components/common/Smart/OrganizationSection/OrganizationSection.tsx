@@ -32,7 +32,8 @@ const OrganizationSection = () => {
         <TopViewBtns
           path="organizations"
           setData={setOrganization}
-          setOrganizationsList={setOrganizationsList}
+          setList={setOrganizationsList}
+          actualData={organizationList}
           searchText={searchText}
           setSearchText={setSearchText}
         />

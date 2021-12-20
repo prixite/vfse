@@ -127,8 +127,8 @@ export default function SideBar() {
             component={Link}
             to={`/${organizationRoute}/${currentOrganization?.id}${prop.path}`}
             key={prop.path}
-            className={currentRoute === prop.path ? "active-link" : ""}
-            onClick={() => setCurrentRoute(prop.path)}
+            className={currentRoute === `/${organizationRoute}/${currentOrganization?.id}${prop.path}` ? "active-link" : ""}
+            onClick={() => setCurrentRoute(`/${organizationRoute}/${currentOrganization?.id}${prop.path}`)}
           >
             <ListItemIcon
               style={{ color: sideBarTextColor, marginRight: "10px" }}
