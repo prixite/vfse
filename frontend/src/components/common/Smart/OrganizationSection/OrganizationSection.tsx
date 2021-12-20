@@ -6,14 +6,16 @@ import ClientCard from "@src/components/common/Presentational/ClientCard/ClientC
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import { openAddModal, closeAddModal } from "@src/store/reducers/appStore";
 
 const OrganizationSection = () => {
+  const dispatch = useAppDispatch();
+  const { openAddClientModal } = useAppSelector((state) => state.app);
   const [organization, setOrganization] = useState(null);
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
-  const [open, setOpen] = useState(false);
   const { data: organizationList, refetch } = useOrganizationsListQuery({
     page: 1,
   });
@@ -21,14 +23,13 @@ const OrganizationSection = () => {
   const constantData: any = localizedData()?.organization;
   const { title } = constantData;
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => dispatch(closeAddModal());
 
   return (
     <>
       <Box component="div" className="OrganizationSection">
         <h2>{title}</h2>
         <TopViewBtns
-          setOpen={setOpen}
           path="organizations"
           setData={setOrganization}
           setOrganizationsList={setOrganizationsList}
@@ -43,7 +44,6 @@ const OrganizationSection = () => {
               organizationsList?.results?.map((item, key) => (
                 <Grid key={key} item xs={3}>
                   <ClientCard
-                    setOpen={setOpen}
                     setOrganization={setOrganization}
                     row={item}
                     refetch={refetch}
@@ -64,7 +64,6 @@ const OrganizationSection = () => {
             organizationList.map((item, key) => (
               <Grid key={key} item xs={3}>
                 <ClientCard
-                  setOpen={setOpen}
                   setOrganization={setOrganization}
                   row={item}
                   refetch={refetch}
@@ -81,7 +80,7 @@ const OrganizationSection = () => {
         <OrganizationModal
           organization={organization}
           setOrganization={setOrganization}
-          open={open}
+          open={openAddClientModal}
           handleClose={handleClose}
           refetch={refetch}
         />

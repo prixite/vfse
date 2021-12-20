@@ -8,9 +8,10 @@ import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/C
 import { toast } from "react-toastify";
 import { constants } from "@src/helpers/utils/constants";
 import { DeleteOrganizationService } from "@src/services/organizationService";
+import { useAppDispatch } from "@src/store/hooks";
+import { openAddModal } from "@src/store/reducers/appStore";
 
 interface ClientCardProps {
-  setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
   row: object;
   refetch: any;
@@ -24,9 +25,9 @@ const ClientCard = ({
   name,
   refetch,
   row,
-  setOpen,
   setOrganization,
 }: ClientCardProps) => {
+  const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
@@ -47,7 +48,7 @@ const ClientCard = ({
     setAnchorEl(null);
   };
   const handleEditAppearance = () => {
-    setOpen(true);
+    dispatch(openAddModal());
     setOrganization(row);
   };
 
