@@ -452,6 +452,9 @@ export type Appearance = {
   primary_color: string;
   font_one: string;
   font_two: string;
+  logo: string;
+  banner: string;
+  icon: string;
 };
 export type Site = {
   id?: number;
@@ -461,8 +464,6 @@ export type Site = {
 export type Organization = {
   id?: number;
   name: string;
-  logo?: string | null;
-  banner?: string | null;
   number_of_seats?: number | null;
   appearance?: Appearance;
   sites?: Site[];
@@ -479,8 +480,7 @@ export type Modality = {
 export type HealthNetwork = {
   id?: number;
   name: string;
-  logo?: string | null;
-  banner?: string | null;
+  appearance?: object;
   sites?: Site[];
 };
 export type OrganizationHealthNetworkCreate = {

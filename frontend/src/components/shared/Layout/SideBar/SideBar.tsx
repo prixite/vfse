@@ -152,7 +152,7 @@ export default function SideBar() {
               currentClient.name === item.name ? "active" : ""
             }`}
           >
-            <img src={item.logo} className={`img`} />
+            <img src={item.appearance.logo} className={`img`} />
           </ListItemIcon>
         </ListItem>
       );
