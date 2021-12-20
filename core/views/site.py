@@ -83,6 +83,14 @@ def duo_login(request):
 
 class WelcomeView(TemplateView):
     template_name = "core/welcome.html"
+    prefix = "/clients"
+    redirect_map = {
+        "organization": "/",
+        "modality": "/networks/",
+        "user": "/users/",
+        "documentation": "/documentation/",
+        "vfse": "/vfse/",
+    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,24 +103,23 @@ class WelcomeView(TemplateView):
                     "view": self,
                 },
             ).data
+
+        try:
+            client_id = self.request.user.get_default_organization().id
+        except AttributeError:
+            client_id = "none"
+
+        context["url_map"] = {
+            key: f"{self.prefix}/{client_id}{path}"
+            for key, path in self.redirect_map.items()
+        }
         return context
 
     def get(self, request, *args, **kwargs):
-        flags = list(self.get_context_data()["user_data"]["flags"])
+        context = self.get_context_data()
+        flags = list(context["user_data"]["flags"])
 
         if not flags or len(flags) > 1:
             return super().get(request, *args, **kwargs)
 
-        appearance_url = (
-            f"/appearance/{self.request.user.get_default_organization().id}/"
-        )
-        redirect_map = {
-            "organization": "/organizations/",
-            "user": "/users/",
-            "modality": "/modality/",
-            "documentation": "/documentation/",
-            "vfse": "/vfse/",
-            "appearance": appearance_url,
-        }
-
-        return redirect(redirect_map[flags[0]])
+        return redirect(context["url_map"][flags[0]])

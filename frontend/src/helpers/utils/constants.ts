@@ -1,3 +1,3 @@
 export const constants = {
-  organizationRoute: "client",
+  organizationRoute: "clients",
 };
