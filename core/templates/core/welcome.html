@@ -4,9 +4,13 @@
 
 <div class="welcome-page">
 	<h2>Welcome</h2>
-	<p>Please select options below</p>
-
-
+	{% if not user_data.flags %}
+		<div class="alert alert-danger">
+			<span>This account doesn't have access to any module</span>
+		</div>
+	{%else%}
+		<p>Please select options below</p>
+	{% endif %}
 	{% if "organization" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">

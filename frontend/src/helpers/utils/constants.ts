@@ -1,5 +1,5 @@
 export const constants = {
-  organizationRoute: "client",
+  organizationRoute: "clients",
   networkRoute: "network",
   sitesRoute: "sites",
 };
