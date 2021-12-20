@@ -31,7 +31,8 @@ const OrganizationSection = () => {
           setOpen={setOpen}
           path="organizations"
           setData={setOrganization}
-          setOrganizationsList={setOrganizationsList}
+          setList={setOrganizationsList}
+          actualData={organizationList}
           searchText={searchText}
           setSearchText={setSearchText}
         />

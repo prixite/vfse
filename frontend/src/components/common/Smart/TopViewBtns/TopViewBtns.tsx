@@ -7,21 +7,23 @@ import AddIcon from "@mui/icons-material/Add";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
 
 const TopViewBtns = ({
   setOpen,
   path,
   setData,
-  setOrganizationsList,
+  setList,
+  actualData,
   searchText,
   setSearchText,
 }) => {
   let constantData: any;
-  if (path == "modality") {
+  if (path === "modality") {
     constantData = localizedData()?.modalities;
-  } else if (path == "organizations") {
+  } else if (path === "organizations") {
     constantData = localizedData()?.organization;
+  } else if (path === "sites") {
+    constantData = localizedData()?.sites;
   }
 
   const { btnFilter, btnAdd } = constantData;
@@ -30,10 +32,6 @@ const TopViewBtns = ({
     (state) => state.myTheme
   );
 
-  const { data: organizationList } = useOrganizationsListQuery({
-    page: 1,
-  });
-
   const handleInput = (e) => {
     setSearchText(e.target.value);
   };
@@ -41,14 +39,14 @@ const TopViewBtns = ({
   const onEventSearch = useCallback(
     debounce((searchQuery) => {
       if (searchQuery?.length > 2) {
-        const organizations = { query: searchQuery };
-        const result = organizationList?.filter((data) => {
+        const newList = { query: searchQuery };
+        const result = actualData?.filter((data) => {
           return (
             data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
           );
         });
-        organizations.results = result;
-        setOrganizationsList(organizations);
+        newList.results = result;
+        setList(newList);
       }
     }, 500),
     []
