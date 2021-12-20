@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  openAddClientModal : false
+  openAddClientModal: false,
 };
 
 export const appSlice = createSlice({
@@ -17,8 +17,5 @@ export const appSlice = createSlice({
   },
 });
 
-export const {
-  openAddModal,
-  closeAddModal
-} = appSlice.actions;
+export const { openAddModal, closeAddModal } = appSlice.actions;
 export default appSlice.reducer;

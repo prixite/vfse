@@ -100,20 +100,14 @@ export default function SideBar() {
     buttonTextColor,
     buttonBackground,
   } = useAppSelector((state) => state.myTheme);
-  const currentOrganization = useAppSelector(
-    (state) => state.organization.currentOrganization
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
   );
 
   const { data: me, isFetching } = useMeReadQuery();
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
+  const toggleDrawer = () => {
+    setOpen((prevState) => !prevState);
   };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
@@ -125,10 +119,19 @@ export default function SideBar() {
           <ListItem
             button
             component={Link}
-            to={`/${organizationRoute}/${currentOrganization?.id}${prop.path}`}
+            to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
             key={prop.path}
-            className={currentRoute === `/${organizationRoute}/${currentOrganization?.id}${prop.path}` ? "active-link" : ""}
-            onClick={() => setCurrentRoute(`/${organizationRoute}/${currentOrganization?.id}${prop.path}`)}
+            className={
+              currentRoute ===
+              `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                ? "active-link"
+                : ""
+            }
+            onClick={() =>
+              setCurrentRoute(
+                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+              )
+            }
           >
             <ListItemIcon
               style={{ color: sideBarTextColor, marginRight: "10px" }}
@@ -161,6 +164,14 @@ export default function SideBar() {
         </ListItem>
       );
     });
+
+  const onSearchClick = () => {
+    history.push(`/${organizationRoute}/${selectedOrganization?.id}/`);
+    setCurrentRoute("/");
+    window.setTimeout(function () {
+      document.getElementById("search-clients").focus();
+    }, 0);
+  };
   return (
     <Box className="SideBar" sx={{ display: "flex" }}>
       <Drawer
@@ -171,8 +182,11 @@ export default function SideBar() {
       >
         <List className="leftLists">
           <ListItem button component="a" href="/">
-            <ListItemIcon>
-              <img src={Logo} />
+            <ListItemIcon className="client-image">
+              <img
+                src={selectedOrganization?.appearance?.logo}
+                className="img"
+              />
             </ListItemIcon>
           </ListItem>
           <ListItem button component="a" className="item-margin">
@@ -180,7 +194,7 @@ export default function SideBar() {
               <AddIcon
                 onClick={() => {
                   history.push(
-                    `/${organizationRoute}/${currentOrganization?.id}/`
+                    `/${organizationRoute}/${selectedOrganization?.id}/`
                   );
                   setCurrentRoute("/");
                   dispatch(openAddModal());
@@ -195,24 +209,17 @@ export default function SideBar() {
             style={{ marginBottom: "40px" }}
           >
             <ListItemIcon style={{ color: sideBarTextColor }}>
-              <SearchIcon
-                onClick={() => {
-                  history.push(
-                    `/${organizationRoute}/${currentOrganization?.id}/`
-                  );
-                  setCurrentRoute("/");
-                }}
-              />
+              <SearchIcon onClick={onSearchClick} />
             </ListItemIcon>
           </ListItem>
           {!isOrgListLoading && createClients()}
           <ListItem
             button
             className="drawer-btn open-btn"
-            onClick={handleDrawerOpen}
+            onClick={toggleDrawer}
           >
             <ListItemIcon>
-              <img src={OpenBtn} />
+              {open ? <img src={CloseBtn} /> : <img src={OpenBtn} />}
             </ListItemIcon>
           </ListItem>
           <ListItem button className="user-image">
@@ -222,15 +229,6 @@ export default function SideBar() {
           </ListItem>
         </List>
         <List style={{ position: "relative" }} className="right-content">
-          <ListItem
-            button
-            className="drawer-btn open-btn"
-            onClick={handleDrawerClose}
-          >
-            <ListItemIcon>
-              <img src={CloseBtn} />
-            </ListItemIcon>
-          </ListItem>
           {createLinks()}
         </List>
       </Drawer>
