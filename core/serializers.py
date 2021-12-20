@@ -169,6 +169,7 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "name",
+            "appearance",
             "sites",
         ]
 

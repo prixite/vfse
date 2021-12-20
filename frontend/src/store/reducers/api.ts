@@ -480,6 +480,7 @@ export type Modality = {
 export type HealthNetwork = {
   id?: number;
   name: string;
+  appearance?: object;
   sites?: Site[];
 };
 export type OrganizationHealthNetworkCreate = {

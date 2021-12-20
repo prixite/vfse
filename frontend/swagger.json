@@ -1291,6 +1291,10 @@
                     "maxLength": 32,
                     "minLength": 1
                 },
+                "appearance": {
+                    "title": "Appearance",
+                    "type": "object"
+                },
                 "sites": {
                     "description": "",
                     "type": "array",
