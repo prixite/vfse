@@ -1,0 +1,12 @@
+<div class="alert alert-danger d-flex flex-row">
+    <div>
+        <i class="fas fa-exclamation-triangle fa-2x"></i>
+    </div>
+    <div class="ms-1 d-flex align-items-center">
+        <span> 
+            {% for error in field.errors%}
+                {{error}}
+            {% endfor %}
+        </span>
+    </div>  
+</div>
