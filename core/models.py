@@ -194,11 +194,6 @@ class OrganizationHealthNetwork(models.Model):
 
 
 class Site(models.Model):
-    health_network = models.ForeignKey(
-        "HealthNetwork",
-        on_delete=models.CASCADE,
-        null=True,
-    )
     organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, related_name="sites"
     )
@@ -210,8 +205,8 @@ class Site(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["health_network", "name"],
-                name="unique_health_network_site_name",
+                fields=["organization", "name"],
+                name="unique_organization_site_name",
             ),
         ]
         ordering = ["-id"]
@@ -289,22 +284,6 @@ class RemoteLoginSession(models.Model):
     purchase_order = models.CharField(max_length=32)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class HealthNetwork(models.Model):
-    name = models.CharField(max_length=32, unique=True)
-    logo = models.URLField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=["name"], name="unique_health_network_name"),
-        ]
-        ordering = ["-id"]
-
-    def __str__(self):
-        return self.name
 
 
 class Manufacturer(models.Model):
