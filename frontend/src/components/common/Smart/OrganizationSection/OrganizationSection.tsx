@@ -31,7 +31,8 @@ const OrganizationSection = () => {
           setOpen={setOpen}
           path="organizations"
           setData={setOrganization}
-          setOrganizationsList={setOrganizationsList}
+          setList={setOrganizationsList}
+          actualData={organizationList}
           searchText={searchText}
           setSearchText={setSearchText}
         />
@@ -70,7 +71,7 @@ const OrganizationSection = () => {
                   refetch={refetch}
                   id={item.id}
                   name={item.name}
-                  logo={item.logo}
+                  logo={item.appearance.logo}
                 />
               </Grid>
             ))

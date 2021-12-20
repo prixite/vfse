@@ -37,21 +37,21 @@ const ModalitySection = () => {
         <h2>{title}</h2>
         <TopViewBtns setOpen={setOpen} path="modality" setData={setNetwork} />
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
-          {networksData?.length
-            ? networksData?.map((item, key) => (
-                <Grid key={key} item xs={3}>
-                  <NetworkCard
-                    setOpen={setOpen}
-                    setOrganization={setNetwork}
-                    row={item}
-                    refetch={orgNetworkRefetch}
-                    id={item.id}
-                    name={item.name}
-                    logo={item.logo}
-                  />
-                </Grid>
-              ))
-            : ""}
+          {networksData &&
+            networksData?.length &&
+            networksData.map((item, key) => (
+              <Grid key={key} item xs={3}>
+                <NetworkCard
+                  setOpen={setOpen}
+                  setOrganization={setNetwork}
+                  row={item}
+                  refetch={orgNetworkRefetch}
+                  networkId={item.id}
+                  name={item.name}
+                  logo={item.logo}
+                />
+              </Grid>
+            ))}
         </Grid>
         <NetworkModal open={open} handleClose={handleClose} />
       </Box>

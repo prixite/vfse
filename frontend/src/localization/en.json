@@ -15,6 +15,11 @@
         "title": "All Networks",
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
+        "cardPopUp":
+        {
+             "edit": "Edit",
+             "delete": "Delete"
+        },
         "popUp":{
             "popUpNewNetwork": "Add Network",
             "newNetworkAddSite": "Add Site",
@@ -22,6 +27,31 @@
             "newNetworkName": "Health Network",
             "newNetworkBtnSave": "Add",
             "newNetworkBtnCancel": "Cancel"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
+
+    },
+    "sites":{
+        "title": "All Sites",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Site",
+        "noResultMsg": "no results found",
+        "popUp":{
+            "popUpNewNetwork": "Add Network",
+            "newNetworkAddSite": "Add Site",
+            "newNetworkLogo": "Logo",
+            "newNetworkName": "Health Network",
+            "newNetworkBtnSave": "Add",
+            "newNetworkBtnCancel": "Cancel"
+        },
+        "cardPopUp":
+        {
+             "editSite": "Edit",
+             "deleteSite": "Delete"
         },
         "deleteDialog" : {
             "dialogMessage" : "Are you sure you want to delete",
