@@ -1419,7 +1419,7 @@
                 }
             },
             "default": {
-                "profile_picture": "http://example.com/image.jpg",
+                "profile_picture": "",
                 "title": ""
             }
         },

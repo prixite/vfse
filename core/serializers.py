@@ -59,7 +59,7 @@ class MriInfoDefault:
 
 class ProfileMetaDefault:
     def __call__(self, *args, **kwds):
-        return {"profile_picture": "http://example.com/image.jpg", "title": ""}
+        return {"profile_picture": "", "title": ""}
 
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
