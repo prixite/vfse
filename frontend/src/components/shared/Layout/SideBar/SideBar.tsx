@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
+import { useHistory } from "react-router";
 import {
   Box,
   Drawer as MuiDrawer,
@@ -21,7 +22,8 @@ import { constants } from "@src/helpers/utils/constants";
 import { routes } from "@src/routes";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import { openAddModal } from "@src/store/reducers/appStore";
 import {
   Organization,
   useMeReadQuery,
@@ -82,6 +84,8 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function SideBar() {
+  const history = useHistory();
+  const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
   const [currentClient, setCurrentClient] =
     React.useState<Organization>(Object);
@@ -123,8 +127,8 @@ export default function SideBar() {
             component={Link}
             to={`/${organizationRoute}/${currentOrganization?.id}${prop.path}`}
             key={prop.path}
-            className={currentRoute === prop.path ? "active-link" : ""}
-            onClick={() => setCurrentRoute(prop.path)}
+            className={currentRoute === `/${organizationRoute}/${currentOrganization?.id}${prop.path}` ? "active-link" : ""}
+            onClick={() => setCurrentRoute(`/${organizationRoute}/${currentOrganization?.id}${prop.path}`)}
           >
             <ListItemIcon
               style={{ color: sideBarTextColor, marginRight: "10px" }}
@@ -171,20 +175,34 @@ export default function SideBar() {
               <img src={Logo} />
             </ListItemIcon>
           </ListItem>
-          <ListItem button component="a" href="/" className="item-margin">
+          <ListItem button component="a" className="item-margin">
             <ListItemIcon style={{ color: sideBarTextColor }}>
-              <AddIcon />
+              <AddIcon
+                onClick={() => {
+                  history.push(
+                    `/${organizationRoute}/${currentOrganization?.id}/`
+                  );
+                  setCurrentRoute("/");
+                  dispatch(openAddModal());
+                }}
+              />
             </ListItemIcon>
           </ListItem>
           <ListItem
             button
             component="a"
-            href="/"
             className="item-margin"
             style={{ marginBottom: "40px" }}
           >
             <ListItemIcon style={{ color: sideBarTextColor }}>
-              <SearchIcon />
+              <SearchIcon
+                onClick={() => {
+                  history.push(
+                    `/${organizationRoute}/${currentOrganization?.id}/`
+                  );
+                  setCurrentRoute("/");
+                }}
+              />
             </ListItemIcon>
           </ListItem>
           {!isOrgListLoading && createClients()}
