@@ -87,6 +87,26 @@ class UserSite(models.Model):
         ]
 
 
+class UserHealthNetwork(models.Model):
+    user = models.ForeignKey(
+        "User", on_delete=models.CASCADE, related_name="health_networks"
+    )
+    organization_health_network = models.ForeignKey(
+        "OrganizationHealthNetwork", on_delete=models.CASCADE
+    )
+    role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "organization_health_network"],
+                name="unique_user_organization_health_network",
+            ),
+        ]
+
+
 class Profile(models.Model):
     user = models.OneToOneField("User", on_delete=models.CASCADE)
     manager = models.ForeignKey(
@@ -186,7 +206,7 @@ class Site(models.Model):
         constraints = [
             models.UniqueConstraint(
                 fields=["organization", "name"],
-                name="unique_health_network_site_name",
+                name="unique_organization_site_name",
             ),
         ]
         ordering = ["-id"]

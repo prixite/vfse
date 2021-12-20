@@ -29,6 +29,15 @@ class UserSiteAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(models.UserHealthNetwork)
+class UserHealthNetworkAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "organization_health_network",
+        "role",
+    )
+
+
 @admin.register(models.Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = (
