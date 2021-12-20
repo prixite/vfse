@@ -47,6 +47,14 @@ class OrganizationTestCase(BaseTestCase):
             self.assertEqual(len(organizations), 1)
             self.assertEqual(organizations[0]["name"], self.organization.name)
 
+    def test_list_organizations_filter(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get(f"/api/organizations/?name={self.organization.name}")
+
+        organizations = response.json()
+        self.assertEqual(len(organizations), 1)
+        self.assertEqual(organizations[0]["name"], self.organization.name)
+
     def test_organization_health_network_list(self):
         for user in [self.super_admin, self.super_manager, self.customer_admin]:
             self.client.force_login(user)
