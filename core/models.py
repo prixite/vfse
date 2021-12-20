@@ -111,8 +111,6 @@ class Profile(models.Model):
 
 class Organization(models.Model):
     name = models.CharField(max_length=32)
-    logo = models.URLField(null=True, blank=True)
-    banner = models.URLField(null=True, blank=True)
     is_customer = models.BooleanField(default=False)
     number_of_seats = models.PositiveIntegerField(
         null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]

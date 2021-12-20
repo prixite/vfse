@@ -70,7 +70,7 @@ const OrganizationSection = () => {
                   refetch={refetch}
                   id={item.id}
                   name={item.name}
-                  logo={item.logo}
+                  logo={item.appearance.logo}
                 />
               </Grid>
             ))

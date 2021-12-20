@@ -47,7 +47,7 @@ const ModalitySection = () => {
                     refetch={orgNetworkRefetch}
                     id={item.id}
                     name={item.name}
-                    logo={item.logo}
+                    logo={item.appearance.logo}
                   />
                 </Grid>
               ))
