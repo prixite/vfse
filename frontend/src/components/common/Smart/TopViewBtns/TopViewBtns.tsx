@@ -12,6 +12,7 @@ import { openAddModal } from "@src/store/reducers/appStore";
 
 const TopViewBtns = ({
   path,
+  setOpen,
   setData,
   setList,
   actualData,
@@ -36,6 +37,16 @@ const TopViewBtns = ({
 
   const handleInput = (e) => {
     setSearchText(e.target.value);
+  };
+
+  const handleModal = () => {
+    if (path !== "organizations") {
+      setOpen(true);
+      setData(null);
+    } else {
+      dispatch(openAddModal());
+      setData(null);
+    }
   };
 
   const onEventSearch = useCallback(
@@ -89,10 +100,7 @@ const TopViewBtns = ({
             backgroundColor: buttonBackground,
             color: buttonTextColor,
           }}
-          onClick={() => {
-            dispatch(openAddModal());
-            setData(null);
-          }}
+          onClick={handleModal}
           variant="contained"
           className="AddClientsbtn"
         >
