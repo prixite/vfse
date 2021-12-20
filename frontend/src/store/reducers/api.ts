@@ -501,6 +501,10 @@ export type User = {
   username: string;
   is_active?: boolean;
 };
+export type Meta = {
+  profile_picture: string;
+  title: string;
+};
 export type UpsertUser = {
   first_name: string;
   last_name: string;
@@ -521,6 +525,7 @@ export type UpsertUser = {
   organization: number;
   sites: number[];
   modalities: number[];
+  meta?: Meta;
   fse_accessible: boolean;
   audit_enabled: boolean;
   can_leave_notes: boolean;

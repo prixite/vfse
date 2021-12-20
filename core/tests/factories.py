@@ -151,6 +151,10 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory, profile=None)
     is_one_time = False
+    meta = {
+        'profile_picture':'http://example.com/profile.jpg',
+        'title':'He/Mr.'
+    }
 
 
 class MembershipFactory(factory.django.DjangoModelFactory):
