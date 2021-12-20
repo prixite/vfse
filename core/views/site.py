@@ -83,7 +83,7 @@ def duo_login(request):
 
 class WelcomeView(TemplateView):
     template_name = "core/welcome.html"
-    prefix = "/clients/{}"
+    prefix = "/clients"
     redirect_map = {
         "organization": "/",
         "modality": "/networks/",
@@ -103,10 +103,15 @@ class WelcomeView(TemplateView):
                     "view": self,
                 },
             ).data
-        client_id = self.request.user.get_default_organization().id
+
+        try:
+            client_id = self.request.user.get_default_organization().id
+        except AttributeError:
+            client_id = "none"
+
         context["url_map"] = {
-            key: self.prefix.format(client_id) + value
-            for key, value in self.redirect_map.items()
+            key: f"{self.prefix}/{client_id}{path}"
+            for key, path in self.redirect_map.items()
         }
         return context
 
