@@ -74,11 +74,12 @@ form input:focus {
   box-shadow: 0 0 0 0 !important;
 }
 
-form input.is-invalid,
-form input:focus.is-invalid {
-  color: #ff2517;
-  background-color: rgba(255, 23, 23, 0.05);
-  border-color: 1px solid rgba(255, 37, 23, 1);
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+  color: #ff2517 !important;
+  background-color: rgba(255, 23, 23, 0.05) !important;
+  border: 2px solid rgb(255, 37, 23, 1) !important;
+  background-image: unset;
 }
 
 .half-image div.content {
@@ -123,7 +124,8 @@ form input:focus.is-invalid {
 .reset-password-page form,
 .password-reset-confirm form,
 .reset-password-page p,
-.reset-done-page p {
+.reset-done-page p,
+.alert {
   width: 400px;
 }
 
@@ -143,4 +145,18 @@ form input:focus.is-invalid {
 .reset-password-page .back-btn i,
 .reset-done-page .back-btn i {
   font-size: 20px;
+}
+
+.alert-danger {
+  color: #ff2517;
+  background-color: 1px solid rgba(255, 37, 23, 1);
+  border: none;
+}
+
+.alert-danger span {
+  font-size: 20px;
+}
+
+.password-reset-confirm span {
+  font-size: 16px;
 }
