@@ -56,12 +56,12 @@ class MriInfoDefault:
             "magnet_pressure": "strong",
         }
 
+
 class ProfileMetaDefault:
-    def __call__(self, *args,**kwds):
-        return {
-            'profile_picture':"http://example.com/image.jpg",
-            'title':""
-        }
+    def __call__(self, *args, **kwds):
+        return {"profile_picture": "http://example.com/image.jpg", "title": ""}
+
+
 class OrganizationAppearanceSerializer(serializers.Serializer):
     sidebar_text = serializers.CharField()
     button_text = serializers.CharField()
@@ -228,6 +228,7 @@ class UserSerializer(serializers.ModelSerializer):
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField()
     title = serializers.CharField()
+
 
 class UpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=ProfileMetaDefault())

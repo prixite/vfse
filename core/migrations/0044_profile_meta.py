@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0043_remove_health_network_model'),
+        ("core", "0043_remove_health_network_model"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='meta',
+            model_name="profile",
+            name="meta",
             field=models.JSONField(default=dict),
         ),
     ]

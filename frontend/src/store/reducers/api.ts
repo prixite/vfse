@@ -506,6 +506,7 @@ export type Meta = {
   title: string;
 };
 export type UpsertUser = {
+  meta?: Meta;
   first_name: string;
   last_name: string;
   email: string;
@@ -525,7 +526,6 @@ export type UpsertUser = {
   organization: number;
   sites: number[];
   modalities: number[];
-  meta?: Meta;
   fse_accessible: boolean;
   audit_enabled: boolean;
   can_leave_notes: boolean;
