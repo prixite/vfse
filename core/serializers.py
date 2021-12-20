@@ -16,9 +16,9 @@ class OrganizationAppearanceDefault:
             "primary_color": "#773CBD",
             "font_one": "helvetica",
             "font_two": "calibri",
-            "logo": "http://example.com/logo.png",
-            "banner": "http://example.com/banner.jpg",
-            "icon": "http://example.com/icon.ico",
+            "logo": "",
+            "banner": "",
+            "icon": "",
         }
 
 
