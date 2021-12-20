@@ -58,6 +58,14 @@ const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
               aria-labelledby="client-options-button"
               anchorEl={anchorEl}
               open={open}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
               className="Site-dropdownMenu"
               onClose={handleClose}
             >
