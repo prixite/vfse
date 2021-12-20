@@ -14,11 +14,17 @@ interface NetworkCardProps {
   setOrganization: Dispatch<any>;
   row: object;
   refetch: any;
-  id: number;
+  networkId: number;
   logo: string;
   name: string;
+  sitesCount: number;
 }
-const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
+const NetworkCard = ({
+  networkId,
+  logo,
+  name,
+  sitesCount,
+}: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { organizationRoute, networkRoute, sitesRoute } = constants;
@@ -62,7 +68,7 @@ const NetworkCard = ({ networkId, logo, name }: NetworkCardProps) => {
           <div className="location-logo">
             <div className="location-logo__content">
               <img src={locationLogo} />
-              <p className="text">16 sites</p>
+              <p className="text">{`${sitesCount} sites`}</p>
             </div>
           </div>
         </Box>
