@@ -5,11 +5,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import debounce from "debounce";
 import AddIcon from "@mui/icons-material/Add";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import { useOrganizationsListQuery } from "@src/store/reducers/api";
+import { openAddModal } from "@src/store/reducers/appStore";
 
 const TopViewBtns = ({
-  setOpen,
   path,
   setData,
   setList,
@@ -17,6 +18,7 @@ const TopViewBtns = ({
   searchText,
   setSearchText,
 }) => {
+  const dispatch = useAppDispatch();
   let constantData: any;
   if (path === "modality") {
     constantData = localizedData()?.modalities;
@@ -88,7 +90,7 @@ const TopViewBtns = ({
             color: buttonTextColor,
           }}
           onClick={() => {
-            setOpen(true);
+            dispatch(openAddModal());
             setData(null);
           }}
           variant="contained"

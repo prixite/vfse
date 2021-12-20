@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { api } from "@src/store/reducers/api";
 import themeReducer from "@src/store/reducers/themeStore";
 import organizationReducer from "@src/store/reducers/organizationStore";
+import appReducer from "@src/store/reducers/appStore";
 
 export const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
     myTheme: themeReducer,
     organization: organizationReducer,
+    app: appReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(api.middleware),
