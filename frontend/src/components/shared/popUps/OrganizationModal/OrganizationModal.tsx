@@ -130,7 +130,15 @@ export default function OrganizationModal(props) {
                     variant="outlined"
                     placeholder="Advent Health"
                   />
-                  <h4 style={{ marginTop: "20px" }} className="labels">
+                  <p className="info-label" style={{ marginTop: "25px" }}>
+                    {newOrganizationSeats}
+                  </p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    placeholder="6"
+                  />
+                  <h4 style={{ marginTop: "25px" }} className="labels">
                     {newOrganizationFont1}
                   </h4>
                   <div className="font-options">
@@ -174,14 +182,6 @@ export default function OrganizationModal(props) {
                     </Box>
                     <span className="font-demo">AaBbCcDd</span>
                   </div>
-                </div>
-                <div className="info-section">
-                  <p className="info-label">{newOrganizationSeats}</p>
-                  <TextField
-                    className="info-field"
-                    variant="outlined"
-                    placeholder="6"
-                  />
                 </div>
               </div>
             </>

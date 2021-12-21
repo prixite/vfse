@@ -64,6 +64,7 @@
         "title": "All Clients",
         "btnFilter": "Filter",
         "btnAdd": "Add Clients",
+        "newHealthNetwork": " New Health Network",
         "popUp":{
             "popUpNewOrganization": "New Organization",
             "newOrganizationPageTrackerdesc1": "Step",
