@@ -1,8 +1,14 @@
+import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "@src/App.scss";
 import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import RoutesHOC from "@src/components/hoc/routesHOC";
-import { useMeReadQuery } from "@src/store/reducers/api";
+import { constants } from "@src/helpers/utils/constants";
+import {
+  useMeReadQuery,
+  useOrganizationsListQuery,
+} from "@src/store/reducers/api";
+
 import {
   setCurrentOrganization,
   setSelectedOrganization,
@@ -14,33 +20,95 @@ import {
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "./store/reducers/themeStore";
+import { matchPath } from "react-router";
+import { useLocation, withRouter, useHistory } from "react-router-dom";
 
-export default function App() {
+const App = () => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
+  const { pathname } = useLocation();
+  const { params }: any = matchPath(pathname, { path: "/clients/:id" });
   const { data, isFetching } = useMeReadQuery();
-
-  if (!isFetching) {
-    let organizationData = data.organization;
-    dispatch(setCurrentOrganization({ currentOrganization: organizationData }));
-    dispatch(
-      setSelectedOrganization({ selectedOrganization: organizationData })
-    );
-    dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
-    dispatch(updateButtonColor(organizationData.appearance.primary_color));
-    dispatch(updateSideBarTextColor(organizationData.appearance.sidebar_text));
-    dispatch(updateButtonTextColor(organizationData.appearance.button_text));
-  }
-
-  if (isFetching) {
-    return <p>Loading</p>;
-  }
+  const { data: organizationList, isFetching: FetchingList } =
+    useOrganizationsListQuery({
+      page: 1,
+    });
+  const [isLoading, setIsLoading] = useState(true);
+  const { organizationRoute } = constants;
+  useEffect(() => {
+    setIsLoading(true);
+    if (!isFetching && !FetchingList) {
+      let organizationData = data.organization;
+      dispatch(
+        setCurrentOrganization({ currentOrganization: organizationData })
+      );
+      if (organizationList) {
+        const selectedOrganizationData = organizationList.find(
+          (organization) => {
+            return organization?.id === parseInt(params.id, 10);
+          }
+        );
+        if (selectedOrganizationData) {
+          dispatch(
+            setSelectedOrganization({
+              selectedOrganization: selectedOrganizationData,
+            })
+          );
+          dispatch(
+            updateSideBarColor(
+              selectedOrganizationData.appearance.sidebar_color
+            )
+          );
+          dispatch(
+            updateButtonColor(selectedOrganizationData.appearance.primary_color)
+          );
+          dispatch(
+            updateSideBarTextColor(
+              selectedOrganizationData.appearance.sidebar_text
+            )
+          );
+          dispatch(
+            updateButtonTextColor(
+              selectedOrganizationData.appearance.button_text
+            )
+          );
+        } else {
+          dispatch(
+            setSelectedOrganization({ selectedOrganization: organizationData })
+          );
+          dispatch(
+            updateSideBarColor(organizationData.appearance.sidebar_color)
+          );
+          dispatch(
+            updateButtonColor(organizationData.appearance.primary_color)
+          );
+          dispatch(
+            updateSideBarTextColor(organizationData.appearance.sidebar_text)
+          );
+          dispatch(
+            updateButtonTextColor(organizationData.appearance.button_text)
+          );
+          history.push(`/${organizationRoute}/${organizationData.id}`);
+        }
+      }
+      setIsLoading(false);
+    }
+  }, [isFetching, FetchingList]);
+  useEffect(() => {}, []);
 
   return (
     <>
-      <ToastContainer />
-      <PageLayout>
-        <RoutesHOC />
-      </PageLayout>
+      {isLoading ? (
+        <p>Loading Main</p>
+      ) : (
+        <>
+          <ToastContainer />
+          <PageLayout>
+            <RoutesHOC />
+          </PageLayout>
+        </>
+      )}
     </>
   );
-}
+};
+export default withRouter(App);
