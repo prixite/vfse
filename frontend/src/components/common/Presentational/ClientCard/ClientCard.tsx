@@ -5,11 +5,13 @@ import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 import { useOrganizationsDeleteMutation } from "@src/store/reducers/api";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import NewHealthNetwotkModal from "@src/components/shared/popUps/NewHealthNetworkModal/NewHealthNetworkModal";
 import { toast } from "react-toastify";
 import { constants } from "@src/helpers/utils/constants";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
+import { localizedData } from "@src/helpers/utils/language";
 
 interface ClientCardProps {
   setOrganization: Dispatch<any>;
@@ -30,6 +32,7 @@ const ClientCard = ({
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openNetworkModal, setOpenNetworkModal] = useState(false);
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute } = constants;
@@ -41,6 +44,8 @@ const ClientCard = ({
   const handleModalClose = () => {
     setOpenModal(false);
   };
+  const handleNetworkModalClose = () => setOpenNetworkModal(false);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,6 +55,10 @@ const ClientCard = ({
   const handleEditAppearance = () => {
     dispatch(openAddModal());
     setOrganization(row);
+  };
+  const handleNetworkModal = () => {
+    setOpenNetworkModal(true);
+    handleClose();
   };
 
   const handleDeleteOrganization = async () => {
@@ -79,6 +88,10 @@ const ClientCard = ({
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteOrganization}
       />
+      <NewHealthNetwotkModal
+        open={openNetworkModal}
+        handleClose={handleNetworkModalClose}
+      />
       <div className="dropdownIcon">
         <MoreVertIcon
           id="client-options-button"
@@ -102,7 +115,9 @@ const ClientCard = ({
           onClose={handleClose}
         >
           <MenuItem onClick={handleEditAppearance}>Edit appearance</MenuItem>
-          <MenuItem onClick={handleClose}>Add new HealthNetwork</MenuItem>
+          <MenuItem onClick={handleNetworkModal}>
+            Add new HealthNetwork
+          </MenuItem>
           <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
         </Menu>
       </div>
