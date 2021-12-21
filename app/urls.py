@@ -45,6 +45,7 @@ api_urlpatterns = [
         "api/organizations/<str:pk>/",
         api.OrganizationViewSet.as_view(
             {
+                "get":'retrieve',
                 "delete": "destroy",
                 "patch": "partial_update",
             }
