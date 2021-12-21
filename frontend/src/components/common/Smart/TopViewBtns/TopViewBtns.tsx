@@ -28,7 +28,6 @@ const TopViewBtns = ({
   } else if (path === "sites") {
     constantData = localizedData()?.sites;
   }
-
   const { btnFilter, btnAdd } = constantData;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -73,7 +72,11 @@ const TopViewBtns = ({
     <>
       <Box component="div" className="OrganizationSection__Header">
         <Box component="div" className="InputSection">
-          <Button variant="contained" className="Filterbtn">
+          <Button
+            variant="contained"
+            className="Filterbtn"
+            disabled={!actualData?.length}
+          >
             <div className="btn-content">
               <FilterAltIcon style={{ marginRight: "9px" }} />
               <span>{btnFilter}</span>
@@ -84,8 +87,10 @@ const TopViewBtns = ({
             id="search-clients"
             className="Search-input"
             variant="outlined"
+            value={searchText}
             // autoFocus={path === "organizations" ? true : false}
             onChange={handleInput}
+            disabled={!actualData?.length}
             placeholder="Search"
             InputProps={{
               startAdornment: (

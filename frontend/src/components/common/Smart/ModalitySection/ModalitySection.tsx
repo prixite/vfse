@@ -66,9 +66,7 @@ const ModalitySection = () => {
                 </Grid>
               ))
             ) : networksList?.query === searchText ? (
-              <p style={{ marginTop: "20px", marginLeft: "20px" }}>
-                no results found
-              </p>
+              <NoDataFound search setQuery={setSearchText} />
             ) : (
               ""
             )
