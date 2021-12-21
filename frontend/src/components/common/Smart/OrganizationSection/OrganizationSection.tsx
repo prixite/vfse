@@ -22,7 +22,7 @@ const OrganizationSection = () => {
   });
 
   const constantData: any = localizedData()?.organization;
-  const { title } = constantData;
+  const { title, noDataDescription, noDataTitle } = constantData;
 
   const handleClose = () => dispatch(closeAddModal());
 
@@ -56,7 +56,12 @@ const OrganizationSection = () => {
                 </Grid>
               ))
             ) : organizationsList?.query === searchText ? (
-              <NoDataFound search setQuery={setSearchText} />
+              <NoDataFound
+                search
+                setQuery={setSearchText}
+                title={noDataTitle}
+                description={noDataDescription}
+              />
             ) : (
               ""
             )
@@ -74,7 +79,7 @@ const OrganizationSection = () => {
               </Grid>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound title={noDataTitle} description={noDataDescription} />
           )}
         </Grid>
         <OrganizationModal

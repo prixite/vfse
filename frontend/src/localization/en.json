@@ -15,6 +15,8 @@
         "title": "All Networks",
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
         "cardPopUp":
         {
              "edit": "Edit",
@@ -40,6 +42,8 @@
         "btnFilter": "Filter",
         "btnAdd": "Add Site",
         "noResultMsg": "no results found",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
         "popUp":{
             "popUpNewNetwork": "Add Network",
             "newNetworkAddSite": "Add Site",
@@ -64,6 +68,8 @@
         "title": "All Clients",
         "btnFilter": "Filter",
         "btnAdd": "Add Clients",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
         "newHealthNetwork": " New Health Network",
         "popUp":{
             "popUpNewOrganization": "New Organization",

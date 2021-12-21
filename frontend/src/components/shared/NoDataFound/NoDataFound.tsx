@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import "@src/components/shared/NoDataFound/NoDataFound.scss";
 import { localizedData } from "@src/helpers/utils/language";
-const NoDataFound = ({ search, setQuery }) => {
+const NoDataFound = ({ search, setQuery, title, description }) => {
   const history = useHistory();
-  const { title, description, backbtn } = localizedData()?.dataNotFound;
+  const { backbtn } = localizedData()?.dataNotFound;
 
   const handleBack = () => {
     if (search) {

@@ -27,7 +27,7 @@ const SiteSection = () => {
   const [open, setOpen] = useState(false);
 
   const constantData: any = localizedData()?.sites;
-  const { title } = constantData;
+  const { title, noDataTitle, noDataDescription } = constantData;
 
   const handleClose = () => setOpen(false);
 
@@ -60,7 +60,12 @@ const SiteSection = () => {
                 </Grid>
               ))
             ) : sitesList?.query === searchText ? (
-              <NoDataFound search setQuery={setSearchText} />
+              <NoDataFound
+                search
+                setQuery={setSearchText}
+                title={noDataTitle}
+                description={noDataDescription}
+              />
             ) : (
               ""
             )
@@ -76,7 +81,7 @@ const SiteSection = () => {
               </Grid>
             ))
           ) : (
-            <NoDataFound />
+            <NoDataFound title={noDataTitle} description={noDataDescription} />
           )}
         </Grid>
         <OrganizationModal
