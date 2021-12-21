@@ -1,28 +1,11 @@
 import TextField from "@mui/material/TextField";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
-import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Presentational/HealthNetwork/HealthNetwork.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
 const HealthNetwork = () => {
-  const {
-    sideBarBackground,
-    buttonBackground,
-    sideBarTextColor,
-    buttonTextColor,
-  } = useAppSelector((state) => state.myTheme);
-  const dispatch = useAppDispatch();
   const constantData: object = localizedData()?.healthNetwork;
-  const { name, logo, color1, color2, color3, color4 } = constantData;
-
-  function changeSideBarColor(color: string) {}
-
-  function changeButtonColor(color: string) {}
-
-  function changeSideBarTextColor(color: string) {}
-
-  function changeButtonTextColor(color: string) {}
+  const { name, logo } = constantData;
 
   return (
     <div className="health-section">
@@ -33,43 +16,9 @@ const HealthNetwork = () => {
         placeholder="Advent Health"
       />
       <div className="health-info">
-        <div style={{ width: "46%", marginTop: "25px" }}>
+        <div style={{ width: "65%", marginTop: "25px" }}>
           <p className="dropzone-title">{logo}</p>
           <DropzoneBox />
-        </div>
-        <div className="color-section">
-          <div className="color-pickers">
-            <div style={{ marginTop: "25px", marginRight: "15px" }}>
-              <ColorPicker
-                title={color1}
-                color={sideBarBackground}
-                onChange={changeSideBarColor}
-              />
-            </div>
-            <div style={{ marginTop: "25px", marginRight: "15px" }}>
-              <ColorPicker
-                title={color2}
-                color={buttonBackground}
-                onChange={changeButtonColor}
-              />
-            </div>
-          </div>
-          <div className="color-pickers">
-            <div style={{ marginTop: "25px", marginRight: "15px" }}>
-              <ColorPicker
-                title={color3}
-                color={sideBarTextColor}
-                onChange={changeSideBarTextColor}
-              />
-            </div>
-            <div style={{ marginTop: "25px", marginRight: "15px" }}>
-              <ColorPicker
-                title={color4}
-                color={buttonTextColor}
-                onChange={changeButtonTextColor}
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
