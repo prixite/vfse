@@ -329,6 +329,22 @@
             "parameters": []
         },
         "/organizations/{id}/": {
+            "get": {
+                "operationId": "organizations_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "patch": {
                 "operationId": "organizations_partial_update",
                 "description": "",
