@@ -29,6 +29,13 @@ import {
   useMeReadQuery,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
+import {
+  updateButtonColor,
+  updateSideBarColor,
+  updateButtonTextColor,
+  updateSideBarTextColor,
+} from "@src/store/reducers/themeStore";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
 
 const drawerWidth = 400;
@@ -110,6 +117,16 @@ export default function SideBar() {
   };
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
 
+  const handleUpdateSelectedOrganization = (item) => {
+    dispatch(setSelectedOrganization({ selectedOrganization: item }));
+    dispatch(updateSideBarColor(item.appearance.sidebar_color));
+    dispatch(updateButtonColor(item.appearance.primary_color));
+    dispatch(updateSideBarTextColor(item.appearance.sidebar_text));
+    dispatch(updateButtonTextColor(item.appearance.button_text));
+    setCurrentClient(item);
+    history.replace(`/${organizationRoute}/${item.id}`);
+  };
+
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
@@ -148,11 +165,9 @@ export default function SideBar() {
       return (
         <ListItem
           button
-          component={Link}
-          to={`/${organizationRoute}/${item?.id}`}
           key={item.id}
           style={collapsedLeftPadding}
-          onClick={() => setCurrentClient(item)}
+          onClick={() => handleUpdateSelectedOrganization(item)}
         >
           <ListItemIcon
             className={`client-image ${

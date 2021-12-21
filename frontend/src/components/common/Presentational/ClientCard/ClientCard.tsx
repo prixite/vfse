@@ -1,8 +1,11 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
-import { useOrganizationsDeleteMutation } from "@src/store/reducers/api";
+import {
+  Organization,
+  useOrganizationsDeleteMutation,
+} from "@src/store/reducers/api";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import NewHealthNetwotkModal from "@src/components/shared/popUps/NewHealthNetworkModal/NewHealthNetworkModal";
@@ -12,10 +15,17 @@ import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
 import { localizedData } from "@src/helpers/utils/language";
+import {
+  updateButtonColor,
+  updateSideBarColor,
+  updateButtonTextColor,
+  updateSideBarTextColor,
+} from "@src/store/reducers/themeStore";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 
 interface ClientCardProps {
   setOrganization: Dispatch<any>;
-  row: object;
+  row: Organization;
   refetch: any;
   id: number;
   logo: string;
@@ -30,6 +40,7 @@ const ClientCard = ({
   setOrganization,
 }: ClientCardProps) => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openNetworkModal, setOpenNetworkModal] = useState(false);
@@ -66,22 +77,28 @@ const ClientCard = ({
     await DeleteOrganizationService(id, deleteOrganization, refetch);
     toast.success("Organization successfully deleted");
   };
+  const handleUpdateSelectedOrganization = () => {
+    dispatch(setSelectedOrganization({ selectedOrganization: row }));
+    dispatch(updateSideBarColor(row.appearance.sidebar_color));
+    dispatch(updateButtonColor(row.appearance.primary_color));
+    dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
+    dispatch(updateButtonTextColor(row.appearance.button_text));
+    history.replace(`/${organizationRoute}/${id}`);
+  };
   return (
     <div className="ClientCard">
-      <Link
-        to={`/${organizationRoute}/${id}`}
-        key={id}
-        style={{ textDecoration: "none" }}
+      <Box
+        component="div"
+        className="card"
+        onClick={handleUpdateSelectedOrganization}
       >
-        <Box component="div" className="card">
-          <div className="card__Header">
-            <h3 className="ClientName">{name}</h3>
-          </div>
-          <div className="card__Logo">
-            <img src={logo} />
-          </div>
-        </Box>
-      </Link>
+        <div className="card__Header">
+          <h3 className="ClientName">{name}</h3>
+        </div>
+        <div className="card__Logo">
+          <img src={logo} />
+        </div>
+      </Box>
       <ConfirmationModal
         name={name}
         open={openModal}
