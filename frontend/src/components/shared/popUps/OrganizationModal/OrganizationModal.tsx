@@ -11,9 +11,7 @@ import AddBtn from "@src/assets/svgs/add.svg";
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 import { toast } from "react-toastify";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
-import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
@@ -25,7 +23,7 @@ import {
 } from "@src/services/organizationService";
 
 export default function OrganizationModal(props) {
-  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
+  const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const [networks, setNetworks] = useState([1]);
   const constantData: object = localizedData()?.organization?.popUp;
@@ -38,35 +36,17 @@ export default function OrganizationModal(props) {
     newOrganizationBtnSave,
     newOrganizationBtnCancel,
     newOrganizationLogo,
-    newOrganizationColor1,
-    newOrganizationColor2,
-    newOrganizationColor3,
-    newOrganizationColor4,
     newOrganizationFont1,
     newOrganizationFont2,
     newOrganizationHealthNetworks,
     newOrganizationAddNetwork,
   } = constantData;
-  const {
-    sideBarBackground,
-    buttonBackground,
-    sideBarTextColor,
-    buttonTextColor,
-  } = useAppSelector((state) => state.myTheme);
-  const dispatch = useAppDispatch();
+
   const [page, setPage] = useState("1");
 
   const handleChange = (event) => {
     setPage(event.target.value);
   };
-
-  function changeSideBarColor(color: string) {}
-
-  function changeButtonColor(color: string) {}
-
-  function changeSideBarTextColor(color: string) {}
-
-  function changeButtonTextColor(color: string) {}
 
   const handleSetNewOrganization = async () => {
     if (props.organization.id) {
@@ -150,41 +130,9 @@ export default function OrganizationModal(props) {
                     variant="outlined"
                     placeholder="Advent Health"
                   />
-                  <div className="color-section">
-                    <div className="color-pickers">
-                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
-                        <ColorPicker
-                          title={newOrganizationColor1}
-                          color={sideBarBackground}
-                          onChange={changeSideBarColor}
-                        />
-                      </div>
-                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
-                        <ColorPicker
-                          title={newOrganizationColor2}
-                          color={buttonBackground}
-                          onChange={changeButtonColor}
-                        />
-                      </div>
-                    </div>
-                    <div className="color-pickers">
-                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
-                        <ColorPicker
-                          title={newOrganizationColor3}
-                          color={sideBarTextColor}
-                          onChange={changeSideBarTextColor}
-                        />
-                      </div>
-                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
-                        <ColorPicker
-                          title={newOrganizationColor4}
-                          color={buttonTextColor}
-                          onChange={changeButtonTextColor}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <h4 className="labels">{newOrganizationFont1}</h4>
+                  <h4 style={{ marginTop: "20px" }} className="labels">
+                    {newOrganizationFont1}
+                  </h4>
                   <div className="font-options">
                     <Box component="div" className="font-section">
                       <FormControl sx={{ minWidth: 195 }}>
