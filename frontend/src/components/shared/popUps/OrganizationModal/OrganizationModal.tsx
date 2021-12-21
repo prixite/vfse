@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import AddBtn from "@src/assets/svgs/add.svg";
+import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 import { toast } from "react-toastify";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
@@ -26,6 +27,10 @@ export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const [networks, setNetworks] = useState([1]);
+  const [sidebarColor, setSidebarColor] = useState("ffff");
+  const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
+  const [ButtonTextColor, setButtonTextColor] = useState("ffff");
+  const [ButtonColor, setButtonColor] = useState("ffff");
   const constantData: object = localizedData()?.organization?.popUp;
   const {
     popUpNewOrganization,
@@ -36,6 +41,10 @@ export default function OrganizationModal(props) {
     newOrganizationBtnSave,
     newOrganizationBtnCancel,
     newOrganizationLogo,
+    newOrganizationColor1,
+    newOrganizationColor2,
+    newOrganizationColor3,
+    newOrganizationColor4,
     newOrganizationFont1,
     newOrganizationFont2,
     newOrganizationHealthNetworks,
@@ -68,6 +77,14 @@ export default function OrganizationModal(props) {
     }
     props.handleClose();
   };
+
+  const changeSideBarColor = (color: string) => setSidebarColor(color);
+
+  const changeButtonColor = (color: string) => setButtonColor(color);
+
+  const changeSideBarTextColor = (color: string) => setSidebarTextColor(color);
+
+  const changeButtonTextColor = (color: string) => setButtonTextColor(color);
 
   const addNetworks = () => {
     setNetworks([...networks, networks.length]);
@@ -138,6 +155,41 @@ export default function OrganizationModal(props) {
                     variant="outlined"
                     placeholder="6"
                   />
+                  <div className="color-section">
+                    <div className="color-pickers">
+                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
+                        <ColorPicker
+                          title={newOrganizationColor1}
+                          color={sidebarColor}
+                          onChange={changeSideBarColor}
+                        />
+                      </div>
+                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
+                        <ColorPicker
+                          title={newOrganizationColor2}
+                          color={ButtonColor}
+                          onChange={changeButtonColor}
+                        />
+                      </div>
+                    </div>
+                    <div className="color-pickers">
+                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
+                        <ColorPicker
+                          title={newOrganizationColor3}
+                          color={sidebarTextColor}
+                          onChange={changeSideBarTextColor}
+                        />
+                      </div>
+                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
+                        <ColorPicker
+                          title={newOrganizationColor4}
+                          color={ButtonTextColor}
+                          onChange={changeButtonTextColor}
+                        />
+                      </div>
+                    </div>
+                  </div>
+
                   <h4 style={{ marginTop: "25px" }} className="labels">
                     {newOrganizationFont1}
                   </h4>

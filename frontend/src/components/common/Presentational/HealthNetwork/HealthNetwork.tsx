@@ -16,7 +16,7 @@ const HealthNetwork = () => {
         placeholder="Advent Health"
       />
       <div className="health-info">
-        <div style={{ width: "65%", marginTop: "25px" }}>
+        <div style={{ width: "100%", marginTop: "25px" }}>
           <p className="dropzone-title">{logo}</p>
           <DropzoneBox />
         </div>
