@@ -16,7 +16,7 @@ const ModalitySection = () => {
   const [networksList, setNetworksList] = useState({});
   const [searchText, setSearchText] = useState("");
   const constantData: any = localizedData()?.modalities;
-  const { title } = constantData;
+  const { title, noDataTitle, noDataDescription } = constantData;
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -66,9 +66,12 @@ const ModalitySection = () => {
                 </Grid>
               ))
             ) : networksList?.query === searchText ? (
-              <p style={{ marginTop: "20px", marginLeft: "20px" }}>
-                no results found
-              </p>
+              <NoDataFound
+                search
+                setQuery={setSearchText}
+                title={noDataTitle}
+                description={noDataDescription}
+              />
             ) : (
               ""
             )
@@ -93,7 +96,11 @@ const ModalitySection = () => {
         </Grid>
         <NetworkModal open={open} handleClose={handleClose} />
       </Box>
-      {!isNetworkDataLoading && !networksData?.length ? <NoDataFound /> : ""}
+      {!isNetworkDataLoading && !networksData?.length ? (
+        <NoDataFound title={noDataTitle} description={noDataDescription} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
@@ -21,7 +22,7 @@ const OrganizationSection = () => {
   });
 
   const constantData: any = localizedData()?.organization;
-  const { title } = constantData;
+  const { title, noDataDescription, noDataTitle } = constantData;
 
   const handleClose = () => dispatch(closeAddModal());
 
@@ -55,9 +56,12 @@ const OrganizationSection = () => {
                 </Grid>
               ))
             ) : organizationsList?.query === searchText ? (
-              <p style={{ marginTop: "20px", marginLeft: "20px" }}>
-                no results found
-              </p>
+              <NoDataFound
+                search
+                setQuery={setSearchText}
+                title={noDataTitle}
+                description={noDataDescription}
+              />
             ) : (
               ""
             )
@@ -75,7 +79,7 @@ const OrganizationSection = () => {
               </Grid>
             ))
           ) : (
-            ""
+            <NoDataFound title={noDataTitle} description={noDataDescription} />
           )}
         </Grid>
         <OrganizationModal

@@ -3,6 +3,7 @@ import { Box, Grid } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
@@ -26,7 +27,7 @@ const SiteSection = () => {
   const [open, setOpen] = useState(false);
 
   const constantData: any = localizedData()?.sites;
-  const { title, noResultMsg } = constantData;
+  const { title, noDataTitle, noDataDescription } = constantData;
 
   const handleClose = () => setOpen(false);
 
@@ -59,9 +60,12 @@ const SiteSection = () => {
                 </Grid>
               ))
             ) : sitesList?.query === searchText ? (
-              <p style={{ marginTop: "20px", marginLeft: "20px" }}>
-                {noResultMsg}
-              </p>
+              <NoDataFound
+                search
+                setQuery={setSearchText}
+                title={noDataTitle}
+                description={noDataDescription}
+              />
             ) : (
               ""
             )
@@ -77,7 +81,7 @@ const SiteSection = () => {
               </Grid>
             ))
           ) : (
-            ""
+            <NoDataFound title={noDataTitle} description={noDataDescription} />
           )}
         </Grid>
         <OrganizationModal
