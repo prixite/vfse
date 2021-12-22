@@ -365,3 +365,6 @@ class UserRequestAcessSeriazlizer(UpsertUserSerializer):
     health_networks = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all(), many=True
     )
+
+    def validate_organization(self, value):
+        return value
