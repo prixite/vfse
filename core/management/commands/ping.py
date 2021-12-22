@@ -13,10 +13,11 @@ class Command(BaseCommand):
             system.is_online = False
             try:
                 subprocess.run(
-                    ["ping",'-c2',system.ip_address],
+                    ["ping", "-c2", system.ip_address],
                     stdout=subprocess.PIPE,
                     check=True,
-                )
+                    timeout=3,
+                ).check_returncode()
                 system.is_online = True
                 system.last_successful_ping_at = timezone.now()
                 self.stdout.write(
