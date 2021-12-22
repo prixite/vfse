@@ -27,10 +27,9 @@ import {
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
-  const {
-    buttonBackground,
-    buttonTextColor,
-  } = useAppSelector((state) => state.myTheme);
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const [networks, setNetworks] = useState([1]);
   const [sidebarColor, setSidebarColor] = useState("ffff");
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
@@ -262,19 +261,23 @@ export default function OrganizationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button
-         style={{
-          backgroundColor: buttonBackground,
-          color: buttonTextColor,
-        }}
-         onClick={props.handleClose} className="cancel-btn">
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={props.handleClose}
+          className="cancel-btn"
+        >
           {newOrganizationBtnCancel}
         </Button>
-        <Button 
-         style={{
-          backgroundColor: buttonBackground,
-          color: buttonTextColor,
-        }}
-        onClick={handleSetNewOrganization} className="add-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={handleSetNewOrganization}
+          className="add-btn"
+        >
           {newOrganizationBtnSave}
         </Button>
       </DialogActions>

@@ -9,7 +9,9 @@ const updateOrganizationColor = async (
     id: organizationData.id.toString(),
     organization: organizationData,
   }).unwrap();
-  await toast.success("Current organization theme successfully updated." , {onClose : refetchOrgList});
+  await toast.success("Current organization theme successfully updated.", {
+    onClose: refetchOrgList,
+  });
 };
 const DeleteOrganizationService = async (id, deleteOrganization, refetch) => {
   await deleteOrganization({

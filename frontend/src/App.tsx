@@ -39,7 +39,6 @@ const App = () => {
     console.log("App USE EFFECT ENTERED");
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
-
       let organizationData = data?.organization;
       dispatch(
         setCurrentOrganization({ currentOrganization: organizationData })

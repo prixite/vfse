@@ -23,13 +23,11 @@ import {
 } from "@src/services/organizationService";
 
 export default function NetworkModal(props) {
-  const [addNewOrganization, { isLoading }] =
-    useOrganizationsCreateMutation();
+  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
-  const {
-    buttonBackground,
-    buttonTextColor,
-  } = useAppSelector((state) => state.myTheme);
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const [sites, setSites] = useState([1]);
   const constantData: object = localizedData()?.modalities?.popUp;
   const {
@@ -117,15 +115,19 @@ export default function NetworkModal(props) {
             backgroundColor: buttonBackground,
             color: buttonTextColor,
           }}
-          onClick={props.handleClose} className="cancel-btn">
+          onClick={props.handleClose}
+          className="cancel-btn"
+        >
           {newNetworkBtnCancel}
         </Button>
-        <Button 
-        style={{
-          backgroundColor: buttonBackground,
-          color: buttonTextColor,
-        }}
-        onClick={handleSetNewOrganization} className="add-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={handleSetNewOrganization}
+          className="add-btn"
+        >
           {newNetworkBtnSave}
         </Button>
       </DialogActions>
