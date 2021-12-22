@@ -13,8 +13,7 @@ class Command(BaseCommand):
             system.is_online = False
             try:
                 subprocess.run(
-                    f"ping -c2 {system.ip_address}",
-                    shell=True,
+                    ["ping",'-c2',system.ip_address],
                     stdout=subprocess.PIPE,
                     check=True,
                 )
