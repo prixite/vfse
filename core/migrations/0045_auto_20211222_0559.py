@@ -8,19 +8,22 @@ from django.utils.timezone import utc
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0044_profile_meta'),
+        ("core", "0044_profile_meta"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='system',
-            name='is_online',
+            model_name="system",
+            name="is_online",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='system',
-            name='last_successful_ping_at',
-            field=models.DateTimeField(auto_now_add=True, default=datetime.datetime(2021, 12, 22, 5, 59, 10, 827516, tzinfo=utc)),
+            model_name="system",
+            name="last_successful_ping_at",
+            field=models.DateTimeField(
+                auto_now_add=True,
+                default=datetime.datetime(2021, 12, 22, 5, 59, 10, 827516, tzinfo=utc),
+            ),
             preserve_default=False,
         ),
     ]
