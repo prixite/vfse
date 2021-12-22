@@ -26,8 +26,8 @@ import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
 import {
   Organization,
-  useMeReadQuery,
-  useOrganizationsListQuery,
+  useApiMeReadQuery,
+  useApiOrganizationsListQuery,
 } from "@src/store/reducers/api";
 import {
   updateButtonColor,
@@ -100,7 +100,7 @@ export default function SideBar() {
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { organizationRoute } = constants;
   const { data: organizationsList, isLoading: isOrgListLoading } =
-    useOrganizationsListQuery({ page: 1 });
+    useApiOrganizationsListQuery({ page: 1 });
   const {
     sideBarBackground,
     sideBarTextColor,
@@ -111,7 +111,7 @@ export default function SideBar() {
     (state) => state.organization.selectedOrganization
   );
 
-  const { data: me, isFetching } = useMeReadQuery();
+  const { data: me, isFetching } = useApiMeReadQuery();
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
@@ -130,7 +130,7 @@ export default function SideBar() {
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
-      .filter((item) => me.flags.indexOf(item.flag) !== -1)
+      .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
       .map((prop: routeItem) => {
         return (
           <ListItem
@@ -161,7 +161,7 @@ export default function SideBar() {
       });
 
   const createClients = () =>
-    organizationsList.slice(0, 5).map((item: Organization) => {
+    organizationsList?.slice(0, 5).map((item: Organization) => {
       return (
         <ListItem
           button

@@ -7,7 +7,6 @@ import AddIcon from "@mui/icons-material/Add";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
 
 const TopViewBtns = ({

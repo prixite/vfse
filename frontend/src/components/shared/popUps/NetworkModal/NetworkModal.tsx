@@ -12,8 +12,8 @@ import { toast } from "react-toastify";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import SiteSection from "./SiteSection";
 import {
-  useOrganizationsCreateMutation,
-  useOrganizationsPartialUpdateMutation,
+  useApiOrganizationsCreateMutation,
+  useApiOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import {
@@ -22,8 +22,9 @@ import {
 } from "@src/services/organizationService";
 
 export default function NetworkModal(props) {
-  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
-  const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const [addNewOrganization, { isLoading }] =
+    useApiOrganizationsCreateMutation();
+  const [updateOrganization] = useApiOrganizationsPartialUpdateMutation();
   const [sites, setSites] = useState([1]);
   const constantData: object = localizedData()?.modalities?.popUp;
   const {
