@@ -2,13 +2,14 @@ import { toast } from "react-toastify";
 
 const updateOrganizationColor = async (
   organizationsPartialUpdate,
-  organizationData
+  organizationData,
+  refetchOrgList
 ) => {
   await organizationsPartialUpdate({
     id: organizationData.id.toString(),
     organization: organizationData,
   }).unwrap();
-  toast.success("Current organization theme successfully updated.");
+  await toast.success("Current organization theme successfully updated." , {onClose : refetchOrgList});
 };
 const DeleteOrganizationService = async (id, deleteOrganization, refetch) => {
   await deleteOrganization({

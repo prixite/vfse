@@ -1,4 +1,5 @@
 import React from "react";
+import { useAppSelector } from "@src/store/hooks";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,6 +15,10 @@ const ConfirmationModal = ({
   handleDeleteOrganization,
   name,
 }) => {
+  const {
+    buttonBackground,
+    buttonTextColor,
+  } = useAppSelector((state) => state.myTheme);
   const constantData: any = localizedData()?.organization.deleteDialog;
   const { dialogMessage, noButton, yesButton } = constantData;
   return (
@@ -27,10 +32,20 @@ const ConfirmationModal = ({
           <DialogContentText className="ClientName">{name}</DialogContentText>
         </DialogContent>
         <DialogActions className="ConfirmationModal__Actions">
-          <Button className="btnModal" onClick={handleClose}>
+          <Button 
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          className="btnModal" onClick={handleClose}>
             {noButton}
           </Button>
-          <Button className="btnModal" onClick={handleDeleteOrganization}>
+          <Button 
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+           className="btnModal" onClick={handleDeleteOrganization}>
             {yesButton}
           </Button>
         </DialogActions>

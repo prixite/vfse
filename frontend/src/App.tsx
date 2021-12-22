@@ -36,8 +36,10 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { organizationRoute } = constants;
   useEffect(() => {
+    console.log("App USE EFFECT ENTERED");
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
+
       let organizationData = data?.organization;
       dispatch(
         setCurrentOrganization({ currentOrganization: organizationData })
@@ -93,7 +95,6 @@ const App = () => {
       setIsLoading(false);
     }
   }, [isFetching, FetchingList]);
-  useEffect(() => {}, []);
 
   return (
     <>

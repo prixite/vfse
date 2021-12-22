@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAppSelector } from "@src/store/hooks";
 import { TextField } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -22,8 +23,13 @@ import {
 } from "@src/services/organizationService";
 
 export default function NetworkModal(props) {
-  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
+  const [addNewOrganization, { isLoading }] =
+    useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const {
+    buttonBackground,
+    buttonTextColor,
+  } = useAppSelector((state) => state.myTheme);
   const [sites, setSites] = useState([1]);
   const constantData: object = localizedData()?.modalities?.popUp;
   const {
@@ -106,10 +112,20 @@ export default function NetworkModal(props) {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose} className="cancel-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={props.handleClose} className="cancel-btn">
           {newNetworkBtnCancel}
         </Button>
-        <Button onClick={handleSetNewOrganization} className="add-btn">
+        <Button 
+        style={{
+          backgroundColor: buttonBackground,
+          color: buttonTextColor,
+        }}
+        onClick={handleSetNewOrganization} className="add-btn">
           {newNetworkBtnSave}
         </Button>
       </DialogActions>

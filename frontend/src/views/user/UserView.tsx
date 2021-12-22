@@ -24,7 +24,10 @@ export default function UserView() {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-
+  const {
+    buttonBackground,
+    buttonTextColor,
+  } = useAppSelector((state) => state.myTheme);
   const {
     data: items,
     refetch,
@@ -57,7 +60,12 @@ export default function UserView() {
     <Fragment>
       <h2>{userAdministration}</h2>
 
-      <Button onClick={handleOpen} variant="contained">
+      <Button 
+       style={{
+        backgroundColor: buttonBackground,
+        color: buttonTextColor,
+      }}
+      onClick={handleOpen} variant="contained">
         {addUser}
       </Button>
 
