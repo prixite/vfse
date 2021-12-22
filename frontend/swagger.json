@@ -26,9 +26,9 @@
         }
     ],
     "paths": {
-        "/accounts/request/": {
+        "/accounts/requests/": {
             "post": {
-                "operationId": "accounts_request_create",
+                "operationId": "accounts_requests_create",
                 "description": "",
                 "parameters": [
                     {

@@ -1,12 +1,12 @@
 import { emptySplitApi as api } from "@src/store/emptyApi";
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
-    accountsRequestCreate: build.mutation<
-      AccountsRequestCreateApiResponse,
-      AccountsRequestCreateApiArg
+    accountsRequestsCreate: build.mutation<
+      AccountsRequestsCreateApiResponse,
+      AccountsRequestsCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/accounts/request/`,
+        url: `/accounts/requests/`,
         method: "POST",
         body: queryArg.userRequestAcessSeriazlizer,
       }),
@@ -261,9 +261,9 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as api };
-export type AccountsRequestCreateApiResponse =
+export type AccountsRequestsCreateApiResponse =
   /** status 201  */ UserRequestAcessSeriazlizer;
-export type AccountsRequestCreateApiArg = {
+export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
 export type ApiManufacturersListApiResponse = /** status 200  */ {
@@ -627,7 +627,7 @@ export type UserDeactivate = {
   users: number[];
 };
 export const {
-  useAccountsRequestCreateMutation,
+  useAccountsRequestsCreateMutation,
   useApiManufacturersListQuery,
   useApiManufacturersCreateMutation,
   useApiManufacturersImagesListQuery,
