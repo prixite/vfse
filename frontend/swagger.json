@@ -8,7 +8,7 @@
         },
         "version": "v1"
     },
-    "basePath": "/api",
+    "basePath": "/",
     "consumes": [
         "application/json"
     ],
@@ -26,9 +26,37 @@
         }
     ],
     "paths": {
-        "/manufacturers/": {
+        "/accounts/requests/": {
+            "post": {
+                "operationId": "accounts_requests_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserRequestAcessSeriazlizer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/UserRequestAcessSeriazlizer"
+                        }
+                    }
+                },
+                "tags": [
+                    "accounts"
+                ]
+            },
+            "parameters": []
+        },
+        "/api/manufacturers/": {
             "get": {
-                "operationId": "manufacturers_list",
+                "operationId": "api_manufacturers_list",
                 "description": "",
                 "parameters": [
                     {
@@ -73,11 +101,11 @@
                     }
                 },
                 "tags": [
-                    "manufacturers"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "manufacturers_create",
+                "operationId": "api_manufacturers_create",
                 "description": "",
                 "parameters": [
                     {
@@ -98,14 +126,14 @@
                     }
                 },
                 "tags": [
-                    "manufacturers"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/manufacturers/images/": {
+        "/api/manufacturers/images/": {
             "get": {
-                "operationId": "manufacturers_images_list",
+                "operationId": "api_manufacturers_images_list",
                 "description": "",
                 "parameters": [
                     {
@@ -150,11 +178,11 @@
                     }
                 },
                 "tags": [
-                    "manufacturers"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "manufacturers_images_create",
+                "operationId": "api_manufacturers_images_create",
                 "description": "",
                 "parameters": [
                     {
@@ -175,14 +203,14 @@
                     }
                 },
                 "tags": [
-                    "manufacturers"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/me/": {
+        "/api/me/": {
             "get": {
-                "operationId": "me_read",
+                "operationId": "api_me_read",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -194,14 +222,14 @@
                     }
                 },
                 "tags": [
-                    "me"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/modalities/": {
+        "/api/modalities/": {
             "get": {
-                "operationId": "modalities_list",
+                "operationId": "api_modalities_list",
                 "description": "",
                 "parameters": [
                     {
@@ -246,14 +274,14 @@
                     }
                 },
                 "tags": [
-                    "modalities"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/organizations/": {
+        "/api/organizations/": {
             "get": {
-                "operationId": "organizations_list",
+                "operationId": "api_organizations_list",
                 "description": "",
                 "parameters": [
                     {
@@ -298,11 +326,11 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "organizations_create",
+                "operationId": "api_organizations_create",
                 "description": "",
                 "parameters": [
                     {
@@ -323,14 +351,14 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/organizations/{id}/": {
+        "/api/organizations/{id}/": {
             "get": {
-                "operationId": "organizations_read",
+                "operationId": "api_organizations_read",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -342,11 +370,11 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "patch": {
-                "operationId": "organizations_partial_update",
+                "operationId": "api_organizations_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -367,11 +395,11 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "delete": {
-                "operationId": "organizations_delete",
+                "operationId": "api_organizations_delete",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -380,7 +408,7 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "parameters": [
@@ -392,9 +420,9 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/health_networks/": {
+        "/api/organizations/{organization_pk}/health_networks/": {
             "get": {
-                "operationId": "organizations_health_networks_list",
+                "operationId": "api_organizations_health_networks_list",
                 "description": "",
                 "parameters": [
                     {
@@ -439,11 +467,11 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "organizations_health_networks_create",
+                "operationId": "api_organizations_health_networks_create",
                 "description": "",
                 "parameters": [
                     {
@@ -464,7 +492,7 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "parameters": [
@@ -476,9 +504,9 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/seats/": {
+        "/api/organizations/{organization_pk}/seats/": {
             "get": {
-                "operationId": "organizations_seats_list",
+                "operationId": "api_organizations_seats_list",
                 "description": "",
                 "parameters": [
                     {
@@ -523,11 +551,11 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "organizations_seats_create",
+                "operationId": "api_organizations_seats_create",
                 "description": "",
                 "parameters": [
                     {
@@ -548,7 +576,7 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "parameters": [
@@ -560,9 +588,9 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/sites/": {
+        "/api/organizations/{organization_pk}/sites/": {
             "get": {
-                "operationId": "organizations_sites_list",
+                "operationId": "api_organizations_sites_list",
                 "description": "",
                 "parameters": [
                     {
@@ -607,7 +635,7 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "parameters": [
@@ -619,9 +647,9 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/users/": {
+        "/api/organizations/{organization_pk}/users/": {
             "get": {
-                "operationId": "organizations_users_list",
+                "operationId": "api_organizations_users_list",
                 "description": "",
                 "parameters": [
                     {
@@ -666,11 +694,11 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "organizations_users_create",
+                "operationId": "api_organizations_users_create",
                 "description": "",
                 "parameters": [
                     {
@@ -691,7 +719,7 @@
                     }
                 },
                 "tags": [
-                    "organizations"
+                    "api"
                 ]
             },
             "parameters": [
@@ -703,9 +731,9 @@
                 }
             ]
         },
-        "/products/models/": {
+        "/api/products/models/": {
             "get": {
-                "operationId": "products_models_list",
+                "operationId": "api_products_models_list",
                 "description": "",
                 "parameters": [
                     {
@@ -750,14 +778,14 @@
                     }
                 },
                 "tags": [
-                    "products"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/products/models/{id}/": {
+        "/api/products/models/{id}/": {
             "patch": {
-                "operationId": "products_models_partial_update",
+                "operationId": "api_products_models_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -778,7 +806,7 @@
                     }
                 },
                 "tags": [
-                    "products"
+                    "api"
                 ]
             },
             "parameters": [
@@ -790,9 +818,9 @@
                 }
             ]
         },
-        "/sites/{site_pk}/systems/": {
+        "/api/sites/{site_pk}/systems/": {
             "get": {
-                "operationId": "sites_systems_list",
+                "operationId": "api_sites_systems_list",
                 "description": "",
                 "parameters": [
                     {
@@ -837,7 +865,7 @@
                     }
                 },
                 "tags": [
-                    "sites"
+                    "api"
                 ]
             },
             "parameters": [
@@ -849,9 +877,9 @@
                 }
             ]
         },
-        "/systems/images/": {
+        "/api/systems/images/": {
             "get": {
-                "operationId": "systems_images_list",
+                "operationId": "api_systems_images_list",
                 "description": "",
                 "parameters": [
                     {
@@ -896,11 +924,11 @@
                     }
                 },
                 "tags": [
-                    "systems"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "systems_images_create",
+                "operationId": "api_systems_images_create",
                 "description": "",
                 "parameters": [
                     {
@@ -921,14 +949,14 @@
                     }
                 },
                 "tags": [
-                    "systems"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/systems/{system_id}/notes/": {
+        "/api/systems/{system_id}/notes/": {
             "get": {
-                "operationId": "systems_notes_list",
+                "operationId": "api_systems_notes_list",
                 "description": "",
                 "parameters": [
                     {
@@ -973,11 +1001,11 @@
                     }
                 },
                 "tags": [
-                    "systems"
+                    "api"
                 ]
             },
             "post": {
-                "operationId": "systems_notes_create",
+                "operationId": "api_systems_notes_create",
                 "description": "",
                 "parameters": [
                     {
@@ -998,7 +1026,7 @@
                     }
                 },
                 "tags": [
-                    "systems"
+                    "api"
                 ]
             },
             "parameters": [
@@ -1010,9 +1038,9 @@
                 }
             ]
         },
-        "/users/deactivate/": {
+        "/api/users/deactivate/": {
             "patch": {
-                "operationId": "users_deactivate_partial_update",
+                "operationId": "api_users_deactivate_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -1033,14 +1061,14 @@
                     }
                 },
                 "tags": [
-                    "users"
+                    "api"
                 ]
             },
             "parameters": []
         },
-        "/users/{id}/": {
+        "/api/users/{id}/": {
             "patch": {
-                "operationId": "users_partial_update",
+                "operationId": "api_users_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -1061,7 +1089,7 @@
                     }
                 },
                 "tags": [
-                    "users"
+                    "api"
                 ]
             },
             "parameters": [
@@ -1075,6 +1103,144 @@
         }
     },
     "definitions": {
+        "MetaSerialzer": {
+            "title": "Meta",
+            "description": "",
+            "required": [
+                "profile_picture",
+                "title"
+            ],
+            "type": "object",
+            "properties": {
+                "profile_picture": {
+                    "title": "Profile picture",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "profile_picture": "",
+                "title": ""
+            }
+        },
+        "UserRequestAcessSeriazlizer": {
+            "description": "",
+            "required": [
+                "first_name",
+                "last_name",
+                "email",
+                "phone",
+                "manager",
+                "organization",
+                "sites",
+                "modalities",
+                "fse_accessible",
+                "audit_enabled",
+                "can_leave_notes",
+                "view_only",
+                "is_one_time",
+                "health_networks"
+            ],
+            "type": "object",
+            "properties": {
+                "meta": {
+                    "$ref": "#/definitions/MetaSerialzer"
+                },
+                "first_name": {
+                    "title": "First name",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "last_name": {
+                    "title": "Last name",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "email": {
+                    "title": "Email",
+                    "type": "string",
+                    "format": "email",
+                    "minLength": 1
+                },
+                "phone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "role": {
+                    "title": "Role",
+                    "type": "string",
+                    "enum": [
+                        "fse-admin",
+                        "customer-admin",
+                        "user-admin",
+                        "fse",
+                        "end-user",
+                        "view-only",
+                        "one-time",
+                        "cryo",
+                        "cryo-fse",
+                        "cryo-admin"
+                    ],
+                    "default": "fse"
+                },
+                "manager": {
+                    "title": "Manager",
+                    "type": "integer"
+                },
+                "organization": {
+                    "title": "Organization",
+                    "type": "integer"
+                },
+                "sites": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "modalities": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "fse_accessible": {
+                    "title": "Fse accessible",
+                    "type": "boolean"
+                },
+                "audit_enabled": {
+                    "title": "Audit enabled",
+                    "type": "boolean"
+                },
+                "can_leave_notes": {
+                    "title": "Can leave notes",
+                    "type": "boolean"
+                },
+                "view_only": {
+                    "title": "View only",
+                    "type": "boolean"
+                },
+                "is_one_time": {
+                    "title": "Is one time",
+                    "type": "boolean"
+                },
+                "health_networks": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
         "Manufacturer": {
             "description": "Manufacturer(id, name, image, created_at, updated_at)",
             "required": [
@@ -1411,32 +1577,6 @@
                     "description": "Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
                     "type": "boolean"
                 }
-            }
-        },
-        "MetaSerialzer": {
-            "title": "Meta",
-            "description": "",
-            "required": [
-                "profile_picture",
-                "title"
-            ],
-            "type": "object",
-            "properties": {
-                "profile_picture": {
-                    "title": "Profile picture",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
-                },
-                "title": {
-                    "title": "Title",
-                    "type": "string",
-                    "minLength": 1
-                }
-            },
-            "default": {
-                "profile_picture": "",
-                "title": ""
             }
         },
         "UpsertUser": {
