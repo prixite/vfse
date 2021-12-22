@@ -231,6 +231,14 @@ urlpatterns = (
         ),
         path("accounts/", include("django.contrib.auth.urls")),
         path("accounts/duo/login/", site.duo_login, name="duo_login"),
+        path(
+        "accounts/request/",
+        api.UserRequestAccessViewSet.as_view(
+            {
+                'post':'create',
+            }
+        )
+    ),
         # Home should be the last mapping. We want everything else to pass to React.
         re_path(r"^$|^.+/$", login_required(site.HomeView.as_view()), name="home"),
     ]

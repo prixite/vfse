@@ -165,6 +165,7 @@ class Membership(models.Model):
     organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, limit_choices_to={"is_customer": True}
     )
+    under_review = models.BooleanField(default=False)
     role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
