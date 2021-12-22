@@ -1,6 +1,5 @@
 from django.db import transaction
 from rest_framework import exceptions
-from rest_framework.decorators import action, permission_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -291,14 +290,15 @@ class ManufacturerImagesViewSet(ModelViewSet):
         return models.ManufacturerImage.objects.all()
 
 
-class UserRequestAccessViewSet(ModelViewSet,mixins.UserMixin):
+class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
     serializer_class = serializers.UserRequestAcessSeriazlizer
-    permission_classes =[AllowAny]
+    permission_classes = [AllowAny]
 
     @transaction.atomic
     def perform_create(self, serializer):
         user = models.User.objects.create_user(
-            username=serializer.validated_data["email"],is_active=False,
+            username=serializer.validated_data["email"],
+            is_active=False,
             **{
                 key: serializer.validated_data[key]
                 for key in ["email", "first_name", "last_name"]
@@ -309,9 +309,9 @@ class UserRequestAccessViewSet(ModelViewSet,mixins.UserMixin):
         self.update_profile(serializer, user.id)
         self.add_sites(serializer, user.id)
         self.add_modalities(serializer, user.id)
-    
+
     def create_membership(self, serializer, user_id):
-         models.Membership.objects.create(
+        models.Membership.objects.create(
             organization=serializer.validated_data["organization"],
             role=serializer.validated_data["role"],
             user_id=user_id,

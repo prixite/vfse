@@ -362,4 +362,6 @@ class SeatSerializer(serializers.ModelSerializer):
 
 
 class UserRequestAcessSeriazlizer(UpsertUserSerializer):
-    health_networks = serializers.PrimaryKeyRelatedField(queryset=models.Organization.objects.all(),many=True)
+    health_networks = serializers.PrimaryKeyRelatedField(
+        queryset=models.Organization.objects.all(), many=True
+    )
