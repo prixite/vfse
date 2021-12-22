@@ -80,15 +80,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organization,
       }),
     }),
-    organizationsRead: build.query<
-      OrganizationsReadApiResponse,
-      OrganizationsReadApiArg
+    apiOrganizationsRead: build.query<
+      ApiOrganizationsReadApiResponse,
+      ApiOrganizationsReadApiArg
     >({
-      query: (queryArg) => ({ url: `/organizations/${queryArg.id}/` }),
+      query: (queryArg) => ({ url: `/api/organizations/${queryArg.id}/` }),
     }),
-    organizationsPartialUpdate: build.mutation<
-      OrganizationsPartialUpdateApiResponse,
-      OrganizationsPartialUpdateApiArg
+    apiOrganizationsPartialUpdate: build.mutation<
+      ApiOrganizationsPartialUpdateApiResponse,
+      ApiOrganizationsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
         url: `/api/organizations/${queryArg.id}/`,
@@ -321,11 +321,11 @@ export type ApiOrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type ApiOrganizationsCreateApiArg = {
   organization: Organization;
 };
-export type OrganizationsReadApiResponse = /** status 200  */ Organization;
-export type OrganizationsReadApiArg = {
+export type ApiOrganizationsReadApiResponse = /** status 200  */ Organization;
+export type ApiOrganizationsReadApiArg = {
   id: string;
 };
-export type OrganizationsPartialUpdateApiResponse =
+export type ApiOrganizationsPartialUpdateApiResponse =
   /** status 200  */ Organization;
 export type ApiOrganizationsPartialUpdateApiArg = {
   id: string;
@@ -627,31 +627,32 @@ export type UserDeactivate = {
   users: number[];
 };
 export const {
-  useManufacturersListQuery,
-  useManufacturersCreateMutation,
-  useManufacturersImagesListQuery,
-  useManufacturersImagesCreateMutation,
-  useMeReadQuery,
-  useModalitiesListQuery,
-  useOrganizationsListQuery,
-  useOrganizationsCreateMutation,
-  useOrganizationsReadQuery,
-  useOrganizationsPartialUpdateMutation,
-  useOrganizationsDeleteMutation,
-  useOrganizationsHealthNetworksListQuery,
-  useOrganizationsHealthNetworksCreateMutation,
-  useOrganizationsSeatsListQuery,
-  useOrganizationsSeatsCreateMutation,
-  useOrganizationsSitesListQuery,
-  useOrganizationsUsersListQuery,
-  useOrganizationsUsersCreateMutation,
-  useProductsModelsListQuery,
-  useProductsModelsPartialUpdateMutation,
-  useSitesSystemsListQuery,
-  useSystemsImagesListQuery,
-  useSystemsImagesCreateMutation,
-  useSystemsNotesListQuery,
-  useSystemsNotesCreateMutation,
-  useUsersDeactivatePartialUpdateMutation,
-  useUsersPartialUpdateMutation,
+  useAccountsRequestCreateMutation,
+  useApiManufacturersListQuery,
+  useApiManufacturersCreateMutation,
+  useApiManufacturersImagesListQuery,
+  useApiManufacturersImagesCreateMutation,
+  useApiMeReadQuery,
+  useApiModalitiesListQuery,
+  useApiOrganizationsListQuery,
+  useApiOrganizationsCreateMutation,
+  useApiOrganizationsReadQuery,
+  useApiOrganizationsPartialUpdateMutation,
+  useApiOrganizationsDeleteMutation,
+  useApiOrganizationsHealthNetworksListQuery,
+  useApiOrganizationsHealthNetworksCreateMutation,
+  useApiOrganizationsSeatsListQuery,
+  useApiOrganizationsSeatsCreateMutation,
+  useApiOrganizationsSitesListQuery,
+  useApiOrganizationsUsersListQuery,
+  useApiOrganizationsUsersCreateMutation,
+  useApiProductsModelsListQuery,
+  useApiProductsModelsPartialUpdateMutation,
+  useApiSitesSystemsListQuery,
+  useApiSystemsImagesListQuery,
+  useApiSystemsImagesCreateMutation,
+  useApiSystemsNotesListQuery,
+  useApiSystemsNotesCreateMutation,
+  useApiUsersDeactivatePartialUpdateMutation,
+  useApiUsersPartialUpdateMutation,
 } = injectedRtkApi;

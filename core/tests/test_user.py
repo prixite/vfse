@@ -1,9 +1,8 @@
 from django import test
 
+from core import models
 from core.tests import factories
 from core.tests.base import BaseTestCase
-
-from core import models
 
 
 class UserTestCase(BaseTestCase):
@@ -40,7 +39,7 @@ class UserTestCase(BaseTestCase):
         )
 
         self.assertEqual(response.context["user"].is_authenticated, False)
-    
+
     def test_request_access(self):
         user_data = {
             "meta": {
@@ -61,12 +60,11 @@ class UserTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
-            "health_networks":[self.health_network.id],
+            "health_networks": [self.health_network.id],
         }
-        response = self.client.post('/accounts/request/',
-        data=user_data)
+        response = self.client.post("/accounts/request/", data=user_data)
 
-        self.assertEqual(response.status_code,201)
-        user = models.User.objects.get(email='johndoe@request.com',is_active=False)
+        self.assertEqual(response.status_code, 201)
+        user = models.User.objects.get(email="johndoe@request.com", is_active=False)
         self.assertFalse(user.is_active)
         self.assertTrue(models.Membership.objects.get(user=user).under_review)

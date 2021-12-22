@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0044_profile_meta'),
+        ("core", "0044_profile_meta"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='membership',
-            name='under_review',
+            model_name="membership",
+            name="under_review",
             field=models.BooleanField(default=False),
         ),
     ]
