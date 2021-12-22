@@ -233,7 +233,7 @@ urlpatterns = (
         path("accounts/", include("django.contrib.auth.urls")),
         path("accounts/duo/login/", site.duo_login, name="duo_login"),
         path(
-            "accounts/request/",
+            "accounts/requests/",
             api.UserRequestAccessViewSet.as_view(
                 {
                     "post": "create",

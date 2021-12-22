@@ -62,7 +62,7 @@ class UserTestCase(BaseTestCase):
             "view_only": "false",
             "health_networks": [self.health_network.id],
         }
-        response = self.client.post("/accounts/request/", data=user_data)
+        response = self.client.post("/accounts/requests/", data=user_data)
 
         self.assertEqual(response.status_code, 201)
         user = models.User.objects.get(email="johndoe@request.com", is_active=False)
