@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "@mui/material/Button";
 
 import AddUser from "@src/components/common/Smart/AddUser/AddUser";
-import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
+import { useApiOrganizationsUsersListQuery } from "@src/store/reducers/api";
 import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
 
@@ -29,7 +29,7 @@ export default function UserView() {
     data: items,
     refetch,
     isLoading,
-  } = useOrganizationsUsersListQuery({
+  } = useApiOrganizationsUsersListQuery({
     organizationPk: selectedOrganization.id.toString(),
   });
 

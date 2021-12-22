@@ -5,7 +5,7 @@ import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/O
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
+import { useApiOrganizationsListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
@@ -17,7 +17,7 @@ const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
-  const { data: organizationList, refetch } = useOrganizationsListQuery({
+  const { data: organizationList, refetch } = useApiOrganizationsListQuery({
     page: 1,
   });
 

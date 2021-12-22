@@ -1,9 +1,11 @@
 .AppearanceSection {
-  &__clientSection {
+  &__clientCard {
     margin-top: 32px;
     background-color: #fff;
     padding: 42px;
-    width: 100%;
+  }
+  &__clientSection {
+    width: fit-content;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -48,6 +50,7 @@
       .colorSection {
         display: flex;
         flex-direction: column;
+        align-items: center;
         margin-top: 20px;
         .appearanceColorSection {
           margin-left: 28px;
@@ -60,6 +63,7 @@
       display: flex;
       width: 100%;
       align-items: flex-end;
+      margin-bottom: 24px;
       .font-demo {
         margin-right: 25px;
         font-size: 32px;
@@ -67,6 +71,15 @@
       .font-section {
         margin-right: 15px;
       }
+    }
+    .SaveAppearanceBtn {
+      font-family: "ProximaNova-Regular" !important;
+      width: 50%;
+      padding: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      max-width: 200px;
+      align-self: flex-end;
     }
   }
 }

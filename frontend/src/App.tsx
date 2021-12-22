@@ -5,8 +5,8 @@ import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import RoutesHOC from "@src/components/hoc/routesHOC";
 import { constants } from "@src/helpers/utils/constants";
 import {
-  useMeReadQuery,
-  useOrganizationsListQuery,
+  useApiMeReadQuery,
+  useApiOrganizationsListQuery,
 } from "@src/store/reducers/api";
 
 import {
@@ -27,10 +27,10 @@ const App = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { pathname } = useLocation();
-  const { params }: any = matchPath(pathname, { path: "/clients/:id" });
-  const { data, isFetching } = useMeReadQuery();
+  const params: any = matchPath(pathname, { path: "/clients/:id" });
+  const { data, isFetching } = useApiMeReadQuery();
   const { data: organizationList, isFetching: FetchingList } =
-    useOrganizationsListQuery({
+    useApiOrganizationsListQuery({
       page: 1,
     });
   const [isLoading, setIsLoading] = useState(true);
@@ -38,14 +38,14 @@ const App = () => {
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
-      let organizationData = data.organization;
+      let organizationData = data?.organization;
       dispatch(
         setCurrentOrganization({ currentOrganization: organizationData })
       );
       if (organizationList) {
         const selectedOrganizationData = organizationList.find(
           (organization) => {
-            return organization?.id === parseInt(params.id, 10);
+            return organization?.id === parseInt(params?.params.id, 10);
           }
         );
         if (selectedOrganizationData) {
@@ -88,7 +88,6 @@ const App = () => {
           dispatch(
             updateButtonTextColor(organizationData.appearance.button_text)
           );
-          history.push(`/${organizationRoute}/${organizationData.id}`);
         }
       }
       setIsLoading(false);
