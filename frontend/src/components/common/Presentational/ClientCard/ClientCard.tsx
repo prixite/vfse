@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 import {
   Organization,
-  useApiOrganizationsDeleteMutation,
+  useOrganizationsDeleteMutation,
 } from "@src/store/reducers/api";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
@@ -45,7 +45,7 @@ const ClientCard = ({
   const [openModal, setOpenModal] = useState(false);
   const [openNetworkModal, setOpenNetworkModal] = useState(false);
   const open = Boolean(anchorEl);
-  const [deleteOrganization] = useApiOrganizationsDeleteMutation();
+  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute } = constants;
 
   const handleModalOpen = () => {

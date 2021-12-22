@@ -5,8 +5,8 @@ import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import RoutesHOC from "@src/components/hoc/routesHOC";
 import { constants } from "@src/helpers/utils/constants";
 import {
-  useApiMeReadQuery,
-  useApiOrganizationsListQuery,
+  useMeReadQuery,
+  useOrganizationsListQuery,
 } from "@src/store/reducers/api";
 
 import {
@@ -28,9 +28,9 @@ const App = () => {
   const history = useHistory();
   const { pathname } = useLocation();
   const params: any = matchPath(pathname, { path: "/clients/:id" });
-  const { data, isFetching } = useApiMeReadQuery();
+  const { data, isFetching } = useMeReadQuery();
   const { data: organizationList, isFetching: FetchingList } =
-    useApiOrganizationsListQuery({
+    useOrganizationsListQuery({
       page: 1,
     });
   const [isLoading, setIsLoading] = useState(true);

@@ -11,248 +11,248 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userRequestAcessSeriazlizer,
       }),
     }),
-    apiManufacturersList: build.query<
-      ApiManufacturersListApiResponse,
-      ApiManufacturersListApiArg
+    manufacturersList: build.query<
+      ManufacturersListApiResponse,
+      ManufacturersListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/manufacturers/`,
+        url: `/manufacturers/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiManufacturersCreate: build.mutation<
-      ApiManufacturersCreateApiResponse,
-      ApiManufacturersCreateApiArg
+    manufacturersCreate: build.mutation<
+      ManufacturersCreateApiResponse,
+      ManufacturersCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/manufacturers/`,
+        url: `/manufacturers/`,
         method: "POST",
         body: queryArg.manufacturer,
       }),
     }),
-    apiManufacturersImagesList: build.query<
-      ApiManufacturersImagesListApiResponse,
-      ApiManufacturersImagesListApiArg
+    manufacturersImagesList: build.query<
+      ManufacturersImagesListApiResponse,
+      ManufacturersImagesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/manufacturers/images/`,
+        url: `/manufacturers/images/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiManufacturersImagesCreate: build.mutation<
-      ApiManufacturersImagesCreateApiResponse,
-      ApiManufacturersImagesCreateApiArg
+    manufacturersImagesCreate: build.mutation<
+      ManufacturersImagesCreateApiResponse,
+      ManufacturersImagesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/manufacturers/images/`,
+        url: `/manufacturers/images/`,
         method: "POST",
         body: queryArg.manufacturerImage,
       }),
     }),
-    apiMeRead: build.query<ApiMeReadApiResponse, ApiMeReadApiArg>({
-      query: () => ({ url: `/api/me/` }),
+    meRead: build.query<MeReadApiResponse, MeReadApiArg>({
+      query: () => ({ url: `/me/` }),
     }),
-    apiModalitiesList: build.query<
-      ApiModalitiesListApiResponse,
-      ApiModalitiesListApiArg
+    modalitiesList: build.query<
+      ModalitiesListApiResponse,
+      ModalitiesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/modalities/`,
+        url: `/modalities/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiOrganizationsList: build.query<
-      ApiOrganizationsListApiResponse,
-      ApiOrganizationsListApiArg
+    organizationsList: build.query<
+      OrganizationsListApiResponse,
+      OrganizationsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/`,
+        url: `/organizations/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiOrganizationsCreate: build.mutation<
-      ApiOrganizationsCreateApiResponse,
-      ApiOrganizationsCreateApiArg
+    organizationsCreate: build.mutation<
+      OrganizationsCreateApiResponse,
+      OrganizationsCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/`,
+        url: `/organizations/`,
         method: "POST",
         body: queryArg.organization,
       }),
     }),
-    apiOrganizationsRead: build.query<
-      ApiOrganizationsReadApiResponse,
-      ApiOrganizationsReadApiArg
+    organizationsRead: build.query<
+      OrganizationsReadApiResponse,
+      OrganizationsReadApiArg
     >({
-      query: (queryArg) => ({ url: `/api/organizations/${queryArg.id}/` }),
+      query: (queryArg) => ({ url: `/organizations/${queryArg.id}/` }),
     }),
-    apiOrganizationsPartialUpdate: build.mutation<
-      ApiOrganizationsPartialUpdateApiResponse,
-      ApiOrganizationsPartialUpdateApiArg
+    organizationsPartialUpdate: build.mutation<
+      OrganizationsPartialUpdateApiResponse,
+      OrganizationsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.id}/`,
+        url: `/organizations/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.organization,
       }),
     }),
-    apiOrganizationsDelete: build.mutation<
-      ApiOrganizationsDeleteApiResponse,
-      ApiOrganizationsDeleteApiArg
+    organizationsDelete: build.mutation<
+      OrganizationsDeleteApiResponse,
+      OrganizationsDeleteApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.id}/`,
+        url: `/organizations/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
-    apiOrganizationsHealthNetworksList: build.query<
-      ApiOrganizationsHealthNetworksListApiResponse,
-      ApiOrganizationsHealthNetworksListApiArg
+    organizationsHealthNetworksList: build.query<
+      OrganizationsHealthNetworksListApiResponse,
+      OrganizationsHealthNetworksListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/health_networks/`,
+        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiOrganizationsHealthNetworksCreate: build.mutation<
-      ApiOrganizationsHealthNetworksCreateApiResponse,
-      ApiOrganizationsHealthNetworksCreateApiArg
+    organizationsHealthNetworksCreate: build.mutation<
+      OrganizationsHealthNetworksCreateApiResponse,
+      OrganizationsHealthNetworksCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/health_networks/`,
+        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
         method: "POST",
         body: queryArg.organizationHealthNetworkCreate,
       }),
     }),
-    apiOrganizationsSeatsList: build.query<
-      ApiOrganizationsSeatsListApiResponse,
-      ApiOrganizationsSeatsListApiArg
+    organizationsSeatsList: build.query<
+      OrganizationsSeatsListApiResponse,
+      OrganizationsSeatsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/seats/`,
+        url: `/organizations/${queryArg.organizationPk}/seats/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiOrganizationsSeatsCreate: build.mutation<
-      ApiOrganizationsSeatsCreateApiResponse,
-      ApiOrganizationsSeatsCreateApiArg
+    organizationsSeatsCreate: build.mutation<
+      OrganizationsSeatsCreateApiResponse,
+      OrganizationsSeatsCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/seats/`,
+        url: `/organizations/${queryArg.organizationPk}/seats/`,
         method: "POST",
         body: queryArg.systemSeatSeriazlier,
       }),
     }),
-    apiOrganizationsSitesList: build.query<
-      ApiOrganizationsSitesListApiResponse,
-      ApiOrganizationsSitesListApiArg
+    organizationsSitesList: build.query<
+      OrganizationsSitesListApiResponse,
+      OrganizationsSitesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/sites/`,
+        url: `/organizations/${queryArg.organizationPk}/sites/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiOrganizationsUsersList: build.query<
-      ApiOrganizationsUsersListApiResponse,
-      ApiOrganizationsUsersListApiArg
+    organizationsUsersList: build.query<
+      OrganizationsUsersListApiResponse,
+      OrganizationsUsersListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/users/`,
+        url: `/organizations/${queryArg.organizationPk}/users/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiOrganizationsUsersCreate: build.mutation<
-      ApiOrganizationsUsersCreateApiResponse,
-      ApiOrganizationsUsersCreateApiArg
+    organizationsUsersCreate: build.mutation<
+      OrganizationsUsersCreateApiResponse,
+      OrganizationsUsersCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/organizations/${queryArg.organizationPk}/users/`,
+        url: `/organizations/${queryArg.organizationPk}/users/`,
         method: "POST",
         body: queryArg.upsertUser,
       }),
     }),
-    apiProductsModelsList: build.query<
-      ApiProductsModelsListApiResponse,
-      ApiProductsModelsListApiArg
+    productsModelsList: build.query<
+      ProductsModelsListApiResponse,
+      ProductsModelsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/products/models/`,
+        url: `/products/models/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiProductsModelsPartialUpdate: build.mutation<
-      ApiProductsModelsPartialUpdateApiResponse,
-      ApiProductsModelsPartialUpdateApiArg
+    productsModelsPartialUpdate: build.mutation<
+      ProductsModelsPartialUpdateApiResponse,
+      ProductsModelsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/products/models/${queryArg.id}/`,
+        url: `/products/models/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.productModel,
       }),
     }),
-    apiSitesSystemsList: build.query<
-      ApiSitesSystemsListApiResponse,
-      ApiSitesSystemsListApiArg
+    sitesSystemsList: build.query<
+      SitesSystemsListApiResponse,
+      SitesSystemsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/sites/${queryArg.sitePk}/systems/`,
+        url: `/sites/${queryArg.sitePk}/systems/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiSystemsImagesList: build.query<
-      ApiSystemsImagesListApiResponse,
-      ApiSystemsImagesListApiArg
+    systemsImagesList: build.query<
+      SystemsImagesListApiResponse,
+      SystemsImagesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/systems/images/`,
+        url: `/systems/images/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiSystemsImagesCreate: build.mutation<
-      ApiSystemsImagesCreateApiResponse,
-      ApiSystemsImagesCreateApiArg
+    systemsImagesCreate: build.mutation<
+      SystemsImagesCreateApiResponse,
+      SystemsImagesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/systems/images/`,
+        url: `/systems/images/`,
         method: "POST",
         body: queryArg.systemImage,
       }),
     }),
-    apiSystemsNotesList: build.query<
-      ApiSystemsNotesListApiResponse,
-      ApiSystemsNotesListApiArg
+    systemsNotesList: build.query<
+      SystemsNotesListApiResponse,
+      SystemsNotesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/${queryArg.systemId}/notes/`,
         params: { page: queryArg.page },
       }),
     }),
-    apiSystemsNotesCreate: build.mutation<
-      ApiSystemsNotesCreateApiResponse,
-      ApiSystemsNotesCreateApiArg
+    systemsNotesCreate: build.mutation<
+      SystemsNotesCreateApiResponse,
+      SystemsNotesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/${queryArg.systemId}/notes/`,
         method: "POST",
         body: queryArg.systemNotes,
       }),
     }),
-    apiUsersDeactivatePartialUpdate: build.mutation<
-      ApiUsersDeactivatePartialUpdateApiResponse,
-      ApiUsersDeactivatePartialUpdateApiArg
+    usersDeactivatePartialUpdate: build.mutation<
+      UsersDeactivatePartialUpdateApiResponse,
+      UsersDeactivatePartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/users/deactivate/`,
+        url: `/users/deactivate/`,
         method: "PATCH",
         body: queryArg.userDeactivate,
       }),
     }),
-    apiUsersPartialUpdate: build.mutation<
-      ApiUsersPartialUpdateApiResponse,
-      ApiUsersPartialUpdateApiArg
+    usersPartialUpdate: build.mutation<
+      UsersPartialUpdateApiResponse,
+      UsersPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/users/${queryArg.id}/`,
+        url: `/users/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.upsertUser,
       }),
@@ -266,201 +266,200 @@ export type AccountsRequestsCreateApiResponse =
 export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
-export type ApiManufacturersListApiResponse = /** status 200  */ {
+export type ManufacturersListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Manufacturer[];
 };
-export type ApiManufacturersListApiArg = {
+export type ManufacturersListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
-export type ApiManufacturersCreateApiArg = {
+export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
+export type ManufacturersCreateApiArg = {
   manufacturer: Manufacturer;
 };
-export type ApiManufacturersImagesListApiResponse = /** status 200  */ {
+export type ManufacturersImagesListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: ManufacturerImage[];
 };
-export type ApiManufacturersImagesListApiArg = {
+export type ManufacturersImagesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiManufacturersImagesCreateApiResponse =
+export type ManufacturersImagesCreateApiResponse =
   /** status 201  */ ManufacturerImage;
-export type ApiManufacturersImagesCreateApiArg = {
+export type ManufacturersImagesCreateApiArg = {
   manufacturerImage: ManufacturerImage;
 };
-export type ApiMeReadApiResponse = /** status 200  */ Me;
-export type ApiMeReadApiArg = void;
-export type ApiModalitiesListApiResponse = /** status 200  */ {
+export type MeReadApiResponse = /** status 200  */ Me;
+export type MeReadApiArg = void;
+export type ModalitiesListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Modality[];
 };
-export type ApiModalitiesListApiArg = {
+export type ModalitiesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiOrganizationsListApiResponse = /** status 200  */ {
+export type OrganizationsListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Organization[];
 };
-export type ApiOrganizationsListApiArg = {
+export type OrganizationsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiOrganizationsCreateApiResponse = /** status 201  */ Organization;
-export type ApiOrganizationsCreateApiArg = {
+export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
+export type OrganizationsCreateApiArg = {
   organization: Organization;
 };
-export type ApiOrganizationsReadApiResponse = /** status 200  */ Organization;
-export type ApiOrganizationsReadApiArg = {
+export type OrganizationsReadApiResponse = /** status 200  */ Organization;
+export type OrganizationsReadApiArg = {
   id: string;
 };
-export type ApiOrganizationsPartialUpdateApiResponse =
+export type OrganizationsPartialUpdateApiResponse =
   /** status 200  */ Organization;
-export type ApiOrganizationsPartialUpdateApiArg = {
+export type OrganizationsPartialUpdateApiArg = {
   id: string;
   organization: Organization;
 };
-export type ApiOrganizationsDeleteApiResponse = unknown;
-export type ApiOrganizationsDeleteApiArg = {
+export type OrganizationsDeleteApiResponse = unknown;
+export type OrganizationsDeleteApiArg = {
   id: string;
 };
-export type ApiOrganizationsHealthNetworksListApiResponse = /** status 200  */ {
+export type OrganizationsHealthNetworksListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: HealthNetwork[];
 };
-export type ApiOrganizationsHealthNetworksListApiArg = {
+export type OrganizationsHealthNetworksListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiOrganizationsHealthNetworksCreateApiResponse =
+export type OrganizationsHealthNetworksCreateApiResponse =
   /** status 201  */ OrganizationHealthNetworkCreate;
-export type ApiOrganizationsHealthNetworksCreateApiArg = {
+export type OrganizationsHealthNetworksCreateApiArg = {
   organizationPk: string;
   organizationHealthNetworkCreate: OrganizationHealthNetworkCreate;
 };
-export type ApiOrganizationsSeatsListApiResponse = /** status 200  */ {
+export type OrganizationsSeatsListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Seat[];
 };
-export type ApiOrganizationsSeatsListApiArg = {
+export type OrganizationsSeatsListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiOrganizationsSeatsCreateApiResponse =
+export type OrganizationsSeatsCreateApiResponse =
   /** status 201  */ SystemSeatSeriazlier;
-export type ApiOrganizationsSeatsCreateApiArg = {
+export type OrganizationsSeatsCreateApiArg = {
   organizationPk: string;
   systemSeatSeriazlier: SystemSeatSeriazlier;
 };
-export type ApiOrganizationsSitesListApiResponse = /** status 200  */ {
+export type OrganizationsSitesListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: Site[];
 };
-export type ApiOrganizationsSitesListApiArg = {
+export type OrganizationsSitesListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiOrganizationsUsersListApiResponse = /** status 200  */ {
+export type OrganizationsUsersListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: User[];
 };
-export type ApiOrganizationsUsersListApiArg = {
+export type OrganizationsUsersListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiOrganizationsUsersCreateApiResponse =
-  /** status 201  */ UpsertUser;
-export type ApiOrganizationsUsersCreateApiArg = {
+export type OrganizationsUsersCreateApiResponse = /** status 201  */ UpsertUser;
+export type OrganizationsUsersCreateApiArg = {
   organizationPk: string;
   upsertUser: UpsertUser;
 };
-export type ApiProductsModelsListApiResponse = /** status 200  */ {
+export type ProductsModelsListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: ProductModel[];
 };
-export type ApiProductsModelsListApiArg = {
+export type ProductsModelsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiProductsModelsPartialUpdateApiResponse =
+export type ProductsModelsPartialUpdateApiResponse =
   /** status 200  */ ProductModel;
-export type ApiProductsModelsPartialUpdateApiArg = {
+export type ProductsModelsPartialUpdateApiArg = {
   id: string;
   productModel: ProductModel;
 };
-export type ApiSitesSystemsListApiResponse = /** status 200  */ {
+export type SitesSystemsListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: System[];
 };
-export type ApiSitesSystemsListApiArg = {
+export type SitesSystemsListApiArg = {
   sitePk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiSystemsImagesListApiResponse = /** status 200  */ {
+export type SystemsImagesListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: SystemImage[];
 };
-export type ApiSystemsImagesListApiArg = {
+export type SystemsImagesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiSystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
-export type ApiSystemsImagesCreateApiArg = {
+export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
+export type SystemsImagesCreateApiArg = {
   systemImage: SystemImage;
 };
-export type ApiSystemsNotesListApiResponse = /** status 200  */ {
+export type SystemsNotesListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
   previous?: string | null;
   results: SystemNotes[];
 };
-export type ApiSystemsNotesListApiArg = {
+export type SystemsNotesListApiArg = {
   systemId: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ApiSystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
-export type ApiSystemsNotesCreateApiArg = {
+export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
+export type SystemsNotesCreateApiArg = {
   systemId: string;
   systemNotes: SystemNotes;
 };
-export type ApiUsersDeactivatePartialUpdateApiResponse =
+export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserDeactivate;
-export type ApiUsersDeactivatePartialUpdateApiArg = {
+export type UsersDeactivatePartialUpdateApiArg = {
   userDeactivate: UserDeactivate;
 };
-export type ApiUsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
-export type ApiUsersPartialUpdateApiArg = {
+export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
+export type UsersPartialUpdateApiArg = {
   id: string;
   upsertUser: UpsertUser;
 };
@@ -628,31 +627,31 @@ export type UserDeactivate = {
 };
 export const {
   useAccountsRequestsCreateMutation,
-  useApiManufacturersListQuery,
-  useApiManufacturersCreateMutation,
-  useApiManufacturersImagesListQuery,
-  useApiManufacturersImagesCreateMutation,
-  useApiMeReadQuery,
-  useApiModalitiesListQuery,
-  useApiOrganizationsListQuery,
-  useApiOrganizationsCreateMutation,
-  useApiOrganizationsReadQuery,
-  useApiOrganizationsPartialUpdateMutation,
-  useApiOrganizationsDeleteMutation,
-  useApiOrganizationsHealthNetworksListQuery,
-  useApiOrganizationsHealthNetworksCreateMutation,
-  useApiOrganizationsSeatsListQuery,
-  useApiOrganizationsSeatsCreateMutation,
-  useApiOrganizationsSitesListQuery,
-  useApiOrganizationsUsersListQuery,
-  useApiOrganizationsUsersCreateMutation,
-  useApiProductsModelsListQuery,
-  useApiProductsModelsPartialUpdateMutation,
-  useApiSitesSystemsListQuery,
-  useApiSystemsImagesListQuery,
-  useApiSystemsImagesCreateMutation,
-  useApiSystemsNotesListQuery,
-  useApiSystemsNotesCreateMutation,
-  useApiUsersDeactivatePartialUpdateMutation,
-  useApiUsersPartialUpdateMutation,
+  useManufacturersListQuery,
+  useManufacturersCreateMutation,
+  useManufacturersImagesListQuery,
+  useManufacturersImagesCreateMutation,
+  useMeReadQuery,
+  useModalitiesListQuery,
+  useOrganizationsListQuery,
+  useOrganizationsCreateMutation,
+  useOrganizationsReadQuery,
+  useOrganizationsPartialUpdateMutation,
+  useOrganizationsDeleteMutation,
+  useOrganizationsHealthNetworksListQuery,
+  useOrganizationsHealthNetworksCreateMutation,
+  useOrganizationsSeatsListQuery,
+  useOrganizationsSeatsCreateMutation,
+  useOrganizationsSitesListQuery,
+  useOrganizationsUsersListQuery,
+  useOrganizationsUsersCreateMutation,
+  useProductsModelsListQuery,
+  useProductsModelsPartialUpdateMutation,
+  useSitesSystemsListQuery,
+  useSystemsImagesListQuery,
+  useSystemsImagesCreateMutation,
+  useSystemsNotesListQuery,
+  useSystemsNotesCreateMutation,
+  useUsersDeactivatePartialUpdateMutation,
+  useUsersPartialUpdateMutation,
 } = injectedRtkApi;

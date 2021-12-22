@@ -14,7 +14,7 @@ import ColorPicker from "@src/components/common/Presentational/ColorPicker/Color
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import {
   Organization,
-  useApiOrganizationsPartialUpdateMutation,
+  useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
@@ -26,8 +26,7 @@ import {
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import { updateOrganizationColor } from "@src/services/organizationService";
 const AppearanceSection = () => {
-  const [organizationsPartialUpdate] =
-    useApiOrganizationsPartialUpdateMutation();
+  const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization

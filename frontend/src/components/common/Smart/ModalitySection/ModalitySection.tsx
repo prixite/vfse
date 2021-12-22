@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModal";
 import NetworkCard from "@src/components/common/Presentational/NetworkCard/NetworkCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
-import { useApiOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
+import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
 import { localizedData } from "@src/helpers/utils/language";
@@ -26,7 +26,7 @@ const ModalitySection = () => {
     data: networksData,
     isLoading: isNetworkDataLoading,
     refetch: orgNetworkRefetch,
-  } = useApiOrganizationsHealthNetworksListQuery({
+  } = useOrganizationsHealthNetworksListQuery({
     page: 1,
     organizationPk: selectedOrganization?.id.toString(),
   });

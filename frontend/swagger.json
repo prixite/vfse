@@ -8,7 +8,7 @@
         },
         "version": "v1"
     },
-    "basePath": "/",
+    "basePath": "/api",
     "consumes": [
         "application/json"
     ],
@@ -54,9 +54,9 @@
             },
             "parameters": []
         },
-        "/api/manufacturers/": {
+        "/manufacturers/": {
             "get": {
-                "operationId": "api_manufacturers_list",
+                "operationId": "manufacturers_list",
                 "description": "",
                 "parameters": [
                     {
@@ -101,11 +101,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "manufacturers"
                 ]
             },
             "post": {
-                "operationId": "api_manufacturers_create",
+                "operationId": "manufacturers_create",
                 "description": "",
                 "parameters": [
                     {
@@ -126,14 +126,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "manufacturers"
                 ]
             },
             "parameters": []
         },
-        "/api/manufacturers/images/": {
+        "/manufacturers/images/": {
             "get": {
-                "operationId": "api_manufacturers_images_list",
+                "operationId": "manufacturers_images_list",
                 "description": "",
                 "parameters": [
                     {
@@ -178,11 +178,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "manufacturers"
                 ]
             },
             "post": {
-                "operationId": "api_manufacturers_images_create",
+                "operationId": "manufacturers_images_create",
                 "description": "",
                 "parameters": [
                     {
@@ -203,14 +203,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "manufacturers"
                 ]
             },
             "parameters": []
         },
-        "/api/me/": {
+        "/me/": {
             "get": {
-                "operationId": "api_me_read",
+                "operationId": "me_read",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -222,14 +222,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "me"
                 ]
             },
             "parameters": []
         },
-        "/api/modalities/": {
+        "/modalities/": {
             "get": {
-                "operationId": "api_modalities_list",
+                "operationId": "modalities_list",
                 "description": "",
                 "parameters": [
                     {
@@ -274,14 +274,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "modalities"
                 ]
             },
             "parameters": []
         },
-        "/api/organizations/": {
+        "/organizations/": {
             "get": {
-                "operationId": "api_organizations_list",
+                "operationId": "organizations_list",
                 "description": "",
                 "parameters": [
                     {
@@ -326,11 +326,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "post": {
-                "operationId": "api_organizations_create",
+                "operationId": "organizations_create",
                 "description": "",
                 "parameters": [
                     {
@@ -351,14 +351,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "parameters": []
         },
-        "/api/organizations/{id}/": {
+        "/organizations/{id}/": {
             "get": {
-                "operationId": "api_organizations_read",
+                "operationId": "organizations_read",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -370,11 +370,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "patch": {
-                "operationId": "api_organizations_partial_update",
+                "operationId": "organizations_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -395,11 +395,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "delete": {
-                "operationId": "api_organizations_delete",
+                "operationId": "organizations_delete",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -408,7 +408,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "parameters": [
@@ -420,9 +420,9 @@
                 }
             ]
         },
-        "/api/organizations/{organization_pk}/health_networks/": {
+        "/organizations/{organization_pk}/health_networks/": {
             "get": {
-                "operationId": "api_organizations_health_networks_list",
+                "operationId": "organizations_health_networks_list",
                 "description": "",
                 "parameters": [
                     {
@@ -467,11 +467,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "post": {
-                "operationId": "api_organizations_health_networks_create",
+                "operationId": "organizations_health_networks_create",
                 "description": "",
                 "parameters": [
                     {
@@ -492,7 +492,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "parameters": [
@@ -504,9 +504,9 @@
                 }
             ]
         },
-        "/api/organizations/{organization_pk}/seats/": {
+        "/organizations/{organization_pk}/seats/": {
             "get": {
-                "operationId": "api_organizations_seats_list",
+                "operationId": "organizations_seats_list",
                 "description": "",
                 "parameters": [
                     {
@@ -551,11 +551,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "post": {
-                "operationId": "api_organizations_seats_create",
+                "operationId": "organizations_seats_create",
                 "description": "",
                 "parameters": [
                     {
@@ -576,7 +576,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "parameters": [
@@ -588,9 +588,9 @@
                 }
             ]
         },
-        "/api/organizations/{organization_pk}/sites/": {
+        "/organizations/{organization_pk}/sites/": {
             "get": {
-                "operationId": "api_organizations_sites_list",
+                "operationId": "organizations_sites_list",
                 "description": "",
                 "parameters": [
                     {
@@ -635,7 +635,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "parameters": [
@@ -647,9 +647,9 @@
                 }
             ]
         },
-        "/api/organizations/{organization_pk}/users/": {
+        "/organizations/{organization_pk}/users/": {
             "get": {
-                "operationId": "api_organizations_users_list",
+                "operationId": "organizations_users_list",
                 "description": "",
                 "parameters": [
                     {
@@ -694,11 +694,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "post": {
-                "operationId": "api_organizations_users_create",
+                "operationId": "organizations_users_create",
                 "description": "",
                 "parameters": [
                     {
@@ -719,7 +719,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "organizations"
                 ]
             },
             "parameters": [
@@ -731,9 +731,9 @@
                 }
             ]
         },
-        "/api/products/models/": {
+        "/products/models/": {
             "get": {
-                "operationId": "api_products_models_list",
+                "operationId": "products_models_list",
                 "description": "",
                 "parameters": [
                     {
@@ -778,14 +778,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "products"
                 ]
             },
             "parameters": []
         },
-        "/api/products/models/{id}/": {
+        "/products/models/{id}/": {
             "patch": {
-                "operationId": "api_products_models_partial_update",
+                "operationId": "products_models_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -806,7 +806,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "products"
                 ]
             },
             "parameters": [
@@ -818,9 +818,9 @@
                 }
             ]
         },
-        "/api/sites/{site_pk}/systems/": {
+        "/sites/{site_pk}/systems/": {
             "get": {
-                "operationId": "api_sites_systems_list",
+                "operationId": "sites_systems_list",
                 "description": "",
                 "parameters": [
                     {
@@ -865,7 +865,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "sites"
                 ]
             },
             "parameters": [
@@ -877,9 +877,9 @@
                 }
             ]
         },
-        "/api/systems/images/": {
+        "/systems/images/": {
             "get": {
-                "operationId": "api_systems_images_list",
+                "operationId": "systems_images_list",
                 "description": "",
                 "parameters": [
                     {
@@ -924,11 +924,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "systems"
                 ]
             },
             "post": {
-                "operationId": "api_systems_images_create",
+                "operationId": "systems_images_create",
                 "description": "",
                 "parameters": [
                     {
@@ -949,14 +949,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "systems"
                 ]
             },
             "parameters": []
         },
-        "/api/systems/{system_id}/notes/": {
+        "/systems/{system_id}/notes/": {
             "get": {
-                "operationId": "api_systems_notes_list",
+                "operationId": "systems_notes_list",
                 "description": "",
                 "parameters": [
                     {
@@ -1001,11 +1001,11 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "systems"
                 ]
             },
             "post": {
-                "operationId": "api_systems_notes_create",
+                "operationId": "systems_notes_create",
                 "description": "",
                 "parameters": [
                     {
@@ -1026,7 +1026,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "systems"
                 ]
             },
             "parameters": [
@@ -1038,9 +1038,9 @@
                 }
             ]
         },
-        "/api/users/deactivate/": {
+        "/users/deactivate/": {
             "patch": {
-                "operationId": "api_users_deactivate_partial_update",
+                "operationId": "users_deactivate_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -1061,14 +1061,14 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "users"
                 ]
             },
             "parameters": []
         },
-        "/api/users/{id}/": {
+        "/users/{id}/": {
             "patch": {
-                "operationId": "api_users_partial_update",
+                "operationId": "users_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -1089,7 +1089,7 @@
                     }
                 },
                 "tags": [
-                    "api"
+                    "users"
                 ]
             },
             "parameters": [
