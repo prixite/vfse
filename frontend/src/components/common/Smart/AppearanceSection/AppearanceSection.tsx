@@ -1,13 +1,20 @@
 import React from "react";
 import "@src/components/common/Smart/AppearanceSection/AppearanceSection.scss";
-import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  Button,
+} from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import {
   Organization,
-  useOrganizationsPartialUpdateMutation,
+  useApiOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
@@ -19,7 +26,8 @@ import {
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import { updateOrganizationColor } from "@src/services/organizationService";
 const AppearanceSection = () => {
-  const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
+  const [organizationsPartialUpdate] =
+    useApiOrganizationsPartialUpdateMutation();
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -46,10 +54,6 @@ const AppearanceSection = () => {
         selectedOrganization: currentOrganiationDummyData,
       })
     );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
   };
 
   const changeButtonColor = (color: string) => {
@@ -64,6 +68,9 @@ const AppearanceSection = () => {
         selectedOrganization: currentOrganiationDummyData,
       })
     );
+  };
+
+  const updateAppearance = () => {
     updateOrganizationColor(
       organizationsPartialUpdate,
       currentOrganiationDummyData
@@ -82,10 +89,6 @@ const AppearanceSection = () => {
         selectedOrganization: currentOrganiationDummyData,
       })
     );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
   };
 
   const changeButtonTextColor = (color: string) => {
@@ -100,104 +103,113 @@ const AppearanceSection = () => {
         selectedOrganization: currentOrganiationDummyData,
       })
     );
-    updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
   };
 
   return (
     <Box component="div" className="AppearanceSection">
       <h2>{selectedOrganization?.name}</h2>
-      <Box component="div" className="AppearanceSection__clientSection">
-        <Box component="div" className="clientName">
-          <h4 className="labels">Client Name</h4>
-          <TextField
-            disabled
-            className="nameInput"
-            placeholder={selectedOrganization?.name}
-            variant="outlined"
-          />
-        </Box>
-        <Box component="div" className="clientTheming">
-          <Box component="div" className="clientLogo">
-            <h4 className="labels">Logo</h4>
-            <Box component="div" className="logo">
-              <img src={selectedOrganization?.logo} />
+      <Box component="div" className="AppearanceSection__clientCard">
+        <Box component="div" className="AppearanceSection__clientSection">
+          <Box component="div" className="clientName">
+            <h4 className="labels">Client Name</h4>
+            <TextField
+              disabled
+              className="nameInput"
+              placeholder={selectedOrganization?.name}
+              variant="outlined"
+            />
+          </Box>
+          <Box component="div" className="clientTheming">
+            <Box component="div" className="clientLogo">
+              <h4 className="labels">Logo</h4>
+              <Box component="div" className="logo">
+                <img src={selectedOrganization?.appearance?.logo} />
+              </Box>
+            </Box>
+            <Box component="div" className="colorSection">
+              <div style={{ display: "flex" }}>
+                <div className="appearanceColorSection">
+                  <ColorPicker
+                    title="Sidebar:"
+                    color={sideBarBackground}
+                    onChange={changeSideBarColor}
+                  />
+                </div>
+                <div className="appearanceColorSection">
+                  <ColorPicker
+                    title="Buttons:"
+                    color={buttonBackground}
+                    onChange={changeButtonColor}
+                  />
+                </div>
+              </div>
+              <div style={{ display: "flex" }}>
+                <div className="appearanceColorSection">
+                  <ColorPicker
+                    title="Sidebar Text:"
+                    color={sideBarTextColor}
+                    onChange={changeSideBarTextColor}
+                  />
+                </div>
+                <div className="appearanceColorSection">
+                  <ColorPicker
+                    title="Buttons Text:"
+                    color={buttonTextColor}
+                    onChange={changeButtonTextColor}
+                  />
+                </div>
+              </div>
             </Box>
           </Box>
-          <Box component="div" className="colorSection">
-            <div style={{ display: "flex" }}>
-              <div className="appearanceColorSection">
-                <ColorPicker
-                  title="Sidebar:"
-                  color={sideBarBackground}
-                  onChange={changeSideBarColor}
-                />
-              </div>
-              <div className="appearanceColorSection">
-                <ColorPicker
-                  title="Buttons:"
-                  color={buttonBackground}
-                  onChange={changeButtonColor}
-                />
-              </div>
-            </div>
-            <div style={{ display: "flex" }}>
-              <div className="appearanceColorSection">
-                <ColorPicker
-                  title="Sidebar Text:"
-                  color={sideBarTextColor}
-                  onChange={changeSideBarTextColor}
-                />
-              </div>
-              <div className="appearanceColorSection">
-                <ColorPicker
-                  title="Buttons Text:"
-                  color={buttonTextColor}
-                  onChange={changeButtonTextColor}
-                />
-              </div>
-            </div>
+          <Box component="div" className="clientFonts">
+            <Box component="div" className="font-section">
+              <h4 className="labels">Font #1</h4>
+              <FormControl sx={{ minWidth: 195 }}>
+                <Select
+                  value=""
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Font 1</MenuItem>
+                  <MenuItem value={20}>Font 2</MenuItem>
+                  <MenuItem value={30}>Font 3</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <h2 className="font-demo">AaBbCcDd</h2>
+            <Box component="div" className="font-section">
+              <h4 className="labels">Font #2</h4>
+              <FormControl sx={{ minWidth: 195 }}>
+                <Select
+                  value=""
+                  displayEmpty
+                  inputProps={{ "aria-label": "Without label" }}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Font 1</MenuItem>
+                  <MenuItem value={20}>Font 2</MenuItem>
+                  <MenuItem value={30}>Font 3</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <h2 className="font-demo">AaBbCcDd</h2>
           </Box>
-        </Box>
-        <Box component="div" className="clientFonts">
-          <Box component="div" className="font-section">
-            <h4 className="labels">Font #1</h4>
-            <FormControl sx={{ minWidth: 195 }}>
-              <Select
-                value=""
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Font 1</MenuItem>
-                <MenuItem value={20}>Font 2</MenuItem>
-                <MenuItem value={30}>Font 3</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <h2 className="font-demo">AaBbCcDd</h2>
-          <Box component="div" className="font-section">
-            <h4 className="labels">Font #2</h4>
-            <FormControl sx={{ minWidth: 195 }}>
-              <Select
-                value=""
-                displayEmpty
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Font 1</MenuItem>
-                <MenuItem value={20}>Font 2</MenuItem>
-                <MenuItem value={30}>Font 3</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-          <h2 className="font-demo">AaBbCcDd</h2>
+          <Button
+            onClick={updateAppearance}
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
+            variant="contained"
+            className="SaveAppearanceBtn"
+          >
+            Save
+          </Button>
         </Box>
       </Box>
     </Box>

@@ -14,8 +14,8 @@ import { toast } from "react-toastify";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
 import {
-  useOrganizationsCreateMutation,
-  useOrganizationsPartialUpdateMutation,
+  useApiOrganizationsCreateMutation,
+  useApiOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import {
@@ -24,8 +24,8 @@ import {
 } from "@src/services/organizationService";
 
 export default function OrganizationModal(props) {
-  const [addNewOrganization] = useOrganizationsCreateMutation();
-  const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const [addNewOrganization] = useApiOrganizationsCreateMutation();
+  const [updateOrganization] = useApiOrganizationsPartialUpdateMutation();
   const [networks, setNetworks] = useState([1]);
   const [sidebarColor, setSidebarColor] = useState("ffff");
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
