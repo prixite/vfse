@@ -88,6 +88,7 @@ class Command(BaseCommand):
                 modality=factories.ModalityFactory(),
                 documentation=factories.DocumentationFactory(),
             ),
+            connection_monitoring=True,
         )
 
         factories.OrganizationFactory.create_batch(20, is_customer=True)
