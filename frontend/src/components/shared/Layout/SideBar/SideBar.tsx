@@ -26,8 +26,8 @@ import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
 import {
   Organization,
-  useApiMeReadQuery,
-  useApiOrganizationsListQuery,
+  useMeReadQuery,
+  useOrganizationsListQuery,
 } from "@src/store/reducers/api";
 import {
   updateButtonColor,
@@ -100,7 +100,7 @@ export default function SideBar() {
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { organizationRoute } = constants;
   const { data: organizationsList, isLoading: isOrgListLoading } =
-    useApiOrganizationsListQuery({ page: 1 });
+    useOrganizationsListQuery({ page: 1 });
   const {
     sideBarBackground,
     sideBarTextColor,
@@ -111,7 +111,7 @@ export default function SideBar() {
     (state) => state.organization.selectedOrganization
   );
 
-  const { data: me, isFetching } = useApiMeReadQuery();
+  const { data: me, isFetching } = useMeReadQuery();
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
