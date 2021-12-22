@@ -359,3 +359,12 @@ class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Seat
         fields = ["system", "organization"]
+
+
+class UserRequestAcessSeriazlizer(UpsertUserSerializer):
+    health_networks = serializers.PrimaryKeyRelatedField(
+        queryset=models.Organization.objects.all(), many=True
+    )
+
+    def validate_organization(self, value):
+        return value
