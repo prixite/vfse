@@ -93,7 +93,6 @@ const App = () => {
       setIsLoading(false);
     }
   }, [isFetching, FetchingList]);
-  useEffect(() => {}, []);
 
   return (
     <>

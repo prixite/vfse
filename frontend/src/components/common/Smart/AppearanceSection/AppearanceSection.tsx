@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "@src/components/common/Smart/AppearanceSection/AppearanceSection.scss";
 import {
   Box,
@@ -14,6 +14,7 @@ import ColorPicker from "@src/components/common/Presentational/ColorPicker/Color
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import {
   Organization,
+  useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
@@ -27,6 +28,11 @@ import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import { updateOrganizationColor } from "@src/services/organizationService";
 const AppearanceSection = () => {
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
+  const { refetch: refetchOrgList } = useOrganizationsListQuery({
+    page: 1,
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(isLoading);
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -69,10 +75,12 @@ const AppearanceSection = () => {
     );
   };
 
-  const updateAppearance = () => {
-    updateOrganizationColor(
+  const updateAppearance = async () => {
+    setIsLoading((prevState) => true);
+    await updateOrganizationColor(
       organizationsPartialUpdate,
-      currentOrganiationDummyData
+      currentOrganiationDummyData,
+      refetchOrgList
     );
   };
 
@@ -206,6 +214,7 @@ const AppearanceSection = () => {
             }}
             variant="contained"
             className="SaveAppearanceBtn"
+            disabled={isLoading}
           >
             Save
           </Button>

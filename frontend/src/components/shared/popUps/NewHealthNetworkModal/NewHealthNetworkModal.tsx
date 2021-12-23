@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAppSelector } from "@src/store/hooks";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,6 +13,9 @@ import { localizedData } from "@src/helpers/utils/language";
 
 export default function NewHealthNetwotkModal(props) {
   const [networks, setNetworks] = useState([1]);
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const constantData: object = localizedData()?.organization;
   const {
     newOrganizationBtnSave,
@@ -56,17 +60,31 @@ export default function NewHealthNetwotkModal(props) {
                 {newOrganizationAddNetwork}
               </Button>
             </div>
-            {networks.map((network) => (
-              <HealthNetwork />
+            {networks.map((network, index) => (
+              <HealthNetwork key={index} />
             ))}
           </>
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose} className="cancel-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={props.handleClose}
+          className="cancel-btn"
+        >
           {newOrganizationBtnCancel}
         </Button>
-        <Button onClick={props.handleClose} className="add-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={props.handleClose}
+          className="add-btn"
+        >
           {newOrganizationBtnSave}
         </Button>
       </DialogActions>

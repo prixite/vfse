@@ -91,7 +91,27 @@ class Command(BaseCommand):
             connection_monitoring=True,
         )
 
+        test_health_network = factories.HealthNetworkFactory(
+            name="Test Health Network",
+            organizations=[organization],
+        )
+        test_site = factories.SiteFactory.create(
+            name="Test Site", organization=test_health_network
+        )
+        factories.SiteFactory.create_batch(19, organization=test_health_network)
+
+        factories.SystemFactory.create_batch(
+            20,
+            site=test_site,
+            product_model=factories.ProductModelFactory(
+                product=factories.ProductFactory(
+                    manufacturer=factories.ManufacturerFactory()
+                ),
+                modality=factories.ModalityFactory(),
+                documentation=factories.DocumentationFactory(),
+            ),
+        )
         factories.OrganizationFactory.create_batch(20, is_customer=True)
-        factories.HealthNetworkFactory.create_batch(20, organizations=[organization])
+        factories.HealthNetworkFactory.create_batch(19, organizations=[organization])
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
