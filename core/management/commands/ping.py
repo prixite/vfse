@@ -1,7 +1,6 @@
-import subprocess
-
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+from icmplib import ping
 
 from core import models
 
@@ -9,30 +8,15 @@ from core import models
 class Command(BaseCommand):
     def handle(self, *args, **options):
         systems = models.System.objects.filter(connection_monitoring=True)
+
         for system in systems:
             system.is_online = False
-            try:
-                subprocess.run(
-                    ["ping", "-c2", system.ip_address],
-                    stdout=subprocess.PIPE,
-                    check=True,
-                    timeout=3,
-                ).check_returncode()
+
+            response = ping(address=system.ip_address, count=1, privileged=False)
+            if response.is_alive:
                 system.is_online = True
                 system.last_successful_ping_at = timezone.now()
                 self.stdout.write(
                     self.style.SUCCESS(f"Ping Successfull @ {system.ip_address}")
                 )
-
-            except subprocess.CalledProcessError:
-                self.stdout.write(
-                    self.style.ERROR(f"Ping Unsuccessfull @ {system.ip_address}")
-                )
-            except subprocess.TimeoutExpired:
-                self.stdout.write(
-                    self.style.ERROR(
-                        f"Timeout Error, Ping Unsuccessfull @ {system.ip_address}"
-                    )
-                )
-            finally:
-                system.save()
+            system.save()
