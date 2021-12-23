@@ -5,62 +5,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
 
 from core import models
-
-
-class OrganizationAppearanceDefault:
-    def __call__(self):
-        return {
-            "sidebar_text": "#94989E",
-            "button_text": "#FFFFFF",
-            "sidebar_color": "#142139",
-            "primary_color": "#773CBD",
-            "font_one": "helvetica",
-            "font_two": "calibri",
-            "logo": "",
-            "banner": "",
-            "icon": "",
-        }
-
-
-class DefaultOrganizationDefault:
-    requires_context = True
-
-    def __call__(self, serializer_field):
-        return serializer_field.context["request"].user.get_default_organization()
-
-
-class HisInfoDefault:
-    def __call__(self):
-        return {
-            "ip": "192.187.23.23",
-            "title": "HIS System 1",
-            "ae_title": "HS1",
-            "port": 2000,
-        }
-
-
-class DicomInfoDefault:
-    def __call__(self):
-        return {
-            "ip": "192.0.0.9",
-            "title": "Dicom System 1",
-            "ae_title": "dS1",
-            "port": 2850,
-        }
-
-
-class MriInfoDefault:
-    def __call__(self):
-        return {
-            "helium": "High",
-            "magnet_pressure": "strong",
-        }
-
-
-class ProfileMetaDefault:
-    def __call__(self, *args, **kwds):
-        return {"profile_picture": "", "title": ""}
-
+from core.serializers import defaults
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
     sidebar_text = serializers.CharField()
@@ -82,7 +27,7 @@ class SiteSerializer(serializers.ModelSerializer):
 
 class OrganizationSerializer(serializers.ModelSerializer):
     appearance = OrganizationAppearanceSerializer(
-        default=OrganizationAppearanceDefault()
+        default=defaults.OrganizationAppearanceDefault()
     )
 
     name = serializers.CharField(
@@ -110,7 +55,7 @@ class OrganizationHealthNetworkCreateSerializer(serializers.Serializer):
 
 
 class MeSerializer(serializers.ModelSerializer):
-    organization = OrganizationSerializer(default=DefaultOrganizationDefault())
+    organization = OrganizationSerializer(default=defaults.DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
 
     class Meta:
@@ -161,12 +106,15 @@ class MeSerializer(serializers.ModelSerializer):
         return sorted(flags)
 
 
+class HealthNetworkAppearanceSerializer(serializers.Serializer):
+    logo = serializers.URLField()
+
+
 class HealthNetworkSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
         max_length=32,
-        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
     )
-
+    appearance = HealthNetworkAppearanceSerializer(default=defaults.HealthNetworkAppearanceDefault())
     sites = SiteSerializer(many=True, read_only=True)
 
     class Meta:
@@ -177,6 +125,10 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
             "appearance",
             "sites",
         ]
+    
+    def validate_name(self,value):
+        obj,created = models.Organization.objects.get_or_create(name=value)
+        return obj.name
 
 
 class SystemInfoSerializer(serializers.Serializer):
@@ -192,9 +144,9 @@ class MriInfoSerializer(serializers.Serializer):
 
 
 class SystemSerializer(serializers.ModelSerializer):
-    his_ris_info = SystemInfoSerializer(default=HisInfoDefault())
-    dicom_info = SystemInfoSerializer(default=DicomInfoDefault())
-    mri_embedded_parameters = MriInfoSerializer(default=MriInfoDefault())
+    his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
+    dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
+    mri_embedded_parameters = MriInfoSerializer(default=defaults.MriInfoDefault())
 
     class Meta:
         model = models.System
@@ -231,7 +183,7 @@ class MetaSerialzer(serializers.Serializer):
 
 
 class UpsertUserSerializer(serializers.Serializer):
-    meta = MetaSerialzer(default=ProfileMetaDefault())
+    meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
     last_name = serializers.CharField()
     email = serializers.EmailField()

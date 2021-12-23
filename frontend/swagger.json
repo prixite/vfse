@@ -470,8 +470,8 @@
                     "organizations"
                 ]
             },
-            "post": {
-                "operationId": "organizations_health_networks_create",
+            "put": {
+                "operationId": "organizations_health_networks_update",
                 "description": "",
                 "parameters": [
                     {
@@ -479,15 +479,15 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/OrganizationHealthNetworkCreate"
+                            "$ref": "#/definitions/HealthNetwork"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/OrganizationHealthNetworkCreate"
+                            "$ref": "#/definitions/HealthNetwork"
                         }
                     }
                 },
@@ -1455,6 +1455,25 @@
                 }
             }
         },
+        "HealthNetworkAppearance": {
+            "title": "Appearance",
+            "description": "",
+            "required": [
+                "logo"
+            ],
+            "type": "object",
+            "properties": {
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "logo": ""
+            }
+        },
         "HealthNetwork": {
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
@@ -1474,8 +1493,7 @@
                     "minLength": 1
                 },
                 "appearance": {
-                    "title": "Appearance",
-                    "type": "object"
+                    "$ref": "#/definitions/HealthNetworkAppearance"
                 },
                 "sites": {
                     "description": "",
@@ -1484,22 +1502,6 @@
                         "$ref": "#/definitions/Site"
                     },
                     "readOnly": true
-                }
-            }
-        },
-        "OrganizationHealthNetworkCreate": {
-            "description": "",
-            "required": [
-                "health_networks"
-            ],
-            "type": "object",
-            "properties": {
-                "health_networks": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    },
-                    "uniqueItems": true
                 }
             }
         },

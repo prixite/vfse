@@ -70,10 +70,9 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         ).prefetch_related("sites")
 
     def get_serializer_class(self):
-        if self.action == "create":
-            return serializers.OrganizationHealthNetworkCreateSerializer
         return serializers.HealthNetworkSerializer
 
+    # TODO: Remove the function below
     def perform_create(self, serializer):
         get_object_or_404(
             super().get_user_organizations(), id=self.kwargs["organization_pk"]
@@ -89,6 +88,22 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             for health_network in serializer.validated_data["health_networks"]
         ]
         models.OrganizationHealthNetwork.objects.bulk_create(new_health_networks)
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=True)
+
+        if serializer.is_valid():
+            objects = []
+            for data in serializer.validated_data:
+                objects.append(
+                    models.OrganizationHealthNetwork(
+                        organization_id=self.kwargs["organization_pk"],
+                        health_network=models.Organization.objects.get(name=data['name']),
+                    )
+                )
+            models.OrganizationHealthNetwork.objects.bulk_create(objects)
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
