@@ -1,38 +1,39 @@
-.documentaion-section{
-    .MuiTableCell-head{
-        text-align: left;
+.documentaion-section {
+  .MuiTableCell-head {
+    text-align: left;
+  }
+  .MuiTableCell-body {
+    text-align: left;
+  }
+  .dark-text {
+    color: "#111827";
+    font-family: "ProximaNova-Regular";
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .modality-section {
+    display: flex;
+    flex-direction: row;
+    .modality {
+      background-color: rgba(146, 213, 9, 0.16);
+      padding: 2px 10px;
+      margin-right: 10px;
+      color: #395303;
+      line-height: 16px;
+      font-size: 12px;
+      font-family: "ProximaNova-Regular";
     }
-    .MuiTableCell-body{
-        text-align: left;
+  }
+  .documentaion-link {
+    display: flex;
+    flex-direction: row;
+    padding: 8px 45px 8px 13px;
+    border: 1px solid #d4d6db;
+    border-radius: 6px;
+    width: fit-content;
+    .img {
+      margin-right: 12px;
     }
-    .dark-text{
-        color: '#111827';
-        font-family: 'ProximaNova-Regular';
-        font-weight: 600;
-        font-size: 14px;
-        line-height: 20px;
-    }
-    .modality-section{
-        display: flex;
-        flex-direction: row;
-        .modality{
-            background-color: rgba(146, 213, 9, 0.16);
-            padding: 2px 10px;
-            margin-right: 10px;
-            color:  #395303;
-            line-height: 16px;
-            font-size: 12px;
-            font-family: 'ProximaNova-Regular';
-        }
-    }
-    .documentaion-link{
-        display: flex;
-        flex-direction: row;
-        padding:  8px 45px 8px 13px;
-        border: 1px solid #D4D6DB;
-        border-radius: 6px;
-        width: fit-content;
-        .img{
-         margin-right: 12px;        }
-        }
+  }
 }
