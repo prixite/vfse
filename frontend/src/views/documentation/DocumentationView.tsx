@@ -1,3 +1,5 @@
+import DocumentationSection from "@src/components/common/Smart/DocumentationSection/DocumentationSection";
+
 export default function DocumentationView() {
-  return <h2>Documentation</h2>;
+  return <DocumentationSection />;
 }
