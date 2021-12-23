@@ -129,10 +129,6 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
             "sites",
         ]
 
-    def validate_name(self, value):
-        obj, created = models.Organization.objects.get_or_create(name=value)
-        return obj.name
-
 
 class SystemInfoSerializer(serializers.Serializer):
     ip = serializers.IPAddressField()

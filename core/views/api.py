@@ -1,6 +1,5 @@
 from django.db import transaction
 from rest_framework import exceptions
-from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -72,27 +71,17 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
     def get_serializer_class(self):
         return serializers.HealthNetworkSerializer
 
-    # TODO: Remove the function below
-    def perform_create(self, serializer):
-        get_object_or_404(
-            super().get_user_organizations(), id=self.kwargs["organization_pk"]
-        )
-        models.OrganizationHealthNetwork.objects.filter(
-            organization=self.kwargs["organization_pk"]
-        ).delete()
-        new_health_networks = [
-            models.OrganizationHealthNetwork(
-                organization_id=self.kwargs["organization_pk"],
-                health_network=health_network,
-            )
-            for health_network in serializer.validated_data["health_networks"]
-        ]
-        models.OrganizationHealthNetwork.objects.bulk_create(new_health_networks)
-
     def update(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, many=True)
 
         if serializer.is_valid():
+            models.OrganizationHealthNetwork.objects.filter(
+                organization_id=self.kwargs["organization_pk"]
+            ).delete()
+
+            for data in serializer.validated_data:
+                models.Organization.objects.get_or_create(name=data["name"])
+
             objects = []
             for data in serializer.validated_data:
                 objects.append(
