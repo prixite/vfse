@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAppSelector } from "@src/store/hooks";
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -26,6 +27,9 @@ import {
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const [networks, setNetworks] = useState([1]);
   const [sidebarColor, setSidebarColor] = useState("ffff");
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
@@ -256,10 +260,24 @@ export default function OrganizationModal(props) {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={props.handleClose} className="cancel-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={props.handleClose}
+          className="cancel-btn"
+        >
           {newOrganizationBtnCancel}
         </Button>
-        <Button onClick={handleSetNewOrganization} className="add-btn">
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={handleSetNewOrganization}
+          className="add-btn"
+        >
           {newOrganizationBtnSave}
         </Button>
       </DialogActions>
