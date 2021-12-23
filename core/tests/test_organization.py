@@ -154,21 +154,6 @@ class OrganizationTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    def test_add_organization_health_networks(self):
-        self.client.force_login(self.fse_admin)
-        new_health_network = factories.HealthNetworkFactory()
-        response = self.client.post(
-            f"/api/organizations/{self.organization.id}/health_networks/",
-            data={"health_networks": [new_health_network.id]},
-        )
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(
-            models.OrganizationHealthNetwork.objects.filter(
-                organization=self.organization, health_network=new_health_network
-            ).count(),
-            1,
-        )
-
     def test_delete_permissions_super_admin(self):
         self.client.force_login(self.super_admin)
         response = self.client.delete(f"/api/organizations/{self.organization.id}/")
@@ -297,6 +282,46 @@ class OrganizationTestCase(BaseTestCase):
                 "appearance": self.organization.appearance,
             },
             response.json(),
+        )
+
+    def test_put_health_networks(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.other_organization.id}/health_networks/",
+            data=[
+                {
+                    "name": self.health_network.name,
+                    "appearance": {"logo": "https://picsum.photos/200"},
+                },
+                {
+                    "name": "New",
+                    "appearance": {"logo": "https://picsum.photos/200"},
+                },
+            ],
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.other_organization.health_networks.count(), 2)
+
+    def test_put_new_health_network(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.other_organization.id}/health_networks/",
+            data=[
+                {
+                    "name": "test health network",
+                    "appearance": {"logo": "https://picsum.photos/200"},
+                }
+            ],
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.other_organization.health_networks.count(), 1)
+
+        org_health_network = self.other_organization.health_networks.get()
+        self.assertDictEqual(
+            org_health_network.health_network.appearance,
+            {"logo": "https://picsum.photos/200"},
         )
 
 

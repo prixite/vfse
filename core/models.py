@@ -180,10 +180,10 @@ class Membership(models.Model):
 
 
 class OrganizationHealthNetwork(models.Model):
-    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
-    health_network = models.ForeignKey(
+    organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, related_name="health_networks"
     )
+    health_network = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

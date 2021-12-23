@@ -114,14 +114,14 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
-    organizationsHealthNetworksCreate: build.mutation<
-      OrganizationsHealthNetworksCreateApiResponse,
-      OrganizationsHealthNetworksCreateApiArg
+    organizationsHealthNetworksUpdate: build.mutation<
+      OrganizationsHealthNetworksUpdateApiResponse,
+      OrganizationsHealthNetworksUpdateApiArg
     >({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.organizationPk}/health_networks/`,
-        method: "POST",
-        body: queryArg.organizationHealthNetworkCreate,
+        method: "PUT",
+        body: queryArg.healthNetwork,
       }),
     }),
     organizationsSeatsList: build.query<
@@ -346,11 +346,11 @@ export type OrganizationsHealthNetworksListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsHealthNetworksCreateApiResponse =
-  /** status 201  */ OrganizationHealthNetworkCreate;
-export type OrganizationsHealthNetworksCreateApiArg = {
+export type OrganizationsHealthNetworksUpdateApiResponse =
+  /** status 200  */ HealthNetwork;
+export type OrganizationsHealthNetworksUpdateApiArg = {
   organizationPk: string;
-  organizationHealthNetworkCreate: OrganizationHealthNetworkCreate;
+  healthNetwork: HealthNetwork;
 };
 export type OrganizationsSeatsListApiResponse = /** status 200  */ {
   count: number;
@@ -534,14 +534,14 @@ export type Me = {
 export type Modality = {
   name: string;
 };
+export type Appearance2 = {
+  logo: string;
+};
 export type HealthNetwork = {
   id?: number;
   name: string;
-  appearance?: object;
+  appearance?: Appearance2;
   sites?: Site[];
-};
-export type OrganizationHealthNetworkCreate = {
-  health_networks: number[];
 };
 export type Seat = {
   system: number;
@@ -639,7 +639,7 @@ export const {
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
-  useOrganizationsHealthNetworksCreateMutation,
+  useOrganizationsHealthNetworksUpdateMutation,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,

@@ -55,8 +55,8 @@ api_urlpatterns = [
         "api/organizations/<str:organization_pk>/health_networks/",
         api.OrganizationHealthNetworkViewSet.as_view(
             {
+                "put": "update",
                 "get": "list",
-                "post": "create",
             }
         ),
     ),
