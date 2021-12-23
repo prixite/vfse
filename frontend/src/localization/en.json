@@ -64,6 +64,12 @@
         }
 
     },
+    "documentation": {
+        "title": "Documentation database",
+        "btnFilter": "Filter",
+        "btnCol": "Columns",
+        "btnAsset": "Sort by Asset #"
+    },
     "organization":{
         "title": "All Clients",
         "btnFilter": "Filter",
