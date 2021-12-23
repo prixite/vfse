@@ -7,6 +7,7 @@ from rest_framework.validators import UniqueValidator
 from core import models
 from core.serializers import defaults
 
+
 class OrganizationAppearanceSerializer(serializers.Serializer):
     sidebar_text = serializers.CharField()
     button_text = serializers.CharField()
@@ -114,7 +115,9 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
     name = serializers.CharField(
         max_length=32,
     )
-    appearance = HealthNetworkAppearanceSerializer(default=defaults.HealthNetworkAppearanceDefault())
+    appearance = HealthNetworkAppearanceSerializer(
+        default=defaults.HealthNetworkAppearanceDefault()
+    )
     sites = SiteSerializer(many=True, read_only=True)
 
     class Meta:
@@ -125,9 +128,9 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
             "appearance",
             "sites",
         ]
-    
-    def validate_name(self,value):
-        obj,created = models.Organization.objects.get_or_create(name=value)
+
+    def validate_name(self, value):
+        obj, created = models.Organization.objects.get_or_create(name=value)
         return obj.name
 
 

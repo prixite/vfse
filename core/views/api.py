@@ -98,7 +98,9 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                 objects.append(
                     models.OrganizationHealthNetwork(
                         organization_id=self.kwargs["organization_pk"],
-                        health_network=models.Organization.objects.get(name=data['name']),
+                        health_network=models.Organization.objects.get(
+                            name=data["name"]
+                        ),
                     )
                 )
             models.OrganizationHealthNetwork.objects.bulk_create(objects)

@@ -1,4 +1,3 @@
-
 class OrganizationAppearanceDefault:
     def __call__(self):
         return {
@@ -55,8 +54,5 @@ class ProfileMetaDefault:
 
 
 class HealthNetworkAppearanceDefault:
-
     def __call__(self, *args, **kwds):
-        return {
-            'logo':''
-        }
+        return {"logo": ""}
