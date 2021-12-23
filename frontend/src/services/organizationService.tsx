@@ -10,6 +10,8 @@ const updateOrganizationColor = async (
     organization: organizationData,
   }).unwrap();
   await toast.success("Current organization theme successfully updated.", {
+    autoClose: 1000,
+    pauseOnHover: false,
     onClose: refetchOrgList,
   });
 };
