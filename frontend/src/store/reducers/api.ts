@@ -11,6 +11,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userRequestAcessSeriazlizer,
       }),
     }),
+    healthNetworksList: build.query<
+      HealthNetworksListApiResponse,
+      HealthNetworksListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/health_networks/`,
+        params: { page: queryArg.page },
+      }),
+    }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
       ManufacturersListApiArg
@@ -266,6 +275,16 @@ export type AccountsRequestsCreateApiResponse =
 export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
+export type HealthNetworksListApiResponse = /** status 200  */ {
+  count: number;
+  next?: string | null;
+  previous?: string | null;
+  results: HealthNetwork[];
+};
+export type HealthNetworksListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
 export type ManufacturersListApiResponse = /** status 200  */ {
   count: number;
   next?: string | null;
@@ -495,6 +514,17 @@ export type UserRequestAcessSeriazlizer = {
   is_one_time: boolean;
   health_networks: number[];
 };
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+};
+export type HealthNetwork = {
+  id?: number;
+  name: string;
+  appearance?: object;
+  sites?: Site[];
+};
 export type Manufacturer = {
   name: string;
   image?: number | null;
@@ -513,11 +543,6 @@ export type Appearance = {
   banner: string;
   icon: string;
 };
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-};
 export type Organization = {
   id?: number;
   name: string;
@@ -533,12 +558,6 @@ export type Me = {
 };
 export type Modality = {
   name: string;
-};
-export type HealthNetwork = {
-  id?: number;
-  name: string;
-  appearance?: object;
-  sites?: Site[];
 };
 export type OrganizationHealthNetworkCreate = {
   health_networks: number[];
@@ -627,6 +646,7 @@ export type UserDeactivate = {
 };
 export const {
   useAccountsRequestsCreateMutation,
+  useHealthNetworksListQuery,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,
