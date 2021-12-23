@@ -80,7 +80,12 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             ).delete()
 
             for data in serializer.validated_data:
-                models.Organization.objects.get_or_create(name=data["name"])
+                models.Organization.objects.get_or_create(
+                    name=data["name"],
+                    defaults={
+                        "appearance": data["appearance"],
+                    },
+                )
 
             objects = []
             for data in serializer.validated_data:

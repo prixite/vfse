@@ -292,11 +292,16 @@ class OrganizationTestCase(BaseTestCase):
                 {
                     "name": self.health_network.name,
                     "appearance": {"logo": "https://picsum.photos/200"},
-                }
+                },
+                {
+                    "name": "New",
+                    "appearance": {"logo": "https://picsum.photos/200"},
+                },
             ],
         )
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.other_organization.health_networks.count(), 2)
 
     def test_put_new_health_network(self):
         self.client.force_login(self.super_admin)
@@ -311,6 +316,13 @@ class OrganizationTestCase(BaseTestCase):
         )
 
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.other_organization.health_networks.count(), 1)
+
+        org_health_network = self.other_organization.health_networks.get()
+        self.assertDictEqual(
+            org_health_network.health_network.appearance,
+            {"logo": "https://picsum.photos/200"},
+        )
 
 
 class SiteTestCase(BaseTestCase):
