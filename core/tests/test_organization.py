@@ -298,6 +298,19 @@ class OrganizationTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_put_new_health_network(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.other_organization.id}/health_networks/",
+            data=[
+                {
+                    "name": "test health network",
+                    "appearance": {"logo": "https://picsum.photos/200"},
+                }
+            ],
+        )
+
+        self.assertEqual(response.status_code, 200)
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
