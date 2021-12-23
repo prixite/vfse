@@ -317,3 +317,15 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
             user_id=user_id,
             under_review=True,
         )
+
+
+class HealthNetworkViewSet(OrganizationViewSet):
+    serializer_class = serializers.HealthNetworkSerializer
+
+    def get_queryset(self):
+        name = self.request.query_params.get("name")
+        orgs = super().get_queryset()
+
+        if name:
+            orgs = orgs.filter(name__icontains=name)
+        return orgs
