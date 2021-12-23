@@ -312,6 +312,7 @@ class OrganizationTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
 
+
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
         for user in [self.super_admin, self.super_manager]:
