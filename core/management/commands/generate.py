@@ -88,6 +88,7 @@ class Command(BaseCommand):
                 modality=factories.ModalityFactory(),
                 documentation=factories.DocumentationFactory(),
             ),
+            connection_monitoring=True,
         )
 
         test_health_network = factories.HealthNetworkFactory(
