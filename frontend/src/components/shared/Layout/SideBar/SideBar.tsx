@@ -116,14 +116,15 @@ export default function SideBar() {
     setOpen((prevState) => !prevState);
   };
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
-
+  React.useEffect(() => {
+    setCurrentClient(selectedOrganization);
+  }, [selectedOrganization]);
   const handleUpdateSelectedOrganization = (item) => {
     dispatch(setSelectedOrganization({ selectedOrganization: item }));
     dispatch(updateSideBarColor(item.appearance.sidebar_color));
     dispatch(updateButtonColor(item.appearance.primary_color));
     dispatch(updateSideBarTextColor(item.appearance.sidebar_text));
     dispatch(updateButtonTextColor(item.appearance.button_text));
-    setCurrentClient(item);
     history.replace(`/${organizationRoute}/${item.id}`);
   };
 

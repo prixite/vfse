@@ -98,8 +98,8 @@ export default function NetworkModal(props) {
               placeholder="Enter name here"
             />
           </div>
-          {sites.map((site) => (
-            <SiteSection siteNumber={site} />
+          {sites.map((site, index) => (
+            <SiteSection key={index} siteNumber={site} />
           ))}
           <div className="network-info">
             <Button className="heading-btn" onClick={addSite}>

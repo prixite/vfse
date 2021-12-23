@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "@src/components/common/Smart/AppearanceSection/AppearanceSection.scss";
 import {
   Box,
@@ -31,6 +31,8 @@ const AppearanceSection = () => {
   const { refetch: refetchOrgList } = useOrganizationsListQuery({
     page: 1,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(isLoading);
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -73,8 +75,9 @@ const AppearanceSection = () => {
     );
   };
 
-  const updateAppearance = () => {
-    updateOrganizationColor(
+  const updateAppearance = async () => {
+    setIsLoading((prevState) => true);
+    await updateOrganizationColor(
       organizationsPartialUpdate,
       currentOrganiationDummyData,
       refetchOrgList
@@ -211,6 +214,7 @@ const AppearanceSection = () => {
             }}
             variant="contained"
             className="SaveAppearanceBtn"
+            disabled={isLoading}
           >
             Save
           </Button>

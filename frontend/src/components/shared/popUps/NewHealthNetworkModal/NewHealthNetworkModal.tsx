@@ -60,8 +60,8 @@ export default function NewHealthNetwotkModal(props) {
                 {newOrganizationAddNetwork}
               </Button>
             </div>
-            {networks.map((network) => (
-              <HealthNetwork />
+            {networks.map((network, index) => (
+              <HealthNetwork key={index} />
             ))}
           </>
         </div>
