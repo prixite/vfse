@@ -254,7 +254,7 @@ class System(models.Model):
     mri_embedded_parameters = models.JSONField(default=dict)
 
     is_online = models.BooleanField(default=False)
-    last_successful_ping_at = models.DateTimeField(auto_now_add=True)
+    last_successful_ping_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
