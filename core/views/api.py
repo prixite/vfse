@@ -31,21 +31,12 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class CustomerViewSet(OrganizationViewSet):
+    filterset_fields = ['name']
     def get_queryset(self):
-        name = self.request.query_params.get("name")
-        orgs = (
-            super()
-            .get_user_organizations()
-            .filter(
+        return super().get_user_organizations().filter(
                 is_customer=True,
                 is_default=False,
-            )
-            .prefetch_related("sites")
-        )
-
-        if name:
-            orgs = orgs.filter(name__icontains=name)
-        return orgs
+            ).prefetch_related("sites")
 
     def perform_create(self, serializer):
         models.Organization.objects.create(
@@ -332,11 +323,4 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 
 class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
-
-    def get_queryset(self):
-        name = self.request.query_params.get("name")
-        orgs = super().get_queryset()
-
-        if name:
-            orgs = orgs.filter(name__icontains=name)
-        return orgs
+    filterset_fields=['name']
