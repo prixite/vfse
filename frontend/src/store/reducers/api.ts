@@ -161,6 +161,16 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
+    organizationsSitesUpdate: build.mutation<
+      OrganizationsSitesUpdateApiResponse,
+      OrganizationsSitesUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.organizationPk}/sites/`,
+        method: "PUT",
+        body: queryArg.site,
+      }),
+    }),
     organizationsUsersList: build.query<
       OrganizationsUsersListApiResponse,
       OrganizationsUsersListApiArg
@@ -398,6 +408,11 @@ export type OrganizationsSitesListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
+};
+export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site;
+export type OrganizationsSitesUpdateApiArg = {
+  organizationPk: string;
+  site: Site;
 };
 export type OrganizationsUsersListApiResponse = /** status 200  */ {
   count: number;
@@ -663,6 +678,7 @@ export const {
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
+  useOrganizationsSitesUpdateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsModelsListQuery,

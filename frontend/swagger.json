@@ -690,6 +690,31 @@
                     "organizations"
                 ]
             },
+            "put": {
+                "operationId": "organizations_sites_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Site"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Site"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "parameters": [
                 {
                     "name": "organization_pk",
