@@ -116,7 +116,11 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             objs = []
             for site in serializer.validated_data:
                 names.append(site["name"])
-                models.Site.objects.get_or_create(name=site['name'],organization_id=self.kwargs['organization_pk'],defaults={'address':site['address']})
+                models.Site.objects.get_or_create(
+                    name=site["name"],
+                    organization_id=self.kwargs["organization_pk"],
+                    defaults={"address": site["address"]},
+                )
 
             models.Site.objects.filter(
                 organization_id=self.kwargs["organization_pk"]
