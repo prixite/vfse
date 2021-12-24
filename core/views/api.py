@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import ProtectedError
 from rest_framework import exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -31,6 +32,13 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
             raise exceptions.ValidationError("Cannot delete default organization")
 
         return super().destroy(request, *args, **kwargs)
+
+    def perform_destroy(self, instance):
+        try:
+            instance.delete()
+        except ProtectedError as e:
+            [obj.delete() for obj in e.protected_objects]
+            instance.delete()
 
 
 class CustomerViewSet(OrganizationViewSet):
@@ -133,9 +141,14 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
                     defaults={"address": site["address"]},
                 )
 
-            models.Site.objects.filter(
-                organization_id=self.kwargs["organization_pk"]
-            ).exclude(name__in=names).delete()
+            try:
+                models.Site.objects.filter(
+                    organization_id=self.kwargs["organization_pk"]
+                ).exclude(name__in=names).delete()
+            except ProtectedError as e:
+                [obj.delete() for obj in e.protected_objects]
+                models.Site.objects.filter(organization_id=self.kwargs['organization_pk']).exclude(name__in=names).delete()
+            
             return Response(serializer.data)
         return Response(serializer.errors)
 

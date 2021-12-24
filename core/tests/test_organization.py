@@ -350,7 +350,6 @@ class OrganizationTestCase(BaseTestCase):
                 {"name": "2nd Test Site", "address": "Milky Way"},
             ],
         )
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             models.Site.objects.filter(organization=self.organization).count(),
