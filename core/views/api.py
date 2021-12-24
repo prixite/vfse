@@ -113,7 +113,6 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         if serializer.is_valid():
             names = []
-            objs = []
             for site in serializer.validated_data:
                 names.append(site["name"])
                 models.Site.objects.get_or_create(
