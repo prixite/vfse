@@ -6,3 +6,5 @@ class DjangoRestResponsePagination(inspectors.DjangoRestResponsePagination):
     def get_paginated_response(self, paginator, response_schema):
         if isinstance(paginator, drf_link_header_pagination.LinkHeaderPagination):
             return response_schema
+
+        return super().get_paginated_response(paginator, response_schema)
