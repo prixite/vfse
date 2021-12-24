@@ -292,6 +292,7 @@ class OrganizationTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
+
     def test_put_health_networks(self):
         self.client.force_login(self.super_admin)
         response = self.client.put(
