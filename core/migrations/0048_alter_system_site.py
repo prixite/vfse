@@ -7,13 +7,15 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0047_auto_20211223_2315'),
+        ("core", "0047_auto_20211223_2315"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='system',
-            name='site',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.site'),
+            model_name="system",
+            name="site",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT, to="core.site"
+            ),
         ),
     ]

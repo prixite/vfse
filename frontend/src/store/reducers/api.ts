@@ -373,6 +373,11 @@ export type OrganizationsSitesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
+export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site;
+export type OrganizationsSitesUpdateApiArg = {
+  organizationPk: string;
+  site: Site;
+};
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
   organizationPk: string;
