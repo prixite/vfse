@@ -17,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/health_networks/`,
-        params: { page: queryArg.page },
+        params: { name: queryArg.name, page: queryArg.page },
       }),
     }),
     manufacturersList: build.query<
@@ -76,7 +76,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/organizations/`,
-        params: { page: queryArg.page },
+        params: { name: queryArg.name, page: queryArg.page },
       }),
     }),
     organizationsCreate: build.mutation<
@@ -285,22 +285,13 @@ export type AccountsRequestsCreateApiResponse =
 export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
-export type HealthNetworksListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: HealthNetwork[];
-};
+export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
 export type HealthNetworksListApiArg = {
+  name?: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ManufacturersListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Manufacturer[];
-};
+export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
@@ -309,12 +300,8 @@ export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
 export type ManufacturersCreateApiArg = {
   manufacturer: Manufacturer;
 };
-export type ManufacturersImagesListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: ManufacturerImage[];
-};
+export type ManufacturersImagesListApiResponse =
+  /** status 200  */ ManufacturerImage[];
 export type ManufacturersImagesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
@@ -326,23 +313,14 @@ export type ManufacturersImagesCreateApiArg = {
 };
 export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
-export type ModalitiesListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Modality[];
-};
+export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Organization[];
-};
+export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
+  name?: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
@@ -364,12 +342,8 @@ export type OrganizationsDeleteApiResponse = unknown;
 export type OrganizationsDeleteApiArg = {
   id: string;
 };
-export type OrganizationsHealthNetworksListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: HealthNetwork[];
-};
+export type OrganizationsHealthNetworksListApiResponse =
+  /** status 200  */ HealthNetwork[];
 export type OrganizationsHealthNetworksListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
@@ -381,12 +355,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   organizationPk: string;
   healthNetwork: HealthNetwork;
 };
-export type OrganizationsSeatsListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Seat[];
-};
+export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
 export type OrganizationsSeatsListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
@@ -398,28 +367,13 @@ export type OrganizationsSeatsCreateApiArg = {
   organizationPk: string;
   systemSeatSeriazlier: SystemSeatSeriazlier;
 };
-export type OrganizationsSitesListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: Site[];
-};
+export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site;
-export type OrganizationsSitesUpdateApiArg = {
-  organizationPk: string;
-  site: Site;
-};
-export type OrganizationsUsersListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: User[];
-};
+export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
   organizationPk: string;
   /** A page number within the paginated result set. */
@@ -430,12 +384,7 @@ export type OrganizationsUsersCreateApiArg = {
   organizationPk: string;
   upsertUser: UpsertUser;
 };
-export type ProductsModelsListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: ProductModel[];
-};
+export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
@@ -446,23 +395,13 @@ export type ProductsModelsPartialUpdateApiArg = {
   id: string;
   productModel: ProductModel;
 };
-export type SitesSystemsListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: System[];
-};
+export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
   sitePk: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type SystemsImagesListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: SystemImage[];
-};
+export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
@@ -471,12 +410,7 @@ export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
 export type SystemsImagesCreateApiArg = {
   systemImage: SystemImage;
 };
-export type SystemsNotesListApiResponse = /** status 200  */ {
-  count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: SystemNotes[];
-};
+export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
 export type SystemsNotesListApiArg = {
   systemId: string;
   /** A page number within the paginated result set. */
