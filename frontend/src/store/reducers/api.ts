@@ -11,6 +11,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userRequestAcessSeriazlizer,
       }),
     }),
+    healthNetworksList: build.query<
+      HealthNetworksListApiResponse,
+      HealthNetworksListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/health_networks/`,
+        params: { page: queryArg.page },
+      }),
+    }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
       ManufacturersListApiArg
@@ -266,6 +275,11 @@ export type AccountsRequestsCreateApiResponse =
 export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
+export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
+export type HealthNetworksListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = {
   /** A page number within the paginated result set. */
@@ -437,6 +451,20 @@ export type UserRequestAcessSeriazlizer = {
   is_one_time: boolean;
   health_networks: number[];
 };
+export type Appearance = {
+  logo: string;
+};
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+};
+export type HealthNetwork = {
+  id?: number;
+  name: string;
+  appearance?: Appearance;
+  sites?: Site[];
+};
 export type Manufacturer = {
   name: string;
   image?: number | null;
@@ -444,7 +472,7 @@ export type Manufacturer = {
 export type ManufacturerImage = {
   image?: string | null;
 };
-export type Appearance = {
+export type Appearance2 = {
   sidebar_text: string;
   button_text: string;
   sidebar_color: string;
@@ -455,16 +483,11 @@ export type Appearance = {
   banner: string;
   icon: string;
 };
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-};
 export type Organization = {
   id?: number;
   name: string;
   number_of_seats?: number | null;
-  appearance?: Appearance;
+  appearance?: Appearance2;
   sites?: Site[];
 };
 export type Me = {
@@ -475,15 +498,6 @@ export type Me = {
 };
 export type Modality = {
   name: string;
-};
-export type Appearance2 = {
-  logo: string;
-};
-export type HealthNetwork = {
-  id?: number;
-  name: string;
-  appearance?: Appearance2;
-  sites?: Site[];
 };
 export type Seat = {
   system: number;
@@ -569,6 +583,7 @@ export type UserDeactivate = {
 };
 export const {
   useAccountsRequestsCreateMutation,
+  useHealthNetworksListQuery,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,
