@@ -201,4 +201,8 @@ DUO_REDIRECT_URI = env("DUO_REDIRECT_URI")
 
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "app.urls.api_info",
+    "DEFAULT_PAGINATOR_INSPECTORS": [
+        "core.pagination.DjangoRestResponsePagination",
+        "drf_yasg2.inspectors.CoreAPICompatInspector",
+    ],
 }
