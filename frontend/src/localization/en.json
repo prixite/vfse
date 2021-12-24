@@ -2,6 +2,8 @@
     "users":{
             "addUser": "Add User",
             "userAdministration": "User Administration",
+            "btnFilter": "Filter",
+            "btnAdd": "Add User",
             "popUp":{
                 "userNameText": "Username",
                 "emailText": "Email",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppSelector } from "@src/store/hooks";
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
@@ -17,6 +17,7 @@ import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/H
 import {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
+  useOrganizationsListQuery,
 } from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import {
@@ -26,10 +27,11 @@ import {
 
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
+  const [page, setPage] = useState("1");
+  const [organizationName, setOrganizationName] = useState("");
+  const [organizationSeats, setOrganizationSeats] = useState("");
+  const [organizationError, setOrganizationError] = useState("");
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
-  const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
-  );
   const [networks, setNetworks] = useState([1]);
   const [sidebarColor, setSidebarColor] = useState("ffff");
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
@@ -55,14 +57,32 @@ export default function OrganizationModal(props) {
     newOrganizationAddNetwork,
   } = constantData;
 
-  const [page, setPage] = useState("1");
+  const {
+    sideBarBackground,
+    buttonBackground,
+    sideBarTextColor,
+    buttonTextColor,
+  } = useAppSelector((state) => state.myTheme);
 
   const handleChange = (event) => {
     setPage(event.target.value);
   };
 
+  const handleOrganizationName = (event) => {
+    if (event.target.value.length) {
+      setOrganizationError("");
+    }
+    setOrganizationName(event.target.value);
+  };
+
+  const handleOrganizationSeats = (event) => {
+    setOrganizationSeats(event.target.value.replace(/[^0-9]/g, ""));
+  };
+
   const handleSetNewOrganization = async () => {
-    if (props.organization.id) {
+    console.log("enetered1");
+    if (props?.organization?.id) {
+      console.log("enetered1");
       const { id, ...organization } = props.organization;
       await updateOrganizationService(
         id,
@@ -72,14 +92,19 @@ export default function OrganizationModal(props) {
       );
       toast.success("Organization successfully updated");
     } else {
-      await addNewOrganizationService(
-        props.organization,
-        addNewOrganization,
-        props.refetch
-      );
-      toast.success("Organization successfully added");
+      if (!organizationName) {
+        setOrganizationError("This value is required");
+      } else {
+        const organizationObject = getOrganizationObject();
+        await addNewOrganizationService(
+          organizationObject,
+          addNewOrganization,
+          props.refetch
+        )
+          .then(() => toast.success("Organization successfully added"))
+          .catch((error) => setOrganizationError(error?.data?.name));
+      }
     }
-    props.handleClose();
   };
 
   const changeSideBarColor = (color: string) => setSidebarColor(color);
@@ -93,6 +118,32 @@ export default function OrganizationModal(props) {
   const addNetworks = () => {
     setNetworks([...networks, networks.length]);
   };
+
+  const getOrganizationObject = () => {
+    return {
+      name: organizationName,
+      number_of_seats: organizationSeats || null,
+      appearance: {
+        sidebar_text: sidebarTextColor,
+        button_text: ButtonTextColor,
+        sidebar_color: sidebarColor,
+        primary_color: ButtonColor,
+        font_one: "ProximaNova-Regular",
+        font_two: "ProximaNova-Regular",
+        logo: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+        icon: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+        banner:
+          "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+      },
+    };
+  };
+
+  useEffect(() => {
+    setSidebarTextColor(sideBarTextColor);
+    setSidebarColor(sideBarBackground);
+    setButtonColor(ButtonTextColor);
+    setButtonColor(buttonBackground);
+  }, [sideBarTextColor, sideBarBackground, ButtonTextColor, buttonBackground]);
 
   return (
     <Dialog
@@ -147,17 +198,24 @@ export default function OrganizationModal(props) {
                 <div className="info-section">
                   <p className="info-label">{newOrganizationName}</p>
                   <TextField
+                    error={organizationError?.length ? true : false}
+                    value={organizationName}
                     className="info-field"
                     variant="outlined"
+                    helperText={organizationError}
                     placeholder="Advent Health"
+                    onChange={handleOrganizationName}
                   />
                   <p className="info-label" style={{ marginTop: "25px" }}>
                     {newOrganizationSeats}
                   </p>
                   <TextField
+                    error
+                    value={organizationSeats}
                     className="info-field"
                     variant="outlined"
                     placeholder="6"
+                    onChange={handleOrganizationSeats}
                   />
                   <div className="color-section">
                     <div className="color-pickers">
