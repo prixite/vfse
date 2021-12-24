@@ -118,6 +118,8 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
+    lookup_field = 'organization_id'
+    lookup_url_kwarg ='organization_pk'
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -128,32 +130,31 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             organization__in=self.get_user_organizations(),
         )
 
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=True)
+    def get_serializer(self, *args, **kwargs):
+        if self.action == 'update':
+            kwargs['many']=True
+            args=()
+        return super().get_serializer(*args, **kwargs)
+   
+    def perform_update(self, serializer):
+        names = []
+        for site in serializer.validated_data:
+            names.append(site["name"])
+            models.Site.objects.get_or_create(
+                name=site["name"],
+                organization_id=self.kwargs["organization_pk"],
+                defaults={"address": site["address"]},
+            )
 
-        if serializer.is_valid():
-            names = []
-            for site in serializer.validated_data:
-                names.append(site["name"])
-                models.Site.objects.get_or_create(
-                    name=site["name"],
-                    organization_id=self.kwargs["organization_pk"],
-                    defaults={"address": site["address"]},
-                )
-
-            try:
-                models.Site.objects.filter(
-                    organization_id=self.kwargs["organization_pk"]
-                ).exclude(name__in=names).delete()
-            except ProtectedError as e:
-                [obj.delete() for obj in e.protected_objects]
-                models.Site.objects.filter(
-                    organization_id=self.kwargs["organization_pk"]
-                ).exclude(name__in=names).delete()
-
-            return Response(serializer.data)
-        return Response(serializer.errors)
-
+        try:
+            models.Site.objects.filter(
+                organization_id=self.kwargs["organization_pk"]
+            ).exclude(name__in=names).delete()
+        except ProtectedError as e:
+            [obj.delete() for obj in e.protected_objects]
+            models.Site.objects.filter(
+                organization_id=self.kwargs["organization_pk"]
+            ).exclude(name__in=names).delete()
 
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
