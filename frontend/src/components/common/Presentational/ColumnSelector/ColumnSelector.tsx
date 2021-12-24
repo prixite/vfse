@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { OutlinedInput, MenuItem, FormControl, Select } from "@mui/material";
-import DoneIcon from '@mui/icons-material/Done';
+import DoneIcon from "@mui/icons-material/Done";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -14,66 +14,69 @@ const MenuProps = {
 };
 
 const ColumnSelector = ({ tableColumns, setTableColumns }) => {
-    const [columnList, setColumnList] = useState(setOptions);
+  const [columnList, setColumnList] = useState(setOptions);
 
-    function setOptions() {
-      let options = [];
-      tableColumns.map((column) => (
-        options = [...options, column.headerName]
-      ))
-      return options;
-    }
-  
-    useEffect(() => {
-      const c = tableColumns.map((column) => {
-        if(columnList.includes(column.headerName)){
-          column.hide = false
-        } else {
-          column.hide = true
-        }
-        return column;
-      })
-      setTableColumns(c);
-    }, [columnList]);
-  
-    const handleChange = (event) => {
-      const {
-        target: { value },
-      } = event;
-      setColumnList(
-        typeof value === 'string' ? value.split(',') : value,
-      );
-    };
+  function setOptions() {
+    let options = [];
+    tableColumns.map((column) => (options = [...options, column.headerName]));
+    return options;
+  }
 
-    return(
-        <FormControl sx={{ width: 300, height: 40, margin: "1px", marginRight: "8px" }}>
-            <Select
-              multiple
-              displayEmpty              
-              style={{ height: "41px", background: "#ffffff" }}
-              value={columnList}
-              onChange={handleChange}
-              input={<OutlinedInput />}
-              renderValue={(selected) => {
-                  return <span>columns {`${selected.length}/${tableColumns.length}`} </span>;
+  useEffect(() => {
+    const c = tableColumns.map((column) => {
+      if (columnList.includes(column.headerName)) {
+        column.hide = false;
+      } else {
+        column.hide = true;
+      }
+      return column;
+    });
+    setTableColumns(c);
+  }, [columnList]);
+
+  const handleChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setColumnList(typeof value === "string" ? value.split(",") : value);
+  };
+
+  return (
+    <FormControl
+      sx={{ width: 300, height: 40, margin: "1px", marginRight: "8px" }}
+    >
+      <Select
+        multiple
+        displayEmpty
+        style={{ height: "41px", background: "#ffffff" }}
+        value={columnList}
+        onChange={handleChange}
+        input={<OutlinedInput />}
+        renderValue={(selected) => {
+          return (
+            <span>columns {`${selected.length}/${tableColumns.length}`} </span>
+          );
+        }}
+        MenuProps={MenuProps}
+        inputProps={{ "aria-label": "Without label" }}
+      >
+        {tableColumns.map((column) => (
+          <MenuItem key={column.headerName} value={column.headerName}>
+            <div
+              style={{
+                width: "-webkit-fill-available",
+                display: "flex",
+                justifyContent: "space-between",
               }}
-              MenuProps={MenuProps}
-              inputProps={{ 'aria-label': 'Without label' }}
             >
-              {tableColumns.map((column) => (
-                <MenuItem
-                  key={column.headerName}
-                  value={column.headerName}
-                >
-                  <div style={{ width: "-webkit-fill-available", display:"flex", justifyContent:"space-between" }} >
-                  <span> {column.headerName} </span>
-                  { columnList.includes(column.headerName) ? <DoneIcon />  : ""}
-                  </div>
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-    )
-}
+              <span> {column.headerName} </span>
+              {columnList.includes(column.headerName) ? <DoneIcon /> : ""}
+            </div>
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
 
 export default ColumnSelector;
