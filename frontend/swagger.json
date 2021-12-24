@@ -60,6 +60,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "description": "A page number within the paginated result set.",
@@ -248,6 +255,13 @@
                 "operationId": "organizations_list",
                 "description": "",
                 "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
                     {
                         "name": "page",
                         "in": "query",
