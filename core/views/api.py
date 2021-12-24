@@ -116,18 +116,11 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             objs = []
             for site in serializer.validated_data:
                 names.append(site["name"])
-                objs.append(
-                    models.Site(
-                        organization_id=self.kwargs["organization_pk"],
-                        name=site["name"],
-                        address=site["address"],
-                    )
-                )
+                models.Site.objects.get_or_create(name=site['name'],organization_id=self.kwargs['organization_pk'],defaults={'address':site['address']})
 
             models.Site.objects.filter(
                 organization_id=self.kwargs["organization_pk"]
             ).exclude(name__in=names).delete()
-            models.Site.objects.bulk_create(objs)
             return Response(serializer.data)
         return Response(serializer.errors)
 
