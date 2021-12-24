@@ -273,15 +273,17 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
         response = self.client.get(f"/api/organizations/{self.organization.id}/")
 
+        self.maxDiff = None
         self.assertEqual(response.status_code, 200)
-        self.assertDictContainsSubset(
+        self.assertDictEqual(
+            response.json(),
             {
                 "id": self.organization.id,
                 "name": self.organization.name,
                 "number_of_seats": self.organization.number_of_seats,
                 "appearance": self.organization.appearance,
+                "sites": list(self.organization.sites.values("id", "name", "address")),
             },
-            response.json(),
         )
 
     def test_put_health_networks(self):
