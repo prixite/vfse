@@ -189,7 +189,7 @@ export default function SideBar() {
     }, 0);
   };
   return (
-    <Box className="SideBar" sx={{ display: "flex" }}>
+    <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
       <Drawer
         variant="permanent"
         open={open}

@@ -3,6 +3,9 @@
   background-color: #2a3242;
   .MuiDrawer-paper {
     background-color: #2a3242;
+    .css-10hburv-MuiTypography-root {
+      font-family: unset !important;
+    }
   }
   .MuiPaper-root {
     display: flex;

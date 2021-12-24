@@ -5,6 +5,8 @@ interface ThemeColorState {
   buttonBackground: string;
   sideBarTextColor: string;
   buttonTextColor: string;
+  fontOne: string;
+  fontTwo: string;
 }
 
 const initialState: ThemeColorState = {
@@ -12,6 +14,8 @@ const initialState: ThemeColorState = {
   buttonBackground: "#773cbe",
   sideBarTextColor: "#94989E",
   buttonTextColor: "#FFFFFF",
+  fontOne: "",
+  fontTwo: "",
 };
 
 export const themeSlice = createSlice({
@@ -30,6 +34,12 @@ export const themeSlice = createSlice({
     updateButtonTextColor: (state, action: PayloadAction<string>) => {
       state.buttonTextColor = action.payload;
     },
+    updateFontOne: (state, action: PayloadAction<string>) => {
+      state.fontOne = action.payload;
+    },
+    updateFontTwo: (state, action: PayloadAction<string>) => {
+      state.fontTwo = action.payload;
+    },
   },
 });
 
@@ -38,5 +48,7 @@ export const {
   updateButtonColor,
   updateSideBarTextColor,
   updateButtonTextColor,
+  updateFontOne,
+  updateFontTwo,
 } = themeSlice.actions;
 export default themeSlice.reducer;

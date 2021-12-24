@@ -23,6 +23,8 @@ import {
   updateButtonColor,
   updateSideBarTextColor,
   updateButtonTextColor,
+  updateFontOne,
+  updateFontTwo,
 } from "@src/store/reducers/themeStore";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import { updateOrganizationColor } from "@src/services/organizationService";
@@ -32,7 +34,6 @@ const AppearanceSection = () => {
     page: 1,
   });
   const [isLoading, setIsLoading] = useState(false);
-  console.log(isLoading);
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -42,8 +43,9 @@ const AppearanceSection = () => {
     buttonBackground,
     sideBarTextColor,
     buttonTextColor,
+    fontOne,
+    fontTwo,
   } = useAppSelector((state) => state.myTheme);
-
   var currentOrganiationDummyData: Organization = JSON.parse(
     JSON.stringify(selectedOrganization)
   );
@@ -104,6 +106,33 @@ const AppearanceSection = () => {
       currentOrganiationDummyData,
       color,
       "button_text"
+    );
+    dispatch(
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
+      })
+    );
+  };
+
+  const onChangeFont = (event) => {
+    dispatch(updateFontOne(event.target.value));
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      event.target.value,
+      "font_one"
+    );
+    dispatch(
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
+      })
+    );
+  };
+  const onChangeFontTwo = (event) => {
+    dispatch(updateFontTwo(event.target.value));
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      event.target.value,
+      "font_two"
     );
     dispatch(
       setSelectedOrganization({
@@ -173,16 +202,17 @@ const AppearanceSection = () => {
               <h4 className="labels">Font #1</h4>
               <FormControl sx={{ minWidth: 195 }}>
                 <Select
-                  value=""
+                  value={fontOne}
                   displayEmpty
+                  onChange={onChangeFont}
                   inputProps={{ "aria-label": "Without label" }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Font 1</MenuItem>
-                  <MenuItem value={20}>Font 2</MenuItem>
-                  <MenuItem value={30}>Font 3</MenuItem>
+                  <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                  <MenuItem value={"calibiri"}>Calibiri</MenuItem>
+                  <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -191,20 +221,23 @@ const AppearanceSection = () => {
               <h4 className="labels">Font #2</h4>
               <FormControl sx={{ minWidth: 195 }}>
                 <Select
-                  value=""
+                  value={fontTwo}
                   displayEmpty
+                  onChange={onChangeFontTwo}
                   inputProps={{ "aria-label": "Without label" }}
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Font 1</MenuItem>
-                  <MenuItem value={20}>Font 2</MenuItem>
-                  <MenuItem value={30}>Font 3</MenuItem>
+                  <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                  <MenuItem value={"calibri"}>Calibri</MenuItem>
+                  <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
                 </Select>
               </FormControl>
             </Box>
-            <h2 className="font-demo">AaBbCcDd</h2>
+            <h2 className="font-demo" style={{ fontFamily: `${fontTwo}` }}>
+              AaBbCcDd
+            </h2>
           </Box>
           <Button
             onClick={updateAppearance}
