@@ -118,8 +118,8 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
-    lookup_field = 'organization_id'
-    lookup_url_kwarg ='organization_pk'
+    lookup_field = "organization_id"
+    lookup_url_kwarg = "organization_pk"
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -131,11 +131,11 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         )
 
     def get_serializer(self, *args, **kwargs):
-        if self.action == 'update':
-            kwargs['many']=True
-            args=()
+        if self.action == "update":
+            kwargs["many"] = True
+            args = ()
         return super().get_serializer(*args, **kwargs)
-   
+
     def perform_update(self, serializer):
         names = []
         for site in serializer.validated_data:
@@ -155,6 +155,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             models.Site.objects.filter(
                 organization_id=self.kwargs["organization_pk"]
             ).exclude(name__in=names).delete()
+
 
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer

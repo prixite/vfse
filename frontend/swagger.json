@@ -537,7 +537,11 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Site"
+                            "description": "",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Site"
+                            }
                         }
                     }
                 ],
@@ -545,7 +549,11 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/Site"
+                            "description": "",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Site"
+                            }
                         }
                     }
                 },

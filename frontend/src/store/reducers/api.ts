@@ -168,7 +168,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.organizationPk}/sites/`,
         method: "PUT",
-        body: queryArg.site,
+        body: queryArg.body,
       }),
     }),
     organizationsUsersList: build.query<
@@ -373,10 +373,10 @@ export type OrganizationsSitesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site;
+export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesUpdateApiArg = {
   organizationPk: string;
-  site: Site;
+  body: Site[];
 };
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
