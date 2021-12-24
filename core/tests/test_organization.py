@@ -286,6 +286,15 @@ class OrganizationTestCase(BaseTestCase):
             },
         )
 
+    def test_health_network_filter(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get(
+            f"/api/health_networks/?name={self.health_network.name}"
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
     def test_put_health_networks(self):
         self.client.force_login(self.super_admin)
         response = self.client.put(

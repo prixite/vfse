@@ -54,6 +54,58 @@
             },
             "parameters": []
         },
+        "/health_networks/": {
+            "get": {
+                "operationId": "health_networks_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "required": [
+                                "count",
+                                "results"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "count": {
+                                    "type": "integer"
+                                },
+                                "next": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "previous": {
+                                    "type": "string",
+                                    "format": "uri",
+                                    "x-nullable": true
+                                },
+                                "results": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/HealthNetwork"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "health_networks"
+                ]
+            },
+            "parameters": []
+        },
         "/manufacturers/": {
             "get": {
                 "operationId": "manufacturers_list",
@@ -1241,6 +1293,82 @@
                 }
             }
         },
+        "HealthNetworkAppearance": {
+            "title": "Appearance",
+            "description": "",
+            "required": [
+                "logo"
+            ],
+            "type": "object",
+            "properties": {
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "logo": ""
+            }
+        },
+        "Site": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "HealthNetwork": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "appearance": {
+                    "$ref": "#/definitions/HealthNetworkAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
         "Manufacturer": {
             "description": "Manufacturer(id, name, image, created_at, updated_at)",
             "required": [
@@ -1351,32 +1479,6 @@
                 "icon": ""
             }
         },
-        "Site": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
-                }
-            }
-        },
         "Organization": {
             "title": "Organization",
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
@@ -1452,56 +1554,6 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
-                }
-            }
-        },
-        "HealthNetworkAppearance": {
-            "title": "Appearance",
-            "description": "",
-            "required": [
-                "logo"
-            ],
-            "type": "object",
-            "properties": {
-                "logo": {
-                    "title": "Logo",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
-                }
-            },
-            "default": {
-                "logo": ""
-            }
-        },
-        "HealthNetwork": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "appearance": {
-                    "$ref": "#/definitions/HealthNetworkAppearance"
-                },
-                "sites": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Site"
-                    },
-                    "readOnly": true
                 }
             }
         },

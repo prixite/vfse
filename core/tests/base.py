@@ -50,6 +50,7 @@ class BaseTestCase(TestCase):
         )
 
         self.health_network = factories.HealthNetworkFactory(
+            name="Health Network Org",
             organizations=[self.organization],
             customer_admin_roles=[self.customer_admin],
         )
