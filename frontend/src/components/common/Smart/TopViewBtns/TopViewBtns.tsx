@@ -1,9 +1,10 @@
 import { useEffect, useCallback } from "react";
-import { Box, Button, InputAdornment, TextField, Grid } from "@mui/material";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import debounce from "debounce";
 import AddIcon from "@mui/icons-material/Add";
+import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
@@ -17,6 +18,8 @@ const TopViewBtns = ({
   actualData,
   searchText,
   setSearchText,
+  tableColumns,
+  setTableColumns,
 }) => {
   const dispatch = useAppDispatch();
   let constantData: any;
@@ -26,6 +29,8 @@ const TopViewBtns = ({
     constantData = localizedData()?.organization;
   } else if (path === "sites") {
     constantData = localizedData()?.sites;
+  } else if (path == "users") {
+    constantData = localizedData()?.users;
   }
   const { btnFilter, btnAdd } = constantData;
 
@@ -81,6 +86,15 @@ const TopViewBtns = ({
               <span>{btnFilter}</span>
             </div>
           </Button>
+
+          {path == "users" ? (
+            <ColumnSelector
+              tableColumns={tableColumns}
+              setTableColumns={setTableColumns}
+            />
+          ) : (
+            ""
+          )}
 
           <TextField
             id="search-clients"

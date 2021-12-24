@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg2",
     "drf_link_header_pagination",
+    "django_filters",
     # apps
     "core",
     "emailbackend",
@@ -180,6 +181,7 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "drf_link_header_pagination.LinkHeaderPagination",
     "PAGE_SIZE": 50,
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 
@@ -201,4 +203,8 @@ DUO_REDIRECT_URI = env("DUO_REDIRECT_URI")
 
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "app.urls.api_info",
+    "DEFAULT_PAGINATOR_INSPECTORS": [
+        "core.pagination.DjangoRestResponsePagination",
+        "drf_yasg2.inspectors.CoreAPICompatInspector",
+    ],
 }

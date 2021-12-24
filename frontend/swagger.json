@@ -54,6 +54,43 @@
             },
             "parameters": []
         },
+        "/health_networks/": {
+            "get": {
+                "operationId": "health_networks_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HealthNetwork"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "health_networks"
+                ]
+            },
+            "parameters": []
+        },
         "/manufacturers/": {
             "get": {
                 "operationId": "manufacturers_list",
@@ -71,31 +108,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Manufacturer"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Manufacturer"
                             }
                         }
                     }
@@ -148,31 +163,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/ManufacturerImage"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ManufacturerImage"
                             }
                         }
                     }
@@ -244,31 +237,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Modality"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Modality"
                             }
                         }
                     }
@@ -285,6 +256,13 @@
                 "description": "",
                 "parameters": [
                     {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "description": "A page number within the paginated result set.",
@@ -296,31 +274,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Organization"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Organization"
                             }
                         }
                     }
@@ -437,31 +393,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/HealthNetwork"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HealthNetwork"
                             }
                         }
                     }
@@ -470,8 +404,8 @@
                     "organizations"
                 ]
             },
-            "post": {
-                "operationId": "organizations_health_networks_create",
+            "put": {
+                "operationId": "organizations_health_networks_update",
                 "description": "",
                 "parameters": [
                     {
@@ -479,15 +413,15 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/OrganizationHealthNetworkCreate"
+                            "$ref": "#/definitions/HealthNetwork"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/OrganizationHealthNetworkCreate"
+                            "$ref": "#/definitions/HealthNetwork"
                         }
                     }
                 },
@@ -521,31 +455,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Seat"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Seat"
                             }
                         }
                     }
@@ -605,31 +517,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/Site"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Site"
                             }
                         }
                     }
@@ -664,31 +554,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/User"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
                             }
                         }
                     }
@@ -748,31 +616,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/ProductModel"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductModel"
                             }
                         }
                     }
@@ -835,31 +681,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/System"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/System"
                             }
                         }
                     }
@@ -894,31 +718,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/SystemImage"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SystemImage"
                             }
                         }
                     }
@@ -971,31 +773,9 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "required": [
-                                "count",
-                                "results"
-                            ],
-                            "type": "object",
-                            "properties": {
-                                "count": {
-                                    "type": "integer"
-                                },
-                                "next": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "previous": {
-                                    "type": "string",
-                                    "format": "uri",
-                                    "x-nullable": true
-                                },
-                                "results": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/SystemNotes"
-                                    }
-                                }
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SystemNotes"
                             }
                         }
                     }
@@ -1241,6 +1021,82 @@
                 }
             }
         },
+        "HealthNetworkAppearance": {
+            "title": "Appearance",
+            "description": "",
+            "required": [
+                "logo"
+            ],
+            "type": "object",
+            "properties": {
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "logo": ""
+            }
+        },
+        "Site": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "HealthNetwork": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "appearance": {
+                    "$ref": "#/definitions/HealthNetworkAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
         "Manufacturer": {
             "description": "Manufacturer(id, name, image, created_at, updated_at)",
             "required": [
@@ -1351,32 +1207,6 @@
                 "icon": ""
             }
         },
-        "Site": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
-                }
-            }
-        },
         "Organization": {
             "title": "Organization",
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
@@ -1452,54 +1282,6 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
-                }
-            }
-        },
-        "HealthNetwork": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "appearance": {
-                    "title": "Appearance",
-                    "type": "object"
-                },
-                "sites": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Site"
-                    },
-                    "readOnly": true
-                }
-            }
-        },
-        "OrganizationHealthNetworkCreate": {
-            "description": "",
-            "required": [
-                "health_networks"
-            ],
-            "type": "object",
-            "properties": {
-                "health_networks": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    },
-                    "uniqueItems": true
                 }
             }
         },
@@ -1775,7 +1557,7 @@
             }
         },
         "System": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, is_online, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "site",
                 "product_model",

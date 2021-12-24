@@ -180,10 +180,10 @@ class Membership(models.Model):
 
 
 class OrganizationHealthNetwork(models.Model):
-    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
-    health_network = models.ForeignKey(
+    organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, related_name="health_networks"
     )
+    health_network = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -253,6 +253,8 @@ class System(models.Model):
     dicom_info = models.JSONField(default=dict)
     mri_embedded_parameters = models.JSONField(default=dict)
 
+    is_online = models.BooleanField(default=False)
+    last_successful_ping_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

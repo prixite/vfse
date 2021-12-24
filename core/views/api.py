@@ -1,6 +1,5 @@
 from django.db import transaction
 from rest_framework import exceptions
-from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -22,6 +21,9 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [IsAuthenticated, OrganizationDetailPermission]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Organization.objects.none()
+
         return super().get_user_organizations()
 
     def destroy(self, request, *args, **kwargs):
@@ -32,9 +34,13 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class CustomerViewSet(OrganizationViewSet):
+    filterset_fields = ["name"]
+
     def get_queryset(self):
-        name = self.request.query_params.get("name")
-        orgs = (
+        if getattr(self, "swagger_fake_view", False):
+            return models.Organization.objects.none()
+
+        return (
             super()
             .get_user_organizations()
             .filter(
@@ -44,10 +50,6 @@ class CustomerViewSet(OrganizationViewSet):
             .prefetch_related("sites")
         )
 
-        if name:
-            orgs = orgs.filter(name__icontains=name)
-        return orgs
-
     def perform_create(self, serializer):
         models.Organization.objects.create(
             **serializer.validated_data, is_customer=True
@@ -56,6 +58,9 @@ class CustomerViewSet(OrganizationViewSet):
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Organization.objects.none()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             # TODO: Find a way to do this with ORM.
             return models.Organization.objects.raw(
@@ -70,31 +75,46 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         ).prefetch_related("sites")
 
     def get_serializer_class(self):
-        if self.action == "create":
-            return serializers.OrganizationHealthNetworkCreateSerializer
         return serializers.HealthNetworkSerializer
 
-    def perform_create(self, serializer):
-        get_object_or_404(
-            super().get_user_organizations(), id=self.kwargs["organization_pk"]
-        )
-        models.OrganizationHealthNetwork.objects.filter(
-            organization=self.kwargs["organization_pk"]
-        ).delete()
-        new_health_networks = [
-            models.OrganizationHealthNetwork(
-                organization_id=self.kwargs["organization_pk"],
-                health_network=health_network,
-            )
-            for health_network in serializer.validated_data["health_networks"]
-        ]
-        models.OrganizationHealthNetwork.objects.bulk_create(new_health_networks)
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=True)
+
+        if serializer.is_valid():
+            models.OrganizationHealthNetwork.objects.filter(
+                organization_id=self.kwargs["organization_pk"]
+            ).delete()
+
+            for data in serializer.validated_data:
+                models.Organization.objects.get_or_create(
+                    name=data["name"],
+                    defaults={
+                        "appearance": data["appearance"],
+                    },
+                )
+
+            objects = []
+            for data in serializer.validated_data:
+                objects.append(
+                    models.OrganizationHealthNetwork(
+                        organization_id=self.kwargs["organization_pk"],
+                        health_network=models.Organization.objects.get(
+                            name=data["name"]
+                        ),
+                    )
+                )
+            models.OrganizationHealthNetwork.objects.bulk_create(objects)
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Site.objects.none()
+
         return models.Site.objects.filter(
             organization=self.kwargs["organization_pk"],
             organization__in=self.get_user_organizations(),
@@ -105,6 +125,9 @@ class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.System.objects.none()
+
         return models.System.objects.filter(
             site=self.kwargs["site_pk"],
         )
@@ -159,6 +182,9 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         return serializers.UserSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.User.objects.none()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.User.objects.all()
 
@@ -192,6 +218,9 @@ class VfseSystemViewSet(ModelViewSet):
         return serializers.SeatSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Seat.objects.none()
+
         assigned = models.Seat.objects.filter(
             organization=self.kwargs["organization_pk"],
         )
@@ -240,6 +269,9 @@ class ModalityViewSet(ModelViewSet):
     serializer_class = serializers.ModalitySerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Modality.objects.none()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.Modality.objects.all()
 
@@ -269,6 +301,9 @@ class SystemNoteViewSet(ModelViewSet):
     lookup_url_kwarg = "system_id"
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Note.objects.none()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.Note.objects.filter(system_id=self.kwargs["system_id"])
         return models.Note.objects.filter(
@@ -317,3 +352,8 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
             user_id=user_id,
             under_review=True,
         )
+
+
+class HealthNetworkViewSet(OrganizationViewSet):
+    serializer_class = serializers.HealthNetworkSerializer
+    filterset_fields = ["name"]
