@@ -147,8 +147,10 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
                 ).exclude(name__in=names).delete()
             except ProtectedError as e:
                 [obj.delete() for obj in e.protected_objects]
-                models.Site.objects.filter(organization_id=self.kwargs['organization_pk']).exclude(name__in=names).delete()
-            
+                models.Site.objects.filter(
+                    organization_id=self.kwargs["organization_pk"]
+                ).exclude(name__in=names).delete()
+
             return Response(serializer.data)
         return Response(serializer.errors)
 
