@@ -275,13 +275,16 @@ class OrganizationTestCase(BaseTestCase):
 
         self.maxDiff = None
         self.assertEqual(response.status_code, 200)
-        self.assertDictEqual(response.json(),{
-            'id':self.organization.id,
-            'name':self.organization.name,
-            'number_of_seats':self.organization.number_of_seats,
-            'appearance':self.organization.appearance,
-            'sites':list(self.organization.sites.values('id','name','address'))
-        })
+        self.assertDictEqual(
+            response.json(),
+            {
+                "id": self.organization.id,
+                "name": self.organization.name,
+                "number_of_seats": self.organization.number_of_seats,
+                "appearance": self.organization.appearance,
+                "sites": list(self.organization.sites.values("id", "name", "address")),
+            },
+        )
 
     def test_put_health_networks(self):
         self.client.force_login(self.super_admin)
