@@ -326,6 +326,23 @@ class OrganizationTestCase(BaseTestCase):
             {"logo": "https://picsum.photos/200"},
         )
 
+    def test_put_organization_site(self):
+        self.client.force_login(self.super_admin)
+
+        response = self.client.get(f'/api/organizations/{self.organization.id}/sites/')
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(len(response.json()),1)
+
+        site = factories.SiteFactory(name='Test Site',address='Mars')
+        response =self.client.put(f'/api/organizations/{self.organization.id}/sites/',
+            data=[
+                {'name':site.name,'address':site.address},
+                {'name':'2nd Test Site','address':'Milky Way'}
+            ]
+        )
+
+        self.assertEqual(response.status_code,200)
+        self.assertEqual(models.Site.objects.filter(organization=self.organization).count(),len(response.json()))
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

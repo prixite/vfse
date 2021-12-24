@@ -110,6 +110,21 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             organization=self.kwargs["organization_pk"],
             organization__in=self.get_user_organizations(),
         )
+    
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data,many=True)
+
+        if serializer.is_valid():
+            names = []
+            objs= []
+            for site in serializer.validated_data:
+                names.append(site['name'])
+                objs.append(models.Site(organization_id=self.kwargs['organization_pk'],name=site['name'],address=site['address']))
+            
+            models.Site.objects.filter(organization_id=self.kwargs['organization_pk']).exclude(name__in=names).delete()
+            models.Site.objects.bulk_create(objs)
+            return Response(serializer.data)
+        return Response(serializer.errors)
 
 
 class SiteSystemViewSet(ModelViewSet):
