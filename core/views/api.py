@@ -70,12 +70,12 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             return models.Organization.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            # TODO: Find a way to do this with ORM.
-            return models.Organization.objects.raw(
-                "select distinct org.* from core_organization as org "
-                "inner join core_organizationhealthnetwork as org_health on "
-                "org.id = org_health.health_network_id"
+            return models.Organization.objects.filter(
+                id__in=models.OrganizationHealthNetwork.objects.filter(
+                    organization=self.kwargs["organization_pk"]
+                ).values_list("health_network")
             )
+
         return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
                 self.kwargs["organization_pk"]
