@@ -52,15 +52,15 @@ const rows = [
 ];
 
 export default function DocumentationSection() {
-  let constantData: any;
-  constantData = localizedData()?.documentation;
-  const { title } = constantData;
+  const { title } = localizedData()?.documentation;
 
   const renderModalities = (modalities) => {
     return (
       <div className="modality-section">
-        {modalities.map((modality) => (
-          <span className="modality">{modality}</span>
+        {modalities.map((modality, index) => (
+          <span key={index} className="modality">
+            {modality}
+          </span>
         ))}
       </div>
     );

@@ -14,13 +14,11 @@ const MenuProps = {
 };
 
 const ColumnSelector = ({ tableColumns, setTableColumns }) => {
-  const [columnList, setColumnList] = useState(setOptions);
-
-  function setOptions() {
+  const [columnList, setColumnList] = useState(() => {
     let options = [];
     tableColumns.map((column) => (options = [...options, column.headerName]));
     return options;
-  }
+  });
 
   useEffect(() => {
     const c = tableColumns.map((column) => {

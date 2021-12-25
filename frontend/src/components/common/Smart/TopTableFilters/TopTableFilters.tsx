@@ -7,9 +7,7 @@ import "@src/components/common/Smart/TopTableFilters/TopTableFilters.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
 const TopTableFilters = () => {
-  let constantData: any;
-  constantData = localizedData()?.documentation;
-  const { btnFilter, btnCol, btnAsset } = constantData;
+  const { btnFilter, btnCol, btnAsset } = localizedData()?.documentation;
 
   return (
     <>

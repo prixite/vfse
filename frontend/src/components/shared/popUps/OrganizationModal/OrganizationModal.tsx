@@ -311,7 +311,7 @@ export default function OrganizationModal(props) {
                 </Button>
               </div>
               {networks.map((network) => (
-                <HealthNetwork />
+                <HealthNetwork key={network} />
               ))}
             </>
           )}
