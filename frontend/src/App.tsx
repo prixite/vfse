@@ -41,7 +41,7 @@ const App = () => {
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
-      let organizationData = data?.organization;
+      const organizationData = data?.organization;
       dispatch(
         setCurrentOrganization({ currentOrganization: organizationData })
       );

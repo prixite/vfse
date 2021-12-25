@@ -13,7 +13,7 @@ interface SiteCardProps {
   refetch: any;
   id: number;
   name: string;
-  machines: Array<String>;
+  machines: Array<string>;
   location: string;
   connections: number;
 }

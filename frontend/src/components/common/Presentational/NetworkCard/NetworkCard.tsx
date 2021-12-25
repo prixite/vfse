@@ -31,7 +31,7 @@ const NetworkCard = ({
   const constantData: any = localizedData()?.modalities;
   const { cardPopUp } = constantData;
   const open = Boolean(anchorEl);
-  let { id } = useParams();
+  const { id } = useParams();
 
   const handleModalOpen = () => {
     setOpenModal(true);

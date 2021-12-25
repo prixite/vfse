@@ -46,7 +46,7 @@ const AppearanceSection = () => {
     fontOne,
     fontTwo,
   } = useAppSelector((state) => state.myTheme);
-  var currentOrganiationDummyData: Organization = JSON.parse(
+  let currentOrganiationDummyData: Organization = JSON.parse(
     JSON.stringify(selectedOrganization)
   );
   const changeSideBarColor = (color: string) => {

@@ -11,7 +11,7 @@ import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
 import "@src/views/user/UserView.scss";
 
-let columns = [
+const columns = [
   {
     field: "id",
     headerName: "ID",
