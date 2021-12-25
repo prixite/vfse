@@ -111,36 +111,36 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
-    lookup_field = "organization_id"
-    lookup_url_kwarg = "organization_pk"
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Site.objects.none()
 
+        if self.action == "update":
+            return self.get_user_organizations()
+
         return models.Site.objects.filter(
-            organization=self.kwargs["organization_pk"],
+            organization=self.kwargs["pk"],
             organization__in=self.get_user_organizations(),
         )
 
-    def get_serializer(self, *args, **kwargs):
+    def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":
-            kwargs["many"] = True
-            args = ()
-        return super().get_serializer(*args, **kwargs)
+            return serializers.OrganizationSiteSerializer
+        return super().get_serializer_class(*args, **kwargs)
 
     def perform_update(self, serializer):
         names = []
-        for site in serializer.validated_data:
+        for site in serializer.validated_data["sites"]:
             names.append(site["name"])
             models.Site.objects.get_or_create(
                 name=site["name"],
-                organization_id=self.kwargs["organization_pk"],
+                organization_id=self.kwargs["pk"],
                 defaults={"address": site["address"]},
             )
 
         removed_sites = models.Site.objects.filter(
-            organization=self.kwargs["organization_pk"],
+            organization=self.kwargs["pk"],
         ).exclude(name__in=names)
 
         models.System.objects.filter(site__in=removed_sites).delete()

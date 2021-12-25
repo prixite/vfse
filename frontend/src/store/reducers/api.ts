@@ -114,6 +114,25 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    organizationsSitesList: build.query<
+      OrganizationsSitesListApiResponse,
+      OrganizationsSitesListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/sites/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    organizationsSitesUpdate: build.mutation<
+      OrganizationsSitesUpdateApiResponse,
+      OrganizationsSitesUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/sites/`,
+        method: "PUT",
+        body: queryArg.organizationSite,
+      }),
+    }),
     organizationsHealthNetworksList: build.query<
       OrganizationsHealthNetworksListApiResponse,
       OrganizationsHealthNetworksListApiArg
@@ -150,25 +169,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.organizationPk}/seats/`,
         method: "POST",
         body: queryArg.systemSeatSeriazlier,
-      }),
-    }),
-    organizationsSitesList: build.query<
-      OrganizationsSitesListApiResponse,
-      OrganizationsSitesListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/sites/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    organizationsSitesUpdate: build.mutation<
-      OrganizationsSitesUpdateApiResponse,
-      OrganizationsSitesUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/sites/`,
-        method: "PUT",
-        body: queryArg.body,
       }),
     }),
     organizationsUsersList: build.query<
@@ -342,6 +342,18 @@ export type OrganizationsDeleteApiResponse = unknown;
 export type OrganizationsDeleteApiArg = {
   id: string;
 };
+export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
+export type OrganizationsSitesListApiArg = {
+  id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type OrganizationsSitesUpdateApiResponse =
+  /** status 200  */ OrganizationSite;
+export type OrganizationsSitesUpdateApiArg = {
+  id: string;
+  organizationSite: OrganizationSite;
+};
 export type OrganizationsHealthNetworksListApiResponse =
   /** status 200  */ HealthNetwork[];
 export type OrganizationsHealthNetworksListApiArg = {
@@ -366,17 +378,6 @@ export type OrganizationsSeatsCreateApiResponse =
 export type OrganizationsSeatsCreateApiArg = {
   organizationPk: string;
   systemSeatSeriazlier: SystemSeatSeriazlier;
-};
-export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
-export type OrganizationsSitesListApiArg = {
-  organizationPk: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site[];
-export type OrganizationsSitesUpdateApiArg = {
-  organizationPk: string;
-  body: Site[];
 };
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
@@ -516,6 +517,10 @@ export type Me = {
 export type Modality = {
   name: string;
 };
+export type OrganizationSite = {
+  id?: number;
+  sites: Site[];
+};
 export type Seat = {
   system: number;
   organization: number;
@@ -612,12 +617,12 @@ export const {
   useOrganizationsReadQuery,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
+  useOrganizationsSitesListQuery,
+  useOrganizationsSitesUpdateMutation,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksUpdateMutation,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
-  useOrganizationsSitesListQuery,
-  useOrganizationsSitesUpdateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsModelsListQuery,
