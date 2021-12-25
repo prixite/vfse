@@ -1,5 +1,4 @@
 from django.db import transaction
-from django.db.models import ProtectedError
 from rest_framework import exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -27,18 +26,12 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         return super().get_user_organizations()
 
-    def destroy(self, request, *args, **kwargs):
-        if self.get_object().is_default:
+    def perform_destroy(self, instance):
+        if instance.is_default:
             raise exceptions.ValidationError("Cannot delete default organization")
 
-        return super().destroy(request, *args, **kwargs)
-
-    def perform_destroy(self, instance):
-        try:
-            instance.delete()
-        except ProtectedError as e:
-            [obj.delete() for obj in e.protected_objects]
-            instance.delete()
+        models.System.objects.filter(site__organization=instance).delete()
+        instance.delete()
 
 
 class CustomerViewSet(OrganizationViewSet):
@@ -146,15 +139,12 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
                 defaults={"address": site["address"]},
             )
 
-        try:
-            models.Site.objects.filter(
-                organization_id=self.kwargs["organization_pk"]
-            ).exclude(name__in=names).delete()
-        except ProtectedError as e:
-            [obj.delete() for obj in e.protected_objects]
-            models.Site.objects.filter(
-                organization_id=self.kwargs["organization_pk"]
-            ).exclude(name__in=names).delete()
+        removed_sites = models.Site.objects.filter(
+            organization=self.kwargs["organization_pk"],
+        ).exclude(name__in=names)
+
+        models.System.objects.filter(site__in=removed_sites).delete()
+        removed_sites.delete()
 
 
 class SiteSystemViewSet(ModelViewSet):
