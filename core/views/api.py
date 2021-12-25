@@ -26,11 +26,12 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         return super().get_user_organizations()
 
-    def destroy(self, request, *args, **kwargs):
-        if self.get_object().is_default:
+    def perform_destroy(self, instance):
+        if instance.is_default:
             raise exceptions.ValidationError("Cannot delete default organization")
 
-        return super().destroy(request, *args, **kwargs)
+        models.System.objects.filter(site__organization=instance).delete()
+        instance.delete()
 
 
 class CustomerViewSet(OrganizationViewSet):
@@ -110,6 +111,8 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
+    lookup_field = "organization_id"
+    lookup_url_kwarg = "organization_pk"
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -119,6 +122,29 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             organization=self.kwargs["organization_pk"],
             organization__in=self.get_user_organizations(),
         )
+
+    def get_serializer(self, *args, **kwargs):
+        if self.action == "update":
+            kwargs["many"] = True
+            args = ()
+        return super().get_serializer(*args, **kwargs)
+
+    def perform_update(self, serializer):
+        names = []
+        for site in serializer.validated_data:
+            names.append(site["name"])
+            models.Site.objects.get_or_create(
+                name=site["name"],
+                organization_id=self.kwargs["organization_pk"],
+                defaults={"address": site["address"]},
+            )
+
+        removed_sites = models.Site.objects.filter(
+            organization=self.kwargs["organization_pk"],
+        ).exclude(name__in=names)
+
+        models.System.objects.filter(site__in=removed_sites).delete()
+        removed_sites.delete()
 
 
 class SiteSystemViewSet(ModelViewSet):

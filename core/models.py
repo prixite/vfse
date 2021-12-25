@@ -235,7 +235,7 @@ class Modality(models.Model):
 
 class System(models.Model):
     name = models.CharField(max_length=50)
-    site = models.ForeignKey("Site", on_delete=models.CASCADE)
+    site = models.ForeignKey("Site", on_delete=models.PROTECT)
     product_model = models.ForeignKey("ProductModel", on_delete=models.CASCADE)
     image = models.ForeignKey("SystemImage", on_delete=models.SET_NULL, null=True)
     software_version = models.CharField(max_length=32)
