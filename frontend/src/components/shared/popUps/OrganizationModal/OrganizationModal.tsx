@@ -1,29 +1,33 @@
+
 import { useState, useEffect } from "react";
-import { useAppSelector } from "@src/store/hooks";
+
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
-import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import AddBtn from "@src/assets/svgs/add.svg";
-import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
-import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 import { toast } from "react-toastify";
+
+import AddBtn from "@src/assets/svgs/add.svg";
+import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
-import {
-  useOrganizationsCreateMutation,
-  useOrganizationsPartialUpdateMutation,
-  useOrganizationsListQuery,
-} from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
   addNewOrganizationService,
 } from "@src/services/organizationService";
+import { useAppSelector } from "@src/store/hooks";
+import {
+  useOrganizationsCreateMutation,
+  useOrganizationsPartialUpdateMutation,
+  useOrganizationsListQuery,
+} from "@src/store/reducers/api";
+
+import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();

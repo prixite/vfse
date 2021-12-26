@@ -1,14 +1,17 @@
 import { useState } from "react";
+
 import { Box, Button, Grid } from "@mui/material";
+
 import "react-toastify/dist/ReactToastify.css";
-import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModal";
 import NetworkCard from "@src/components/common/Presentational/NetworkCard/NetworkCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
-import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
-import { useAppSelector } from "@src/store/hooks";
-import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
-import { localizedData } from "@src/helpers/utils/language";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModal";
+import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
+import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
+
+import "@src/components/common/Smart/ModalitySection/ModalitySection.scss";
 
 const ModalitySection = () => {
   const [network, setNetwork] = useState(null);

@@ -1,27 +1,30 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
+
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
-import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
+import { toast } from "react-toastify";
+
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import NewHealthNetwotkModal from "@src/components/shared/popUps/NewHealthNetworkModal/NewHealthNetworkModal";
+import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
+import { DeleteOrganizationService } from "@src/services/organizationService";
+import { useAppDispatch } from "@src/store/hooks";
 import {
   Organization,
   useOrganizationsDeleteMutation,
 } from "@src/store/reducers/api";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
-import NewHealthNetwotkModal from "@src/components/shared/popUps/NewHealthNetworkModal/NewHealthNetworkModal";
-import { toast } from "react-toastify";
-import { constants } from "@src/helpers/utils/constants";
-import { DeleteOrganizationService } from "@src/services/organizationService";
-import { useAppDispatch } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
-import { localizedData } from "@src/helpers/utils/language";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateButtonColor,
   updateSideBarColor,
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
-import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
+
+import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 
 interface ClientCardProps {
   setOrganization: Dispatch<any>;

@@ -48,6 +48,8 @@ repos:
         additional_dependencies:
           - eslint
           - eslint-plugin-react
+          - eslint-plugin-import
+          - eslint-import-resolver-webpack
           - "@typescript-eslint/eslint-plugin"
           - "@typescript-eslint/parser"
 

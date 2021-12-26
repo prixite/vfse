@@ -1,7 +1,9 @@
 import React, { useCallback, useRef, useState } from "react";
+
 import { HexColorPicker, HexColorInput } from "react-colorful";
 
 import useClickOutside from "@src/components/common/Presentational/ColorPicker/useClickOutside";
+
 import "@src/components/common/Presentational/ColorPicker/ColorPicker.scss";
 
 interface ColorPickerProps {

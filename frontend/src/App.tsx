@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
+
+import { matchPath } from "react-router";
+import { useLocation, withRouter, useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "@src/App.scss";
-import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
+
 import RoutesHOC from "@src/components/hoc/routesHOC";
+import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import { constants } from "@src/helpers/utils/constants";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useMeReadQuery,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
-
 import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+
 import {
   updateButtonColor,
   updateSideBarColor,
@@ -22,8 +25,8 @@ import {
   updateFontOne,
   updateFontTwo,
 } from "./store/reducers/themeStore";
-import { matchPath } from "react-router";
-import { useLocation, withRouter, useHistory } from "react-router-dom";
+
+import "@src/App.scss";
 
 const App = () => {
   const dispatch = useAppDispatch();

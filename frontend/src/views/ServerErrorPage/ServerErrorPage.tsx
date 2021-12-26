@@ -1,5 +1,7 @@
 import React from "react";
+
 import Box from "@mui/material/Box";
+
 import "@src/views/ServerErrorPage/ServerErrorPage.scss";
 import Logo505 from "@src/assets/images/Frame505.png";
 import { localizedData } from "@src/helpers/utils/language";

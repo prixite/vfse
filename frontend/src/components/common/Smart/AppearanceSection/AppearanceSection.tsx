@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+
 import "@src/components/common/Smart/AppearanceSection/AppearanceSection.scss";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
   Box,
   TextField,
@@ -8,16 +11,17 @@ import {
   FormControl,
   Button,
 } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
+import { updateOrganizationColor } from "@src/services/organizationService";
+import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
   Organization,
   useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
-import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateSideBarColor,
   updateButtonColor,
@@ -26,8 +30,6 @@ import {
   updateFontOne,
   updateFontTwo,
 } from "@src/store/reducers/themeStore";
-import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
-import { updateOrganizationColor } from "@src/services/organizationService";
 const AppearanceSection = () => {
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
   const { refetch: refetchOrgList } = useOrganizationsListQuery({

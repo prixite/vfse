@@ -1,7 +1,9 @@
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-import CardSkeleton from "@src/components/common/Presentational/CardSkeleton/CardSkeleton";
 import { Grid, Box } from "@mui/material";
+import Skeleton from "react-loading-skeleton";
+
+import CardSkeleton from "@src/components/common/Presentational/CardSkeleton/CardSkeleton";
+
+import "react-loading-skeleton/dist/skeleton.css";
 import "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton.scss";
 
 const SectionSkeleton = () => {

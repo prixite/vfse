@@ -1,9 +1,10 @@
-import { Switch, Route } from "react-router-dom";
 import { Box } from "@mui/material";
-import { routes } from "@src/routes";
-import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
-import HomeView from "@src/views/home/HomeView";
+import { Switch, Route } from "react-router-dom";
+
 import { constants } from "@src/helpers/utils/constants";
+import { routes } from "@src/routes";
+import HomeView from "@src/views/home/HomeView";
+import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import SitesView from "@src/views/sites/SitesView";
 
 const RoutesHOC = () => {

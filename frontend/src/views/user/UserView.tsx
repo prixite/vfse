@@ -1,14 +1,15 @@
-import { Fragment } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { useState, useEffect } from "react";
-import ThreeDots from "@src/assets/svgs/three-dots.svg";
+import { Fragment, useState, useEffect } from "react";
+
 import { Menu, MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
+import { DataGrid } from "@mui/x-data-grid";
+
+import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import AddUser from "@src/components/common/Smart/AddUser/AddUser";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
-import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
-import { useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
+import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
 import "@src/views/user/UserView.scss";
 
 const columns = [

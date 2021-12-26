@@ -1,13 +1,16 @@
 import React from "react";
-import { useAppSelector } from "@src/store/hooks";
+
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { localizedData } from "@src/helpers/utils/language";
-import "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal.scss";
+
 import ModalIcon from "@src/assets/modalicon.png";
+import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
+
+import "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal.scss";
 
 const ConfirmationModal = ({
   open,

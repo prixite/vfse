@@ -1,7 +1,9 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
-import { styled, Theme, CSSObject } from "@mui/material/styles";
-import { useHistory } from "react-router";
+
+import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@src/assets/images/searchIcon.png";
+import TopicIcon from "@mui/icons-material/Topic";
 import {
   Box,
   Drawer as MuiDrawer,
@@ -10,33 +12,34 @@ import {
   ListItemText,
   ListItemIcon,
 } from "@mui/material";
-import user from "@src/assets/images/user.png";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
-import Logo from "@src/assets/images/logo.png";
-// import SearchIcon from "@src/assets/images/searchIcon.png";
-import OpenBtn from "@src/assets/images/opendrawer.png";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
+
 import CloseBtn from "@src/assets/images/down.png";
-import TopicIcon from "@mui/icons-material/Topic";
+import Logo from "@src/assets/images/logo.png";
+import OpenBtn from "@src/assets/images/opendrawer.png";
+import user from "@src/assets/images/user.png";
+import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
+import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { routes } from "@src/routes";
-import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
-import "@src/components/shared/Layout/SideBar/SideBar.scss";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
-import { openAddModal } from "@src/store/reducers/appStore";
 import {
   Organization,
   useMeReadQuery,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
+import { openAddModal } from "@src/store/reducers/appStore";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateButtonColor,
   updateSideBarColor,
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
-import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
-import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
+
+import "@src/components/shared/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 400;
 

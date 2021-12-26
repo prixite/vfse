@@ -1,13 +1,15 @@
 import { useEffect, useCallback } from "react";
-import { Box, Button, InputAdornment, TextField } from "@mui/material";
+
+import AddIcon from "@mui/icons-material/Add";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import debounce from "debounce";
-import AddIcon from "@mui/icons-material/Add";
+
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
 
 const TopViewBtns = ({

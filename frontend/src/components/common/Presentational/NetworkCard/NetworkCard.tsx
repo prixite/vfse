@@ -1,13 +1,16 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Box, Menu, MenuItem } from "@mui/material";
-import { constants } from "@src/helpers/utils/constants";
-import locationLogo from "@src/assets/images/locationIcon.svg";
-import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { localizedData } from "@src/helpers/utils/language";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { Box, Menu, MenuItem } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import locationLogo from "@src/assets/images/locationIcon.svg";
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
+
+import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 
 interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;

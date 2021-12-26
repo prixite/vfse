@@ -1,11 +1,15 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Box, Menu, MenuItem } from "@mui/material";
-import locationLogo from "@src/assets/images/locationIcon.svg";
-import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { Box, Menu, MenuItem } from "@mui/material";
 import { toast } from "react-toastify";
+
+import locationLogo from "@src/assets/images/locationIcon.svg";
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";
+
+import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
+
 interface SiteCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<any>;
