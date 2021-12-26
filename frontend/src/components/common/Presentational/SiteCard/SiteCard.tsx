@@ -7,14 +7,15 @@ import { toast } from "react-toastify";
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";
+import { Organization } from "@src/store/reducers/api";
 
 import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 
 interface SiteCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setOrganization: Dispatch<any>;
+  setOrganization: Dispatch<Organization>;
   row: object;
-  refetch: any;
+  refetch: () => void;
   id: number;
   name: string;
   machines: Array<string>;
@@ -24,8 +25,7 @@ interface SiteCardProps {
 const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const constantData: any = localizedData()?.sites;
-  const { cardPopUp } = constantData;
+  const { cardPopUp } = localizedData().sites;
 
   const open = Boolean(anchorEl);
   const handleModalOpen = () => {

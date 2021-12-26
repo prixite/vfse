@@ -15,8 +15,22 @@ const MenuProps = {
 };
 
 interface Props {
-  tableColumns: any[];
-  setTableColumns: (arg: any[]) => void;
+  tableColumns: {
+    field: string;
+    headerName: string;
+    width: number;
+    hide: boolean;
+    disableColumnMenu: boolean;
+  }[];
+  setTableColumns: (
+    arg: {
+      field: string;
+      headerName: string;
+      width: number;
+      hide: boolean;
+      disableColumnMenu: boolean;
+    }[]
+  ) => void;
 }
 
 const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {

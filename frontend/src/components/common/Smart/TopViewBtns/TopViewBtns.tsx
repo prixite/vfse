@@ -16,12 +16,26 @@ interface Props {
   path: string;
   setOpen: (arg: boolean) => void;
   setData: (arg: object) => void;
-  setList: (arg: { query: string; results?: any[] }) => void;
-  actualData: any[];
+  setList: (arg: { query: string; results?: { name: string }[] }) => void;
+  actualData: { name: string }[];
   searchText: string;
   setSearchText: (arg: string) => void;
-  tableColumns: any[];
-  setTableColumns: (arg: any[]) => void;
+  tableColumns: {
+    field: string;
+    headerName: string;
+    width: number;
+    hide: boolean;
+    disableColumnMenu: boolean;
+  }[];
+  setTableColumns: (
+    arg: {
+      field: string;
+      headerName: string;
+      width: number;
+      hide: boolean;
+      disableColumnMenu: boolean;
+    }[]
+  ) => void;
 }
 
 const TopViewBtns = ({
@@ -36,7 +50,7 @@ const TopViewBtns = ({
   setTableColumns,
 }: Props) => {
   const dispatch = useAppDispatch();
-  let constantData: any;
+  let constantData: { btnFilter: string; btnAdd: string };
   if (path === "modality") {
     constantData = localizedData()?.modalities;
   } else if (path === "organizations") {

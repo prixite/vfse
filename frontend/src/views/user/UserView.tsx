@@ -36,8 +36,7 @@ const columns = [
 
 export default function UserView() {
   const [pageSize, setPageSize] = useState(14);
-  const constantData: object = localizedData()?.users;
-  const { userAdministration } = constantData;
+  const { userAdministration } = localizedData().users;
   const [tableColumns, setTableColumns] = useState(columns);
   const [anchorEl, setAnchorEl] = useState(null);
   const openModal = Boolean(anchorEl);

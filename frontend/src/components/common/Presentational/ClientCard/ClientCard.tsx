@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
@@ -25,9 +25,9 @@ import {
 } from "@src/store/reducers/themeStore";
 
 interface ClientCardProps {
-  setOrganization: Dispatch<any>;
+  setOrganization: Dispatch<SetStateAction<Organization>>;
   row: Organization;
-  refetch: any;
+  refetch: () => void;
   id: number;
   logo: string;
   name: string;

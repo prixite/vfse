@@ -9,14 +9,14 @@ import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
-
+import { Organization } from "@src/store/reducers/api";
 import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 
 interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setOrganization: Dispatch<any>;
+  setOrganization: Dispatch<SetStateAction<Organization>>;
   row: object;
-  refetch: any;
+  refetch: () => void;
   networkId: number;
   logo: string;
   name: string;
@@ -31,8 +31,7 @@ const NetworkCard = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { organizationRoute, networkRoute, sitesRoute } = constants;
-  const constantData: any = localizedData()?.modalities;
-  const { cardPopUp } = constantData;
+  const { cardPopUp } = localizedData().modalities;
   const open = Boolean(anchorEl);
   const { id } = useParams();
 

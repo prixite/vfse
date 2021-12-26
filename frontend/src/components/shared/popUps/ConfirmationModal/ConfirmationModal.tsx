@@ -26,8 +26,8 @@ const ConfirmationModal = ({
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const constantData: any = localizedData()?.organization.deleteDialog;
-  const { dialogMessage, noButton, yesButton } = constantData;
+  const { dialogMessage, noButton, yesButton } =
+    localizedData().organization.deleteDialog;
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ConfirmationModal">

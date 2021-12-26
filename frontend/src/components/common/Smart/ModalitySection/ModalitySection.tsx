@@ -19,8 +19,7 @@ const ModalitySection = () => {
   const [open, setOpen] = useState(false);
   const [networksList, setNetworksList] = useState({});
   const [searchText, setSearchText] = useState("");
-  const constantData: any = localizedData()?.modalities;
-  const { title, noDataTitle, noDataDescription } = constantData;
+  const { title, noDataTitle, noDataDescription } = localizedData().modalities;
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization

@@ -24,7 +24,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/no-unused-vars": "error",
     "no-unused-vars": "off",
     "no-use-before-define": ["error", { "variables": false }],

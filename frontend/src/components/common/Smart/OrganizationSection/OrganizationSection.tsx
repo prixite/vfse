@@ -23,8 +23,8 @@ const OrganizationSection = () => {
     page: 1,
   });
 
-  const constantData: any = localizedData()?.organization;
-  const { title, noDataDescription, noDataTitle } = constantData;
+  const { title, noDataDescription, noDataTitle } =
+    localizedData().organization;
 
   const handleClose = () => dispatch(closeAddModal());
 
