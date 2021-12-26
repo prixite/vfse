@@ -82,9 +82,7 @@ export default function OrganizationModal(props) {
   };
 
   const handleSetNewOrganization = async () => {
-    console.log("enetered1");
     if (props?.organization?.id) {
-      console.log("enetered1");
       const { id, ...organization } = props.organization;
       await updateOrganizationService(
         id,

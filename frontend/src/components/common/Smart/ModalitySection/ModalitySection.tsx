@@ -14,7 +14,8 @@ import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api
 
 const ModalitySection = () => {
   const [network, setNetwork] = useState(null);
-  console.log(network); // Just suppressing eslint error; TODO: Use network.
+  // Just suppressing eslint error; TODO: Use network.
+  console.log(network); // eslint-disable-line no-console
   const [open, setOpen] = useState(false);
   const [networksList, setNetworksList] = useState({});
   const [searchText, setSearchText] = useState("");
