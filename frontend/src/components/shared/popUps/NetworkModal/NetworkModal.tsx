@@ -27,7 +27,7 @@ import SiteSection from "./SiteSection";
 import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
 export default function NetworkModal(props) {
-  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
+  const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme

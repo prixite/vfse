@@ -1,14 +1,14 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import NewHealthNetwotkModal from "@src/components/shared/popUps/NewHealthNetworkModal/NewHealthNetworkModal";
 import { constants } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
 import {
@@ -23,8 +23,6 @@ import {
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
-
-import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 
 interface ClientCardProps {
   setOrganization: Dispatch<any>;

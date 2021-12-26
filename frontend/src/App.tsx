@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { matchPath } from "react-router";
-import { useLocation, withRouter, useHistory } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import "@src/App.scss";
 import RoutesHOC from "@src/components/hoc/routesHOC";
 import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
-import { constants } from "@src/helpers/utils/constants";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useMeReadQuery,
@@ -26,12 +26,9 @@ import {
   updateFontTwo,
 } from "./store/reducers/themeStore";
 
-import "@src/App.scss";
-
 const App = () => {
   const dispatch = useAppDispatch();
   const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
-  const history = useHistory();
   const { pathname } = useLocation();
   const params: any = matchPath(pathname, { path: "/clients/:id" });
   const { data, isFetching } = useMeReadQuery();
@@ -40,7 +37,6 @@ const App = () => {
       page: 1,
     });
   const [isLoading, setIsLoading] = useState(true);
-  const { organizationRoute } = constants;
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {

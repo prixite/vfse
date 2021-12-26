@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { HexColorPicker, HexColorInput } from "react-colorful";
 

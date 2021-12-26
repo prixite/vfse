@@ -9,10 +9,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
+import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
-
-import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
 export default function NewHealthNetwotkModal(props) {
   const [networks, setNetworks] = useState([1]);

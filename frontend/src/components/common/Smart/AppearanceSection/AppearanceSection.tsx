@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import "@src/components/common/Smart/AppearanceSection/AppearanceSection.scss";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
   Box,
   TextField,
@@ -80,7 +78,7 @@ const AppearanceSection = () => {
   };
 
   const updateAppearance = async () => {
-    setIsLoading((prevState) => true);
+    setIsLoading(() => true);
     await updateOrganizationColor(
       organizationsPartialUpdate,
       currentOrganiationDummyData,

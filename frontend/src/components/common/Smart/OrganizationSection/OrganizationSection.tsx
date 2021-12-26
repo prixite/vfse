@@ -11,7 +11,7 @@ import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scs
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { useOrganizationsListQuery } from "@src/store/reducers/api";
-import { openAddModal, closeAddModal } from "@src/store/reducers/appStore";
+import { closeAddModal } from "@src/store/reducers/appStore";
 
 const OrganizationSection = () => {
   const dispatch = useAppDispatch();

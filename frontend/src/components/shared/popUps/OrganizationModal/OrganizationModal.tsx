@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
@@ -24,7 +23,6 @@ import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
-  useOrganizationsListQuery,
 } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";

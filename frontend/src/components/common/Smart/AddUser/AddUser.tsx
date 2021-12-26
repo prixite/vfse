@@ -17,7 +17,7 @@ export default function AddUser(props) {
   const { emailText, userNameText, addNewUser, newUser, btnAdd, btnCancel } =
     constantData;
 
-  const handleSave = (event) => {
+  const handleSave = () => {
     props.add({ username, email });
   };
 

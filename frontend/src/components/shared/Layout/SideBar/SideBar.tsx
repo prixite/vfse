@@ -3,7 +3,6 @@ import * as React from "react";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 // import SearchIcon from "@src/assets/images/searchIcon.png";
-import TopicIcon from "@mui/icons-material/Topic";
 import {
   Box,
   Drawer as MuiDrawer,
@@ -17,7 +16,6 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
-import Logo from "@src/assets/images/logo.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
 import user from "@src/assets/images/user.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
@@ -104,17 +102,14 @@ export default function SideBar() {
   const { organizationRoute } = constants;
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery({ page: 1 });
-  const {
-    sideBarBackground,
-    sideBarTextColor,
-    buttonTextColor,
-    buttonBackground,
-  } = useAppSelector((state) => state.myTheme);
+  const { sideBarBackground, sideBarTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
 
-  const { data: me, isFetching } = useMeReadQuery();
+  const { data: me } = useMeReadQuery();
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };

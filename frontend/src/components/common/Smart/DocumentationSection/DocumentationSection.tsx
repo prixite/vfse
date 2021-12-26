@@ -14,7 +14,7 @@ import { localizedData } from "@src/helpers/utils/language";
 
 import TopTableFilters from "../TopTableFilters/TopTableFilters";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#F9FAFB",
     color: "#6B7280",
