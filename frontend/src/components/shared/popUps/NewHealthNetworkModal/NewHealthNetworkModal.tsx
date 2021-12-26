@@ -18,13 +18,14 @@ export default function NewHealthNetwotkModal(props) {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const constantData: object = localizedData()?.organization;
   const {
     newOrganizationBtnSave,
     newOrganizationBtnCancel,
     newOrganizationHealthNetworks,
     newOrganizationAddNetwork,
-  } = constantData?.popUp;
+  } = localizedData().organization.popUp;
+
+  const { newHealthNetwork } = localizedData().organization;
 
   const addNetworks = () => {
     setNetworks([...networks, networks.length]);
@@ -39,7 +40,7 @@ export default function NewHealthNetwotkModal(props) {
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
-            {props?.organization?.name ?? constantData?.newHealthNetwork}
+            {props?.organization?.name ?? newHealthNetwork}
           </span>
           <span className="dialog-page">
             <img

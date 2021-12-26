@@ -6,7 +6,7 @@ import "@src/components/shared/NoDataFound/NoDataFound.scss";
 import { localizedData } from "@src/helpers/utils/language";
 const NoDataFound = ({ search, setQuery, title, description }) => {
   const history = useHistory();
-  const { backbtn } = localizedData()?.dataNotFound;
+  const { backbtn } = localizedData().dataNotFound;
 
   const handleBack = () => {
     if (search) {

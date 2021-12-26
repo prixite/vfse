@@ -54,7 +54,7 @@ const rows = [
 ];
 
 export default function DocumentationSection() {
-  const { title } = localizedData()?.documentation;
+  const { title } = localizedData().documentation;
 
   const renderModalities = (modalities) => {
     return (

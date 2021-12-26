@@ -7,7 +7,7 @@ import Logo404 from "@src/assets/images/Frame404.png";
 import { localizedData } from "@src/helpers/utils/language";
 const NotFoundPage = () => {
   const history = useHistory();
-  const { title, description, backbtn } = localizedData()?.page404;
+  const { title, description, backbtn } = localizedData().page404;
   return (
     <Box component="div" className="Page404">
       <img src={Logo404} />
