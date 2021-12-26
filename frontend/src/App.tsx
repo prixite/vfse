@@ -4,7 +4,6 @@ import { matchPath } from "react-router";
 import { useLocation, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import "@src/App.scss";
 import RoutesHOC from "@src/components/hoc/routesHOC";
 import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
@@ -16,6 +15,7 @@ import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
+import "@src/App.scss";
 
 import {
   updateButtonColor,

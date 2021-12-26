@@ -3,15 +3,14 @@ import React from "react";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import ReactDOM from "react-dom";
-
-import "@src/index.scss";
-
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import App from "@src/App";
 import { store } from "@src/store/store";
 import theme from "@src/theme";
+import "@src/index.scss";
+
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
