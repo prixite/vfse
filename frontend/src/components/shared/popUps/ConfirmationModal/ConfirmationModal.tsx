@@ -10,12 +10,19 @@ import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal.scss";
 
+interface Props {
+  name: string;
+  handleDeleteOrganization: () => void;
+  open: boolean;
+  handleClose: () => void;
+}
+
 const ConfirmationModal = ({
   open,
   handleClose,
   handleDeleteOrganization,
   name,
-}) => {
+}: Props) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );

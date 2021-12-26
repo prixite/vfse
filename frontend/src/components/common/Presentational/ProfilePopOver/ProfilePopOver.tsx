@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import { User } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateButtonColor,
@@ -14,7 +15,12 @@ import {
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
 
-const ProfilePopOver = ({ user, className }) => {
+interface Props {
+  user: User;
+  className: string;
+}
+
+const ProfilePopOver = ({ user, className }: Props) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);

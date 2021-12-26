@@ -18,6 +18,7 @@ import {
 } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
 import {
+  Organization,
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
@@ -26,14 +27,20 @@ import SiteSection from "./SiteSection";
 
 import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
-export default function NetworkModal(props) {
+interface Props {
+  organization: Organization;
+  refetch: () => void;
+  open: boolean;
+  handleClose: () => void;
+}
+
+export default function NetworkModal(props: Props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
   const [sites, setSites] = useState([1]);
-  const constantData: object = localizedData()?.modalities?.popUp;
   const {
     popUpNewNetwork,
     newNetworkAddSite,
@@ -41,7 +48,7 @@ export default function NetworkModal(props) {
     newNetworkName,
     newNetworkBtnSave,
     newNetworkBtnCancel,
-  } = constantData;
+  } = localizedData().modalities.popUp;
 
   const handleSetNewOrganization = async () => {
     if (props.organization.id) {

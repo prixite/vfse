@@ -12,6 +12,18 @@ import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
 
+interface Props {
+  path: string;
+  setOpen: (arg: boolean) => void;
+  setData: (arg: object) => void;
+  setList: (arg: { query: string; results?: any[] }) => void;
+  actualData: any[];
+  searchText: string;
+  setSearchText: (arg: string) => void;
+  tableColumns: any[];
+  setTableColumns: (arg: any[]) => void;
+}
+
 const TopViewBtns = ({
   path,
   setOpen,
@@ -22,7 +34,7 @@ const TopViewBtns = ({
   setSearchText,
   tableColumns,
   setTableColumns,
-}) => {
+}: Props) => {
   const dispatch = useAppDispatch();
   let constantData: any;
   if (path === "modality") {
@@ -55,9 +67,9 @@ const TopViewBtns = ({
   };
 
   const onEventSearch = useCallback(
-    debounce((searchQuery) => {
+    debounce((searchQuery: string) => {
       if (searchQuery?.length > 2) {
-        const newList = { query: searchQuery };
+        const newList = { query: searchQuery, results: [] };
         const result = actualData?.filter((data) => {
           return (
             data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1

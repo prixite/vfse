@@ -10,12 +10,17 @@ import TextField from "@mui/material/TextField";
 
 import { localizedData } from "@src/helpers/utils/language";
 
-export default function AddUser(props) {
+interface Props {
+  add: (arg: { username: string; email: string }) => void;
+  open: boolean;
+  handleClose: () => void;
+}
+
+export default function AddUser(props: Props) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const constantData: object = localizedData()?.users?.popUp;
   const { emailText, userNameText, addNewUser, newUser, btnAdd, btnCancel } =
-    constantData;
+    localizedData().users.popUp;
 
   const handleSave = () => {
     props.add({ username, email });

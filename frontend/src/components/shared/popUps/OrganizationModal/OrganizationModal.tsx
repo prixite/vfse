@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
@@ -39,7 +40,7 @@ export default function OrganizationModal(props) {
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
   const [ButtonTextColor, setButtonTextColor] = useState("ffff");
   const [ButtonColor, setButtonColor] = useState("ffff");
-  const constantData: object = localizedData()?.organization?.popUp;
+
   const {
     popUpNewOrganization,
     newOrganizationPageTrackerdesc1,
@@ -57,7 +58,7 @@ export default function OrganizationModal(props) {
     newOrganizationFont2,
     newOrganizationHealthNetworks,
     newOrganizationAddNetwork,
-  } = constantData;
+  } = localizedData().organization.popUp;
 
   const {
     sideBarBackground,
@@ -342,3 +343,10 @@ export default function OrganizationModal(props) {
     </Dialog>
   );
 }
+
+OrganizationModal.propTypes = {
+  organization: PropTypes.object,
+  refetch: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};

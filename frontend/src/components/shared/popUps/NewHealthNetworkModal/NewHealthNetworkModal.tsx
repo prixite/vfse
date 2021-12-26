@@ -12,8 +12,15 @@ import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/H
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
+import { Organization } from "@src/store/reducers/api";
 
-export default function NewHealthNetwotkModal(props) {
+interface Props {
+  open: boolean;
+  organization: Organization;
+  handleClose: () => void;
+}
+
+export default function NewHealthNetwotkModal(props: Props) {
   const [networks, setNetworks] = useState([1]);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -40,7 +47,7 @@ export default function NewHealthNetwotkModal(props) {
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
-            {props?.organization?.name ?? newHealthNetwork}
+            {props.organization?.name ?? newHealthNetwork}
           </span>
           <span className="dialog-page">
             <img

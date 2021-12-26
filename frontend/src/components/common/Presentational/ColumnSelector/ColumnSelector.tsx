@@ -14,7 +14,12 @@ const MenuProps = {
   },
 };
 
-const ColumnSelector = ({ tableColumns, setTableColumns }) => {
+interface Props {
+  tableColumns: any[];
+  setTableColumns: (arg: any[]) => void;
+}
+
+const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
   const [columnList, setColumnList] = useState(() => {
     let options = [];
     tableColumns.map((column) => (options = [...options, column.headerName]));

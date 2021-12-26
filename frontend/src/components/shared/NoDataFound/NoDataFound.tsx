@@ -4,7 +4,15 @@ import { useHistory } from "react-router-dom";
 
 import "@src/components/shared/NoDataFound/NoDataFound.scss";
 import { localizedData } from "@src/helpers/utils/language";
-const NoDataFound = ({ search, setQuery, title, description }) => {
+
+interface Props {
+  search: string;
+  setQuery: (arg: string) => void;
+  title: string;
+  description: string;
+}
+
+const NoDataFound = ({ search, setQuery, title, description }: Props) => {
   const history = useHistory();
   const { backbtn } = localizedData().dataNotFound;
 

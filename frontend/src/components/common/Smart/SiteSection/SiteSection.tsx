@@ -29,8 +29,7 @@ const SiteSection = () => {
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
 
-  const constantData: any = localizedData()?.sites;
-  const { title, noDataTitle, noDataDescription } = constantData;
+  const { title, noDataTitle, noDataDescription } = localizedData().sites;
 
   const handleClose = () => setOpen(false);
 
