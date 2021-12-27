@@ -33,12 +33,16 @@ const App = () => {
   const params: match<{ id: string }> = matchPath(pathname, {
     path: "/clients/:id",
   });
+  const [idParam, setIDParam] = useState(params);
   const { data, isFetching } = useMeReadQuery();
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: params?.params.id,
+      id: idParam?.params.id,
     });
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setIDParam(params);
+  }, []);
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
