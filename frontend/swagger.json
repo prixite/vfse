@@ -376,6 +376,68 @@
                 }
             ]
         },
+        "/organizations/{id}/health_networks/": {
+            "get": {
+                "operationId": "organizations_health_networks_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HealthNetwork"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "put": {
+                "operationId": "organizations_health_networks_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationHealthNetwork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationHealthNetwork"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/{id}/sites/": {
             "get": {
                 "operationId": "organizations_sites_list",
@@ -432,68 +494,6 @@
             "parameters": [
                 {
                     "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/organizations/{organization_pk}/health_networks/": {
-            "get": {
-                "operationId": "organizations_health_networks_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/HealthNetwork"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "put": {
-                "operationId": "organizations_health_networks_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/HealthNetwork"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/HealthNetwork"
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "organization_pk",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -1307,6 +1307,22 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
+                }
+            }
+        },
+        "OrganizationHealthNetwork": {
+            "description": "",
+            "required": [
+                "health_networks"
+            ],
+            "type": "object",
+            "properties": {
+                "health_networks": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HealthNetwork"
+                    }
                 }
             }
         },

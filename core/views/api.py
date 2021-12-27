@@ -62,51 +62,50 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if getattr(self, "swagger_fake_view", False):
             return models.Organization.objects.none()
 
+        if self.action == "update":
+            return self.get_user_organizations()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.Organization.objects.filter(
                 id__in=models.OrganizationHealthNetwork.objects.filter(
-                    organization=self.kwargs["organization_pk"]
+                    organization=self.kwargs["pk"]
                 ).values_list("health_network")
             )
 
         return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
-                self.kwargs["organization_pk"]
+                self.kwargs["pk"]
             ),
         ).prefetch_related("sites")
 
     def get_serializer_class(self):
+        if self.action == "update":
+            return serializers.OrganizationHealthNetworkSerializer
         return serializers.HealthNetworkSerializer
 
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=True)
 
-        if serializer.is_valid():
-            models.OrganizationHealthNetwork.objects.filter(
-                organization_id=self.kwargs["organization_pk"]
-            ).delete()
-
-            for data in serializer.validated_data:
-                models.Organization.objects.get_or_create(
-                    name=data["name"],
+    def perform_update(self, serializer):
+        models.OrganizationHealthNetwork.objects.filter(
+            organization_id=self.kwargs["pk"]
+        ).delete()
+        orgs = []
+        for health_network in serializer.validated_data["health_networks"]:
+            obj,created=models.Organization.objects.get_or_create(
+                    name=health_network["name"],
                     defaults={
-                        "appearance": data["appearance"],
+                        "appearance": {"logo": health_network["appearance"]["logo"]}
                     },
                 )
+            orgs.append(obj)
 
-            objects = []
-            for data in serializer.validated_data:
-                objects.append(
-                    models.OrganizationHealthNetwork(
-                        organization_id=self.kwargs["organization_pk"],
-                        health_network=models.Organization.objects.get(
-                            name=data["name"]
-                        ),
-                    )
+        models.OrganizationHealthNetwork.objects.bulk_create(
+            [
+                models.OrganizationHealthNetwork(
+                    organization_id=self.kwargs["pk"], health_network=health_network
                 )
-            models.OrganizationHealthNetwork.objects.bulk_create(objects)
-            return Response(serializer.data)
-        return Response(serializer.errors)
+                for health_network in orgs
+            ]
+        )
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):

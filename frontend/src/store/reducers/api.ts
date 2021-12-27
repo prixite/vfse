@@ -114,6 +114,25 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    organizationsHealthNetworksList: build.query<
+      OrganizationsHealthNetworksListApiResponse,
+      OrganizationsHealthNetworksListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/health_networks/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    organizationsHealthNetworksUpdate: build.mutation<
+      OrganizationsHealthNetworksUpdateApiResponse,
+      OrganizationsHealthNetworksUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/health_networks/`,
+        method: "PUT",
+        body: queryArg.organizationHealthNetwork,
+      }),
+    }),
     organizationsSitesList: build.query<
       OrganizationsSitesListApiResponse,
       OrganizationsSitesListApiArg
@@ -131,25 +150,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.id}/sites/`,
         method: "PUT",
         body: queryArg.organizationSite,
-      }),
-    }),
-    organizationsHealthNetworksList: build.query<
-      OrganizationsHealthNetworksListApiResponse,
-      OrganizationsHealthNetworksListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    organizationsHealthNetworksUpdate: build.mutation<
-      OrganizationsHealthNetworksUpdateApiResponse,
-      OrganizationsHealthNetworksUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
-        method: "PUT",
-        body: queryArg.healthNetwork,
       }),
     }),
     organizationsSeatsList: build.query<
@@ -342,6 +342,19 @@ export type OrganizationsDeleteApiResponse = unknown;
 export type OrganizationsDeleteApiArg = {
   id: string;
 };
+export type OrganizationsHealthNetworksListApiResponse =
+  /** status 200  */ HealthNetwork[];
+export type OrganizationsHealthNetworksListApiArg = {
+  id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type OrganizationsHealthNetworksUpdateApiResponse =
+  /** status 200  */ OrganizationHealthNetwork;
+export type OrganizationsHealthNetworksUpdateApiArg = {
+  id: string;
+  organizationHealthNetwork: OrganizationHealthNetwork;
+};
 export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesListApiArg = {
   id: string;
@@ -353,19 +366,6 @@ export type OrganizationsSitesUpdateApiResponse =
 export type OrganizationsSitesUpdateApiArg = {
   id: string;
   organizationSite: OrganizationSite;
-};
-export type OrganizationsHealthNetworksListApiResponse =
-  /** status 200  */ HealthNetwork[];
-export type OrganizationsHealthNetworksListApiArg = {
-  organizationPk: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type OrganizationsHealthNetworksUpdateApiResponse =
-  /** status 200  */ HealthNetwork;
-export type OrganizationsHealthNetworksUpdateApiArg = {
-  organizationPk: string;
-  healthNetwork: HealthNetwork;
 };
 export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
 export type OrganizationsSeatsListApiArg = {
@@ -517,6 +517,9 @@ export type Me = {
 export type Modality = {
   name: string;
 };
+export type OrganizationHealthNetwork = {
+  health_networks: HealthNetwork[];
+};
 export type OrganizationSite = {
   id?: number;
   sites: Site[];
@@ -617,10 +620,10 @@ export const {
   useOrganizationsReadQuery,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
-  useOrganizationsSitesListQuery,
-  useOrganizationsSitesUpdateMutation,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksUpdateMutation,
+  useOrganizationsSitesListQuery,
+  useOrganizationsSitesUpdateMutation,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
   useOrganizationsUsersListQuery,
