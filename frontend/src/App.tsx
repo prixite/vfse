@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+import { matchPath } from "react-router";
+import { match, useLocation, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import "@src/App.scss";
-import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
+
 import RoutesHOC from "@src/components/hoc/routesHOC";
-import { constants } from "@src/helpers/utils/constants";
+import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useMeReadQuery,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
-
 import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import "@src/App.scss";
+
 import {
   updateButtonColor,
   updateSideBarColor,
@@ -22,26 +25,24 @@ import {
   updateFontOne,
   updateFontTwo,
 } from "./store/reducers/themeStore";
-import { matchPath } from "react-router";
-import { useLocation, withRouter, useHistory } from "react-router-dom";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
-  const history = useHistory();
   const { pathname } = useLocation();
-  const params: any = matchPath(pathname, { path: "/clients/:id" });
+  const params: match<{ id: string }> = matchPath(pathname, {
+    path: "/clients/:id",
+  });
   const { data, isFetching } = useMeReadQuery();
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsListQuery({
       page: 1,
     });
   const [isLoading, setIsLoading] = useState(true);
-  const { organizationRoute } = constants;
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
-      let organizationData = data?.organization;
+      const organizationData = data?.organization;
       dispatch(
         setCurrentOrganization({ currentOrganization: organizationData })
       );

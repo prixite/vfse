@@ -1,7 +1,8 @@
 import "@src/components/common/Presentational/DropzoneBox/DropzoneBox.scss";
-import UploadBtn from "@src/assets/svgs/upload-icon.svg";
 import Button from "@mui/material/Button";
 import { useDropzone } from "react-dropzone";
+
+import UploadBtn from "@src/assets/svgs/upload-icon.svg";
 import { localizedData } from "@src/helpers/utils/language";
 
 const DropzoneBox = () => {

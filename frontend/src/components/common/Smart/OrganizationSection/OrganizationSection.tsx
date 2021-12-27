@@ -1,15 +1,17 @@
 import { useState } from "react";
+
 import { Box, Grid } from "@mui/material";
+
 import "react-toastify/dist/ReactToastify.css";
-import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
+import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
-import { openAddModal, closeAddModal } from "@src/store/reducers/appStore";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import { useOrganizationsListQuery } from "@src/store/reducers/api";
+import { closeAddModal } from "@src/store/reducers/appStore";
 
 const OrganizationSection = () => {
   const dispatch = useAppDispatch();
@@ -21,8 +23,8 @@ const OrganizationSection = () => {
     page: 1,
   });
 
-  const constantData: any = localizedData()?.organization;
-  const { title, noDataDescription, noDataTitle } = constantData;
+  const { title, noDataDescription, noDataTitle } =
+    localizedData().organization;
 
   const handleClose = () => dispatch(closeAddModal());
 

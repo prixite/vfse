@@ -1,35 +1,46 @@
 import { useState } from "react";
-import { useAppSelector } from "@src/store/hooks";
+
 import { TextField } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
-import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import AddBtn from "@src/assets/svgs/add.svg";
-import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 import { toast } from "react-toastify";
+
+import AddBtn from "@src/assets/svgs/add.svg";
+import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
-import SiteSection from "./SiteSection";
-import {
-  useOrganizationsCreateMutation,
-  useOrganizationsPartialUpdateMutation,
-} from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
   addNewOrganizationService,
 } from "@src/services/organizationService";
+import { useAppSelector } from "@src/store/hooks";
+import {
+  Organization,
+  useOrganizationsCreateMutation,
+  useOrganizationsPartialUpdateMutation,
+} from "@src/store/reducers/api";
 
-export default function NetworkModal(props) {
-  const [addNewOrganization, { isLoading }] = useOrganizationsCreateMutation();
+import SiteSection from "./SiteSection";
+
+import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
+
+interface Props {
+  organization: Organization;
+  refetch: () => void;
+  open: boolean;
+  handleClose: () => void;
+}
+
+export default function NetworkModal(props: Props) {
+  const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
   const [sites, setSites] = useState([1]);
-  const constantData: object = localizedData()?.modalities?.popUp;
   const {
     popUpNewNetwork,
     newNetworkAddSite,
@@ -37,7 +48,7 @@ export default function NetworkModal(props) {
     newNetworkName,
     newNetworkBtnSave,
     newNetworkBtnCancel,
-  } = constantData;
+  } = localizedData().modalities.popUp;
 
   const handleSetNewOrganization = async () => {
     if (props.organization.id) {

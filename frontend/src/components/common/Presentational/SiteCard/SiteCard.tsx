@@ -1,27 +1,31 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Box, Menu, MenuItem } from "@mui/material";
-import locationLogo from "@src/assets/images/locationIcon.svg";
-import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { Box, Menu, MenuItem } from "@mui/material";
 import { toast } from "react-toastify";
+
+import locationLogo from "@src/assets/images/locationIcon.svg";
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";
+import { Organization } from "@src/store/reducers/api";
+
+import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
+
 interface SiteCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setOrganization: Dispatch<any>;
+  setOrganization: Dispatch<Organization>;
   row: object;
-  refetch: any;
+  refetch: () => void;
   id: number;
   name: string;
-  machines: Array<String>;
+  machines: Array<string>;
   location: string;
   connections: number;
 }
 const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const constantData: any = localizedData()?.sites;
-  const { cardPopUp } = constantData;
+  const { cardPopUp } = localizedData().sites;
 
   const open = Boolean(anchorEl);
   const handleModalOpen = () => {

@@ -1,19 +1,22 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Box, Menu, MenuItem } from "@mui/material";
-import { constants } from "@src/helpers/utils/constants";
-import locationLogo from "@src/assets/images/locationIcon.svg";
-import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { localizedData } from "@src/helpers/utils/language";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { Box, Menu, MenuItem } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
+import locationLogo from "@src/assets/images/locationIcon.svg";
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
+import { Organization } from "@src/store/reducers/api";
+import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 
 interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
-  setOrganization: Dispatch<any>;
+  setOrganization: Dispatch<SetStateAction<Organization>>;
   row: object;
-  refetch: any;
+  refetch: () => void;
   networkId: number;
   logo: string;
   name: string;
@@ -28,10 +31,9 @@ const NetworkCard = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { organizationRoute, networkRoute, sitesRoute } = constants;
-  const constantData: any = localizedData()?.modalities;
-  const { cardPopUp } = constantData;
+  const { cardPopUp } = localizedData().modalities;
   const open = Boolean(anchorEl);
-  let { id } = useParams();
+  const { id } = useParams();
 
   const handleModalOpen = () => {
     setOpenModal(true);

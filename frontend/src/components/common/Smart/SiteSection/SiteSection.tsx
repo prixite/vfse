@@ -1,12 +1,15 @@
 import { useState } from "react";
+
 import { Box, Grid } from "@mui/material";
-import "react-toastify/dist/ReactToastify.css";
-import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
+
+import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import "@src/components/common/Smart/SiteSection/SiteSection.scss";
+import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import { localizedData } from "@src/helpers/utils/language";
-import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
+
+import "react-toastify/dist/ReactToastify.css";
+import "@src/components/common/Smart/SiteSection/SiteSection.scss";
 
 const sitesData = [
   {
@@ -26,8 +29,7 @@ const SiteSection = () => {
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
 
-  const constantData: any = localizedData()?.sites;
-  const { title, noDataTitle, noDataDescription } = constantData;
+  const { title, noDataTitle, noDataDescription } = localizedData().sites;
 
   const handleClose = () => setOpen(false);
 

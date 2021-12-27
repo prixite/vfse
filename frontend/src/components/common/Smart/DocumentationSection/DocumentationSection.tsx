@@ -1,3 +1,4 @@
+import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -5,14 +6,15 @@ import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+
 import EditLogo from "@src/assets/svgs/Edit.svg";
 import LinkLogo from "@src/assets/svgs/Link.svg";
 import "@src/components/common/Smart/DocumentationSection/DocumentationSection.scss";
-import TopTableFilters from "../TopTableFilters/TopTableFilters";
 import { localizedData } from "@src/helpers/utils/language";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+import TopTableFilters from "../TopTableFilters/TopTableFilters";
+
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#F9FAFB",
     color: "#6B7280",
@@ -52,15 +54,15 @@ const rows = [
 ];
 
 export default function DocumentationSection() {
-  let constantData: any;
-  constantData = localizedData()?.documentation;
-  const { title } = constantData;
+  const { title } = localizedData().documentation;
 
   const renderModalities = (modalities) => {
     return (
       <div className="modality-section">
-        {modalities.map((modality) => (
-          <span className="modality">{modality}</span>
+        {modalities.map((modality, index) => (
+          <span key={index} className="modality">
+            {modality}
+          </span>
         ))}
       </div>
     );

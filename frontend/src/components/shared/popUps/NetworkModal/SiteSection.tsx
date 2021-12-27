@@ -1,4 +1,5 @@
 import { TextField, InputAdornment } from "@mui/material";
+
 import LocationIcon from "@src/assets/svgs/location.svg";
 import { localizedData } from "@src/helpers/utils/language";
 

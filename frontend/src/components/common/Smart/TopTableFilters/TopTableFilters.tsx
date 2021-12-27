@@ -1,15 +1,14 @@
-import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
-import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
+
 import ArrowDown from "@src/assets/svgs/arrow-long.svg";
+import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import "@src/components/common/Smart/TopTableFilters/TopTableFilters.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
 const TopTableFilters = () => {
-  let constantData: any;
-  constantData = localizedData()?.documentation;
-  const { btnFilter, btnCol, btnAsset } = constantData;
+  const { btnFilter, btnCol, btnAsset } = localizedData().documentation;
 
   return (
     <>

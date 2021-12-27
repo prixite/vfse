@@ -1,29 +1,32 @@
 import { useState, useEffect } from "react";
-import { useAppSelector } from "@src/store/hooks";
+
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
-import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import AddBtn from "@src/assets/svgs/add.svg";
-import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
-import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
+import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+
+import AddBtn from "@src/assets/svgs/add.svg";
+import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
-import {
-  useOrganizationsCreateMutation,
-  useOrganizationsPartialUpdateMutation,
-  useOrganizationsListQuery,
-} from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
   addNewOrganizationService,
 } from "@src/services/organizationService";
+import { useAppSelector } from "@src/store/hooks";
+import {
+  useOrganizationsCreateMutation,
+  useOrganizationsPartialUpdateMutation,
+} from "@src/store/reducers/api";
+
+import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
@@ -37,7 +40,7 @@ export default function OrganizationModal(props) {
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
   const [ButtonTextColor, setButtonTextColor] = useState("ffff");
   const [ButtonColor, setButtonColor] = useState("ffff");
-  const constantData: object = localizedData()?.organization?.popUp;
+
   const {
     popUpNewOrganization,
     newOrganizationPageTrackerdesc1,
@@ -55,7 +58,7 @@ export default function OrganizationModal(props) {
     newOrganizationFont2,
     newOrganizationHealthNetworks,
     newOrganizationAddNetwork,
-  } = constantData;
+  } = localizedData().organization.popUp;
 
   const {
     sideBarBackground,
@@ -80,9 +83,7 @@ export default function OrganizationModal(props) {
   };
 
   const handleSetNewOrganization = async () => {
-    console.log("enetered1");
     if (props?.organization?.id) {
-      console.log("enetered1");
       const { id, ...organization } = props.organization;
       await updateOrganizationService(
         id,
@@ -311,7 +312,7 @@ export default function OrganizationModal(props) {
                 </Button>
               </div>
               {networks.map((network) => (
-                <HealthNetwork />
+                <HealthNetwork key={network} />
               ))}
             </>
           )}
@@ -342,3 +343,10 @@ export default function OrganizationModal(props) {
     </Dialog>
   );
 }
+
+OrganizationModal.propTypes = {
+  organization: PropTypes.object,
+  refetch: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+};

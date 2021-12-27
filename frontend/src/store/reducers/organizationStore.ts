@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { Organization } from "@src/store/reducers/api";
 
 interface OrganizationState {

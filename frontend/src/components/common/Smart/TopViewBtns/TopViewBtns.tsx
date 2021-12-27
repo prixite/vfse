@@ -1,14 +1,42 @@
 import { useEffect, useCallback } from "react";
-import { Box, Button, InputAdornment, TextField } from "@mui/material";
+
+import AddIcon from "@mui/icons-material/Add";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
+import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import debounce from "debounce";
-import AddIcon from "@mui/icons-material/Add";
+
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { localizedData } from "@src/helpers/utils/language";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { openAddModal } from "@src/store/reducers/appStore";
+
+interface Props {
+  path: string;
+  setOpen: (arg: boolean) => void;
+  setData: (arg: object) => void;
+  setList: (arg: { query: string; results?: { name: string }[] }) => void;
+  actualData: { name: string }[];
+  searchText: string;
+  setSearchText: (arg: string) => void;
+  tableColumns: {
+    field: string;
+    headerName: string;
+    width: number;
+    hide: boolean;
+    disableColumnMenu: boolean;
+  }[];
+  setTableColumns: (
+    arg: {
+      field: string;
+      headerName: string;
+      width: number;
+      hide: boolean;
+      disableColumnMenu: boolean;
+    }[]
+  ) => void;
+}
 
 const TopViewBtns = ({
   path,
@@ -20,9 +48,9 @@ const TopViewBtns = ({
   setSearchText,
   tableColumns,
   setTableColumns,
-}) => {
+}: Props) => {
   const dispatch = useAppDispatch();
-  let constantData: any;
+  let constantData: { btnFilter: string; btnAdd: string };
   if (path === "modality") {
     constantData = localizedData()?.modalities;
   } else if (path === "organizations") {
@@ -53,9 +81,9 @@ const TopViewBtns = ({
   };
 
   const onEventSearch = useCallback(
-    debounce((searchQuery) => {
+    debounce((searchQuery: string) => {
       if (searchQuery?.length > 2) {
-        const newList = { query: searchQuery };
+        const newList = { query: searchQuery, results: [] };
         const result = actualData?.filter((data) => {
           return (
             data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1

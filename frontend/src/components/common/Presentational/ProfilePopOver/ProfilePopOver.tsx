@@ -1,8 +1,12 @@
 import * as React from "react";
-import { useHistory } from "react-router-dom";
+
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import { useHistory } from "react-router-dom";
+
 import { constants } from "@src/helpers/utils/constants";
+import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import { User } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateButtonColor,
@@ -10,9 +14,13 @@ import {
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
-import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 
-const ProfilePopOver = ({ user, className }) => {
+interface Props {
+  user: User;
+  className: string;
+}
+
+const ProfilePopOver = ({ user, className }: Props) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);

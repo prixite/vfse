@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { OutlinedInput, MenuItem, FormControl, Select } from "@mui/material";
+
 import DoneIcon from "@mui/icons-material/Done";
+import { OutlinedInput, MenuItem, FormControl, Select } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -13,14 +14,31 @@ const MenuProps = {
   },
 };
 
-const ColumnSelector = ({ tableColumns, setTableColumns }) => {
-  const [columnList, setColumnList] = useState(setOptions);
+interface Props {
+  tableColumns: {
+    field: string;
+    headerName: string;
+    width: number;
+    hide: boolean;
+    disableColumnMenu: boolean;
+  }[];
+  setTableColumns: (
+    arg: {
+      field: string;
+      headerName: string;
+      width: number;
+      hide: boolean;
+      disableColumnMenu: boolean;
+    }[]
+  ) => void;
+}
 
-  function setOptions() {
+const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
+  const [columnList, setColumnList] = useState(() => {
     let options = [];
     tableColumns.map((column) => (options = [...options, column.headerName]));
     return options;
-  }
+  });
 
   useEffect(() => {
     const c = tableColumns.map((column) => {

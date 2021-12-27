@@ -1,19 +1,7 @@
-{
-  /* <script>
-  function showHidePassword(id) {
-    let type = document.getElementById(id).type
-    if (document.getElementById(id).type == "password") {
-      document.getElementById(id).type = 'text'
-    } else {
-      document.getElementById(id).type = 'password'
-    }
-  }
-</script> */
-}
+/*eslint @typescript-eslint/no-unused-vars: "off"*/
 
 function showHidePassword(id) {
-  let type = document.getElementById(id).type;
-  if (type == "password") {
+  if (document.getElementById(id).type === "password") {
     document.getElementById(id).type = "text";
   } else {
     document.getElementById(id).type = "password";

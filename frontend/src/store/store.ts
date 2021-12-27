@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+
 import { api } from "@src/store/reducers/api";
-import themeReducer from "@src/store/reducers/themeStore";
-import organizationReducer from "@src/store/reducers/organizationStore";
 import appReducer from "@src/store/reducers/appStore";
+import organizationReducer from "@src/store/reducers/organizationStore";
+import themeReducer from "@src/store/reducers/themeStore";
 
 export const store = configureStore({
   reducer: {

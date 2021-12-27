@@ -1,9 +1,13 @@
+import { ReactNode } from "react";
+
+import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
+
 interface routeItem {
   name?: string | undefined;
   path: string;
-  component: any;
+  component: ReactNode;
   flag: string;
-  icon: any;
+  icon: typeof SvgIcon;
 }
 
 export type { routeItem };
