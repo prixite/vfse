@@ -518,6 +518,7 @@ export type Modality = {
   name: string;
 };
 export type OrganizationHealthNetwork = {
+  id?: number;
   health_networks: HealthNetwork[];
 };
 export type OrganizationSite = {

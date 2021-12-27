@@ -134,6 +134,7 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
 
 class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
     health_networks = HealthNetworkSerializer(many=True, write_only=True)
+
     class Meta:
         model = models.Organization
         fields = ["id", "health_networks"]
