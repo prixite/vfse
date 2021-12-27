@@ -84,6 +84,7 @@ const AppearanceSection = () => {
       currentOrganiationDummyData,
       refetchOrgList
     );
+    setIsLoading(() => false);
   };
 
   const changeSideBarTextColor = (color: string) => {
