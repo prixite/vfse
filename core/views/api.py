@@ -62,85 +62,81 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if getattr(self, "swagger_fake_view", False):
             return models.Organization.objects.none()
 
+        if self.action == "update":
+            return self.get_user_organizations()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.Organization.objects.filter(
                 id__in=models.OrganizationHealthNetwork.objects.filter(
-                    organization=self.kwargs["organization_pk"]
+                    organization=self.kwargs["pk"]
                 ).values_list("health_network")
             )
 
         return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
-                self.kwargs["organization_pk"]
+                self.kwargs["pk"]
             ),
         ).prefetch_related("sites")
 
     def get_serializer_class(self):
+        if self.action == "update":
+            return serializers.OrganizationHealthNetworkSerializer
         return serializers.HealthNetworkSerializer
 
-    def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=True)
+    def perform_update(self, serializer):
+        models.OrganizationHealthNetwork.objects.filter(
+            organization_id=self.kwargs["pk"]
+        ).delete()
+        health_networks = []
+        for health_network in serializer.validated_data["health_networks"]:
+            obj, created = models.Organization.objects.get_or_create(
+                name=health_network["name"],
+                defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
+            )
+            health_networks.append(obj)
 
-        if serializer.is_valid():
-            models.OrganizationHealthNetwork.objects.filter(
-                organization_id=self.kwargs["organization_pk"]
-            ).delete()
-
-            for data in serializer.validated_data:
-                models.Organization.objects.get_or_create(
-                    name=data["name"],
-                    defaults={
-                        "appearance": data["appearance"],
-                    },
+        models.OrganizationHealthNetwork.objects.bulk_create(
+            [
+                models.OrganizationHealthNetwork(
+                    organization_id=self.kwargs["pk"], health_network=health_network
                 )
-
-            objects = []
-            for data in serializer.validated_data:
-                objects.append(
-                    models.OrganizationHealthNetwork(
-                        organization_id=self.kwargs["organization_pk"],
-                        health_network=models.Organization.objects.get(
-                            name=data["name"]
-                        ),
-                    )
-                )
-            models.OrganizationHealthNetwork.objects.bulk_create(objects)
-            return Response(serializer.data)
-        return Response(serializer.errors)
+                for health_network in health_networks
+            ]
+        )
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    serializer_class = serializers.MetaSiteSerializer
-    lookup_field = "organization_id"
-    lookup_url_kwarg = "organization_pk"
+    serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Site.objects.none()
 
-        return models.Site.objects.filter(
-            organization=self.kwargs["organization_pk"],
-            organization__in=self.get_user_organizations(),
-        )
-
-    def get_serializer(self, *args, **kwargs):
         if self.action == "update":
-            kwargs["many"] = True
-            args = ()
-        return super().get_serializer(*args, **kwargs)
+            return self.get_user_organizations()
+
+        return models.Site.objects.filter(
+            organization=self.kwargs["pk"],
+            organization__in=self.get_user_organizations(),
+        ).prefetch_related('systems')
+
+    def get_serializer_class(self, *args, **kwargs):
+        if self.action == "update":
+            return serializers.OrganizationSiteSerializer
+        return super().get_serializer_class(*args, **kwargs)
 
     def perform_update(self, serializer):
         names = []
-        for site in serializer.validated_data:
+        for site in serializer.validated_data["sites"]:
             names.append(site["name"])
             models.Site.objects.get_or_create(
                 name=site["name"],
-                organization_id=self.kwargs["organization_pk"],
+                organization_id=self.kwargs["pk"],
                 defaults={"address": site["address"]},
             )
 
         removed_sites = models.Site.objects.filter(
-            organization=self.kwargs["organization_pk"],
+            organization=self.kwargs["pk"],
         ).exclude(name__in=names)
 
         models.System.objects.filter(site__in=removed_sites).delete()

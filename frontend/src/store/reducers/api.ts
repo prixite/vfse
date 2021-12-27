@@ -119,7 +119,7 @@ const injectedRtkApi = api.injectEndpoints({
       OrganizationsHealthNetworksListApiArg
     >({
       query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
+        url: `/organizations/${queryArg.id}/health_networks/`,
         params: { page: queryArg.page },
       }),
     }),
@@ -128,9 +128,28 @@ const injectedRtkApi = api.injectEndpoints({
       OrganizationsHealthNetworksUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/health_networks/`,
+        url: `/organizations/${queryArg.id}/health_networks/`,
         method: "PUT",
-        body: queryArg.healthNetwork,
+        body: queryArg.organizationHealthNetwork,
+      }),
+    }),
+    organizationsSitesList: build.query<
+      OrganizationsSitesListApiResponse,
+      OrganizationsSitesListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/sites/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    organizationsSitesUpdate: build.mutation<
+      OrganizationsSitesUpdateApiResponse,
+      OrganizationsSitesUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/sites/`,
+        method: "PUT",
+        body: queryArg.organizationSite,
       }),
     }),
     organizationsSeatsList: build.query<
@@ -150,25 +169,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.organizationPk}/seats/`,
         method: "POST",
         body: queryArg.systemSeatSeriazlier,
-      }),
-    }),
-    organizationsSitesList: build.query<
-      OrganizationsSitesListApiResponse,
-      OrganizationsSitesListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/sites/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    organizationsSitesUpdate: build.mutation<
-      OrganizationsSitesUpdateApiResponse,
-      OrganizationsSitesUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/sites/`,
-        method: "PUT",
-        body: queryArg.body,
       }),
     }),
     organizationsUsersList: build.query<
@@ -345,15 +345,27 @@ export type OrganizationsDeleteApiArg = {
 export type OrganizationsHealthNetworksListApiResponse =
   /** status 200  */ HealthNetwork[];
 export type OrganizationsHealthNetworksListApiArg = {
-  organizationPk: string;
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
 export type OrganizationsHealthNetworksUpdateApiResponse =
-  /** status 200  */ HealthNetwork;
+  /** status 200  */ OrganizationHealthNetwork;
 export type OrganizationsHealthNetworksUpdateApiArg = {
-  organizationPk: string;
-  healthNetwork: HealthNetwork;
+  id: string;
+  organizationHealthNetwork: OrganizationHealthNetwork;
+};
+export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
+export type OrganizationsSitesListApiArg = {
+  id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type OrganizationsSitesUpdateApiResponse =
+  /** status 200  */ OrganizationSite;
+export type OrganizationsSitesUpdateApiArg = {
+  id: string;
+  organizationSite: OrganizationSite;
 };
 export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
 export type OrganizationsSeatsListApiArg = {
@@ -366,17 +378,6 @@ export type OrganizationsSeatsCreateApiResponse =
 export type OrganizationsSeatsCreateApiArg = {
   organizationPk: string;
   systemSeatSeriazlier: SystemSeatSeriazlier;
-};
-export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
-export type OrganizationsSitesListApiArg = {
-  organizationPk: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type OrganizationsSitesUpdateApiResponse = /** status 200  */ Site[];
-export type OrganizationsSitesUpdateApiArg = {
-  organizationPk: string;
-  body: Site[];
 };
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
@@ -516,6 +517,14 @@ export type Me = {
 export type Modality = {
   name: string;
 };
+export type OrganizationHealthNetwork = {
+  id?: number;
+  health_networks: HealthNetwork[];
+};
+export type OrganizationSite = {
+  id?: number;
+  sites: Site[];
+};
 export type Seat = {
   system: number;
   organization: number;
@@ -614,10 +623,10 @@ export const {
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksUpdateMutation,
-  useOrganizationsSeatsListQuery,
-  useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
   useOrganizationsSitesUpdateMutation,
+  useOrganizationsSeatsListQuery,
+  useOrganizationsSeatsCreateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsModelsListQuery,

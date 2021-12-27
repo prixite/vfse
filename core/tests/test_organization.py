@@ -299,18 +299,19 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
         response = self.client.put(
             f"/api/organizations/{self.other_organization.id}/health_networks/",
-            data=[
-                {
-                    "name": self.health_network.name,
-                    "appearance": {"logo": "https://picsum.photos/200"},
-                },
-                {
-                    "name": "New",
-                    "appearance": {"logo": "https://picsum.photos/200"},
-                },
-            ],
+            data={
+                "health_networks": [
+                    {
+                        "name": self.health_network.name,
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    },
+                    {
+                        "name": "New",
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    },
+                ]
+            },
         )
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.other_organization.health_networks.count(), 2)
 
@@ -318,12 +319,14 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
         response = self.client.put(
             f"/api/organizations/{self.other_organization.id}/health_networks/",
-            data=[
-                {
-                    "name": "test health network",
-                    "appearance": {"logo": "https://picsum.photos/200"},
-                }
-            ],
+            data={
+                "health_networks": [
+                    {
+                        "name": "test health network",
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    }
+                ]
+            },
         )
 
         self.assertEqual(response.status_code, 200)
@@ -345,10 +348,12 @@ class OrganizationTestCase(BaseTestCase):
         site = factories.SiteFactory(name="Test Site", address="Mars")
         response = self.client.put(
             f"/api/organizations/{self.organization.id}/sites/",
-            data=[
-                {"name": site.name, "address": site.address},
-                {"name": "2nd Test Site", "address": "Milky Way"},
-            ],
+            data={
+                "sites": [
+                    {"name": site.name, "address": site.address},
+                    {"name": "2nd Test Site", "address": "Milky Way"},
+                ]
+            },
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
