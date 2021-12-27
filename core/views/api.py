@@ -110,7 +110,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    serializer_class = serializers.SiteSerializer
+    serializer_class = serializers.MetaSiteSerializer
     lookup_field = "organization_id"
     lookup_url_kwarg = "organization_pk"
 

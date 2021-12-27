@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "drf_yasg2",
     "drf_link_header_pagination",
     "django_filters",
+    'nplusone',
     # apps
     "core",
     "emailbackend",
@@ -74,6 +75,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'nplusone.ext.django.NPlusOneMiddleware',
 ]
 
 NPLUSONE_RAISE = env("NPLUSONE_RAISE")
