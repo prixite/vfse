@@ -218,7 +218,14 @@ class Site(models.Model):
 
     @property
     def modalities(self):
-        return sorted(list(set(self.systems .values_list('product_model__modality__name',flat=True))))
+        return sorted(
+            list(
+                set(
+                    self.systems.values_list("product_model__modality__name", flat=True)
+                )
+            )
+        )
+
 
 class Modality(models.Model):
     name = models.CharField(max_length=32)
@@ -238,7 +245,7 @@ class Modality(models.Model):
 
 class System(models.Model):
     name = models.CharField(max_length=50)
-    site = models.ForeignKey("Site", on_delete=models.CASCADE,related_name='systems')
+    site = models.ForeignKey("Site", on_delete=models.CASCADE, related_name="systems")
     product_model = models.ForeignKey("ProductModel", on_delete=models.CASCADE)
     image = models.ForeignKey("SystemImage", on_delete=models.SET_NULL, null=True)
     software_version = models.CharField(max_length=32)

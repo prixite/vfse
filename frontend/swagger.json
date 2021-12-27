@@ -1065,7 +1065,7 @@
                 "logo": ""
             }
         },
-        "Site": {
+        "MetaSite": {
             "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
@@ -1116,7 +1116,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Site"
+                        "$ref": "#/definitions/MetaSite"
                     },
                     "readOnly": true
                 }
@@ -1265,7 +1265,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Site"
+                        "$ref": "#/definitions/MetaSite"
                     },
                     "readOnly": true
                 }
@@ -1328,6 +1328,41 @@
                     "items": {
                         "$ref": "#/definitions/HealthNetwork"
                     }
+                }
+            }
+        },
+        "Site": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "modalities": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "readOnly": true
                 }
             }
         },

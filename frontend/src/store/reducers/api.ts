@@ -472,7 +472,7 @@ export type UserRequestAcessSeriazlizer = {
 export type Appearance = {
   logo: string;
 };
-export type Site = {
+export type MetaSite = {
   id?: number;
   name: string;
   address: string;
@@ -481,7 +481,7 @@ export type HealthNetwork = {
   id?: number;
   name: string;
   appearance?: Appearance;
-  sites?: Site[];
+  sites?: MetaSite[];
 };
 export type Manufacturer = {
   name: string;
@@ -506,7 +506,7 @@ export type Organization = {
   name: string;
   number_of_seats?: number | null;
   appearance?: Appearance2;
-  sites?: Site[];
+  sites?: MetaSite[];
 };
 export type Me = {
   first_name?: string;
@@ -520,6 +520,12 @@ export type Modality = {
 export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetwork[];
+};
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+  modalities?: string[];
 };
 export type OrganizationSite = {
   id?: number;

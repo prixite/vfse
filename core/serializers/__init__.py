@@ -25,11 +25,16 @@ class MetaSiteSerializer(serializers.ModelSerializer):
         model = models.Site
         fields = ["id", "name", "address"]
 
+
 class SiteSerializer(serializers.ModelSerializer):
-    modalities = serializers.ListField(child=serializers.CharField(),allow_empty=True,read_only=True)
+    modalities = serializers.ListField(
+        child=serializers.CharField(), allow_empty=True, read_only=True
+    )
+
     class Meta:
         model = models.Site
-        fields = ['id','name','address','modalities']
+        fields = ["id", "name", "address", "modalities"]
+
 
 class OrganizationSiteSerializer(serializers.ModelSerializer):
     sites = SiteSerializer(many=True)
