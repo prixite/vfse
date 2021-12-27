@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+import { Buffer } from "buffer";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
@@ -15,6 +16,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
@@ -28,12 +30,15 @@ import {
 
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
+window.Buffer = window.Buffer || Buffer;
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
   const [organizationSeats, setOrganizationSeats] = useState("");
   const [organizationError, setOrganizationError] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [selectedImage, setSelectedImage] = useState([]);
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const [networks, setNetworks] = useState([1]);
   const [sidebarColor, setSidebarColor] = useState("ffff");
@@ -95,15 +100,26 @@ export default function OrganizationModal(props) {
     } else {
       if (!organizationName) {
         setOrganizationError("This value is required");
-      } else {
+      }
+      if (!selectedImage.length) {
+        setImageError("Image is not selected");
+      }
+      if (organizationName && selectedImage.length) {
         const organizationObject = getOrganizationObject();
-        await addNewOrganizationService(
-          organizationObject,
-          addNewOrganization,
-          props.refetch
-        )
-          .then(() => toast.success("Organization successfully added"))
-          .catch((error) => setOrganizationError(error?.data?.name));
+        uploadImageToS3(selectedImage[0]).then(async (data) => {
+          organizationObject.appearance.banner = data?.location;
+          organizationObject.appearance.logo = data?.location;
+          organizationObject.appearance.icon = data?.location;
+          if (organizationObject?.appearance.banner) {
+            await addNewOrganizationService(
+              organizationObject,
+              addNewOrganization,
+              props.refetch
+            )
+              .then(() => toast.success("Organization successfully added"))
+              .catch((error) => setOrganizationError(error?.data?.name));
+          }
+        });
       }
     }
   };
@@ -131,13 +147,15 @@ export default function OrganizationModal(props) {
         primary_color: ButtonColor,
         font_one: "ProximaNova-Regular",
         font_two: "ProximaNova-Regular",
-        logo: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-        icon: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-        banner:
-          "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
       },
     };
   };
+
+  useEffect(() => {
+    if (selectedImage?.length) {
+      setImageError("");
+    }
+  }, [selectedImage]);
 
   useEffect(() => {
     setSidebarTextColor(sideBarTextColor);
@@ -193,7 +211,12 @@ export default function OrganizationModal(props) {
             <>
               <div>
                 <p className="dropzone-title">{newOrganizationLogo}</p>
-                <DropzoneBox />
+                <DropzoneBox setSelectedImage={setSelectedImage} />
+                {imageError?.length ? (
+                  <p className="errorText">{imageError}</p>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="client-info">
                 <div className="info-section">
