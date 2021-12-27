@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import { useAppSelector } from "@src/store/hooks";
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -20,7 +21,6 @@ import {
   updateOrganizationService,
   addNewOrganizationService,
 } from "@src/services/organizationService";
-import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
@@ -28,12 +28,15 @@ import {
 
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
+window.Buffer = window.Buffer || require('buffer').Buffer; 
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
   const [organizationSeats, setOrganizationSeats] = useState("");
   const [organizationError, setOrganizationError] = useState("");
+  const [imageError, setImageError] = useState("");
+  const [selectedImage, setSelectedImage] = useState([]);
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const [networks, setNetworks] = useState([1]);
   const [sidebarColor, setSidebarColor] = useState("ffff");
@@ -95,15 +98,31 @@ export default function OrganizationModal(props) {
     } else {
       if (!organizationName) {
         setOrganizationError("This value is required");
-      } else {
+      } 
+      if(!selectedImage.length)
+      {
+        setImageError("Image is not selected");
+      }
+      if(organizationName && selectedImage.length) {
         const organizationObject = getOrganizationObject();
-        await addNewOrganizationService(
-          organizationObject,
-          addNewOrganization,
-          props.refetch
+        uploadImageToS3(selectedImage[0])
+        .then( async(data) =>
+          {
+            organizationObject.appearance.banner = data?.location;
+            organizationObject.appearance.logo = data?.location;
+            organizationObject.appearance.icon = data?.location;
+            if(organizationObject?.appearance.banner)
+            {
+              await addNewOrganizationService(
+                organizationObject,
+                addNewOrganization,
+                props.refetch
+              )
+              .then(() => toast.success("Organization successfully added"))
+              .catch((error) => setOrganizationError(error?.data?.name));
+            }
+          }
         )
-          .then(() => toast.success("Organization successfully added"))
-          .catch((error) => setOrganizationError(error?.data?.name));
       }
     }
   };
@@ -131,13 +150,16 @@ export default function OrganizationModal(props) {
         primary_color: ButtonColor,
         font_one: "ProximaNova-Regular",
         font_two: "ProximaNova-Regular",
-        logo: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-        icon: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-        banner:
-          "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
       },
     };
   };
+
+  useEffect(() => {
+    if(selectedImage?.length)
+    {
+      setImageError('')
+    }
+  }, [selectedImage]);
 
   useEffect(() => {
     setSidebarTextColor(sideBarTextColor);
@@ -193,7 +215,10 @@ export default function OrganizationModal(props) {
             <>
               <div>
                 <p className="dropzone-title">{newOrganizationLogo}</p>
-                <DropzoneBox />
+                <DropzoneBox setSelectedImage={setSelectedImage}/>
+               {
+                 imageError?.length ? <p className="errorText">{imageError}</p> : ''
+               } 
               </div>
               <div className="client-info">
                 <div className="info-section">
