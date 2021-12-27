@@ -87,20 +87,20 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         models.OrganizationHealthNetwork.objects.filter(
             organization_id=self.kwargs["pk"]
         ).delete()
-        orgs = []
+        health_networks = []
         for health_network in serializer.validated_data["health_networks"]:
             obj, created = models.Organization.objects.get_or_create(
                 name=health_network["name"],
                 defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
             )
-            orgs.append(obj)
+            health_networks.append(obj)
 
         models.OrganizationHealthNetwork.objects.bulk_create(
             [
                 models.OrganizationHealthNetwork(
                     organization_id=self.kwargs["pk"], health_network=health_network
                 )
-                for health_network in orgs
+                for health_network in health_networks
             ]
         )
 
