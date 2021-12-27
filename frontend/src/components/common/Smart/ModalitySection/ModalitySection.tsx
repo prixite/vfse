@@ -31,7 +31,7 @@ const ModalitySection = () => {
     refetch: orgNetworkRefetch,
   } = useOrganizationsHealthNetworksListQuery({
     page: 1,
-    organizationPk: selectedOrganization?.id.toString(),
+    id: selectedOrganization?.id.toString(),
   });
 
   const handleClose = () => setOpen(false);

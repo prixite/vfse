@@ -26,6 +26,14 @@ class SiteSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "address"]
 
 
+class OrganizationSiteSerializer(serializers.ModelSerializer):
+    sites = SiteSerializer(many=True)
+
+    class Meta:
+        model = models.Organization
+        fields = ["id", "sites"]
+
+
 class OrganizationSerializer(serializers.ModelSerializer):
     appearance = OrganizationAppearanceSerializer(
         default=defaults.OrganizationAppearanceDefault()
@@ -47,12 +55,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "appearance",
             "sites",
         ]
-
-
-class OrganizationHealthNetworkCreateSerializer(serializers.Serializer):
-    health_networks = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Organization.objects.all()
-    )
 
 
 class MeSerializer(serializers.ModelSerializer):
@@ -128,6 +130,14 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
             "appearance",
             "sites",
         ]
+
+
+class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
+    health_networks = HealthNetworkSerializer(many=True, write_only=True)
+
+    class Meta:
+        model = models.Organization
+        fields = ["id", "health_networks"]
 
 
 class SystemInfoSerializer(serializers.Serializer):

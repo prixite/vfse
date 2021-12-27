@@ -52,7 +52,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:organization_pk>/health_networks/",
+        "api/organizations/<str:pk>/health_networks/",
         api.OrganizationHealthNetworkViewSet.as_view(
             {
                 "put": "update",
@@ -79,7 +79,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:organization_pk>/sites/",
+        "api/organizations/<str:pk>/sites/",
         api.OrganizationSiteViewSet.as_view(
             {
                 "put": "update",

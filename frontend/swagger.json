@@ -376,7 +376,7 @@
                 }
             ]
         },
-        "/organizations/{organization_pk}/health_networks/": {
+        "/organizations/{id}/health_networks/": {
             "get": {
                 "operationId": "organizations_health_networks_list",
                 "description": "",
@@ -413,7 +413,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/HealthNetwork"
+                            "$ref": "#/definitions/OrganizationHealthNetwork"
                         }
                     }
                 ],
@@ -421,7 +421,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/HealthNetwork"
+                            "$ref": "#/definitions/OrganizationHealthNetwork"
                         }
                     }
                 },
@@ -431,7 +431,69 @@
             },
             "parameters": [
                 {
-                    "name": "organization_pk",
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{id}/sites/": {
+            "get": {
+                "operationId": "organizations_sites_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Site"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "put": {
+                "operationId": "organizations_sites_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationSite"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationSite"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -484,76 +546,6 @@
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/SystemSeatSeriazlier"
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "organization_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/organizations/{organization_pk}/sites/": {
-            "get": {
-                "operationId": "organizations_sites_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Site"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "put": {
-                "operationId": "organizations_sites_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "description": "",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Site"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "description": "",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Site"
-                            }
                         }
                     }
                 },
@@ -1315,6 +1307,48 @@
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 1
+                }
+            }
+        },
+        "OrganizationHealthNetwork": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "health_networks"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "health_networks": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/HealthNetwork"
+                    }
+                }
+            }
+        },
+        "OrganizationSite": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "sites"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Site"
+                    }
                 }
             }
         },
