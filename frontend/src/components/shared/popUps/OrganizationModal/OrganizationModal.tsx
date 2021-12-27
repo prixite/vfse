@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { useAppSelector } from "@src/store/hooks";
+
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -8,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+import { Buffer } from "buffer";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 
@@ -16,11 +16,13 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
   addNewOrganizationService,
 } from "@src/services/organizationService";
+import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
@@ -28,7 +30,7 @@ import {
 
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
-window.Buffer = window.Buffer || require('buffer').Buffer; 
+window.Buffer = window.Buffer || Buffer;
 export default function OrganizationModal(props) {
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
@@ -98,31 +100,26 @@ export default function OrganizationModal(props) {
     } else {
       if (!organizationName) {
         setOrganizationError("This value is required");
-      } 
-      if(!selectedImage.length)
-      {
+      }
+      if (!selectedImage.length) {
         setImageError("Image is not selected");
       }
-      if(organizationName && selectedImage.length) {
+      if (organizationName && selectedImage.length) {
         const organizationObject = getOrganizationObject();
-        uploadImageToS3(selectedImage[0])
-        .then( async(data) =>
-          {
-            organizationObject.appearance.banner = data?.location;
-            organizationObject.appearance.logo = data?.location;
-            organizationObject.appearance.icon = data?.location;
-            if(organizationObject?.appearance.banner)
-            {
-              await addNewOrganizationService(
-                organizationObject,
-                addNewOrganization,
-                props.refetch
-              )
+        uploadImageToS3(selectedImage[0]).then(async (data) => {
+          organizationObject.appearance.banner = data?.location;
+          organizationObject.appearance.logo = data?.location;
+          organizationObject.appearance.icon = data?.location;
+          if (organizationObject?.appearance.banner) {
+            await addNewOrganizationService(
+              organizationObject,
+              addNewOrganization,
+              props.refetch
+            )
               .then(() => toast.success("Organization successfully added"))
               .catch((error) => setOrganizationError(error?.data?.name));
-            }
           }
-        )
+        });
       }
     }
   };
@@ -155,9 +152,8 @@ export default function OrganizationModal(props) {
   };
 
   useEffect(() => {
-    if(selectedImage?.length)
-    {
-      setImageError('')
+    if (selectedImage?.length) {
+      setImageError("");
     }
   }, [selectedImage]);
 
@@ -215,10 +211,12 @@ export default function OrganizationModal(props) {
             <>
               <div>
                 <p className="dropzone-title">{newOrganizationLogo}</p>
-                <DropzoneBox setSelectedImage={setSelectedImage}/>
-               {
-                 imageError?.length ? <p className="errorText">{imageError}</p> : ''
-               } 
+                <DropzoneBox setSelectedImage={setSelectedImage} />
+                {imageError?.length ? (
+                  <p className="errorText">{imageError}</p>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="client-info">
                 <div className="info-section">
