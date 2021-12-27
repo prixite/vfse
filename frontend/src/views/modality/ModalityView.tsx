@@ -9,7 +9,7 @@ export default function ModalityView() {
 
   const { isLoading } = useOrganizationsHealthNetworksListQuery({
     page: 1,
-    organizationPk: selectedOrganization.id.toString(),
+    id: selectedOrganization.id.toString(),
   });
 
   return <>{!isLoading ? <ModalitySection /> : <SectionSkeleton />}</>;
