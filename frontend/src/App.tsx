@@ -103,10 +103,10 @@ const App = () => {
   }, [isFetching, FetchingList]);
 
   useEffect(() => {
-    if (fontOne) {
+    if (fontOne && document?.getElementById("container")) {
       document.getElementById("container").style.fontFamily = fontOne;
     }
-    if (fontTwo) {
+    if (fontTwo && document?.getElementById("SideBarcontainer")) {
       document.getElementById("SideBarcontainer").style.fontFamily = fontTwo;
     }
   }),
