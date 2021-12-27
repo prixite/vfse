@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -118,7 +119,14 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         return models.Site.objects.filter(
             organization=self.kwargs["pk"],
             organization__in=self.get_user_organizations(),
-        ).prefetch_related("systems")
+        ).prefetch_related(
+            Prefetch(
+                "systems",
+                queryset=models.System.objects.all().select_related(
+                    "product_model__modality"
+                ),
+            ),
+        )
 
     def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":

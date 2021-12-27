@@ -37,7 +37,7 @@ class SiteSerializer(serializers.ModelSerializer):
 
 
 class OrganizationSiteSerializer(serializers.ModelSerializer):
-    sites = SiteSerializer(many=True)
+    sites = SiteSerializer(many=True, write_only=True)
 
     class Meta:
         model = models.Organization

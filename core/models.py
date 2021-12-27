@@ -218,13 +218,7 @@ class Site(models.Model):
 
     @property
     def modalities(self):
-        return sorted(
-            list(
-                set(
-                    self.systems.values_list("product_model__modality__name", flat=True)
-                )
-            )
-        )
+        return sorted(set([s.product_model.modality.name for s in self.systems.all()]))
 
 
 class Modality(models.Model):
