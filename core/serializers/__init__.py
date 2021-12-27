@@ -1,6 +1,5 @@
 import re
 
-from django.db.models import fields
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
@@ -134,8 +133,7 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
 
 
 class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
-    health_networks = HealthNetworkSerializer(many=True,write_only=True)
-
+    health_networks = HealthNetworkSerializer(many=True, write_only=True)
     class Meta:
         model = models.Organization
         fields = ["id", "health_networks"]

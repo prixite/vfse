@@ -1311,12 +1311,17 @@
             }
         },
         "OrganizationHealthNetwork": {
-            "description": "",
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "health_networks"
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "health_networks": {
                     "description": "",
                     "type": "array",

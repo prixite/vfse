@@ -83,19 +83,16 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             return serializers.OrganizationHealthNetworkSerializer
         return serializers.HealthNetworkSerializer
 
-
     def perform_update(self, serializer):
         models.OrganizationHealthNetwork.objects.filter(
             organization_id=self.kwargs["pk"]
         ).delete()
         orgs = []
         for health_network in serializer.validated_data["health_networks"]:
-            obj,created=models.Organization.objects.get_or_create(
-                    name=health_network["name"],
-                    defaults={
-                        "appearance": {"logo": health_network["appearance"]["logo"]}
-                    },
-                )
+            obj, created = models.Organization.objects.get_or_create(
+                name=health_network["name"],
+                defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
+            )
             orgs.append(obj)
 
         models.OrganizationHealthNetwork.objects.bulk_create(
