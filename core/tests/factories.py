@@ -195,6 +195,15 @@ class SiteFactory(factory.django.DjangoModelFactory):
     address = factory.Faker("address")
     organization = factory.SubFactory(OrganizationFactory)
 
+    @factory.post_generation
+    def users(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        models.UserSite.objects.bulk_create(
+            models.UserSite(user=user, site=obj) for user in extracted or []
+        )
+
 
 class ModalityFactory(factory.django.DjangoModelFactory):
     class Meta:
