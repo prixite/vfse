@@ -116,6 +116,7 @@ export default function SideBar() {
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
+    setCurrentRoute(pathRoute);
   }, [selectedOrganization]);
   const handleUpdateSelectedOrganization = (item) => {
     dispatch(setSelectedOrganization({ selectedOrganization: item }));
@@ -160,24 +161,26 @@ export default function SideBar() {
       });
 
   const createClients = () =>
-    organizationsList?.slice(0, 5).map((item: Organization) => {
-      return (
-        <ListItem
-          button
-          key={item.id}
-          style={collapsedLeftPadding}
-          onClick={() => handleUpdateSelectedOrganization(item)}
-        >
-          <ListItemIcon
-            className={`client-image ${
-              currentClient.name === item.name ? "active" : ""
-            }`}
-          >
-            <img src={item.appearance.logo} className={`img`} />
-          </ListItemIcon>
-        </ListItem>
-      );
-    });
+    !isOrgListLoading && organizationsList
+      ? organizationsList?.slice(0, 5).map((item: Organization) => {
+          return (
+            <ListItem
+              button
+              key={item.id}
+              style={collapsedLeftPadding}
+              onClick={() => handleUpdateSelectedOrganization(item)}
+            >
+              <ListItemIcon
+                className={`client-image ${
+                  currentClient?.name === item?.name ? "active" : ""
+                }`}
+              >
+                <img src={item.appearance.logo} className={`img`} />
+              </ListItemIcon>
+            </ListItem>
+          );
+        })
+      : null;
 
   const onSearchClick = () => {
     history.push(`/${organizationRoute}/${selectedOrganization?.id}/`);
