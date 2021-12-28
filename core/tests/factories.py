@@ -200,11 +200,9 @@ class SiteFactory(factory.django.DjangoModelFactory):
         if not create:
             return
 
-        relations = []
-
-        for user in extracted or []:
-            relations.append(models.UserSite(user=user, site=obj))
-        models.UserSite.objects.bulk_create(relations)
+        models.UserSite.objects.bulk_create(
+            models.UserSite(user=user, site=obj) for user in extracted or []
+        )
 
 
 class ModalityFactory(factory.django.DjangoModelFactory):
