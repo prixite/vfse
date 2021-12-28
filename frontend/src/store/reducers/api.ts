@@ -355,7 +355,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
-export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
+export type OrganizationsSitesListApiResponse = /** status 200  */ SiteDetail[];
 export type OrganizationsSitesListApiArg = {
   id: string;
   /** A page number within the paginated result set. */
@@ -520,6 +520,12 @@ export type Modality = {
 export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetwork[];
+};
+export type SiteDetail = {
+  id?: number;
+  name: string;
+  address: string;
+  modalities?: string[];
 };
 export type OrganizationSite = {
   id?: number;
