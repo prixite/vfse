@@ -216,6 +216,10 @@ class Site(models.Model):
     def __str__(self):
         return f"{self.name} - {self.address}"
 
+    @property
+    def modalities(self):
+        return sorted(set([s.product_model.modality.name for s in self.systems.all()]))
+
 
 class Modality(models.Model):
     name = models.CharField(max_length=32)
@@ -235,7 +239,7 @@ class Modality(models.Model):
 
 class System(models.Model):
     name = models.CharField(max_length=50)
-    site = models.ForeignKey("Site", on_delete=models.PROTECT)
+    site = models.ForeignKey("Site", on_delete=models.CASCADE, related_name="systems")
     product_model = models.ForeignKey("ProductModel", on_delete=models.CASCADE)
     image = models.ForeignKey("SystemImage", on_delete=models.SET_NULL, null=True)
     software_version = models.CharField(max_length=32)

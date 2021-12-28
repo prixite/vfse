@@ -358,7 +358,7 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             models.Site.objects.filter(organization=self.organization).count(),
-            len(response.json()),
+            2,
         )
 
 

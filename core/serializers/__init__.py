@@ -26,8 +26,20 @@ class SiteSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "address"]
 
 
+class SiteDetailSerializer(serializers.ModelSerializer):
+    modalities = serializers.ListField(
+        child=serializers.CharField(), allow_empty=True, read_only=True
+    )
+
+    class Meta:
+        model = models.Site
+        fields = ["id", "name", "address", "modalities"]
+
+
 class OrganizationSiteSerializer(serializers.ModelSerializer):
-    sites = SiteSerializer(many=True)
+    # Make it write only to avoid nplusone error. This update method in base
+    # class of DRF invalidates the prefetch cache.
+    sites = SiteSerializer(many=True, write_only=True)
 
     class Meta:
         model = models.Organization
