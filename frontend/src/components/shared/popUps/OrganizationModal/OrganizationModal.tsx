@@ -211,7 +211,7 @@ export default function OrganizationModal(props) {
             <>
               <div>
                 <p className="dropzone-title">{newOrganizationLogo}</p>
-              <DropzoneBox setSelectedImage={setSelectedImage} />
+                <DropzoneBox setSelectedImage={setSelectedImage} />
                 {imageError?.length ? (
                   <p className="errorText">{imageError}</p>
                 ) : (
@@ -335,7 +335,10 @@ export default function OrganizationModal(props) {
                 </Button>
               </div>
               {networks.map((network) => (
-                <HealthNetwork key={network} setSelectedImage={setSelectedImage} />
+                <HealthNetwork
+                  key={network}
+                  setSelectedImage={setSelectedImage}
+                />
               ))}
             </>
           )}

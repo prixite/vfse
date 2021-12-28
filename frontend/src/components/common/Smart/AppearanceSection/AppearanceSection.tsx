@@ -10,7 +10,9 @@ import {
   Button,
 } from "@mui/material";
 import { Buffer } from "buffer";
+
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
+import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { updateOrganizationColor } from "@src/services/organizationService";
@@ -29,7 +31,6 @@ import {
   updateFontOne,
   updateFontTwo,
 } from "@src/store/reducers/themeStore";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 
 window.Buffer = window.Buffer || Buffer;
 const AppearanceSection = () => {
@@ -84,20 +85,21 @@ const AppearanceSection = () => {
 
   const updateAppearance = async () => {
     setIsLoading(() => true);
-    if(selectedImage && selectedImage.length){
-     currentOrganiationDummyData = await uploadImageToS3(selectedImage[0]).then((data) => {
-      currentOrganiationDummyData.appearance.banner = data?.location;
-      currentOrganiationDummyData.appearance.logo = data?.location;
-      currentOrganiationDummyData.appearance.icon = data?.location;
-      dispatch(
-        setSelectedOrganization({
-          selectedOrganization: currentOrganiationDummyData,
+    if (selectedImage && selectedImage.length) {
+      currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
+        .then((data) => {
+          currentOrganiationDummyData.appearance.banner = data?.location;
+          currentOrganiationDummyData.appearance.logo = data?.location;
+          currentOrganiationDummyData.appearance.icon = data?.location;
+          dispatch(
+            setSelectedOrganization({
+              selectedOrganization: currentOrganiationDummyData,
+            })
+          );
+          return currentOrganiationDummyData;
         })
-      );
-      return currentOrganiationDummyData;
-      }
-    ).catch((error) =>currentOrganiationDummyData);
-  }
+        .catch(() => currentOrganiationDummyData); // eslint-disable-line no-unused-vars
+    }
     await updateOrganizationColor(
       organizationsPartialUpdate,
       currentOrganiationDummyData,
@@ -179,7 +181,10 @@ const AppearanceSection = () => {
             <Box component="div" className="clientLogo">
               <h4 className="labels">Logo</h4>
               <Box component="div" className="logo">
-                <DropzoneBox setSelectedImage={setSelectedImage} imgSrc={selectedOrganization?.appearance?.logo}/>
+                <DropzoneBox
+                  setSelectedImage={setSelectedImage}
+                  imgSrc={selectedOrganization?.appearance?.logo}
+                />
               </Box>
             </Box>
             <Box component="div" className="colorSection">

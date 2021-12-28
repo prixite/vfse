@@ -4,8 +4,8 @@ import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
-import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import AddUser from "@src/components/common/Smart/AddUser/AddUser";
+import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
@@ -75,7 +75,7 @@ export default function UserView() {
         setTableColumns={setTableColumns}
       />
 
-      <AddUser open={open} handleClose={handleClose}  />
+      <AddUser open={open} handleClose={handleClose} />
 
       <div style={{ marginTop: "32px", overflow: "hidden" }}>
         <DataGrid
