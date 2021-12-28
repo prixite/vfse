@@ -521,15 +521,9 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetwork[];
 };
-export type SiteDetail = {
-  id?: number;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
 export type OrganizationSite = {
   id?: number;
-  sites: SiteDetail[];
+  sites: Site[];
 };
 export type Seat = {
   system: number;

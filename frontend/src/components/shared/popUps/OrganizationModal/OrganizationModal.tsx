@@ -1,4 +1,3 @@
-import { Buffer } from "buffer";
 
 import { useState, useEffect } from "react";
 
@@ -9,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+import { Buffer } from "buffer";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 

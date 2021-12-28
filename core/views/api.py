@@ -116,7 +116,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             return self.get_user_organizations()
 
         return models.Site.objects.filter(
-            organization=self.kwargs['pk'],
+            organization=self.kwargs["pk"],
             organization__in=self.get_user_organizations(),
         ).prefetch_related(
             Prefetch(
@@ -130,7 +130,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":
             return serializers.OrganizationSiteSerializer
-        return serializers.SiteSerializer
+        return serializers.SiteDetailSerializer
 
     def perform_update(self, serializer):
         names = []
