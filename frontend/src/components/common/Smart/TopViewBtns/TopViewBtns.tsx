@@ -71,7 +71,10 @@ const TopViewBtns = ({
   };
 
   const handleModal = () => {
-    if (path !== "organizations") {
+    if (path === "users") {
+      setOpen(true);
+      setData(null);
+    } else if (path !== "organizations") {
       setOpen(true);
       setData(null);
     } else {

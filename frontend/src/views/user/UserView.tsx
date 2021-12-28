@@ -5,6 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import AddUser from "@src/components/common/Smart/AddUser/AddUser";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
@@ -37,6 +38,7 @@ const columns = [
 export default function UserView() {
   const [pageSize, setPageSize] = useState(14);
   const { userAdministration } = localizedData().users;
+  const [open, setOpen] = useState(false);
   const [tableColumns, setTableColumns] = useState(columns);
   const [anchorEl, setAnchorEl] = useState(null);
   const openModal = Boolean(anchorEl);
@@ -56,6 +58,8 @@ export default function UserView() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleClose = () => setOpen(false);
+
   const handleActionClose = () => {
     setAnchorEl(null);
   };
@@ -65,10 +69,13 @@ export default function UserView() {
       <h2>{userAdministration}</h2>
 
       <TopViewBtns
+        setOpen={setOpen}
         path="users"
         tableColumns={tableColumns}
         setTableColumns={setTableColumns}
       />
+
+      <AddUser open={open} handleClose={handleClose}  />
 
       <div style={{ marginTop: "32px", overflow: "hidden" }}>
         <DataGrid
