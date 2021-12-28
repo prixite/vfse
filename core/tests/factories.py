@@ -272,3 +272,8 @@ class SystemImageFactory(factory.django.DjangoModelFactory):
         model = models.SystemImage
 
     image = "http://example.com/systemimage.jpeg"
+
+
+class UserHealthNetworkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.UserHealthNetwork
