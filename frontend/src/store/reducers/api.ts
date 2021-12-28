@@ -355,7 +355,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
-export type OrganizationsSitesListApiResponse = /** status 200  */ SiteDetail[];
+export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesListApiArg = {
   id: string;
   /** A page number within the paginated result set. */

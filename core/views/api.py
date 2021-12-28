@@ -118,7 +118,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             id__in=models.UserSite.objects.filter(user=self.request.user).values_list(
                 "site"
             ),
-        ).prefetch_related('systems')
+        ).prefetch_related("systems")
 
     def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":
