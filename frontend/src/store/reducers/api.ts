@@ -355,7 +355,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
-export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
+export type OrganizationsSitesListApiResponse = /** status 200  */ SiteDetail[];
 export type OrganizationsSitesListApiArg = {
   id: string;
   /** A page number within the paginated result set. */
@@ -472,7 +472,7 @@ export type UserRequestAcessSeriazlizer = {
 export type Appearance = {
   logo: string;
 };
-export type MetaSite = {
+export type Site = {
   id?: number;
   name: string;
   address: string;
@@ -481,7 +481,7 @@ export type HealthNetwork = {
   id?: number;
   name: string;
   appearance?: Appearance;
-  sites?: MetaSite[];
+  sites?: Site[];
 };
 export type Manufacturer = {
   name: string;
@@ -506,7 +506,7 @@ export type Organization = {
   name: string;
   number_of_seats?: number | null;
   appearance?: Appearance2;
-  sites?: MetaSite[];
+  sites?: Site[];
 };
 export type Me = {
   first_name?: string;
@@ -521,7 +521,7 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetwork[];
 };
-export type Site = {
+export type SiteDetail = {
   id?: number;
   name: string;
   address: string;
@@ -529,7 +529,7 @@ export type Site = {
 };
 export type OrganizationSite = {
   id?: number;
-  sites: Site[];
+  sites: SiteDetail[];
 };
 export type Seat = {
   system: number;
