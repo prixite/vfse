@@ -37,7 +37,9 @@ class SiteDetailSerializer(serializers.ModelSerializer):
 
 
 class OrganizationSiteSerializer(serializers.ModelSerializer):
-    sites = SiteDetailSerializer(many=True)
+    # Make it write only to avoid nplusone error. This update method in base
+    # class of DRF invalidates the prefetch cache.
+    sites = SiteSerializer(many=True, write_only=True)
 
     class Meta:
         model = models.Organization
