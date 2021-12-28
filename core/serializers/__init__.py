@@ -20,13 +20,13 @@ class OrganizationAppearanceSerializer(serializers.Serializer):
     icon = serializers.URLField()
 
 
-class MetaSiteSerializer(serializers.ModelSerializer):
+class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
         fields = ["id", "name", "address"]
 
 
-class SiteSerializer(serializers.ModelSerializer):
+class SiteDetailSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
         child=serializers.CharField(), allow_empty=True, read_only=True
     )
@@ -37,7 +37,7 @@ class SiteSerializer(serializers.ModelSerializer):
 
 
 class OrganizationSiteSerializer(serializers.ModelSerializer):
-    sites = SiteSerializer(many=True)
+    sites = SiteDetailSerializer(many=True)
 
     class Meta:
         model = models.Organization
@@ -54,7 +54,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=models.Organization.objects.all())],
     )
 
-    sites = MetaSiteSerializer(many=True, read_only=True)
+    sites = SiteSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Organization
@@ -130,7 +130,7 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
     appearance = HealthNetworkAppearanceSerializer(
         default=defaults.HealthNetworkAppearanceDefault()
     )
-    sites = MetaSiteSerializer(many=True, read_only=True)
+    sites = SiteSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Organization

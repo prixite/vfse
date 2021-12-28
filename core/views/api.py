@@ -106,7 +106,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    serializer_class = serializers.SiteSerializer
+    serializer_class = serializers.SiteDetailSerializer
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
