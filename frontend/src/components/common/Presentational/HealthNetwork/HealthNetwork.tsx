@@ -4,7 +4,7 @@ import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/Dropz
 import "@src/components/common/Presentational/HealthNetwork/HealthNetwork.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
-const HealthNetwork = () => {
+const HealthNetwork = ({setSelectedImage}) => {
   const constantData: object = localizedData()?.healthNetwork;
   const { name, logo } = constantData;
 
@@ -19,7 +19,7 @@ const HealthNetwork = () => {
       <div className="health-info">
         <div style={{ width: "100%", marginTop: "25px" }}>
           <p className="dropzone-title">{logo}</p>
-          <DropzoneBox />
+          <DropzoneBox setSelectedImage={setSelectedImage} />
         </div>
       </div>
     </div>
