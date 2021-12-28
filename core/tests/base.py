@@ -56,8 +56,7 @@ class BaseTestCase(TestCase):
         )
 
         self.site = factories.SiteFactory(
-            organization=self.organization,
-            users = [self.super_admin,self.super_manager]
+            organization=self.organization, users=[self.super_admin, self.super_manager]
         )
 
         self.product = factories.ProductFactory(

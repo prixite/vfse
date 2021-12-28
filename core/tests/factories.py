@@ -196,15 +196,17 @@ class SiteFactory(factory.django.DjangoModelFactory):
     organization = factory.SubFactory(OrganizationFactory)
 
     @factory.post_generation
-    def users(obj,create,extracted,**kwargs):
+    def users(obj, create, extracted, **kwargs):
         if not create:
             return
-        
-        relations=[]
+
+        relations = []
 
         for user in extracted or []:
-            relations.append(models.UserSite(user=user,site=obj))
+            relations.append(models.UserSite(user=user, site=obj))
         models.UserSite.objects.bulk_create(relations)
+
+
 class ModalityFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Modality

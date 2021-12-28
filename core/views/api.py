@@ -106,7 +106,6 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
-
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Site.objects.none()
@@ -116,7 +115,9 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         return models.Site.objects.filter(
             organization=self.kwargs["pk"],
-            organization__in=models.UserSite.objects.filter(site__organization__in=self.get_user_organizations()).values_list('site__organization'),
+            organization__in=models.UserSite.objects.filter(
+                site__organization__in=self.get_user_organizations()
+            ).values_list("site__organization"),
         )
 
     def get_serializer_class(self, *args, **kwargs):
