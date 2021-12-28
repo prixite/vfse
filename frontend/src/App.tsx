@@ -9,7 +9,7 @@ import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useMeReadQuery,
-  useOrganizationsListQuery,
+  useOrganizationsReadQuery,
 } from "@src/store/reducers/api";
 import {
   setCurrentOrganization,
@@ -33,12 +33,16 @@ const App = () => {
   const params: match<{ id: string }> = matchPath(pathname, {
     path: "/clients/:id",
   });
+  const [idParam, setIDParam] = useState(params);
   const { data, isFetching } = useMeReadQuery();
   const { data: organizationList, isFetching: FetchingList } =
-    useOrganizationsListQuery({
-      page: 1,
+    useOrganizationsReadQuery({
+      id: idParam?.params.id,
     });
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    setIDParam(params);
+  }, []);
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
@@ -47,56 +51,42 @@ const App = () => {
         setCurrentOrganization({ currentOrganization: organizationData })
       );
       if (organizationList) {
-        const selectedOrganizationData = organizationList.find(
-          (organization) => {
-            return organization?.id === parseInt(params?.params.id, 10);
-          }
+        const selectedOrganizationData = organizationList;
+        dispatch(
+          setSelectedOrganization({
+            selectedOrganization: selectedOrganizationData,
+          })
         );
-        if (selectedOrganizationData) {
-          dispatch(
-            setSelectedOrganization({
-              selectedOrganization: selectedOrganizationData,
-            })
-          );
-          dispatch(
-            updateSideBarColor(
-              selectedOrganizationData.appearance.sidebar_color
-            )
-          );
-          dispatch(
-            updateButtonColor(selectedOrganizationData.appearance.primary_color)
-          );
-          dispatch(
-            updateSideBarTextColor(
-              selectedOrganizationData.appearance.sidebar_text
-            )
-          );
-          dispatch(
-            updateButtonTextColor(
-              selectedOrganizationData.appearance.button_text
-            )
-          );
-          dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
-          dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
-        } else {
-          dispatch(
-            setSelectedOrganization({ selectedOrganization: organizationData })
-          );
-          dispatch(
-            updateSideBarColor(organizationData.appearance.sidebar_color)
-          );
-          dispatch(
-            updateButtonColor(organizationData.appearance.primary_color)
-          );
-          dispatch(
-            updateSideBarTextColor(organizationData.appearance.sidebar_text)
-          );
-          dispatch(
-            updateButtonTextColor(organizationData.appearance.button_text)
-          );
-          dispatch(updateFontOne(organizationData.appearance.font_one));
-          dispatch(updateFontTwo(organizationData.appearance.font_two));
-        }
+        dispatch(
+          updateSideBarColor(selectedOrganizationData.appearance.sidebar_color)
+        );
+        dispatch(
+          updateButtonColor(selectedOrganizationData.appearance.primary_color)
+        );
+        dispatch(
+          updateSideBarTextColor(
+            selectedOrganizationData.appearance.sidebar_text
+          )
+        );
+        dispatch(
+          updateButtonTextColor(selectedOrganizationData.appearance.button_text)
+        );
+        dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
+        dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
+      } else {
+        dispatch(
+          setSelectedOrganization({ selectedOrganization: organizationData })
+        );
+        dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
+        dispatch(updateButtonColor(organizationData.appearance.primary_color));
+        dispatch(
+          updateSideBarTextColor(organizationData.appearance.sidebar_text)
+        );
+        dispatch(
+          updateButtonTextColor(organizationData.appearance.button_text)
+        );
+        dispatch(updateFontOne(organizationData.appearance.font_one));
+        dispatch(updateFontTwo(organizationData.appearance.font_two));
       }
       setIsLoading(false);
     }
@@ -114,16 +104,10 @@ const App = () => {
 
   return (
     <>
-      {isLoading ? (
-        <p>Loading Main</p>
-      ) : (
-        <>
-          <ToastContainer />
-          <PageLayout>
-            <RoutesHOC />
-          </PageLayout>
-        </>
-      )}
+      <ToastContainer />
+      <PageLayout>
+        <RoutesHOC isLoading={isLoading} />
+      </PageLayout>
     </>
   );
 };
