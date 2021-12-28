@@ -117,7 +117,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         return models.Site.objects.filter(
             organization=self.kwargs["pk"],
-            organization__in=self.get_user_organizations(),
+            organization__in=models.UserSite.objects.filter(site__organization__in=self.get_user_organizations()).values_list('site__organization'),
         )
 
     def get_serializer_class(self, *args, **kwargs):
