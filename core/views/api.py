@@ -73,6 +73,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             )
 
         return models.Organization.objects.filter(
+            is_customer=False,
             id__in=self.request.user.get_organization_health_networks(
                 self.kwargs["pk"]
             ),
