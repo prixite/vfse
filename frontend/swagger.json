@@ -1065,7 +1065,7 @@
                 "logo": ""
             }
         },
-        "Site": {
+        "MetaSite": {
             "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
@@ -1116,7 +1116,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Site"
+                        "$ref": "#/definitions/MetaSite"
                     },
                     "readOnly": true
                 }
@@ -1265,7 +1265,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Site"
+                        "$ref": "#/definitions/MetaSite"
                     },
                     "readOnly": true
                 }
@@ -1331,7 +1331,7 @@
                 }
             }
         },
-        "SiteDetail": {
+        "Site": {
             "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
@@ -1382,7 +1382,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/SiteDetail"
+                        "$ref": "#/definitions/Site"
                     }
                 }
             }
