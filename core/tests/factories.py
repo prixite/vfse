@@ -18,17 +18,20 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         model = models.Organization
 
     name = factory.Sequence(lambda x: f"organization-{x}")
-    appearance = {
-        "sidebar_text": "#94989E",
-        "button_text": "#FFFFFF",
-        "sidebar_color": "#142139",
-        "primary_color": "#773CBD",
-        "font_one": "helvetica",
-        "font_two": "calibri",
-        "logo": "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-        "banner": "http://example.com/image.jpg",
-        "icon": "http://example.com/icon.ico",
-    }
+    appearance = factory.lazy_attribute(
+        lambda obj: {
+            "sidebar_text": "#94989E",
+            "button_text": "#FFFFFF",
+            "sidebar_color": "#142139",
+            "primary_color": "#773CBD",
+            "font_one": "helvetica",
+            "font_two": "calibri",
+            "logo": obj.logo,
+            "banner": "http://example.com/image.jpg",
+            "icon": "http://example.com/icon.ico",
+        }
+    )
+    site = None
 
     @factory.post_generation
     def fse_admin_roles(obj, create, extracted, **kwargs):
@@ -100,6 +103,14 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
         _add_member(obj, extracted, models.Role.CRYO_ADMIN)
 
+    class Params:
+        logo = "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
+        sites = factory.Trait(
+            site=factory.RelatedFactory(
+                "core.tests.factories.SiteFactory", factory_related_name="organization"
+            )
+        )
+
 
 @factory.django.mute_signals(post_save)
 class UserFactory(factory.django.DjangoModelFactory):
@@ -161,6 +172,7 @@ class MembershipFactory(factory.django.DjangoModelFactory):
 
 class HealthNetworkFactory(OrganizationFactory):
     name = factory.Sequence(lambda x: f"health-network-{x}")
+    sites = False
 
     @factory.post_generation
     def organizations(obj, create, extracted, **kwargs):
@@ -209,7 +221,9 @@ class SiteFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"site-{x}")
     address = factory.Faker("address")
-    organization = factory.SubFactory(OrganizationFactory)
+    system = factory.RelatedFactory(
+        "core.tests.factories.SystemFactory", factory_related_name="site"
+    )
 
     @factory.post_generation
     def users(obj, create, extracted, **kwargs):
@@ -228,11 +242,19 @@ class ModalityFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda x: f"modality-{x}")
 
 
+class ManufacturerImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ManufacturerImage
+
+    image = "http://example.com/image.jpeg"
+
+
 class ManufacturerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Manufacturer
 
     name = factory.Sequence(lambda x: f"manufacturer-{x}")
+    image = factory.SubFactory(ManufacturerImageFactory)
 
 
 class DocumentationFactory(factory.django.DjangoModelFactory):
@@ -247,6 +269,7 @@ class ProductFactory(factory.django.DjangoModelFactory):
         model = models.Product
 
     name = factory.Sequence(lambda x: f"product-{x}")
+    manufacturer = factory.SubFactory(ManufacturerFactory)
 
 
 class ProductModelFactory(factory.django.DjangoModelFactory):
@@ -258,12 +281,19 @@ class ProductModelFactory(factory.django.DjangoModelFactory):
     documentation = factory.SubFactory(DocumentationFactory)
 
 
+class SystemImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SystemImage
+
+    image = "http://example.com/systemimage.jpeg"
+
+
 class SystemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.System
 
-    site = factory.SubFactory(SiteFactory)
     product_model = factory.SubFactory(ProductModelFactory)
+    image = factory.SubFactory(SystemImageFactory)
     ip_address = "127.0.0.1"
     his_ris_info = {
         "ip": "192.187.23.23",
@@ -280,20 +310,6 @@ class SystemFactory(factory.django.DjangoModelFactory):
     mri_embedded_parameters = {"helium": "Strong", "magnet_pressure": "Low"}
 
 
-class ManufacturerImageFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.ManufacturerImage
-
-    image = "http://example.com/image.jpeg"
-
-
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Note
-
-
-class SystemImageFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.SystemImage
-
-    image = "http://example.com/systemimage.jpeg"

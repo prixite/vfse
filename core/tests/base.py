@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from core import models
 from core.tests import client, factories
 
 
@@ -25,12 +26,15 @@ class BaseTestCase(TestCase):
         self.other_user_admin = factories.UserFactory()
 
         self.default_organization = factories.OrganizationFactory(
+            name="626",
             is_default=True,
+            site__users=[self.super_admin, self.super_manager],
         )
 
         self.organization = factories.OrganizationFactory(
             is_customer=True,
             number_of_seats=1,
+            sites=True,
             fse_admin_roles=[self.fse_admin],
             customer_admin_roles=[self.customer_admin],
             user_admin_roles=[self.user_admin],
@@ -46,9 +50,9 @@ class BaseTestCase(TestCase):
         self.other_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.other_customer_admin],
             user_admin_roles=[self.other_user_admin],
+            sites=True,
             is_customer=True,
         )
-
         self.health_network = factories.HealthNetworkFactory(
             name="Health Network Org",
             organizations=[self.organization],
@@ -56,27 +60,9 @@ class BaseTestCase(TestCase):
             users=[self.customer_admin],
         )
 
-        self.site = factories.SiteFactory(
-            organization=self.organization, users=[self.super_admin, self.super_manager]
-        )
-
-        self.product = factories.ProductFactory(
-            manufacturer=factories.ManufacturerFactory(
-                image=factories.ManufacturerImageFactory()
-            ),
-        )
-
-        self.modality = factories.ModalityFactory()
-        self.system = factories.SystemFactory(
-            site=self.site,
-            image=factories.SystemImageFactory(),
-            product_model=factories.ProductModelFactory(
-                product=self.product,
-                modality=self.modality,
-                documentation=factories.DocumentationFactory(),
-            ),
-        )
-
+        self.site = models.Site.objects.get(organization=self.organization)
+        self.system = models.System.objects.get(site=self.site)
+        self.modality = self.system.product_model.modality
         self.note = factories.SystemNoteFactory(
             system=self.system, author=self.super_admin
         )

@@ -28,13 +28,10 @@ class Command(BaseCommand):
             name="626",
         )
 
-        product = factories.ProductFactory(
-            manufacturer=factories.ManufacturerFactory(),
-        )
-
         organization = factories.OrganizationFactory(
             name="All Data",
             is_customer=True,
+            site__name="All data Site",
             fse_admin_roles=[
                 factories.UserWithPasswordFactory(username="fse-admin@example.com")
             ],
@@ -66,36 +63,85 @@ class Command(BaseCommand):
         health_network = factories.HealthNetworkFactory(
             name="Health Network with Sites",
             organizations=[organization],
+            site__name="sites with Systems",
+            site__system__connection_monitoring=True,
         )
 
         site = factories.SiteFactory(
             name="Sites with Systems",
             organization=health_network,
+            system__connection_monitoring=True,
+        )
+        # Crothal
+        orgnization = factories.OrganizationFactory(
+            name="Crothal",
+            is_customer=True,
+            sites=True,
+            site__name="Crothal Site",
+            site__system__name="Crothal System",
+        )
+        factories.HealthNetworkFactory(
+            name="Crothal Health Network",
+            organizations=[orgnization],
+        )
+        # Alira
+        orgnization = factories.OrganizationFactory(
+            name="Alira Health",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png",
+            is_customer=True,
+            sites=True,
+            site__name="Alira Site",
+            site__system__name="Alira System",
+        )
+        factories.HealthNetworkFactory(
+            name="Alira Health Network",
+            organizations=[orgnization],
+        )
+        # Conni
+        orgnization = factories.OrganizationFactory(
+            name="Conni Health",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/connihealth.png",
+            is_customer=True,
+            sites=True,
+            site__name="Conni Site",
+            site__system__name="Conni System",
+        )
+        factories.HealthNetworkFactory(
+            name="Conni Health Network",
+            organizations=[orgnization],
+        )
+        # Coventry
+        orgnization = factories.OrganizationFactory(
+            name="Conventry Health",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/coventry.png",
+            is_customer=True,
+            sites=True,
+            site__name="Conventry Site",
+            site__system__name="Conventry System",
+        )
+        factories.HealthNetworkFactory(
+            name="Conventry Health Network",
+            organizations=[orgnization],
+        )
+        # Heart Beat
+        orgnization = factories.OrganizationFactory(
+            name="Heartbeat Health",
+            logo=" https://vfse.s3.us-east-2.amazonaws.com/heartbeat.png",
+            is_customer=True,
+            sites=True,
+            site__name="Heartbeat Site",
+            site__system__name="Heartbeat System",
+        )
+        factories.HealthNetworkFactory(
+            name="Heartbeat Health Network",
+            organizations=[orgnization],
         )
 
-        factories.SystemFactory(
-            site=site,
-            product_model=factories.ProductModelFactory(
-                product=product,
-                modality=factories.ModalityFactory(),
-                documentation=factories.DocumentationFactory(),
-            ),
-            connection_monitoring=True,
-        )
-
+        # Bulk Creations
         factories.SystemFactory.create_batch(
             5,
             site=site,
-            product_model=factories.ProductModelFactory(
-                product=factories.ProductFactory(
-                    manufacturer=factories.ManufacturerFactory(),
-                ),
-                modality=factories.ModalityFactory(),
-                documentation=factories.DocumentationFactory(),
-            ),
-            connection_monitoring=True,
         )
-
         factories.OrganizationFactory.create_batch(5, is_customer=True)
         factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
         factories.SiteFactory.create_batch(5, organization=health_network)
