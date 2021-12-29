@@ -1,6 +1,6 @@
 from django.test import TestCase
-from core import models
 
+from core import models
 from core.tests import client, factories
 
 
@@ -26,9 +26,9 @@ class BaseTestCase(TestCase):
         self.other_user_admin = factories.UserFactory()
 
         self.default_organization = factories.OrganizationFactory(
-            name='626',
+            name="626",
             is_default=True,
-            site__users=[self.super_admin,self.super_manager]
+            site__users=[self.super_admin, self.super_manager],
         )
 
         self.organization = factories.OrganizationFactory(
