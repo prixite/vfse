@@ -18,17 +18,19 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         model = models.Organization
 
     name = factory.Sequence(lambda x: f"organization-{x}")
-    appearance = factory.lazy_attribute(lambda obj:{
-        "sidebar_text": "#94989E",
-        "button_text": "#FFFFFF",
-        "sidebar_color": "#142139",
-        "primary_color": "#773CBD",
-        "font_one": "helvetica",
-        "font_two": "calibri",
-        "logo": obj.logo,
-        "banner": "http://example.com/image.jpg",
-        "icon": "http://example.com/icon.ico",
-    })
+    appearance = factory.lazy_attribute(
+        lambda obj: {
+            "sidebar_text": "#94989E",
+            "button_text": "#FFFFFF",
+            "sidebar_color": "#142139",
+            "primary_color": "#773CBD",
+            "font_one": "helvetica",
+            "font_two": "calibri",
+            "logo": obj.logo,
+            "banner": "http://example.com/image.jpg",
+            "icon": "http://example.com/icon.ico",
+        }
+    )
     site = None
 
     @factory.post_generation
@@ -102,7 +104,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         _add_member(obj, extracted, models.Role.CRYO_ADMIN)
 
     class Params:
-        logo = 'https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png'
+        logo = "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
         sites = factory.Trait(
             site=factory.RelatedFactory(
                 "core.tests.factories.SiteFactory", factory_related_name="organization"

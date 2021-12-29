@@ -72,7 +72,7 @@ class Command(BaseCommand):
             organization=health_network,
             system__connection_monitoring=True,
         )
-    # Crothal
+        # Crothal
         orgnization = factories.OrganizationFactory(
             name="Crothal",
             is_customer=True,
@@ -84,10 +84,10 @@ class Command(BaseCommand):
             name="Crothal Health Network",
             organizations=[orgnization],
         )
-    # Alira
+        # Alira
         orgnization = factories.OrganizationFactory(
             name="Alira Health",
-            logo= "https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png",
             is_customer=True,
             sites=True,
             site__name="Alira Site",
@@ -97,7 +97,7 @@ class Command(BaseCommand):
             name="Alira Health Network",
             organizations=[orgnization],
         )
-    # Conni
+        # Conni
         orgnization = factories.OrganizationFactory(
             name="Conni Health",
             logo="https://vfse.s3.us-east-2.amazonaws.com/connihealth.png",
@@ -110,10 +110,10 @@ class Command(BaseCommand):
             name="Conni Health Network",
             organizations=[orgnization],
         )
-    # Coventry
+        # Coventry
         orgnization = factories.OrganizationFactory(
             name="Conventry Health",
-            logo= "https://vfse.s3.us-east-2.amazonaws.com/coventry.png",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/coventry.png",
             is_customer=True,
             sites=True,
             site__name="Conventry Site",
@@ -123,7 +123,7 @@ class Command(BaseCommand):
             name="Conventry Health Network",
             organizations=[orgnization],
         )
-    # Heart Beat
+        # Heart Beat
         orgnization = factories.OrganizationFactory(
             name="Heartbeat Health",
             logo=" https://vfse.s3.us-east-2.amazonaws.com/heartbeat.png",
@@ -137,7 +137,7 @@ class Command(BaseCommand):
             organizations=[orgnization],
         )
 
-    # Bulk Creations
+        # Bulk Creations
         factories.SystemFactory.create_batch(
             5,
             site=site,
