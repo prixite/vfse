@@ -1,10 +1,15 @@
+import { Dispatch, SetStateAction } from "react";
+
 import TextField from "@mui/material/TextField";
 
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import "@src/components/common/Presentational/HealthNetwork/HealthNetwork.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
-const HealthNetwork = ({ setSelectedImage }) => {
+interface HealthNetworkProps {
+  setSelectedImage: Dispatch<SetStateAction<unknown[]>>;
+}
+const HealthNetwork = ({ setSelectedImage }: HealthNetworkProps) => {
   const constantData: object = localizedData()?.healthNetwork;
   const { name, logo } = constantData;
 
