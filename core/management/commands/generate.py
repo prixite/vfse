@@ -72,6 +72,7 @@ class Command(BaseCommand):
             organization=health_network,
             system__connection_monitoring=True,
         )
+    # Crothal
         orgnization = factories.OrganizationFactory(
             name="Crothal",
             is_customer=True,
@@ -83,12 +84,10 @@ class Command(BaseCommand):
             name="Crothal Health Network",
             organizations=[orgnization],
         )
-        # Alira
+    # Alira
         orgnization = factories.OrganizationFactory(
             name="Alira Health",
-            appearance={
-                "logo": "https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png"
-            },
+            logo= "https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png",
             is_customer=True,
             sites=True,
             site__name="Alira Site",
@@ -98,12 +97,10 @@ class Command(BaseCommand):
             name="Alira Health Network",
             organizations=[orgnization],
         )
-        # Conni
+    # Conni
         orgnization = factories.OrganizationFactory(
             name="Conni Health",
-            appearance={
-                "logo": "https://vfse.s3.us-east-2.amazonaws.com/connihealth.png"
-            },
+            logo="https://vfse.s3.us-east-2.amazonaws.com/connihealth.png",
             is_customer=True,
             sites=True,
             site__name="Conni Site",
@@ -113,10 +110,10 @@ class Command(BaseCommand):
             name="Conni Health Network",
             organizations=[orgnization],
         )
-        # Coventry
+    # Coventry
         orgnization = factories.OrganizationFactory(
             name="Conventry Health",
-            appearance={"logo": "https://vfse.s3.us-east-2.amazonaws.com/coventry.png"},
+            logo= "https://vfse.s3.us-east-2.amazonaws.com/coventry.png",
             is_customer=True,
             sites=True,
             site__name="Conventry Site",
@@ -126,12 +123,10 @@ class Command(BaseCommand):
             name="Conventry Health Network",
             organizations=[orgnization],
         )
-
+    # Heart Beat
         orgnization = factories.OrganizationFactory(
             name="Heartbeat Health",
-            appearance={
-                "logo": " https://vfse.s3.us-east-2.amazonaws.com/heartbeat.png"
-            },
+            logo=" https://vfse.s3.us-east-2.amazonaws.com/heartbeat.png",
             is_customer=True,
             sites=True,
             site__name="Heartbeat Site",
@@ -141,11 +136,12 @@ class Command(BaseCommand):
             name="Heartbeat Health Network",
             organizations=[orgnization],
         )
+
+    # Bulk Creations
         factories.SystemFactory.create_batch(
             5,
             site=site,
         )
-
         factories.OrganizationFactory.create_batch(5, is_customer=True)
         factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
         factories.SiteFactory.create_batch(5, organization=health_network)
