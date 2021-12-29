@@ -236,7 +236,7 @@ const AppearanceSection = () => {
                     <em>None</em>
                   </MenuItem>
                   <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                  <MenuItem value={"calibiri"}>Calibiri</MenuItem>
+                  <MenuItem value={"calibri"}>Calibiri</MenuItem>
                   <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
                 </Select>
               </FormControl>
