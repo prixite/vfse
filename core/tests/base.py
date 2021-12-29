@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-from core import models
 from core.tests import client, factories
 
 
@@ -54,13 +53,7 @@ class BaseTestCase(TestCase):
             name="Health Network Org",
             organizations=[self.organization],
             customer_admin_roles=[self.customer_admin],
-        )
-
-        self.user_health_networks = factories.UserHealthNetworkFactory(
-            user=self.customer_admin,
-            organization_health_network=models.OrganizationHealthNetwork.objects.filter(
-                organization=self.organization
-            ).first(),
+            health_network_users=[self.customer_admin],
         )
 
         self.site = factories.SiteFactory(

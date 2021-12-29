@@ -457,7 +457,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/SiteDetail"
+                                "$ref": "#/definitions/Site"
                             }
                         }
                     }
