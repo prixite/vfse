@@ -17,7 +17,7 @@ interface Props {
   setOpen: (arg: boolean) => void;
   setData: (arg: object) => void;
   setList: (arg: { query: string; results?: { name: string }[] }) => void;
-  actualData: { name: string }[];
+  actualData: { name: string; username: string }[];
   searchText: string;
   setSearchText: (arg: string) => void;
   tableColumns: {
@@ -88,9 +88,12 @@ const TopViewBtns = ({
       if (searchQuery?.length > 2) {
         const newList = { query: searchQuery, results: [] };
         const result = actualData?.filter((data) => {
-          return (
-            data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
-          );
+          return path === "users"
+            ? data?.username
+                ?.toLowerCase()
+                .search(searchQuery?.toLowerCase()) != -1
+            : data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !=
+                -1;
         });
         newList.results = result;
         setList(newList);
