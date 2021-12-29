@@ -1,7 +1,9 @@
-from django.core.management import BaseCommand
 import csv
 
+from django.core.management import BaseCommand
+
 from core.tests import factories
+
 
 class Command(BaseCommand):
 
@@ -16,13 +18,13 @@ class Command(BaseCommand):
             for row in file:
                 print(row,'row is here')
 
-                ['system.name', 'organization_name', 'organization.appearance.logo', 'site_name', 'site_address', 'product_name', 'manufacturer_name', 
-                'manufacturer.manufactuter_image', 'product_model', 'modality.name', 'documentation_link', 'system.image', 'system.software_version', 
-                'system.asset_number', 'system.ip_address', 'system.local_ae_title', 'system.serial_number', 'system.location_in_building', 
+                ['system.name', 'organization_name', 'organization.appearance.logo', 'site_name', 'site_address', 'product_name', 'manufacturer_name',
+                'manufacturer.manufactuter_image', 'product_model', 'modality.name', 'documentation_link', 'system.image', 'system.software_version',
+                'system.asset_number', 'system.ip_address', 'system.local_ae_title', 'system.serial_number', 'system.location_in_building',
                 'system.contact_info', 'Seat.system', 'system.virtual_media_control', 'system.service_browser', 'system.ssh', 'system.connection_monitoring']
 
-        ['Name', 'Organization Name', 'Organization Logo URL', 'Site Name', 'Site Address', 'Product Name', 'Manufacturer Name', 'Manufacturer Image URL', 'Product Model', 
-        'Modality', 'Documentation Link', 'Image URL', 'Software Version', 'Asset Number', 'IP Address', 
+        ['Name', 'Organization Name', 'Organization Logo URL', 'Site Name', 'Site Address', 'Product Name', 'Manufacturer Name', 'Manufacturer Image URL', 'Product Model',
+        'Modality', 'Documentation Link', 'Image URL', 'Software Version', 'Asset Number', 'IP Address',
         'Local AE Title', 'Serial Number', 'Location in Building', 'Contact Info', 'vFSE', 'Virtual Media Control', 'Service Web Browser', 'SSH', 'Connection Monitoring']
             factories.OrganizationFactory(
                 name = 'Organization Name',
