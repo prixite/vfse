@@ -179,13 +179,21 @@ class HealthNetworkFactory(OrganizationFactory):
         models.OrganizationHealthNetwork.objects.bulk_create(relations)
 
     @factory.post_generation
-    def health_network_users(obj,create,extracted,**kwargs):
+    def health_network_users(obj, create, extracted, **kwargs):
         if not create:
             return
-        org_health_network = models.OrganizationHealthNetwork.objects.filter(health_network=obj).first()
+        org_health_network = models.OrganizationHealthNetwork.objects.filter(
+            health_network=obj
+        ).first()
         models.UserHealthNetwork.objects.bulk_create(
-            [models.UserHealthNetwork(user=user,organization_health_network=org_health_network) for user in extracted or []]
+            [
+                models.UserHealthNetwork(
+                    user=user, organization_health_network=org_health_network
+                )
+                for user in extracted or []
+            ]
         )
+
 
 class OrganizationHealthNetworkFactory(factory.django.DjangoModelFactory):
     class Meta:
