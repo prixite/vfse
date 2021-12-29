@@ -29,9 +29,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         "banner": "http://example.com/image.jpg",
         "icon": "http://example.com/icon.ico",
     }
-    site = factory.RelatedFactory(
-        "core.tests.factories.SiteFactory", factory_related_name="organization"
-    )
+    site = None
 
     @factory.post_generation
     def fse_admin_roles(obj, create, extracted, **kwargs):
@@ -103,6 +101,13 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
 
         _add_member(obj, extracted, models.Role.CRYO_ADMIN)
 
+    class Params:
+        sites = factory.Trait(
+            site=factory.RelatedFactory(
+                "core.tests.factories.SiteFactory", factory_related_name="organization"
+            )
+        )
+
 
 @factory.django.mute_signals(post_save)
 class UserFactory(factory.django.DjangoModelFactory):
@@ -164,6 +169,7 @@ class MembershipFactory(factory.django.DjangoModelFactory):
 
 class HealthNetworkFactory(OrganizationFactory):
     name = factory.Sequence(lambda x: f"health-network-{x}")
+    sites = False
 
     @factory.post_generation
     def organizations(obj, create, extracted, **kwargs):

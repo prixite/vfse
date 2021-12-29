@@ -34,6 +34,7 @@ class BaseTestCase(TestCase):
         self.organization = factories.OrganizationFactory(
             is_customer=True,
             number_of_seats=1,
+            sites=True,
             fse_admin_roles=[self.fse_admin],
             customer_admin_roles=[self.customer_admin],
             user_admin_roles=[self.user_admin],
@@ -49,6 +50,7 @@ class BaseTestCase(TestCase):
         self.other_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.other_customer_admin],
             user_admin_roles=[self.other_user_admin],
+            sites=True,
             is_customer=True,
         )
         self.health_network = factories.HealthNetworkFactory(
@@ -56,8 +58,8 @@ class BaseTestCase(TestCase):
             organizations=[self.organization],
             customer_admin_roles=[self.customer_admin],
         )
-        
-        self.site = models.Site.objects.get(organization=self.organization)        
+
+        self.site = models.Site.objects.get(organization=self.organization)
         self.system = models.System.objects.get(site=self.site)
         self.modality = self.system.product_model.modality
         self.note = factories.SystemNoteFactory(
