@@ -67,6 +67,8 @@ class Command(BaseCommand):
         health_network = factories.HealthNetworkFactory(
             name="Health Network with Sites",
             organizations=[organization],
+            site__name="sites with Systems",
+            site__system__connection_monitoring=True,
         )
 
         site = factories.SiteFactory(

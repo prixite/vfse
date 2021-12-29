@@ -51,24 +51,15 @@ class BaseTestCase(TestCase):
             user_admin_roles=[self.other_user_admin],
             is_customer=True,
         )
-
         self.health_network = factories.HealthNetworkFactory(
             name="Health Network Org",
             organizations=[self.organization],
             customer_admin_roles=[self.customer_admin],
         )
-
-        self.site = models.Site.objects.get(organization=self.organization)
-
-        self.product = factories.ProductFactory(
-            manufacturer=factories.ManufacturerFactory(
-                image=factories.ManufacturerImageFactory()
-            ),
-        )
-
-        self.modality = factories.ModalityFactory()
+        
+        self.site = models.Site.objects.get(organization=self.organization)        
         self.system = models.System.objects.get(site=self.site)
-
+        self.modality = self.system.product_model.modality
         self.note = factories.SystemNoteFactory(
             system=self.system, author=self.super_admin
         )
