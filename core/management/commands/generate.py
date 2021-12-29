@@ -28,27 +28,12 @@ class Command(BaseCommand):
             name="626",
         )
 
-        factories.OrganizationFactory(
-            name="Other Organization",
-            is_customer=True,
-            customer_admin_roles=[
-                factories.UserWithPasswordFactory(
-                    username="other-customer-admin@example.com"
-                )
-            ],
-            user_admin_roles=[
-                factories.UserWithPasswordFactory(
-                    username="other-user-admin@example.com"
-                )
-            ],
-        )
-
         product = factories.ProductFactory(
             manufacturer=factories.ManufacturerFactory(),
         )
 
         organization = factories.OrganizationFactory(
-            name="Organization",
+            name="All Data",
             is_customer=True,
             fse_admin_roles=[
                 factories.UserWithPasswordFactory(username="fse-admin@example.com")
@@ -78,11 +63,18 @@ class Command(BaseCommand):
             ],
         )
 
+        health_network = factories.HealthNetworkFactory(
+            name="Health Network with Sites",
+            organizations=[organization],
+        )
+
+        site = factories.SiteFactory(
+            name="Sites with Systems",
+            organization=health_network,
+        )
+
         factories.SystemFactory(
-            name="System object 1",
-            site=factories.SiteFactory(
-                organization=factories.HealthNetworkFactory(),
-            ),
+            site=site,
             product_model=factories.ProductModelFactory(
                 product=product,
                 modality=factories.ModalityFactory(),
@@ -91,27 +83,21 @@ class Command(BaseCommand):
             connection_monitoring=True,
         )
 
-        test_health_network = factories.HealthNetworkFactory(
-            name="Test Health Network",
-            organizations=[organization],
-        )
-        test_site = factories.SiteFactory.create(
-            name="Test Site", organization=test_health_network
-        )
-        factories.SiteFactory.create_batch(19, organization=test_health_network)
-
         factories.SystemFactory.create_batch(
-            20,
-            site=test_site,
+            5,
+            site=site,
             product_model=factories.ProductModelFactory(
                 product=factories.ProductFactory(
-                    manufacturer=factories.ManufacturerFactory()
+                    manufacturer=factories.ManufacturerFactory(),
                 ),
                 modality=factories.ModalityFactory(),
                 documentation=factories.DocumentationFactory(),
             ),
+            connection_monitoring=True,
         )
-        factories.OrganizationFactory.create_batch(20, is_customer=True)
-        factories.HealthNetworkFactory.create_batch(19, organizations=[organization])
+
+        factories.OrganizationFactory.create_batch(5, is_customer=True)
+        factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
+        factories.SiteFactory.create_batch(5, organization=health_network)
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
