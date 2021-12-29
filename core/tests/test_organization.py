@@ -345,13 +345,12 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
 
-        site = factories.SiteFactory(name="Test Site", address="Mars")
         response = self.client.put(
             f"/api/organizations/{self.organization.id}/sites/",
             data={
                 "sites": [
-                    {"name": site.name, "address": site.address},
-                    {"name": "2nd Test Site", "address": "Milky Way"},
+                    {"name": "1nd Test Site", "address": "Milky Way"},
+                    {"name": "2nd Test Site", "address": "Coma Cluster"},
                 ]
             },
         )

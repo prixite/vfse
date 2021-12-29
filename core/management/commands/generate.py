@@ -35,6 +35,7 @@ class Command(BaseCommand):
         organization = factories.OrganizationFactory(
             name="All Data",
             is_customer=True,
+            site__name="All data Site",
             fse_admin_roles=[
                 factories.UserWithPasswordFactory(username="fse-admin@example.com")
             ],
@@ -71,6 +72,7 @@ class Command(BaseCommand):
         site = factories.SiteFactory(
             name="Sites with Systems",
             organization=health_network,
+            system__connection_monitoring=True,
         )
 
         factories.SystemFactory(

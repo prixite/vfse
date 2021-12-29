@@ -5,7 +5,7 @@ from core import models
 
 
 def _add_member(organization, users, role):
-    for user in users or []:
+    for user in users or []: 
         MembershipFactory(
             organization=organization,
             user=user,
@@ -29,6 +29,8 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         "banner": "http://example.com/image.jpg",
         "icon": "http://example.com/icon.ico",
     }
+    site = factory.RelatedFactory('core.tests.factories.SiteFactory',factory_related_name='organization')
+
 
     @factory.post_generation
     def fse_admin_roles(obj, create, extracted, **kwargs):
@@ -99,7 +101,6 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
             return
 
         _add_member(obj, extracted, models.Role.CRYO_ADMIN)
-
 
 @factory.django.mute_signals(post_save)
 class UserFactory(factory.django.DjangoModelFactory):
@@ -193,7 +194,7 @@ class SiteFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"site-{x}")
     address = factory.Faker("address")
-    organization = factory.SubFactory(OrganizationFactory)
+    system = factory.RelatedFactory('core.tests.factories.SystemFactory',factory_related_name='site')
 
     @factory.post_generation
     def users(obj, create, extracted, **kwargs):
@@ -211,13 +212,19 @@ class ModalityFactory(factory.django.DjangoModelFactory):
 
     name = factory.Sequence(lambda x: f"modality-{x}")
 
+class ManufacturerImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ManufacturerImage
+
+    image = "http://example.com/image.jpeg"
+
 
 class ManufacturerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Manufacturer
 
     name = factory.Sequence(lambda x: f"manufacturer-{x}")
-
+    image = factory.SubFactory(ManufacturerImageFactory)
 
 class DocumentationFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -231,7 +238,7 @@ class ProductFactory(factory.django.DjangoModelFactory):
         model = models.Product
 
     name = factory.Sequence(lambda x: f"product-{x}")
-
+    manufacturer = factory.SubFactory(ManufacturerFactory)
 
 class ProductModelFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -241,13 +248,18 @@ class ProductModelFactory(factory.django.DjangoModelFactory):
     modality = factory.SubFactory(ModalityFactory)
     documentation = factory.SubFactory(DocumentationFactory)
 
+class SystemImageFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.SystemImage
+
+    image = "http://example.com/systemimage.jpeg"
 
 class SystemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.System
 
-    site = factory.SubFactory(SiteFactory)
     product_model = factory.SubFactory(ProductModelFactory)
+    image = factory.SubFactory(SystemImageFactory)
     ip_address = "127.0.0.1"
     his_ris_info = {
         "ip": "192.187.23.23",
@@ -263,21 +275,6 @@ class SystemFactory(factory.django.DjangoModelFactory):
     }
     mri_embedded_parameters = {"helium": "Strong", "magnet_pressure": "Low"}
 
-
-class ManufacturerImageFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.ManufacturerImage
-
-    image = "http://example.com/image.jpeg"
-
-
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Note
-
-
-class SystemImageFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.SystemImage
-
-    image = "http://example.com/systemimage.jpeg"

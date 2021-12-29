@@ -1,4 +1,5 @@
 from django.test import TestCase
+from core import models
 
 from core.tests import client, factories
 
@@ -25,7 +26,9 @@ class BaseTestCase(TestCase):
         self.other_user_admin = factories.UserFactory()
 
         self.default_organization = factories.OrganizationFactory(
+            name='626',
             is_default=True,
+            site__users=[self.super_admin,self.super_manager]
         )
 
         self.organization = factories.OrganizationFactory(
@@ -55,9 +58,7 @@ class BaseTestCase(TestCase):
             customer_admin_roles=[self.customer_admin],
         )
 
-        self.site = factories.SiteFactory(
-            organization=self.organization, users=[self.super_admin, self.super_manager]
-        )
+        self.site = models.Site.objects.get(organization=self.organization)
 
         self.product = factories.ProductFactory(
             manufacturer=factories.ManufacturerFactory(
@@ -66,15 +67,7 @@ class BaseTestCase(TestCase):
         )
 
         self.modality = factories.ModalityFactory()
-        self.system = factories.SystemFactory(
-            site=self.site,
-            image=factories.SystemImageFactory(),
-            product_model=factories.ProductModelFactory(
-                product=self.product,
-                modality=self.modality,
-                documentation=factories.DocumentationFactory(),
-            ),
-        )
+        self.system = models.System.objects.get(site=self.site)
 
         self.note = factories.SystemNoteFactory(
             system=self.system, author=self.super_admin
