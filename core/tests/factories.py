@@ -184,7 +184,7 @@ class HealthNetworkFactory(OrganizationFactory):
             return
         org_health_network = models.OrganizationHealthNetwork.objects.filter(health_network=obj).first()
         models.UserHealthNetwork.objects.bulk_create(
-            [models.UserHealthNetwork(user=user,organization_health_network=org_health_network) for user in extracted]
+            [models.UserHealthNetwork(user=user,organization_health_network=org_health_network) for user in extracted or []]
         )
 
 class OrganizationHealthNetworkFactory(factory.django.DjangoModelFactory):
