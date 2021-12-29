@@ -51,7 +51,13 @@ class User(AbstractUser):
 
     def get_organization_health_networks(self, organization_pk):
         return OrganizationHealthNetwork.objects.filter(
-            organization=organization_pk, organization__in=self.get_organizations()
+            organization=organization_pk,
+            organization__in=self.get_organizations().filter(
+                organization__is_customer=True
+            ),
+            id__in=UserHealthNetwork.objects.filter(user=self).values_list(
+                "organization_health_network", flat=True
+            ),
         ).values_list("health_network")
 
     class Meta:
