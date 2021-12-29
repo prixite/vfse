@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppSelector } from "@src/store/hooks";
+
 import {
   TextField,
   Select,
@@ -12,15 +12,17 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
-import Button from "@mui/material/Button";
 import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/AddUser/AddUser.scss";
 
 const mockData = {
