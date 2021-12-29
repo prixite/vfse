@@ -107,6 +107,8 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
+    serializer_class = serializers.SiteSerializer
+
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Site.objects.none()
@@ -129,7 +131,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":
             return serializers.OrganizationSiteSerializer
-        return serializers.SiteDetailSerializer
+        return super().get_serializer_class(*args, **kwargs)
 
     def perform_update(self, serializer):
         names = []

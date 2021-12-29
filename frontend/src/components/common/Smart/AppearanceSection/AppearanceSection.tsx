@@ -9,9 +9,12 @@ import {
   FormControl,
   Button,
 } from "@mui/material";
+import { Buffer } from "buffer";
 
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
+import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { updateOrganizationColor } from "@src/services/organizationService";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
@@ -28,12 +31,15 @@ import {
   updateFontOne,
   updateFontTwo,
 } from "@src/store/reducers/themeStore";
+
+window.Buffer = window.Buffer || Buffer;
 const AppearanceSection = () => {
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
   const { refetch: refetchOrgList } = useOrganizationsListQuery({
     page: 1,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState([]);
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -79,6 +85,21 @@ const AppearanceSection = () => {
 
   const updateAppearance = async () => {
     setIsLoading(() => true);
+    if (selectedImage && selectedImage.length) {
+      currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
+        .then((data) => {
+          currentOrganiationDummyData.appearance.banner = data?.location;
+          currentOrganiationDummyData.appearance.logo = data?.location;
+          currentOrganiationDummyData.appearance.icon = data?.location;
+          dispatch(
+            setSelectedOrganization({
+              selectedOrganization: currentOrganiationDummyData,
+            })
+          );
+          return currentOrganiationDummyData;
+        })
+        .catch(() => currentOrganiationDummyData); // eslint-disable-line no-unused-vars
+    }
     await updateOrganizationColor(
       organizationsPartialUpdate,
       currentOrganiationDummyData,
@@ -160,7 +181,10 @@ const AppearanceSection = () => {
             <Box component="div" className="clientLogo">
               <h4 className="labels">Logo</h4>
               <Box component="div" className="logo">
-                <img src={selectedOrganization?.appearance?.logo} />
+                <DropzoneBox
+                  setSelectedImage={setSelectedImage}
+                  imgSrc={selectedOrganization?.appearance?.logo}
+                />
               </Box>
             </Box>
             <Box component="div" className="colorSection">
