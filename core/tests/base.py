@@ -53,7 +53,7 @@ class BaseTestCase(TestCase):
             name="Health Network Org",
             organizations=[self.organization],
             customer_admin_roles=[self.customer_admin],
-            health_network_users=[self.customer_admin],
+            users=[self.customer_admin],
         )
 
         self.site = factories.SiteFactory(

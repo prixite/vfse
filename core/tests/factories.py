@@ -179,7 +179,7 @@ class HealthNetworkFactory(OrganizationFactory):
         models.OrganizationHealthNetwork.objects.bulk_create(relations)
 
     @factory.post_generation
-    def health_network_users(obj, create, extracted, **kwargs):
+    def users(obj, create, extracted, **kwargs):
         if not create:
             return
         org_health_network = models.OrganizationHealthNetwork.objects.filter(
