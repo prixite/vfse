@@ -94,7 +94,6 @@ class Command(BaseCommand):
             site__name="Alira Site",
             site__system__name="Alira System",
             site__system__sites=True,
-
         )
         factories.HealthNetworkFactory(
             name="Alira Health Network",
