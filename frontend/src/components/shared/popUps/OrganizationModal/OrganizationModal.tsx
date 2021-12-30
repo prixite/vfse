@@ -18,21 +18,15 @@ import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/Dropz
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import {
-  updateOrganizationService,
-  addNewOrganizationService,
-} from "@src/services/organizationService";
+import { updateOrganizationService } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
-import {
-  useOrganizationsCreateMutation,
-  useOrganizationsPartialUpdateMutation,
-} from "@src/store/reducers/api";
+import { useOrganizationsPartialUpdateMutation } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
 window.Buffer = window.Buffer || Buffer;
 export default function OrganizationModal(props) {
-  const [addNewOrganization] = useOrganizationsCreateMutation();
+  //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
   const [organizationSeats, setOrganizationSeats] = useState("");
@@ -45,7 +39,20 @@ export default function OrganizationModal(props) {
   const [sidebarTextColor, setSidebarTextColor] = useState("ffff");
   const [ButtonTextColor, setButtonTextColor] = useState("ffff");
   const [ButtonColor, setButtonColor] = useState("ffff");
+  const [fontOne, setFontOne] = useState("");
+  const [fontTwo, setFontTwo] = useState("");
 
+  useEffect(() => {
+    if (props?.organization) {
+      setOrganizationName(props.organization?.name);
+      setSidebarColor(props?.organization?.appearance?.sidebar_color);
+      setSidebarTextColor(props?.organization?.appearance?.sidebar_text);
+      setButtonTextColor(props?.organization?.appearance?.button_text);
+      setButtonColor(props?.organization?.appearance?.primary_color);
+      setFontOne(props?.organization?.appearance?.font_one);
+      setFontTwo(props?.organization?.appearance?.font_two);
+    }
+  }, [props?.organization]);
   const {
     popUpNewOrganization,
     newOrganizationPageTrackerdesc1,
@@ -88,39 +95,30 @@ export default function OrganizationModal(props) {
   };
 
   const handleSetNewOrganization = async () => {
-    if (props?.organization?.id) {
-      const { id, ...organization } = props.organization;
-      await updateOrganizationService(
-        id,
-        organization,
-        updateOrganization,
-        props.refetch
-      );
-      toast.success("Organization successfully updated");
-    } else {
-      if (!organizationName) {
-        setOrganizationError("This value is required");
-      }
-      if (!selectedImage.length) {
-        setImageError("Image is not selected");
-      }
-      if (organizationName && selectedImage.length) {
-        const organizationObject = getOrganizationObject();
-        uploadImageToS3(selectedImage[0]).then(async (data) => {
-          organizationObject.appearance.banner = data?.location;
-          organizationObject.appearance.logo = data?.location;
-          organizationObject.appearance.icon = data?.location;
-          if (organizationObject?.appearance.banner) {
-            await addNewOrganizationService(
-              organizationObject,
-              addNewOrganization,
-              props.refetch
-            )
-              .then(() => toast.success("Organization successfully added"))
-              .catch((error) => setOrganizationError(error?.data?.name));
-          }
-        });
-      }
+    const { id } = props.organization;
+    if (!organizationName) {
+      setOrganizationError("This value is required");
+    }
+    if (!selectedImage.length) {
+      setImageError("Image is not selected");
+    }
+    if (organizationName && selectedImage.length) {
+      const organizationObject = getOrganizationObject();
+      uploadImageToS3(selectedImage[0]).then(async (data) => {
+        organizationObject.appearance.banner = data?.location;
+        organizationObject.appearance.logo = data?.location;
+        organizationObject.appearance.icon = data?.location;
+        if (organizationObject?.appearance.banner || organizationObject) {
+          await updateOrganizationService(
+            id,
+            organizationObject,
+            updateOrganization,
+            props.refetch
+          )
+            .then(() => toast.success("Organization successfully Updated"))
+            .catch((error) => setOrganizationError(error?.response));
+        }
+      });
     }
   };
 
@@ -132,6 +130,12 @@ export default function OrganizationModal(props) {
 
   const changeButtonTextColor = (color: string) => setButtonTextColor(color);
 
+  const onChangeFontOne = (event) => {
+    setFontOne(event.target.value);
+  };
+  const onChangeFontTwo = (event) => {
+    setFontTwo(event.target.value);
+  };
   const addNetworks = () => {
     setNetworks([...networks, networks.length]);
   };
@@ -145,8 +149,8 @@ export default function OrganizationModal(props) {
         button_text: ButtonTextColor,
         sidebar_color: sidebarColor,
         primary_color: ButtonColor,
-        font_one: "ProximaNova-Regular",
-        font_two: "ProximaNova-Regular",
+        font_one: fontOne,
+        font_two: fontTwo,
       },
     };
   };
@@ -283,17 +287,20 @@ export default function OrganizationModal(props) {
                     <Box component="div" className="font-section">
                       <FormControl sx={{ minWidth: 195 }}>
                         <Select
-                          value=""
+                          value={fontOne}
                           displayEmpty
                           inputProps={{ "aria-label": "Without label" }}
                           style={{ height: "48px", marginRight: "15px" }}
+                          onChange={onChangeFontOne}
                         >
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          <MenuItem value={10}>Font 1</MenuItem>
-                          <MenuItem value={20}>Font 2</MenuItem>
-                          <MenuItem value={30}>Font 3</MenuItem>
+                          <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                          <MenuItem value={"calibri"}>Calibri</MenuItem>
+                          <MenuItem value={"ProximaNova-Regular"}>
+                            ProximaNova
+                          </MenuItem>
                         </Select>
                       </FormControl>
                     </Box>
@@ -304,17 +311,20 @@ export default function OrganizationModal(props) {
                     <Box component="div" className="font-section">
                       <FormControl sx={{ minWidth: 195 }}>
                         <Select
-                          value=""
+                          value={fontTwo}
                           displayEmpty
                           inputProps={{ "aria-label": "Without label" }}
                           style={{ height: "48px", marginRight: "15px" }}
+                          onChange={onChangeFontTwo}
                         >
                           <MenuItem value="">
                             <em>None</em>
                           </MenuItem>
-                          <MenuItem value={10}>Font 1</MenuItem>
-                          <MenuItem value={20}>Font 2</MenuItem>
-                          <MenuItem value={30}>Font 3</MenuItem>
+                          <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                          <MenuItem value={"calibri"}>Calibri</MenuItem>
+                          <MenuItem value={"ProximaNova-Regular"}>
+                            ProximaNova
+                          </MenuItem>
                         </Select>
                       </FormControl>
                     </Box>

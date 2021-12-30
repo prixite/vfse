@@ -24,6 +24,7 @@ import NumberIcon from "@src/assets/svgs/number.svg";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/AddUser/AddUser.scss";
+import { Organization } from "@src/store/reducers/api";
 
 const mockData = {
   healthNetworks: [
@@ -60,6 +61,7 @@ interface Props {
   add: (arg: { username: string; email: string }) => void;
   open: boolean;
   handleClose: () => void;
+  organization: Organization;
 }
 
 export default function AddUser(props: Props) {
@@ -68,6 +70,7 @@ export default function AddUser(props: Props) {
   const [customer, setCustomer] = useState(10);
   const [page, setPage] = useState("1");
   const [data, setData] = useState(mockData);
+  console.log(setData); // eslint-disable-line no-console
   const [formats, setFormats] = useState([]);
   const constantData: object = localizedData()?.users?.popUp;
   const {
@@ -105,7 +108,9 @@ export default function AddUser(props: Props) {
     setCustomer(event.target.value);
   };
 
-  const handleCheckChange = (event) => {};
+  const handleCheckChange = () => {
+    return null;
+  };
 
   const handleFormat = (event, newFormats) => {
     setFormats(newFormats);
@@ -248,15 +253,16 @@ export default function AddUser(props: Props) {
             <>
               <div>
                 <p className="info-label">Health Network Access</p>
-                {data.healthNetworks.map((item) => (
-                  <div>
+                {data.healthNetworks.map((item, key) => (
+                  <div key={key}>
                     <details className="network-details">
                       <summary className="header">
                         <span className="title">{item.name}</span>
                         <span className="checked-ratio">{`0/${item.locations.length}`}</span>
                       </summary>
-                      {item.locations.map((loc) => (
+                      {item.locations.map((loc, key) => (
                         <FormGroup
+                          key={key}
                           style={{ marginLeft: "20px" }}
                           className="options"
                         >
@@ -287,8 +293,8 @@ export default function AddUser(props: Props) {
                   aria-label="text formatting"
                   style={{ flexWrap: "wrap" }}
                 >
-                  {data.modalities.map((item) => (
-                    <ToggleButton value={item} className="toggle-btn">
+                  {data.modalities.map((item, key) => (
+                    <ToggleButton key={key} value={item} className="toggle-btn">
                       {item}
                     </ToggleButton>
                   ))}

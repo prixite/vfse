@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 
 import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
-import NewHealthNetwotkModal from "@src/components/shared/popUps/NewHealthNetworkModal/NewHealthNetworkModal";
 import { constants } from "@src/helpers/utils/constants";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
@@ -47,6 +46,7 @@ const ClientCard = ({
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openNetworkModal, setOpenNetworkModal] = useState(false);
+  console.log(openNetworkModal); // eslint-disable-line no-console
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute } = constants;
@@ -58,7 +58,7 @@ const ClientCard = ({
   const handleModalClose = () => {
     setOpenModal(false);
   };
-  const handleNetworkModalClose = () => setOpenNetworkModal(false);
+  //const handleNetworkModalClose = () => setOpenNetworkModal(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
