@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0049_alter_system_site'),
+        ("core", "0049_alter_system_site"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='system',
-            name='service_web_browser',
+            model_name="system",
+            name="service_web_browser",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='system',
-            name='ssh',
+            model_name="system",
+            name="ssh",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='system',
-            name='virtual_media_control',
+            model_name="system",
+            name="virtual_media_control",
             field=models.BooleanField(default=False),
         ),
     ]

@@ -284,7 +284,8 @@ class ProductModelFactory(factory.django.DjangoModelFactory):
 class SeatFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Seat
-    
+
+
 class SystemImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemImage
@@ -312,7 +313,13 @@ class SystemFactory(factory.django.DjangoModelFactory):
         "port": 2850,
     }
     mri_embedded_parameters = {"helium": "Strong", "magnet_pressure": "Low"}
-    seat = factory.RelatedFactory(SeatFactory,factory_related_name='system',organization=factory.SelfAttribute('..site.organization'))        
+    seat = factory.RelatedFactory(
+        SeatFactory,
+        factory_related_name="system",
+        organization=factory.SelfAttribute("..site.organization"),
+    )
+
+
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Note
