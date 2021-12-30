@@ -10,7 +10,7 @@ import ColumnSelector from "@src/components/common/Presentational/ColumnSelector
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
-import { openAddModal } from "@src/store/reducers/appStore";
+import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
 
 interface Props {
   path: string;
@@ -73,6 +73,9 @@ const TopViewBtns = ({
   const handleModal = () => {
     if (path === "users") {
       setOpen(true);
+      setData(null);
+    } else if (path === "modality") {
+      dispatch(openNetworkModal());
       setData(null);
     } else if (path !== "organizations") {
       setOpen(true);
