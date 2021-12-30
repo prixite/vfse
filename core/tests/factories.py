@@ -313,11 +313,15 @@ class SystemFactory(factory.django.DjangoModelFactory):
         "port": 2850,
     }
     mri_embedded_parameters = {"helium": "Strong", "magnet_pressure": "Low"}
-    seat = factory.RelatedFactory(
+    
+    class Params:
+        sites = factory.Trait(
+            seat = factory.RelatedFactory(
         SeatFactory,
         factory_related_name="system",
         organization=factory.SelfAttribute("..site.organization"),
     )
+        )
 
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:

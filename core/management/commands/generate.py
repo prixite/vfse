@@ -79,6 +79,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Crothal Site",
             site__system__name="Crothal System",
+            site__system__sites=True,
         )
         factories.HealthNetworkFactory(
             name="Crothal Health Network",
@@ -92,6 +93,8 @@ class Command(BaseCommand):
             sites=True,
             site__name="Alira Site",
             site__system__name="Alira System",
+            site__system__sites=True,
+
         )
         factories.HealthNetworkFactory(
             name="Alira Health Network",
@@ -105,6 +108,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Conni Site",
             site__system__name="Conni System",
+            site__system__sites=True,
         )
         factories.HealthNetworkFactory(
             name="Conni Health Network",
@@ -118,6 +122,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Conventry Site",
             site__system__name="Conventry System",
+            site__system__sites=True,
         )
         factories.HealthNetworkFactory(
             name="Conventry Health Network",
@@ -131,6 +136,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Heartbeat Site",
             site__system__name="Heartbeat System",
+            site__system__sites=True,
         )
         factories.HealthNetworkFactory(
             name="Heartbeat Health Network",
