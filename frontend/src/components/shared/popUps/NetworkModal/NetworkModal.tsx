@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -11,15 +11,16 @@ import { toast } from "react-toastify";
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
-  addNewOrganizationService,
+  //addNewOrganizationService,
 } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
 import {
   Organization,
-  useOrganizationsCreateMutation,
+  //useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 
@@ -29,14 +30,21 @@ import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
 interface Props {
   organization: Organization;
+  setOrganization: (arg: object) => void;
   refetch: () => void;
   open: boolean;
   handleClose: () => void;
 }
 
 export default function NetworkModal(props: Props) {
-  const [addNewOrganization] = useOrganizationsCreateMutation();
+  const { currentOrganization } = useAppSelector((state) => state.organization);
+  const { appearance } = currentOrganization;
+  //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const [networkName, setNetworkName] = useState("");
+  const [networkError, setNetworkError] = useState("");
+  const [selectedImage, setSelectedImage] = useState([]);
+  const [imageError, setImageError] = useState("");
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -50,25 +58,65 @@ export default function NetworkModal(props: Props) {
     newNetworkBtnCancel,
   } = localizedData().modalities.popUp;
 
-  const handleSetNewOrganization = async () => {
-    if (props.organization.id) {
-      const { id, ...organization } = props.organization;
-      await updateOrganizationService(
-        id,
-        organization,
-        updateOrganization,
-        props.refetch
-      );
-      toast.success("Network successfully updated");
+  useEffect(() => {
+    if (props?.organization) {
+      setNetworkName(props.organization?.name);
     } else {
-      await addNewOrganizationService(
-        props.organization,
-        addNewOrganization,
-        props.refetch
-      );
-      toast.success("Network successfully added");
+      setNetworkName("");
     }
-    props.handleClose();
+  }, [props?.organization]);
+
+  const handleNetworkName = (event) => {
+    if (event.target.value.length) {
+      setNetworkError("");
+    }
+    setNetworkName(event.target.value);
+  };
+
+  const handleSetNewOrganization = async () => {
+    const { id } = props.organization;
+    if (!networkName) {
+      setNetworkError("This value is required");
+    }
+    if (!selectedImage.length) {
+      setImageError("Image is not selected");
+    }
+    if (networkName && selectedImage.length) {
+      const organizationObject = getOrganizationObject();
+      uploadImageToS3(selectedImage[0]).then(async (data) => {
+        organizationObject.appearance.banner = data?.location;
+        organizationObject.appearance.logo = data?.location;
+        organizationObject.appearance.icon = data?.location;
+        if (organizationObject?.appearance.banner || organizationObject) {
+          await updateOrganizationService(
+            id,
+            organizationObject,
+            updateOrganization,
+            props.refetch
+          )
+            .then(() => {
+              toast.success("Organization successfully Updated");
+              props.handleClose();
+            })
+            .catch((error) => setNetworkError(error?.response));
+        }
+      });
+    }
+  };
+
+  const getOrganizationObject = () => {
+    return {
+      name: networkName,
+      number_of_seats: null,
+      appearance: {
+        sidebar_text: appearance.sidebar_text,
+        button_text: appearance.button_text,
+        sidebar_color: appearance.sidebar_color,
+        primary_color: appearance.primary_color,
+        font_one: appearance.font_one,
+        font_two: appearance.font_two,
+      },
+    };
   };
 
   const addSite = () => {
@@ -99,14 +147,22 @@ export default function NetworkModal(props: Props) {
         <div className="modal-content">
           <div>
             <p className="dropzone-title">{newNetworkLogo}</p>
-            <DropzoneBox />
+            <DropzoneBox setSelectedImage={setSelectedImage} />
+            {imageError?.length ? (
+              <p className="errorText">{imageError}</p>
+            ) : (
+              ""
+            )}
           </div>
           <div className="network-info">
             <p className="info-label">{newNetworkName}</p>
             <TextField
               className="info-field"
               variant="outlined"
+              value={networkName}
               placeholder="Enter name here"
+              onChange={handleNetworkName}
+              helperText={networkError}
             />
           </div>
           {sites.map((site, index) => (

@@ -24,8 +24,13 @@
     &__Logo {
       display: flex;
       justify-content: center;
-      align-items: center;
-      margin-top: 32px;
+      align-items: flex-start;
+      margin-top: 22px;
+      height: 100px;
+      img {
+        object-fit: scale-down;
+        height: inherit;
+      }
     }
     .location-logo {
       position: absolute;

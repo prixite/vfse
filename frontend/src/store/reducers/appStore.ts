@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   openAddClientModal: false,
+  openAddNetworkModal: false,
 };
 
 export const appSlice = createSlice({
@@ -14,8 +15,19 @@ export const appSlice = createSlice({
     closeAddModal: (state) => {
       state.openAddClientModal = false;
     },
+    openNetworkModal: (state) => {
+      state.openAddNetworkModal = true;
+    },
+    closeNetworkModal: (state) => {
+      state.openAddNetworkModal = false;
+    },
   },
 });
 
-export const { openAddModal, closeAddModal } = appSlice.actions;
+export const {
+  openAddModal,
+  closeAddModal,
+  openNetworkModal,
+  closeNetworkModal,
+} = appSlice.actions;
 export default appSlice.reducer;
