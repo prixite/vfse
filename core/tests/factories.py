@@ -319,7 +319,6 @@ class SystemFactory(factory.django.DjangoModelFactory):
         organization=factory.SelfAttribute("..site.organization"),
     )
 
-
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Note
