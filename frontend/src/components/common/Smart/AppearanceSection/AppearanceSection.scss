@@ -45,6 +45,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          border-radius: 8px;
+          overflow: hidden;
         }
       }
       .colorSection {
@@ -52,9 +54,10 @@
         flex-direction: column;
         align-items: center;
         margin-top: 20px;
+        width: 60%;
         .appearanceColorSection {
           margin-left: 28px;
-          margin-right: 22px;
+          margin-right: 5px;
           margin-bottom: 18px;
         }
       }
