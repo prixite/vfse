@@ -220,7 +220,9 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
 
         membership = models.Membership.objects.filter(
             organization=self.kwargs["pk"],
-            organization__in=self.request.user.get_organizations(role=[models.Role.USER_ADMIN]),
+            organization__in=self.request.user.get_organizations(
+                role=[models.Role.USER_ADMIN]
+            ),
         )
 
         return models.User.objects.filter(id__in=membership.values_list("user"))
@@ -228,13 +230,10 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
     @transaction.atomic
     def perform_create(self, serializer):
         # TODO: Add permission class to allow only user admin
-        for data in serializer.validated_data['memberships']:
+        for data in serializer.validated_data["memberships"]:
             user = models.User.objects.create_user(
                 username=data["email"],
-                **{
-                    key: data[key]
-                    for key in ["email", "first_name", "last_name"]
-                }
+                **{key: data[key] for key in ["email", "first_name", "last_name"]}
             )
             self.create_membership(data, user.id)
             self.update_profile(data, user.id)

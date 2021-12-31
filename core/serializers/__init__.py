@@ -1,5 +1,4 @@
 import re
-from django.db.models import fields
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -256,10 +255,12 @@ class UpsertUserSerializer(serializers.Serializer):
 
 
 class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
-    memberships = UpsertUserSerializer(many=True,write_only=True)
+    memberships = UpsertUserSerializer(many=True, write_only=True)
+
     class Meta:
         model = models.Organization
-        fields = ['id','memberships']
+        fields = ["id", "memberships"]
+
 
 class UserDeactivateSerializer(serializers.Serializer):
     users = serializers.PrimaryKeyRelatedField(
