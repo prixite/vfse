@@ -11,31 +11,31 @@ class UserOganizationMixin:
 
 
 class UserMixin:
-    def create_membership(self, serializer, user_id):
+    def create_membership(self, data, user_id):
         models.Membership.objects.create(
-            organization=serializer.validated_data["organization"],
-            role=serializer.validated_data["role"],
+            organization=data["organization"],
+            role=data["role"],
             user_id=user_id,
         )
 
-    def add_sites(self, serializer, user_id):
+    def add_sites(self, data, user_id):
         sites = [
             models.UserSite(user_id=user_id, site=site)
-            for site in serializer.validated_data["sites"]
+            for site in data["sites"]
         ]
         models.UserSite.objects.bulk_create(sites)
 
-    def add_modalities(self, serializer, user_id):
+    def add_modalities(self, data, user_id):
         modalities = [
             models.UserModality(user_id=user_id, modality=modality)
-            for modality in serializer.validated_data["modalities"]
+            for modality in data["modalities"]
         ]
         models.UserModality.objects.bulk_create(modalities)
 
-    def update_profile(self, serializer, user_id):
+    def update_profile(self, data, user_id):
         models.Profile.objects.filter(user_id=user_id).update(
             **{
-                key: serializer.validated_data[key]
+                key: data[key]
                 for key in [
                     "manager",
                     "phone",

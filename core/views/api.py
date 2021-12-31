@@ -193,13 +193,13 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
                 organization=serializer.validated_data["organization"],
             ).update(role=serializer.validated_data["role"])
 
-            self.update_profile(serializer, kwargs["pk"])
+            self.update_profile(serializer.validated_data, kwargs["pk"])
 
             models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
-            self.add_sites(serializer, kwargs["pk"])
+            self.add_sites(serializer.validated_data, kwargs["pk"])
 
             models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
-            self.add_modalities(serializer, kwargs["pk"])
+            self.add_modalities(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
         return Response(serializer.errors)
@@ -208,7 +208,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
 class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
     def get_serializer_class(self):
         if self.action == "create":
-            return serializers.UpsertUserSerializer
+            return serializers.OrganizationUpsertUserSerializer
         return serializers.UserSerializer
 
     def get_queryset(self):
@@ -219,8 +219,8 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             return models.User.objects.all()
 
         membership = models.Membership.objects.filter(
-            organization=self.kwargs["organization_pk"],
-            organization__in=self.request.user.get_organizations(),
+            organization=self.kwargs["pk"],
+            organization__in=self.request.user.get_organizations(role=[models.Role.USER_ADMIN]),
         )
 
         return models.User.objects.filter(id__in=membership.values_list("user"))
@@ -228,17 +228,18 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
     @transaction.atomic
     def perform_create(self, serializer):
         # TODO: Add permission class to allow only user admin
-        user = models.User.objects.create_user(
-            username=serializer.validated_data["email"],
-            **{
-                key: serializer.validated_data[key]
-                for key in ["email", "first_name", "last_name"]
-            }
-        )
-        self.create_membership(serializer, user.id)
-        self.update_profile(serializer, user.id)
-        self.add_sites(serializer, user.id)
-        self.add_modalities(serializer, user.id)
+        for data in serializer.validated_data['memberships']:
+            user = models.User.objects.create_user(
+                username=data["email"],
+                **{
+                    key: data[key]
+                    for key in ["email", "first_name", "last_name"]
+                }
+            )
+            self.create_membership(data, user.id)
+            self.update_profile(data, user.id)
+            self.add_sites(data, user.id)
+            self.add_modalities(data, user.id)
 
 
 class VfseSystemViewSet(ModelViewSet):
@@ -370,15 +371,15 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
             }
         )
 
-        self.create_membership(serializer, user.id)
-        self.update_profile(serializer, user.id)
-        self.add_sites(serializer, user.id)
-        self.add_modalities(serializer, user.id)
+        self.create_membership(serializer.validated_data, user.id)
+        self.update_profile(serializer.validated_data, user.id)
+        self.add_sites(serializer.validated_data, user.id)
+        self.add_modalities(serializer.validated_data, user.id)
 
-    def create_membership(self, serializer, user_id):
+    def create_membership(self, data, user_id):
         models.Membership.objects.create(
-            organization=serializer.validated_data["organization"],
-            role=serializer.validated_data["role"],
+            organization=data["organization"],
+            role=data["role"],
             user_id=user_id,
             under_review=True,
         )

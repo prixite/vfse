@@ -210,7 +210,7 @@ class OrganizationTestCase(BaseTestCase):
         }
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/users/",
-            data=user_data,
+            data={'memberships':[user_data]},
         )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(

@@ -169,7 +169,7 @@ class Membership(models.Model):
         "User", on_delete=models.CASCADE, related_name="memberships"
     )
     organization = models.ForeignKey(
-        "Organization", on_delete=models.CASCADE, limit_choices_to={"is_customer": True}
+        "Organization", on_delete=models.CASCADE, limit_choices_to={"is_customer": True},related_name='memberships',
     )
     under_review = models.BooleanField(default=False)
     role = models.CharField(max_length=32, choices=Role.choices, default=Role.FSE)
