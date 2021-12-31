@@ -61,7 +61,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:organization_pk>/users/",
+        "api/organizations/<str:pk>/users/",
         api.OrganizationUserViewSet.as_view(
             {
                 "get": "list",

@@ -254,6 +254,14 @@ class UpsertUserSerializer(serializers.Serializer):
         return value
 
 
+class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
+    memberships = UpsertUserSerializer(many=True, write_only=True)
+
+    class Meta:
+        model = models.Organization
+        fields = ["id", "memberships"]
+
+
 class UserDeactivateSerializer(serializers.Serializer):
     users = serializers.PrimaryKeyRelatedField(
         many=True, queryset=models.User.objects.all()

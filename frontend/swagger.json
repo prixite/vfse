@@ -500,6 +500,68 @@
                 }
             ]
         },
+        "/organizations/{id}/users/": {
+            "get": {
+                "operationId": "organizations_users_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "post": {
+                "operationId": "organizations_users_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationUpsertUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationUpsertUser"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/{organization_pk}/seats/": {
             "get": {
                 "operationId": "organizations_seats_list",
@@ -546,68 +608,6 @@
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/SystemSeatSeriazlier"
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "organization_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/organizations/{organization_pk}/users/": {
-            "get": {
-                "operationId": "organizations_users_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/User"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "post": {
-                "operationId": "organizations_users_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UpsertUser"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/UpsertUser"
                         }
                     }
                 },
@@ -1387,40 +1387,6 @@
                 }
             }
         },
-        "Seat": {
-            "description": "Seat(id, system, organization, created_at, updated_at)",
-            "required": [
-                "system",
-                "organization"
-            ],
-            "type": "object",
-            "properties": {
-                "system": {
-                    "title": "System",
-                    "type": "integer"
-                },
-                "organization": {
-                    "title": "Organization",
-                    "type": "integer"
-                }
-            }
-        },
-        "SystemSeatSeriazlier": {
-            "description": "",
-            "required": [
-                "ids"
-            ],
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    },
-                    "uniqueItems": true
-                }
-            }
-        },
         "User": {
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
             "required": [
@@ -1564,6 +1530,61 @@
                 "is_one_time": {
                     "title": "Is one time",
                     "type": "boolean"
+                }
+            }
+        },
+        "OrganizationUpsertUser": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "memberships"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "memberships": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/UpsertUser"
+                    }
+                }
+            }
+        },
+        "Seat": {
+            "description": "Seat(id, system, organization, created_at, updated_at)",
+            "required": [
+                "system",
+                "organization"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                },
+                "organization": {
+                    "title": "Organization",
+                    "type": "integer"
+                }
+            }
+        },
+        "SystemSeatSeriazlier": {
+            "description": "",
+            "required": [
+                "ids"
+            ],
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
                 }
             }
         },
