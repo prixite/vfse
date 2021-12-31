@@ -29,6 +29,11 @@ class User(AbstractUser):
 
     is_supermanager = models.BooleanField(default=False)
 
+    def get_initials(self):
+        if any([self.first_name,self.last_name]):
+            return ' '.join([ self.first_name[0],self.last_name[0]])
+        return self.username[0]
+
     def get_organizations(self, roles=None):
         queryset = Membership.objects.filter(user=self)
         if roles is not None:

@@ -14,13 +14,12 @@
 	{% if "organization" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
-			<div class='item-col'>
-				<img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=99"
-				 style="border-radius: 50%;" width="50" height="50">
+			<div class='item-col me-2'>
+				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
 			</div>
 			<div class='col' style="align-self:center;">
-				<div>Ricardo Cooper</div>
-				<div>ricardo.cooper@example.com</div>
+				<div>{% firstof user.get_full_name user.get_initials %}</div>
+				<div>{{user.email}}</div>
 			</div>
 			<div class='item-col' style="align-self:flex-end;">
 				<a class="btn btn-primary"
@@ -35,13 +34,12 @@
 	{% if "modality" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
-			<div class='item-col'>
-				<img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=99"
-				 style="border-radius: 50%;" width="50" height="50">
+			<div class='item-col me-2'>
+				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
 			</div>
 			<div class='col' style="align-self:center;">
-				<div>Ricardo Cooper</div>
-				<div>ricardo.cooper@example.com</div>
+				<div>{% firstof user.get_full_name user.get_initials %}</div>
+				<div>{{user.email}}</div>
 			</div>
 			<div class='item-col' style="align-self:flex-end;">
 				<a class="btn btn-primary"
@@ -56,13 +54,12 @@
 	{% if "user" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
-			<div class='item-col'>
-				<img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=99"
-				 style="border-radius: 50%;" width="50" height="50">
+			<div class='item-col me-2'>
+				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
 			</div>
 			<div class='col' style="align-self:center;">
-				<div>Ricardo Cooper</div>
-				<div>ricardo.cooper@example.com</div>
+				<div>{% firstof user.get_full_name user.get_initials %}</div>
+				<div>{{user.email}}</div>
 			</div>
 			<div class='item-col' style="align-self:flex-end;">
 				<a class="btn btn-primary"
@@ -77,13 +74,12 @@
 	{% if "documentation" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
-			<div class='item-col'>
-				<img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=99"
-				 style="border-radius: 50%;" width="50" height="50">
+			<div class='item-col me-2'>
+				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
 			</div>
 			<div class='col' style="align-self:center;">
-				<div>Ricardo Cooper</div>
-				<div>ricardo.cooper@example.com</div>
+				<div>{% firstof user.get_full_name user.get_initials %}</div>
+				<div>{{user.email}}</div>
 			</div>
 			<div class='item-col' style="align-self:flex-end;">
 				<a class="btn btn-primary"
@@ -98,13 +94,12 @@
 	{% if "vfse" in user_data.flags %}
 	<div class="card">
 		<div class="card-body">
-			<div class='item-col'>
-				<img src="https://wac-cdn.atlassian.com/dam/jcr:ba03a215-2f45-40f5-8540-b2015223c918/Max-R_Headshot%20(1).jpg?cdnVersion=99"
-				 style="border-radius: 50%;" width="50" height="50">
+			<div class='item-col me-2'>
+				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
 			</div>
 			<div class='col' style="align-self:center;">
-				<div>Ricardo Cooper</div>
-				<div>ricardo.cooper@example.com</div>
+				<div>{% firstof user.get_full_name user.get_initials %}</div>
+				<div>{{user.email}}</div>
 			</div>
 			<div class='item-col' style="align-self:flex-end;">
 				<a class="btn btn-primary"
