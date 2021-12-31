@@ -9,13 +9,19 @@ import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
-import { Organization } from "@src/store/reducers/api";
+import { DeleteOrganizationService } from "@src/services/organizationService";
+import { useAppDispatch } from "@src/store/hooks";
+import {
+  Organization,
+  useOrganizationsDeleteMutation,
+} from "@src/store/reducers/api";
+import { openNetworkModal } from "@src/store/reducers/appStore";
 import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 
 interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<SetStateAction<Organization>>;
-  row: object;
+  row: Organization;
   refetch: () => void;
   networkId: number;
   logo: string;
@@ -27,12 +33,17 @@ const NetworkCard = ({
   logo,
   name,
   sitesCount,
+  refetch,
+  row,
+  setOrganization,
 }: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const dispatch = useAppDispatch();
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   const { cardPopUp } = localizedData().modalities;
   const open = Boolean(anchorEl);
+  const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { id } = useParams();
 
   const handleModalOpen = () => {
@@ -51,8 +62,15 @@ const NetworkCard = ({
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
+    await DeleteOrganizationService(networkId, deleteOrganization, refetch);
     toast.success("Network successfully deleted");
   };
+
+  const handleEditAppearance = () => {
+    dispatch(openNetworkModal());
+    setOrganization(row);
+  };
+
   return (
     <div className="NetworkCard">
       <Link
@@ -97,7 +115,7 @@ const NetworkCard = ({
           className="Network-dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={handleEditAppearance}>
             <span style={{ marginLeft: "12px" }}>{cardPopUp?.edit}</span>
           </MenuItem>
           <MenuItem onClick={handleModalOpen}>
