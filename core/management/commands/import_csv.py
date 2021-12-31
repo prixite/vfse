@@ -16,9 +16,9 @@ class Command(BaseCommand):
             file_obj = csv.DictReader(csv_file)
             for row in file_obj:
                 organization = self.add_organization(row)
-                site = self.add_site(row,organization)
+                site = self.add_site(row, organization)
                 product_model = self.add_product(row)
-                system = self.add_system(row,site,product_model)
+                self.add_system(row, site, product_model)
 
             self.stdout.write(
                 self.style.SUCCESS(
@@ -26,43 +26,43 @@ class Command(BaseCommand):
                 )
             )
 
-
-    def add_organization(self,row):
+    def add_organization(self, row):
         organization = serializers.OrganizationSerializer(
             data={
                 "name": row["Organization Name"],
                 "appearance": {
-                "sidebar_text": "#94989E",
-                "button_text": "#FFFFFF",
-                "sidebar_color": "#142139",
-                "primary_color": "#773CBD",
-                "font_one": "helvetica",
-                "font_two": "calibri",
-                "logo": row.get('Organization Logo URL',
-                    "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview.png"
-                ),
-                "banner": "http://example.com/image.jpg",
-                "icon": "http://example.com/icon.ico",
-            },
+                    "sidebar_text": "#94989E",
+                    "button_text": "#FFFFFF",
+                    "sidebar_color": "#142139",
+                    "primary_color": "#773CBD",
+                    "font_one": "helvetica",
+                    "font_two": "calibri",
+                    "logo": row.get(
+                        "Organization Logo URL",
+                        "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview.png",
+                    ),
+                    "banner": "http://example.com/image.jpg",
+                    "icon": "http://example.com/icon.ico",
+                },
             }
         )
         organization.is_valid(raise_exception=True)
         return organization.save()
 
-    def add_site(self,row,organization):
+    def add_site(self, row, organization):
         site = serializers.MetaSiteSerializer(
-                    data={
-                        "name": row["Site Name"],
-                        "address": row["Site Address"],
-                    }
-                )
+            data={
+                "name": row["Site Name"],
+                "address": row["Site Address"],
+            }
+        )
         site.is_valid(raise_exception=True)
         return site.save(organization=organization)
 
-    def add_product(self,row):
+    def add_product(self, row):
         manufacturer_image = models.ManufacturerImage.objects.create(
-                    image=row["Manufacturer Image URL"]
-                )
+            image=row["Manufacturer Image URL"]
+        )
         manufacturer = models.Manufacturer.objects.create(
             name=row["Manufacturer Name"], image=manufacturer_image
         )
@@ -83,7 +83,7 @@ class Command(BaseCommand):
         product_model.is_valid(raise_exception=True)
         return product_model.save()
 
-    def add_system(self,row,site,product_model):
+    def add_system(self, row, site, product_model):
         system_image = models.SystemImage.objects.create(image=row["Image URL"])
         system = serializers.SystemSerializer(
             data={
