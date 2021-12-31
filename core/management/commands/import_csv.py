@@ -13,8 +13,7 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         with open(options["file"][0]) as csv_file:
-            file_obj = csv.DictReader(csv_file)
-            for row in file_obj:
+            for row in csv.DictReader(csv_file):
                 organization = self.add_organization(row)
                 site = self.add_site(row, organization)
                 product_model = self.add_product(row)
