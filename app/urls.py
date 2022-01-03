@@ -145,7 +145,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/systems/<str:system_id>/notes/",
+        "api/systems/<str:pk>/notes/",
         api.SystemNoteViewSet.as_view(
             {
                 "get": "list",
