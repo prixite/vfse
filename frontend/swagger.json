@@ -438,6 +438,68 @@
                 }
             ]
         },
+        "/organizations/{id}/seats/": {
+            "get": {
+                "operationId": "organizations_seats_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Seat"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "post": {
+                "operationId": "organizations_seats_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationSeatSeriazlier"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationSeatSeriazlier"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/{id}/sites/": {
             "get": {
                 "operationId": "organizations_sites_list",
@@ -556,68 +618,6 @@
             "parameters": [
                 {
                     "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/organizations/{organization_pk}/seats/": {
-            "get": {
-                "operationId": "organizations_seats_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Seat"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "post": {
-                "operationId": "organizations_seats_create",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/SystemSeatSeriazlier"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/SystemSeatSeriazlier"
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "organization_pk",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -1331,6 +1331,35 @@
                 }
             }
         },
+        "Seat": {
+            "description": "Seat(id, system, organization, created_at, updated_at)",
+            "required": [
+                "system"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                }
+            }
+        },
+        "OrganizationSeatSeriazlier": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "seats"
+            ],
+            "type": "object",
+            "properties": {
+                "seats": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Seat"
+                    }
+                }
+            }
+        },
         "Site": {
             "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
@@ -1551,40 +1580,6 @@
                     "items": {
                         "$ref": "#/definitions/UpsertUser"
                     }
-                }
-            }
-        },
-        "Seat": {
-            "description": "Seat(id, system, organization, created_at, updated_at)",
-            "required": [
-                "system",
-                "organization"
-            ],
-            "type": "object",
-            "properties": {
-                "system": {
-                    "title": "System",
-                    "type": "integer"
-                },
-                "organization": {
-                    "title": "Organization",
-                    "type": "integer"
-                }
-            }
-        },
-        "SystemSeatSeriazlier": {
-            "description": "",
-            "required": [
-                "ids"
-            ],
-            "type": "object",
-            "properties": {
-                "ids": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    },
-                    "uniqueItems": true
                 }
             }
         },

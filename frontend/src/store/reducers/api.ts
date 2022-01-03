@@ -133,6 +133,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organizationHealthNetwork,
       }),
     }),
+    organizationsSeatsList: build.query<
+      OrganizationsSeatsListApiResponse,
+      OrganizationsSeatsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/seats/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    organizationsSeatsCreate: build.mutation<
+      OrganizationsSeatsCreateApiResponse,
+      OrganizationsSeatsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/seats/`,
+        method: "POST",
+        body: queryArg.organizationSeatSeriazlier,
+      }),
+    }),
     organizationsSitesList: build.query<
       OrganizationsSitesListApiResponse,
       OrganizationsSitesListApiArg
@@ -169,25 +188,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.id}/users/`,
         method: "POST",
         body: queryArg.organizationUpsertUser,
-      }),
-    }),
-    organizationsSeatsList: build.query<
-      OrganizationsSeatsListApiResponse,
-      OrganizationsSeatsListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/seats/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    organizationsSeatsCreate: build.mutation<
-      OrganizationsSeatsCreateApiResponse,
-      OrganizationsSeatsCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/seats/`,
-        method: "POST",
-        body: queryArg.systemSeatSeriazlier,
       }),
     }),
     productsModelsList: build.query<
@@ -355,6 +355,18 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
+export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
+export type OrganizationsSeatsListApiArg = {
+  id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type OrganizationsSeatsCreateApiResponse =
+  /** status 201  */ OrganizationSeatSeriazlier;
+export type OrganizationsSeatsCreateApiArg = {
+  id: string;
+  organizationSeatSeriazlier: OrganizationSeatSeriazlier;
+};
 export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesListApiArg = {
   id: string;
@@ -378,18 +390,6 @@ export type OrganizationsUsersCreateApiResponse =
 export type OrganizationsUsersCreateApiArg = {
   id: string;
   organizationUpsertUser: OrganizationUpsertUser;
-};
-export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
-export type OrganizationsSeatsListApiArg = {
-  organizationPk: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type OrganizationsSeatsCreateApiResponse =
-  /** status 201  */ SystemSeatSeriazlier;
-export type OrganizationsSeatsCreateApiArg = {
-  organizationPk: string;
-  systemSeatSeriazlier: SystemSeatSeriazlier;
 };
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
@@ -522,6 +522,12 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetwork[];
 };
+export type Seat = {
+  system: number;
+};
+export type OrganizationSeatSeriazlier = {
+  seats: Seat[];
+};
 export type Site = {
   id?: number;
   name: string;
@@ -570,13 +576,6 @@ export type UpsertUser = {
 export type OrganizationUpsertUser = {
   id?: number;
   memberships: UpsertUser[];
-};
-export type Seat = {
-  system: number;
-  organization: number;
-};
-export type SystemSeatSeriazlier = {
-  ids: number[];
 };
 export type ProductModel = {
   id?: number;
@@ -634,12 +633,12 @@ export const {
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksUpdateMutation,
+  useOrganizationsSeatsListQuery,
+  useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
-  useOrganizationsSeatsListQuery,
-  useOrganizationsSeatsCreateMutation,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,
