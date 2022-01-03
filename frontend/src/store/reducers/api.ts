@@ -576,7 +576,7 @@ export type Seat = {
   organization: number;
 };
 export type SystemSeatSeriazlier = {
-  ids: number[];
+  seats: Seat[];
 };
 export type ProductModel = {
   id?: number;

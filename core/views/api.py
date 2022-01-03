@@ -263,7 +263,9 @@ class VfseSystemViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         seats = [
-            models.Seat(organization_id=self.kwargs["organization_pk"], system=seat['system'])
+            models.Seat(
+                organization_id=self.kwargs["organization_pk"], system=seat["system"]
+            )
             for seat in serializer.validated_data["seats"]
         ]
         models.Seat.objects.bulk_create(seats)

@@ -320,6 +320,7 @@ class SeatSerializer(serializers.ModelSerializer):
         model = models.Seat
         fields = ["system", "organization"]
 
+
 class SystemSeatSeriazlier(serializers.Serializer):
     seats = SeatSerializer(many=True)
 

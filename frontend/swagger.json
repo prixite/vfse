@@ -1575,16 +1575,16 @@
         "SystemSeatSeriazlier": {
             "description": "",
             "required": [
-                "ids"
+                "seats"
             ],
             "type": "object",
             "properties": {
-                "ids": {
+                "seats": {
+                    "description": "",
                     "type": "array",
                     "items": {
-                        "type": "integer"
-                    },
-                    "uniqueItems": true
+                        "$ref": "#/definitions/Seat"
+                    }
                 }
             }
         },

@@ -413,8 +413,8 @@ class VfseTestCase(BaseTestCase):
             f"/api/organizations/{self.organization.id}/seats/",
             data={
                 "seats": [
-                    {"system":self.system.id,"organization":self.organization.id}
-                    ],
+                    {"system": self.system.id, "organization": self.organization.id}
+                ],
             },
         )
         self.assertEqual(response.status_code, 201)
