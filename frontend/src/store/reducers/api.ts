@@ -214,7 +214,7 @@ const injectedRtkApi = api.injectEndpoints({
       SitesSystemsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/sites/${queryArg.sitePk}/systems/`,
+        url: `/sites/${queryArg.id}/systems/`,
         params: { page: queryArg.page },
       }),
     }),
@@ -404,7 +404,7 @@ export type ProductsModelsPartialUpdateApiArg = {
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
-  sitePk: string;
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
