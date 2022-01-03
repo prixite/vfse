@@ -7,18 +7,27 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0050_system_service_web_browser_system_ssh_and_more'),
+        ("core", "0050_system_service_web_browser_system_ssh_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='membership',
-            name='organization',
-            field=models.ForeignKey(limit_choices_to={'is_customer': True}, on_delete=django.db.models.deletion.CASCADE, related_name='memberships', to='core.organization'),
+            model_name="membership",
+            name="organization",
+            field=models.ForeignKey(
+                limit_choices_to={"is_customer": True},
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="memberships",
+                to="core.organization",
+            ),
         ),
         migrations.AlterField(
-            model_name='seat',
-            name='organization',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='seats', to='core.organization'),
+            model_name="seat",
+            name="organization",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="seats",
+                to="core.organization",
+            ),
         ),
     ]

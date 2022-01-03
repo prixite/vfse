@@ -368,7 +368,9 @@ class Note(models.Model):
 
 class Seat(models.Model):
     system = models.ForeignKey("System", on_delete=models.CASCADE)
-    organization = models.ForeignKey("Organization", on_delete=models.CASCADE,related_name='seats')
+    organization = models.ForeignKey(
+        "Organization", on_delete=models.CASCADE, related_name="seats"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

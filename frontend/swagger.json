@@ -1350,7 +1350,7 @@
             }
         },
         "SystemSeatSeriazlier": {
-            "description": "",
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "seats"
             ],
