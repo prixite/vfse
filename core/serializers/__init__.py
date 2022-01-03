@@ -321,8 +321,12 @@ class SeatSerializer(serializers.ModelSerializer):
         fields = ["system", "organization"]
 
 
-class SystemSeatSeriazlier(serializers.Serializer):
+class SystemSeatSeriazlier(serializers.ModelSerializer):
     seats = SeatSerializer(many=True)
+
+    class Meta:
+        model = models.Organization
+        fields=['seats']
 
     def validate(self, attrs):
         if getattr(self.context["view"], "swagger_fake_view", False):
