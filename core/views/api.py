@@ -252,7 +252,7 @@ class VfseSystemViewSet(ModelViewSet):
             return models.Seat.objects.none()
 
         assigned = models.Seat.objects.filter(
-            organization=self.kwargs["organization_pk"],
+            organization=self.kwargs["pk"],
         )
 
         if not (self.request.user.is_superuser or self.request.user.is_supermanager):
@@ -264,7 +264,7 @@ class VfseSystemViewSet(ModelViewSet):
     def perform_create(self, serializer):
         seats = [
             models.Seat(
-                organization_id=self.kwargs["organization_pk"], system=seat["system"]
+                organization_id=self.kwargs["pk"], system=seat["system"]
             )
             for seat in serializer.validated_data["seats"]
         ]

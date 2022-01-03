@@ -329,7 +329,7 @@ class SystemSeatSeriazlier(serializers.Serializer):
             # Short circuit this when openapi code is running.
             return attrs
 
-        organization_pk = self.context["view"].kwargs["organization_pk"]
+        organization_pk = self.context["view"].kwargs["pk"]
         occupied_seats = models.Seat.objects.filter(
             organization_id=organization_pk
         ).count()

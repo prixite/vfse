@@ -70,7 +70,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:organization_pk>/seats/",
+        "api/organizations/<str:pk>/seats/",
         api.VfseSystemViewSet.as_view(
             {
                 "get": "list",
