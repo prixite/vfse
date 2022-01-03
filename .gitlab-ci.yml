@@ -22,6 +22,7 @@ variables:
   DUO_CLIENT_SECRET: "fake"
   DUO_API_HOSTNAME: "fake"
   DUO_REDIRECT_URI: "fake"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
 default:
   before_script:
@@ -30,6 +31,7 @@ default:
 cache:
   paths:
     - node_modules/
+    - .cache/pip
 
 lint: # This job also runs in the test stage.
   stage: test # It can run at the same time as unit-test-job (in parallel).
