@@ -88,7 +88,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/sites/<str:site_pk>/systems/",
+        "api/sites/<str:pk>/systems/",
         api.SiteSystemViewSet.as_view(
             {
                 "get": "list",

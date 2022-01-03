@@ -159,7 +159,7 @@ class SiteSystemViewSet(ModelViewSet):
             return models.System.objects.none()
 
         return models.System.objects.filter(
-            site=self.kwargs["site_pk"],
+            site=self.kwargs["pk"],
         )
 
 
