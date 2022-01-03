@@ -138,11 +138,12 @@ export default function UserView() {
                 align: "center",
                 disableColumnMenu: true,
                 renderCell: () => (
-                  <img
-                    src={ThreeDots}
+                  <div
                     onClick={handleClick}
-                    style={{ cursor: "pointer" }}
-                  />
+                    style={{ cursor: "pointer", padding: "15px" }}
+                  >
+                    <img src={ThreeDots} />
+                  </div>
                 ),
               },
             ]}
