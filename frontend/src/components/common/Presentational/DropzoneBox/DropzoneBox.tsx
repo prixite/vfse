@@ -22,6 +22,10 @@ const DropzoneBox = ({ setSelectedImage, imgSrc }: DropzoneProps) => {
   });
   const constantData: object = localizedData()?.dropzone;
   const { heading, description, button, info } = constantData;
+  const dropzoneOptions =
+    acceptedFiles?.length || imgSrc
+      ? "Uploadoptions hideOptions"
+      : "Uploadoptions";
 
   useEffect(() => {
     setSelectedImage(acceptedFiles);
@@ -39,7 +43,7 @@ const DropzoneBox = ({ setSelectedImage, imgSrc }: DropzoneProps) => {
       ) : (
         ""
       )}
-      <div style={{ zIndex: "100" }} className="Uploadoptions">
+      <div style={{ zIndex: "100" }} className={dropzoneOptions}>
         <img src={UploadBtn} className="" />
         <p>
           <b>{heading}</b>
