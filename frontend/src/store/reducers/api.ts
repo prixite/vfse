@@ -214,7 +214,7 @@ const injectedRtkApi = api.injectEndpoints({
       SitesSystemsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/sites/${queryArg.sitePk}/systems/`,
+        url: `/sites/${queryArg.id}/systems/`,
         params: { page: queryArg.page },
       }),
     }),
@@ -242,7 +242,7 @@ const injectedRtkApi = api.injectEndpoints({
       SystemsNotesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/${queryArg.id}/notes/`,
         params: { page: queryArg.page },
       }),
     }),
@@ -251,7 +251,7 @@ const injectedRtkApi = api.injectEndpoints({
       SystemsNotesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/${queryArg.id}/notes/`,
         method: "POST",
         body: queryArg.systemNotes,
       }),
@@ -404,7 +404,7 @@ export type ProductsModelsPartialUpdateApiArg = {
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
-  sitePk: string;
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
@@ -419,13 +419,13 @@ export type SystemsImagesCreateApiArg = {
 };
 export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
 export type SystemsNotesListApiArg = {
-  systemId: string;
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
 export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
 export type SystemsNotesCreateApiArg = {
-  systemId: string;
+  id: string;
   systemNotes: SystemNotes;
 };
 export type UsersDeactivatePartialUpdateApiResponse =
