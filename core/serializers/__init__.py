@@ -315,10 +315,13 @@ class ManufacturerImageSerializer(serializers.ModelSerializer):
         fields = ["image"]
 
 
+class SeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Seat
+        fields = ["system", "organization"]
+
 class SystemSeatSeriazlier(serializers.Serializer):
-    ids = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.System.objects.all()
-    )
+    seats = SeatSerializer(many=True)
 
     def validate(self, attrs):
         if getattr(self.context["view"], "swagger_fake_view", False):
@@ -331,15 +334,9 @@ class SystemSeatSeriazlier(serializers.Serializer):
         ).count()
         if models.Organization.objects.get(
             id=organization_pk
-        ).number_of_seats - occupied_seats < len(attrs["ids"]):
+        ).number_of_seats - occupied_seats < len(attrs["seats"]):
             raise ValidationError("Seats not available")
         return attrs
-
-
-class SeatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Seat
-        fields = ["system", "organization"]
 
 
 class UserRequestAcessSeriazlizer(UpsertUserSerializer):
