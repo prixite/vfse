@@ -363,16 +363,24 @@ class OrganizationTestCase(BaseTestCase):
     def test_post_health_network(self):
         self.client.force_login(self.super_admin)
 
-        response = self.client.post(f'/api/organizations/{self.organization.id}/health_networks/',
-        data={
-            'name':'Latest Health Network',
-            'appearance':{
-                'logo':'https://picsum.photos/200',
-            }
-        })
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "name": "Latest Health Network",
+                "appearance": {
+                    "logo": "https://picsum.photos/200",
+                },
+            },
+        )
 
-        self.assertEqual(response.status_code,201)
-        self.assertEqual(models.OrganizationHealthNetwork.objects.filter(organization=self.organization.id).count(),2)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(
+            models.OrganizationHealthNetwork.objects.filter(
+                organization=self.organization.id
+            ).count(),
+            2,
+        )
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):
