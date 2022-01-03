@@ -84,6 +84,9 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             return serializers.OrganizationHealthNetworkSerializer
         return serializers.HealthNetworkSerializer
 
+    def perform_create(self, serializer):
+        health_network_org =serializer.save()
+        models.OrganizationHealthNetwork.objects.create(organization_id=self.kwargs['pk'],health_network=health_network_org)
     def perform_update(self, serializer):
         models.OrganizationHealthNetwork.objects.filter(
             organization_id=self.kwargs["pk"]
