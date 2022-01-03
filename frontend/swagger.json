@@ -475,7 +475,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/SystemSeatSeriazlier"
+                            "$ref": "#/definitions/OrganizationSeatSeriazlier"
                         }
                     }
                 ],
@@ -483,7 +483,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/SystemSeatSeriazlier"
+                            "$ref": "#/definitions/OrganizationSeatSeriazlier"
                         }
                     }
                 },
@@ -1334,22 +1334,17 @@
         "Seat": {
             "description": "Seat(id, system, organization, created_at, updated_at)",
             "required": [
-                "system",
-                "organization"
+                "system"
             ],
             "type": "object",
             "properties": {
                 "system": {
                     "title": "System",
                     "type": "integer"
-                },
-                "organization": {
-                    "title": "Organization",
-                    "type": "integer"
                 }
             }
         },
-        "SystemSeatSeriazlier": {
+        "OrganizationSeatSeriazlier": {
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "seats"

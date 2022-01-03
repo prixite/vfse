@@ -241,10 +241,10 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             self.add_modalities(data, user.id)
 
 
-class VfseSystemViewSet(ModelViewSet):
+class OrganizationSeatViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
-            return serializers.SystemSeatSeriazlier
+            return serializers.OrganizationSeatSeriazlier
         return serializers.SeatSerializer
 
     def get_queryset(self):

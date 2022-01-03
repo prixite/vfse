@@ -71,7 +71,7 @@ api_urlpatterns = [
     ),
     path(
         "api/organizations/<str:pk>/seats/",
-        api.VfseSystemViewSet.as_view(
+        api.OrganizationSeatViewSet.as_view(
             {
                 "get": "list",
                 "post": "create",

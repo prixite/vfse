@@ -149,7 +149,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.id}/seats/`,
         method: "POST",
-        body: queryArg.systemSeatSeriazlier,
+        body: queryArg.organizationSeatSeriazlier,
       }),
     }),
     organizationsSitesList: build.query<
@@ -362,10 +362,10 @@ export type OrganizationsSeatsListApiArg = {
   page?: number;
 };
 export type OrganizationsSeatsCreateApiResponse =
-  /** status 201  */ SystemSeatSeriazlier;
+  /** status 201  */ OrganizationSeatSeriazlier;
 export type OrganizationsSeatsCreateApiArg = {
   id: string;
-  systemSeatSeriazlier: SystemSeatSeriazlier;
+  organizationSeatSeriazlier: OrganizationSeatSeriazlier;
 };
 export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesListApiArg = {
@@ -524,9 +524,8 @@ export type OrganizationHealthNetwork = {
 };
 export type Seat = {
   system: number;
-  organization: number;
 };
-export type SystemSeatSeriazlier = {
+export type OrganizationSeatSeriazlier = {
   seats: Seat[];
 };
 export type Site = {

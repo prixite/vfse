@@ -318,10 +318,10 @@ class ManufacturerImageSerializer(serializers.ModelSerializer):
 class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Seat
-        fields = ["system", "organization"]
+        fields = ["system"]
 
 
-class SystemSeatSeriazlier(serializers.ModelSerializer):
+class OrganizationSeatSeriazlier(serializers.ModelSerializer):
     seats = SeatSerializer(many=True)
 
     class Meta:
