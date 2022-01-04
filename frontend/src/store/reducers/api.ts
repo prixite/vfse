@@ -123,6 +123,16 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
+    organizationsHealthNetworksCreate: build.mutation<
+      OrganizationsHealthNetworksCreateApiResponse,
+      OrganizationsHealthNetworksCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/health_networks/`,
+        method: "POST",
+        body: queryArg.healthNetwork,
+      }),
+    }),
     organizationsHealthNetworksUpdate: build.mutation<
       OrganizationsHealthNetworksUpdateApiResponse,
       OrganizationsHealthNetworksUpdateApiArg
@@ -131,6 +141,25 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.id}/health_networks/`,
         method: "PUT",
         body: queryArg.organizationHealthNetwork,
+      }),
+    }),
+    organizationsSeatsList: build.query<
+      OrganizationsSeatsListApiResponse,
+      OrganizationsSeatsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/seats/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    organizationsSeatsCreate: build.mutation<
+      OrganizationsSeatsCreateApiResponse,
+      OrganizationsSeatsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/seats/`,
+        method: "POST",
+        body: queryArg.organizationSeatSeriazlier,
       }),
     }),
     organizationsSitesList: build.query<
@@ -171,25 +200,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organizationUpsertUser,
       }),
     }),
-    organizationsSeatsList: build.query<
-      OrganizationsSeatsListApiResponse,
-      OrganizationsSeatsListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/seats/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    organizationsSeatsCreate: build.mutation<
-      OrganizationsSeatsCreateApiResponse,
-      OrganizationsSeatsCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.organizationPk}/seats/`,
-        method: "POST",
-        body: queryArg.systemSeatSeriazlier,
-      }),
-    }),
     productsModelsList: build.query<
       ProductsModelsListApiResponse,
       ProductsModelsListApiArg
@@ -214,7 +224,7 @@ const injectedRtkApi = api.injectEndpoints({
       SitesSystemsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/sites/${queryArg.sitePk}/systems/`,
+        url: `/sites/${queryArg.id}/systems/`,
         params: { page: queryArg.page },
       }),
     }),
@@ -242,7 +252,7 @@ const injectedRtkApi = api.injectEndpoints({
       SystemsNotesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/${queryArg.id}/notes/`,
         params: { page: queryArg.page },
       }),
     }),
@@ -251,7 +261,7 @@ const injectedRtkApi = api.injectEndpoints({
       SystemsNotesCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/systems/${queryArg.systemId}/notes/`,
+        url: `/systems/${queryArg.id}/notes/`,
         method: "POST",
         body: queryArg.systemNotes,
       }),
@@ -349,11 +359,29 @@ export type OrganizationsHealthNetworksListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
+export type OrganizationsHealthNetworksCreateApiResponse =
+  /** status 201  */ HealthNetwork;
+export type OrganizationsHealthNetworksCreateApiArg = {
+  id: string;
+  healthNetwork: HealthNetwork;
+};
 export type OrganizationsHealthNetworksUpdateApiResponse =
   /** status 200  */ OrganizationHealthNetwork;
 export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
+};
+export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
+export type OrganizationsSeatsListApiArg = {
+  id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type OrganizationsSeatsCreateApiResponse =
+  /** status 201  */ OrganizationSeatSeriazlier;
+export type OrganizationsSeatsCreateApiArg = {
+  id: string;
+  organizationSeatSeriazlier: OrganizationSeatSeriazlier;
 };
 export type OrganizationsSitesListApiResponse = /** status 200  */ Site[];
 export type OrganizationsSitesListApiArg = {
@@ -379,18 +407,6 @@ export type OrganizationsUsersCreateApiArg = {
   id: string;
   organizationUpsertUser: OrganizationUpsertUser;
 };
-export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
-export type OrganizationsSeatsListApiArg = {
-  organizationPk: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type OrganizationsSeatsCreateApiResponse =
-  /** status 201  */ SystemSeatSeriazlier;
-export type OrganizationsSeatsCreateApiArg = {
-  organizationPk: string;
-  systemSeatSeriazlier: SystemSeatSeriazlier;
-};
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
   /** A page number within the paginated result set. */
@@ -404,7 +420,7 @@ export type ProductsModelsPartialUpdateApiArg = {
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
-  sitePk: string;
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
@@ -419,13 +435,13 @@ export type SystemsImagesCreateApiArg = {
 };
 export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
 export type SystemsNotesListApiArg = {
-  systemId: string;
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
 };
 export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
 export type SystemsNotesCreateApiArg = {
-  systemId: string;
+  id: string;
   systemNotes: SystemNotes;
 };
 export type UsersDeactivatePartialUpdateApiResponse =
@@ -522,6 +538,12 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetwork[];
 };
+export type Seat = {
+  system: number;
+};
+export type OrganizationSeatSeriazlier = {
+  seats: Seat[];
+};
 export type Site = {
   id?: number;
   name: string;
@@ -570,13 +592,6 @@ export type UpsertUser = {
 export type OrganizationUpsertUser = {
   id?: number;
   memberships: UpsertUser[];
-};
-export type Seat = {
-  system: number;
-  organization: number;
-};
-export type SystemSeatSeriazlier = {
-  ids: number[];
 };
 export type ProductModel = {
   id?: number;
@@ -633,13 +648,14 @@ export const {
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
+  useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
+  useOrganizationsSeatsListQuery,
+  useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
-  useOrganizationsSeatsListQuery,
-  useOrganizationsSeatsCreateMutation,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
   useSitesSystemsListQuery,

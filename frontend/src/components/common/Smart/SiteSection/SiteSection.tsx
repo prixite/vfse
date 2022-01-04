@@ -1,33 +1,33 @@
 import { useState } from "react";
 
 import { Box, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
 import { localizedData } from "@src/helpers/utils/language";
-
+import { useOrganizationsSitesListQuery } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
-
-const sitesData = [
-  {
-    id: 3,
-    logo: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
-    name: "Advent Health Carrollwood",
-    number_of_seats: null,
-    machines: ["MRI-3", "CT-2"],
-    connections: 6,
-    location: "7171 N Dale Mabry Nwy",
-  },
-];
 
 const SiteSection = () => {
   const [site, setSite] = useState(null);
   const [sitesList, setSitesList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
+
+  const { networkId } = useParams();
+
+  const {
+    data: sitesData,
+    isFetching: isSitesFetching,
+    // refetch: sitesRefetch,
+  } = useOrganizationsSitesListQuery({
+    page: 1,
+    id: networkId.toString(),
+  });
 
   const { title, noDataTitle, noDataDescription } = localizedData().sites;
 
@@ -55,9 +55,9 @@ const SiteSection = () => {
                 <Grid key={key} item xs={3}>
                   <SiteCard
                     name={item.name}
-                    machines={item.machines}
-                    location={item.location}
-                    connections={item.connections}
+                    machines={item.modalities}
+                    location={item.address}
+                    connections={6}
                   />
                 </Grid>
               ))
@@ -76,14 +76,14 @@ const SiteSection = () => {
               <Grid key={key} item xs={3}>
                 <SiteCard
                   name={item.name}
-                  machines={item.machines}
-                  location={item.location}
-                  connections={item.connections}
+                  machines={item.modalities}
+                  location={item.address}
+                  connections={6}
                 />
               </Grid>
             ))
           ) : (
-            <NoDataFound title={noDataTitle} description={noDataDescription} />
+            ""
           )}
         </Grid>
         <OrganizationModal
@@ -93,6 +93,11 @@ const SiteSection = () => {
           handleClose={handleClose}
         />
       </Box>
+      {!isSitesFetching && !sitesData?.length ? (
+        <NoDataFound title={noDataTitle} description={noDataDescription} />
+      ) : (
+        ""
+      )}
     </>
   );
 };
