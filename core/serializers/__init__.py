@@ -315,31 +315,33 @@ class ManufacturerImageSerializer(serializers.ModelSerializer):
         fields = ["image"]
 
 
-class SystemSeatSeriazlier(serializers.Serializer):
-    ids = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.System.objects.all()
-    )
+class SeatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Seat
+        fields = ["system"]
+
+
+class OrganizationSeatSeriazlier(serializers.ModelSerializer):
+    seats = SeatSerializer(many=True)
+
+    class Meta:
+        model = models.Organization
+        fields = ["seats"]
 
     def validate(self, attrs):
         if getattr(self.context["view"], "swagger_fake_view", False):
             # Short circuit this when openapi code is running.
             return attrs
 
-        organization_pk = self.context["view"].kwargs["organization_pk"]
+        organization_pk = self.context["view"].kwargs["pk"]
         occupied_seats = models.Seat.objects.filter(
             organization_id=organization_pk
         ).count()
         if models.Organization.objects.get(
             id=organization_pk
-        ).number_of_seats - occupied_seats < len(attrs["ids"]):
+        ).number_of_seats - occupied_seats < len(attrs["seats"]):
             raise ValidationError("Seats not available")
         return attrs
-
-
-class SeatSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Seat
-        fields = ["system", "organization"]
 
 
 class UserRequestAcessSeriazlizer(UpsertUserSerializer):

@@ -71,8 +71,8 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:organization_pk>/seats/",
-        api.VfseSystemViewSet.as_view(
+        "api/organizations/<str:pk>/seats/",
+        api.OrganizationSeatViewSet.as_view(
             {
                 "get": "list",
                 "post": "create",
@@ -89,7 +89,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/sites/<str:site_pk>/systems/",
+        "api/sites/<str:pk>/systems/",
         api.SiteSystemViewSet.as_view(
             {
                 "get": "list",
@@ -146,7 +146,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/systems/<str:system_id>/notes/",
+        "api/systems/<str:pk>/notes/",
         api.SystemNoteViewSet.as_view(
             {
                 "get": "list",

@@ -165,7 +165,7 @@ class SiteSystemViewSet(ModelViewSet):
             return models.System.objects.none()
 
         return models.System.objects.filter(
-            site=self.kwargs["site_pk"],
+            site=self.kwargs["pk"],
         )
 
 
@@ -247,10 +247,10 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             self.add_modalities(data, user.id)
 
 
-class VfseSystemViewSet(ModelViewSet):
+class OrganizationSeatViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
-            return serializers.SystemSeatSeriazlier
+            return serializers.OrganizationSeatSeriazlier
         return serializers.SeatSerializer
 
     def get_queryset(self):
@@ -258,7 +258,7 @@ class VfseSystemViewSet(ModelViewSet):
             return models.Seat.objects.none()
 
         assigned = models.Seat.objects.filter(
-            organization=self.kwargs["organization_pk"],
+            organization=self.kwargs["pk"],
         )
 
         if not (self.request.user.is_superuser or self.request.user.is_supermanager):
@@ -269,8 +269,8 @@ class VfseSystemViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         seats = [
-            models.Seat(organization_id=self.kwargs["organization_pk"], system=system)
-            for system in serializer.validated_data["ids"]
+            models.Seat(organization_id=self.kwargs["pk"], system=seat["system"])
+            for seat in serializer.validated_data["seats"]
         ]
         models.Seat.objects.bulk_create(seats)
 
@@ -334,16 +334,15 @@ class ManfucturerViewSet(ModelViewSet):
 
 class SystemNoteViewSet(ModelViewSet):
     serializer_class = serializers.SystemNotesSerializer
-    lookup_url_kwarg = "system_id"
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Note.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.Note.objects.filter(system_id=self.kwargs["system_id"])
+            return models.Note.objects.filter(system_id=self.kwargs["pk"])
         return models.Note.objects.filter(
-            system_id=self.kwargs["system_id"], author=self.request.user
+            system_id=self.kwargs["pk"], author=self.request.user
         )
 
 

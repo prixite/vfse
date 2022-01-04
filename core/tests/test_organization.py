@@ -433,10 +433,11 @@ class VfseTestCase(BaseTestCase):
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/seats/",
             data={
-                "ids": [self.system.id],
+                "seats": [
+                    {"system": self.system.id, "organization": self.organization.id}
+                ],
             },
         )
-
         self.assertEqual(response.status_code, 201)
         self.assertTrue(
             len(models.Seat.objects.filter(organization=self.organization))

@@ -73,9 +73,15 @@ const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
               className="Site-dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem>{cardPopUp?.editSite}</MenuItem>
+              <MenuItem>
+                <span style={{ marginLeft: "12px" }}>
+                  {cardPopUp?.editSite}
+                </span>
+              </MenuItem>
               <MenuItem onClick={handleModalOpen}>
-                {cardPopUp?.deleteSite}
+                <span style={{ marginLeft: "12px" }}>
+                  {cardPopUp?.deleteSite}
+                </span>
               </MenuItem>
             </Menu>
           </div>
@@ -88,7 +94,7 @@ const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
         </div>
         <div className="machines-info">
           {machines && machines?.length
-            ? machines?.map((item, index) => (
+            ? machines?.slice(0, 3)?.map((item, index) => (
                 <div key={index} className="text">
                   {item}
                 </div>
