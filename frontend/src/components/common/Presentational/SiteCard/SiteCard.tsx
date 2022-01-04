@@ -2,12 +2,17 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { Organization } from "@src/store/reducers/api";
+import { updateSitesService } from "@src/services/organizationService";
+import {
+  Organization,
+  useOrganizationsSitesUpdateMutation,
+} from "@src/store/reducers/api";
 
 import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 
@@ -16,16 +21,27 @@ interface SiteCardProps {
   setOrganization: Dispatch<Organization>;
   row: object;
   refetch: () => void;
-  id: number;
+  siteId: number;
   name: string;
   machines: Array<string>;
   location: string;
   connections: number;
+  sites: Array<object>;
 }
-const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
+const SiteCard = ({
+  siteId,
+  name,
+  machines,
+  location,
+  connections,
+  refetch,
+  sites,
+}: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const { cardPopUp } = localizedData().sites;
+  const [deleteSite] = useOrganizationsSitesUpdateMutation();
+  const { networkId } = useParams();
 
   const open = Boolean(anchorEl);
   const handleModalOpen = () => {
@@ -44,7 +60,9 @@ const SiteCard = ({ name, machines, location, connections }: SiteCardProps) => {
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    toast.success("Organization successfully deleted");
+    const updatedSites = sites.filter((site) => site.id !== siteId);
+    await updateSitesService(networkId, updatedSites, deleteSite, refetch);
+    toast.success("Site successfully deleted");
   };
   return (
     <>

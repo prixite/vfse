@@ -23,7 +23,7 @@ const SiteSection = () => {
   const {
     data: sitesData,
     isFetching: isSitesFetching,
-    // refetch: sitesRefetch,
+    refetch: sitesRefetch,
   } = useOrganizationsSitesListQuery({
     page: 1,
     id: networkId.toString(),
@@ -54,10 +54,13 @@ const SiteSection = () => {
               sitesList?.results?.map((item, key) => (
                 <Grid key={key} item xs={3}>
                   <SiteCard
+                    siteId={item.id}
                     name={item.name}
                     machines={item.modalities}
                     location={item.address}
                     connections={6}
+                    refetch={sitesRefetch}
+                    sites={sitesData}
                   />
                 </Grid>
               ))
@@ -75,10 +78,13 @@ const SiteSection = () => {
             sitesData.map((item, key) => (
               <Grid key={key} item xs={3}>
                 <SiteCard
+                  siteId={item.id}
                   name={item.name}
                   machines={item.modalities}
                   location={item.address}
                   connections={6}
+                  refetch={sitesRefetch}
+                  sites={sitesData}
                 />
               </Grid>
             ))
