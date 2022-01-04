@@ -431,14 +431,7 @@ class ProductViewSet(ModelViewSet):
     serializer_class = serializers.ProductSerializer
 
     def get_queryset(self):
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.Product.objects.all()
-
-        return models.Product.objects.filter(
-            id__in=models.System.objects.filter(
-                site__organization__in=self.request.user.get_organizations()
-            ).values("product_model__product")
-        )
+        return models.Product.objects.all()
 
     def perform_create(self, serializer):
         manufacturer, created = models.Manufacturer.objects.get_or_create(

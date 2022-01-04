@@ -33,27 +33,19 @@ class ProductTestCase(BaseTestCase):
 
     def test_product_delete(self):
         self.client.force_login(self.super_admin)
-        product = models.Product.objects.first()
-        response = self.client.delete(f"/api/products/{product.id}/")
+        response = self.client.delete(f"/api/products/{self.product.id}/")
         self.assertEqual(response.status_code, 204)
-        self.assertFalse(models.Product.objects.filter(id=product.id).exists())
+        self.assertFalse(models.Product.objects.filter(id=self.product.id).exists())
 
     def test_product_update(self):
         self.client.force_login(self.super_admin)
-        product = self.organization.sites.first().systems.first().product_model.product
         response = self.client.patch(
-            f"/api/products/{product.id}/",
+            f"/api/products/{self.product.id}/",
             data={
                 "name": "Latest Product",
             },
         )
 
         self.assertEqual(response.status_code, 200)
-        product.refresh_from_db()
-        self.assertEqual(product.name, "Latest Product")
-
-    def test_product_querset_permissions(self):
-        self.client.force_login(self.customer_admin)
-        response = self.client.get("/api/products/")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()), 1)
+        self.product.refresh_from_db()
+        self.assertEqual(self.product.name, "Latest Product")
