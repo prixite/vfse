@@ -83,9 +83,7 @@ const ModalitySection = () => {
             ) : (
               ""
             )
-          ) : (
-            networksData &&
-            networksData?.length &&
+          ) : networksData && networksData?.length ? (
             networksData.map((item, key) => (
               <Grid key={key} item xs={3}>
                 <NetworkCard
@@ -100,6 +98,8 @@ const ModalitySection = () => {
                 />
               </Grid>
             ))
+          ) : (
+            ""
           )}
         </Grid>
         {/* Umair: Disable this button because it is crashing. */}
