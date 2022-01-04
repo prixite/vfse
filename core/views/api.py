@@ -63,7 +63,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if getattr(self, "swagger_fake_view", False):
             return models.Organization.objects.none()
 
-        if self.action in ["update","create"]:
+        if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
