@@ -376,7 +376,7 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(
             models.OrganizationHealthNetwork.objects.filter(
-                organization=self.organization.id
+                organization=self.organization.id, health_network__is_customer=False
             ).count(),
             2,
         )
