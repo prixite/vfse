@@ -292,6 +292,10 @@ class ProductModelSerializer(serializers.ModelSerializer):
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        max_length=32,
+    )
+
     class Meta:
         model = models.Manufacturer
         fields = ["name", "image"]
@@ -351,3 +355,11 @@ class UserRequestAcessSeriazlizer(UpsertUserSerializer):
 
     def validate_organization(self, value):
         return value
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    manufacturer = ManufacturerSerializer()
+
+    class Meta:
+        model = models.Product
+        fields = ["id", "name", "manufacturer"]

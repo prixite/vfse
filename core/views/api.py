@@ -392,3 +392,23 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
     filterset_fields = ["name"]
+
+
+class ProductViewSet(ModelViewSet):
+    serializer_class = serializers.ProductSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.Product.objects.all()
+        
+        return models.Product.objects.filter(id__in=
+        models.System.objects.filter(site__organization__in=self.request.user.get_organizations()).values('product_model__product'))
+
+    def perform_create(self, serializer):
+        manufacturer, created = models.Manufacturer.objects.get_or_create(
+            name__iexact=serializer.validated_data["manufacturer"]["name"],
+            defaults={"image": serializer.validated_data["manufacturer"]["image"]},
+        )
+        models.Product.objects.create(
+            name=serializer.validated_data["name"], manufacturer=manufacturer
+        )
