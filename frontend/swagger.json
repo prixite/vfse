@@ -770,22 +770,6 @@
             ]
         },
         "/products/{id}/": {
-            "get": {
-                "operationId": "products_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Product"
-                        }
-                    }
-                },
-                "tags": [
-                    "products"
-                ]
-            },
             "patch": {
                 "operationId": "products_partial_update",
                 "description": "",

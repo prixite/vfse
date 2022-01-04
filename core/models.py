@@ -341,7 +341,7 @@ class Product(models.Model):
                 name="unique_product_name_manufacturer",
             ),
         ]
-        ordering=['-id']
+        ordering = ["-id"]
 
     def __str__(self):
         return self.name

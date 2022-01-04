@@ -235,9 +235,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.productModel,
       }),
     }),
-    productsRead: build.query<ProductsReadApiResponse, ProductsReadApiArg>({
-      query: (queryArg) => ({ url: `/products/${queryArg.id}/` }),
-    }),
     productsPartialUpdate: build.mutation<
       ProductsPartialUpdateApiResponse,
       ProductsPartialUpdateApiArg
@@ -464,10 +461,6 @@ export type ProductsModelsPartialUpdateApiResponse =
 export type ProductsModelsPartialUpdateApiArg = {
   id: string;
   productModel: ProductModel;
-};
-export type ProductsReadApiResponse = /** status 200  */ Product;
-export type ProductsReadApiArg = {
-  id: string;
 };
 export type ProductsPartialUpdateApiResponse = /** status 200  */ Product;
 export type ProductsPartialUpdateApiArg = {
@@ -725,7 +718,6 @@ export const {
   useProductsCreateMutation,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
-  useProductsReadQuery,
   useProductsPartialUpdateMutation,
   useProductsDeleteMutation,
   useSitesSystemsListQuery,
