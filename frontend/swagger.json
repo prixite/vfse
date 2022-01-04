@@ -404,6 +404,31 @@
                     "organizations"
                 ]
             },
+            "post": {
+                "operationId": "organizations_health_networks_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/HealthNetwork"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/HealthNetwork"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "put": {
                 "operationId": "organizations_health_networks_update",
                 "description": "",

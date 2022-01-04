@@ -123,6 +123,16 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
+    organizationsHealthNetworksCreate: build.mutation<
+      OrganizationsHealthNetworksCreateApiResponse,
+      OrganizationsHealthNetworksCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/health_networks/`,
+        method: "POST",
+        body: queryArg.healthNetwork,
+      }),
+    }),
     organizationsHealthNetworksUpdate: build.mutation<
       OrganizationsHealthNetworksUpdateApiResponse,
       OrganizationsHealthNetworksUpdateApiArg
@@ -348,6 +358,12 @@ export type OrganizationsHealthNetworksListApiArg = {
   id: string;
   /** A page number within the paginated result set. */
   page?: number;
+};
+export type OrganizationsHealthNetworksCreateApiResponse =
+  /** status 201  */ HealthNetwork;
+export type OrganizationsHealthNetworksCreateApiArg = {
+  id: string;
+  healthNetwork: HealthNetwork;
 };
 export type OrganizationsHealthNetworksUpdateApiResponse =
   /** status 200  */ OrganizationHealthNetwork;
@@ -632,6 +648,7 @@ export const {
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
   useOrganizationsHealthNetworksListQuery,
+  useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,

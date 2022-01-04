@@ -57,6 +57,7 @@ api_urlpatterns = [
             {
                 "put": "update",
                 "get": "list",
+                "post": "create",
             }
         ),
     ),

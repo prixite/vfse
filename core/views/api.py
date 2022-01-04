@@ -63,7 +63,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if getattr(self, "swagger_fake_view", False):
             return models.Organization.objects.none()
 
-        if self.action == "update":
+        if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
@@ -83,6 +83,12 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if self.action == "update":
             return serializers.OrganizationHealthNetworkSerializer
         return serializers.HealthNetworkSerializer
+
+    def perform_create(self, serializer):
+        health_network_org = serializer.save()
+        models.OrganizationHealthNetwork.objects.create(
+            organization_id=self.kwargs["pk"], health_network=health_network_org
+        )
 
     def perform_update(self, serializer):
         models.OrganizationHealthNetwork.objects.filter(
