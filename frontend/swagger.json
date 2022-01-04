@@ -553,6 +553,31 @@
                     "organizations"
                 ]
             },
+            "post": {
+                "operationId": "organizations_sites_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/MetaSite"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/MetaSite"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "put": {
                 "operationId": "organizations_sites_update",
                 "description": "",

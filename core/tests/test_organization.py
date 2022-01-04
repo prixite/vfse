@@ -383,14 +383,21 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_post_organization_sites(self):
         self.client.force_login(self.super_admin)
-        response = self.client.post(f"/api/organizations/{self.organization.id}/sites/",
-        data={
-            'name':'New Organization',
-            'address':'Lahore k qareeb',
-        })
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "name": "New Organization",
+                "address": "Lahore k qareeb",
+            },
+        )
 
-        self.assertEqual(response.status_code,201)
-        self.assertTrue(models.Site.objects.filter(organization=self.organization,name='New Organization').exists())
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.Site.objects.filter(
+                organization=self.organization, name="New Organization"
+            ).exists()
+        )
+
 
 class SiteTestCase(BaseTestCase):
     def test_list_systems(self):

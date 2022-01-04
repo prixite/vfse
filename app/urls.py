@@ -83,7 +83,7 @@ api_urlpatterns = [
         "api/organizations/<str:pk>/sites/",
         api.OrganizationSiteViewSet.as_view(
             {
-                "post":'create',
+                "post": "create",
                 "put": "update",
                 "get": "list",
             }

@@ -119,7 +119,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.Site.objects.none()
 
-        if self.action in ["update","create"]:
+        if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
         return models.Site.objects.filter(
@@ -137,13 +137,15 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":
             return serializers.OrganizationSiteSerializer
-        if self.action == 'create':
+        if self.action == "create":
             return serializers.MetaSiteSerializer
         return super().get_serializer_class(*args, **kwargs)
 
     def perform_create(self, serializer):
         self.get_object()
-        models.Site.objects.create(organization_id=self.kwargs['pk'],**serializer.validated_data)
+        models.Site.objects.create(
+            organization_id=self.kwargs["pk"], **serializer.validated_data
+        )
 
     def perform_update(self, serializer):
         names = []
