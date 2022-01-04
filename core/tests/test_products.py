@@ -15,7 +15,7 @@ class ProductTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
         manufacuturer_obj = factories.ManufacturerFactory(name="New manufactuere")
         response = self.client.post(
-            f"/api/products/",
+            "/api/products/",
             data={
                 "name": "New Product",
                 "manufacturer": {
