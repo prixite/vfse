@@ -15,7 +15,11 @@
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col me-2'>
-				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
+				{% if user.profile.meta.profile_picture %}
+				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
+				{% else %}
+				<span class="alt-text">{{user.get_initials}}</span>
+				{%endif %}
 			</div>
 			<div class='col' style="align-self:center;">
 				<div>{% firstof user.get_full_name user.get_initials %}</div>
@@ -35,7 +39,11 @@
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col me-2'>
-				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
+				{% if user.profile.meta.profile_picture %}
+				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
+				{% else %}
+				<span class="alt-text">{{user.get_initials}}</span>
+				{%endif %}
 			</div>
 			<div class='col' style="align-self:center;">
 				<div>{% firstof user.get_full_name user.get_initials %}</div>
@@ -55,7 +63,11 @@
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col me-2'>
-				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
+				{% if user.profile.meta.profile_picture %}
+				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
+				{% else %}
+				<span class="alt-text">{{user.get_initials}}</span>
+				{%endif %}
 			</div>
 			<div class='col' style="align-self:center;">
 				<div>{% firstof user.get_full_name user.get_initials %}</div>
@@ -75,7 +87,11 @@
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col me-2'>
-				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
+				{% if user.profile.meta.profile_picture %}
+				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
+				{% else %}
+				<span class="alt-text">{{user.get_initials}}</span>
+				{%endif %}
 			</div>
 			<div class='col' style="align-self:center;">
 				<div>{% firstof user.get_full_name user.get_initials %}</div>
@@ -95,7 +111,11 @@
 	<div class="card">
 		<div class="card-body">
 			<div class='item-col me-2'>
-				<img src="{{user.profile.meta.profile_picture}}" alt="{{user.get_initials}}" class='rounded-circle'>
+				{% if user.profile.meta.profile_picture %}
+				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
+				{% else %}
+				<span class="alt-text">{{user.get_initials}}</span>
+				{% endif %}
 			</div>
 			<div class='col' style="align-self:center;">
 				<div>{% firstof user.get_full_name user.get_initials %}</div>
