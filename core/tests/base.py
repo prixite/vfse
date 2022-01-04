@@ -47,7 +47,9 @@ class BaseTestCase(TestCase):
             cryo_admin_roles=[self.cryo_admin],
         )
 
-        self.product = self.organization.sites.first().systems.first().product_model.product
+        self.product = (
+            self.organization.sites.first().systems.first().product_model.product
+        )
 
         self.other_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.other_customer_admin],
