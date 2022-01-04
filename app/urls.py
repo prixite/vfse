@@ -106,6 +106,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/users/activate/",
+        api.UserActivateViewSet.as_view(
+            {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/users/<str:pk>/",
         api.UserViewSet.as_view(
             {

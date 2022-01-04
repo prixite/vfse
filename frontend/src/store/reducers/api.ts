@@ -276,6 +276,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemNotes,
       }),
     }),
+    usersActivatePartialUpdate: build.mutation<
+      UsersActivatePartialUpdateApiResponse,
+      UsersActivatePartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/activate/`,
+        method: "PATCH",
+        body: queryArg.userEnableDisable,
+      }),
+    }),
     usersDeactivatePartialUpdate: build.mutation<
       UsersDeactivatePartialUpdateApiResponse,
       UsersDeactivatePartialUpdateApiArg
@@ -283,7 +293,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/users/deactivate/`,
         method: "PATCH",
-        body: queryArg.userDeactivate,
+        body: queryArg.userEnableDisable,
       }),
     }),
     usersPartialUpdate: build.mutation<
@@ -459,10 +469,15 @@ export type SystemsNotesCreateApiArg = {
   id: string;
   systemNotes: SystemNotes;
 };
+export type UsersActivatePartialUpdateApiResponse =
+  /** status 200  */ UserEnableDisable;
+export type UsersActivatePartialUpdateApiArg = {
+  userEnableDisable: UserEnableDisable;
+};
 export type UsersDeactivatePartialUpdateApiResponse =
-  /** status 200  */ UserDeactivate;
+  /** status 200  */ UserEnableDisable;
 export type UsersDeactivatePartialUpdateApiArg = {
-  userDeactivate: UserDeactivate;
+  userEnableDisable: UserEnableDisable;
 };
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
@@ -645,7 +660,7 @@ export type SystemNotes = {
   note: string;
   created_at?: string;
 };
-export type UserDeactivate = {
+export type UserEnableDisable = {
   users: number[];
 };
 export const {
@@ -679,6 +694,7 @@ export const {
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
+  useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;

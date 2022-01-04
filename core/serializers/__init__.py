@@ -262,7 +262,7 @@ class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
         fields = ["id", "memberships"]
 
 
-class UserDeactivateSerializer(serializers.Serializer):
+class UserEnableDisableSerializer(serializers.Serializer):
     users = serializers.PrimaryKeyRelatedField(
         many=True, queryset=models.User.objects.all()
     )

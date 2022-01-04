@@ -285,7 +285,7 @@ class OrganizationSeatViewSet(ModelViewSet):
 
 class UserDeactivateViewSet(ModelViewSet):
     def get_serializer_class(self):
-        return serializers.UserDeactivateSerializer
+        return serializers.UserEnableDisableSerializer
 
     def get_queryset(self):
         if self.request.user.is_superuser:
@@ -305,6 +305,31 @@ class UserDeactivateViewSet(ModelViewSet):
         models.User.objects.filter(
             id__in=[x.id for x in serializer.validated_data["users"]]
         ).update(is_active=False)
+        return Response(serializer.data)
+
+
+class UserActivateViewSet(ModelViewSet):
+    def get_serializer_class(self):
+        return serializers.UserEnableDisableSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.User.objects.all()
+
+        return models.User.objects.filter(
+            id__in=models.Membership.objects.filter(
+                organization__in=self.request.user.get_organizations(
+                    roles=[models.Role.USER_ADMIN]
+                )
+            ).values_list("user")
+        )
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        models.User.objects.filter(
+            id__in=[x.id for x in serializer.validated_data["users"]]
+        ).update(is_active=True)
         return Response(serializer.data)
 
 

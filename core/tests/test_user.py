@@ -68,3 +68,31 @@ class UserTestCase(BaseTestCase):
         user = models.User.objects.get(email="johndoe@request.com", is_active=False)
         self.assertFalse(user.is_active)
         self.assertTrue(models.Membership.objects.get(user=user).under_review)
+
+    def test_user_deactivate(self):
+        for user in [self.user_admin]:
+            self.client.force_login(user)
+
+            new_user = factories.UserFactory(
+                is_active=True, organizations=[self.organization]
+            )
+            response = self.client.patch(
+                "/api/users/deactivate/", data={"users": [new_user.id]}
+            )
+            self.assertEqual(response.status_code, 200)
+            new_user.refresh_from_db()
+            self.assertEqual(new_user.is_active, False)
+
+    def test_user_activate(self):
+        for user in [self.user_admin]:
+            self.client.force_login(user)
+
+            new_user = factories.UserFactory(
+                is_active=False, organizations=[self.organization]
+            )
+            response = self.client.patch(
+                "/api/users/activate/", data={"users": [new_user.id]}
+            )
+            self.assertEqual(response.status_code, 200)
+            new_user.refresh_from_db()
+            self.assertEqual(new_user.is_active, True)
