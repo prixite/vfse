@@ -83,6 +83,7 @@ api_urlpatterns = [
         "api/organizations/<str:pk>/sites/",
         api.OrganizationSiteViewSet.as_view(
             {
+                "post": "create",
                 "put": "update",
                 "get": "list",
             }
@@ -99,6 +100,14 @@ api_urlpatterns = [
     path(
         "api/users/deactivate/",
         api.UserDeactivateViewSet.as_view(
+            {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
+        "api/users/activate/",
+        api.UserActivateViewSet.as_view(
             {
                 "patch": "partial_update",
             }

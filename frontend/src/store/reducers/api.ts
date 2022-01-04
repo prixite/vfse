@@ -171,6 +171,16 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
+    organizationsSitesCreate: build.mutation<
+      OrganizationsSitesCreateApiResponse,
+      OrganizationsSitesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/sites/`,
+        method: "POST",
+        body: queryArg.metaSite,
+      }),
+    }),
     organizationsSitesUpdate: build.mutation<
       OrganizationsSitesUpdateApiResponse,
       OrganizationsSitesUpdateApiArg
@@ -301,6 +311,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemNotes,
       }),
     }),
+    usersActivatePartialUpdate: build.mutation<
+      UsersActivatePartialUpdateApiResponse,
+      UsersActivatePartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/activate/`,
+        method: "PATCH",
+        body: queryArg.userEnableDisable,
+      }),
+    }),
     usersDeactivatePartialUpdate: build.mutation<
       UsersDeactivatePartialUpdateApiResponse,
       UsersDeactivatePartialUpdateApiArg
@@ -308,7 +328,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/users/deactivate/`,
         method: "PATCH",
-        body: queryArg.userDeactivate,
+        body: queryArg.userEnableDisable,
       }),
     }),
     usersPartialUpdate: build.mutation<
@@ -424,6 +444,11 @@ export type OrganizationsSitesListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
+export type OrganizationsSitesCreateApiResponse = /** status 201  */ MetaSite;
+export type OrganizationsSitesCreateApiArg = {
+  id: string;
+  metaSite: MetaSite;
+};
 export type OrganizationsSitesUpdateApiResponse =
   /** status 200  */ OrganizationSite;
 export type OrganizationsSitesUpdateApiArg = {
@@ -497,10 +522,15 @@ export type SystemsNotesCreateApiArg = {
   id: string;
   systemNotes: SystemNotes;
 };
+export type UsersActivatePartialUpdateApiResponse =
+  /** status 200  */ UserEnableDisable;
+export type UsersActivatePartialUpdateApiArg = {
+  userEnableDisable: UserEnableDisable;
+};
 export type UsersDeactivatePartialUpdateApiResponse =
-  /** status 200  */ UserDeactivate;
+  /** status 200  */ UserEnableDisable;
 export type UsersDeactivatePartialUpdateApiArg = {
-  userDeactivate: UserDeactivate;
+  userEnableDisable: UserEnableDisable;
 };
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
@@ -688,7 +718,7 @@ export type SystemNotes = {
   note: string;
   created_at?: string;
 };
-export type UserDeactivate = {
+export type UserEnableDisable = {
   users: number[];
 };
 export const {
@@ -711,6 +741,7 @@ export const {
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
+  useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
@@ -725,6 +756,7 @@ export const {
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
+  useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;

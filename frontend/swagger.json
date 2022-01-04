@@ -553,6 +553,31 @@
                     "organizations"
                 ]
             },
+            "post": {
+                "operationId": "organizations_sites_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/MetaSite"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/MetaSite"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "put": {
                 "operationId": "organizations_sites_update",
                 "description": "",
@@ -971,6 +996,34 @@
                 }
             ]
         },
+        "/users/activate/": {
+            "patch": {
+                "operationId": "users_activate_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UserEnableDisable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/UserEnableDisable"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
         "/users/deactivate/": {
             "patch": {
                 "operationId": "users_deactivate_partial_update",
@@ -981,7 +1034,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UserDeactivate"
+                            "$ref": "#/definitions/UserEnableDisable"
                         }
                     }
                 ],
@@ -989,7 +1042,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/UserDeactivate"
+                            "$ref": "#/definitions/UserEnableDisable"
                         }
                     }
                 },
@@ -1931,7 +1984,7 @@
                 }
             }
         },
-        "UserDeactivate": {
+        "UserEnableDisable": {
             "description": "",
             "required": [
                 "users"

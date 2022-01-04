@@ -112,6 +112,17 @@ form input:focus {
 .welcome-page .card .card-body div.item-col {
   padding: 6px;
 }
+.welcome-page .card .card-body div.item-col img {
+  width: 50px;
+  height: 50px;
+}
+
+.welcome-page .card .card-body div.item-col .alt-text {
+  font-size: xx-large;
+  letter-spacing: -3px;
+  font-weight: bold;
+  line-height: normal;
+}
 
 .welcome-page .card {
   margin-top: 20px;

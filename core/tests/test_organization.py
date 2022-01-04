@@ -172,20 +172,6 @@ class OrganizationTestCase(BaseTestCase):
             )
             self.assertEqual(response.status_code, status_code)
 
-    def test_user_deactivate(self):
-        for user in [self.user_admin]:
-            self.client.force_login(user)
-
-            new_user = factories.UserFactory(
-                is_active=True, organizations=[self.organization]
-            )
-            response = self.client.patch(
-                "/api/users/deactivate/", data={"users": [new_user.id]}
-            )
-            self.assertEqual(response.status_code, 200)
-            new_user.refresh_from_db()
-            self.assertEqual(new_user.is_active, False)
-
     def test_user_upsert_insert(self):
         self.client.force_login(self.super_admin)
         user_data = {
@@ -379,6 +365,23 @@ class OrganizationTestCase(BaseTestCase):
                 organization=self.organization.id, health_network__is_customer=False
             ).count(),
             2,
+        )
+
+    def test_post_organization_sites(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "name": "New Organization",
+                "address": "Lahore k qareeb",
+            },
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.Site.objects.filter(
+                organization=self.organization, name="New Organization"
+            ).exists()
         )
 
 
