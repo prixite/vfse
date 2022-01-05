@@ -18,10 +18,7 @@ class ProductTestCase(BaseTestCase):
             "/api/products/",
             data={
                 "name": "New Product",
-                "manufacturer": {
-                    "name": manufacuturer_obj.name,
-                    "image": manufacuturer_obj.image.id,
-                },
+                "manufacturer": manufacuturer_obj.id,
             },
         )
         self.assertEqual(response.status_code, 201)

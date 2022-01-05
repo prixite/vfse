@@ -433,11 +433,14 @@ class ProductViewSet(ModelViewSet):
     def get_queryset(self):
         return models.Product.objects.all()
 
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.ProductCreateSerializer
+
+        return self.serializer_class
+
     def perform_create(self, serializer):
-        manufacturer, created = models.Manufacturer.objects.get_or_create(
-            name__iexact=serializer.validated_data["manufacturer"]["name"],
-            defaults={"image": serializer.validated_data["manufacturer"]["image"]},
-        )
         models.Product.objects.create(
-            name=serializer.validated_data["name"], manufacturer=manufacturer
+            name=serializer.validated_data["name"],
+            manufacturer=serializer.validated_data["manufacturer"],
         )

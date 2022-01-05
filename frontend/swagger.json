@@ -711,7 +711,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Product"
+                            "$ref": "#/definitions/ProductCreate"
                         }
                     }
                 ],
@@ -719,7 +719,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/Product"
+                            "$ref": "#/definitions/ProductCreate"
                         }
                     }
                 },
@@ -1785,6 +1785,31 @@
                 },
                 "manufacturer": {
                     "$ref": "#/definitions/Manufacturer"
+                }
+            }
+        },
+        "ProductCreate": {
+            "description": "Product(id, name, manufacturer, created_at, updated_at)",
+            "required": [
+                "name",
+                "manufacturer"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "manufacturer": {
+                    "title": "Manufacturer",
+                    "type": "integer"
                 }
             }
         },

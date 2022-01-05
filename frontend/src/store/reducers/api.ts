@@ -223,7 +223,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/products/`,
         method: "POST",
-        body: queryArg.product,
+        body: queryArg.productCreate,
       }),
     }),
     productsModelsList: build.query<
@@ -472,9 +472,9 @@ export type ProductsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ProductsCreateApiResponse = /** status 201  */ Product;
+export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
-  product: Product;
+  productCreate: ProductCreate;
 };
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
@@ -680,6 +680,11 @@ export type Product = {
   id?: number;
   name: string;
   manufacturer: Manufacturer;
+};
+export type ProductCreate = {
+  id?: number;
+  name: string;
+  manufacturer: number;
 };
 export type ProductModel = {
   id?: number;
