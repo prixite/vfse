@@ -139,7 +139,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/products/models/",
+        "api/products/<str:pk>/models/",
         api.ProductModelViewSet.as_view(
             {
                 "get": "list",

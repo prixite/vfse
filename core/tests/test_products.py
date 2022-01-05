@@ -46,3 +46,45 @@ class ProductTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.product.refresh_from_db()
         self.assertEqual(self.product.name, "Latest Product")
+
+    def test_list_product_models(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get(f"/api/products/{self.product.id}/models/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            len(response.json()),
+            models.ProductModel.objects.filter(product=self.product).count(),
+        )
+
+    def test_post_proudct_model(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/products/{self.product.id}/models/",
+            data={
+                "model": "test model",
+                "modality": self.modality.id,
+                "documentation": self.documentation.id,
+            },
+        )
+        self.assertEqual(response.status_code, 201),
+        self.assertTrue(models.ProductModel.objects.filter(model="test model").exists())
+
+    def test_delete_product_model(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.delete(
+            f"/api/products/{self.product.id}/models/{self.product_model.id}/"
+        )
+        self.assertEqual(response.status_code, 204)
+
+    def test_update_product_model(self):
+        self.client.force_login(self.super_admin)
+
+        response = self.client.patch(
+            f"/api/products/{self.product.id}/models/{self.product_model.id}/",
+            data={"model": "Updated model"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            models.ProductModel.objects.filter(model="Updated model").exists()
+        )
