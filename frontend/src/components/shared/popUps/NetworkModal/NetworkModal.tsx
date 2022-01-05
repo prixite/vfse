@@ -6,7 +6,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -15,6 +14,7 @@ import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   updateOrganizationService,
+  addNewHealthNetworkService,
   //addNewOrganizationService,
 } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
@@ -22,6 +22,9 @@ import {
   Organization,
   //useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
+  useOrganizationsHealthNetworksCreateMutation,
+  useOrganizationsSitesUpdateMutation,
+  Site,
 } from "@src/store/reducers/api";
 
 import SiteSection from "./SiteSection";
@@ -30,27 +33,33 @@ import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
 interface Props {
   organization: Organization;
-  setOrganization: (arg: object) => void;
   refetch: () => void;
   open: boolean;
   handleClose: () => void;
+  action: string;
 }
 
 export default function NetworkModal(props: Props) {
-  const { currentOrganization } = useAppSelector((state) => state.organization);
-  const { appearance } = currentOrganization;
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
+  );
+  const { appearance } = selectedOrganization;
   //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
+  const [addHealthNetwork] = useOrganizationsHealthNetworksCreateMutation();
+  const [updateOrganizationSites] = useOrganizationsSitesUpdateMutation();
   const [networkName, setNetworkName] = useState("");
   const [networkError, setNetworkError] = useState("");
   const [selectedImage, setSelectedImage] = useState([]);
   const [imageError, setImageError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const [sites, setSites] = useState([1]);
+  const [sitePointer, setSitePointer] = useState<Site[]>([
+    { name: "", address: "" },
+  ]);
   const {
-    popUpNewNetwork,
     newNetworkAddSite,
     newNetworkLogo,
     newNetworkName,
@@ -61,6 +70,8 @@ export default function NetworkModal(props: Props) {
   useEffect(() => {
     if (props?.organization) {
       setNetworkName(props.organization?.name);
+      const sites = props?.organization?.sites;
+      setSitePointer([...sites]);
     } else {
       setNetworkName("");
     }
@@ -74,6 +85,7 @@ export default function NetworkModal(props: Props) {
   };
 
   const handleSetNewOrganization = async () => {
+    setIsLoading(true);
     const { id } = props.organization;
     if (!networkName) {
       setNetworkError("This value is required");
@@ -83,7 +95,7 @@ export default function NetworkModal(props: Props) {
     }
     if (networkName && selectedImage.length) {
       const organizationObject = getOrganizationObject();
-      uploadImageToS3(selectedImage[0]).then(async (data) => {
+      await uploadImageToS3(selectedImage[0]).then(async (data) => {
         organizationObject.appearance.banner = data?.location;
         organizationObject.appearance.logo = data?.location;
         organizationObject.appearance.icon = data?.location;
@@ -92,19 +104,47 @@ export default function NetworkModal(props: Props) {
             id,
             organizationObject,
             updateOrganization,
+            updateOrganizationSites,
+            organizationObject?.sites,
             props.refetch
-          )
-            .then(() => {
-              toast.success("Organization successfully Updated");
-              props.handleClose();
-            })
-            .catch((error) => setNetworkError(error?.response));
+          );
         }
       });
     }
+    setIsLoading(false);
+  };
+  const handleAddNewHealthNetwork = async () => {
+    setIsLoading(true);
+    const { id } = selectedOrganization;
+    if (!networkName) {
+      setNetworkError("This value is required");
+    }
+    if (!selectedImage.length) {
+      setImageError("Image is not selected");
+    }
+    if (networkName && selectedImage.length) {
+      const organizationObject = getOrganizationObject();
+      await uploadImageToS3(selectedImage[0]).then(async (data) => {
+        organizationObject.appearance.banner = data?.location;
+        organizationObject.appearance.logo = data?.location;
+        organizationObject.appearance.icon = data?.location;
+        if (organizationObject?.appearance.banner || organizationObject) {
+          await addNewHealthNetworkService(
+            id,
+            organizationObject,
+            addHealthNetwork,
+            updateOrganizationSites,
+            organizationObject?.sites,
+            props.refetch
+          );
+        }
+      });
+    }
+    setIsLoading(false);
   };
 
   const getOrganizationObject = () => {
+    const TempSites = sitePointer.filter((site) => site?.name && site?.address);
     return {
       name: networkName,
       number_of_seats: null,
@@ -115,12 +155,17 @@ export default function NetworkModal(props: Props) {
         primary_color: appearance.primary_color,
         font_one: appearance.font_one,
         font_two: appearance.font_two,
+        banner: "",
+        logo: "",
+        icon: "",
       },
+      sites: TempSites,
     };
   };
 
   const addSite = () => {
-    setSites([...sites, sites.length + 1]);
+    //  setSites((prevState)=>[...prevState,site]);
+    setSitePointer([...sitePointer, { name: "", address: "" }]);
   };
 
   return (
@@ -131,9 +176,7 @@ export default function NetworkModal(props: Props) {
     >
       <DialogTitle>
         <div className="title-section">
-          <span className="modal-header">
-            {props.organization?.name ?? popUpNewNetwork}
-          </span>
+          <span className="modal-header">{"Hello Here"}</span>
           <span className="dialog-page">
             <img
               src={CloseBtn}
@@ -165,8 +208,14 @@ export default function NetworkModal(props: Props) {
               helperText={networkError}
             />
           </div>
-          {sites.map((site, index) => (
-            <SiteSection key={index} siteNumber={site} />
+          {sitePointer.map((site, index) => (
+            <SiteSection
+              key={index}
+              index={index}
+              sitee={site}
+              setSites={setSitePointer}
+              AllSites={sitePointer}
+            />
           ))}
           <div className="network-info">
             <Button className="heading-btn" onClick={addSite}>
@@ -178,21 +227,41 @@ export default function NetworkModal(props: Props) {
       </DialogContent>
       <DialogActions>
         <Button
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "gray",
+                  color: "black",
+                }
+              : {
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }
+          }
           onClick={props.handleClose}
+          disabled={isLoading}
           className="cancel-btn"
         >
           {newNetworkBtnCancel}
         </Button>
         <Button
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
-          onClick={handleSetNewOrganization}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "gray",
+                  color: "black",
+                }
+              : {
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }
+          }
+          onClick={
+            props.action === "edit"
+              ? handleSetNewOrganization
+              : handleAddNewHealthNetwork
+          }
+          disabled={isLoading}
           className="add-btn"
         >
           {newNetworkBtnSave}

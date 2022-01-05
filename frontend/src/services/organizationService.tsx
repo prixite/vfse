@@ -25,10 +25,79 @@ const updateOrganizationService = async (
   id,
   organization,
   updateOrganization,
+  updateOrganizationSites,
+  sites,
   refetch
 ) => {
-  await updateOrganization({ id, organization }).unwrap();
-  refetch();
+  await updateOrganization({ id, organization })
+    .unwrap()
+    .then(async (response) => {
+      toast.success("New Organization Added.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+      await updateOrganizationSites({
+        id: response?.id,
+        organizationSite: { sites: [...sites] },
+      })
+        .unwrap()
+        .then(() => {
+          toast.success("Sites Updated.", {
+            autoClose: 1000,
+            pauseOnHover: false,
+            onClose: refetch,
+          });
+        })
+        .catch((err) => {
+          toast.success(err.response, {
+            autoClose: 1000,
+            pauseOnHover: false,
+            onClose: refetch,
+          });
+        });
+    });
+};
+const addNewHealthNetworkService = async (
+  id,
+  organization,
+  addHealthNetwork,
+  updateOrganizationSites,
+  sites,
+  refetch
+) => {
+  await addHealthNetwork({
+    id: id.toString(),
+    healthNetwork: organization,
+  })
+    .unwrap()
+    .then(async (response) => {
+      toast.success("New HealthNetwork Added.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+      await updateOrganizationSites({
+        id: response?.id,
+        organizationSite: { sites: [...sites] },
+      })
+        .unwrap()
+        .then(() => {
+          toast.success("Sites Updated.", {
+            autoClose: 1000,
+            pauseOnHover: false,
+            onClose: refetch,
+          });
+        })
+        .catch((err) => {
+          toast.success(err.response, {
+            autoClose: 1000,
+            pauseOnHover: false,
+            onClose: refetch,
+          });
+        });
+    })
+    .catch((err) => {
+      toast.success(err.response);
+    });
 };
 const addNewOrganizationService = async (
   organization,
@@ -53,4 +122,5 @@ export {
   updateOrganizationService,
   addNewOrganizationService,
   updateSitesService,
+  addNewHealthNetworkService,
 };

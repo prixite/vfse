@@ -45,8 +45,6 @@ const ClientCard = ({
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [openNetworkModal, setOpenNetworkModal] = useState(false);
-  console.log(openNetworkModal); // eslint-disable-line no-console
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute } = constants;
@@ -69,9 +67,9 @@ const ClientCard = ({
   const handleEditAppearance = () => {
     dispatch(openAddModal());
     setOrganization(row);
+    handleClose();
   };
   const handleNetworkModal = () => {
-    setOpenNetworkModal(true);
     handleClose();
   };
 
