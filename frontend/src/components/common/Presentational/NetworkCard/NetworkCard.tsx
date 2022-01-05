@@ -12,6 +12,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
 import {
+  HealthNetwork,
   Organization,
   useOrganizationsDeleteMutation,
 } from "@src/store/reducers/api";
@@ -21,12 +22,13 @@ import "@src/components/common/Presentational/NetworkCard/NetworkCard.scss";
 interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<SetStateAction<Organization>>;
-  row: Organization;
+  row: HealthNetwork;
   refetch: () => void;
   networkId: number;
   logo: string;
   name: string;
   sitesCount: number;
+  setAction?: Dispatch<SetStateAction<string>>;
 }
 const NetworkCard = ({
   networkId,
@@ -36,6 +38,7 @@ const NetworkCard = ({
   refetch,
   row,
   setOrganization,
+  setAction,
 }: NetworkCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -48,9 +51,9 @@ const NetworkCard = ({
 
   const handleModalOpen = () => {
     setOpenModal(true);
-    handleClose();
   };
   const handleModalClose = () => {
+    setAnchorEl(null);
     setOpenModal(false);
   };
   const handleClick = (event) => {
@@ -67,8 +70,10 @@ const NetworkCard = ({
   };
 
   const handleEditAppearance = () => {
-    dispatch(openNetworkModal());
+    setAction("edit");
     setOrganization(row);
+    handleClose();
+    dispatch(openNetworkModal());
   };
 
   return (

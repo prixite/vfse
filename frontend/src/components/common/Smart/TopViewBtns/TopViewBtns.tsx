@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, Dispatch, SetStateAction } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -10,24 +10,25 @@ import ColumnSelector from "@src/components/common/Presentational/ColumnSelector
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import { HealthNetwork } from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
 
 interface Props {
   path: string;
-  setOpen: (arg: boolean) => void;
+  setOpen?: (arg: boolean) => void;
   setData: (arg: object) => void;
   setList: (arg: { query: string; results?: { name: string }[] }) => void;
-  actualData: { name: string; username: string }[];
+  actualData: HealthNetwork[];
   searchText: string;
   setSearchText: (arg: string) => void;
-  tableColumns: {
+  tableColumns?: {
     field: string;
     headerName: string;
     width: number;
     hide: boolean;
     disableColumnMenu: boolean;
   }[];
-  setTableColumns: (
+  setTableColumns?: (
     arg: {
       field: string;
       headerName: string;
@@ -36,6 +37,7 @@ interface Props {
       disableColumnMenu: boolean;
     }[]
   ) => void;
+  setAction?: Dispatch<SetStateAction<string>>;
 }
 
 const TopViewBtns = ({
@@ -48,6 +50,7 @@ const TopViewBtns = ({
   setSearchText,
   tableColumns,
   setTableColumns,
+  setAction,
 }: Props) => {
   const dispatch = useAppDispatch();
   let constantData: { btnFilter: string; btnAdd: string };
@@ -76,6 +79,7 @@ const TopViewBtns = ({
       setData(null);
     } else if (path === "modality") {
       dispatch(openNetworkModal());
+      setAction("add");
       setData(null);
     } else if (path !== "organizations") {
       setOpen(true);
