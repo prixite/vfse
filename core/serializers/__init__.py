@@ -286,9 +286,10 @@ class ModalitySerializer(serializers.ModelSerializer):
 
 
 class ProductModelSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(read_only=True)
     class Meta:
         model = models.ProductModel
-        fields = ["id", "product", "modality", "documentation"]
+        fields = ["id","model", "product", "modality", "documentation"]
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):

@@ -130,18 +130,20 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/products/models/",
+        "api/products/<str:pk>/models/",
         api.ProductModelViewSet.as_view(
             {
                 "get": "list",
+                'post':'create',
             }
         ),
     ),
     path(
-        "api/products/models/<str:pk>/",
+        "api/products/<str:pk>/models/<str:model_id>/",
         api.ProductModelViewSet.as_view(
             {
                 "patch": "partial_update",
+                "delete":"destroy",
             }
         ),
     ),

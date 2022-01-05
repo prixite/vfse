@@ -66,3 +66,4 @@ class BaseTestCase(TestCase):
         self.note = factories.SystemNoteFactory(
             system=self.system, author=self.super_admin
         )
+        self.documentation = factories.DocumentationFactory()
