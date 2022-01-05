@@ -139,15 +139,6 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/products/<str:pk>/",
-        api.ProductViewSet.as_view(
-            {
-                "delete": "destroy",
-                "patch": "partial_update",
-            }
-        ),
-    ),
-    path(
         "api/products/models/",
         api.ProductModelViewSet.as_view(
             {
@@ -159,6 +150,15 @@ api_urlpatterns = [
         "api/products/models/<str:pk>/",
         api.ProductModelViewSet.as_view(
             {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
+        "api/products/<str:pk>/",
+        api.ProductViewSet.as_view(
+            {
+                "delete": "destroy",
                 "patch": "partial_update",
             }
         ),
