@@ -431,7 +431,10 @@ class ProductViewSet(ModelViewSet):
     serializer_class = serializers.ProductSerializer
 
     def get_queryset(self):
-        return models.Product.objects.all()
+        queryset = models.Product.objects.all()
+        if self.action == "list":
+            return queryset.select_related("manufacturer")
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "create":
