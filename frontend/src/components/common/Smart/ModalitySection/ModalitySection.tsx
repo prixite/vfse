@@ -18,11 +18,11 @@ const ModalitySection = () => {
   const { openAddNetworkModal } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   // Just suppressing eslint error; TODO: Use network.
-  console.log(network); // eslint-disable-line no-console
   const [open, setOpen] = useState(false); // eslint-disable-line
   // const setOpen = function () {
   //   return "fake";
   // };
+  const [action, setAction] = useState("");
   const [networksList, setNetworksList] = useState({});
   const [searchText, setSearchText] = useState("");
   const { title, noDataTitle, noDataDescription } = localizedData().modalities;
@@ -50,6 +50,7 @@ const ModalitySection = () => {
           path="modality"
           setData={setNetwork}
           setList={setNetworksList}
+          setAction={setAction}
           actualData={networksData}
           searchText={searchText}
           setSearchText={setSearchText}
@@ -62,6 +63,7 @@ const ModalitySection = () => {
               networksList?.results?.map((item, key) => (
                 <Grid key={key} item xs={3}>
                   <NetworkCard
+                    setAction={setAction}
                     setOpen={setOpen}
                     setOrganization={setNetwork}
                     row={item}
@@ -83,10 +85,13 @@ const ModalitySection = () => {
             ) : (
               ""
             )
-          ) : networksData && networksData?.length ? (
+          ) : (
+            networksData &&
+            networksData?.length &&
             networksData.map((item, key) => (
               <Grid key={key} item xs={3}>
                 <NetworkCard
+                  setAction={setAction}
                   setOpen={setOpen}
                   setOrganization={setNetwork}
                   row={item}
@@ -98,15 +103,13 @@ const ModalitySection = () => {
                 />
               </Grid>
             ))
-          ) : (
-            ""
           )}
         </Grid>
         {/* Umair: Disable this button because it is crashing. */}
         <NetworkModal
           organization={network}
-          setOrganization={setNetwork}
           open={openAddNetworkModal}
+          action={action}
           handleClose={handleClose}
           refetch={orgNetworkRefetch}
         />

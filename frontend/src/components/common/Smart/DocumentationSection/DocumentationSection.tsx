@@ -11,6 +11,7 @@ import EditLogo from "@src/assets/svgs/Edit.svg";
 import LinkLogo from "@src/assets/svgs/Link.svg";
 import "@src/components/common/Smart/DocumentationSection/DocumentationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
+import { useProductsModelsListQuery } from "@src/store/reducers/api";
 
 import TopTableFilters from "../TopTableFilters/TopTableFilters";
 
@@ -35,26 +36,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  name: string,
-  calories: string,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData("Ge signa excite", "Phillips", 6.0, 24, 4.0),
-  createData("Ge signa excite", "Phillips", 9.0, 37, 4.3),
-  createData("Ge signa excite", "Phillips", 16.0, 24, 6.0),
-  createData("Ge signa excite", "Phillips", 3.7, 67, 4.3),
-  createData("Ge signa excite", "Phillips", 16.0, 49, 3.9),
-];
-
 export default function DocumentationSection() {
   const { title } = localizedData().documentation;
+
+  const { data: rows, isLoading } = useProductsModelsListQuery({ page: 1 });
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
 
   const renderModalities = (modalities) => {
     return (
@@ -84,6 +73,7 @@ export default function DocumentationSection() {
       </div>
     );
   };
+
   return (
     <div className="documentaion-section">
       <h2>{title}</h2>
@@ -105,14 +95,16 @@ export default function DocumentationSection() {
             {rows.map((row, index) => (
               <StyledTableRow key={index}>
                 <StyledTableCell>
-                  <span className="dark-text">{row.name}</span>
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                <StyledTableCell align="right">
-                  {renderModalities(["MRI", "CRM", "MRI-2"])}
+                  <span className="dark-text">{row.product.name}</span>
                 </StyledTableCell>
                 <StyledTableCell align="right">
-                  {documentationLink("www.doclink.com/ertghjhas/systemname")}
+                  {row.product.manufacturer.name}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {renderModalities([row.modality.name])}
+                </StyledTableCell>
+                <StyledTableCell align="right">
+                  {documentationLink(row.documentation.url)}
                 </StyledTableCell>
                 <StyledTableCell align="right">{actionLink()}</StyledTableCell>
               </StyledTableRow>

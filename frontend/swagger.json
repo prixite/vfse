@@ -674,7 +674,62 @@
                 }
             ]
         },
-        "/products/{id}/models/": {
+        "/products/": {
+            "get": {
+                "operationId": "products_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "post": {
+                "operationId": "products_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProductCreate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/ProductCreate"
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": []
+        },
+        "/products/models/": {
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
@@ -784,6 +839,54 @@
                 },
                 {
                     "name": "model_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/products/{id}/": {
+            "patch": {
+                "operationId": "products_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "delete": {
+                "operationId": "products_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -1712,11 +1815,83 @@
                 }
             }
         },
+        "Product": {
+            "description": "Product(id, name, manufacturer, created_at, updated_at)",
+            "required": [
+                "name",
+                "manufacturer"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "manufacturer": {
+                    "$ref": "#/definitions/Manufacturer"
+                }
+            }
+        },
+        "ProductCreate": {
+            "description": "Product(id, name, manufacturer, created_at, updated_at)",
+            "required": [
+                "name",
+                "manufacturer"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "manufacturer": {
+                    "title": "Manufacturer",
+                    "type": "integer"
+                }
+            }
+        },
+        "Documentation": {
+            "title": "Documentation",
+            "description": "Documentation(id, url, created_at, updated_at)",
+            "required": [
+                "url"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "url": {
+                    "title": "Url",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
         "ProductModel": {
             "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
-                "model",
-                "modality"
+                "product",
+                "modality",
+                "documentation"
             ],
             "type": "object",
             "properties": {
@@ -1732,18 +1907,13 @@
                     "minLength": 1
                 },
                 "product": {
-                    "title": "Product",
-                    "type": "integer",
-                    "readOnly": true
+                    "$ref": "#/definitions/Product"
                 },
                 "modality": {
-                    "title": "Modality",
-                    "type": "integer"
+                    "$ref": "#/definitions/Modality"
                 },
                 "documentation": {
-                    "title": "Documentation",
-                    "type": "integer",
-                    "x-nullable": true
+                    "$ref": "#/definitions/Documentation"
                 }
             }
         },

@@ -285,18 +285,34 @@ class ModalitySerializer(serializers.ModelSerializer):
         fields = ["name"]
 
 
-class ProductModelSerializer(serializers.ModelSerializer):
-    product = serializers.PrimaryKeyRelatedField(read_only=True)
-
-    class Meta:
-        model = models.ProductModel
-        fields = ["id", "model", "product", "modality", "documentation"]
-
-
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Manufacturer
         fields = ["name", "image"]
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    manufacturer = ManufacturerSerializer()
+
+    class Meta:
+        model = models.Product
+        fields = ["id", "name", "manufacturer"]
+
+
+class DocumentationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Documentation
+        fields = ["id", "url"]
+
+
+class ProductModelSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
+    modality = ModalitySerializer()
+    documentation = DocumentationSerializer()
+
+    class Meta:
+        model = models.ProductModel
+        fields = ["id", "product", "modality", "documentation"]
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
@@ -353,3 +369,9 @@ class UserRequestAcessSeriazlizer(UpsertUserSerializer):
 
     def validate_organization(self, value):
         return value
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = ["id", "name", "manufacturer"]
