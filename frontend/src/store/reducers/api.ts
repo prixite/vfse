@@ -686,11 +686,15 @@ export type ProductCreate = {
   name: string;
   manufacturer: number;
 };
+export type Documentation = {
+  id?: number;
+  url: string;
+};
 export type ProductModel = {
   id?: number;
-  product: number;
-  modality: number;
-  documentation?: number | null;
+  product: Product;
+  modality: Modality;
+  documentation: Documentation;
 };
 export type HisRisInfo = {
   ip: string;

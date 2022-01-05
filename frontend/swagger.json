@@ -1813,11 +1813,34 @@
                 }
             }
         },
+        "Documentation": {
+            "title": "Documentation",
+            "description": "Documentation(id, url, created_at, updated_at)",
+            "required": [
+                "url"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "url": {
+                    "title": "Url",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
         "ProductModel": {
             "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
                 "product",
-                "modality"
+                "modality",
+                "documentation"
             ],
             "type": "object",
             "properties": {
@@ -1827,17 +1850,13 @@
                     "readOnly": true
                 },
                 "product": {
-                    "title": "Product",
-                    "type": "integer"
+                    "$ref": "#/definitions/Product"
                 },
                 "modality": {
-                    "title": "Modality",
-                    "type": "integer"
+                    "$ref": "#/definitions/Modality"
                 },
                 "documentation": {
-                    "title": "Documentation",
-                    "type": "integer",
-                    "x-nullable": true
+                    "$ref": "#/definitions/Documentation"
                 }
             }
         },
