@@ -226,6 +226,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.productCreate,
       }),
     }),
+    productsPartialUpdate: build.mutation<
+      ProductsPartialUpdateApiResponse,
+      ProductsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.product,
+      }),
+    }),
+    productsDelete: build.mutation<
+      ProductsDeleteApiResponse,
+      ProductsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     productsModelsList: build.query<
       ProductsModelsListApiResponse,
       ProductsModelsListApiArg
@@ -255,22 +274,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.productModel,
       }),
     }),
-    productsPartialUpdate: build.mutation<
-      ProductsPartialUpdateApiResponse,
-      ProductsPartialUpdateApiArg
+    productsModelsDelete: build.mutation<
+      ProductsModelsDeleteApiResponse,
+      ProductsModelsDeleteApiArg
     >({
       query: (queryArg) => ({
-        url: `/products/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.product,
-      }),
-    }),
-    productsDelete: build.mutation<
-      ProductsDeleteApiResponse,
-      ProductsDeleteApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/products/${queryArg.id}/`,
+        url: `/products/${queryArg.id}/models/${queryArg.modelId}/`,
         method: "DELETE",
       }),
     }),
@@ -486,6 +495,15 @@ export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
 };
+export type ProductsPartialUpdateApiResponse = /** status 200  */ Product;
+export type ProductsPartialUpdateApiArg = {
+  id: string;
+  product: Product;
+};
+export type ProductsDeleteApiResponse = unknown;
+export type ProductsDeleteApiArg = {
+  id: string;
+};
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
   id: string;
@@ -504,14 +522,10 @@ export type ProductsModelsPartialUpdateApiArg = {
   modelId: string;
   productModel: ProductModel;
 };
-export type ProductsPartialUpdateApiResponse = /** status 200  */ Product;
-export type ProductsPartialUpdateApiArg = {
+export type ProductsModelsDeleteApiResponse = unknown;
+export type ProductsModelsDeleteApiArg = {
   id: string;
-  product: Product;
-};
-export type ProductsDeleteApiResponse = unknown;
-export type ProductsDeleteApiArg = {
-  id: string;
+  modelId: string;
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
@@ -703,15 +717,12 @@ export type ProductCreate = {
   name: string;
   manufacturer: number;
 };
-export type Documentation = {
-  id?: number;
-  url: string;
-};
 export type ProductModel = {
   id?: number;
-  product: Product;
-  modality: Modality;
-  documentation: Documentation;
+  product?: number;
+  model: string;
+  modality: number;
+  documentation?: number | null;
 };
 export type HisRisInfo = {
   ip: string;
@@ -773,11 +784,12 @@ export const {
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,
   useProductsCreateMutation,
+  useProductsPartialUpdateMutation,
+  useProductsDeleteMutation,
   useProductsModelsListQuery,
   useProductsModelsCreateMutation,
   useProductsModelsPartialUpdateMutation,
-  useProductsPartialUpdateMutation,
-  useProductsDeleteMutation,
+  useProductsModelsDeleteMutation,
   useSitesSystemsListQuery,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,

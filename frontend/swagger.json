@@ -729,7 +729,55 @@
             },
             "parameters": []
         },
-        "/products/models/": {
+        "/products/{id}/": {
+            "patch": {
+                "operationId": "products_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "delete": {
+                "operationId": "products_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/products/{id}/models/": {
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
@@ -839,54 +887,6 @@
                 },
                 {
                     "name": "model_id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/products/{id}/": {
-            "patch": {
-                "operationId": "products_partial_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Product"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Product"
-                        }
-                    }
-                },
-                "tags": [
-                    "products"
-                ]
-            },
-            "delete": {
-                "operationId": "products_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "products"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -1864,11 +1864,11 @@
                 }
             }
         },
-        "Documentation": {
-            "title": "Documentation",
-            "description": "Documentation(id, url, created_at, updated_at)",
+        "ProductModel": {
+            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
-                "url"
+                "model",
+                "modality"
             ],
             "type": "object",
             "properties": {
@@ -1877,26 +1877,8 @@
                     "type": "integer",
                     "readOnly": true
                 },
-                "url": {
-                    "title": "Url",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "minLength": 1
-                }
-            }
-        },
-        "ProductModel": {
-            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
-            "required": [
-                "product",
-                "modality",
-                "documentation"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
+                "product": {
+                    "title": "Product",
                     "type": "integer",
                     "readOnly": true
                 },
@@ -1906,14 +1888,14 @@
                     "maxLength": 50,
                     "minLength": 1
                 },
-                "product": {
-                    "$ref": "#/definitions/Product"
-                },
                 "modality": {
-                    "$ref": "#/definitions/Modality"
+                    "title": "Modality",
+                    "type": "integer"
                 },
                 "documentation": {
-                    "$ref": "#/definitions/Documentation"
+                    "title": "Documentation",
+                    "type": "integer",
+                    "x-nullable": true
                 }
             }
         },

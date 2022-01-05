@@ -310,14 +310,17 @@ class ProductModelSerializer(serializers.ModelSerializer):
     # modality = ModalitySerializer()
     # documentation = DocumentationSerializer()
 
-    # Why do we make these fields Serializers, is it possible to use existing objects with Serializers as fields
-    # Do we want to be able to create related child objects also while creating a product model
+    # Why do we make these fields Serializers, is it possible to use 
+    # existing objects with Serializers as fields
+    # Do we want to be able to create related child objects also
+    #  while creating a product model
     # If yes, how do we link to old serializers
 
     class Meta:
         model = models.ProductModel
-        fields = ["id", "product",'model',"modality", "documentation"]
-        read_only_fields = ['product']
+        fields = ["id", "product", "model", "modality", "documentation"]
+        read_only_fields = ["product"]
+
 
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
