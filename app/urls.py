@@ -134,7 +134,7 @@ api_urlpatterns = [
         api.ProductModelViewSet.as_view(
             {
                 "get": "list",
-                'post':'create',
+                "post": "create",
             }
         ),
     ),
@@ -143,7 +143,7 @@ api_urlpatterns = [
         api.ProductModelViewSet.as_view(
             {
                 "patch": "partial_update",
-                "delete":"destroy",
+                "delete": "destroy",
             }
         ),
     ),

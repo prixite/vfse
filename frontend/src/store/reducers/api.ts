@@ -215,8 +215,18 @@ const injectedRtkApi = api.injectEndpoints({
       ProductsModelsListApiArg
     >({
       query: (queryArg) => ({
-        url: `/products/models/`,
+        url: `/products/${queryArg.id}/models/`,
         params: { page: queryArg.page },
+      }),
+    }),
+    productsModelsCreate: build.mutation<
+      ProductsModelsCreateApiResponse,
+      ProductsModelsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/${queryArg.id}/models/`,
+        method: "POST",
+        body: queryArg.productModel,
       }),
     }),
     productsModelsPartialUpdate: build.mutation<
@@ -224,9 +234,18 @@ const injectedRtkApi = api.injectEndpoints({
       ProductsModelsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/products/models/${queryArg.id}/`,
+        url: `/products/${queryArg.id}/models/${queryArg.modelId}/`,
         method: "PATCH",
         body: queryArg.productModel,
+      }),
+    }),
+    productsModelsDelete: build.mutation<
+      ProductsModelsDeleteApiResponse,
+      ProductsModelsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/${queryArg.id}/models/${queryArg.modelId}/`,
+        method: "DELETE",
       }),
     }),
     sitesSystemsList: build.query<
@@ -434,14 +453,26 @@ export type OrganizationsUsersCreateApiArg = {
 };
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
+  id: string;
   /** A page number within the paginated result set. */
   page?: number;
+};
+export type ProductsModelsCreateApiResponse = /** status 201  */ ProductModel;
+export type ProductsModelsCreateApiArg = {
+  id: string;
+  productModel: ProductModel;
 };
 export type ProductsModelsPartialUpdateApiResponse =
   /** status 200  */ ProductModel;
 export type ProductsModelsPartialUpdateApiArg = {
   id: string;
+  modelId: string;
   productModel: ProductModel;
+};
+export type ProductsModelsDeleteApiResponse = unknown;
+export type ProductsModelsDeleteApiArg = {
+  id: string;
+  modelId: string;
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
@@ -625,7 +656,8 @@ export type OrganizationUpsertUser = {
 };
 export type ProductModel = {
   id?: number;
-  product: number;
+  model: string;
+  product?: number;
   modality: number;
   documentation?: number | null;
 };
@@ -688,7 +720,9 @@ export const {
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsModelsListQuery,
+  useProductsModelsCreateMutation,
   useProductsModelsPartialUpdateMutation,
+  useProductsModelsDeleteMutation,
   useSitesSystemsListQuery,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,

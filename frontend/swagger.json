@@ -674,7 +674,7 @@
                 }
             ]
         },
-        "/products/models/": {
+        "/products/{id}/models/": {
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
@@ -702,9 +702,41 @@
                     "products"
                 ]
             },
-            "parameters": []
+            "post": {
+                "operationId": "products_models_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProductModel"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/ProductModel"
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         },
-        "/products/models/{id}/": {
+        "/products/{id}/models/{model_id}/": {
             "patch": {
                 "operationId": "products_models_partial_update",
                 "description": "",
@@ -730,9 +762,28 @@
                     "products"
                 ]
             },
+            "delete": {
+                "operationId": "products_models_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
             "parameters": [
                 {
                     "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "model_id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -1664,7 +1715,7 @@
         "ProductModel": {
             "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
-                "product",
+                "model",
                 "modality"
             ],
             "type": "object",
@@ -1674,9 +1725,16 @@
                     "type": "integer",
                     "readOnly": true
                 },
+                "model": {
+                    "title": "Model",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
                 "product": {
                     "title": "Product",
-                    "type": "integer"
+                    "type": "integer",
+                    "readOnly": true
                 },
                 "modality": {
                     "title": "Modality",
