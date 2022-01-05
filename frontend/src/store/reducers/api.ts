@@ -210,6 +210,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organizationUpsertUser,
       }),
     }),
+    productsList: build.query<ProductsListApiResponse, ProductsListApiArg>({
+      query: (queryArg) => ({
+        url: `/products/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    productsCreate: build.mutation<
+      ProductsCreateApiResponse,
+      ProductsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/`,
+        method: "POST",
+        body: queryArg.productCreate,
+      }),
+    }),
     productsModelsList: build.query<
       ProductsModelsListApiResponse,
       ProductsModelsListApiArg
@@ -227,6 +243,25 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/products/models/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.productModel,
+      }),
+    }),
+    productsPartialUpdate: build.mutation<
+      ProductsPartialUpdateApiResponse,
+      ProductsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.product,
+      }),
+    }),
+    productsDelete: build.mutation<
+      ProductsDeleteApiResponse,
+      ProductsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/${queryArg.id}/`,
+        method: "DELETE",
       }),
     }),
     sitesSystemsList: build.query<
@@ -432,6 +467,15 @@ export type OrganizationsUsersCreateApiArg = {
   id: string;
   organizationUpsertUser: OrganizationUpsertUser;
 };
+export type ProductsListApiResponse = /** status 200  */ Product[];
+export type ProductsListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
+export type ProductsCreateApiArg = {
+  productCreate: ProductCreate;
+};
 export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
   /** A page number within the paginated result set. */
@@ -442,6 +486,15 @@ export type ProductsModelsPartialUpdateApiResponse =
 export type ProductsModelsPartialUpdateApiArg = {
   id: string;
   productModel: ProductModel;
+};
+export type ProductsPartialUpdateApiResponse = /** status 200  */ Product;
+export type ProductsPartialUpdateApiArg = {
+  id: string;
+  product: Product;
+};
+export type ProductsDeleteApiResponse = unknown;
+export type ProductsDeleteApiArg = {
+  id: string;
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
@@ -623,6 +676,16 @@ export type OrganizationUpsertUser = {
   id?: number;
   memberships: UpsertUser[];
 };
+export type Product = {
+  id?: number;
+  name: string;
+  manufacturer: Manufacturer;
+};
+export type ProductCreate = {
+  id?: number;
+  name: string;
+  manufacturer: number;
+};
 export type ProductModel = {
   id?: number;
   product: number;
@@ -687,8 +750,12 @@ export const {
   useOrganizationsSitesUpdateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
+  useProductsListQuery,
+  useProductsCreateMutation,
   useProductsModelsListQuery,
   useProductsModelsPartialUpdateMutation,
+  useProductsPartialUpdateMutation,
+  useProductsDeleteMutation,
   useSitesSystemsListQuery,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,

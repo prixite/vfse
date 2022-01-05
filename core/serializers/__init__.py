@@ -351,3 +351,17 @@ class UserRequestAcessSeriazlizer(UpsertUserSerializer):
 
     def validate_organization(self, value):
         return value
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    manufacturer = ManufacturerSerializer()
+
+    class Meta:
+        model = models.Product
+        fields = ["id", "name", "manufacturer"]
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Product
+        fields = ["id", "name", "manufacturer"]

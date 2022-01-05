@@ -147,7 +147,7 @@ class Command(BaseCommand):
             5,
             site=site,
         )
-        factories.OrganizationFactory.create_batch(5, is_customer=True)
+        factories.OrganizationFactory.create_batch(175, is_customer=True)
         factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
         factories.SiteFactory.create_batch(5, organization=health_network)
 

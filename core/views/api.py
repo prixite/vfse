@@ -425,3 +425,22 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
     filterset_fields = ["name"]
+
+
+class ProductViewSet(ModelViewSet):
+    serializer_class = serializers.ProductSerializer
+
+    def get_queryset(self):
+        return models.Product.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.ProductCreateSerializer
+
+        return self.serializer_class
+
+    def perform_create(self, serializer):
+        models.Product.objects.create(
+            name=serializer.validated_data["name"],
+            manufacturer=serializer.validated_data["manufacturer"],
+        )
