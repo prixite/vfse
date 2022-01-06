@@ -148,7 +148,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/products/<str:pk>/models/<str:model_id>/",
+        "api/products/<str:product_pk>/models/<str:pk>/",
         api.ProductModelViewSet.as_view(
             {
                 "patch": "partial_update",
