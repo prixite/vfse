@@ -172,6 +172,7 @@ class SystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.System
         fields = [
+            "name",
             "site",
             "product_model",
             "image",

@@ -292,6 +292,35 @@ const injectedRtkApi = api.injectEndpoints({
         params: { page: queryArg.page },
       }),
     }),
+    sitesSystemsCreate: build.mutation<
+      SitesSystemsCreateApiResponse,
+      SitesSystemsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/sites/${queryArg.id}/systems/`,
+        method: "POST",
+        body: queryArg.system,
+      }),
+    }),
+    sitesSystemsPartialUpdate: build.mutation<
+      SitesSystemsPartialUpdateApiResponse,
+      SitesSystemsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/sites/${queryArg.siteId}/systems/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.system,
+      }),
+    }),
+    sitesSystemsDelete: build.mutation<
+      SitesSystemsDeleteApiResponse,
+      SitesSystemsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/sites/${queryArg.siteId}/systems/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     systemsImagesList: build.query<
       SystemsImagesListApiResponse,
       SystemsImagesListApiArg
@@ -534,6 +563,22 @@ export type SitesSystemsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
+export type SitesSystemsCreateApiResponse = /** status 201  */ System;
+export type SitesSystemsCreateApiArg = {
+  id: string;
+  system: System;
+};
+export type SitesSystemsPartialUpdateApiResponse = /** status 200  */ System;
+export type SitesSystemsPartialUpdateApiArg = {
+  id: string;
+  siteId: string;
+  system: System;
+};
+export type SitesSystemsDeleteApiResponse = unknown;
+export type SitesSystemsDeleteApiArg = {
+  id: string;
+  siteId: string;
+};
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = {
   /** A page number within the paginated result set. */
@@ -746,6 +791,7 @@ export type MriEmbeddedParameters = {
   magnet_pressure: string;
 };
 export type System = {
+  name: string;
   site: number;
   product_model: number;
   image?: number | null;
@@ -802,6 +848,9 @@ export const {
   useProductsModelsPartialUpdateMutation,
   useProductsModelsDeleteMutation,
   useSitesSystemsListQuery,
+  useSitesSystemsCreateMutation,
+  useSitesSystemsPartialUpdateMutation,
+  useSitesSystemsDeleteMutation,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,

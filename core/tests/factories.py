@@ -297,6 +297,7 @@ class SystemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.System
 
+    name = factory.Sequence(lambda x: f"System-{x}")
     product_model = factory.SubFactory(ProductModelFactory)
     image = factory.SubFactory(SystemImageFactory)
     ip_address = "127.0.0.1"

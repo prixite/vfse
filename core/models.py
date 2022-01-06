@@ -280,6 +280,9 @@ class System(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["name", "site"], name="unique_system"),
+        ]
         ordering = ["-id"]
 
 
