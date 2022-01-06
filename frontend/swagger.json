@@ -839,7 +839,7 @@
                 }
             ]
         },
-        "/products/{product_id}/models/{id}/": {
+        "/products/{product_pk}/models/{id}/": {
             "patch": {
                 "operationId": "products_models_partial_update",
                 "description": "",
@@ -886,7 +886,7 @@
                     "type": "string"
                 },
                 {
-                    "name": "product_id",
+                    "name": "product_pk",
                     "in": "path",
                     "required": true,
                     "type": "string"

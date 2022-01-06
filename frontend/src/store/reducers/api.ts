@@ -269,7 +269,7 @@ const injectedRtkApi = api.injectEndpoints({
       ProductsModelsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/products/${queryArg.productId}/models/${queryArg.id}/`,
+        url: `/products/${queryArg.productPk}/models/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.productModel,
       }),
@@ -279,7 +279,7 @@ const injectedRtkApi = api.injectEndpoints({
       ProductsModelsDeleteApiArg
     >({
       query: (queryArg) => ({
-        url: `/products/${queryArg.productId}/models/${queryArg.id}/`,
+        url: `/products/${queryArg.productPk}/models/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -520,13 +520,13 @@ export type ProductsModelsPartialUpdateApiResponse =
   /** status 200  */ ProductModel;
 export type ProductsModelsPartialUpdateApiArg = {
   id: string;
-  productId: string;
+  productPk: string;
   productModel: ProductModel;
 };
 export type ProductsModelsDeleteApiResponse = unknown;
 export type ProductsModelsDeleteApiArg = {
   id: string;
-  productId: string;
+  productPk: string;
 };
 export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
