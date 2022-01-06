@@ -352,7 +352,6 @@ class ModalityViewSet(ModelViewSet):
 
 
 class ProductModelViewSet(ModelViewSet):
-    lookup_url_kwarg = "model_id"
 
     def get_queryset(self):
         return models.ProductModel.objects.filter(product=self.kwargs["pk"])
