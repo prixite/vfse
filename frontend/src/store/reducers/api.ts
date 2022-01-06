@@ -226,6 +226,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.productCreate,
       }),
     }),
+    productsModelsList: build.query<
+      ProductsModelsListApiResponse,
+      ProductsModelsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/models/`,
+        params: { page: queryArg.page },
+      }),
+    }),
+    productsModelsCreate: build.mutation<
+      ProductsModelsCreateApiResponse,
+      ProductsModelsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/models/`,
+        method: "POST",
+        body: queryArg.productModelCreate,
+      }),
+    }),
     productsPartialUpdate: build.mutation<
       ProductsPartialUpdateApiResponse,
       ProductsPartialUpdateApiArg
@@ -243,25 +262,6 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/products/${queryArg.id}/`,
         method: "DELETE",
-      }),
-    }),
-    productsModelsList: build.query<
-      ProductsModelsListApiResponse,
-      ProductsModelsListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/products/${queryArg.id}/models/`,
-        params: { page: queryArg.page },
-      }),
-    }),
-    productsModelsCreate: build.mutation<
-      ProductsModelsCreateApiResponse,
-      ProductsModelsCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/products/${queryArg.id}/models/`,
-        method: "POST",
-        body: queryArg.productModelCreate,
       }),
     }),
     productsModelsPartialUpdate: build.mutation<
@@ -524,6 +524,16 @@ export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
 };
+export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
+export type ProductsModelsListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
+export type ProductsModelsCreateApiResponse =
+  /** status 201  */ ProductModelCreate;
+export type ProductsModelsCreateApiArg = {
+  productModelCreate: ProductModelCreate;
+};
 export type ProductsPartialUpdateApiResponse = /** status 200  */ Product;
 export type ProductsPartialUpdateApiArg = {
   id: string;
@@ -532,18 +542,6 @@ export type ProductsPartialUpdateApiArg = {
 export type ProductsDeleteApiResponse = unknown;
 export type ProductsDeleteApiArg = {
   id: string;
-};
-export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
-export type ProductsModelsListApiArg = {
-  id: string;
-  /** A page number within the paginated result set. */
-  page?: number;
-};
-export type ProductsModelsCreateApiResponse =
-  /** status 201  */ ProductModelCreate;
-export type ProductsModelsCreateApiArg = {
-  id: string;
-  productModelCreate: ProductModelCreate;
 };
 export type ProductsModelsPartialUpdateApiResponse =
   /** status 200  */ ProductModel;
@@ -779,6 +777,7 @@ export type ProductModelCreate = {
   model: string;
   documentation?: number | null;
   modality: number;
+  product: number;
 };
 export type HisRisInfo = {
   ip: string;
@@ -841,10 +840,10 @@ export const {
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,
   useProductsCreateMutation,
-  useProductsPartialUpdateMutation,
-  useProductsDeleteMutation,
   useProductsModelsListQuery,
   useProductsModelsCreateMutation,
+  useProductsPartialUpdateMutation,
+  useProductsDeleteMutation,
   useProductsModelsPartialUpdateMutation,
   useProductsModelsDeleteMutation,
   useSitesSystemsListQuery,

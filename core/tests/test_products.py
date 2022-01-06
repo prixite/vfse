@@ -49,19 +49,20 @@ class ProductTestCase(BaseTestCase):
 
     def test_list_product_models(self):
         self.client.force_login(self.super_admin)
-        response = self.client.get(f"/api/products/{self.product.id}/models/")
+        response = self.client.get("/api/products/models/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             len(response.json()),
-            models.ProductModel.objects.filter(product=self.product).count(),
+            models.ProductModel.objects.all().count(),
         )
 
     def test_post_proudct_model(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
-            f"/api/products/{self.product.id}/models/",
+            "/api/products/models/",
             data={
                 "model": "test model",
+                "product": self.product.id,
                 "modality": self.modality.id,
                 "documentation": self.documentation.id,
             },

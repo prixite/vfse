@@ -729,55 +729,7 @@
             },
             "parameters": []
         },
-        "/products/{id}/": {
-            "patch": {
-                "operationId": "products_partial_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Product"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Product"
-                        }
-                    }
-                },
-                "tags": [
-                    "products"
-                ]
-            },
-            "delete": {
-                "operationId": "products_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "products"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
-        "/products/{id}/models/": {
+        "/products/models/": {
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
@@ -824,6 +776,47 @@
                         "schema": {
                             "$ref": "#/definitions/ProductModelCreate"
                         }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "parameters": []
+        },
+        "/products/{id}/": {
+            "patch": {
+                "operationId": "products_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                },
+                "tags": [
+                    "products"
+                ]
+            },
+            "delete": {
+                "operationId": "products_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
                     }
                 },
                 "tags": [
@@ -2001,7 +1994,8 @@
             "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
                 "model",
-                "modality"
+                "modality",
+                "product"
             ],
             "type": "object",
             "properties": {
@@ -2023,6 +2017,10 @@
                 },
                 "modality": {
                     "title": "Modality",
+                    "type": "integer"
+                },
+                "product": {
+                    "title": "Product",
                     "type": "integer"
                 }
             }
