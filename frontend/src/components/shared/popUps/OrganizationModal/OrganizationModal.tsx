@@ -9,19 +9,18 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import PropTypes from "prop-types";
-import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateOrganizationService } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsPartialUpdateMutation } from "@src/store/reducers/api";
-
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
 window.Buffer = window.Buffer || Buffer;
@@ -41,7 +40,7 @@ export default function OrganizationModal(props) {
   const [ButtonColor, setButtonColor] = useState("ffff");
   const [fontOne, setFontOne] = useState("");
   const [fontTwo, setFontTwo] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (props?.organization) {
       setOrganizationName(props.organization?.name);
@@ -94,7 +93,8 @@ export default function OrganizationModal(props) {
     setOrganizationSeats(event.target.value.replace(/[^0-9]/g, ""));
   };
 
-  const handleSetNewOrganization = async () => {
+  const handleUpdateOrganization = async () => {
+    setIsLoading(true);
     const { id } = props.organization;
     if (!organizationName) {
       setOrganizationError("This value is required");
@@ -104,22 +104,23 @@ export default function OrganizationModal(props) {
     }
     if (organizationName && selectedImage.length) {
       const organizationObject = getOrganizationObject();
-      uploadImageToS3(selectedImage[0]).then(async (data) => {
-        organizationObject.appearance.banner = data?.location;
-        organizationObject.appearance.logo = data?.location;
-        organizationObject.appearance.icon = data?.location;
-        if (organizationObject?.appearance.banner || organizationObject) {
-          await updateOrganizationService(
-            id,
-            organizationObject,
-            updateOrganization,
-            props.refetch
-          )
-            .then(() => toast.success("Organization successfully Updated"))
-            .catch((error) => setOrganizationError(error?.response));
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          organizationObject.appearance.banner = data?.location;
+          organizationObject.appearance.logo = data?.location;
+          organizationObject.appearance.icon = data?.location;
+          if (organizationObject?.appearance.banner || organizationObject) {
+            await updateOrganizationService(
+              id,
+              organizationObject,
+              updateOrganization,
+              props.refetch
+            );
+          }
         }
-      });
+      );
     }
+    setIsLoading(false);
   };
 
   const changeSideBarColor = (color: string) => setSidebarColor(color);
@@ -151,6 +152,9 @@ export default function OrganizationModal(props) {
         primary_color: ButtonColor,
         font_one: fontOne,
         font_two: fontTwo,
+        banner: "",
+        logo: "",
+        icon: "",
       },
     };
   };
@@ -356,21 +360,37 @@ export default function OrganizationModal(props) {
       </DialogContent>
       <DialogActions>
         <Button
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "gray",
+                  color: "black",
+                }
+              : {
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }
+          }
           onClick={props.handleClose}
+          disabled={isLoading}
           className="cancel-btn"
         >
           {newOrganizationBtnCancel}
         </Button>
         <Button
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
-          onClick={handleSetNewOrganization}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "gray",
+                  color: "black",
+                }
+              : {
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }
+          }
+          onClick={handleUpdateOrganization}
+          disabled={isLoading}
           className="add-btn"
         >
           {newOrganizationBtnSave}

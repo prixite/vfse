@@ -1,3 +1,150 @@
 {
-    "abc": "abc"
+    "users":{
+            "addUser": "Add User",
+            "userAdministration": "User Administration",
+            "btnFilter": "Filter",
+            "btnAdd": "Add User",
+            "popUp":{
+                "userNameText": "Username",
+                "emailText": "Email",
+                "btnAdd": "Add",
+                "btnCancel": "Cancel",
+                "btnNext": "Next",
+                "btnClient": "Add Client",
+                "addNewUser": "Add user",
+                "pageTrackerdesc1": "Step",
+                "pageTrackerdesc2": "of 2",
+                "userFirstName": "First Name",
+                "userLastName": "Last Name",
+                "userEmail": "User Email",
+                "userPhoneNumber": "Phone Number",
+                "userRole": "Role",
+                "userManager": "Manager",
+                "userCustomer": "Customer",
+                "newUser": "New User"
+            }
+    },
+    "modalities":{
+        "title": "All Networks",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Network",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
+        "cardPopUp":
+        {
+             "edit": "Edit",
+             "delete": "Delete"
+        },
+        "popUp":{
+            "popUpNewNetwork": "Add Network",
+            "newNetworkAddSite": "Add Site",
+            "newNetworkLogo": "Logo",
+            "newNetworkName": "Health Network",
+            "newNetworkBtnSave": "Add",
+            "newNetworkBtnCancel": "Cancel"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
+
+    },
+    "sites":{
+        "title": "All Sites",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Site",
+        "noResultMsg": "no results found",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
+        "popUp":{
+            "popUpNewNetwork": "Add Network",
+            "newNetworkAddSite": "Add Site",
+            "newNetworkLogo": "Logo",
+            "newNetworkName": "Health Network",
+            "newNetworkBtnSave": "Add",
+            "newNetworkBtnCancel": "Cancel"
+        },
+        "cardPopUp":
+        {
+             "editSite": "Edit",
+             "deleteSite": "Delete"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
+
+    },
+    "documentation": {
+        "title": "Documentation database",
+        "btnFilter": "Filter",
+        "btnCol": "Columns",
+        "btnAsset": "Sort by Asset #"
+    },
+    "organization":{
+        "title": "All Clients",
+        "btnFilter": "Filter",
+        "btnAdd": "Add Clients",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
+        "newHealthNetwork": " New Health Network",
+        "popUp":{
+            "popUpNewOrganization": "New Organization",
+            "newOrganizationPageTrackerdesc1": "Step",
+            "newOrganizationPageTrackerdesc2": "of 2",
+            "newOrganizationName": "Client Name",
+            "newOrganizationSeats": "Number of Seats",
+            "newOrganizationBtnSave": "Add",
+            "newOrganizationBtnCancel": "Cancel",
+            "newOrganizationLogo": "Logo",
+            "newOrganizationColor1": "Color #1",
+            "newOrganizationColor2": "Color #2",
+            "newOrganizationColor3": "Color #3",
+            "newOrganizationColor4": "Color #4",
+            "newOrganizationFont1": "Font #1",
+            "newOrganizationFont2": "Font #2",
+            "newOrganizationHealthNetworks": "Health networks",
+            "newOrganizationAddNetwork": "Add Network"
+        },
+        "deleteDialog" : {
+            "dialogMessage" : "Are you sure you want to delete",
+            "noButton" : "No",
+            "yesButton" : "Yes"
+        }
+
+    },
+    "page404" : {
+        "title" : "URL doesn't exist",
+        "description" : "Looks like you're followed a broken link or entered a URL that doesn't exist on this site.",
+        "backbtn" : "GO BACK"
+    },
+    "dataNotFound" : {
+        "title" : "No Data Found!",
+        "description" : "Try Again",
+        "backbtn" : "GO BACK"
+    },
+    "page505" : {
+        "title" : "505 Server Error",
+        "description" : "Please, try again later or contact us  if the problem persists"
+    },
+    "dropzone" : {
+        "heading" : "Drag & Drop",
+        "description" : " files here or",
+        "button" : "Browse",
+        "info" : "up to 20mb"
+    },
+    "healthNetwork" : {
+        "name" : "Health Network Name",
+        "logo" : "Logo",
+        "color1" : "Color #1",
+        "color2" : "Color #2",
+        "color3" : "Color #3",
+        "color4" : "Color #4"
+    },
+    "siteSection" : {
+        "site": "Site Name #"
+    }
+
 }
