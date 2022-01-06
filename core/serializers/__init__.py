@@ -312,7 +312,8 @@ class ProductModelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ProductModel
-        fields = ["id", "product", "modality", "documentation"]
+        fields = ["id", "product", "model", "modality", "documentation"]
+        read_only_fields = ["product"]
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
@@ -375,3 +376,9 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
         fields = ["id", "name", "manufacturer"]
+
+
+class ProductModelCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProductModel
+        fields = ["id", "model", "documentation", "modality"]
