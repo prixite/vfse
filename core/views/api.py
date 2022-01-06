@@ -358,7 +358,7 @@ class ProductModelViewSet(ModelViewSet):
         return models.ProductModel.objects.filter(product=self.kwargs["pk"])
 
     def get_serializer_class(self):
-        if self.action=='create':
+        if self.action == "create":
             return serializers.ProductModelCreateSerializer
         return serializers.ProductModelSerializer
 

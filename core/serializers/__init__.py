@@ -1,5 +1,4 @@
 import re
-from django.db.models import fields
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -378,7 +377,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         model = models.Product
         fields = ["id", "name", "manufacturer"]
 
+
 class ProductModelCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProductModel
-        fields = ['id','model','documentation','modality']
+        fields = ["id", "model", "documentation", "modality"]

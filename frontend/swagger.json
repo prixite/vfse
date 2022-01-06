@@ -814,7 +814,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/ProductModel"
+                            "$ref": "#/definitions/ProductModelCreate"
                         }
                     }
                 ],
@@ -822,7 +822,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/ProductModel"
+                            "$ref": "#/definitions/ProductModelCreate"
                         }
                     }
                 },
@@ -1864,7 +1864,61 @@
                 }
             }
         },
+        "Documentation": {
+            "title": "Documentation",
+            "description": "Documentation(id, url, created_at, updated_at)",
+            "required": [
+                "url"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "url": {
+                    "title": "Url",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
         "ProductModel": {
+            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
+            "required": [
+                "product",
+                "model",
+                "modality",
+                "documentation"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "product": {
+                    "$ref": "#/definitions/Product"
+                },
+                "model": {
+                    "title": "Model",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "modality": {
+                    "$ref": "#/definitions/Modality"
+                },
+                "documentation": {
+                    "$ref": "#/definitions/Documentation"
+                }
+            }
+        },
+        "ProductModelCreate": {
             "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
                 "model",
@@ -1877,25 +1931,20 @@
                     "type": "integer",
                     "readOnly": true
                 },
-                "product": {
-                    "title": "Product",
-                    "type": "integer",
-                    "readOnly": true
-                },
                 "model": {
                     "title": "Model",
                     "type": "string",
                     "maxLength": 50,
                     "minLength": 1
                 },
-                "modality": {
-                    "title": "Modality",
-                    "type": "integer"
-                },
                 "documentation": {
                     "title": "Documentation",
                     "type": "integer",
                     "x-nullable": true
+                },
+                "modality": {
+                    "title": "Modality",
+                    "type": "integer"
                 }
             }
         },

@@ -261,7 +261,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/products/${queryArg.id}/models/`,
         method: "POST",
-        body: queryArg.productModel,
+        body: queryArg.productModelCreate,
       }),
     }),
     productsModelsPartialUpdate: build.mutation<
@@ -510,10 +510,11 @@ export type ProductsModelsListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
 };
-export type ProductsModelsCreateApiResponse = /** status 201  */ ProductModel;
+export type ProductsModelsCreateApiResponse =
+  /** status 201  */ ProductModelCreate;
 export type ProductsModelsCreateApiArg = {
   id: string;
-  productModel: ProductModel;
+  productModelCreate: ProductModelCreate;
 };
 export type ProductsModelsPartialUpdateApiResponse =
   /** status 200  */ ProductModel;
@@ -717,12 +718,22 @@ export type ProductCreate = {
   name: string;
   manufacturer: number;
 };
+export type Documentation = {
+  id?: number;
+  url: string;
+};
 export type ProductModel = {
   id?: number;
-  product?: number;
+  product: Product;
   model: string;
-  modality: number;
+  modality: Modality;
+  documentation: Documentation;
+};
+export type ProductModelCreate = {
+  id?: number;
+  model: string;
   documentation?: number | null;
+  modality: number;
 };
 export type HisRisInfo = {
   ip: string;
