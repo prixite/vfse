@@ -39,9 +39,9 @@
       </div>
       {{ form.password.errors }}
     </div>
-
-    {{ form.errors }}
-
+    {% if form.errors %}
+    {% include 'core/_error.html' with form=form%}
+    {%endif%}
     <p><a class='brand-color' href="{% url 'password_reset' %}">Forgot your password?</a></p>
     <div class="d-grid"><button type="submit" class="btn btn-primary btn-lg mb-3">Login</button></div>
     <p class="mb-3">Don't have an account?<a class="brand-color" href="#"> Register Now</a></p>
