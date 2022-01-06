@@ -353,10 +353,18 @@ class ModalityViewSet(ModelViewSet):
 
 
 class ProductModelViewSet(ModelViewSet):
-    serializer_class = serializers.ProductModelSerializer
-
     def get_queryset(self):
-        return models.ProductModel.objects.all()
+        return models.ProductModel.objects.filter(product=self.kwargs["pk"])
+
+    def get_serializer_class(self):
+        if self.action == "create":
+            return serializers.ProductModelCreateSerializer
+        return serializers.ProductModelSerializer
+
+    def perform_create(self, serializer):
+        models.ProductModel.objects.create(
+            product_id=self.kwargs["pk"], **serializer.validated_data
+        )
 
 
 class ManfucturerViewSet(ModelViewSet):

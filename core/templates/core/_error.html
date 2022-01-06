@@ -4,6 +4,9 @@
     </div>
     <div class="ms-3 d-flex align-items-center">
         <span>
+            {% for error in form.non_field_errors %}
+                    {{error}} <br>
+                {% endfor %}
             {% for field in form %}
                 {% for error in field.errors %}
                     {{error}} <br>

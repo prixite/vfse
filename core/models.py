@@ -408,3 +408,4 @@ class ProductModel(models.Model):
                 fields=["product", "model"], name="unique_product_model"
             )
         ]
+        ordering = ["-id"]

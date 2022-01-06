@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { updateSitesService } from "@src/services/organizationService";
+import { updateSitesService } from "@src/services/sitesService";
 import {
   Organization,
   useOrganizationsSitesUpdateMutation,
