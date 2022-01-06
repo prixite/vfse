@@ -353,7 +353,11 @@ class ModalityViewSet(ModelViewSet):
 
 class ProductModelViewSet(ModelViewSet):
     def get_queryset(self):
-        return models.ProductModel.objects.all()
+        queryset = models.ProductModel.objects.all()
+        if self.action == "list":
+            return queryset.select_related("product", "modality", "documentation")
+
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "create":
