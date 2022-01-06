@@ -1,4 +1,5 @@
 import re
+from django.db.models import fields
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -306,15 +307,9 @@ class DocumentationSerializer(serializers.ModelSerializer):
 
 
 class ProductModelSerializer(serializers.ModelSerializer):
-    # product = ProductSerializer()
-    # modality = ModalitySerializer()
-    # documentation = DocumentationSerializer()
-
-    # Why do we make these fields Serializers, is it possible to use
-    # existing objects with Serializers as fields
-    # Do we want to be able to create related child objects also
-    #  while creating a product model
-    # If yes, how do we link to old serializers
+    product = ProductSerializer()
+    modality = ModalitySerializer()
+    documentation = DocumentationSerializer()
 
     class Meta:
         model = models.ProductModel
@@ -382,3 +377,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
         fields = ["id", "name", "manufacturer"]
+
+class ProductModelCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ProductModel
+        fields = ['id','model','documentation','modality']
