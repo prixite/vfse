@@ -307,7 +307,7 @@ const injectedRtkApi = api.injectEndpoints({
       SitesSystemsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/sites/${queryArg.id}/systems/${queryArg.systemId}/`,
+        url: `/sites/${queryArg.siteId}/systems/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.system,
       }),
@@ -317,7 +317,7 @@ const injectedRtkApi = api.injectEndpoints({
       SitesSystemsDeleteApiArg
     >({
       query: (queryArg) => ({
-        url: `/sites/${queryArg.id}/systems/${queryArg.systemId}/`,
+        url: `/sites/${queryArg.siteId}/systems/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -571,13 +571,13 @@ export type SitesSystemsCreateApiArg = {
 export type SitesSystemsPartialUpdateApiResponse = /** status 200  */ System;
 export type SitesSystemsPartialUpdateApiArg = {
   id: string;
-  systemId: string;
+  siteId: string;
   system: System;
 };
 export type SitesSystemsDeleteApiResponse = unknown;
 export type SitesSystemsDeleteApiArg = {
   id: string;
-  systemId: string;
+  siteId: string;
 };
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = {

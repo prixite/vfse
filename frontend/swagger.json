@@ -955,7 +955,7 @@
                 }
             ]
         },
-        "/sites/{id}/systems/{system_id}/": {
+        "/sites/{site_id}/systems/{id}/": {
             "patch": {
                 "operationId": "sites_systems_partial_update",
                 "description": "",
@@ -1002,7 +1002,7 @@
                     "type": "string"
                 },
                 {
-                    "name": "system_id",
+                    "name": "site_id",
                     "in": "path",
                     "required": true,
                     "type": "string"
