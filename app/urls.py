@@ -94,6 +94,16 @@ api_urlpatterns = [
         api.SiteSystemViewSet.as_view(
             {
                 "get": "list",
+                "post":"create",
+            }
+        ),
+    ),
+    path(
+        "api/sites/<str:pk>/systems/<str:system_id>/",
+        api.SiteSystemViewSet.as_view(
+            {
+                "delete":"destroy",
+                "patch":"partial_update",
             }
         ),
     ),
