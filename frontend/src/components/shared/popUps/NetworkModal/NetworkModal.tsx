@@ -10,11 +10,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
-  updateOrganizationService,
   addNewHealthNetworkService,
+  updateHealthNetworkService,
   //addNewOrganizationService,
 } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
@@ -28,7 +29,6 @@ import {
 } from "@src/store/reducers/api";
 
 import SiteSection from "./SiteSection";
-
 import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
 interface Props {
@@ -95,21 +95,23 @@ export default function NetworkModal(props: Props) {
     }
     if (networkName && selectedImage.length) {
       const organizationObject = getOrganizationObject();
-      await uploadImageToS3(selectedImage[0]).then(async (data) => {
-        organizationObject.appearance.banner = data?.location;
-        organizationObject.appearance.logo = data?.location;
-        organizationObject.appearance.icon = data?.location;
-        if (organizationObject?.appearance.banner || organizationObject) {
-          await updateOrganizationService(
-            id,
-            organizationObject,
-            updateOrganization,
-            updateOrganizationSites,
-            organizationObject?.sites,
-            props.refetch
-          );
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          organizationObject.appearance.banner = data?.location;
+          organizationObject.appearance.logo = data?.location;
+          organizationObject.appearance.icon = data?.location;
+          if (organizationObject?.appearance.banner || organizationObject) {
+            await updateHealthNetworkService(
+              id,
+              organizationObject,
+              updateOrganization,
+              updateOrganizationSites,
+              organizationObject?.sites,
+              props.refetch
+            );
+          }
         }
-      });
+      );
     }
     setIsLoading(false);
   };
@@ -124,21 +126,23 @@ export default function NetworkModal(props: Props) {
     }
     if (networkName && selectedImage.length) {
       const organizationObject = getOrganizationObject();
-      await uploadImageToS3(selectedImage[0]).then(async (data) => {
-        organizationObject.appearance.banner = data?.location;
-        organizationObject.appearance.logo = data?.location;
-        organizationObject.appearance.icon = data?.location;
-        if (organizationObject?.appearance.banner || organizationObject) {
-          await addNewHealthNetworkService(
-            id,
-            organizationObject,
-            addHealthNetwork,
-            updateOrganizationSites,
-            organizationObject?.sites,
-            props.refetch
-          );
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          organizationObject.appearance.banner = data?.location;
+          organizationObject.appearance.logo = data?.location;
+          organizationObject.appearance.icon = data?.location;
+          if (organizationObject?.appearance.banner || organizationObject) {
+            await addNewHealthNetworkService(
+              id,
+              organizationObject,
+              addHealthNetwork,
+              updateOrganizationSites,
+              organizationObject?.sites,
+              props.refetch
+            );
+          }
         }
-      });
+      );
     }
     setIsLoading(false);
   };

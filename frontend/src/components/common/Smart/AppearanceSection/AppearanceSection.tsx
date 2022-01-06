@@ -84,7 +84,7 @@ const AppearanceSection = () => {
   };
 
   const updateAppearance = async () => {
-    setIsLoading(() => true);
+    setIsLoading(true);
     if (selectedImage && selectedImage.length) {
       currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
         .then((data) => {
@@ -105,7 +105,7 @@ const AppearanceSection = () => {
       currentOrganiationDummyData,
       refetchOrgList
     );
-    setIsLoading(() => false);
+    setIsLoading(false);
   };
 
   const changeSideBarTextColor = (color: string) => {
@@ -266,10 +266,17 @@ const AppearanceSection = () => {
           </Box>
           <Button
             onClick={updateAppearance}
-            style={{
-              backgroundColor: buttonBackground,
-              color: buttonTextColor,
-            }}
+            style={
+              isLoading
+                ? {
+                    backgroundColor: "gray",
+                    color: "black",
+                  }
+                : {
+                    backgroundColor: buttonBackground,
+                    color: buttonTextColor,
+                  }
+            }
             variant="contained"
             className="SaveAppearanceBtn"
             disabled={isLoading}
