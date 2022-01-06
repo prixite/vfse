@@ -870,9 +870,88 @@
                     "sites"
                 ]
             },
+            "post": {
+                "operationId": "sites_systems_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/System"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/System"
+                        }
+                    }
+                },
+                "tags": [
+                    "sites"
+                ]
+            },
             "parameters": [
                 {
                     "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/sites/{id}/systems/{system_id}/": {
+            "patch": {
+                "operationId": "sites_systems_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/System"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/System"
+                        }
+                    }
+                },
+                "tags": [
+                    "sites"
+                ]
+            },
+            "delete": {
+                "operationId": "sites_systems_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "sites"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "system_id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -1926,6 +2005,7 @@
         "System": {
             "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, virtual_media_control, service_web_browser, ssh, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, is_online, last_successful_ping_at, created_at, updated_at)",
             "required": [
+                "name",
                 "site",
                 "product_model",
                 "software_version",
@@ -1935,6 +2015,12 @@
             ],
             "type": "object",
             "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
                 "site": {
                     "title": "Site",
                     "type": "integer"

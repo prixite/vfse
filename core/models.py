@@ -281,7 +281,7 @@ class System(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["name","site"], name="unique_system"),
+            models.UniqueConstraint(fields=["name", "site"], name="unique_system"),
         ]
         ordering = ["-id"]
 

@@ -167,7 +167,8 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class SiteSystemViewSet(ModelViewSet):
     serializer_class = serializers.SystemSerializer
-    lookup_url_kwarg = 'system_id'
+    lookup_url_kwarg = "system_id"
+
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()

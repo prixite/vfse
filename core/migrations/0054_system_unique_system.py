@@ -6,12 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0053_merge_20220105_1443'),
+        ("core", "0053_merge_20220105_1443"),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='system',
-            constraint=models.UniqueConstraint(fields=('name', 'site'), name='unique_system'),
+            model_name="system",
+            constraint=models.UniqueConstraint(
+                fields=("name", "site"), name="unique_system"
+            ),
         ),
     ]
