@@ -99,7 +99,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/sites/<str:pk>/systems/<str:system_id>/",
+        "api/sites/<str:site_id>/systems/<str:pk>/",
         api.SiteSystemViewSet.as_view(
             {
                 "delete": "destroy",
