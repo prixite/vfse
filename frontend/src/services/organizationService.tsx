@@ -25,6 +25,40 @@ const updateOrganizationService = async (
   id,
   organization,
   updateOrganization,
+  refetch
+) => {
+  await updateOrganization({ id, organization })
+    .unwrap()
+    .then(async () => {
+      toast.success("Organization Updated.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+        onClose: refetch,
+      });
+    })
+    .catch((err) => {
+      toast.success(err?.response, {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+    });
+};
+
+const addNewOrganizationService = async (
+  organization,
+  addNewOrganization,
+  refetch
+) => {
+  await addNewOrganization({
+    organization: organization,
+  }).unwrap();
+  refetch(); // TODO: invalidate cache instead of this.
+};
+
+const updateHealthNetworkService = async (
+  id,
+  organization,
+  updateOrganization,
   updateOrganizationSites,
   sites,
   refetch
@@ -57,6 +91,7 @@ const updateOrganizationService = async (
         });
     });
 };
+
 const addNewHealthNetworkService = async (
   id,
   organization,
@@ -99,28 +134,11 @@ const addNewHealthNetworkService = async (
       toast.success(err.response);
     });
 };
-const addNewOrganizationService = async (
-  organization,
-  addNewOrganization,
-  refetch
-) => {
-  await addNewOrganization({
-    organization: organization,
-  }).unwrap();
-  refetch(); // TODO: invalidate cache instead of this.
-};
-const updateSitesService = async (id, sites, updateSites, refetch) => {
-  await updateSites({
-    id: id.toString(),
-    organizationSite: { sites: [...sites] },
-  }).unwrap();
-  refetch(); // TODO: invalidate cache instead of this.
-};
 export {
   updateOrganizationColor,
   DeleteOrganizationService,
   updateOrganizationService,
   addNewOrganizationService,
-  updateSitesService,
   addNewHealthNetworkService,
+  updateHealthNetworkService,
 };
