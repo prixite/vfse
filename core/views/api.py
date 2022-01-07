@@ -433,6 +433,9 @@ class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
     filterset_fields = ["name"]
 
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related('sites')
+
 
 class ProductViewSet(ModelViewSet):
     serializer_class = serializers.ProductSerializer
