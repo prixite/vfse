@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-import { Box, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 
 import TopViewBtns from "../TopViewBtns/TopViewBtns";
 
 const SystemSection = () => {
-  const [open, setOpen] = useState(false);
-  const [system, setSystem] = useState(null);
-  const [systemList, setSystemList] = useState({});
+  const [open, setOpen] = useState(false); // eslint-disable-line
+  const [system, setSystem] = useState(null); // eslint-disable-line
+  const [systemList, setSystemList] = useState({}); // eslint-disable-line
   const [searchText, setSearchText] = useState("");
 
   return (

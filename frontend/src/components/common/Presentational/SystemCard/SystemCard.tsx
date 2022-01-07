@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Box, InputAdornment, TextField, Button } from "@mui/material";
 
 import Machine from "@src/assets/images/system.png";

@@ -1,5 +1,10 @@
 import drf_link_header_pagination
+from drf_link_header_pagination import LinkHeaderPagination
 from drf_yasg2 import inspectors
+
+
+class OrganizationPagination(LinkHeaderPagination):
+    page_size = 50
 
 
 class DjangoRestResponsePagination(inspectors.DjangoRestResponsePagination):
