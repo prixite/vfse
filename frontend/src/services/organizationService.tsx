@@ -130,8 +130,11 @@ const addNewHealthNetworkService = async (
           });
         });
     })
-    .catch((err) => {
-      toast.success(err.response);
+    .catch(() => {
+      toast.success("HealthNetwork Add Failed", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
     });
 };
 export {
