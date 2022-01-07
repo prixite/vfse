@@ -434,7 +434,7 @@ class HealthNetworkViewSet(OrganizationViewSet):
     filterset_fields = ["name"]
 
     def get_queryset(self):
-        return super().get_queryset().prefetch_related('sites')
+        return super().get_queryset().prefetch_related("sites")
 
 
 class ProductViewSet(ModelViewSet):

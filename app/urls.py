@@ -211,7 +211,14 @@ api_urlpatterns = [
             }
         ),
     ),
-    path("api/health_networks/", api.HealthNetworkViewSet.as_view({"get": "list",})),
+    path(
+        "api/health_networks/",
+        api.HealthNetworkViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
     path(
         "api/accounts/requests/",
         api.UserRequestAccessViewSet.as_view(
