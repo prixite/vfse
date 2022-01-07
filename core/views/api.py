@@ -71,7 +71,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                 id__in=models.OrganizationHealthNetwork.objects.filter(
                     organization=self.kwargs["pk"]
                 ).values_list("health_network")
-            )
+            ).prefetch_related("sites")
 
         return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
@@ -432,6 +432,9 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
     filterset_fields = ["name"]
+
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related("sites")
 
 
 class ProductViewSet(ModelViewSet):
