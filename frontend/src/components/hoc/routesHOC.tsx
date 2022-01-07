@@ -6,6 +6,7 @@ import { routes } from "@src/routes";
 import HomeView from "@src/views/home/HomeView";
 import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import SitesView from "@src/views/sites/SitesView";
+import SystemsView from "@src/views/systems/SystemsView";
 
 interface Props {
   isLoading: boolean;
@@ -27,6 +28,11 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}`}
             component={SitesView}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/:siteId/systems`}
+            component={SystemsView}
             exact
           />
           <Route path="/" component={HomeView} exact />

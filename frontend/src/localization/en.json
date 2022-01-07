@@ -83,6 +83,13 @@
         "btnCol": "Columns",
         "btnAsset": "Sort by Asset #"
     },
+    "systems": {
+        "title": "Documentation database",
+        "btnFilter": "Filter",
+        "btnCol": "Columns",
+        "btnAsset": "Sort by Asset #",
+        "btnAdd": "Add Systems"
+    },
     "organization":{
         "title": "All Clients",
         "btnFilter": "Filter",
