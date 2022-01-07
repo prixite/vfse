@@ -17,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/health_networks/`,
-        params: { name: queryArg.name, page: queryArg.page },
+        params: { name: queryArg.name },
       }),
     }),
     manufacturersList: build.query<
@@ -67,7 +67,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/organizations/`,
-        params: { name: queryArg.name, page: queryArg.page },
+        params: { name: queryArg.name },
       }),
     }),
     organizationsCreate: build.mutation<
@@ -367,8 +367,6 @@ export type AccountsRequestsCreateApiArg = {
 export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
 export type HealthNetworksListApiArg = {
   name?: string;
-  /** A page number within the paginated result set. */
-  page?: number;
 };
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = void;
@@ -391,8 +389,6 @@ export type ModalitiesListApiArg = void;
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
   name?: string;
-  /** A page number within the paginated result set. */
-  page?: number;
 };
 export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type OrganizationsCreateApiArg = {

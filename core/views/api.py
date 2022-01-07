@@ -1,6 +1,5 @@
 from django.db import transaction
 from django.db.models.query import Prefetch
-from drf_link_header_pagination import LinkHeaderPagination
 from rest_framework import exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -9,10 +8,6 @@ from rest_framework.viewsets import ModelViewSet
 from core import models, serializers
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
-
-
-class OrganizationPagination(LinkHeaderPagination):
-    page_size = 50
 
 
 class MeViewSet(ModelViewSet):
@@ -25,7 +20,6 @@ class MeViewSet(ModelViewSet):
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
     permission_classes = [IsAuthenticated, OrganizationDetailPermission]
-    pagination_class = OrganizationPagination
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
