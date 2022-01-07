@@ -6,6 +6,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import debounce from "debounce";
 
+import ArrowDown from "@src/assets/svgs/arrow-long.svg";
+import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
@@ -62,8 +64,12 @@ const TopViewBtns = ({
     constantData = localizedData()?.sites;
   } else if (path == "users") {
     constantData = localizedData()?.users;
+  } else if (path == "systems") {
+    constantData = localizedData()?.systems;
   }
   const { btnFilter, btnAdd } = constantData;
+
+  const { btnAsset } = localizedData().systems;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -81,6 +87,8 @@ const TopViewBtns = ({
       dispatch(openNetworkModal());
       setAction("add");
       setData(null);
+    } else if (path === "systems") {
+      setOpen(true);
     } else if (path !== "organizations") {
       setOpen(true);
       setData(null);
@@ -127,6 +135,30 @@ const TopViewBtns = ({
               <span>{btnFilter}</span>
             </div>
           </Button>
+
+          {path === "systems" ? (
+            <Button variant="contained" className="Filterbtn">
+              <div className="btn-content" style={{ textTransform: "none" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    fontSize: "11px",
+                  }}
+                >
+                  <span style={{ height: "10px" }}>0</span>
+                  <span>9</span>
+                </div>
+                <img src={ArrowDown} style={{ marginRight: "10px" }} />
+                <span>{btnAsset}</span>
+                <span className="coloumns-icon">
+                  <img className="asset-image" src={ArrowUpIcon} />
+                </span>
+              </div>
+            </Button>
+          ) : (
+            ""
+          )}
 
           {path == "users" ? (
             <ColumnSelector
