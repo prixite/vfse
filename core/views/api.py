@@ -8,8 +8,10 @@ from rest_framework.viewsets import ModelViewSet
 from core import models, serializers
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
+from drf_link_header_pagination import LinkHeaderPagination
 
-
+class OrganizationPagination(LinkHeaderPagination):
+    page_size = 50
 class MeViewSet(ModelViewSet):
     serializer_class = serializers.MeSerializer
 
@@ -20,6 +22,7 @@ class MeViewSet(ModelViewSet):
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
     permission_classes = [IsAuthenticated, OrganizationDetailPermission]
+    pagination_class = OrganizationPagination
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -71,7 +74,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                 id__in=models.OrganizationHealthNetwork.objects.filter(
                     organization=self.kwargs["pk"]
                 ).values_list("health_network")
-            )
+            ).prefetch_related('sites')
 
         return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
