@@ -112,6 +112,7 @@ export default function NetworkModal(props: Props) {
           }
         }
       );
+      resetModal();
     }
     setIsLoading(false);
   };
@@ -143,6 +144,7 @@ export default function NetworkModal(props: Props) {
           }
         }
       );
+      resetModal();
     }
     setIsLoading(false);
   };
@@ -171,22 +173,23 @@ export default function NetworkModal(props: Props) {
     //  setSites((prevState)=>[...prevState,site]);
     setSitePointer([...sitePointer, { name: "", address: "" }]);
   };
-
+  const resetModal = () => {
+    setSitePointer([{ name: "", address: "" }]);
+    setNetworkName("");
+    setNetworkError("");
+    props?.handleClose();
+  };
   return (
-    <Dialog
-      className="network-modal"
-      open={props.open}
-      onClose={props.handleClose}
-    >
+    <Dialog className="network-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section">
-          <span className="modal-header">{"Hello Here"}</span>
+          <span className="modal-header">
+            {props?.action === "edit"
+              ? `Edit ${props?.organization?.name} Network`
+              : "Add Network"}
+          </span>
           <span className="dialog-page">
-            <img
-              src={CloseBtn}
-              className="cross-btn"
-              onClick={props.handleClose}
-            />
+            <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
         </div>
       </DialogTitle>
@@ -242,7 +245,7 @@ export default function NetworkModal(props: Props) {
                   color: buttonTextColor,
                 }
           }
-          onClick={props.handleClose}
+          onClick={resetModal}
           disabled={isLoading}
           className="cancel-btn"
         >
