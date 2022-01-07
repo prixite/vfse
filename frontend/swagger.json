@@ -95,15 +95,7 @@
             "get": {
                 "operationId": "manufacturers_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -150,15 +142,7 @@
             "get": {
                 "operationId": "manufacturers_images_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -224,15 +208,7 @@
             "get": {
                 "operationId": "modalities_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -380,15 +356,7 @@
             "get": {
                 "operationId": "organizations_health_networks_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -467,15 +435,7 @@
             "get": {
                 "operationId": "organizations_seats_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -529,15 +489,7 @@
             "get": {
                 "operationId": "organizations_sites_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -616,15 +568,7 @@
             "get": {
                 "operationId": "organizations_users_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -678,15 +622,7 @@
             "get": {
                 "operationId": "products_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -733,15 +669,7 @@
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -890,15 +818,7 @@
             "get": {
                 "operationId": "sites_systems_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -1006,15 +926,7 @@
             "get": {
                 "operationId": "systems_images_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -1061,15 +973,7 @@
             "get": {
                 "operationId": "systems_notes_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",

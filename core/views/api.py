@@ -1,5 +1,6 @@
 from django.db import transaction
 from django.db.models.query import Prefetch
+from drf_link_header_pagination import LinkHeaderPagination
 from rest_framework import exceptions
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -8,10 +9,12 @@ from rest_framework.viewsets import ModelViewSet
 from core import models, serializers
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
-from drf_link_header_pagination import LinkHeaderPagination
+
 
 class OrganizationPagination(LinkHeaderPagination):
     page_size = 50
+
+
 class MeViewSet(ModelViewSet):
     serializer_class = serializers.MeSerializer
 
@@ -74,7 +77,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                 id__in=models.OrganizationHealthNetwork.objects.filter(
                     organization=self.kwargs["pk"]
                 ).values_list("health_network")
-            ).prefetch_related('sites')
+            ).prefetch_related("sites")
 
         return models.Organization.objects.filter(
             id__in=self.request.user.get_organization_health_networks(
