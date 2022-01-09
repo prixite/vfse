@@ -22,12 +22,14 @@ import { updateOrganizationService } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsPartialUpdateMutation } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
+import { toast } from "react-toastify";
 
 window.Buffer = window.Buffer || Buffer;
 export default function OrganizationModal(props) {
   //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
+  const [organizationID , setOrganizationID] = useState();
   const [organizationSeats, setOrganizationSeats] = useState("");
   const [organizationError, setOrganizationError] = useState("");
   const [imageError, setImageError] = useState("");
@@ -43,6 +45,7 @@ export default function OrganizationModal(props) {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (props?.organization) {
+      setOrganizationID(props?.organization?.id);
       setOrganizationName(props.organization?.name);
       setSidebarColor(props?.organization?.appearance?.sidebar_color);
       setSidebarTextColor(props?.organization?.appearance?.sidebar_text);
@@ -79,7 +82,15 @@ export default function OrganizationModal(props) {
   } = useAppSelector((state) => state.myTheme);
 
   const handleChange = (event) => {
+    if(organizationID) {
     setPage(event.target.value);
+    }
+    else {
+      toast.success("Create Organization First" , {
+        autoClose :1000,
+        pauseOnHover: false
+      })
+    }
   };
 
   const handleOrganizationName = (event) => {
@@ -93,9 +104,8 @@ export default function OrganizationModal(props) {
     setOrganizationSeats(event.target.value.replace(/[^0-9]/g, ""));
   };
 
-  const handleUpdateOrganization = async () => {
+  const handleSetNewOrganization = async () => {
     setIsLoading(true);
-    const { id } = props.organization;
     if (!organizationName) {
       setOrganizationError("This value is required");
     }
@@ -111,7 +121,35 @@ export default function OrganizationModal(props) {
           organizationObject.appearance.icon = data?.location;
           if (organizationObject?.appearance.banner || organizationObject) {
             await updateOrganizationService(
-              id,
+              organizationID,
+              organizationObject,
+              updateOrganization,
+              props.refetch
+            );
+          }
+        }
+      );
+    }
+    setIsLoading(false);
+  }
+  const handleUpdateOrganization = async () => {
+    setIsLoading(true);
+    if (!organizationName) {
+      setOrganizationError("This value is required");
+    }
+    if (!selectedImage.length) {
+      setImageError("Image is not selected");
+    }
+    if (organizationName && selectedImage.length) {
+      const organizationObject = getOrganizationObject();
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          organizationObject.appearance.banner = data?.location;
+          organizationObject.appearance.logo = data?.location;
+          organizationObject.appearance.icon = data?.location;
+          if (organizationObject?.appearance.banner || organizationObject) {
+            await updateOrganizationService(
+              organizationID,
               organizationObject,
               updateOrganization,
               props.refetch

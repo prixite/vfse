@@ -51,7 +51,7 @@ const addNewOrganizationService = async (
 ) => {
   await addNewOrganization({
     organization: organization,
-  }).unwrap();
+  }).unwrap().then((response)=>console.log(response));
   refetch(); // TODO: invalidate cache instead of this.
 };
 

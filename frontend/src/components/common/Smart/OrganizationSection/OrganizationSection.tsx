@@ -19,6 +19,7 @@ const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
+  const [action,setAction] = useState("");
   const { data: organizationList, refetch } = useOrganizationsListQuery({
     page: 1,
   });
@@ -27,7 +28,6 @@ const OrganizationSection = () => {
     localizedData().organization;
 
   const handleClose = () => dispatch(closeAddModal());
-
   return (
     <>
       <Box component="div" className="OrganizationSection">
@@ -39,6 +39,7 @@ const OrganizationSection = () => {
           actualData={organizationList}
           searchText={searchText}
           setSearchText={setSearchText}
+          setAction={setAction}
         />
         <Grid container spacing={2} className="OrganizationSection__AllClients">
           {searchText?.length > 2 ? (
@@ -77,6 +78,7 @@ const OrganizationSection = () => {
                   id={item.id}
                   name={item.name}
                   logo={item.appearance.logo}
+                  setAction={setAction}
                 />
               </Grid>
             ))
@@ -90,6 +92,7 @@ const OrganizationSection = () => {
           open={openAddClientModal}
           handleClose={handleClose}
           refetch={refetch}
+          action={action}
         />
       </Box>
     </>
