@@ -18,7 +18,9 @@ const SiteSection = () => {
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
 
-  const { networkId } = useParams();
+  const { id, networkId } = useParams();
+  const selectionID =
+    networkId == undefined ? id?.toString() : networkId?.toString();
 
   const {
     data: sitesData,
@@ -26,7 +28,7 @@ const SiteSection = () => {
     refetch: sitesRefetch,
   } = useOrganizationsSitesListQuery({
     page: 1,
-    id: networkId.toString(),
+    id: selectionID,
   });
 
   const { title, noDataTitle, noDataDescription } = localizedData().sites;
@@ -36,7 +38,7 @@ const SiteSection = () => {
   return (
     <>
       <Box component="div" className="SiteSection">
-        <h2>{title}</h2>
+        {networkId == undefined ? "" : <h2>{title}</h2>}
         <TopViewBtns
           setOpen={setOpen}
           path="sites"
@@ -46,12 +48,39 @@ const SiteSection = () => {
           searchText={searchText}
           setSearchText={setSearchText}
         />
-        <Grid container spacing={2} className="SiteSection__AllClients">
-          {searchText?.length > 2 ? (
-            sitesList &&
-            sitesList?.results?.length &&
-            sitesList?.query === searchText ? (
-              sitesList?.results?.map((item, key) => (
+        {!isSitesFetching && !sitesData?.length ? (
+          <NoDataFound title={noDataTitle} description={noDataDescription} />
+        ) : (
+          <Grid container spacing={2} className="SiteSection__AllClients">
+            {searchText?.length > 2 ? (
+              sitesList &&
+              sitesList?.results?.length &&
+              sitesList?.query === searchText ? (
+                sitesList?.results?.map((item, key) => (
+                  <Grid key={key} item xs={3}>
+                    <SiteCard
+                      siteId={item.id}
+                      name={item.name}
+                      machines={item.modalities}
+                      location={item.address}
+                      connections={6}
+                      refetch={sitesRefetch}
+                      sites={sitesData}
+                    />
+                  </Grid>
+                ))
+              ) : sitesList?.query === searchText ? (
+                <NoDataFound
+                  search
+                  setQuery={setSearchText}
+                  title={noDataTitle}
+                  description={noDataDescription}
+                />
+              ) : (
+                ""
+              )
+            ) : sitesData && sitesData?.length ? (
+              sitesData.map((item, key) => (
                 <Grid key={key} item xs={3}>
                   <SiteCard
                     siteId={item.id}
@@ -64,34 +93,11 @@ const SiteSection = () => {
                   />
                 </Grid>
               ))
-            ) : sitesList?.query === searchText ? (
-              <NoDataFound
-                search
-                setQuery={setSearchText}
-                title={noDataTitle}
-                description={noDataDescription}
-              />
             ) : (
               ""
-            )
-          ) : sitesData && sitesData?.length ? (
-            sitesData.map((item, key) => (
-              <Grid key={key} item xs={3}>
-                <SiteCard
-                  siteId={item.id}
-                  name={item.name}
-                  machines={item.modalities}
-                  location={item.address}
-                  connections={6}
-                  refetch={sitesRefetch}
-                  sites={sitesData}
-                />
-              </Grid>
-            ))
-          ) : (
-            ""
-          )}
-        </Grid>
+            )}
+          </Grid>
+        )}
         <OrganizationModal
           organization={site}
           setOrganization={setSite}
@@ -99,11 +105,6 @@ const SiteSection = () => {
           handleClose={handleClose}
         />
       </Box>
-      {!isSitesFetching && !sitesData?.length ? (
-        <NoDataFound title={noDataTitle} description={noDataDescription} />
-      ) : (
-        ""
-      )}
     </>
   );
 };
