@@ -47,11 +47,20 @@ const updateOrganizationService = async (
 const addNewOrganizationService = async (
   organization,
   addNewOrganization,
+  setOrganizationID,
   refetch
 ) => {
   await addNewOrganization({
     organization: organization,
-  }).unwrap();
+  })
+    .unwrap()
+    .then((response) => {
+      toast.success("Organization Updated.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+      setOrganizationID(response?.id);
+    });
   refetch(); // TODO: invalidate cache instead of this.
 };
 
@@ -66,7 +75,7 @@ const updateHealthNetworkService = async (
   await updateOrganization({ id, organization })
     .unwrap()
     .then(async (response) => {
-      toast.success("New Organization Added.", {
+      toast.success("Organization Updated.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -137,6 +146,30 @@ const addNewHealthNetworkService = async (
       });
     });
 };
+
+const addNewHealthNetworksService = async (
+  organizationId,
+  addNewNetworks,
+  networks
+) => {
+  await addNewNetworks({
+    id: organizationId,
+    organizationHealthNetwork: { health_networks: [...networks] },
+  })
+    .unwrap()
+    .then(() => {
+      toast.success("HealthNetwork Successfully Added", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+    })
+    .catch(() => {
+      toast.success("HealthNetworks Add Failed", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+    });
+};
 export {
   updateOrganizationColor,
   DeleteOrganizationService,
@@ -144,4 +177,5 @@ export {
   addNewOrganizationService,
   addNewHealthNetworkService,
   updateHealthNetworkService,
+  addNewHealthNetworksService,
 };

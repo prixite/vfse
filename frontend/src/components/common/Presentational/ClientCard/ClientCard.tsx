@@ -32,6 +32,7 @@ interface ClientCardProps {
   id: number;
   logo: string;
   name: string;
+  setAction: Dispatch<SetStateAction<string>>;
 }
 const ClientCard = ({
   id,
@@ -40,6 +41,7 @@ const ClientCard = ({
   refetch,
   row,
   setOrganization,
+  setAction,
 }: ClientCardProps) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -65,6 +67,7 @@ const ClientCard = ({
     setAnchorEl(null);
   };
   const handleEditAppearance = () => {
+    setAction("edit");
     dispatch(openAddModal());
     setOrganization(row);
     handleClose();

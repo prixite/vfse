@@ -28,6 +28,7 @@ const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
+  const [action, setAction] = useState("");
   const { data: organizationList, refetch } = useOrganizationsListQuery({
     page: 1,
   });
@@ -90,6 +91,7 @@ const OrganizationSection = () => {
           <>
             <TopViewBtns
               path="organizations"
+              setAction={setAction}
               setData={setOrganization}
               setList={setOrganizationsList}
               actualData={organizationList}
@@ -131,6 +133,7 @@ const OrganizationSection = () => {
                 organizationList.map((item, key) => (
                   <Grid key={key} item xs={3}>
                     <ClientCard
+                      setAction={setAction}
                       setOrganization={setOrganization}
                       row={item}
                       refetch={refetch}
@@ -148,6 +151,7 @@ const OrganizationSection = () => {
               )}
             </Grid>
             <OrganizationModal
+              action={action}
               organization={organization}
               setOrganization={setOrganization}
               open={openAddClientModal}
