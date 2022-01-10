@@ -14,7 +14,8 @@ const SystemSection = () => {
 
   return (
     <Box component="div">
-      <h2>Advent Health Carollwood</h2>
+      <h2>Organization or Site Title</h2>
+      <h3>All Systems</h3>
       <TopViewBtns
         setOpen={setOpen}
         path="systems"

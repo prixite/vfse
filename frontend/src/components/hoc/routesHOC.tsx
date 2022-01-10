@@ -5,6 +5,7 @@ import { constants } from "@src/helpers/utils/constants";
 import { routes } from "@src/routes";
 import HomeView from "@src/views/home/HomeView";
 import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
+import OrganizationView from "@src/views/organization/OrganizationView";
 import SitesView from "@src/views/sites/SitesView";
 import SystemsView from "@src/views/systems/SystemsView";
 
@@ -26,8 +27,23 @@ const RoutesHOC = ({ isLoading }: Props) => {
             />
           ))}
           <Route
+            path={`/${organizationRoute}/:id/${sitesRoute}/`}
+            component={OrganizationView}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/${networkRoute}`}
+            component={OrganizationView}
+            exact
+          />
+          <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}`}
             component={SitesView}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/${sitesRoute}/:siteId/systems`}
+            component={SystemsView}
             exact
           />
           <Route
@@ -35,6 +51,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
             component={SystemsView}
             exact
           />
+
           <Route path="/" component={HomeView} exact />
           <Route path="*" component={NotFoundPage} />
         </Switch>
