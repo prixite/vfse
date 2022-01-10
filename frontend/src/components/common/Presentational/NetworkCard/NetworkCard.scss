@@ -25,11 +25,12 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      margin-top: 22px;
-      height: 100px;
+      margin-top: 10px;
+      height: 80px;
       img {
-        object-fit: scale-down;
-        height: inherit;
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
       }
     }
     .location-logo {
