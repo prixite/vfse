@@ -90,8 +90,8 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/sites/<str:pk>/systems/",
-        api.SiteSystemViewSet.as_view(
+        "api/organizations/<str:pk>/systems/",
+        api.OrganizationSystemViewSet.as_view(
             {
                 "get": "list",
                 "post": "create",
@@ -99,8 +99,8 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/sites/<str:site_id>/systems/<str:pk>/",
-        api.SiteSystemViewSet.as_view(
+        "api/systems/<int:pk>/",
+        api.SystemViewSet.as_view(
             {
                 "delete": "destroy",
                 "patch": "partial_update",

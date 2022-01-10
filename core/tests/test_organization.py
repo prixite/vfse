@@ -388,14 +388,6 @@ class OrganizationTestCase(BaseTestCase):
         )
 
 
-class SiteTestCase(BaseTestCase):
-    def test_list_systems(self):
-        for user in [self.super_admin, self.super_manager]:
-            self.client.force_login(user)
-            response = self.client.get(f"/api/sites/{self.site.id}/systems/")
-            self.assertEqual(len(response.json()), 1)
-
-
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):
         models.Seat.objects.create(
