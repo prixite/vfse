@@ -28,6 +28,7 @@ const OrganizationSection = () => {
   const [organization, setOrganization] = useState(null);
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
+  const [action, setAction] = useState("");
   const { data: organizationList, refetch } = useOrganizationsListQuery({
     page: 1,
   });
@@ -74,15 +75,20 @@ const OrganizationSection = () => {
       <Box component="div" className="OrganizationSection">
         {!showTabs() ? <h2>{title}</h2> : <h2>{selectedOrganization?.name}</h2>}
         {showTabs() ? (
-          <Tabs
-            value={tabValue}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            {organizationTabs.map((tab: string, index: number) => {
-              return <Tab key={index} label={tab} />;
-            })}
-          </Tabs>
+          <>
+            <Tabs
+              value={tabValue}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              {organizationTabs.map((tab: string, index: number) => {
+                return <Tab key={index} label={tab} className="tab-style" />;
+              })}
+            </Tabs>
+            <hr
+              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+            />
+          </>
         ) : (
           ""
         )}
@@ -90,6 +96,7 @@ const OrganizationSection = () => {
           <>
             <TopViewBtns
               path="organizations"
+              setAction={setAction}
               setData={setOrganization}
               setList={setOrganizationsList}
               actualData={organizationList}
@@ -131,6 +138,7 @@ const OrganizationSection = () => {
                 organizationList.map((item, key) => (
                   <Grid key={key} item xs={3}>
                     <ClientCard
+                      setAction={setAction}
                       setOrganization={setOrganization}
                       row={item}
                       refetch={refetch}
@@ -148,6 +156,7 @@ const OrganizationSection = () => {
               )}
             </Grid>
             <OrganizationModal
+              action={action}
               organization={organization}
               setOrganization={setOrganization}
               open={openAddClientModal}
