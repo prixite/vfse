@@ -58,6 +58,7 @@ class Command(BaseCommand):
             cryo_admin_roles=[
                 factories.UserWithPasswordFactory(username="cryo-admin@example.com")
             ],
+            sites=True,
         )
 
         health_network = factories.HealthNetworkFactory(
