@@ -5,6 +5,7 @@ class OrganizationAppearanceDefault:
             "button_text": "#FFFFFF",
             "sidebar_color": "#142139",
             "primary_color": "#773CBD",
+            "secondary_color": "#EFE1FF",
             "font_one": "helvetica",
             "font_two": "calibri",
             "logo": "",

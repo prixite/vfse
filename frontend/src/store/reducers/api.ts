@@ -602,6 +602,7 @@ export type Appearance2 = {
   button_text: string;
   sidebar_color: string;
   primary_color: string;
+  secondary_color: string;
   font_one: string;
   font_two: string;
   logo: string;

@@ -1357,6 +1357,7 @@
                 "button_text",
                 "sidebar_color",
                 "primary_color",
+                "secondary_color",
                 "font_one",
                 "font_two",
                 "logo",
@@ -1382,6 +1383,11 @@
                 },
                 "primary_color": {
                     "title": "Primary color",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "secondary_color": {
+                    "title": "Secondary color",
                     "type": "string",
                     "minLength": 1
                 },
@@ -1419,6 +1425,7 @@
                 "button_text": "#FFFFFF",
                 "sidebar_color": "#142139",
                 "primary_color": "#773CBD",
+                "secondary_color": "#EFE1FF",
                 "font_one": "helvetica",
                 "font_two": "calibri",
                 "logo": "",
