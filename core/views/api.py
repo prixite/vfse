@@ -53,9 +53,7 @@ class CustomerViewSet(OrganizationViewSet):
         )
 
     def perform_create(self, serializer):
-        models.Organization.objects.create(
-            **serializer.validated_data, is_customer=True
-        )
+        serializer.save(is_customer=True)
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
