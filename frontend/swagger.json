@@ -854,6 +854,35 @@
                 }
             ]
         },
+        "/sites/{id}/systems/": {
+            "get": {
+                "operationId": "sites_systems_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/System"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "sites"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/systems/images/": {
             "get": {
                 "operationId": "systems_images_list",

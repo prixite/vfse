@@ -180,6 +180,23 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         )
 
 
+class SiteSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
+    serializer_class = serializers.SystemSerializer
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.System.objects.none()
+
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.System.objects.filter(
+                site_id=self.kwargs["pk"],
+            )
+
+        return models.System.objects.filter(
+            id__in=self.request.user.get_site_systems(self.kwargs["pk"])
+        )
+
+
 class SystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SystemSerializer
 
