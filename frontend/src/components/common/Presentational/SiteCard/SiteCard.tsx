@@ -70,7 +70,11 @@ const SiteCard = ({
   return (
     <>
       <Link
-        to={`/${organizationRoute}/${id}/${networkRoute}/${networkId}/${sitesRoute}/${siteId}/${systemsRoute}`}
+        to={
+          networkId == undefined
+            ? `/${organizationRoute}/${id}/${sitesRoute}/${siteId}/${systemsRoute}`
+            : `/${organizationRoute}/${id}/${networkRoute}/${networkId}/${sitesRoute}/${siteId}/${systemsRoute}`
+        }
         key={id}
         style={{ textDecoration: "none" }}
       >

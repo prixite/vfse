@@ -175,6 +175,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organizationSite,
       }),
     }),
+    organizationsSystemsList: build.query<
+      OrganizationsSystemsListApiResponse,
+      OrganizationsSystemsListApiArg
+    >({
+      query: (queryArg) => ({ url: `/organizations/${queryArg.id}/systems/` }),
+    }),
+    organizationsSystemsCreate: build.mutation<
+      OrganizationsSystemsCreateApiResponse,
+      OrganizationsSystemsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/`,
+        method: "POST",
+        body: queryArg.system,
+      }),
+    }),
     organizationsUsersList: build.query<
       OrganizationsUsersListApiResponse,
       OrganizationsUsersListApiArg
@@ -258,41 +274,6 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    sitesSystemsList: build.query<
-      SitesSystemsListApiResponse,
-      SitesSystemsListApiArg
-    >({
-      query: (queryArg) => ({ url: `/sites/${queryArg.id}/systems/` }),
-    }),
-    sitesSystemsCreate: build.mutation<
-      SitesSystemsCreateApiResponse,
-      SitesSystemsCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/sites/${queryArg.id}/systems/`,
-        method: "POST",
-        body: queryArg.system,
-      }),
-    }),
-    sitesSystemsPartialUpdate: build.mutation<
-      SitesSystemsPartialUpdateApiResponse,
-      SitesSystemsPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/sites/${queryArg.siteId}/systems/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.system,
-      }),
-    }),
-    sitesSystemsDelete: build.mutation<
-      SitesSystemsDeleteApiResponse,
-      SitesSystemsDeleteApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/sites/${queryArg.siteId}/systems/${queryArg.id}/`,
-        method: "DELETE",
-      }),
-    }),
     systemsImagesList: build.query<
       SystemsImagesListApiResponse,
       SystemsImagesListApiArg
@@ -307,6 +288,25 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/systems/images/`,
         method: "POST",
         body: queryArg.systemImage,
+      }),
+    }),
+    systemsPartialUpdate: build.mutation<
+      SystemsPartialUpdateApiResponse,
+      SystemsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.system,
+      }),
+    }),
+    systemsDelete: build.mutation<
+      SystemsDeleteApiResponse,
+      SystemsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/${queryArg.id}/`,
+        method: "DELETE",
       }),
     }),
     systemsNotesList: build.query<
@@ -450,6 +450,15 @@ export type OrganizationsSitesUpdateApiArg = {
   id: string;
   organizationSite: OrganizationSite;
 };
+export type OrganizationsSystemsListApiResponse = /** status 200  */ System[];
+export type OrganizationsSystemsListApiArg = {
+  id: string;
+};
+export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
+export type OrganizationsSystemsCreateApiArg = {
+  id: string;
+  system: System;
+};
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
   id: string;
@@ -494,31 +503,20 @@ export type ProductsModelsDeleteApiArg = {
   id: string;
   productPk: string;
 };
-export type SitesSystemsListApiResponse = /** status 200  */ System[];
-export type SitesSystemsListApiArg = {
-  id: string;
-};
-export type SitesSystemsCreateApiResponse = /** status 201  */ System;
-export type SitesSystemsCreateApiArg = {
-  id: string;
-  system: System;
-};
-export type SitesSystemsPartialUpdateApiResponse = /** status 200  */ System;
-export type SitesSystemsPartialUpdateApiArg = {
-  id: string;
-  siteId: string;
-  system: System;
-};
-export type SitesSystemsDeleteApiResponse = unknown;
-export type SitesSystemsDeleteApiArg = {
-  id: string;
-  siteId: string;
-};
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = void;
 export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
 export type SystemsImagesCreateApiArg = {
   systemImage: SystemImage;
+};
+export type SystemsPartialUpdateApiResponse = /** status 200  */ System;
+export type SystemsPartialUpdateApiArg = {
+  id: string;
+  system: System;
+};
+export type SystemsDeleteApiResponse = unknown;
+export type SystemsDeleteApiArg = {
+  id: string;
 };
 export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
 export type SystemsNotesListApiArg = {
@@ -602,6 +600,7 @@ export type Appearance2 = {
   button_text: string;
   sidebar_color: string;
   primary_color: string;
+  secondary_color: string;
   font_one: string;
   font_two: string;
   logo: string;
@@ -643,6 +642,29 @@ export type Site = {
 export type OrganizationSite = {
   id?: number;
   sites: Site[];
+};
+export type HisRisInfo = {
+  ip: string;
+  title: string;
+  port: number;
+  ae_title: string;
+};
+export type MriEmbeddedParameters = {
+  helium: string;
+  magnet_pressure: string;
+};
+export type System = {
+  name: string;
+  site: number;
+  product_model: number;
+  image?: number | null;
+  software_version: string;
+  asset_number: string;
+  ip_address: string;
+  local_ae_title: string;
+  his_ris_info?: HisRisInfo;
+  dicom_info?: HisRisInfo;
+  mri_embedded_parameters?: MriEmbeddedParameters;
 };
 export type User = {
   id?: number;
@@ -711,29 +733,6 @@ export type ProductModelCreate = {
   modality: number;
   product: number;
 };
-export type HisRisInfo = {
-  ip: string;
-  title: string;
-  port: number;
-  ae_title: string;
-};
-export type MriEmbeddedParameters = {
-  helium: string;
-  magnet_pressure: string;
-};
-export type System = {
-  name: string;
-  site: number;
-  product_model: number;
-  image?: number | null;
-  software_version: string;
-  asset_number: string;
-  ip_address: string;
-  local_ae_title: string;
-  his_ris_info?: HisRisInfo;
-  dicom_info?: HisRisInfo;
-  mri_embedded_parameters?: MriEmbeddedParameters;
-};
 export type SystemImage = {
   image: string;
 };
@@ -768,6 +767,8 @@ export const {
   useOrganizationsSitesListQuery,
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
+  useOrganizationsSystemsListQuery,
+  useOrganizationsSystemsCreateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,
@@ -778,12 +779,10 @@ export const {
   useProductsDeleteMutation,
   useProductsModelsPartialUpdateMutation,
   useProductsModelsDeleteMutation,
-  useSitesSystemsListQuery,
-  useSitesSystemsCreateMutation,
-  useSitesSystemsPartialUpdateMutation,
-  useSitesSystemsDeleteMutation,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
+  useSystemsPartialUpdateMutation,
+  useSystemsDeleteMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
   useUsersActivatePartialUpdateMutation,

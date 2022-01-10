@@ -65,6 +65,20 @@ class User(AbstractUser):
             ),
         ).values_list("health_network")
 
+    def get_sites(self):
+        return UserSite.objects.filter(user=self)
+
+    def get_systems(self):
+        return UserSystem.objects.filter(user=self)
+
+    def get_organization_systems(self, organization_pk):
+        return System.objects.filter(
+            id__in=self.get_systems(),
+            site__organization=organization_pk,
+            site__organization__in=self.get_organizations(),
+            site__in=self.get_sites(),
+        )
+
     class Meta:
         ordering = ["-id"]
 
@@ -95,6 +109,20 @@ class UserSite(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=["user", "site"], name="unique_user_site"),
+        ]
+
+
+class UserSystem(models.Model):
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    system = models.ForeignKey("System", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "system"], name="unique_user_systems"
+            ),
         ]
 
 

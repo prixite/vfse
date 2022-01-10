@@ -13,6 +13,7 @@ class OrganizationAppearanceSerializer(serializers.Serializer):
     button_text = serializers.CharField()
     sidebar_color = serializers.CharField()
     primary_color = serializers.CharField()
+    secondary_color = serializers.CharField()
     font_one = serializers.CharField()
     font_two = serializers.CharField()
     logo = serializers.URLField()

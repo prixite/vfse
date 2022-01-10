@@ -14,8 +14,8 @@ const initialState: ThemeColorState = {
   buttonBackground: "#773cbe",
   sideBarTextColor: "#94989E",
   buttonTextColor: "#FFFFFF",
-  fontOne: "",
-  fontTwo: "",
+  fontOne: "helvetica",
+  fontTwo: "calibri",
 };
 
 export const themeSlice = createSlice({

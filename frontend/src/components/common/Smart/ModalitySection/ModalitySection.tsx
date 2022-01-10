@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Box, Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 import NetworkCard from "@src/components/common/Presentational/NetworkCard/NetworkCard";
@@ -19,6 +20,7 @@ const ModalitySection = () => {
   const dispatch = useAppDispatch();
   // Just suppressing eslint error; TODO: Use network.
   const [open, setOpen] = useState(false); // eslint-disable-line
+  const { networkId } = useParams();
   // const setOpen = function () {
   //   return "fake";
   // };
@@ -45,7 +47,7 @@ const ModalitySection = () => {
   return (
     <>
       <Box component="div" className="ModalitySection">
-        <h2>{title}</h2>
+        {networkId == undefined ? "" : <h2>{title}</h2>}
         <TopViewBtns
           path="modality"
           setData={setNetwork}

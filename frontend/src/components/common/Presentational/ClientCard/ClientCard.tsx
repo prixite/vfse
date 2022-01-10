@@ -32,6 +32,7 @@ interface ClientCardProps {
   id: number;
   logo: string;
   name: string;
+  setAction : Dispatch<SetStateAction<string>>
 }
 const ClientCard = ({
   id,
@@ -40,6 +41,7 @@ const ClientCard = ({
   refetch,
   row,
   setOrganization,
+  setAction,
 }: ClientCardProps) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -47,7 +49,7 @@ const ClientCard = ({
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
-  const { organizationRoute } = constants;
+  const { organizationRoute, networkRoute } = constants;
 
   const handleModalOpen = () => {
     setOpenModal(true);
@@ -65,6 +67,7 @@ const ClientCard = ({
     setAnchorEl(null);
   };
   const handleEditAppearance = () => {
+    setAction("edit");
     dispatch(openAddModal());
     setOrganization(row);
     handleClose();
@@ -86,7 +89,7 @@ const ClientCard = ({
     dispatch(updateButtonTextColor(row.appearance.button_text));
     dispatch(updateFontOne(row.appearance.font_one));
     dispatch(updateFontTwo(row.appearance.font_two));
-    history.replace(`/${organizationRoute}/${id}/`);
+    history.replace(`/${organizationRoute}/${id}/${networkRoute}`);
   };
   return (
     <div className="ClientCard">
@@ -109,9 +112,9 @@ const ClientCard = ({
         handleDeleteOrganization={handleDeleteOrganization}
       />
       {/* <NewHealthNetwotkModal
-        open={openNetworkModal}
-        handleClose={handleNetworkModalClose}
-      /> */}
+          open={openNetworkModal}
+          handleClose={handleNetworkModalClose}
+        /> */}
       <div className="dropdownIcon">
         <MoreVertIcon
           id="client-options-button"

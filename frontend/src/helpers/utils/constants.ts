@@ -1,6 +1,8 @@
 export const constants = {
   organizationRoute: "clients",
-  networkRoute: "network",
+  networkRoute: "networks",
   sitesRoute: "sites",
   systemsRoute: "systems",
 };
+
+export const organizationTabs = ["Networks", "Sites"];

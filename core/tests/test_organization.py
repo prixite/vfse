@@ -17,6 +17,7 @@ class OrganizationTestCase(BaseTestCase):
                     "button_text": "#773CBD",
                     "sidebar_color": "#773CBD",
                     "primary_color": "#773CBD",
+                    "secondary_color": "#EFE1FF",
                     "font_one": "helvetica",
                     "font_two": "arial",
                     "logo": "https://picsum.photos/200",
@@ -102,6 +103,7 @@ class OrganizationTestCase(BaseTestCase):
                 "button_text": "#FFFFFF",
                 "sidebar_color": "#142139",
                 "primary_color": "#773CBD",
+                "secondary_color": "#EFE1FF",
                 "font_one": "helvetica",
                 "font_two": "calibri",
                 "logo": logo_url,
@@ -117,6 +119,7 @@ class OrganizationTestCase(BaseTestCase):
             "button_text": "#773CBD",
             "sidebar_color": "#773CBD",
             "primary_color": "#773CBD",
+            "secondary_color": "#EFE1FF",
             "font_one": "helvetica",
             "font_two": "arial",
             "logo": "https://picsum.photos/200",
@@ -383,14 +386,6 @@ class OrganizationTestCase(BaseTestCase):
                 organization=self.organization, name="New Organization"
             ).exists()
         )
-
-
-class SiteTestCase(BaseTestCase):
-    def test_list_systems(self):
-        for user in [self.super_admin, self.super_manager]:
-            self.client.force_login(user)
-            response = self.client.get(f"/api/sites/{self.site.id}/systems/")
-            self.assertEqual(len(response.json()), 1)
 
 
 class VfseTestCase(BaseTestCase):

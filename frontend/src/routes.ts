@@ -5,12 +5,13 @@ import HomeIcon from "@mui/icons-material/Home";
 
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import Documentation from "@src/views/documentation/DocumentationView";
-import ModalityView from "@src/views/modality/ModalityView";
+// import ModalityView from "@src/views/modality/ModalityView";
 import OrganizationView from "@src/views/organization/OrganizationView";
 import UserView from "@src/views/user/UserView";
 import VfseView from "@src/views/vfse/VfseView";
 
 import AppearanceView from "./views/appearance/AppearanceView";
+import SystemsView from "./views/systems/SystemsView";
 export const routes: routeItem[] = [
   {
     name: "Appearance",
@@ -21,13 +22,13 @@ export const routes: routeItem[] = [
   },
   {
     name: "Modality Administration",
-    path: "/networks/",
-    component: ModalityView,
+    path: "/systems/",
+    component: SystemsView,
     flag: "modality",
     icon: HomeIcon,
   },
   {
-    name: "3rd party administration",
+    name: "Organization administration",
     path: "/",
     component: OrganizationView,
     flag: "organization",
