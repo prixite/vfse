@@ -20,12 +20,13 @@
     &__Logo {
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       margin-top: 22px;
-      height: 100px;
+      height: 80px;
       img {
-        object-fit: scale-down;
-        height: inherit;
+        width: 100%;
+        object-fit: cover;
+        height: 100%;
       }
     }
   }
@@ -46,6 +47,8 @@
   }
   ul {
     padding: 12px;
+    margin-top: 5px;
+    
     li {
       font-weight: 400;
       font-size: 16px;
