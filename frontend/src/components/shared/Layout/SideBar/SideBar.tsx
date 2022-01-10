@@ -198,8 +198,16 @@ export default function SideBar() {
         textcolor={sideBarTextColor}
       >
         <List className="leftLists">
-          <ListItem button component="a" href="/">
-            <ListItemIcon className="client-image">
+          <ListItem
+            button
+            component="a"
+            href="/"
+            style={{ marginBottom: "0px" }}
+          >
+            <ListItemIcon
+              className="client-image"
+              style={{ marginBottom: "0px" }}
+            >
               <img
                 src={selectedOrganization?.appearance?.logo}
                 className="img"
@@ -223,7 +231,7 @@ export default function SideBar() {
             button
             component="a"
             className="item-margin"
-            style={{ marginBottom: "40px" }}
+            style={{ marginBottom: "10px" }}
           >
             <ListItemIcon style={{ color: sideBarTextColor }}>
               <SearchIcon onClick={onSearchClick} />
