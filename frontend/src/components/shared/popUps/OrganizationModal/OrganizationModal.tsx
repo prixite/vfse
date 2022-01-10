@@ -9,55 +9,66 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
-import { HealthNetwork as HealthNeworkArg } from "@src/store/reducers/api";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { updateOrganizationService , addNewOrganizationService, addNewHealthNetworksService } from "@src/services/organizationService";
+import {
+  updateOrganizationService,
+  addNewOrganizationService,
+  addNewHealthNetworksService,
+} from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsCreateMutation, useOrganizationsPartialUpdateMutation , useOrganizationsHealthNetworksUpdateMutation,useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
+import {
+  HealthNetwork as HealthNeworkArg,
+  useOrganizationsCreateMutation,
+  useOrganizationsPartialUpdateMutation,
+  useOrganizationsHealthNetworksUpdateMutation,
+  useOrganizationsHealthNetworksListQuery,
+} from "@src/store/reducers/api";
+
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
-import { toast } from "react-toastify";
 
 window.Buffer = window.Buffer || Buffer;
 export default function OrganizationModal(props) {
   //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
-  const [organizationID , setOrganizationID] = useState();
+  const [organizationID, setOrganizationID] = useState();
   const [organizationSeats, setOrganizationSeats] = useState("");
   const [organizationError, setOrganizationError] = useState("");
   const [imageError, setImageError] = useState("");
   const [selectedImage, setSelectedImage] = useState([]);
-  const [organizationLogo,setOrganizationLogo] = useState("");
+  const [organizationLogo, setOrganizationLogo] = useState("");
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const [addNewOrganization] = useOrganizationsCreateMutation();
   const [addNewNetworks] = useOrganizationsHealthNetworksUpdateMutation();
-  const [networks, setNetworks] = useState<HealthNeworkArg[]>([{name : "" , appearance : {logo : ""}}]);
-//  console.log(networks,"All networks Object");
+  const [networks, setNetworks] = useState<HealthNeworkArg[]>([
+    { name: "", appearance: { logo: "" } },
+  ]);
+  //  console.log(networks,"All networks Object");
   const [sidebarColor, setSidebarColor] = useState("");
   const [sidebarTextColor, setSidebarTextColor] = useState("");
   const [ButtonTextColor, setButtonTextColor] = useState("");
   const [ButtonColor, setButtonColor] = useState("");
+  const [secondColor, setSecondColor] = useState("");
   const [fontone, setFontOne] = useState("");
   const [fonttwo, setFontTwo] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const {
     data: networksData,
     error,
-    isLoading : isNetworkDataLoading
-  } =useOrganizationsHealthNetworksListQuery({
+    isLoading: isNetworkDataLoading,
+  } = useOrganizationsHealthNetworksListQuery({
     page: 1,
     id: organizationID,
   });
-
-
 
   const resetModal = () => {
     props?.handleClose();
@@ -71,8 +82,9 @@ export default function OrganizationModal(props) {
     setButtonTextColor("");
     setButtonColor("");
     setOrganizationLogo("");
-    setNetworks([{name : "" , appearance : {logo : ""}}]);
-  }
+    setSecondColor("");
+    setNetworks([{ name: "", appearance: { logo: "" } }]);
+  };
 
   const {
     popUpNewOrganization,
@@ -98,10 +110,10 @@ export default function OrganizationModal(props) {
     buttonBackground,
     sideBarTextColor,
     buttonTextColor,
+    secondaryColor,
     fontOne,
-    fontTwo
+    fontTwo,
   } = useAppSelector((state) => state.myTheme);
-  
 
   useEffect(() => {
     if (props?.organization && props?.open) {
@@ -111,30 +123,30 @@ export default function OrganizationModal(props) {
       setSidebarTextColor(props?.organization?.appearance?.sidebar_text);
       setButtonTextColor(props?.organization?.appearance?.button_text);
       setButtonColor(props?.organization?.appearance?.primary_color);
+      setSecondColor(props?.organization?.appearance?.secondary_color);
       setFontOne(props?.organization?.appearance?.font_one);
       setFontTwo(props?.organization?.appearance?.font_two);
       setOrganizationLogo(props?.organization?.appearance?.logo);
     }
-    if(!props?.organization && props?.open) {
+    if (!props?.organization && props?.open) {
       setSidebarColor(sideBarBackground);
       setSidebarTextColor(sideBarTextColor);
       setButtonTextColor(buttonTextColor);
       setButtonColor(buttonTextColor);
+      setSecondColor(secondaryColor);
       setFontOne(fontOne);
       setFontTwo(fontTwo);
     }
-  }, [props?.organization , props?.open]);
-   
+  }, [props?.organization, props?.open]);
 
   const handleChange = (event) => {
-    if(organizationID) {
-    setPage(event.target.value);
-    }
-    else {
-      toast.success("Create Organization First" , {
-        autoClose :1000,
-        pauseOnHover: false
-      })
+    if (organizationID) {
+      setPage(event.target.value);
+    } else {
+      toast.success("Create Organization First", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
     }
   };
 
@@ -154,7 +166,7 @@ export default function OrganizationModal(props) {
     if (!organizationName) {
       setOrganizationError("This value is required");
     }
-    if (!(selectedImage.length)) {
+    if (!selectedImage.length) {
       setImageError("Image is not selected");
     }
     if (organizationName && selectedImage.length) {
@@ -170,29 +182,34 @@ export default function OrganizationModal(props) {
               addNewOrganization,
               setOrganizationID,
               props.refetch
-            ).then(()=>setPage("2"))
-            .catch(()=>console.log("Error case"));
+            )
+              .then(() => setPage("2"))
+              .catch(() =>
+                toast.success("Error Occured", {
+                  autoClose: 1000,
+                  pauseOnHover: false,
+                })
+              );
           }
         }
       );
     }
     setIsLoading(false);
-  }
+  };
 
-  const addClientModalActions  = () => {
-    if(page === "1") {
+  const addClientModalActions = () => {
+    if (page === "1") {
       handleSetNewOrganization();
-    }
-    else if (page === "2") {
+    } else if (page === "2") {
       handleUpdateNetworks();
     }
-  }
+  };
   const handleUpdateOrganization = async () => {
     setIsLoading(true);
     if (!organizationName) {
       setOrganizationError("This value is required");
     }
-    if (!selectedImage.length || organizationLogo) {
+    if (!(selectedImage.length || organizationLogo)) {
       setImageError("Image is not selected");
     }
     if (organizationName && selectedImage.length) {
@@ -212,8 +229,7 @@ export default function OrganizationModal(props) {
           }
         }
       );
-    }
-    else if (organizationLogo && organizationName) {
+    } else if (organizationLogo && organizationName) {
       const organizationObject = getOrganizationObject();
       if (organizationObject?.appearance.banner || organizationObject) {
         await updateOrganizationService(
@@ -228,26 +244,30 @@ export default function OrganizationModal(props) {
   };
   const handleUpdateNetworks = async () => {
     setIsLoading(true);
-    const TempNetworks = networks.filter((network)=>network?.name && network?.appearance?.logo !=="");
-    if(!TempNetworks.length) {
+    const TempNetworks = networks.filter(
+      (network) => network?.name && network?.appearance?.logo !== ""
+    );
+    if (!TempNetworks.length) {
       toast.success("Add Networks first");
-    }
-    else {
-       await addNewHealthNetworksService(organizationID , addNewNetworks,TempNetworks);
+    } else {
+      await addNewHealthNetworksService(
+        organizationID,
+        addNewNetworks,
+        TempNetworks
+      );
     }
 
     setIsLoading(false);
     resetModal();
-  }
+  };
 
   const editClientModalActions = () => {
-    if(page === "1") {
+    if (page === "1") {
       handleUpdateOrganization();
-    }
-    else if (page === "2") {
+    } else if (page === "2") {
       handleUpdateNetworks();
     }
-  }
+  };
 
   const changeSideBarColor = (color: string) => setSidebarColor(color);
 
@@ -264,7 +284,7 @@ export default function OrganizationModal(props) {
     setFontTwo(event.target.value);
   };
   const addNetworks = () => {
-    setNetworks([...networks , {name : "" , appearance : {logo : ""}}]);
+    setNetworks([...networks, { name: "", appearance: { logo: "" } }]);
   };
 
   const getOrganizationObject = () => {
@@ -276,6 +296,7 @@ export default function OrganizationModal(props) {
         button_text: ButtonTextColor,
         sidebar_color: sidebarColor,
         primary_color: ButtonColor,
+        secondary_color: secondColor,
         font_one: fontone,
         font_two: fonttwo,
         banner: organizationLogo,
@@ -290,22 +311,18 @@ export default function OrganizationModal(props) {
     }
   }, [selectedImage]);
 
-  useEffect (()=> {
-    if(!isNetworkDataLoading && !error) {
-      if( networksData && networksData.length && props?.open){
-    setNetworks([...networksData]);
+  useEffect(() => {
+    if (!isNetworkDataLoading && !error) {
+      if (networksData && networksData.length && props?.open) {
+        setNetworks([...networksData]);
       }
-      if(!(networksData && networksData.length) && props?.open) {
-        setNetworks([{name : "" , appearance : {logo : ""}}]);
+      if (!(networksData && networksData.length) && props?.open) {
+        setNetworks([{ name: "", appearance: { logo: "" } }]);
       }
-  }
-  else if(!isNetworkDataLoading && error) {
-    setNetworks([{name : "" , appearance : {logo : ""}}]);
-  }
-  
-  },[isNetworkDataLoading, networksData,error])
-
-
+    } else if (!isNetworkDataLoading && error) {
+      setNetworks([{ name: "", appearance: { logo: "" } }]);
+    }
+  }, [isNetworkDataLoading, networksData, error]);
 
   return (
     <Dialog
@@ -340,11 +357,7 @@ export default function OrganizationModal(props) {
                 />
               </span>
             </span>
-            <img
-              src={CloseBtn}
-              className="cross-btn"
-              onClick={resetModal}
-            />
+            <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
         </div>
       </DialogTitle>
@@ -354,7 +367,10 @@ export default function OrganizationModal(props) {
             <>
               <div>
                 <p className="dropzone-title">{newOrganizationLogo}</p>
-                <DropzoneBox imgSrc={organizationLogo} setSelectedImage={setSelectedImage} />
+                <DropzoneBox
+                  imgSrc={organizationLogo}
+                  setSelectedImage={setSelectedImage}
+                />
                 {imageError?.length ? (
                   <p className="errorText">{imageError}</p>
                 ) : (
@@ -483,18 +499,19 @@ export default function OrganizationModal(props) {
                   {newOrganizationAddNetwork}
                 </Button>
               </div>
-              { !isNetworkDataLoading ? networks.map((network , index) => (
-                <HealthNetwork
-                  key={index}
-                  network = {network}
-                  allNetworks = {networks}
-                  index = {index}
-                  setNetworks = {setNetworks}
-                />
-              ))
-              :
-              <p>Loading Health Networks</p>
-            }
+              {!isNetworkDataLoading ? (
+                networks.map((network, index) => (
+                  <HealthNetwork
+                    key={index}
+                    network={network}
+                    allNetworks={networks}
+                    index={index}
+                    setNetworks={setNetworks}
+                  />
+                ))
+              ) : (
+                <p>Loading Health Networks</p>
+              )}
             </>
           )}
         </div>
@@ -530,7 +547,11 @@ export default function OrganizationModal(props) {
                   color: buttonTextColor,
                 }
           }
-          onClick={props?.action === "edit" ? editClientModalActions :  addClientModalActions}
+          onClick={
+            props?.action === "edit"
+              ? editClientModalActions
+              : addClientModalActions
+          }
           disabled={isLoading}
           className="add-btn"
         >
@@ -546,4 +567,5 @@ OrganizationModal.propTypes = {
   refetch: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
+  action: PropTypes.string.isRequired,
 };

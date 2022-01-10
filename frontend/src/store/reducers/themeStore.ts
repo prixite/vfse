@@ -5,6 +5,7 @@ interface ThemeColorState {
   buttonBackground: string;
   sideBarTextColor: string;
   buttonTextColor: string;
+  secondaryColor: string;
   fontOne: string;
   fontTwo: string;
 }
@@ -14,6 +15,7 @@ const initialState: ThemeColorState = {
   buttonBackground: "#773cbe",
   sideBarTextColor: "#94989E",
   buttonTextColor: "#FFFFFF",
+  secondaryColor: "#EFE1FF",
   fontOne: "helvetica",
   fontTwo: "calibri",
 };
@@ -22,6 +24,9 @@ export const themeSlice = createSlice({
   name: "themeColor",
   initialState,
   reducers: {
+    updateSecondaryColor: (state, action: PayloadAction<string>) => {
+      state.secondaryColor = action.payload;
+    },
     updateSideBarColor: (state, action: PayloadAction<string>) => {
       state.sideBarBackground = action.payload;
     },

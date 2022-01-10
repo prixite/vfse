@@ -32,7 +32,7 @@ interface ClientCardProps {
   id: number;
   logo: string;
   name: string;
-  setAction : Dispatch<SetStateAction<string>>
+  setAction: Dispatch<SetStateAction<string>>;
 }
 const ClientCard = ({
   id,

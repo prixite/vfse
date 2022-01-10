@@ -52,14 +52,15 @@ const addNewOrganizationService = async (
 ) => {
   await addNewOrganization({
     organization: organization,
-  }).unwrap().then((response)=> {
-    toast.success("Organization Updated.", {
-      autoClose: 1000,
-      pauseOnHover: false,
+  })
+    .unwrap()
+    .then((response) => {
+      toast.success("Organization Updated.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+      setOrganizationID(response?.id);
     });
-    setOrganizationID(response?.id);
-  
-  });
   refetch(); // TODO: invalidate cache instead of this.
 };
 
@@ -146,26 +147,29 @@ const addNewHealthNetworkService = async (
     });
 };
 
-const addNewHealthNetworksService =  async (organizationId,addNewNetworks , networks) => {
-  await addNewNetworks ({
-   id : organizationId,
-   organizationHealthNetwork : {health_networks : [...networks]}
+const addNewHealthNetworksService = async (
+  organizationId,
+  addNewNetworks,
+  networks
+) => {
+  await addNewNetworks({
+    id: organizationId,
+    organizationHealthNetwork: { health_networks: [...networks] },
   })
-  .unwrap()
-  .then(()=>{
-    toast.success("HealthNetwork Successfully Added", {
-      autoClose: 1000,
-      pauseOnHover: false,
+    .unwrap()
+    .then(() => {
+      toast.success("HealthNetwork Successfully Added", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+    })
+    .catch(() => {
+      toast.success("HealthNetworks Add Failed", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
     });
-  })
-  .catch(()=>{
-    toast.success("HealthNetworks Add Failed", {
-      autoClose: 1000,
-      pauseOnHover: false,
-    });
-  })
-
-}
+};
 export {
   updateOrganizationColor,
   DeleteOrganizationService,
@@ -173,5 +177,5 @@ export {
   addNewOrganizationService,
   addNewHealthNetworkService,
   updateHealthNetworkService,
-  addNewHealthNetworksService
+  addNewHealthNetworksService,
 };
