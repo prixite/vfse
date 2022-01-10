@@ -141,7 +141,9 @@ const ClientCard = ({
           <MenuItem onClick={handleNetworkModal}>
             Add new HealthNetwork
           </MenuItem>
-          <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+          <MenuItem onClick={handleModalOpen} style={{ marginBottom: "0px" }}>
+            Delete
+          </MenuItem>
         </Menu>
       </div>
     </div>
