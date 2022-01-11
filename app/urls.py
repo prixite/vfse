@@ -246,16 +246,16 @@ urlpatterns = (
             name="schema-json",
         ),
         path(
+            "",
+            login_required(site.WelcomeView.as_view()),
+            name="welcome",
+        ),
+        path(
             "openapi/",
             schema_view.with_ui("swagger", cache_timeout=0),
             name="schema-swagger-ui",
         ),
         path("admin/", admin.site.urls),
-        path(
-            "welcome/",
-            login_required(site.WelcomeView.as_view()),
-            name="welcome",
-        ),
         path(
             "accounts/login/",
             site.LoginView.as_view(),
