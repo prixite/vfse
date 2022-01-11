@@ -18,7 +18,7 @@ class DataAttribtueTestCase(BaseTestCase):
     def test_super_admin_flags(self):
         self.client.force_login(self.super_admin)
 
-        response = self.client.get("/")
+        response = self.client.get("/clients/")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             self.extract_data_attributes(response.content.decode()),
