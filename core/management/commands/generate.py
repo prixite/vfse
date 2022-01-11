@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db import transaction
 
 from core.tests import factories
 
@@ -6,6 +7,7 @@ from core.tests import factories
 class Command(BaseCommand):
     help = "Generate fake date"
 
+    @transaction.atomic
     def handle(self, *args, **options):
 
         factories.UserWithPasswordFactory(
