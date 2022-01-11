@@ -88,6 +88,8 @@
         "btnFilter": "Filter",
         "btnCol": "Columns",
         "btnAsset": "Sort by Asset #",
+        "noDataTitle": "No Data Found",
+        "noDataDescription": "Try Again",
         "btnAdd": "Add Systems"
     },
     "organization":{
