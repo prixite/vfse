@@ -179,7 +179,10 @@ const injectedRtkApi = api.injectEndpoints({
       OrganizationsSystemsListApiResponse,
       OrganizationsSystemsListApiArg
     >({
-      query: (queryArg) => ({ url: `/organizations/${queryArg.id}/systems/` }),
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/`,
+        params: { site: queryArg.site, health_network: queryArg.healthNetwork },
+      }),
     }),
     organizationsSystemsCreate: build.mutation<
       OrganizationsSystemsCreateApiResponse,
@@ -459,6 +462,8 @@ export type OrganizationsSitesUpdateApiArg = {
 export type OrganizationsSystemsListApiResponse = /** status 200  */ System[];
 export type OrganizationsSystemsListApiArg = {
   id: string;
+  site?: string;
+  healthNetwork?: string;
 };
 export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
 export type OrganizationsSystemsCreateApiArg = {
