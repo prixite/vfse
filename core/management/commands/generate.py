@@ -101,7 +101,7 @@ class Command(BaseCommand):
             organizations=[orgnization],
         )
         factories.SystemFactory.create_batch(
-            2, sites=True, site=organization.sites.first()
+            5, sites=True, site=organization.sites.first()
         )
         # Conni
         orgnization = factories.OrganizationFactory(
