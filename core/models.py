@@ -79,6 +79,13 @@ class User(AbstractUser):
             site__in=self.get_sites(),
         )
 
+    def get_site_systems(self, site_pk):
+        return System.objects.filter(
+            id__in=self.get_systems(),
+            site_id=site_pk,
+            site__in=self.get_sites(),
+        )
+
     class Meta:
         ordering = ["-id"]
 

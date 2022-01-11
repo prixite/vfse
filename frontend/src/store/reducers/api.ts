@@ -274,6 +274,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    sitesSystemsList: build.query<
+      SitesSystemsListApiResponse,
+      SitesSystemsListApiArg
+    >({
+      query: (queryArg) => ({ url: `/sites/${queryArg.id}/systems/` }),
+    }),
     systemsImagesList: build.query<
       SystemsImagesListApiResponse,
       SystemsImagesListApiArg
@@ -502,6 +508,10 @@ export type ProductsModelsDeleteApiResponse = unknown;
 export type ProductsModelsDeleteApiArg = {
   id: string;
   productPk: string;
+};
+export type SitesSystemsListApiResponse = /** status 200  */ System[];
+export type SitesSystemsListApiArg = {
+  id: string;
 };
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = void;
@@ -779,6 +789,7 @@ export const {
   useProductsDeleteMutation,
   useProductsModelsPartialUpdateMutation,
   useProductsModelsDeleteMutation,
+  useSitesSystemsListQuery,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
   useSystemsPartialUpdateMutation,

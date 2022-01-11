@@ -89,11 +89,12 @@ const TopViewBtns = ({
       setData(null);
     } else if (path === "systems") {
       setOpen(true);
-    } else if (path !== "organizations") {
-      setOpen(true);
+    } else if (path === "organizations") {
+      setAction("add");
+      dispatch(openAddModal());
       setData(null);
     } else {
-      dispatch(openAddModal());
+      setOpen(true);
       setData(null);
     }
   };
