@@ -100,7 +100,7 @@ class Command(BaseCommand):
             name="Alira Health Network",
             organizations=[orgnization],
         )
-        factories.SystemFactory.create_batch(2, site=orgnization.sites.first())
+        factories.SystemFactory.create_batch(2,sites=True,site=organization.sites.first())
         # Conni
         orgnization = factories.OrganizationFactory(
             name="Conni Health",
