@@ -302,6 +302,12 @@ class SystemFactory(factory.django.DjangoModelFactory):
     product_model = factory.SubFactory(ProductModelFactory)
     image = factory.SubFactory(SystemImageFactory)
     ip_address = "127.0.0.1"
+    software_version = factory.Faker("bothify", text="v#.#")
+    asset_number = factory.Faker("bothify", text="??##?##?##")
+    serial_number = factory.Faker("ssn")
+    local_ae_title = factory.Faker("sentence")
+    location_in_building = factory.Faker("address")
+    system_contact_info = factory.Faker("phone_number")
     his_ris_info = {
         "ip": "192.187.23.23",
         "title": "HIS System 1",
