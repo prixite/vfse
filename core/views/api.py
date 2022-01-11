@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from core import models, serializers
+from core import models, serializers, filters
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
 
@@ -165,7 +165,8 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SystemSerializer
-
+    filterset_class = filters.SystemFilters
+    
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
@@ -199,7 +200,7 @@ class SiteSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class SystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SystemSerializer
-
+    
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
