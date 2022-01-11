@@ -115,12 +115,13 @@ const OrganizationSection = () => {
                   organizationsList?.results?.map((item, key) => (
                     <Grid key={key} item xs={3}>
                       <ClientCard
+                        setAction={setAction}
                         setOrganization={setOrganization}
                         row={item}
                         refetch={refetch}
                         id={item.id}
                         name={item.name}
-                        logo={item.logo}
+                        logo={item.appearance.logo}
                       />
                     </Grid>
                   ))
@@ -128,11 +129,20 @@ const OrganizationSection = () => {
                   <NoDataFound
                     search
                     setQuery={setSearchText}
+                    queryText={searchText}
                     title={noDataTitle}
                     description={noDataDescription}
                   />
                 ) : (
-                  ""
+                  <div
+                    style={{
+                      color: "gray",
+                      marginLeft: "50%",
+                      marginTop: "30%",
+                    }}
+                  >
+                    <h2>Searching ...</h2>
+                  </div>
                 )
               ) : organizationList && organizationList?.length ? (
                 organizationList.map((item, key) => (

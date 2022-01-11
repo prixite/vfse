@@ -6,16 +6,22 @@ import "@src/components/shared/NoDataFound/NoDataFound.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
 interface Props {
-  search: string;
+  search: boolean;
   setQuery: (arg: string) => void;
+  queryText?: string;
   title: string;
   description: string;
 }
 
-const NoDataFound = ({ search, setQuery, title, description }: Props) => {
+const NoDataFound = ({
+  search,
+  setQuery,
+  queryText,
+  title,
+  description,
+}: Props) => {
   const history = useHistory();
   const { backbtn } = localizedData().dataNotFound;
-
   const handleBack = () => {
     if (search) {
       setQuery("");
@@ -26,7 +32,9 @@ const NoDataFound = ({ search, setQuery, title, description }: Props) => {
   return (
     <Box component="div" className="NotFound">
       <div className="NotFound__content">
-        <h3 className="title">{title}</h3>
+        <h3 className="title">
+          {title} <bold>{queryText}</bold>
+        </h3>
         <p className="description">{description}</p>
         <Button className="Backbtn" onClick={handleBack}>
           {backbtn}

@@ -59,5 +59,10 @@
   }
   &__AllClients {
     margin-top: 9px !important;
+    &__LoadingText {
+      color: "gray";
+      margin-left: "50%";
+      margin-top: "30%";
+    }
   }
 }
