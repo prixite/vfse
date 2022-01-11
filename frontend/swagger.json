@@ -554,7 +554,22 @@
             "get": {
                 "operationId": "organizations_systems_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "site",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "health_network",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
