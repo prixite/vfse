@@ -39,15 +39,19 @@ const SiteSection = () => {
     <>
       <Box component="div" className="SiteSection">
         {networkId == undefined ? "" : <h2>{title}</h2>}
-        <TopViewBtns
-          setOpen={setOpen}
-          path="sites"
-          setData={setSite}
-          setList={setSitesList}
-          actualData={sitesData}
-          searchText={searchText}
-          setSearchText={setSearchText}
-        />
+        {!isSitesFetching ? (
+          <TopViewBtns
+            setOpen={setOpen}
+            path="sites"
+            setData={setSite}
+            setList={setSitesList}
+            actualData={sitesData}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
+        ) : (
+          ""
+        )}
         {!isSitesFetching && !sitesData?.length ? (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         ) : (
@@ -73,11 +77,16 @@ const SiteSection = () => {
                 <NoDataFound
                   search
                   setQuery={setSearchText}
+                  queryText={searchText}
                   title={noDataTitle}
                   description={noDataDescription}
                 />
               ) : (
-                ""
+                <div
+                  style={{ color: "gray", marginLeft: "50%", marginTop: "30%" }}
+                >
+                  <h2>Searching ...</h2>
+                </div>
               )
             ) : sitesData && sitesData?.length ? (
               sitesData.map((item, key) => (

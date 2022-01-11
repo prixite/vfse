@@ -96,11 +96,45 @@ const SystemSection = () => {
         path="systems"
         setData={setSystem}
         setList={setSystemList}
-        actualData={null}
+        actualData={systemsData}
         searchText={searchText}
         setSearchText={setSearchText}
       />
-      {!isSystemDataLoading && !systemsData?.length ? (
+      {searchText?.length > 2 ? (
+        !isSystemDataLoading &&
+        systemList &&
+        systemList?.results?.length &&
+        systemList?.query === searchText ? (
+          systemList?.results?.map((item, key) => (
+            <div key={key} style={{ marginTop: "32px" }}>
+              <SystemCard
+                name={item?.name}
+                his_ris_info={item?.his_ris_info}
+                dicom_info={item?.dicom_info}
+                asset_number={item?.asset_number}
+                mri_embedded_parameters={item?.mri_embedded_parameters}
+                ip_address={item?.ip_address}
+                local_ae_title={item?.local_ae_title}
+                software_version={item?.software_version}
+              />
+            </div>
+          ))
+        ) : systemList?.query === searchText ? (
+          <>
+            <NoDataFound
+              search
+              setQuery={setSearchText}
+              queryText={searchText}
+              title={noDataTitle}
+              description={noDataDescription}
+            />
+          </>
+        ) : (
+          <div style={{ color: "gray", marginLeft: "50%", marginTop: "30%" }}>
+            <h2>Searching ...</h2>
+          </div>
+        )
+      ) : !isSystemDataLoading && !systemsData?.length ? (
         <NoDataFound title={noDataTitle} description={noDataDescription} />
       ) : (
         <div style={{ marginTop: "32px" }}>

@@ -81,11 +81,16 @@ const ModalitySection = () => {
               <NoDataFound
                 search
                 setQuery={setSearchText}
+                queryText={searchText}
                 title={noDataTitle}
                 description={noDataDescription}
               />
             ) : (
-              ""
+              <div
+                style={{ color: "gray", marginLeft: "50%", marginTop: "30%" }}
+              >
+                <h2>Searching ...</h2>
+              </div>
             )
           ) : networksData && networksData?.length ? (
             networksData.map((item, key) => (
