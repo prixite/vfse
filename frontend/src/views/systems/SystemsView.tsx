@@ -1,16 +1,31 @@
+import { useParams } from "react-router-dom";
+
 import SectionSkeleton from "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton";
 import SystemSection from "@src/components/common/Smart/SystemSection/SystemSection";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsSystemsListQuery } from "@src/store/reducers/api";
+import {
+  useOrganizationsSystemsListQuery,
+  useSitesSystemsListQuery,
+} from "@src/store/reducers/api";
+
 const SystemsView = () => {
+  const { siteId } = useParams();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+  const { isLoading } =
+    siteId == undefined
+      ? useOrganizationsSystemsListQuery({
+          page: 1,
+          id: selectedOrganization?.id?.toString(),
+        })
+      : useSitesSystemsListQuery({ page: 1, id: siteId?.toString() });
 
-  const { isLoading } = useOrganizationsSystemsListQuery({
-    page: 1,
-    id: selectedOrganization?.id.toString(),
-  });
+  if (isLoading) {
+    // console.log("Loading", siteId);
+  } else {
+    // console.log("Not loading", siteId);
+  }
   return <>{!isLoading ? <SystemSection /> : <SectionSkeleton />}</>;
 };
 
