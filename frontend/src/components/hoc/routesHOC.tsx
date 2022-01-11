@@ -15,7 +15,14 @@ interface Props {
 const RoutesHOC = ({ isLoading }: Props) => {
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   return (
-    <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#F5F6F7" }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        p: 3,
+        backgroundColor: "#F5F6F7",
+        overflowX: "hidden",
+      }}
+    >
       {!isLoading ? (
         <Switch>
           {routes.map((route, key) => (
