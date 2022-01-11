@@ -75,15 +75,20 @@ const OrganizationSection = () => {
       <Box component="div" className="OrganizationSection">
         {!showTabs() ? <h2>{title}</h2> : <h2>{selectedOrganization?.name}</h2>}
         {showTabs() ? (
-          <Tabs
-            value={tabValue}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            {organizationTabs.map((tab: string, index: number) => {
-              return <Tab key={index} label={tab} />;
-            })}
-          </Tabs>
+          <>
+            <Tabs
+              value={tabValue}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              {organizationTabs.map((tab: string, index: number) => {
+                return <Tab key={index} label={tab} className="tab-style" />;
+              })}
+            </Tabs>
+            <hr
+              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+            />
+          </>
         ) : (
           ""
         )}
