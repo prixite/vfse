@@ -57,6 +57,17 @@ export interface ModalitiesInterface {
   deleteDialog: DeleteDialogInterface;
 }
 
+export interface SystemInterface {
+  name: string;
+  software_version: string;
+  asset_number: string;
+  ip_address: string;
+  local_ae_title: string;
+  his_ris_info: object;
+  dicom_info: object;
+  mri_embedded_parameters: object;
+}
+
 export interface PopUp3Interface {
   popUpNewNetwork: string;
   newNetworkAddSite: string;
