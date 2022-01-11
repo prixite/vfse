@@ -21,11 +21,6 @@ const SystemsView = () => {
         })
       : useSitesSystemsListQuery({ page: 1, id: siteId?.toString() });
 
-  if (isLoading) {
-    // console.log("Loading", siteId);
-  } else {
-    // console.log("Not loading", siteId);
-  }
   return <>{!isLoading ? <SystemSection /> : <SectionSkeleton />}</>;
 };
 

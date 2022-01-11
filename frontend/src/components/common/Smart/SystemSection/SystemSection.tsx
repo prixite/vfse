@@ -1,13 +1,17 @@
 import { useState } from "react";
 
 import { Box } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsSystemsListQuery } from "@src/store/reducers/api";
+import {
+  useOrganizationsSystemsListQuery,
+  useSitesSystemsListQuery,
+} from "@src/store/reducers/api";
 
 const SystemSection = () => {
   const [open, setOpen] = useState(false); // eslint-disable-line
@@ -19,11 +23,15 @@ const SystemSection = () => {
     (state) => state.organization.selectedOrganization
   );
 
+  const { siteId } = useParams();
+
   const { data: systemsData, isLoading: isSystemDataLoading } =
-    useOrganizationsSystemsListQuery({
-      page: 1,
-      id: selectedOrganization?.id.toString(),
-    });
+    siteId == undefined
+      ? useOrganizationsSystemsListQuery({
+          page: 1,
+          id: selectedOrganization?.id.toString(),
+        })
+      : useSitesSystemsListQuery({ page: 1, id: siteId?.toString() });
 
   return (
     <Box component="div">
