@@ -568,6 +568,13 @@
                         "description": "",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "modality",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1655,6 +1662,23 @@
                 }
             }
         },
+        "SystemImage": {
+            "title": "Image",
+            "description": "SystemImage(id, image, created_at, updated_at)",
+            "required": [
+                "image"
+            ],
+            "type": "object",
+            "properties": {
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
         "SystemInfo": {
             "title": "His ris info",
             "description": "",
@@ -1718,11 +1742,39 @@
                 "magnet_pressure": "strong"
             }
         },
+        "SystemConnectionOptions": {
+            "title": "Connection options",
+            "description": "",
+            "type": "object",
+            "properties": {
+                "virtual_media_control": {
+                    "title": "Virtual media control",
+                    "type": "boolean",
+                    "default": false
+                },
+                "service_web_browser": {
+                    "title": "Service web browser",
+                    "type": "boolean",
+                    "default": false
+                },
+                "ssh": {
+                    "title": "Ssh",
+                    "type": "boolean",
+                    "default": false
+                }
+            },
+            "default": {
+                "virtual_media_control": false,
+                "service_web_browser": false,
+                "ssh": false
+            }
+        },
         "System": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, virtual_media_control, service_web_browser, ssh, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, is_online, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
+                "grafana_link",
                 "product_model",
                 "software_version",
                 "asset_number",
@@ -1741,14 +1793,42 @@
                     "title": "Site",
                     "type": "integer"
                 },
+                "serial_number": {
+                    "title": "Serial number",
+                    "type": "string",
+                    "maxLength": 32,
+                    "x-nullable": true
+                },
+                "location_in_building": {
+                    "title": "Location in building",
+                    "type": "string",
+                    "maxLength": 32,
+                    "x-nullable": true
+                },
+                "system_contact_info": {
+                    "title": "System contact info",
+                    "type": "string",
+                    "maxLength": 256,
+                    "x-nullable": true
+                },
+                "grafana_link": {
+                    "title": "Grafana link",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                },
                 "product_model": {
                     "title": "Product model",
                     "type": "integer"
                 },
                 "image": {
-                    "title": "Image",
-                    "type": "integer",
-                    "x-nullable": true
+                    "$ref": "#/definitions/SystemImage"
+                },
+                "documentation": {
+                    "title": "Documentation",
+                    "type": "string",
+                    "readOnly": true
                 },
                 "software_version": {
                     "title": "Software version",
@@ -1781,6 +1861,9 @@
                 },
                 "mri_embedded_parameters": {
                     "$ref": "#/definitions/MriInfo"
+                },
+                "connection_options": {
+                    "$ref": "#/definitions/SystemConnectionOptions"
                 }
             }
         },
@@ -2086,22 +2169,6 @@
                 "product": {
                     "title": "Product",
                     "type": "integer"
-                }
-            }
-        },
-        "SystemImage": {
-            "description": "SystemImage(id, image, created_at, updated_at)",
-            "required": [
-                "image"
-            ],
-            "type": "object",
-            "properties": {
-                "image": {
-                    "title": "Image",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "minLength": 1
                 }
             }
         },
