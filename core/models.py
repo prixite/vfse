@@ -298,17 +298,15 @@ class System(models.Model):
     serial_number = models.CharField(max_length=32, blank=True, null=True)
     location_in_building = models.CharField(max_length=32, blank=True, null=True)
     system_contact_info = models.TextField(max_length=256, blank=True, null=True)
-    system_option = models.TextField(blank=True, null=True)
-    virtual_media_control = models.BooleanField(default=False)
-    service_web_browser = models.BooleanField(default=False)
-    ssh = models.BooleanField(default=False)
     connection_monitoring = models.BooleanField(default=False)
+    grafana_link = models.URLField()
+    system_option = models.TextField(blank=True, null=True)
     other = models.TextField(null=True, blank=True)
 
     his_ris_info = models.JSONField(default=dict)
     dicom_info = models.JSONField(default=dict)
     mri_embedded_parameters = models.JSONField(default=dict)
-
+    connection_options = models.JSONField(default=dict)
     is_online = models.BooleanField(default=False)
     last_successful_ping_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -319,6 +317,10 @@ class System(models.Model):
             models.UniqueConstraint(fields=["name", "site"], name="unique_system"),
         ]
         ordering = ["-id"]
+
+    @property
+    def documentation(self):
+        return self.product_model.documentation.url
 
 
 class SystemImage(models.Model):

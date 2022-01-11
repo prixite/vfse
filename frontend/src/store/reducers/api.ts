@@ -181,7 +181,11 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.id}/systems/`,
-        params: { site: queryArg.site, health_network: queryArg.healthNetwork },
+        params: {
+          site: queryArg.site,
+          health_network: queryArg.healthNetwork,
+          modality: queryArg.modality,
+        },
       }),
     }),
     organizationsSystemsCreate: build.mutation<
@@ -464,6 +468,7 @@ export type OrganizationsSystemsListApiArg = {
   id: string;
   site?: string;
   healthNetwork?: string;
+  modality?: string;
 };
 export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
 export type OrganizationsSystemsCreateApiArg = {
@@ -518,11 +523,11 @@ export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
   id: string;
 };
-export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
+export type SystemsImagesListApiResponse = /** status 200  */ Image[];
 export type SystemsImagesListApiArg = void;
-export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
+export type SystemsImagesCreateApiResponse = /** status 201  */ Image;
 export type SystemsImagesCreateApiArg = {
-  systemImage: SystemImage;
+  systemImage: Image;
 };
 export type SystemsPartialUpdateApiResponse = /** status 200  */ System;
 export type SystemsPartialUpdateApiArg = {
@@ -658,6 +663,9 @@ export type OrganizationSite = {
   id?: number;
   sites: Site[];
 };
+export type Image = {
+  image: string;
+};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -668,11 +676,21 @@ export type MriEmbeddedParameters = {
   helium: string;
   magnet_pressure: string;
 };
+export type ConnectionOptions = {
+  virtual_media_control?: boolean;
+  service_web_browser?: boolean;
+  ssh?: boolean;
+};
 export type System = {
   name: string;
   site: number;
+  serial_number?: string | null;
+  location_in_building?: string | null;
+  system_contact_info?: string | null;
+  grafana_link: string;
   product_model: number;
-  image?: number | null;
+  image?: Image;
+  documentation?: string;
   software_version: string;
   asset_number: string;
   ip_address: string;
@@ -680,6 +698,7 @@ export type System = {
   his_ris_info?: HisRisInfo;
   dicom_info?: HisRisInfo;
   mri_embedded_parameters?: MriEmbeddedParameters;
+  connection_options?: ConnectionOptions;
 };
 export type User = {
   id?: number;
@@ -747,9 +766,6 @@ export type ProductModelCreate = {
   documentation?: number | null;
   modality: number;
   product: number;
-};
-export type SystemImage = {
-  image: string;
 };
 export type SystemNotes = {
   system: number;

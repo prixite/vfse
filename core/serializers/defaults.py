@@ -57,3 +57,12 @@ class ProfileMetaDefault:
 class HealthNetworkAppearanceDefault:
     def __call__(self, *args, **kwds):
         return {"logo": ""}
+
+
+class ConnectionOptionDefault:
+    def __call__(self, *args, **kwds):
+        return {
+            "virtual_media_control": False,
+            "service_web_browser": False,
+            "ssh": False,
+        }
