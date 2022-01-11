@@ -83,12 +83,12 @@ class SystemTestCase(BaseTestCase):
                 "site": self.site.id,
                 "product_model": product_model.id,
                 "software_version": "v2",
+                "grafana_link": "http://example.com/newsystemimage.jpeg",
                 "asset_number": "12452",
                 "ip_address": "192.168.23.25",
                 "local_ae_title": "new title",
             },
         )
-
         self.assertEqual(response.status_code, 201)
         self.assertTrue(
             models.System.objects.filter(name="Post System", site=self.site.id).exists()

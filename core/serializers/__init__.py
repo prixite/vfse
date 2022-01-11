@@ -165,28 +165,6 @@ class MriInfoSerializer(serializers.Serializer):
     magnet_pressure = serializers.CharField()
 
 
-class SystemSerializer(serializers.ModelSerializer):
-    his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
-    dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
-    mri_embedded_parameters = MriInfoSerializer(default=defaults.MriInfoDefault())
-
-    class Meta:
-        model = models.System
-        fields = [
-            "name",
-            "site",
-            "product_model",
-            "image",
-            "software_version",
-            "asset_number",
-            "ip_address",
-            "local_ae_title",
-            "his_ris_info",
-            "dicom_info",
-            "mri_embedded_parameters",
-        ]
-
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
@@ -318,16 +296,52 @@ class ProductModelSerializer(serializers.ModelSerializer):
         read_only_fields = ["product"]
 
 
-class SystemNotesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Note
-        fields = ["system", "author", "note", "created_at"]
-
-
 class SystemImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SystemImage
         fields = ["image"]
+
+class SystemConnectionOptions(serializers.Serializer):
+    virtual_media_control = serializers.BooleanField(default=False)
+    service_web_browser = serializers.BooleanField(default=False)    
+    ssh = serializers.BooleanField(default=False)    
+
+class SystemSerializer(serializers.ModelSerializer):
+    his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
+    dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
+    mri_embedded_parameters = MriInfoSerializer(default=defaults.MriInfoDefault())
+    connection_options = SystemConnectionOptions(default=defaults.ConnectionOptionDefault())
+    image = SystemImageSerializer(read_only=True)
+
+    class Meta:
+        model = models.System
+        fields = [
+            "name",
+            "site",
+            "serial_number",
+            "location_in_building",
+            "system_contact_info",
+            "grafana_link",
+            "product_model",
+            "image",
+            "documentation",
+            "software_version",
+            "asset_number",
+            "ip_address",
+            "local_ae_title",
+            "his_ris_info",
+            "dicom_info",
+            "mri_embedded_parameters",
+            'connection_options'
+        ]
+
+        # read_only_fields=['documentation']
+
+
+class SystemNotesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Note
+        fields = ["system", "author", "note", "created_at"]
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):
