@@ -33,7 +33,7 @@ const NoDataFound = ({
     <Box component="div" className="NotFound">
       <div className="NotFound__content">
         <h3 className="title">
-          {title} {queryText.toUpperCase()}
+          {title} {queryText}
         </h3>
         <p className="description">{description}</p>
         <Button className="Backbtn" onClick={handleBack}>
