@@ -1719,7 +1719,7 @@
             }
         },
         "System": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, system_option, virtual_media_control, service_web_browser, ssh, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, is_online, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, clear, virtual_media_control, service_web_browser, ssh, connection_monitoring, other, his_ris_info, dicom_info, mri_embedded_parameters, is_online, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
