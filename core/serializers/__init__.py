@@ -301,16 +301,20 @@ class SystemImageSerializer(serializers.ModelSerializer):
         model = models.SystemImage
         fields = ["image"]
 
+
 class SystemConnectionOptions(serializers.Serializer):
     virtual_media_control = serializers.BooleanField(default=False)
-    service_web_browser = serializers.BooleanField(default=False)    
-    ssh = serializers.BooleanField(default=False)    
+    service_web_browser = serializers.BooleanField(default=False)
+    ssh = serializers.BooleanField(default=False)
+
 
 class SystemSerializer(serializers.ModelSerializer):
     his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
     dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
     mri_embedded_parameters = MriInfoSerializer(default=defaults.MriInfoDefault())
-    connection_options = SystemConnectionOptions(default=defaults.ConnectionOptionDefault())
+    connection_options = SystemConnectionOptions(
+        default=defaults.ConnectionOptionDefault()
+    )
     image = SystemImageSerializer(read_only=True)
 
     class Meta:
@@ -332,7 +336,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "his_ris_info",
             "dicom_info",
             "mri_embedded_parameters",
-            'connection_options'
+            "connection_options",
         ]
 
         # read_only_fields=['documentation']

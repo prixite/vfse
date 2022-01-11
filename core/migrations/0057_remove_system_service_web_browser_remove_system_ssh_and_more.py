@@ -6,31 +6,31 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0056_usersystem_usersystem_unique_user_systems'),
+        ("core", "0056_usersystem_usersystem_unique_user_systems"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='system',
-            name='service_web_browser',
+            model_name="system",
+            name="service_web_browser",
         ),
         migrations.RemoveField(
-            model_name='system',
-            name='ssh',
+            model_name="system",
+            name="ssh",
         ),
         migrations.RemoveField(
-            model_name='system',
-            name='virtual_media_control',
+            model_name="system",
+            name="virtual_media_control",
         ),
         migrations.AddField(
-            model_name='system',
-            name='connection_options',
+            model_name="system",
+            name="connection_options",
             field=models.JSONField(default=dict),
         ),
         migrations.AddField(
-            model_name='system',
-            name='grafana_link',
-            field=models.URLField(default=''),
+            model_name="system",
+            name="grafana_link",
+            field=models.URLField(default=""),
             preserve_default=False,
         ),
     ]
