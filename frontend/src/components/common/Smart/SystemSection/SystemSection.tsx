@@ -92,15 +92,19 @@ const SystemSection = () => {
         </div>
         <hr style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }} />
       </div>
-      <TopViewBtns
-        setOpen={setOpen}
-        path="systems"
-        setData={setSystem}
-        setList={setSystemList}
-        actualData={systemsData}
-        searchText={searchText}
-        setSearchText={setSearchText}
-      />
+      {!isSystemDataLoading ? (
+        <TopViewBtns
+          setOpen={setOpen}
+          path="systems"
+          setData={setSystem}
+          setList={setSystemList}
+          actualData={systemsData}
+          searchText={searchText}
+          setSearchText={setSearchText}
+        />
+      ) : (
+        ""
+      )}
       {searchText?.length > 2 ? (
         !isSystemDataLoading &&
         systemList &&

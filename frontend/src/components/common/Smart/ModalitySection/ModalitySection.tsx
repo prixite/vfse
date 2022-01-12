@@ -48,15 +48,19 @@ const ModalitySection = () => {
     <>
       <Box component="div" className="ModalitySection">
         {networkId == undefined ? "" : <h2>{title}</h2>}
-        <TopViewBtns
-          path="modality"
-          setData={setNetwork}
-          setList={setNetworksList}
-          setAction={setAction}
-          actualData={networksData}
-          searchText={searchText}
-          setSearchText={setSearchText}
-        />
+        {!isNetworkDataLoading ? (
+          <TopViewBtns
+            path="modality"
+            setData={setNetwork}
+            setList={setNetworksList}
+            setAction={setAction}
+            actualData={networksData}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
+        ) : (
+          ""
+        )}
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
           {searchText?.length > 2 ? (
             networksList &&

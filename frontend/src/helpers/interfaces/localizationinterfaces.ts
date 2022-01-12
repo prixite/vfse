@@ -76,9 +76,14 @@ export interface MRIParamInterface {
   magent_pressure: string;
 }
 
+export interface imagePropInterface {
+  image: string;
+  description: object;
+}
+
 export interface SystemInterface {
   name: string;
-  image: string;
+  image: imagePropInterface;
   software_version: string;
   serial_number: string;
   asset_number: string;
