@@ -4,6 +4,12 @@ const path = require("path");
 
 module.exports = {
   entry: ["./frontend/src/index.tsx"],
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+      name: "vendor",
+    },
+  },
   module: {
     rules: [
       {
@@ -30,7 +36,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../dist/"),
     publicPath: "/static/",
-    filename: "bundle.js",
+    filename: "[name].bundle.js",
     clean: true,
   },
 };

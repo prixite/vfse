@@ -13,5 +13,11 @@
     />
     {% block head %}{% endblock %}
   </head>
-  {% block body %}{% endblock %}
+
+  <body data-flags="{% block data_flags %}{% endblock %}">
+    {% block body %}{% endblock %}
+
+    <script src="{% static '/vendor.bundle.js' %}"></script>
+    {% block js_includes %}{% endblock %}
+  </body>
 </html>

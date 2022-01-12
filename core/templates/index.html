@@ -1,9 +1,15 @@
-{% extends "base.html" %} {% load static %} {% block body %}
-<body data-flags="{{ user_data.flags|join:',' }}">
-  <form name="csrf">{% csrf_token %}</form>
-  <div id="container">
-    <div>Loading vFSE application 🚀</div>
-  </div>
-  <script src="{% static '/bundle.js' %}"></script>
-</body>
+{% extends "base.html" %}
+{% load static %}
+
+{% block data_flags %}{{ user_data.flags|join:',' }}{% endblock %}
+
+{% block body %}
+<form name="csrf">{% csrf_token %}</form>
+<div id="container">
+  <div>Loading vFSE application 🚀</div>
+</div>
 {% endblock body %}
+
+{% block js_includes %}
+<script src="{% static '/main.bundle.js' %}"></script>
+{% endblock %}
