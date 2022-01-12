@@ -14,6 +14,7 @@ import {
   useModalitiesListQuery,
 } from "@src/store/reducers/api";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
+import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
 
 const SystemSection = () => {
   const location = useLocation();
@@ -86,6 +87,7 @@ const SystemSection = () => {
             cameraTag="div"
             classPrefix="eg-flick"
             deceleration={0.0075}
+            zIndex={2}
             horizontal
             bound
             gap={40}
@@ -194,6 +196,7 @@ const SystemSection = () => {
           ))}
         </div>
       )}
+      <SystemModal open={open} handleClose={() => setOpen(false)} />
     </Box>
   );
 };

@@ -173,6 +173,31 @@
     },
     "siteSection" : {
         "site": "Site Name #"
+    },
+    "systemModal" : {
+        "fieldName": "name",
+        "fieldSite": "Site",
+        "fieldModal": "Product model",
+        "fieldVersion": "Software Version",
+        "fieldAsset": "Asset Number",
+        "fieldIp": "IP",
+        "fieldLocalAE": "Local AE Title",
+        "fieldRisName": "HIS/RIS info",
+        "fieldRisIp": "IP",
+        "fieldRisTitle": "Title",
+        "fieldRisPort": "Port",
+        "fieldRisAE": "AE Title",
+        "fieldDicomName": "Dicom info",
+        "fieldDicomIp": "IP",
+        "fieldDicomTitle": "Title",
+        "fieldDicomPort": "Port",
+        "fieldDicomAE": "AE Title",
+        "fieldMRIname": "MRI embedded parmeters",
+        "fieldMRIHelium": "Helium",
+        "fieldMRIMagnet": "Magnet pressure",
+        "headdingAddInfo": "Add Info",
+        "btnAdd": "Add",
+        "btnCancel": "Cancel"
     }
 
 }

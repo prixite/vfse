@@ -1,3 +1,28 @@
+export interface SystemModal {
+  fieldName: string;
+  fieldSite: string;
+  fieldModal: string;
+  fieldIp: string;
+  fieldVersion: string;
+  fieldAsset: string;
+  fieldLocalAE: string;
+  fieldRisName: string;
+  fieldRisIp: string;
+  fieldRisTitle: string;
+  fieldRisPort: string;
+  fieldRisAE: string;
+  fieldDicomName: string;
+  fieldDicomIp: string;
+  fieldDicomTitle: string;
+  fieldDicomPort: string;
+  fieldDicomAE: string;
+  fieldMRIname: string;
+  fieldMRIHelium: string;
+  fieldMRIMagnet: string;
+  headdingAddInfo: string;
+  btnAdd: string;
+  btnCancel: string;
+}
 export interface PopUpInterface {
   userNameText: string;
   emailText: string;
@@ -222,4 +247,5 @@ export interface LocalizationInterface {
   dropzone: DropzoneInterface;
   healthNetwork: HealthNetworkInterface;
   siteSection: SiteSectionInterface;
+  systemModal: SystemModal;
 }
