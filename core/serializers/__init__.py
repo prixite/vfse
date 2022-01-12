@@ -262,7 +262,7 @@ class UserEnableDisableSerializer(serializers.Serializer):
 class ModalitySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Modality
-        fields = ["name"]
+        fields = ["id", "name"]
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):
