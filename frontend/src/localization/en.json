@@ -31,7 +31,7 @@
         "title": "All Networks",
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
-        "noDataTitle": "No data found against",
+        "noDataTitle": "No data found.",
         "noDataDescription": "Try Again",
         "cardPopUp":
         {
@@ -58,7 +58,7 @@
         "btnFilter": "Filter",
         "btnAdd": "Add Site",
         "noResultMsg": "no results found",
-        "noDataTitle": "No data found against",
+        "noDataTitle": "No data found.",
         "noDataDescription": "Try Again",
         "popUp":{
             "popUpNewNetwork": "Add Network",
@@ -91,7 +91,7 @@
         "btnFilter": "Filter",
         "btnCol": "Columns",
         "btnAsset": "Sort by Asset #",
-        "noDataTitle": "No data found against",
+        "noDataTitle": "No data found.",
         "noDataDescription": "Try Again",
         "btnAdd": "Add Systems"
     },
@@ -114,7 +114,7 @@
         "title": "All Clients",
         "btnFilter": "Filter",
         "btnAdd": "Add Clients",
-        "noDataTitle": "No data found against",
+        "noDataTitle": "No data found.",
         "noDataDescription": "Try Again",
         "newHealthNetwork": " New Health Network",
         "popUp":{
@@ -149,7 +149,7 @@
         "backbtn" : "GO BACK"
     },
     "dataNotFound" : {
-        "title" : "No data found against!",
+        "title" : "No data found.!",
         "description" : "Try Again",
         "backbtn" : "GO BACK"
     },
