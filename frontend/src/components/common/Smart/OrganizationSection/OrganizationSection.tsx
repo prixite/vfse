@@ -35,7 +35,7 @@ const OrganizationSection = () => {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-
+  const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   const { id } = useParams();
 
@@ -138,10 +138,10 @@ const OrganizationSection = () => {
                     style={{
                       color: "gray",
                       marginLeft: "50%",
-                      marginTop: "30%",
+                      marginTop: "20%",
                     }}
                   >
-                    <h2>Searching ...</h2>
+                    <h2>{searching}</h2>
                   </div>
                 )
               ) : organizationList && organizationList?.length ? (

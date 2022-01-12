@@ -34,6 +34,7 @@ const SystemSection = () => {
     setModality(index);
   };
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const { searching } = localizedData().common;
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -109,13 +110,18 @@ const SystemSection = () => {
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
                 name={item?.name}
+                image={item?.image?.image}
                 his_ris_info={item?.his_ris_info}
                 dicom_info={item?.dicom_info}
+                serial_number={item?.serial_number}
                 asset_number={item?.asset_number}
                 mri_embedded_parameters={item?.mri_embedded_parameters}
                 ip_address={item?.ip_address}
                 local_ae_title={item?.local_ae_title}
                 software_version={item?.software_version}
+                location_in_building={item?.location_in_building}
+                grafana_link={item?.grafana_link}
+                documentation={item?.documentation}
               />
             </div>
           ))
@@ -130,8 +136,8 @@ const SystemSection = () => {
             />
           </>
         ) : (
-          <div style={{ color: "gray", marginLeft: "50%", marginTop: "30%" }}>
-            <h2>Searching ...</h2>
+          <div style={{ color: "gray", marginLeft: "50%", marginTop: "20%" }}>
+            <h2>{searching}</h2>
           </div>
         )
       ) : !isSystemDataLoading && !systemsData?.length ? (
@@ -142,13 +148,18 @@ const SystemSection = () => {
             <SystemCard
               key={key}
               name={item?.name}
+              image={item?.image?.image}
               his_ris_info={item?.his_ris_info}
               dicom_info={item?.dicom_info}
+              serial_number={item?.serial_number}
               asset_number={item?.asset_number}
               mri_embedded_parameters={item?.mri_embedded_parameters}
               ip_address={item?.ip_address}
               local_ae_title={item?.local_ae_title}
               software_version={item?.software_version}
+              location_in_building={item?.location_in_building}
+              grafana_link={item?.grafana_link}
+              documentation={item?.documentation}
             />
           ))}
         </div>
