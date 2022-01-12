@@ -25,9 +25,9 @@ variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   PRE_COMMIT_HOME: "$CI_PROJECT_DIR/.cache/pre-commit"
 
-default:
-  before_script:
-    - pip install -r requirements-dev.txt
+stages:
+  - build
+  - test
 
 cache:
   paths:
@@ -35,19 +35,24 @@ cache:
     - .cache/pip
     - .cache/pre-commit
 
-lint: # This job also runs in the test stage.
-  stage: test # It can run at the same time as unit-test-job (in parallel).
+build:
+  stage: build
   script:
+    - pip install -r requirements-dev.txt
     - apt-get update -yqq
     - curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
     - apt-get install -y nodejs
     - npm install
-    - pre-commit run --all
   artifacts:
     paths:
       - node_modules/
 
-test: # This job also runs in the test stage.
-  stage: test # It can run at the same time as unit-test-job (in parallel).
+lint:
+  stage: test
+  script:
+    - pre-commit run --all
+
+unit_test:
+  stage: test
   script:
     - ./manage.py test
