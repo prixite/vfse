@@ -53,7 +53,7 @@ export default function NetworkModal(props: Props) {
   const [selectedImage, setSelectedImage] = useState([]);
   const [imageError, setImageError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { buttonBackground, buttonTextColor } = useAppSelector(
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
   const [sitePointer, setSitePointer] = useState<Site[]>([
@@ -241,7 +241,7 @@ export default function NetworkModal(props: Props) {
                   color: "black",
                 }
               : {
-                  backgroundColor: buttonBackground,
+                  backgroundColor: secondaryColor,
                   color: buttonTextColor,
                 }
           }

@@ -137,6 +137,7 @@ export interface PopUp4Interface {
   newOrganizationPageTrackerdesc2: string;
   newOrganizationName: string;
   newOrganizationSeats: string;
+  newOrganizationBtnNext: string;
   newOrganizationBtnSave: string;
   newOrganizationBtnCancel: string;
   newOrganizationLogo: string;
