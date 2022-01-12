@@ -21,6 +21,7 @@ import {
   updateSideBarColor,
   updateButtonTextColor,
   updateSideBarTextColor,
+  updateSecondaryColor,
   updateFontOne,
   updateFontTwo,
 } from "@src/store/reducers/themeStore";
@@ -87,6 +88,7 @@ const ClientCard = ({
     dispatch(updateButtonColor(row.appearance.primary_color));
     dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
     dispatch(updateButtonTextColor(row.appearance.button_text));
+    dispatch(updateSecondaryColor(row.appearance.secondary_color));
     dispatch(updateFontOne(row.appearance.font_one));
     dispatch(updateFontTwo(row.appearance.font_two));
     history.replace(`/${organizationRoute}/${id}/${networkRoute}`);

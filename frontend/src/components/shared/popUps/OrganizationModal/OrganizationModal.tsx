@@ -36,7 +36,13 @@ import {
 import "@src/components/shared/popUps/OrganizationModal/OrganizationModal.scss";
 
 window.Buffer = window.Buffer || Buffer;
-export default function OrganizationModal(props) {
+export default function OrganizationModal({
+  action,
+  organization,
+  open,
+  handleClose,
+  refetch,
+}) {
   //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
@@ -65,13 +71,18 @@ export default function OrganizationModal(props) {
     data: networksData,
     error,
     isLoading: isNetworkDataLoading,
-  } = useOrganizationsHealthNetworksListQuery({
-    page: 1,
-    id: organizationID,
-  });
+  } = useOrganizationsHealthNetworksListQuery(
+    {
+      page: 1,
+      id: organizationID,
+    },
+    {
+      skip: !organizationID,
+    }
+  );
 
   const resetModal = () => {
-    props?.handleClose();
+    handleClose();
     setOrganizationName("");
     setOrganizationID(undefined);
     setOrganizationSeats("");
@@ -92,6 +103,7 @@ export default function OrganizationModal(props) {
     newOrganizationPageTrackerdesc2,
     newOrganizationName,
     newOrganizationSeats,
+    newOrganizationBtnNext,
     newOrganizationBtnSave,
     newOrganizationBtnCancel,
     newOrganizationLogo,
@@ -116,19 +128,19 @@ export default function OrganizationModal(props) {
   } = useAppSelector((state) => state.myTheme);
 
   useEffect(() => {
-    if (props?.organization && props?.open) {
-      setOrganizationID(props?.organization?.id);
-      setOrganizationName(props.organization?.name);
-      setSidebarColor(props?.organization?.appearance?.sidebar_color);
-      setSidebarTextColor(props?.organization?.appearance?.sidebar_text);
-      setButtonTextColor(props?.organization?.appearance?.button_text);
-      setButtonColor(props?.organization?.appearance?.primary_color);
-      setSecondColor(props?.organization?.appearance?.secondary_color);
-      setFontOne(props?.organization?.appearance?.font_one);
-      setFontTwo(props?.organization?.appearance?.font_two);
-      setOrganizationLogo(props?.organization?.appearance?.logo);
+    if (organization && open) {
+      setOrganizationID(organization?.id);
+      setOrganizationName(organization?.name);
+      setSidebarColor(organization?.appearance?.sidebar_color);
+      setSidebarTextColor(organization?.appearance?.sidebar_text);
+      setButtonTextColor(organization?.appearance?.button_text);
+      setButtonColor(organization?.appearance?.primary_color);
+      setSecondColor(organization?.appearance?.secondary_color);
+      setFontOne(organization?.appearance?.font_one);
+      setFontTwo(organization?.appearance?.font_two);
+      setOrganizationLogo(organization?.appearance?.logo);
     }
-    if (!props?.organization && props?.open) {
+    if (!organization && open) {
       setSidebarColor(sideBarBackground);
       setSidebarTextColor(sideBarTextColor);
       setButtonTextColor(buttonTextColor);
@@ -137,17 +149,13 @@ export default function OrganizationModal(props) {
       setFontOne(fontOne);
       setFontTwo(fontTwo);
     }
-  }, [props?.organization, props?.open]);
+    if (open) {
+      setPage("1");
+    }
+  }, [organization, open]);
 
   const handleChange = (event) => {
-    if (organizationID) {
-      setPage(event.target.value);
-    } else {
-      toast.success("Create Organization First", {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
-    }
+    setPage(event.target.value);
   };
 
   const handleOrganizationName = (event) => {
@@ -181,7 +189,7 @@ export default function OrganizationModal(props) {
               organizationObject,
               addNewOrganization,
               setOrganizationID,
-              props.refetch
+              refetch
             )
               .then(() => setPage("2"))
               .catch(() =>
@@ -224,7 +232,7 @@ export default function OrganizationModal(props) {
               organizationID,
               organizationObject,
               updateOrganization,
-              props.refetch
+              refetch
             );
           }
         }
@@ -236,7 +244,7 @@ export default function OrganizationModal(props) {
           organizationID,
           organizationObject,
           updateOrganization,
-          props.refetch
+          refetch
         );
       }
     }
@@ -277,6 +285,8 @@ export default function OrganizationModal(props) {
 
   const changeButtonTextColor = (color: string) => setButtonTextColor(color);
 
+  const changeSecondaryColor = (color: string) => setSecondColor(color);
+
   const onChangeFontOne = (event) => {
     setFontOne(event.target.value);
   };
@@ -313,27 +323,21 @@ export default function OrganizationModal(props) {
 
   useEffect(() => {
     if (!isNetworkDataLoading && !error) {
-      if (networksData && networksData.length && props?.open) {
+      if (networksData && networksData.length && open) {
         setNetworks([...networksData]);
       }
-      if (!(networksData && networksData.length) && props?.open) {
+      if (!(networksData && networksData.length) && open) {
         setNetworks([{ name: "", appearance: { logo: "" } }]);
       }
-    } else if (!isNetworkDataLoading && error) {
-      setNetworks([{ name: "", appearance: { logo: "" } }]);
     }
   }, [isNetworkDataLoading, networksData, error]);
 
   return (
-    <Dialog
-      className="organization-modal"
-      open={props.open}
-      onClose={resetModal}
-    >
+    <Dialog className="organization-modal" open={open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
-            {props.organization?.name ?? popUpNewOrganization}
+            {organization?.name ?? popUpNewOrganization}
           </span>
           <span className="dialog-page">
             <span className="pg-number">
@@ -350,6 +354,7 @@ export default function OrganizationModal(props) {
                 <Radio
                   checked={page === "2"}
                   onChange={handleChange}
+                  disabled={!organizationID}
                   value="2"
                   name="radio-buttons"
                   inputProps={{ "aria-label": "2" }}
@@ -430,6 +435,15 @@ export default function OrganizationModal(props) {
                           title={newOrganizationColor4}
                           color={ButtonTextColor}
                           onChange={changeButtonTextColor}
+                        />
+                      </div>
+                    </div>
+                    <div className="color-pickers">
+                      <div style={{ marginTop: "25px", marginRight: "24px" }}>
+                        <ColorPicker
+                          title={`Secondary Color`}
+                          color={secondColor}
+                          onChange={changeSecondaryColor}
                         />
                       </div>
                     </div>
@@ -525,7 +539,7 @@ export default function OrganizationModal(props) {
                   color: "black",
                 }
               : {
-                  backgroundColor: buttonBackground,
+                  backgroundColor: secondaryColor,
                   color: buttonTextColor,
                 }
           }
@@ -548,14 +562,16 @@ export default function OrganizationModal(props) {
                 }
           }
           onClick={
-            props?.action === "edit"
-              ? editClientModalActions
-              : addClientModalActions
+            action === "edit" ? editClientModalActions : addClientModalActions
           }
           disabled={isLoading}
           className="add-btn"
         >
-          {newOrganizationBtnSave}
+          {action === "edit"
+            ? "Edit"
+            : page === "1"
+            ? newOrganizationBtnNext
+            : newOrganizationBtnSave}
         </Button>
       </DialogActions>
     </Dialog>

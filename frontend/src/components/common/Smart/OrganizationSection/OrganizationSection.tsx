@@ -29,7 +29,11 @@ const OrganizationSection = () => {
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [action, setAction] = useState("");
-  const { data: organizationList, refetch } = useOrganizationsListQuery({
+  const {
+    data: organizationList,
+    refetch,
+    isFetching: isOrgListFetching,
+  } = useOrganizationsListQuery({
     page: 1,
   });
   const selectedOrganization = useAppSelector(
@@ -94,15 +98,19 @@ const OrganizationSection = () => {
         )}
         {!showTabs() ? (
           <>
-            <TopViewBtns
-              path="organizations"
-              setAction={setAction}
-              setData={setOrganization}
-              setList={setOrganizationsList}
-              actualData={organizationList}
-              searchText={searchText}
-              setSearchText={setSearchText}
-            />
+            {!isOrgListFetching ? (
+              <TopViewBtns
+                path="organizations"
+                setAction={setAction}
+                setData={setOrganization}
+                setList={setOrganizationsList}
+                actualData={organizationList}
+                searchText={searchText}
+                setSearchText={setSearchText}
+              />
+            ) : (
+              ""
+            )}
             <Grid
               container
               spacing={2}
