@@ -55,5 +55,6 @@ export const {
   updateButtonTextColor,
   updateFontOne,
   updateFontTwo,
+  updateSecondaryColor,
 } = themeSlice.actions;
 export default themeSlice.reducer;
