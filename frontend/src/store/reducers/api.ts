@@ -641,6 +641,7 @@ export type Me = {
   organization?: Organization;
 };
 export type Modality = {
+  id?: number;
   name: string;
 };
 export type OrganizationHealthNetwork = {
