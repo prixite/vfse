@@ -57,15 +57,44 @@ export interface ModalitiesInterface {
   deleteDialog: DeleteDialogInterface;
 }
 
+export interface hisRISInterface {
+  ip: string;
+  title: string;
+  port: number;
+  ae_title: string;
+}
+
+export interface dicomInfoInterface {
+  ip: string;
+  title: string;
+  port: number;
+  ae_title: string;
+}
+
+export interface MRIParamInterface {
+  helium: string;
+  magent_pressure: string;
+}
+
+export interface imagePropInterface {
+  image: string;
+  description: object;
+}
+
 export interface SystemInterface {
   name: string;
+  image: imagePropInterface;
   software_version: string;
+  serial_number: string;
   asset_number: string;
   ip_address: string;
   local_ae_title: string;
-  his_ris_info: object;
-  dicom_info: object;
-  mri_embedded_parameters: object;
+  his_ris_info: hisRISInterface;
+  dicom_info: dicomInfoInterface;
+  mri_embedded_parameters: MRIParamInterface;
+  location_in_building: string;
+  grafana_link: string;
+  documentation: string;
 }
 
 export interface PopUp3Interface {

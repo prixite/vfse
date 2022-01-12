@@ -1,4 +1,7 @@
 {
+    "common":{
+        "searching": "Searching ..."
+    },
     "users":{
             "addUser": "Add User",
             "userAdministration": "User Administration",
@@ -91,6 +94,21 @@
         "noDataTitle": "No data found against",
         "noDataDescription": "Try Again",
         "btnAdd": "Add Systems"
+    },
+    "systems_card": {
+        "his_ris_info_txt": "HIS/RIS info",
+        "dicom_info_txt": "Dicom info",
+        "serial_txt": "Serial",
+        "asset_txt": "Asset",
+        "helium_level": "Helium level",
+        "mpc_status": "MPC Status",
+        "copy_btn": "Copy",
+        "ip_address_txt": "IP address",
+        "local_ae_title_txt": "Local AE title",
+        "software_version_txt": "Software Version",
+        "location": "Location",
+        "connect": "Connect",
+        "grafana_link_txt": "Grafana Link"
     },
     "organization":{
         "title": "All Clients",

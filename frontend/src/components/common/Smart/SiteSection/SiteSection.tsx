@@ -32,7 +32,7 @@ const SiteSection = () => {
   });
 
   const { title, noDataTitle, noDataDescription } = localizedData().sites;
-
+  const { searching } = localizedData().common;
   const handleClose = () => setOpen(false);
 
   return (
@@ -83,9 +83,9 @@ const SiteSection = () => {
                 />
               ) : (
                 <div
-                  style={{ color: "gray", marginLeft: "50%", marginTop: "30%" }}
+                  style={{ color: "gray", marginLeft: "50%", marginTop: "20%" }}
                 >
-                  <h2>Searching ...</h2>
+                  <h2>{searching}</h2>
                 </div>
               )
             ) : sitesData && sitesData?.length ? (

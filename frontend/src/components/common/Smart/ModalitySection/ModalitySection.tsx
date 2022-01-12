@@ -28,7 +28,7 @@ const ModalitySection = () => {
   const [networksList, setNetworksList] = useState({});
   const [searchText, setSearchText] = useState("");
   const { title, noDataTitle, noDataDescription } = localizedData().modalities;
-
+  const { searching } = localizedData().common;
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -48,15 +48,19 @@ const ModalitySection = () => {
     <>
       <Box component="div" className="ModalitySection">
         {networkId == undefined ? "" : <h2>{title}</h2>}
-        <TopViewBtns
-          path="modality"
-          setData={setNetwork}
-          setList={setNetworksList}
-          setAction={setAction}
-          actualData={networksData}
-          searchText={searchText}
-          setSearchText={setSearchText}
-        />
+        {!isNetworkDataLoading ? (
+          <TopViewBtns
+            path="modality"
+            setData={setNetwork}
+            setList={setNetworksList}
+            setAction={setAction}
+            actualData={networksData}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
+        ) : (
+          ""
+        )}
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
           {searchText?.length > 2 ? (
             networksList &&
@@ -87,9 +91,9 @@ const ModalitySection = () => {
               />
             ) : (
               <div
-                style={{ color: "gray", marginLeft: "50%", marginTop: "30%" }}
+                style={{ color: "gray", marginLeft: "50%", marginTop: "20%" }}
               >
-                <h2>Searching ...</h2>
+                <h2>{searching}</h2>
               </div>
             )
           ) : networksData && networksData?.length ? (
