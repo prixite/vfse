@@ -1,4 +1,5 @@
 import { Box, InputAdornment, TextField, Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
@@ -6,6 +7,7 @@ import CopyIcon from "@src/assets/svgs/copy-icon.svg";
 import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
+
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
 const SystemCard = ({
@@ -53,24 +55,29 @@ const SystemCard = ({
         <div className="features">
           <div style={{ marginRight: "32px" }}>
             <p className="option">
-              {his_ris_info_txt} <strong>{his_ris_info?.title}</strong>
+              {his_ris_info_txt} <br />
+              <strong>{his_ris_info?.title}</strong>
             </p>
             <p className="option">
-              {dicom_info_txt} <strong>{dicom_info?.title}</strong>
+              {dicom_info_txt} <br />
+              <strong>{dicom_info?.title}</strong>
             </p>
             <p className="option">
-              {serial_txt} <strong>{serial_number}</strong>
+              {serial_txt} <br />
+              <strong>{serial_number}</strong>
             </p>
           </div>
           <div>
             <p className="option">
-              {asset_txt} <strong>{asset_number}</strong>
+              {asset_txt} <br />
+              <strong>{asset_number}</strong>
             </p>
             <p className="option">
-              {helium_level} <strong>{mri_embedded_parameters?.helium}</strong>
+              {helium_level} <br />
+              <strong>{mri_embedded_parameters?.helium}</strong>
             </p>
             <p className="option">
-              {mpc_status}{" "}
+              {mpc_status} <br />
               <strong>{mri_embedded_parameters?.magent_pressure}</strong>
             </p>
           </div>
@@ -89,7 +96,13 @@ const SystemCard = ({
               <InputAdornment position="start">
                 <Button
                   className="copy-btn"
-                  onClick={() => navigator?.clipboard?.writeText(documentation)}
+                  onClick={() => {
+                    navigator?.clipboard?.writeText(documentation);
+                    toast.success("Link Copied.", {
+                      autoClose: 1000,
+                      pauseOnHover: false,
+                    });
+                  }}
                 >
                   {copy_btn}
                 </Button>
@@ -100,16 +113,20 @@ const SystemCard = ({
       </div>
       <div className="info-section">
         <p className="option">
-          {ip_address_txt} <strong>{ip_address}</strong>
+          {ip_address_txt} <br />
+          <strong>{ip_address}</strong>
         </p>
         <p className="option">
-          {local_ae_title_txt} <strong>{local_ae_title}</strong>
+          {local_ae_title_txt} <br />
+          <strong>{local_ae_title}</strong>
         </p>
         <p className="option">
-          {software_version_txt} <strong>{software_version}</strong>
+          {software_version_txt} <br />
+          <strong>{software_version}</strong>
         </p>
         <p className="option">
-          {location} <strong>{location_in_building}</strong>
+          {location} <br />
+          <strong>{location_in_building}</strong>
         </p>
       </div>
       <div className="btn-section">

@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
@@ -11,12 +11,16 @@ import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
-  useSitesSystemsListQuery,
   useModalitiesListQuery,
 } from "@src/store/reducers/api";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 
 const SystemSection = () => {
+  const location = useLocation();
+  const history = useHistory();
+  const queryParams = new URLSearchParams(location?.search);
+  const paramModality = queryParams?.get("modality");
+
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -24,30 +28,47 @@ const SystemSection = () => {
   // eslint-disable-next-line
   const [systemList, setSystemList] = useState({});
   const [searchText, setSearchText] = useState("");
-  const [modality, setModality] = useState(0);
+  const [modality, setModality] = useState(paramModality);
   const carouselRef = useRef(null);
+  // const { siteId } = useParams();
 
-  const { buttonBackground } = useAppSelector((state) => state.myTheme);
-  const { data: modalitiesList } = useModalitiesListQuery();
-
-  const handleClick = (index) => {
-    setModality(index);
-  };
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
+
+  const { data: modalitiesList } = useModalitiesListQuery();
+
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+
+  const changeModality = (item) => {
+    setModality(item?.id.toString());
+    queryParams.set("modality", item?.id.toString());
+    history.push({
+      pathname: history.location.pathname,
+      search: queryParams.toString(),
+    });
+    systemsRefetch();
+  };
+
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
 
-  const { siteId } = useParams();
-
-  const { data: systemsData, isLoading: isSystemDataLoading } =
-    siteId == undefined
-      ? useOrganizationsSystemsListQuery({
-          page: 1,
-          id: selectedOrganization?.id.toString(),
-        })
-      : useSitesSystemsListQuery({ page: 1, id: siteId?.toString() });
+  const apiData = {
+    page: 1,
+    id: selectedOrganization?.id.toString(),
+    modality: modality,
+  };
+  if (modality == null) {
+    delete apiData.modality;
+  }
+  const {
+    data: systemsData,
+    isLoading: isSystemDataLoading,
+    refetch: systemsRefetch,
+  } =
+    // siteId == undefined
+    useOrganizationsSystemsListQuery(apiData);
+  // : useSitesSystemsListQuery(apiData);
 
   return (
     <Box component="div" className="system-section">
@@ -72,21 +93,26 @@ const SystemSection = () => {
           >
             {
               // eslint-disable-next-line
-              modalitiesList?.map((item, key) => (
-                <span
-                  key={key}
-                  className="modality"
-                  style={{
-                    color: `${modality === key ? buttonBackground : ""}`,
-                    borderBottom: `${
-                      modality === key ? `1px solid ${buttonBackground}` : ""
-                    }`,
-                  }}
-                  onClick={() => handleClick(key)}
-                >
-                  {item.name}
-                </span>
-              ))
+              modalitiesList?.length &&
+                modalitiesList?.map((item, key) => (
+                  <span
+                    key={key}
+                    className="modality"
+                    style={{
+                      color: `${
+                        modality === item?.id.toString() ? buttonBackground : ""
+                      }`,
+                      borderBottom: `${
+                        modality === item?.id.toString()
+                          ? `1px solid ${buttonBackground}`
+                          : ""
+                      }`,
+                    }}
+                    onClick={() => changeModality(item)}
+                  >
+                    {item.name}
+                  </span>
+                ))
             }
           </Flicking>
         </div>
