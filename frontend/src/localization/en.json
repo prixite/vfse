@@ -1,4 +1,7 @@
 {
+    "common":{
+        "searching": "Searching ..."
+    },
     "users":{
             "addUser": "Add User",
             "userAdministration": "User Administration",
@@ -92,6 +95,21 @@
         "noDataDescription": "Try Again",
         "btnAdd": "Add Systems"
     },
+    "systems_card": {
+        "his_ris_info_txt": "HIS/RIS info",
+        "dicom_info_txt": "Dicom info",
+        "serial_txt": "Serial",
+        "asset_txt": "Asset",
+        "helium_level": "Helium level",
+        "mpc_status": "MPC Status",
+        "copy_btn": "Copy",
+        "ip_address_txt": "IP address",
+        "local_ae_title_txt": "Local AE title",
+        "software_version_txt": "Software Version",
+        "location": "Location",
+        "connect": "Connect",
+        "grafana_link_txt": "Grafana Link"
+    },
     "organization":{
         "title": "All Clients",
         "btnFilter": "Filter",
@@ -105,13 +123,14 @@
             "newOrganizationPageTrackerdesc2": "of 2",
             "newOrganizationName": "Client Name",
             "newOrganizationSeats": "Number of Seats",
+            "newOrganizationBtnNext" : "Next",
             "newOrganizationBtnSave": "Add",
             "newOrganizationBtnCancel": "Cancel",
             "newOrganizationLogo": "Logo",
-            "newOrganizationColor1": "Color #1",
-            "newOrganizationColor2": "Color #2",
-            "newOrganizationColor3": "Color #3",
-            "newOrganizationColor4": "Color #4",
+            "newOrganizationColor1": "Sidebar:",
+            "newOrganizationColor2": "Buttons:",
+            "newOrganizationColor3": "Sidebar Text:",
+            "newOrganizationColor4": "Buttons Text:",
             "newOrganizationFont1": "Font #1",
             "newOrganizationFont2": "Font #2",
             "newOrganizationHealthNetworks": "Health networks",

@@ -29,13 +29,17 @@ const OrganizationSection = () => {
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [action, setAction] = useState("");
-  const { data: organizationList, refetch } = useOrganizationsListQuery({
+  const {
+    data: organizationList,
+    refetch,
+    isFetching: isOrgListFetching,
+  } = useOrganizationsListQuery({
     page: 1,
   });
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-
+  const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   const { id } = useParams();
 
@@ -94,15 +98,19 @@ const OrganizationSection = () => {
         )}
         {!showTabs() ? (
           <>
-            <TopViewBtns
-              path="organizations"
-              setAction={setAction}
-              setData={setOrganization}
-              setList={setOrganizationsList}
-              actualData={organizationList}
-              searchText={searchText}
-              setSearchText={setSearchText}
-            />
+            {!isOrgListFetching ? (
+              <TopViewBtns
+                path="organizations"
+                setAction={setAction}
+                setData={setOrganization}
+                setList={setOrganizationsList}
+                actualData={organizationList}
+                searchText={searchText}
+                setSearchText={setSearchText}
+              />
+            ) : (
+              ""
+            )}
             <Grid
               container
               spacing={2}
@@ -138,10 +146,10 @@ const OrganizationSection = () => {
                     style={{
                       color: "gray",
                       marginLeft: "50%",
-                      marginTop: "30%",
+                      marginTop: "20%",
                     }}
                   >
-                    <h2>Searching ...</h2>
+                    <h2>{searching}</h2>
                   </div>
                 )
               ) : organizationList && organizationList?.length ? (

@@ -28,6 +28,7 @@ import {
   updateButtonColor,
   updateSideBarTextColor,
   updateButtonTextColor,
+  updateSecondaryColor,
   updateFontOne,
   updateFontTwo,
 } from "@src/store/reducers/themeStore";
@@ -49,6 +50,7 @@ const AppearanceSection = () => {
     buttonBackground,
     sideBarTextColor,
     buttonTextColor,
+    secondaryColor,
     fontOne,
     fontTwo,
   } = useAppSelector((state) => state.myTheme);
@@ -114,6 +116,20 @@ const AppearanceSection = () => {
       currentOrganiationDummyData,
       color,
       "sidebar_text"
+    );
+    dispatch(
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
+      })
+    );
+  };
+
+  const changeSecondaryColor = (color: string) => {
+    dispatch(updateSecondaryColor(color));
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      color,
+      "secondary_color"
     );
     dispatch(
       setSelectedOrganization({
@@ -217,6 +233,15 @@ const AppearanceSection = () => {
                     title="Buttons Text:"
                     color={buttonTextColor}
                     onChange={changeButtonTextColor}
+                  />
+                </div>
+              </div>
+              <div style={{ display: "flex" }}>
+                <div className="appearanceColorSection">
+                  <ColorPicker
+                    title="Secondary Color:"
+                    color={secondaryColor}
+                    onChange={changeSecondaryColor}
                   />
                 </div>
               </div>
