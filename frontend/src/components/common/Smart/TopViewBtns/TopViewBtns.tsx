@@ -200,7 +200,9 @@ const TopViewBtns = ({
         >
           <div className="btn-content">
             <AddIcon />
-            <span>{btnAdd}</span>
+            <span style={{ display: "inline-block", paddingTop: "3px" }}>
+              {btnAdd}
+            </span>
           </div>
         </Button>
       </Box>

@@ -19,16 +19,20 @@
         background-color: #fff;
         margin-right: 8px;
         border-radius: 8px;
-        padding: 8px 16px 8px 9px;
+        padding: 10px 16px 6px 9px;
         color: #696f77;
         box-shadow: unset;
         font-family: "ProximaNova-Regular";
         font-style: normal;
         font-weight: 400;
+        text-align: center;
         .btn-content {
           display: flex;
           justify-content: center;
           align-items: center;
+          span {
+            align-self: center;
+          }
         }
       }
       .Search-input {
@@ -40,7 +44,7 @@
           height: 100%;
         }
         input {
-          padding: 8px 16px 8px 9px;
+          padding: 10px 16px 6px 9px;
         }
       }
     }

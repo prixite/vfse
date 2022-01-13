@@ -19,6 +19,7 @@ const columns = [
     width: 70,
     hide: false,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: "username",
@@ -26,6 +27,7 @@ const columns = [
     width: 230,
     hide: false,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: "email",
@@ -33,6 +35,7 @@ const columns = [
     width: 230,
     hide: false,
     disableColumnMenu: true,
+    sortable: false,
   },
 ];
 
@@ -102,12 +105,20 @@ export default function UserView() {
                   headerAlign: "center",
                   align: "center",
                   disableColumnMenu: true,
+                  sortable: false,
+                  width: 85,
                   renderCell: () => (
-                    <img
-                      src={ThreeDots}
+                    <div
                       onClick={handleClick}
-                      style={{ cursor: "pointer" }}
-                    />
+                      style={{
+                        cursor: "pointer",
+                        padding: "15px",
+                        marginLeft: "auto",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <img src={ThreeDots} />
+                    </div>
                   ),
                 },
               ]}
@@ -137,10 +148,17 @@ export default function UserView() {
                 headerAlign: "center",
                 align: "center",
                 disableColumnMenu: true,
+                width: 85,
+                sortable: false,
                 renderCell: () => (
                   <div
                     onClick={handleClick}
-                    style={{ cursor: "pointer", padding: "15px" }}
+                    style={{
+                      cursor: "pointer",
+                      padding: "15px",
+                      marginLeft: "auto",
+                      marginTop: "10px",
+                    }}
                   >
                     <img src={ThreeDots} />
                   </div>

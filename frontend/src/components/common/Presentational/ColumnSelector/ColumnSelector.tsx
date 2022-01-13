@@ -72,7 +72,9 @@ const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
         input={<OutlinedInput />}
         renderValue={(selected) => {
           return (
-            <span>columns {`${selected.length}/${tableColumns.length}`} </span>
+            <span style={{ display: "inline-block", paddingTop: "3px" }}>
+              columns {`${selected.length}/${tableColumns.length}`}{" "}
+            </span>
           );
         }}
         MenuProps={MenuProps}

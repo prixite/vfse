@@ -88,7 +88,7 @@ export default function AddUser(props: Props) {
     userManager,
     userCustomer,
   } = constantData;
-  const { buttonBackground, buttonTextColor } = useAppSelector(
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
 
@@ -353,8 +353,8 @@ export default function AddUser(props: Props) {
       <DialogActions>
         <Button
           style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
+            backgroundColor: secondaryColor,
+            color: buttonBackground,
           }}
           onClick={props.handleClose}
           className="cancel-btn"
