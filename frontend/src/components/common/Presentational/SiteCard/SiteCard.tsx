@@ -68,7 +68,7 @@ const SiteCard = ({
     toast.success("Site successfully deleted");
   };
   return (
-    <>
+    <div className="SiteCard">
       <Link
         to={
           networkId == undefined
@@ -78,43 +78,9 @@ const SiteCard = ({
         key={id}
         style={{ textDecoration: "none" }}
       >
-        <Box component="div" className="SiteCard">
+        <Box component="div">
           <div className="SiteCard__Header">
             <h3 className="ClientName">{name}</h3>
-            <div>
-              <MoreVertIcon
-                id="client-options-button"
-                className="dropdown"
-                onClick={handleClick}
-              />
-              <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="client-options-button"
-                anchorEl={anchorEl}
-                open={open}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                className="Site-dropdownMenu"
-                onClose={handleClose}
-              >
-                <MenuItem>
-                  <span style={{ marginLeft: "12px" }}>
-                    {cardPopUp?.editSite}
-                  </span>
-                </MenuItem>
-                <MenuItem onClick={handleModalOpen}>
-                  <span style={{ marginLeft: "12px" }}>
-                    {cardPopUp?.deleteSite}
-                  </span>
-                </MenuItem>
-              </Menu>
-            </div>
             <div className="location-logo">
               <div className="location-logo__content">
                 <img src={locationLogo} />
@@ -143,7 +109,37 @@ const SiteCard = ({
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteOrganization}
       />
-    </>
+      <div>
+        <MoreVertIcon
+          id="client-options-button"
+          className="dropdown"
+          onClick={handleClick}
+        />
+        <Menu
+          id="demo-positioned-menu"
+          aria-labelledby="client-options-button"
+          anchorEl={anchorEl}
+          open={open}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          className="Site-dropdownMenu"
+          onClose={handleClose}
+        >
+          <MenuItem>
+            <span style={{ marginLeft: "12px" }}>{cardPopUp?.editSite}</span>
+          </MenuItem>
+          <MenuItem onClick={handleModalOpen}>
+            <span style={{ marginLeft: "12px" }}>{cardPopUp?.deleteSite}</span>
+          </MenuItem>
+        </Menu>
+      </div>
+    </div>
   );
 };
 
