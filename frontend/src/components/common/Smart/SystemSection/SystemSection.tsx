@@ -7,6 +7,7 @@ import { useLocation, useHistory } from "react-router-dom";
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import {
@@ -14,7 +15,6 @@ import {
   useModalitiesListQuery,
 } from "@src/store/reducers/api";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
-import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
 
 const SystemSection = () => {
   const location = useLocation();
