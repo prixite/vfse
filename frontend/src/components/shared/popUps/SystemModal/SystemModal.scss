@@ -42,9 +42,27 @@
       font-weight: 600;
       margin-bottom: 8px;
     }
+    .checkbox-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 26px;
+      margin-bottom: 26px;
+      justify-content: space-between;
+      align-items: center;
+      .checkBox {
+        .css-5tfqm9-MuiButtonBase-root-MuiCheckbox-root {
+          color: #d4d6db;
+          padding: 0;
+        }
+        .text {
+          font-size: 16px;
+          font-style: "ProximaNova-Regular";
+          margin-left: 5px;
+        }
+      }
+    }
     .client-info {
       width: 100%;
-      margin-top: 16px;
       .add-container {
         display: flex;
         flex-direction: row;
@@ -95,7 +113,8 @@
           width: 100%;
           height: fit-content;
           border: 1px solid #d4d6db;
-          padding: 20px;
+          padding: 10px 20px;
+          border-radius: 5px;
           .info-field {
             width: 100%;
             height: 100%;
