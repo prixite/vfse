@@ -22,6 +22,10 @@ const SystemSection = () => {
   const queryParams = new URLSearchParams(location?.search);
   const paramModality = queryParams?.get("modality");
 
+  const [networkFilter, setNetworkFilter] = useState({});
+  const [siteFilter, setSiteFilter] = useState({});
+  // eslint-disable-next-line
+  console.log(networkFilter, siteFilter);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -147,6 +151,8 @@ const SystemSection = () => {
           path="systems"
           setData={setSystem}
           setList={setSystemList}
+          networkFilter={setNetworkFilter}
+          siteFilter={setSiteFilter}
           actualData={systemsData}
           searchText={searchText}
           setSearchText={setSearchText}
