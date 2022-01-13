@@ -2,11 +2,12 @@ import { useState } from "react";
 
 import { TextField, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import Checkbox from '@mui/material/Checkbox';
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
@@ -46,11 +47,9 @@ export default function SystemModal(props: systemProps) {
     btnCancel,
   } = localizedData().systemModal;
 
-  const {
-    buttonBackground,
-    buttonTextColor,
-    secondaryColor,
-  } = useAppSelector((state) => state.myTheme);
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
+    (state) => state.myTheme
+  );
 
   // const handleAdd = () => {
   //   const listLength = newFields.length;
@@ -162,20 +161,20 @@ export default function SystemModal(props: systemProps) {
             </Grid>
             <div className="checkbox-container">
               <div className="checkBox">
-               <Checkbox/>
-               <span className="text">vFSE[VNC OR OTHER]</span>
+                <Checkbox />
+                <span className="text">vFSE[VNC OR OTHER]</span>
               </div>
               <div className="checkBox">
-               <Checkbox/>
-               <span className="text">SSH [or terminal]</span>
+                <Checkbox />
+                <span className="text">SSH [or terminal]</span>
               </div>
               <div className="checkBox">
-               <Checkbox/>
-               <span className="text">Service web browser</span>
+                <Checkbox />
+                <span className="text">Service web browser</span>
               </div>
               <div className="checkBox">
-               <Checkbox/>
-               <span className="text">Virtual media control</span>
+                <Checkbox />
+                <span className="text">Virtual media control</span>
               </div>
             </div>
             <div className="box-heading">
@@ -317,8 +316,18 @@ export default function SystemModal(props: systemProps) {
         </div>
       </DialogContent>
       <DialogActions>
-        <Button className="cancel-btn" style={{backgroundColor: secondaryColor, color: buttonTextColor}}>{btnCancel}</Button>
-        <Button className="add-btn" style={{backgroundColor: buttonBackground, color: buttonTextColor}}>{btnAdd}</Button>
+        <Button
+          className="cancel-btn"
+          style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
+        >
+          {btnCancel}
+        </Button>
+        <Button
+          className="add-btn"
+          style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
+        >
+          {btnAdd}
+        </Button>
       </DialogActions>
     </Dialog>
   );

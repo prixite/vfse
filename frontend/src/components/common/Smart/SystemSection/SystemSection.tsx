@@ -96,7 +96,6 @@ const SystemSection = () => {
             cameraTag="div"
             classPrefix="eg-flick"
             deceleration={0.0075}
-            onChange={(e)=> console.log(e.index)}
             zIndex={2}
             defaultIndex={9}
             horizontal
