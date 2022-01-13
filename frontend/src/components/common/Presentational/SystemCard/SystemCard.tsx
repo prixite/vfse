@@ -49,7 +49,7 @@ const SystemCard = ({
     <Box className="system-card">
       <div className="machine">
         <p className="name">{name}</p>
-        <img src={image == "" ? Machine : image} />
+        <img className="image" src={image == "" ? Machine : image} />
       </div>
       <div className="features-section">
         <div className="features">
@@ -99,7 +99,7 @@ const SystemCard = ({
                   onClick={() => {
                     navigator?.clipboard?.writeText(documentation);
                     toast.success("Link Copied.", {
-                      autoClose: 1000,
+                      autoClose: 2000,
                       pauseOnHover: false,
                     });
                   }}

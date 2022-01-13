@@ -18,6 +18,11 @@
       padding-bottom: 25px;
       margin-bottom: 7px;
     }
+    .image {
+      width: 80%;
+      height: 50%;
+      object-fit: contain;
+    }
   }
   .features-section {
     display: flex;

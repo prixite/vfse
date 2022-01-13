@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, useParams } from "react-router-dom";
 
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
@@ -31,25 +31,11 @@ const SystemSection = () => {
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState(paramModality);
   const carouselRef = useRef(null);
-  // const { siteId } = useParams();
-
+  const { siteId, networkId } = useParams();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
-
   const { data: modalitiesList } = useModalitiesListQuery();
-
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-
-  const changeModality = (item) => {
-    setModality(item?.id.toString());
-    queryParams.set("modality", item?.id.toString());
-    history.push({
-      pathname: history.location.pathname,
-      search: queryParams.toString(),
-    });
-    systemsRefetch();
-  };
-
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -57,19 +43,42 @@ const SystemSection = () => {
   const apiData = {
     page: 1,
     id: selectedOrganization?.id.toString(),
-    modality: modality,
   };
-  if (modality == null) {
-    delete apiData.modality;
+
+  const changeModality = (item) => {
+    if (item == null) {
+      // if no modality selected
+      delete apiData.modality;
+      setModality(null);
+      queryParams.delete("modality");
+      history.replace({
+        search: queryParams.toString(),
+      });
+    } else {
+      setModality(item?.id.toString());
+      queryParams.set("modality", item?.id.toString());
+      history.push({
+        pathname: history.location.pathname,
+        search: queryParams.toString(),
+      });
+    }
+    systemsRefetch();
+  };
+
+  if (modality) {
+    apiData.modality = modality;
+  }
+  if (siteId) {
+    apiData.site = siteId.toString();
+  }
+  if (networkId) {
+    apiData.health_network = networkId.toString();
   }
   const {
     data: systemsData,
     isLoading: isSystemDataLoading,
     refetch: systemsRefetch,
-  } =
-    // siteId == undefined
-    useOrganizationsSystemsListQuery(apiData);
-  // : useSitesSystemsListQuery(apiData);
+  } = useOrganizationsSystemsListQuery(apiData);
 
   return (
     <Box component="div" className="system-section">
@@ -93,6 +102,18 @@ const SystemSection = () => {
             gap={40}
             style={{ height: "33px" }}
           >
+            <span
+              className="modality"
+              style={{
+                color: `${modality === null ? buttonBackground : ""}`,
+                borderBottom: `${
+                  modality === null ? `1px solid ${buttonBackground}` : ""
+                }`,
+              }}
+              onClick={() => changeModality(null)}
+            >
+              All
+            </span>
             {
               // eslint-disable-next-line
               modalitiesList?.length &&
