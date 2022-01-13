@@ -97,7 +97,6 @@ const SystemSection = () => {
             classPrefix="eg-flick"
             deceleration={0.0075}
             zIndex={2}
-            defaultIndex={9}
             horizontal
             bound
             gap={40}
