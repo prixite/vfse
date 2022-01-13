@@ -157,7 +157,9 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
         factories.SiteFactory.create_batch(5, organization=health_network)
         factories.SystemFactory.create_batch(
-            10, sites=True, site=health_network.sites.get(id=12),
+            10,
+            sites=True,
+            site=health_network.sites.get(id=12),
         )
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))

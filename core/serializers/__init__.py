@@ -299,7 +299,7 @@ class ProductModelSerializer(serializers.ModelSerializer):
 class SystemImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SystemImage
-        fields = ["id","image"]
+        fields = ["id", "image"]
 
 
 class SystemConnectionOptions(serializers.Serializer):
