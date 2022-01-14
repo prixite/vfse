@@ -103,18 +103,24 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             organization_id=self.kwargs["pk"], health_network=health_network_org
         )
 
+    @transaction.atomic
     def perform_update(self, serializer):
         models.OrganizationHealthNetwork.objects.filter(
             organization_id=self.kwargs["pk"]
         ).delete()
         health_networks = []
-        for health_network in serializer.validated_data["health_networks"]:
+        for health_network in serializer.validated_data["health_networks"] or []:
             obj, created = models.Organization.objects.get_or_create(
                 name=health_network["name"],
                 defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
             )
             health_networks.append(obj)
+            if obj.id == self.kwargs["pk"]:
+                raise exceptions.ValidationError(
+                    detail=f"Cannot create self relation organization {obj.name}",
+                )
 
+        health_networks = set(health_networks)
         models.OrganizationHealthNetwork.objects.bulk_create(
             [
                 models.OrganizationHealthNetwork(
@@ -296,7 +302,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         for data in serializer.validated_data["memberships"]:
             user = models.User.objects.create_user(
                 username=data["email"],
-                **{key: data[key] for key in ["email", "first_name", "last_name"]}
+                **{key: data[key] for key in ["email", "first_name", "last_name"]},
             )
             self.create_membership(data, user.id)
             self.update_profile(data, user.id)
@@ -461,7 +467,7 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
             **{
                 key: serializer.validated_data[key]
                 for key in ["email", "first_name", "last_name"]
-            }
+            },
         )
 
         self.create_membership(serializer.validated_data, user.id)

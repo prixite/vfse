@@ -387,6 +387,61 @@ class OrganizationTestCase(BaseTestCase):
             ).exists()
         )
 
+    def test_self_relation_organization_health_network(self):
+        self.client.force_login(self.super_admin)
+        health_networks = models.OrganizationHealthNetwork.objects.filter(
+            organization=self.organization
+        ).count()
+        response = self.client.put(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "health_networks": [
+                    {
+                        "name": self.organization.name,
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    },
+                ]
+            },
+        )
+        self.assertTrue(
+            health_networks
+            == models.OrganizationHealthNetwork.objects.filter(
+                organization=self.organization
+            ).count()
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_identical_organization_health_network(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "health_networks": [
+                    {
+                        "name": "New health network",
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    },
+                    {
+                        "name": "New health network",
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    },
+                ]
+            },
+        )
+        self.assertTrue(
+            models.OrganizationHealthNetwork.objects.filter(
+                organization=self.organization,
+                health_network__name="New health network",
+            ).exists()
+        )
+        self.assertEqual(
+            models.OrganizationHealthNetwork.objects.filter(
+                organization=self.organization
+            ).count(),
+            1,
+        )
+        self.assertEqual(response.status_code, 200)
+
     def test_distinct_organization(self):
         self.client.force_login(self.super_admin)
 
