@@ -116,9 +116,8 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             )
             health_networks.append(obj)
             if obj.id == self.kwargs["pk"]:
-                raise exceptions.ParseError(
+                raise exceptions.ValidationError(
                     detail=f"Cannot create self relation organization {obj.name}",
-                    code=400,
                 )
 
         health_networks = set(health_networks)
