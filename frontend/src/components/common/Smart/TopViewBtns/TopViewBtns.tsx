@@ -21,7 +21,7 @@ import debounce from "debounce";
 import { useParams } from "react-router-dom";
 
 import ArrowDown from "@src/assets/svgs/arrow-long.svg";
-import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
+// import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
@@ -142,7 +142,7 @@ const TopViewBtns = ({
     PaperProps: {
       style: {
         maxHeight: 300,
-        width: 200,
+        width: 220,
       },
     },
   };
@@ -169,6 +169,10 @@ const TopViewBtns = ({
         sitesData?.filter((item) => event?.target?.outerText == item?.name)[0]
       );
     }
+  };
+
+  const handleSort = () => {
+    // sortSystems();
   };
 
   const onEventSearch = useCallback(
@@ -213,7 +217,7 @@ const TopViewBtns = ({
             <>
               {!isNetworkDataLoading && !networkId && networksData.length ? (
                 <FormControl
-                  sx={{ m: 0, mr: 1, width: 200, background: "#ffffff" }}
+                  sx={{ m: 0, mr: 1, width: 220, background: "#ffffff" }}
                 >
                   <InputLabel id="networkInputLabel">
                     Filter by network
@@ -223,18 +227,18 @@ const TopViewBtns = ({
                     id="network-dropdown"
                     value={network}
                     onClick={handleClickNetwork}
-                    style={{ width: 200 }}
+                    style={{ width: 220 }}
                     input={<OutlinedInput label="Filter by network" />}
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
                   >
-                    {networksData.map((item, index) => (
+                    {networksData?.map((item, index) => (
                       <MenuItem
                         style={{ marginLeft: "-15px" }}
                         key={index}
                         value={item.name}
                       >
-                        <Checkbox checked={network.indexOf(item.name) > -1} />
+                        <Checkbox checked={network?.indexOf(item.name) > -1} />
                         <ListItemText primary={item.name} />
                       </MenuItem>
                     ))}
@@ -245,7 +249,7 @@ const TopViewBtns = ({
               )}
               {!isSitesFetching && !siteId && sitesData.length ? (
                 <FormControl
-                  sx={{ m: 0, mr: 1, width: 200, background: "#ffffff" }}
+                  sx={{ m: 0, mr: 1, width: 220, background: "#ffffff" }}
                 >
                   <InputLabel id="siteInputlabel">Filter by site</InputLabel>
                   <Select
@@ -253,18 +257,18 @@ const TopViewBtns = ({
                     id="site-dropdown"
                     value={site}
                     onClick={handleClickSite}
-                    style={{ width: 200 }}
+                    style={{ width: 220 }}
                     input={<OutlinedInput label="Filter by site" />}
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
                   >
-                    {sitesData.map((item, index) => (
+                    {sitesData?.map((item, index) => (
                       <MenuItem
                         style={{ marginLeft: "-15px" }}
                         key={index}
                         value={item.name}
                       >
-                        <Checkbox checked={site.indexOf(item.name) > -1} />
+                        <Checkbox checked={site?.indexOf(item.name) > -1} />
                         <ListItemText primary={item.name} />
                       </MenuItem>
                     ))}
@@ -273,7 +277,11 @@ const TopViewBtns = ({
               ) : (
                 ""
               )}
-              <Button variant="contained" className="Filterbtn">
+              <Button
+                variant="contained"
+                className="Filterbtn"
+                onClick={handleSort}
+              >
                 <div className="btn-content" style={{ textTransform: "none" }}>
                   <div
                     style={{
@@ -288,7 +296,7 @@ const TopViewBtns = ({
                   <img src={ArrowDown} style={{ marginRight: "10px" }} />
                   <span>{btnAsset}</span>
                   <span className="coloumns-icon">
-                    <img className="asset-image" src={ArrowUpIcon} />
+                    {/* <img className="asset-image" src={ArrowUpIcon} /> */}
                   </span>
                 </div>
               </Button>
