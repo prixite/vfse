@@ -523,11 +523,11 @@ export type SitesSystemsListApiResponse = /** status 200  */ System[];
 export type SitesSystemsListApiArg = {
   id: string;
 };
-export type SystemsImagesListApiResponse = /** status 200  */ Image[];
+export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = void;
-export type SystemsImagesCreateApiResponse = /** status 201  */ Image;
+export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
 export type SystemsImagesCreateApiArg = {
-  systemImage: Image;
+  systemImage: SystemImage;
 };
 export type SystemsPartialUpdateApiResponse = /** status 200  */ System;
 export type SystemsPartialUpdateApiArg = {
@@ -664,10 +664,6 @@ export type OrganizationSite = {
   id?: number;
   sites: Site[];
 };
-export type Image = {
-  id?: number;
-  image: string;
-};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -679,9 +675,9 @@ export type MriEmbeddedParameters = {
   magnet_pressure: string;
 };
 export type ConnectionOptions = {
-  virtual_media_control?: boolean;
-  service_web_browser?: boolean;
-  ssh?: boolean;
+  virtual_media_control: boolean;
+  service_web_browser: boolean;
+  ssh: boolean;
 };
 export type System = {
   name: string;
@@ -691,8 +687,7 @@ export type System = {
   system_contact_info?: string | null;
   grafana_link: string;
   product_model: number;
-  image?: Image;
-  documentation?: string;
+  image?: number | null;
   software_version: string;
   asset_number: string;
   ip_address: string;
@@ -768,6 +763,10 @@ export type ProductModelCreate = {
   documentation?: number | null;
   modality: number;
   product: number;
+};
+export type SystemImage = {
+  id?: number;
+  image: string;
 };
 export type SystemNotes = {
   system: number;
