@@ -23,7 +23,7 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-api_urlpatterns = [
+api_urlpatterns = [  
     path(
         "api/me/",
         api.MeViewSet.as_view(
@@ -47,6 +47,14 @@ api_urlpatterns = [
             {
                 "get": "retrieve",
                 "delete": "destroy",
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
+        "api/lambda/<str:pk>/",
+        api.LambdaView.as_view(
+            {
                 "patch": "partial_update",
             }
         ),

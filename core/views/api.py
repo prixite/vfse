@@ -1,10 +1,16 @@
+import json
+
+import boto3
 from django.db import transaction
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import TokenAuthentication
 
+from app.settings import LAMBDA_FUNCTION_ARN
 from core import filters, models, serializers
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
@@ -33,6 +39,28 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         models.System.objects.filter(site__organization=instance).delete()
         instance.delete()
+
+    def perform_update(self, serializer):
+        if (
+            "logo" in serializer.validated_data.get("appearance", [])
+            and serializer.instance.appearance.get("logo")
+            != serializer.validated_data["appearance"]["logo"]
+        ):
+            token = Token.objects.create(user=self.request.user)
+            client = boto3.client("lambda")
+            client.invoke(
+                FunctionName=LAMBDA_FUNCTION_ARN,
+                Payload=json.dumps(
+                    {
+                        "appearance": serializer.validated_data["appearance"],
+                        "organization_id": self.kwargs["pk"],
+                        "token": token,
+                        "dimension": (50, 50),
+                    }
+                ),
+                InvocationType="Event",
+            )
+        return super().perform_update(serializer)
 
 
 class CustomerViewSet(OrganizationViewSet):
@@ -491,3 +519,12 @@ class ProductViewSet(ModelViewSet):
             name=serializer.validated_data["name"],
             manufacturer=serializer.validated_data["manufacturer"],
         )
+
+
+class LambdaView(OrganizationViewSet):
+    authentication_classes = [TokenAuthentication]
+
+    def perform_update(self, serializer):
+        response = super().perform_update(serializer)
+        Token.objects.filter(user=self.request.user).delete()
+        return response
