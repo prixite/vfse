@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
@@ -25,20 +25,19 @@ const SystemSection = () => {
   const [networkFilter, setNetworkFilter] = useState({});
   const [siteFilter, setSiteFilter] = useState({});
   // eslint-disable-next-line
-  console.log(networkFilter, siteFilter);
-  // eslint-disable-next-line
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
   const [system, setSystem] = useState(null);
+  const [index, setIndex] = useState(null);
   // eslint-disable-next-line
   const [systemList, setSystemList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState(paramModality);
-  const carouselRef = useRef(null);
   const { siteId, networkId } = useParams();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
-  const { data: modalitiesList } = useModalitiesListQuery();
+  const { isLoading: isModalitiesLoading, data: modalitiesList } =
+    useModalitiesListQuery();
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -49,14 +48,17 @@ const SystemSection = () => {
     id: selectedOrganization?.id.toString(),
   };
 
-  // if(Object.keys(siteFilter).length === 0) {
-  //   // apiData.site = siteFilter?.id;
-  //   // queryParams.set("site", siteFilter?.id?.toString());
-  //   // history.push({
-  //   //   pathname: history.location.pathname,
-  //   //   search: queryParams.toString(),
-  //   // });
-  // }
+  useEffect(() => {
+    modalitiesList?.length &&
+      modalitiesList?.map((item, key) => {
+        if (item.id === +modality) {
+          return setIndex(key + 1);
+        }
+      });
+    if (!modality) {
+      setIndex(1);
+    }
+  }, [modalitiesList]);
 
   const changeModality = (item) => {
     if (item == null) {
@@ -70,7 +72,7 @@ const SystemSection = () => {
     } else {
       setModality(item?.id.toString());
       queryParams.set("modality", item?.id.toString());
-      history.push({
+      history.replace({
         pathname: history.location.pathname,
         search: queryParams.toString(),
       });
@@ -84,9 +86,62 @@ const SystemSection = () => {
   if (siteId) {
     apiData.site = siteId.toString();
   }
+
+  if (!siteId) {
+    if (
+      Object.keys(siteFilter).length !== 0 &&
+      queryParams.get("site") == null
+    ) {
+      apiData.site = siteFilter?.id;
+      queryParams.set("site", siteFilter?.id?.toString());
+      history.push({
+        pathname: history.location.pathname,
+        search: queryParams.toString(),
+      });
+    } else if (
+      Object.keys(siteFilter).length === 0 &&
+      queryParams.get("site") !== null
+    ) {
+      delete apiData.site;
+    }
+    if (apiData.site == undefined && queryParams.get("site") !== null) {
+      apiData.site = Object.keys(siteFilter).length
+        ? siteFilter?.id
+        : queryParams.get("site");
+    }
+  }
+
   if (networkId) {
     apiData.health_network = networkId.toString();
   }
+
+  if (!networkId) {
+    if (
+      Object.keys(networkFilter).length !== 0 &&
+      queryParams.get("health_network") == null
+    ) {
+      apiData.health_network = networkFilter?.id;
+      queryParams.set("health_network", networkFilter?.id?.toString());
+      history.push({
+        pathname: history.location.pathname,
+        search: queryParams.toString(),
+      });
+    } else if (
+      Object.keys(networkFilter).length === 0 &&
+      queryParams.get("health_network") !== null
+    ) {
+      delete apiData.health_network;
+    }
+    if (
+      apiData.health_network == undefined &&
+      queryParams.get("health_network") !== null
+    ) {
+      apiData.health_network = Object.keys(networkFilter).length
+        ? networkFilter?.id
+        : queryParams.get("health_network");
+    }
+  }
+
   const {
     data: systemsData,
     isLoading: isSystemDataLoading,
@@ -101,58 +156,63 @@ const SystemSection = () => {
           width: "100%",
         }}
       >
-        <div className="modalities">
-          <Flicking
-            ref={carouselRef}
-            tag="div"
-            viewportTag="div"
-            cameraTag="div"
-            classPrefix="eg-flick"
-            deceleration={0.0075}
-            zIndex={2}
-            horizontal
-            bound
-            gap={40}
-            style={{ height: "33px" }}
-          >
-            <span
-              className="modality"
-              style={{
-                color: `${modality === null ? buttonBackground : ""}`,
-                borderBottom: `${
-                  modality === null ? `1px solid ${buttonBackground}` : ""
-                }`,
-              }}
-              onClick={() => changeModality(null)}
-            >
-              All
-            </span>
-            {
-              // eslint-disable-next-line
-              modalitiesList?.length &&
-                modalitiesList?.map((item, key) => (
-                  <span
-                    key={key}
-                    className="modality"
-                    style={{
-                      color: `${
-                        modality === item?.id.toString() ? buttonBackground : ""
-                      }`,
-                      borderBottom: `${
-                        modality === item?.id.toString()
-                          ? `1px solid ${buttonBackground}`
-                          : ""
-                      }`,
-                    }}
-                    onClick={() => changeModality(item)}
-                  >
-                    {item.name}
-                  </span>
-                ))
-            }
-          </Flicking>
-        </div>
-        <hr style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }} />
+        {!isModalitiesLoading && index ? (
+          <>
+            <div className="modalities">
+              <Flicking
+                defaultIndex={index - 1}
+                deceleration={0.0075}
+                horizontal
+                bound
+                gap={40}
+                style={{ height: "33px" }}
+              >
+                <span
+                  className="modality"
+                  style={{
+                    color: `${modality === null ? buttonBackground : ""}`,
+                    borderBottom: `${
+                      modality === null ? `1px solid ${buttonBackground}` : ""
+                    }`,
+                  }}
+                  onClick={() => changeModality(null)}
+                >
+                  All
+                </span>
+                {
+                  // eslint-disable-next-line
+                  modalitiesList?.length &&
+                    modalitiesList?.map((item, key) => (
+                      <span
+                        key={key}
+                        className="modality"
+                        style={{
+                          color: `${
+                            modality === item?.id.toString()
+                              ? buttonBackground
+                              : ""
+                          }`,
+                          borderBottom: `${
+                            modality === item?.id.toString()
+                              ? `1px solid ${buttonBackground}`
+                              : ""
+                          }`,
+                        }}
+                        onClick={() => changeModality(item)}
+                      >
+                        {item.name}
+                      </span>
+                    ))
+                }
+              </Flicking>
+            </div>
+            <hr
+              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+            />
+          </>
+        ) : (
+          ""
+        )}
       </div>
       {!isSystemDataLoading ? (
         <TopViewBtns
