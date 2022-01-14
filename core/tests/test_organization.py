@@ -386,7 +386,7 @@ class OrganizationTestCase(BaseTestCase):
                 organization=self.organization, name="New Organization"
             ).exists()
         )
-    
+
     def test_put_duplicate_organization_site(self):
         self.client.force_login(self.super_admin)
 
@@ -409,7 +409,12 @@ class OrganizationTestCase(BaseTestCase):
             models.Site.objects.filter(organization=self.organization).count(),
             2,
         )
-        self.assertEqual(models.Site.objects.filter(organization=self.organization,name='1nd Test Site').count(),1)
+        self.assertEqual(
+            models.Site.objects.filter(
+                organization=self.organization, name="1nd Test Site"
+            ).count(),
+            1,
+        )
 
 
 class VfseTestCase(BaseTestCase):
