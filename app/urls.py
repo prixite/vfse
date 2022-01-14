@@ -33,7 +33,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations_set/<str:name>/",
+        "api/distinct_organization/<str:name>/",
         api.DistinctOrganizationViewSet.as_view({
             'get':'retrieve',
         })

@@ -390,7 +390,7 @@ class OrganizationTestCase(BaseTestCase):
     def test_distinct_organization(self):
         self.client.force_login(self.super_admin)
 
-        response = self.client.get(f'/api/organizations_set/626 Org/')
+        response = self.client.get(f'/api/distinct_organization/626 Org/')
         self.assertEqual(response.status_code,200)
         self.assertEqual(response.json(),True)
 class VfseTestCase(BaseTestCase):
