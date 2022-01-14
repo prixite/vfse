@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
@@ -30,15 +30,16 @@ const SystemSection = () => {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
   const [system, setSystem] = useState(null);
+  const [index, setIndex] = useState(null);
   // eslint-disable-next-line
   const [systemList, setSystemList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState(paramModality);
-  const carouselRef = useRef(null);
   const { siteId, networkId } = useParams();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
-  const { data: modalitiesList } = useModalitiesListQuery();
+  const { isLoading: isModalitiesLoading, data: modalitiesList } =
+    useModalitiesListQuery();
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -48,6 +49,18 @@ const SystemSection = () => {
     page: 1,
     id: selectedOrganization?.id.toString(),
   };
+
+  useEffect(() => {
+    modalitiesList?.length &&
+      modalitiesList?.map((item, key) => {
+        if (item.id === +modality) {
+          return setIndex(key + 1);
+        }
+      });
+    if (!modality) {
+      setIndex(1);
+    }
+  }, [modalitiesList]);
 
   const changeModality = (item) => {
     if (item == null) {
@@ -61,7 +74,7 @@ const SystemSection = () => {
     } else {
       setModality(item?.id.toString());
       queryParams.set("modality", item?.id.toString());
-      history.push({
+      history.replace({
         pathname: history.location.pathname,
         search: queryParams.toString(),
       });
@@ -92,58 +105,63 @@ const SystemSection = () => {
           width: "100%",
         }}
       >
-        <div className="modalities">
-          <Flicking
-            ref={carouselRef}
-            tag="div"
-            viewportTag="div"
-            cameraTag="div"
-            classPrefix="eg-flick"
-            deceleration={0.0075}
-            zIndex={2}
-            horizontal
-            bound
-            gap={40}
-            style={{ height: "33px" }}
-          >
-            <span
-              className="modality"
-              style={{
-                color: `${modality === null ? buttonBackground : ""}`,
-                borderBottom: `${
-                  modality === null ? `1px solid ${buttonBackground}` : ""
-                }`,
-              }}
-              onClick={() => changeModality(null)}
-            >
-              All
-            </span>
-            {
-              // eslint-disable-next-line
-              modalitiesList?.length &&
-                modalitiesList?.map((item, key) => (
-                  <span
-                    key={key}
-                    className="modality"
-                    style={{
-                      color: `${
-                        modality === item?.id.toString() ? buttonBackground : ""
-                      }`,
-                      borderBottom: `${
-                        modality === item?.id.toString()
-                          ? `1px solid ${buttonBackground}`
-                          : ""
-                      }`,
-                    }}
-                    onClick={() => changeModality(item)}
-                  >
-                    {item.name}
-                  </span>
-                ))
-            }
-          </Flicking>
-        </div>
-        <hr style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }} />
+        {!isModalitiesLoading && index ? (
+          <>
+            <div className="modalities">
+              <Flicking
+                defaultIndex={index - 1}
+                deceleration={0.0075}
+                horizontal
+                bound
+                gap={40}
+                style={{ height: "33px" }}
+              >
+                <span
+                  className="modality"
+                  style={{
+                    color: `${modality === null ? buttonBackground : ""}`,
+                    borderBottom: `${
+                      modality === null ? `1px solid ${buttonBackground}` : ""
+                    }`,
+                  }}
+                  onClick={() => changeModality(null)}
+                >
+                  All
+                </span>
+                {
+                  // eslint-disable-next-line
+                  modalitiesList?.length &&
+                    modalitiesList?.map((item, key) => (
+                      <span
+                        key={key}
+                        className="modality"
+                        style={{
+                          color: `${
+                            modality === item?.id.toString()
+                              ? buttonBackground
+                              : ""
+                          }`,
+                          borderBottom: `${
+                            modality === item?.id.toString()
+                              ? `1px solid ${buttonBackground}`
+                              : ""
+                          }`,
+                        }}
+                        onClick={() => changeModality(item)}
+                      >
+                        {item.name}
+                      </span>
+                    ))
+                }
+              </Flicking>
+            </div>
+            <hr
+              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+            />
+          </>
+        ) : (
+          ""
+        )}
       </div>
       {!isSystemDataLoading ? (
         <TopViewBtns
