@@ -11,8 +11,10 @@ class SystemFilters(filters.FilterSet):
         model = models.System
         fields = ["site"]
 
+
 class OrganizationNameFilter(filters.FilterSet):
-    name = filters.CharFilter(field_name='name',lookup_expr='iexact')
+    name = filters.CharFilter(field_name="name", lookup_expr="iexact")
+
     class Meta:
         model = models.Organization
-        fields =['name']
+        fields = ["name"]
