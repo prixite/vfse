@@ -360,7 +360,7 @@ export default function OrganizationModal({
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
-            {organization?.name ?? popUpNewOrganization}
+            {organization?.name ?? "Add Client"}
           </span>
           <span className="dialog-page">
             <span className="pg-number">
