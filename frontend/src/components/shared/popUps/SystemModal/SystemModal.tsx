@@ -2,15 +2,15 @@ import { useState } from "react";
 
 import { TextField, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import AddIcon from "@src/assets/svgs/whitePlus.svg";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
 interface systemProps {
@@ -20,7 +20,7 @@ interface systemProps {
 
 export default function SystemModal(props: systemProps) {
   const [selectedImage, setSelectedImage] = useState([]); // eslint-disable-line
-  const [newFields, setNewFields] = useState([1]);
+  // const [newFields, setNewFields] = useState([1]);
 
   const {
     fieldName,
@@ -43,15 +43,18 @@ export default function SystemModal(props: systemProps) {
     fieldMRIname,
     fieldMRIHelium,
     fieldMRIMagnet,
-    headdingAddInfo,
     btnAdd,
     btnCancel,
   } = localizedData().systemModal;
 
-  const handleAdd = () => {
-    const listLength = newFields.length;
-    setNewFields([...newFields, listLength + 1]);
-  };
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
+    (state) => state.myTheme
+  );
+
+  // const handleAdd = () => {
+  //   const listLength = newFields.length;
+  //   setNewFields([...newFields, listLength + 1]);
+  // };
 
   return (
     <Dialog
@@ -73,7 +76,7 @@ export default function SystemModal(props: systemProps) {
       </DialogTitle>
       <DialogContent>
         <div className="modal-content">
-          <DropzoneBox setSelectedImage={setSelectedImage} />
+          {/* <DropzoneBox setSelectedImage={setSelectedImage} /> */}
           <div className="client-info">
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -156,6 +159,24 @@ export default function SystemModal(props: systemProps) {
                 </div>
               </Grid>
             </Grid>
+            <div className="checkbox-container">
+              <div className="checkBox">
+                <Checkbox />
+                <span className="text">vFSE[VNC OR OTHER]</span>
+              </div>
+              <div className="checkBox">
+                <Checkbox />
+                <span className="text">SSH [or terminal]</span>
+              </div>
+              <div className="checkBox">
+                <Checkbox />
+                <span className="text">Service web browser</span>
+              </div>
+              <div className="checkBox">
+                <Checkbox />
+                <span className="text">Virtual media control</span>
+              </div>
+            </div>
             <div className="box-heading">
               <p className="heading">{fieldRisName}</p>
               <div className="box">
@@ -268,13 +289,13 @@ export default function SystemModal(props: systemProps) {
                   </Grid>
                 </div>
               </div>
-              <div className="add-container" onClick={handleAdd}>
+              {/* <div className="add-container" onClick={handleAdd}>
                 <div className="add-btn">
                   <img src={AddIcon} />
                 </div>
                 <span className="text">{headdingAddInfo}</span>
-              </div>
-              {newFields.map((newFields) => (
+              </div> */}
+              {/* {newFields.map((newFields) => (
                 <div
                   className="info-section"
                   key={newFields}
@@ -289,14 +310,24 @@ export default function SystemModal(props: systemProps) {
                     placeholder=""
                   />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         </div>
       </DialogContent>
       <DialogActions>
-        <Button className="cancel-btn">{btnCancel}</Button>
-        <Button className="add-btn">{btnAdd}</Button>
+        <Button
+          className="cancel-btn"
+          style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
+        >
+          {btnCancel}
+        </Button>
+        <Button
+          className="add-btn"
+          style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
+        >
+          {btnAdd}
+        </Button>
       </DialogActions>
     </Dialog>
   );

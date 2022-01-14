@@ -1,42 +1,80 @@
 .system-card {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-  height: auto;
-  padding: 18px 30px;
-  margin-top: 10px;
-  font-size: 18px;
-  font-family: "ProximaNova-Regular" !important;
-  font-weight: 600;
-  background-color: white;
-  border-radius: 4px;
-  .machine {
-    margin-top: 15px;
-    width: 22%;
-    .name {
-      padding-bottom: 25px;
-      margin-bottom: 7px;
-    }
-    .image {
-      width: 80%;
-      height: 50%;
-      object-fit: contain;
-    }
-  }
-  .features-section {
+  position: relative;
+  .container {
     display: flex;
-    flex-direction: column;
-    // justify-content: space-between;
-    width: 40%;
-    padding: 0px 50px;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    padding: 18px 30px;
     margin-top: 10px;
-    border-left: 1px solid #d4d6db;
-    border-right: 1px solid #d4d6db;
-    .features {
+    font-size: 18px;
+    font-family: "ProximaNova-Regular" !important;
+    font-weight: 600;
+    background-color: white;
+    border-radius: 4px;
+    .machine {
+      margin-top: 15px;
+      width: 22%;
+      .name {
+        padding-bottom: 25px;
+        margin-bottom: 7px;
+      }
+      .image {
+        width: 80%;
+        height: 50%;
+        object-fit: contain;
+      }
+    }
+    .features-section {
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      flex-direction: column;
+      // justify-content: space-between;
+      width: 40%;
+      padding: 0px 50px;
+      margin-top: 10px;
+      border-left: 1px solid #d4d6db;
+      border-right: 1px solid #d4d6db;
+      .features {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .option {
+          color: #94989e;
+          margin-bottom: 18px;
+          strong {
+            color: black !important;
+          }
+        }
+      }
+      .copy-field {
+        margin-top: 20px;
+        width: 100%;
+        padding: 0 !important;
+        .css-6d3nb4-MuiInputBase-root-MuiOutlinedInput-root {
+          padding-right: 0;
+        }
+        input {
+          padding: 0 !important;
+          height: 40px;
+          color: #6b7280;
+        }
+        .copy-btn {
+          width: 96px;
+          background: #d9dbdd;
+          border-radius: 6px;
+          height: 32px;
+          font-size: 13px;
+          color: black;
+          margin-right: -4px;
+          text-transform: capitalize;
+        }
+      }
+    }
+    .info-section {
+      width: 23%;
+      padding: 10px 50px;
+      border-right: 1px solid #d4d6db;
       .option {
         color: #94989e;
         margin-bottom: 18px;
@@ -45,68 +83,58 @@
         }
       }
     }
-    .copy-field {
-      margin-top: 20px;
-      width: 100%;
-      padding: 0 !important;
-      .css-6d3nb4-MuiInputBase-root-MuiOutlinedInput-root {
-        padding-right: 0;
-      }
-      input {
-        padding: 0 !important;
-        height: 40px;
-        color: #6b7280;
-      }
-      .copy-btn {
-        width: 96px;
-        background: #d9dbdd;
-        border-radius: 6px;
-        height: 32px;
-        font-size: 13px;
-        color: black;
-        margin-right: -4px;
-        text-transform: capitalize;
-      }
-    }
-  }
-  .info-section {
-    width: 23%;
-    padding: 10px 50px;
-    border-right: 1px solid #d4d6db;
-    .option {
-      color: #94989e;
-      margin-bottom: 18px;
-      strong {
-        color: black !important;
-      }
-    }
-  }
-  .btn-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 28px 0;
-    width: 15%;
+    .btn-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 28px 0;
+      width: 15%;
 
-    button {
-      margin: 40px;
-      height: 40px;
-      width: 143px;
-      text-transform: capitalize;
-      border-radius: 6px;
-      font-size: 13px;
-      .icon {
-        width: 14px;
-        height: 14px;
-        margin-right: 10px;
+      button {
+        margin: 40px;
+        height: 40px;
+        width: 143px;
+        text-transform: capitalize;
+        border-radius: 6px;
+        font-size: 13px;
+        .icon {
+          width: 14px;
+          height: 14px;
+          margin-right: 10px;
+        }
+      }
+      .link-btn {
+        background-color: transparent !important;
+        color: #696f77;
+        border: 1px solid black;
+        box-shadow: none;
       }
     }
-    .link-btn {
-      background-color: transparent !important;
-      color: #696f77;
-      border: 1px solid black;
-      box-shadow: none;
+  }
+  .dropdown {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    cursor: pointer;
+    color: #6b7280;
+  }
+}
+
+.system-dropdownMenu {
+  .MuiPaper-elevation {
+    transform: translate(-5px, 10px) !important;
+  }
+  ul {
+    width: 170px;
+    margin-top: 10px;
+    li {
+      font-weight: 400;
+      font-size: 16px;
+      width: 100%;
+      color: #111827;
+      padding: 4px;
+      margin-bottom: 5px;
     }
   }
 }

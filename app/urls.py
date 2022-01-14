@@ -42,7 +42,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/",
+        "api/organizations/<int:pk>/",
         api.OrganizationViewSet.as_view(
             {
                 "get": "retrieve",
@@ -60,7 +60,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/health_networks/",
+        "api/organizations/<int:pk>/health_networks/",
         api.OrganizationHealthNetworkViewSet.as_view(
             {
                 "put": "update",
@@ -70,7 +70,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/users/",
+        "api/organizations/<int:pk>/users/",
         api.OrganizationUserViewSet.as_view(
             {
                 "get": "list",
@@ -79,7 +79,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/seats/",
+        "api/organizations/<int:pk>/seats/",
         api.OrganizationSeatViewSet.as_view(
             {
                 "get": "list",
@@ -88,7 +88,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/sites/",
+        "api/organizations/<int:pk>/sites/",
         api.OrganizationSiteViewSet.as_view(
             {
                 "post": "create",
@@ -98,7 +98,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<str:pk>/systems/",
+        "api/organizations/<int:pk>/systems/",
         api.OrganizationSystemViewSet.as_view(
             {
                 "get": "list",
@@ -140,7 +140,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/users/<str:pk>/",
+        "api/users/<int:pk>/",
         api.UserViewSet.as_view(
             {
                 "patch": "partial_update",
@@ -174,7 +174,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/products/<str:product_pk>/models/<str:pk>/",
+        "api/products/<int:product_pk>/models/<int:pk>/",
         api.ProductModelViewSet.as_view(
             {
                 "patch": "partial_update",
@@ -183,7 +183,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/products/<str:pk>/",
+        "api/products/<int:pk>/",
         api.ProductViewSet.as_view(
             {
                 "delete": "destroy",
@@ -201,7 +201,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/systems/<str:pk>/notes/",
+        "api/systems/<int:pk>/notes/",
         api.SystemNoteViewSet.as_view(
             {
                 "get": "list",

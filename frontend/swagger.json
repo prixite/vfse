@@ -1709,6 +1709,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "image": {
                     "title": "Image",
                     "type": "string",
