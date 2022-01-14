@@ -144,7 +144,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         models.Site.objects.create(
             organization_id=self.kwargs["pk"], **serializer.validated_data
         )
-
+    @transaction.atomic
     def perform_update(self, serializer):
         names = []
         for site in serializer.validated_data["sites"]:
@@ -154,7 +154,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
                 organization_id=self.kwargs["pk"],
                 defaults={"address": site["address"]},
             )
-
+        names=set(names)
         removed_sites = models.Site.objects.filter(
             organization=self.kwargs["pk"],
         ).exclude(name__in=names)
