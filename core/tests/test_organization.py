@@ -387,6 +387,15 @@ class OrganizationTestCase(BaseTestCase):
             ).exists()
         )
 
+    def test_distinct_organization(self):
+        self.client.force_login(self.super_admin)
+
+        response = self.client.get(
+            f"/api/organizations/exists/?name={str.upper(self.organization.name)}"
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["ok"])
+
 
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):

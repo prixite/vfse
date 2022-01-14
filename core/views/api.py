@@ -17,6 +17,21 @@ class MeViewSet(ModelViewSet):
         return self.request.user
 
 
+class DistinctOrganizationViewSet(ModelViewSet):
+    serializer_class = serializers.OrganizationSerializer
+    filterset_class = filters.OrganizationNameFilter
+
+    def get_queryset(self):
+        return models.Organization.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            self.filter_queryset(self.get_queryset()).get()
+            return Response({"ok": True})
+        except models.Organization.DoesNotExist:
+            return Response({"ok": False})
+
+
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
     permission_classes = [IsAuthenticated, OrganizationDetailPermission]
@@ -36,7 +51,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class CustomerViewSet(OrganizationViewSet):
-    filterset_fields = ["name"]
+    filterset_class = filters.OrganizationNameFilter
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -465,7 +480,7 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 
 class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
-    filterset_fields = ["name"]
+    filterset_class = filters.OrganizationNameFilter
 
     def get_queryset(self):
         return super().get_queryset().prefetch_related("sites")

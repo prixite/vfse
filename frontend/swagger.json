@@ -274,6 +274,25 @@
             },
             "parameters": []
         },
+        "/organizations/exists/": {
+            "get": {
+                "operationId": "organizations_exists_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": []
+        },
         "/organizations/{id}/": {
             "get": {
                 "operationId": "organizations_read",
