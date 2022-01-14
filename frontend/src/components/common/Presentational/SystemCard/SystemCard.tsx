@@ -69,7 +69,7 @@ const SystemCard = ({
       <Box className="container">
         <div className="machine">
           <p className="name">{name}</p>
-          <img src={image == "" ? Machine : image} />
+          <img className="image" src={image == "" ? Machine : image} />
         </div>
         <div className="features-section">
           <div className="features">
