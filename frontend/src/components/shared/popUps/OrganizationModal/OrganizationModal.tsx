@@ -98,7 +98,6 @@ export default function OrganizationModal({
   };
 
   const {
-    popUpNewOrganization,
     newOrganizationPageTrackerdesc1,
     newOrganizationPageTrackerdesc2,
     newOrganizationName,
