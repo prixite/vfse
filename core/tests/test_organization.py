@@ -390,10 +390,6 @@ class OrganizationTestCase(BaseTestCase):
     def test_put_duplicate_organization_site(self):
         self.client.force_login(self.super_admin)
 
-        response = self.client.get(f"/api/organizations/{self.organization.id}/sites/")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()), 1)
-
         response = self.client.put(
             f"/api/organizations/{self.organization.id}/sites/",
             data={
