@@ -176,7 +176,6 @@ const OrganizationSection = () => {
             <OrganizationModal
               action={action}
               organization={organization}
-              setOrganization={setOrganization}
               open={openAddClientModal}
               handleClose={handleClose}
               refetch={refetch}

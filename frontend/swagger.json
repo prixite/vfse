@@ -274,6 +274,25 @@
             },
             "parameters": []
         },
+        "/organizations/exists/": {
+            "get": {
+                "operationId": "organizations_exists_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": []
+        },
         "/organizations/{id}/": {
             "get": {
                 "operationId": "organizations_read",
@@ -1667,28 +1686,6 @@
                 }
             }
         },
-        "SystemImage": {
-            "title": "Image",
-            "description": "SystemImage(id, image, created_at, updated_at)",
-            "required": [
-                "image"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "image": {
-                    "title": "Image",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "minLength": 1
-                }
-            }
-        },
         "SystemInfo": {
             "title": "His ris info",
             "description": "",
@@ -1755,22 +1752,24 @@
         "SystemConnectionOptions": {
             "title": "Connection options",
             "description": "",
+            "required": [
+                "virtual_media_control",
+                "service_web_browser",
+                "ssh"
+            ],
             "type": "object",
             "properties": {
                 "virtual_media_control": {
                     "title": "Virtual media control",
-                    "type": "boolean",
-                    "default": false
+                    "type": "boolean"
                 },
                 "service_web_browser": {
                     "title": "Service web browser",
-                    "type": "boolean",
-                    "default": false
+                    "type": "boolean"
                 },
                 "ssh": {
                     "title": "Ssh",
-                    "type": "boolean",
-                    "default": false
+                    "type": "boolean"
                 }
             },
             "default": {
@@ -1833,12 +1832,9 @@
                     "type": "integer"
                 },
                 "image": {
-                    "$ref": "#/definitions/SystemImage"
-                },
-                "documentation": {
-                    "title": "Documentation",
-                    "type": "string",
-                    "readOnly": true
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
                 },
                 "software_version": {
                     "title": "Software version",
@@ -2179,6 +2175,27 @@
                 "product": {
                     "title": "Product",
                     "type": "integer"
+                }
+            }
+        },
+        "SystemImage": {
+            "description": "SystemImage(id, image, created_at, updated_at)",
+            "required": [
+                "image"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
                 }
             }
         },

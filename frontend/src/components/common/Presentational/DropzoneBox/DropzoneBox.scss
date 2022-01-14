@@ -17,6 +17,9 @@
       display: inline-flex !important;
     }
   }
+  .css-69t927-MuiCircularProgress-root {
+    color: #773cbd !important;
+  }
   .Uploadoptions {
     z-index: 100;
     display: flex;
@@ -38,6 +41,9 @@
     bottom: 0;
     width: 100%;
     height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     &::after {
       content: "";
       color: #fff;
@@ -47,7 +53,7 @@
       top: 0;
       left: 0;
       background: rgba(255, 255, 255, 0.8);
-      opacity: 0.5;
+      opacity: 0;
     }
     img {
       width: inherit;

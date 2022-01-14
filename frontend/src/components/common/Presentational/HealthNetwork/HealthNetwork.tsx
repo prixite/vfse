@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
+import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
 
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
@@ -12,6 +13,10 @@ import { HealthNetwork as HealthNeworkArg } from "@src/store/reducers/api";
 interface HealthNetworkProps {
   index: number;
   network: HealthNeworkArg;
+  isDataPartiallyfilled: boolean;
+  organizationName: string;
+  setIsDataPartiallyfilled: Dispatch<SetStateAction<boolean>>;
+  setIsNetworkImageUploading: Dispatch<SetStateAction<boolean>>;
   allNetworks: HealthNeworkArg[];
   setNetworks: Dispatch<SetStateAction<HealthNeworkArg[]>>;
 }
@@ -19,12 +24,19 @@ const HealthNetwork = ({
   index,
   setNetworks,
   network,
+  isDataPartiallyfilled,
+  organizationName,
+  setIsDataPartiallyfilled,
+  setIsNetworkImageUploading,
   allNetworks,
 }: HealthNetworkProps) => {
-  const constantData: object = localizedData()?.healthNetwork;
+  const constantData = localizedData()?.healthNetwork;
   const { name, logo } = constantData;
   const [selectedImage, setSelectedImage] = useState([]);
-
+  const [networkNameErr, setNetworkNameErr] = useState("");
+  const [networkDuplicationErr, setNetworkDuplicationErr] = useState("");
+  const [networkImageErr, setNetworkImageErr] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const handleNameChange = (event) => {
     const TempNetworks = [...allNetworks];
     const { appearance } = TempNetworks[index];
@@ -35,18 +47,55 @@ const HealthNetwork = ({
   const handleImageUploadChange = async () => {
     const TempNetworks = [...allNetworks];
     const { name } = TempNetworks[index];
+    setIsUploading(true);
+    setIsNetworkImageUploading(true);
     await uploadImageToS3(selectedImage[0]).then(async (data: S3Interface) => {
       TempNetworks[index] = { name, appearance: { logo: data?.location } };
       setNetworks([...TempNetworks]);
     });
+    setIsUploading(false);
+    setIsNetworkImageUploading(false);
+  };
+  const networkCloseHandler = () => {
+    const TempNetworks = allNetworks.filter(
+      (_, networkIndex) => networkIndex !== index
+    );
+    setNetworks([...TempNetworks]);
   };
   useEffect(() => {
     if (selectedImage && selectedImage.length) {
       handleImageUploadChange();
     }
   }, [selectedImage]);
+  useEffect(() => {
+    if (isDataPartiallyfilled) {
+      if (network?.name === "" && network?.appearance?.logo !== "") {
+        setNetworkImageErr("");
+        setNetworkNameErr("Title is required");
+      }
+      if (network?.name !== "" && network?.appearance?.logo === "") {
+        setNetworkImageErr("Image is required");
+        setNetworkNameErr("");
+      }
+      if (network?.name === organizationName) {
+        setNetworkDuplicationErr("Organization with this Name already exists");
+      }
+      if (
+        (network?.name === "" && network?.appearance?.logo === "") ||
+        (network?.name && network?.appearance?.logo)
+      ) {
+        setNetworkImageErr("");
+        setNetworkNameErr("");
+      }
+      if (network?.name && network?.name !== organizationName) {
+        setNetworkDuplicationErr("");
+      }
+    }
+    setIsDataPartiallyfilled(false);
+  }, [isDataPartiallyfilled]);
   return (
     <div className="health-section">
+      <CloseIcon className="close-icon" onClick={networkCloseHandler} />
       <p className="info-label">{name}</p>
       <TextField
         className="info-field"
@@ -55,15 +104,22 @@ const HealthNetwork = ({
         value={network?.name}
         onChange={handleNameChange}
       />
+      <p style={{ color: "#ff1744" }}>
+        {networkNameErr || networkDuplicationErr}
+      </p>
       <div className="health-info">
         <div style={{ width: "100%", marginTop: "25px" }}>
           <p className="dropzone-title">{logo}</p>
           <DropzoneBox
             imgSrc={network?.appearance?.logo}
             setSelectedImage={setSelectedImage}
+            isUploading={isUploading}
           />
         </div>
       </div>
+      <p style={{ color: "#ff1744", fontSize: "0.8rem", marginTop: "5px" }}>
+        {networkImageErr}
+      </p>
     </div>
   );
 };
