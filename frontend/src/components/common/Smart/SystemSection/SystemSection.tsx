@@ -49,6 +49,15 @@ const SystemSection = () => {
     id: selectedOrganization?.id.toString(),
   };
 
+  // if(Object.keys(siteFilter).length === 0) {
+  //   // apiData.site = siteFilter?.id;
+  //   // queryParams.set("site", siteFilter?.id?.toString());
+  //   // history.push({
+  //   //   pathname: history.location.pathname,
+  //   //   search: queryParams.toString(),
+  //   // });
+  // }
+
   const changeModality = (item) => {
     if (item == null) {
       // if no modality selected
