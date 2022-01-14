@@ -28,7 +28,7 @@ class DistinctOrganizationViewSet(ModelViewSet):
         try:
             self.get_object()
             return Response(True)
-        except Exception as e:
+        except Exception:
             return Response(False)
 
 
