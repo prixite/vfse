@@ -291,7 +291,7 @@ class SystemImageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.SystemImage
 
-    image = "http://example.com/systemimage.jpeg"
+    image = "https://tinyurl.com/systm-image"
 
 
 class SystemFactory(factory.django.DjangoModelFactory):

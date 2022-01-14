@@ -85,8 +85,8 @@ class WelcomeView(TemplateView):
     template_name = "core/welcome.html"
     prefix = "/clients"
     redirect_map = {
-        "organization": "/",
-        "modality": "/networks/",
+        "organization": "/networks/",
+        "modality": "/systems/",
         "user": "/users/",
         "documentation": "/documentation/",
         "vfse": "/vfse/",

@@ -665,6 +665,7 @@ export type OrganizationSite = {
   sites: Site[];
 };
 export type Image = {
+  id?: number;
   image: string;
 };
 export type HisRisInfo = {
