@@ -24,10 +24,12 @@ class DistinctOrganizationViewSet(ModelViewSet):
     def get_queryset(self):
         return models.Organization.objects.all()
 
-    def list(self, request, *args, **kwargs):
-        if self.filter_queryset(self.get_queryset()):
-            return Response(True)
-        return Response(False)
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            self.filter_queryset(self.get_queryset()).get()
+            return Response({"ok": True})
+        except models.Organization.DoesNotExist:
+            return Response({"ok": False})
 
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):

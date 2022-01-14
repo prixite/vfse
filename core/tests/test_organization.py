@@ -391,10 +391,10 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
 
         response = self.client.get(
-            f"/api/organization/exist/?name={str.upper(self.organization.name)}"
+            f"/api/organizations/exists/?name={str.upper(self.organization.name)}"
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), True)
+        self.assertTrue(response.json()["ok"])
 
 
 class VfseTestCase(BaseTestCase):

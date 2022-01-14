@@ -219,36 +219,6 @@
             },
             "parameters": []
         },
-        "/organization/exist/": {
-            "get": {
-                "operationId": "organization_exist_list",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "",
-                        "required": false,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Organization"
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "organization"
-                ]
-            },
-            "parameters": []
-        },
         "/organizations/": {
             "get": {
                 "operationId": "organizations_list",
@@ -292,6 +262,25 @@
                 ],
                 "responses": {
                     "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": []
+        },
+        "/organizations/exists/": {
+            "get": {
+                "operationId": "organizations_exists_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/Organization"

@@ -61,15 +61,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/modalities/` }),
     }),
-    organizationExistList: build.query<
-      OrganizationExistListApiResponse,
-      OrganizationExistListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organization/exist/`,
-        params: { name: queryArg.name },
-      }),
-    }),
     organizationsList: build.query<
       OrganizationsListApiResponse,
       OrganizationsListApiArg
@@ -88,6 +79,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: "POST",
         body: queryArg.organization,
       }),
+    }),
+    organizationsExistsRead: build.query<
+      OrganizationsExistsReadApiResponse,
+      OrganizationsExistsReadApiArg
+    >({
+      query: () => ({ url: `/organizations/exists/` }),
     }),
     organizationsRead: build.query<
       OrganizationsReadApiResponse,
@@ -408,11 +405,6 @@ export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = void;
-export type OrganizationExistListApiResponse =
-  /** status 200  */ Organization[];
-export type OrganizationExistListApiArg = {
-  name?: string;
-};
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
   name?: string;
@@ -421,6 +413,9 @@ export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type OrganizationsCreateApiArg = {
   organization: Organization;
 };
+export type OrganizationsExistsReadApiResponse =
+  /** status 200  */ Organization;
+export type OrganizationsExistsReadApiArg = void;
 export type OrganizationsReadApiResponse = /** status 200  */ Organization;
 export type OrganizationsReadApiArg = {
   id: string;
@@ -800,9 +795,9 @@ export const {
   useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
-  useOrganizationExistListQuery,
   useOrganizationsListQuery,
   useOrganizationsCreateMutation,
+  useOrganizationsExistsReadQuery,
   useOrganizationsReadQuery,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,

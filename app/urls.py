@@ -33,10 +33,10 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organization/exist/",
+        "api/organizations/exists/",
         api.DistinctOrganizationViewSet.as_view(
             {
-                "get": "list",
+                "get": "retrieve",
             }
         ),
     ),
