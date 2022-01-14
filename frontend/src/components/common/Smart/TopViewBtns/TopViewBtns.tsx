@@ -1,24 +1,44 @@
-import { useEffect, useCallback, Dispatch, SetStateAction } from "react";
+import {
+  useEffect,
+  useCallback,
+  Dispatch,
+  SetStateAction,
+  useState,
+} from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
+// import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select from "@mui/material/Select";
 import debounce from "debounce";
+import { useParams } from "react-router-dom";
 
 import ArrowDown from "@src/assets/svgs/arrow-long.svg";
-import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
+// import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
-import { HealthNetwork } from "@src/store/reducers/api";
+import {
+  HealthNetwork,
+  useOrganizationsHealthNetworksListQuery,
+  useOrganizationsSitesListQuery,
+} from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
 
 interface Props {
   path: string;
   setOpen?: (arg: boolean) => void;
   setData: (arg: object) => void;
+  networkFilter: (arg: object) => void;
+  siteFilter: (arg: object) => void;
   setList: (arg: { query: string; results?: { name: string }[] }) => void;
   actualData: HealthNetwork[];
   searchText: string;
@@ -50,11 +70,15 @@ const TopViewBtns = ({
   actualData,
   searchText,
   setSearchText,
+  networkFilter,
+  siteFilter,
   tableColumns,
   setTableColumns,
   setAction,
 }: Props) => {
   const dispatch = useAppDispatch();
+  const [network, setNetwork] = useState([]);
+  const [site, setSite] = useState([]);
   let constantData: { btnFilter: string; btnAdd: string };
   if (path === "modality") {
     constantData = localizedData()?.modalities;
@@ -67,13 +91,27 @@ const TopViewBtns = ({
   } else if (path == "systems") {
     constantData = localizedData()?.systems;
   }
-  const { btnFilter, btnAdd } = constantData;
+  const { btnAdd } = constantData;
 
   const { btnAsset } = localizedData().systems;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+
+  const { id, siteId, networkId } = useParams();
+
+  const { data: networksData, isLoading: isNetworkDataLoading } =
+    useOrganizationsHealthNetworksListQuery({
+      page: 1,
+      id: id,
+    });
+
+  const { data: sitesData, isFetching: isSitesFetching } =
+    useOrganizationsSitesListQuery({
+      page: 1,
+      id: id,
+    });
 
   const handleInput = (e) => {
     setSearchText(e.target.value);
@@ -98,6 +136,43 @@ const TopViewBtns = ({
       setOpen(true);
       setData(null);
     }
+  };
+
+  const dropdownStyles = {
+    PaperProps: {
+      style: {
+        maxHeight: 300,
+        width: 220,
+      },
+    },
+  };
+
+  const handleClickNetwork = (event) => {
+    if (network?.length && event?.target?.outerText == network) {
+      setNetwork([]);
+      networkFilter({});
+    } else {
+      setNetwork(event?.target?.outerText);
+      networkFilter(
+        networksData?.filter((item) => event.target.outerText == item.name)[0]
+      );
+    }
+  };
+
+  const handleClickSite = (event) => {
+    if (site?.length && event?.target?.outerText == site) {
+      setSite([]);
+      siteFilter({});
+    } else {
+      setSite(event?.target?.outerText);
+      siteFilter(
+        sitesData?.filter((item) => event?.target?.outerText == item?.name)[0]
+      );
+    }
+  };
+
+  const handleSort = () => {
+    // sortSystems();
   };
 
   const onEventSearch = useCallback(
@@ -127,7 +202,7 @@ const TopViewBtns = ({
     <>
       <Box component="div" className="OrganizationSection__Header">
         <Box component="div" className="InputSection">
-          <Button
+          {/* <Button
             variant="contained"
             className="Filterbtn"
             disabled={!actualData?.length}
@@ -136,28 +211,96 @@ const TopViewBtns = ({
               <FilterAltIcon style={{ marginRight: "9px" }} />
               <span>{btnFilter}</span>
             </div>
-          </Button>
+          </Button> */}
 
           {path === "systems" ? (
-            <Button variant="contained" className="Filterbtn">
-              <div className="btn-content" style={{ textTransform: "none" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    fontSize: "11px",
-                  }}
+            <>
+              {!isNetworkDataLoading && !networkId && networksData.length ? (
+                <FormControl
+                  sx={{ m: 0, mr: 1, width: 220, background: "#ffffff" }}
                 >
-                  <span style={{ height: "10px" }}>0</span>
-                  <span>9</span>
+                  <InputLabel id="networkInputLabel">
+                    Filter by network
+                  </InputLabel>
+                  <Select
+                    labelId="networks-dropdown"
+                    id="network-dropdown"
+                    value={network}
+                    onClick={handleClickNetwork}
+                    style={{ width: 220 }}
+                    input={<OutlinedInput label="Filter by network" />}
+                    renderValue={(selected) => selected}
+                    MenuProps={dropdownStyles}
+                  >
+                    {networksData?.map((item, index) => (
+                      <MenuItem
+                        style={{ marginLeft: "-15px" }}
+                        key={index}
+                        value={item.name}
+                      >
+                        <Checkbox checked={network?.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : (
+                ""
+              )}
+              {!isSitesFetching && !siteId && sitesData.length ? (
+                <FormControl
+                  sx={{ m: 0, mr: 1, width: 220, background: "#ffffff" }}
+                >
+                  <InputLabel id="siteInputlabel">Filter by site</InputLabel>
+                  <Select
+                    labelId="site-dropdown"
+                    id="site-dropdown"
+                    value={site}
+                    onClick={handleClickSite}
+                    style={{ width: 220 }}
+                    input={<OutlinedInput label="Filter by site" />}
+                    renderValue={(selected) => selected}
+                    MenuProps={dropdownStyles}
+                  >
+                    {sitesData?.map((item, index) => (
+                      <MenuItem
+                        style={{ marginLeft: "-15px" }}
+                        key={index}
+                        value={item.name}
+                      >
+                        <Checkbox checked={site?.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : (
+                ""
+              )}
+              <Button
+                variant="contained"
+                className="Filterbtn"
+                onClick={handleSort}
+              >
+                <div className="btn-content" style={{ textTransform: "none" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      fontSize: "11px",
+                    }}
+                  >
+                    <span style={{ height: "10px" }}>0</span>
+                    <span>9</span>
+                  </div>
+                  <img src={ArrowDown} style={{ marginRight: "10px" }} />
+                  <span>{btnAsset}</span>
+                  <span className="coloumns-icon">
+                    {/* <img className="asset-image" src={ArrowUpIcon} /> */}
+                  </span>
                 </div>
-                <img src={ArrowDown} style={{ marginRight: "10px" }} />
-                <span>{btnAsset}</span>
-                <span className="coloumns-icon">
-                  <img className="asset-image" src={ArrowUpIcon} />
-                </span>
-              </div>
-            </Button>
+              </Button>
+            </>
           ) : (
             ""
           )}
