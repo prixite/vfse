@@ -303,9 +303,9 @@ class SystemImageSerializer(serializers.ModelSerializer):
 
 
 class SystemConnectionOptions(serializers.Serializer):
-    virtual_media_control = serializers.BooleanField(default=False)
-    service_web_browser = serializers.BooleanField(default=False)
-    ssh = serializers.BooleanField(default=False)
+    virtual_media_control = serializers.BooleanField()
+    service_web_browser = serializers.BooleanField()
+    ssh = serializers.BooleanField()
 
 
 class SystemSerializer(serializers.ModelSerializer):
@@ -315,7 +315,6 @@ class SystemSerializer(serializers.ModelSerializer):
     connection_options = SystemConnectionOptions(
         default=defaults.ConnectionOptionDefault()
     )
-    image = SystemImageSerializer(read_only=True)
 
     class Meta:
         model = models.System
@@ -328,7 +327,8 @@ class SystemSerializer(serializers.ModelSerializer):
             "grafana_link",
             "product_model",
             "image",
-            "documentation",
+            # "image_url",
+            # "documentation",
             "software_version",
             "asset_number",
             "ip_address",
@@ -339,7 +339,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "connection_options",
         ]
 
-        # read_only_fields=['documentation']
+        read_only_fields = ["documentation", "image_url"]
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):

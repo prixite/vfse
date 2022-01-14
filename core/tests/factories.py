@@ -320,7 +320,15 @@ class SystemFactory(factory.django.DjangoModelFactory):
         "ae_title": "dS1",
         "port": 2850,
     }
-    mri_embedded_parameters = {"helium": "Strong", "magnet_pressure": "Low"}
+    mri_embedded_parameters = {
+        "helium": "Strong",
+        "magnet_pressure": "Low",
+    }
+    connection_options = {
+        "virtual_media_control": False,
+        "service_web_browser": False,
+        "ssh": False,
+    }
 
     class Params:
         sites = factory.Trait(
