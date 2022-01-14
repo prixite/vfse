@@ -387,6 +387,31 @@ class OrganizationTestCase(BaseTestCase):
             ).exists()
         )
 
+    def test_put_duplicate_organization_site(self):
+        self.client.force_login(self.super_admin)
+
+        response = self.client.put(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "sites": [
+                    {"name": "1nd Test Site", "address": "Milky Way"},
+                    {"name": "1nd Test Site", "address": "Milky Way"},
+                    {"name": "2nd Test Site", "address": "Coma Cluster"},
+                ]
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            models.Site.objects.filter(organization=self.organization).count(),
+            2,
+        )
+        self.assertEqual(
+            models.Site.objects.filter(
+                organization=self.organization, name="1nd Test Site"
+            ).count(),
+            1,
+        )
+
     def test_self_relation_organization_health_network(self):
         self.client.force_login(self.super_admin)
         health_networks = models.OrganizationHealthNetwork.objects.filter(
