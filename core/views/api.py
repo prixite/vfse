@@ -16,6 +16,19 @@ class MeViewSet(ModelViewSet):
     def get_object(self):
         return self.request.user
 
+class DistinctOrganizationViewSet(ModelViewSet):
+    serializer_class = serializers.OrganizationSerializer
+    lookup_field = 'name'
+
+    def get_queryset(self):
+        return models.Organization.objects.all().values('name')
+    
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            self.get_object()
+            return Response(True)
+        except:
+            return Response(False)
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
