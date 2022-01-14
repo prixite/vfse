@@ -327,8 +327,6 @@ class SystemSerializer(serializers.ModelSerializer):
             "grafana_link",
             "product_model",
             "image",
-            # "image_url",
-            # "documentation",
             "software_version",
             "asset_number",
             "ip_address",
