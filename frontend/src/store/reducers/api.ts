@@ -80,6 +80,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.organization,
       }),
     }),
+    organizationsExistsRead: build.query<
+      OrganizationsExistsReadApiResponse,
+      OrganizationsExistsReadApiArg
+    >({
+      query: () => ({ url: `/organizations/exists/` }),
+    }),
     organizationsRead: build.query<
       OrganizationsReadApiResponse,
       OrganizationsReadApiArg
@@ -407,6 +413,9 @@ export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type OrganizationsCreateApiArg = {
   organization: Organization;
 };
+export type OrganizationsExistsReadApiResponse =
+  /** status 200  */ Organization;
+export type OrganizationsExistsReadApiArg = void;
 export type OrganizationsReadApiResponse = /** status 200  */ Organization;
 export type OrganizationsReadApiArg = {
   id: string;
@@ -788,6 +797,7 @@ export const {
   useModalitiesListQuery,
   useOrganizationsListQuery,
   useOrganizationsCreateMutation,
+  useOrganizationsExistsReadQuery,
   useOrganizationsReadQuery,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
