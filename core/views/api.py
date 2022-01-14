@@ -19,13 +19,13 @@ class MeViewSet(ModelViewSet):
 
 class DistinctOrganizationViewSet(ModelViewSet):
     serializer_class = serializers.OrganizationSerializer
-    filterset_fields = ["name"]
+    filterset_class = filters.OrganizationNameFilter
 
     def get_queryset(self):
         return models.Organization.objects.all()
 
     def list(self, request, *args, **kwargs):
-        if super().list(request, *args, **kwargs):
+        if self.filter_queryset(self.get_queryset()):
             return Response(True)
         return Response(False)
 
@@ -49,7 +49,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class CustomerViewSet(OrganizationViewSet):
-    filterset_fields = ["name"]
+    filterset_class = filters.OrganizationNameFilter
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -478,7 +478,7 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 
 class HealthNetworkViewSet(OrganizationViewSet):
     serializer_class = serializers.HealthNetworkSerializer
-    filterset_fields = ["name"]
+    filterset_class = filters.OrganizationNameFilter
 
     def get_queryset(self):
         return super().get_queryset().prefetch_related("sites")
