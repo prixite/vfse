@@ -4,11 +4,11 @@ import boto3
 from django.db import transaction
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.authentication import TokenAuthentication
 
 from app.settings import LAMBDA_FUNCTION_ARN
 from core import filters, models, serializers

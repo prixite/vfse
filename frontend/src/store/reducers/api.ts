@@ -20,6 +20,16 @@ const injectedRtkApi = api.injectEndpoints({
         params: { name: queryArg.name },
       }),
     }),
+    lambdaPartialUpdate: build.mutation<
+      LambdaPartialUpdateApiResponse,
+      LambdaPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/lambda/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.organization,
+      }),
+    }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
       ManufacturersListApiArg
@@ -381,6 +391,11 @@ export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
 export type HealthNetworksListApiArg = {
   name?: string;
 };
+export type LambdaPartialUpdateApiResponse = /** status 200  */ Organization;
+export type LambdaPartialUpdateApiArg = {
+  id: string;
+  organization: Organization;
+};
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = void;
 export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
@@ -608,13 +623,6 @@ export type HealthNetwork = {
   appearance?: Appearance;
   sites?: MetaSite[];
 };
-export type Manufacturer = {
-  name: string;
-  image?: number | null;
-};
-export type ManufacturerImage = {
-  image?: string | null;
-};
 export type Appearance2 = {
   sidebar_text: string;
   button_text: string;
@@ -633,6 +641,13 @@ export type Organization = {
   number_of_seats?: number | null;
   appearance?: Appearance2;
   sites?: MetaSite[];
+};
+export type Manufacturer = {
+  name: string;
+  image?: number | null;
+};
+export type ManufacturerImage = {
+  image?: string | null;
 };
 export type Me = {
   first_name?: string;
@@ -780,6 +795,7 @@ export type UserEnableDisable = {
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
+  useLambdaPartialUpdateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,

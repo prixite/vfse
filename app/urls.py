@@ -23,7 +23,7 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
-api_urlpatterns = [  
+api_urlpatterns = [
     path(
         "api/me/",
         api.MeViewSet.as_view(

@@ -84,6 +84,41 @@
             },
             "parameters": []
         },
+        "/lambda/{id}/": {
+            "patch": {
+                "operationId": "lambda_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Organization"
+                        }
+                    }
+                },
+                "tags": [
+                    "lambda"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/manufacturers/": {
             "get": {
                 "operationId": "manufacturers_list",
@@ -1361,39 +1396,6 @@
                 }
             }
         },
-        "Manufacturer": {
-            "description": "Manufacturer(id, name, image, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "image": {
-                    "title": "Image",
-                    "type": "integer",
-                    "x-nullable": true
-                }
-            }
-        },
-        "ManufacturerImage": {
-            "description": "ManufacturerImage(id, image, created_at, updated_at)",
-            "type": "object",
-            "properties": {
-                "image": {
-                    "title": "Image",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "x-nullable": true
-                }
-            }
-        },
         "OrganizationAppearance": {
             "title": "Appearance",
             "description": "",
@@ -1479,7 +1481,6 @@
             }
         },
         "Organization": {
-            "title": "Organization",
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
@@ -1514,6 +1515,39 @@
                         "$ref": "#/definitions/MetaSite"
                     },
                     "readOnly": true
+                }
+            }
+        },
+        "Manufacturer": {
+            "description": "Manufacturer(id, name, image, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
+        "ManufacturerImage": {
+            "description": "ManufacturerImage(id, image, created_at, updated_at)",
+            "type": "object",
+            "properties": {
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
                 }
             }
         },
