@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "@src/components/common/Smart/AppearanceSection/AppearanceSection.scss";
 import {
@@ -14,7 +14,9 @@ import { Buffer } from "buffer";
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import { localizedData } from "@src/helpers/utils/language";
 import { updateOrganizationColor } from "@src/services/organizationService";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
@@ -36,11 +38,18 @@ import {
 window.Buffer = window.Buffer || Buffer;
 const AppearanceSection = () => {
   const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
+  const [sidebarColor, setSideBarColor] = useState("");
+  const [sidebarContentColor, setSidebarContentColor] = useState("");
+  const [buttonColor, setButtonColor] = useState("");
+  const [buttonContentColor, setButtonContentColor] = useState("");
+  const [secondColor, setSecondColor] = useState("");
   const { refetch: refetchOrgList } = useOrganizationsListQuery({
     page: 1,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState([]);
+  const { newOrganizationFont1, newOrganizationFont2 } =
+    localizedData().organization.popUp;
   const dispatch = useAppDispatch();
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -57,39 +66,66 @@ const AppearanceSection = () => {
   let currentOrganiationDummyData: Organization = JSON.parse(
     JSON.stringify(selectedOrganization)
   );
-  const changeSideBarColor = (color: string) => {
-    dispatch(updateSideBarColor(color));
+
+  useEffect(() => {
+    setSideBarColor(sideBarBackground);
+    setSidebarContentColor(sideBarTextColor);
+    setButtonColor(buttonBackground);
+    setButtonContentColor(buttonTextColor);
+    setSecondColor(secondaryColor);
+  }, []);
+
+  const compileOrganization = () => {
     currentOrganiationDummyData = compileOrganizationColorObject(
       currentOrganiationDummyData,
-      color,
+      sidebarColor,
       "sidebar_color"
     );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      buttonColor,
+      "primary_color"
     );
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      sidebarContentColor,
+      "sidebar_text"
+    );
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      secondColor,
+      "secondary_color"
+    );
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      buttonContentColor,
+      "button_text"
+    );
+  };
+  const changeSideBarColor = (color: string) => {
+    setSideBarColor(color);
   };
 
   const changeButtonColor = (color: string) => {
-    dispatch(updateButtonColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "primary_color"
-    );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
-    );
+    setButtonColor(color);
   };
 
   const updateAppearance = async () => {
     setIsLoading(true);
+    dispatch(updateSideBarColor(sidebarColor));
+    dispatch(updateSideBarTextColor(sidebarContentColor));
+    dispatch(updateButtonColor(buttonColor));
+    dispatch(updateButtonTextColor(buttonContentColor));
+    dispatch(updateSecondaryColor(secondColor));
+    compileOrganization();
+    dispatch(
+      setSelectedOrganization({
+        selectedOrganization: currentOrganiationDummyData,
+      })
+    );
     if (selectedImage && selectedImage.length) {
       currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
-        .then((data) => {
+        .then((data: S3Interface) => {
           currentOrganiationDummyData.appearance.banner = data?.location;
           currentOrganiationDummyData.appearance.logo = data?.location;
           currentOrganiationDummyData.appearance.icon = data?.location;
@@ -111,45 +147,15 @@ const AppearanceSection = () => {
   };
 
   const changeSideBarTextColor = (color: string) => {
-    dispatch(updateSideBarTextColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "sidebar_text"
-    );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
-    );
+    setSidebarContentColor(color);
   };
 
   const changeSecondaryColor = (color: string) => {
-    dispatch(updateSecondaryColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "secondary_color"
-    );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
-    );
+    setSecondColor(color);
   };
 
   const changeButtonTextColor = (color: string) => {
-    dispatch(updateButtonTextColor(color));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      color,
-      "button_text"
-    );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
-    );
+    setButtonContentColor(color);
   };
 
   const onChangeFont = (event) => {
@@ -159,11 +165,6 @@ const AppearanceSection = () => {
       event.target.value,
       "font_one"
     );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
-    );
   };
   const onChangeFontTwo = (event) => {
     dispatch(updateFontTwo(event.target.value));
@@ -171,11 +172,6 @@ const AppearanceSection = () => {
       currentOrganiationDummyData,
       event.target.value,
       "font_two"
-    );
-    dispatch(
-      setSelectedOrganization({
-        selectedOrganization: currentOrganiationDummyData,
-      })
     );
   };
 
@@ -208,14 +204,14 @@ const AppearanceSection = () => {
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar:"
-                    color={sideBarBackground}
+                    color={sidebarColor}
                     onChange={changeSideBarColor}
                   />
                 </div>
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Buttons:"
-                    color={buttonBackground}
+                    color={buttonColor}
                     onChange={changeButtonColor}
                   />
                 </div>
@@ -224,14 +220,14 @@ const AppearanceSection = () => {
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar Text:"
-                    color={sideBarTextColor}
+                    color={sidebarContentColor}
                     onChange={changeSideBarTextColor}
                   />
                 </div>
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Buttons Text:"
-                    color={buttonTextColor}
+                    color={buttonContentColor}
                     onChange={changeButtonTextColor}
                   />
                 </div>
@@ -240,7 +236,7 @@ const AppearanceSection = () => {
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Secondary Color:"
-                    color={secondaryColor}
+                    color={secondColor}
                     onChange={changeSecondaryColor}
                   />
                 </div>
@@ -249,7 +245,7 @@ const AppearanceSection = () => {
           </Box>
           <Box component="div" className="clientFonts">
             <Box component="div" className="font-section">
-              <h4 className="labels">Font #1</h4>
+              <h4 className="labels">{newOrganizationFont1}</h4>
               <FormControl sx={{ minWidth: 195 }}>
                 <Select
                   value={fontOne}
@@ -268,7 +264,7 @@ const AppearanceSection = () => {
             </Box>
             <h2 className="font-demo">AaBbCcDd</h2>
             <Box component="div" className="font-section">
-              <h4 className="labels">Font #2</h4>
+              <h4 className="labels">{newOrganizationFont2}</h4>
               <FormControl sx={{ minWidth: 195 }}>
                 <Select
                   value={fontTwo}

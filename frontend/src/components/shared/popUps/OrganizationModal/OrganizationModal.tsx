@@ -43,7 +43,6 @@ export default function OrganizationModal({
   handleClose,
   refetch,
 }) {
-  //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [page, setPage] = useState("1");
   const [organizationName, setOrganizationName] = useState("");
   const [organizationID, setOrganizationID] = useState();
@@ -58,7 +57,6 @@ export default function OrganizationModal({
   const [networks, setNetworks] = useState<HealthNeworkArg[]>([
     { name: "", appearance: { logo: "" } },
   ]);
-  //  console.log(networks,"All networks Object");
   const [sidebarColor, setSidebarColor] = useState("");
   const [sidebarTextColor, setSidebarTextColor] = useState("");
   const [ButtonTextColor, setButtonTextColor] = useState("");
@@ -66,6 +64,8 @@ export default function OrganizationModal({
   const [secondColor, setSecondColor] = useState("");
   const [fontone, setFontOne] = useState("");
   const [fonttwo, setFontTwo] = useState("");
+  const [isDataPartiallyfilled, setIsDataPartiallyfilled] = useState(false);
+  const [isNetworkImageUploading, setIsNetworkImageUploading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const {
     data: networksData,
@@ -144,7 +144,7 @@ export default function OrganizationModal({
       setSidebarColor(sideBarBackground);
       setSidebarTextColor(sideBarTextColor);
       setButtonTextColor(buttonTextColor);
-      setButtonColor(buttonTextColor);
+      setButtonColor(buttonBackground);
       setSecondColor(secondaryColor);
       setFontOne(fontOne);
       setFontTwo(fontTwo);
@@ -250,23 +250,45 @@ export default function OrganizationModal({
     }
     setIsLoading(false);
   };
-  const handleUpdateNetworks = async () => {
-    setIsLoading(true);
-    const TempNetworks = networks.filter(
-      (network) => network?.name && network?.appearance?.logo !== ""
-    );
-    if (!TempNetworks.length) {
-      toast.success("Add Networks first");
-    } else {
-      await addNewHealthNetworksService(
-        organizationID,
-        addNewNetworks,
-        TempNetworks
-      );
-    }
 
-    setIsLoading(false);
-    resetModal();
+  const validateForm = () => {
+    const valid = networks?.every((network) => {
+      if (
+        (network?.name === "" && network?.appearance?.logo !== "") ||
+        (network?.name !== "" && network?.appearance?.logo === "") ||
+        network?.name === organizationName
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    return valid;
+  };
+  const handleUpdateNetworks = async () => {
+    if (validateForm()) {
+      setIsLoading(true);
+      const TempNetworks = networks.filter(
+        (network) => network?.name && network?.appearance?.logo !== ""
+      );
+      if (!TempNetworks.length) {
+        toast.error("Add Networks first", {
+          autoClose: 2000,
+          pauseOnHover: false,
+        });
+      } else {
+        await addNewHealthNetworksService(
+          organizationID,
+          addNewNetworks,
+          TempNetworks
+        ).then(() => {
+          resetModal();
+        });
+      }
+
+      setIsLoading(false);
+    }
+    setIsDataPartiallyfilled(true);
   };
 
   const editClientModalActions = () => {
@@ -294,7 +316,8 @@ export default function OrganizationModal({
     setFontTwo(event.target.value);
   };
   const addNetworks = () => {
-    setNetworks([...networks, { name: "", appearance: { logo: "" } }]);
+    setNetworks([{ name: "", appearance: { logo: "" } }, ...networks]);
+    setIsDataPartiallyfilled(true);
   };
 
   const getOrganizationObject = () => {
@@ -337,7 +360,7 @@ export default function OrganizationModal({
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
-            {organization?.name ?? popUpNewOrganization}
+            {organization?.name ?? "Add Client"}
           </span>
           <span className="dialog-page">
             <span className="pg-number">
@@ -382,19 +405,32 @@ export default function OrganizationModal({
                   ""
                 )}
               </div>
-              <div className="client-info">
+              <div
+                className="client-info"
+                style={
+                  imageError ? { marginTop: "15px" } : { marginTop: "24px" }
+                }
+              >
                 <div className="info-section">
                   <p className="info-label">{newOrganizationName}</p>
                   <TextField
-                    error={organizationError?.length ? true : false}
                     value={organizationName}
                     className="info-field"
                     variant="outlined"
-                    helperText={organizationError}
                     placeholder="Advent Health"
                     onChange={handleOrganizationName}
                   />
-                  <p className="info-label" style={{ marginTop: "25px" }}>
+                  <p className="errorText" style={{ marginTop: "15px" }}>
+                    {organizationError}
+                  </p>
+                  <p
+                    className="info-label"
+                    style={
+                      organizationError
+                        ? { marginTop: "10px" }
+                        : { marginTop: "20px" }
+                    }
+                  >
                     {newOrganizationSeats}
                   </p>
                   <TextField
@@ -441,7 +477,7 @@ export default function OrganizationModal({
                     <div className="color-pickers">
                       <div style={{ marginTop: "25px", marginRight: "24px" }}>
                         <ColorPicker
-                          title={`Secondary Color`}
+                          title={`Secondary Color:`}
                           color={secondColor}
                           onChange={changeSecondaryColor}
                         />
@@ -462,9 +498,6 @@ export default function OrganizationModal({
                           style={{ height: "48px", marginRight: "15px" }}
                           onChange={onChangeFontOne}
                         >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
                           <MenuItem value={"helvetica"}>Helvetica</MenuItem>
                           <MenuItem value={"calibri"}>Calibri</MenuItem>
                           <MenuItem value={"ProximaNova-Regular"}>
@@ -473,7 +506,9 @@ export default function OrganizationModal({
                         </Select>
                       </FormControl>
                     </Box>
-                    <span className="font-demo">AaBbCcDd</span>
+                    <span className="font-demo" style={{ fontFamily: fontone }}>
+                      AaBbCcDd
+                    </span>
                   </div>
                   <h4 className="labels">{newOrganizationFont2}</h4>
                   <div className="font-options">
@@ -486,9 +521,6 @@ export default function OrganizationModal({
                           style={{ height: "48px", marginRight: "15px" }}
                           onChange={onChangeFontTwo}
                         >
-                          <MenuItem value="">
-                            <em>None</em>
-                          </MenuItem>
                           <MenuItem value={"helvetica"}>Helvetica</MenuItem>
                           <MenuItem value={"calibri"}>Calibri</MenuItem>
                           <MenuItem value={"ProximaNova-Regular"}>
@@ -497,7 +529,9 @@ export default function OrganizationModal({
                         </Select>
                       </FormControl>
                     </Box>
-                    <span className="font-demo">AaBbCcDd</span>
+                    <span className="font-demo" style={{ fontFamily: fonttwo }}>
+                      AaBbCcDd
+                    </span>
                   </div>
                 </div>
               </div>
@@ -508,7 +542,11 @@ export default function OrganizationModal({
                 <span className="heading-txt">
                   {newOrganizationHealthNetworks}
                 </span>
-                <Button className="heading-btn" onClick={addNetworks}>
+                <Button
+                  className="heading-btn"
+                  disabled={isNetworkImageUploading}
+                  onClick={addNetworks}
+                >
                   <img src={AddBtn} className="add-btn" />
                   {newOrganizationAddNetwork}
                 </Button>
@@ -518,7 +556,11 @@ export default function OrganizationModal({
                   <HealthNetwork
                     key={index}
                     network={network}
+                    organizationName={organizationName}
                     allNetworks={networks}
+                    isDataPartiallyfilled={isDataPartiallyfilled}
+                    setIsDataPartiallyfilled={setIsDataPartiallyfilled}
+                    setIsNetworkImageUploading={setIsNetworkImageUploading}
                     index={index}
                     setNetworks={setNetworks}
                   />
@@ -532,42 +574,30 @@ export default function OrganizationModal({
       </DialogContent>
       <DialogActions>
         <Button
-          style={
-            isLoading
-              ? {
-                  backgroundColor: "gray",
-                  color: "black",
-                }
-              : {
-                  backgroundColor: secondaryColor,
-                  color: buttonTextColor,
-                }
-          }
+          style={{
+            backgroundColor: secondaryColor,
+            color: buttonTextColor,
+          }}
           onClick={resetModal}
-          disabled={isLoading}
+          disabled={isLoading || isNetworkImageUploading}
           className="cancel-btn"
         >
           {newOrganizationBtnCancel}
         </Button>
         <Button
-          style={
-            isLoading
-              ? {
-                  backgroundColor: "gray",
-                  color: "black",
-                }
-              : {
-                  backgroundColor: buttonBackground,
-                  color: buttonTextColor,
-                }
-          }
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
           onClick={
             action === "edit" ? editClientModalActions : addClientModalActions
           }
-          disabled={isLoading}
+          disabled={isLoading || isNetworkImageUploading}
           className="add-btn"
         >
-          {action === "edit"
+          {isLoading
+            ? "Loading..."
+            : action === "edit"
             ? "Edit"
             : page === "1"
             ? newOrganizationBtnNext

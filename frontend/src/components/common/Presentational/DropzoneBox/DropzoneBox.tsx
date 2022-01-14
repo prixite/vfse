@@ -2,6 +2,7 @@ import { SetStateAction, useEffect, Dispatch } from "react";
 
 import "@src/components/common/Presentational/DropzoneBox/DropzoneBox.scss";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useDropzone } from "react-dropzone";
 
 import UploadBtn from "@src/assets/svgs/upload-icon.svg";
@@ -9,9 +10,14 @@ import { localizedData } from "@src/helpers/utils/language";
 interface DropzoneProps {
   setSelectedImage: Dispatch<SetStateAction<unknown[]>>;
   imgSrc?: string;
+  isUploading?: boolean;
 }
 
-const DropzoneBox = ({ setSelectedImage, imgSrc }: DropzoneProps) => {
+const DropzoneBox = ({
+  setSelectedImage,
+  imgSrc,
+  isUploading,
+}: DropzoneProps) => {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) =>
       acceptedFiles.map((file) =>
@@ -34,7 +40,11 @@ const DropzoneBox = ({ setSelectedImage, imgSrc }: DropzoneProps) => {
     <section className="dropzone-style">
       {acceptedFiles && acceptedFiles.length ? (
         <div className="UploadedImg">
-          <img src={acceptedFiles[0].preview} />
+          {isUploading ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <img src={acceptedFiles[0].preview} />
+          )}
         </div>
       ) : imgSrc ? (
         <div className="UploadedImg">
