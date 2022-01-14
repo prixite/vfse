@@ -54,32 +54,6 @@
             },
             "parameters": []
         },
-        "/distinct_organization/{name}/": {
-            "get": {
-                "operationId": "distinct_organization_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/Organization"
-                        }
-                    }
-                },
-                "tags": [
-                    "distinct_organization"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "name",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
         "/health_networks/": {
             "get": {
                 "operationId": "health_networks_list",
@@ -241,6 +215,36 @@
                 },
                 "tags": [
                     "modalities"
+                ]
+            },
+            "parameters": []
+        },
+        "/organization/exist/": {
+            "get": {
+                "operationId": "organization_exist_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Organization"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organization"
                 ]
             },
             "parameters": []
@@ -1311,6 +1315,115 @@
                 }
             }
         },
+        "HealthNetworkAppearance": {
+            "title": "Appearance",
+            "description": "",
+            "required": [
+                "logo"
+            ],
+            "type": "object",
+            "properties": {
+                "logo": {
+                    "title": "Logo",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "logo": ""
+            }
+        },
+        "MetaSite": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "HealthNetwork": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "appearance": {
+                    "$ref": "#/definitions/HealthNetworkAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MetaSite"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
+        "Manufacturer": {
+            "description": "Manufacturer(id, name, image, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
+        "ManufacturerImage": {
+            "description": "ManufacturerImage(id, image, created_at, updated_at)",
+            "type": "object",
+            "properties": {
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                }
+            }
+        },
         "OrganizationAppearance": {
             "title": "Appearance",
             "description": "",
@@ -1395,33 +1508,8 @@
                 "icon": ""
             }
         },
-        "MetaSite": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
-                }
-            }
-        },
         "Organization": {
+            "title": "Organization",
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
@@ -1456,89 +1544,6 @@
                         "$ref": "#/definitions/MetaSite"
                     },
                     "readOnly": true
-                }
-            }
-        },
-        "HealthNetworkAppearance": {
-            "title": "Appearance",
-            "description": "",
-            "required": [
-                "logo"
-            ],
-            "type": "object",
-            "properties": {
-                "logo": {
-                    "title": "Logo",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
-                }
-            },
-            "default": {
-                "logo": ""
-            }
-        },
-        "HealthNetwork": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "appearance": {
-                    "$ref": "#/definitions/HealthNetworkAppearance"
-                },
-                "sites": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/MetaSite"
-                    },
-                    "readOnly": true
-                }
-            }
-        },
-        "Manufacturer": {
-            "description": "Manufacturer(id, name, image, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "image": {
-                    "title": "Image",
-                    "type": "integer",
-                    "x-nullable": true
-                }
-            }
-        },
-        "ManufacturerImage": {
-            "description": "ManufacturerImage(id, image, created_at, updated_at)",
-            "type": "object",
-            "properties": {
-                "image": {
-                    "title": "Image",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "x-nullable": true
                 }
             }
         },

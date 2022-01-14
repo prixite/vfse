@@ -19,17 +19,15 @@ class MeViewSet(ModelViewSet):
 
 class DistinctOrganizationViewSet(ModelViewSet):
     serializer_class = serializers.OrganizationSerializer
-    lookup_field = "name"
+    filterset_fields = ["name"]
 
     def get_queryset(self):
-        return models.Organization.objects.all().values("name")
+        return models.Organization.objects.all()
 
-    def retrieve(self, request, *args, **kwargs):
-        try:
-            self.get_object()
+    def list(self, request, *args, **kwargs):
+        if super().list(request, *args, **kwargs):
             return Response(True)
-        except Exception:
-            return Response(False)
+        return Response(False)
 
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):

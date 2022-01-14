@@ -391,7 +391,7 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
 
         response = self.client.get(
-            f"/api/distinct_organization/{self.organization.name}/"
+            f"/api/organization/exist/?name={str.upper(self.organization.name)}"
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), True)
