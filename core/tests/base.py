@@ -26,7 +26,7 @@ class BaseTestCase(TestCase):
         self.other_user_admin = factories.UserFactory()
 
         self.default_organization = factories.OrganizationFactory(
-            name="626",
+            name="626 Org",
             is_default=True,
             site__users=[self.super_admin, self.super_manager],
         )

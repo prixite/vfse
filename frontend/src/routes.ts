@@ -28,7 +28,7 @@ export const routes: routeItem[] = [
     icon: HomeIcon,
   },
   {
-    name: "Organization administration",
+    name: "Organization Administration",
     path: "/",
     component: OrganizationView,
     flag: "organization",
