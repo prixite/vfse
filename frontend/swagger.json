@@ -84,6 +84,22 @@
             },
             "parameters": []
         },
+        "/lambda/": {
+            "patch": {
+                "operationId": "lambda_partial_update",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "lambda"
+                ]
+            },
+            "parameters": []
+        },
         "/manufacturers/": {
             "get": {
                 "operationId": "manufacturers_list",
@@ -1249,7 +1265,8 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin"
+                        "cryo-admin",
+                        "lambda-admin"
                     ],
                     "default": "fse"
                 },
@@ -1981,7 +1998,8 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin"
+                        "cryo-admin",
+                        "lambda-admin"
                     ],
                     "default": "fse"
                 },
