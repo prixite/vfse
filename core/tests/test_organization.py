@@ -112,7 +112,6 @@ class OrganizationTestCase(BaseTestCase):
             },
         )
 
-
     def test_unique_name_constraint_while_create(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
