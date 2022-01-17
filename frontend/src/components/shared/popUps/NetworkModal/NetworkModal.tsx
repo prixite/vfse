@@ -237,8 +237,8 @@ export default function NetworkModal(props: Props) {
           style={
             isLoading
               ? {
-                  backgroundColor: "gray",
-                  color: "black",
+                  backgroundColor: "lightgray",
+                  color: buttonTextColor,
                 }
               : {
                   backgroundColor: secondaryColor,
@@ -255,8 +255,8 @@ export default function NetworkModal(props: Props) {
           style={
             isLoading
               ? {
-                  backgroundColor: "gray",
-                  color: "black",
+                  backgroundColor: "lightgray",
+                  color: buttonTextColor,
                 }
               : {
                   backgroundColor: buttonBackground,

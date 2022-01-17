@@ -108,7 +108,7 @@ export interface imagePropInterface {
 
 export interface SystemInterface {
   name: string;
-  image: imagePropInterface;
+  image: string;
   software_version: string;
   serial_number: string;
   asset_number: string;
