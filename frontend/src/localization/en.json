@@ -47,7 +47,7 @@
             "newNetworkBtnCancel": "Cancel"
         },
         "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete",
+            "dialogMessage" : "Are you sure you want to delete?",
             "noButton" : "No",
             "yesButton" : "Yes"
         }
@@ -57,6 +57,7 @@
         "title": "All Sites",
         "btnFilter": "Filter",
         "btnAdd": "Add Site",
+        "btnEdit": "Edit Site",
         "noResultMsg": "no results found",
         "noDataTitle": "No data found.",
         "noDataDescription": "Try Again",
@@ -74,7 +75,7 @@
              "deleteSite": "Delete"
         },
         "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete",
+            "dialogMessage" : "Are you sure you want to delete?",
             "noButton" : "No",
             "yesButton" : "Yes"
         }
@@ -137,7 +138,7 @@
             "newOrganizationAddNetwork": "Add Network"
         },
         "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete",
+            "dialogMessage" : "Are you sure you want to delete?",
             "noButton" : "No",
             "yesButton" : "Yes"
         }
@@ -174,8 +175,15 @@
     "siteSection" : {
         "site": "Site Name #"
     },
+    "siteModal" : {
+        "fieldName": "Name",
+        "fieldAddress": "Address",
+        "btnAdd": "Add",
+        "btnEdit": "Edit",
+        "btnCancel": "Cancel"
+    },
     "systemModal" : {
-        "fieldName": "name",
+        "fieldName": "Name",
         "fieldSite": "Site",
         "fieldModal": "Product model",
         "fieldVersion": "Software Version",

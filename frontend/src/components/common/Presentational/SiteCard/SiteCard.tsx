@@ -3,10 +3,10 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateSitesService } from "@src/services/sitesService";
@@ -40,16 +40,27 @@ const SiteCard = ({
 }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const { organizationRoute, networkRoute, sitesRoute, systemsRoute } =
     constants;
   const { cardPopUp } = localizedData().sites;
-  const [deleteSite] = useOrganizationsSitesUpdateMutation();
+  const [updateSite] = useOrganizationsSitesUpdateMutation();
   const { id, networkId } = useParams();
 
+  const selectionID =
+    networkId == undefined ? id?.toString() : networkId?.toString();
+
   const open = Boolean(anchorEl);
-  const handleModalOpen = () => {
+  const handleDeleteModalOpen = () => {
     setOpenModal(true);
     handleClose();
+  };
+  const handleEditModalOpen = () => {
+    setOpenEditModal(true);
+    handleClose();
+  };
+  const handleEditModalClose = () => {
+    setOpenEditModal(false);
   };
   const handleModalClose = () => {
     setOpenModal(false);
@@ -63,9 +74,8 @@ const SiteCard = ({
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    const updatedSites = sites.filter((site) => site.id !== siteId);
-    await updateSitesService(networkId, updatedSites, deleteSite, refetch);
-    toast.success("Site successfully deleted");
+    const updatedSites = sites.filter((site) => site?.id !== siteId);
+    await updateSitesService(selectionID, updatedSites, updateSite, refetch);
   };
   return (
     <div className="SiteCard">
@@ -131,14 +141,25 @@ const SiteCard = ({
           className="Site-dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem>
+          <MenuItem onClick={handleEditModalOpen}>
             <span style={{ marginLeft: "12px" }}>{cardPopUp?.editSite}</span>
           </MenuItem>
-          <MenuItem onClick={handleModalOpen}>
+          <MenuItem onClick={handleDeleteModalOpen}>
             <span style={{ marginLeft: "12px" }}>{cardPopUp?.deleteSite}</span>
           </MenuItem>
         </Menu>
       </div>
+      <SiteModal
+        open={openEditModal}
+        siteId={siteId}
+        address={location}
+        name={name}
+        sites={sites}
+        action={"edit"}
+        selectionID={selectionID}
+        handleClose={handleEditModalClose}
+        refetch={refetch}
+      />
     </div>
   );
 };

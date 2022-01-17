@@ -6,14 +6,14 @@ import { useParams } from "react-router-dom";
 import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
+import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useOrganizationsSitesListQuery } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
 
 const SiteSection = () => {
-  const [site, setSite] = useState(null);
+  const [site, setSite] = useState(null); // eslint-disable-line
   const [sitesList, setSitesList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
@@ -107,11 +107,12 @@ const SiteSection = () => {
             )}
           </Grid>
         )}
-        <OrganizationModal
-          organization={site}
-          setOrganization={setSite}
+        <SiteModal
           open={open}
+          action={"add"}
+          selectionID={selectionID}
           handleClose={handleClose}
+          refetch={sitesRefetch}
         />
       </Box>
     </>
