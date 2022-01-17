@@ -94,7 +94,9 @@ class UserModality(models.Model):
     user = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="modalities"
     )
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
+    modality = models.ForeignKey(
+        "Modality", on_delete=models.CASCADE, related_name="modalities"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
