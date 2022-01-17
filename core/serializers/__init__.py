@@ -315,7 +315,8 @@ class SystemSerializer(serializers.ModelSerializer):
     connection_options = SystemConnectionOptions(
         default=defaults.ConnectionOptionDefault()
     )
-
+    image_url= serializers.ReadOnlyField()
+    documentation = serializers.ReadOnlyField()
     class Meta:
         model = models.System
         fields = [
@@ -335,10 +336,9 @@ class SystemSerializer(serializers.ModelSerializer):
             "dicom_info",
             "mri_embedded_parameters",
             "connection_options",
+            "image_url",
+            "documentation",
         ]
-
-        read_only_fields = ["documentation", "image_url"]
-
 
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
