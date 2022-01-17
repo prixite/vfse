@@ -83,64 +83,70 @@ const SystemSection = () => {
   if (modality) {
     apiData.modality = modality;
   }
-  if (siteId) {
-    apiData.site = siteId.toString();
-  }
+  useEffect(()=>{
+    if (siteId) {
+      apiData.site = siteId.toString();
+    }
+  
+    if (!siteId) {
+      if (
+        Object.keys(siteFilter).length !== 0 &&
+        (queryParams.get("site") == null || queryParams.get("health_network") !== null)
+      ) {
+        apiData.site = siteFilter?.id;
+        queryParams.set("site", siteFilter?.id?.toString());
+        history.push({
+          pathname: history.location.pathname,
+          search: queryParams.toString(),
+        });
+      } else if (
+        Object.keys(siteFilter).length === 0 &&
+        queryParams.get("site") !== null
+      ) {
+        delete apiData.site;
+      }
+      if (apiData.site == undefined && queryParams.get("site") !== null) {
+        apiData.site = Object.keys(siteFilter).length
+          ? siteFilter?.id
+          : queryParams.get("site");
+      }
+    }
+  },[siteId , siteFilter]);
 
-  if (!siteId) {
-    if (
-      Object.keys(siteFilter).length !== 0 &&
-      queryParams.get("site") == null
-    ) {
-      apiData.site = siteFilter?.id;
-      queryParams.set("site", siteFilter?.id?.toString());
-      history.push({
-        pathname: history.location.pathname,
-        search: queryParams.toString(),
-      });
-    } else if (
-      Object.keys(siteFilter).length === 0 &&
-      queryParams.get("site") !== null
-    ) {
-      delete apiData.site;
+  useEffect(()=>{
+    if (networkId) {
+      apiData.health_network = networkId.toString();
     }
-    if (apiData.site == undefined && queryParams.get("site") !== null) {
-      apiData.site = Object.keys(siteFilter).length
-        ? siteFilter?.id
-        : queryParams.get("site");
+  
+    if (!networkId) {
+      if (
+        Object.keys(networkFilter).length !== 0 &&
+        (queryParams.get("health_network") == null || queryParams.get("health_network") !== null)
+      ) {
+        apiData.health_network = networkFilter?.id;
+        queryParams.set("health_network", networkFilter?.id?.toString());
+        console.log("about to call push");
+        history.push({
+          pathname: history.location.pathname,
+          search: queryParams.toString(),
+        });
+      }
+      else if (
+        Object.keys(networkFilter).length === 0 &&
+        queryParams.get("health_network") !== null
+      ) {
+        delete apiData.health_network;
+      }
+      if (
+        apiData.health_network == undefined &&
+        queryParams.get("health_network") !== null
+      ) {
+        apiData.health_network = Object.keys(networkFilter).length
+          ? networkFilter?.id
+          : queryParams.get("health_network");
+      }
     }
-  }
-
-  if (networkId) {
-    apiData.health_network = networkId.toString();
-  }
-
-  if (!networkId) {
-    if (
-      Object.keys(networkFilter).length !== 0 &&
-      queryParams.get("health_network") == null
-    ) {
-      apiData.health_network = networkFilter?.id;
-      queryParams.set("health_network", networkFilter?.id?.toString());
-      history.push({
-        pathname: history.location.pathname,
-        search: queryParams.toString(),
-      });
-    } else if (
-      Object.keys(networkFilter).length === 0 &&
-      queryParams.get("health_network") !== null
-    ) {
-      delete apiData.health_network;
-    }
-    if (
-      apiData.health_network == undefined &&
-      queryParams.get("health_network") !== null
-    ) {
-      apiData.health_network = Object.keys(networkFilter).length
-        ? networkFilter?.id
-        : queryParams.get("health_network");
-    }
-  }
+  },[networkId , networkFilter])
 
   const {
     data: systemsData,
