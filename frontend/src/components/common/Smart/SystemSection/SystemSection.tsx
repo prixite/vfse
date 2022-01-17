@@ -113,6 +113,7 @@ const SystemSection = () => {
                 deceleration={0.0075}
                 horizontal
                 bound
+                zIndex={1000}
                 gap={40}
                 style={{ height: "33px" }}
               >
