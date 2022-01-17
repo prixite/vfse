@@ -75,7 +75,13 @@ const SiteCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     const updatedSites = sites.filter((site) => site?.id !== siteId);
-    await updateSitesService(selectionID, updatedSites, updateSite, refetch);
+    await updateSitesService(
+      selectionID,
+      updatedSites,
+      updateSite,
+      refetch,
+      "delete"
+    );
   };
   return (
     <div className="SiteCard">

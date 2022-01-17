@@ -72,12 +72,10 @@ export default function SiteModal(props: siteProps) {
 
   const handleAddSite = async () => {
     setIsLoading(true);
-    if (!siteName) {
-      setNameError("Name is required.");
-    }
-    if (!siteAddress) {
-      setAddressError("Address is required.");
-    }
+    !siteName ? setNameError("Name is required.") : setNameError("");
+    !siteAddress
+      ? setAddressError("Address is required.")
+      : setAddressError("");
     if (siteName && siteAddress) {
       const siteObject = getSiteObject();
       await addNewSiteService(
@@ -93,21 +91,29 @@ export default function SiteModal(props: siteProps) {
 
   const handleEditSite = async () => {
     setIsLoading(true);
-    if (!siteName) {
-      setNameError("Name is required.");
-    }
-    if (!siteAddress) {
-      setAddressError("Address is required.");
-    }
-    if (siteName && siteAddress) {
-      const updatedSites = props?.sites.filter(
-        (site) => site?.id !== props?.siteId
-      );
+    !siteName ? setNameError("Name is required.") : setNameError("");
+    !siteAddress
+      ? setAddressError("Address is required.")
+      : setAddressError("");
+    if (siteName && siteAddress && props?.sites) {
+      const siteObject = getSiteObject();
+      let siteIndex = -1;
+      props?.sites.forEach((site, index) => {
+        if (site?.id == props?.siteId) {
+          siteIndex = index;
+        }
+      });
+      // eslint-disable-next-line
+      const updatedSites = [...props?.sites];
+      if (siteIndex !== -1) {
+        updatedSites[siteIndex] = siteObject;
+      }
       await updateSitesService(
         props?.selectionID,
         updatedSites,
         updateSite,
-        props?.refetch
+        props?.refetch,
+        "edit"
       );
       resetModal();
     }
@@ -128,6 +134,11 @@ export default function SiteModal(props: siteProps) {
       setNameError("");
       setSiteAddress("");
       setAddressError("");
+    } else if (props?.action == "edit") {
+      if (props?.name && props?.address) {
+        setSiteName(props?.name);
+        setSiteAddress(props?.address);
+      }
     }
     props?.handleClose();
   };
