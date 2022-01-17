@@ -42,11 +42,11 @@ const SystemImageGallery = () => {
           {data.map((image, imgIndex) => (
             <div
               className="image"
+              key={imgIndex}
               onClick={() => handleSelectedImage(imgIndex, image.image)}
             >
               <img
                 src={image.image}
-                key={imgIndex}
                 style={{
                   border: `${
                     index === imgIndex ? "5px solid rgb(119, 60, 189)" : ""
