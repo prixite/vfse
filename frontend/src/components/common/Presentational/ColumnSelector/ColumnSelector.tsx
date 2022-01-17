@@ -61,12 +61,12 @@ const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
 
   return (
     <FormControl
-      sx={{ width: 300, height: 40, margin: "1px", marginRight: "8px" }}
+      sx={{ width: 300, minHeight: 47, margin: "1px", marginRight: "8px" }}
     >
       <Select
         multiple
         displayEmpty
-        style={{ height: "41px", background: "#ffffff" }}
+        style={{ height: "47px", background: "#ffffff" }}
         value={columnList}
         onChange={handleChange}
         input={<OutlinedInput />}

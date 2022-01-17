@@ -1887,6 +1887,16 @@
                 },
                 "connection_options": {
                     "$ref": "#/definitions/SystemConnectionOptions"
+                },
+                "image_url": {
+                    "title": "Image url",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "documentation": {
+                    "title": "Documentation",
+                    "type": "string",
+                    "readOnly": true
                 }
             }
         },

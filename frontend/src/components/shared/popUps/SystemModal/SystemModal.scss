@@ -42,6 +42,10 @@
       font-weight: 600;
       margin-bottom: 8px;
     }
+    .gallery-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
     .checkbox-container {
       display: flex;
       flex-direction: row;
@@ -63,6 +67,7 @@
     }
     .client-info {
       width: 100%;
+      margin-top: 20px;
       .add-container {
         display: flex;
         flex-direction: row;
