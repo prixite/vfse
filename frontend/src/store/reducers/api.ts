@@ -725,7 +725,7 @@ export type User = {
   username: string;
   is_active?: boolean;
   health_networks?: string;
-  modalities?: string;
+  modalities?: Modality[];
   organizations?: string;
 };
 export type UpsertUser = {

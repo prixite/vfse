@@ -31,6 +31,10 @@ class User(AbstractUser):
 
     is_supermanager = models.BooleanField(default=False)
 
+    @property
+    def modalities(self):
+        return UserModality.objects.filter(user=self).values_list("modality", flat=True)
+
     def get_initials(self):
         if any([self.first_name, self.last_name]):
             return " ".join([self.first_name[0], self.last_name[0]])
