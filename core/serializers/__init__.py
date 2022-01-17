@@ -165,8 +165,14 @@ class MriInfoSerializer(serializers.Serializer):
     magnet_pressure = serializers.CharField()
 
 
+class ModalitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Modality
+        fields = ["id", "name"]
+
+
 class UserSerializer(serializers.ModelSerializer):
-    modalities = serializers.SerializerMethodField()
+    modalities = ModalitySerializer(many=True, read_only=True)
     health_networks = serializers.SerializerMethodField()
     organizations = serializers.SerializerMethodField()
 
@@ -183,11 +189,6 @@ class UserSerializer(serializers.ModelSerializer):
             "modalities",
             "organizations",
         ]
-
-    def get_modalities(self, obj):
-        return models.UserModality.objects.filter(user=obj).values_list(
-            "modality__name", flat=True
-        )
 
     def get_health_networks(self, obj):
         return models.UserHealthNetwork.objects.filter(user=obj).values_list(
@@ -279,12 +280,6 @@ class UserEnableDisableSerializer(serializers.Serializer):
             raise ValidationError("Some users are not accessible")
 
         return attrs
-
-
-class ModalitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Modality
-        fields = ["id", "name"]
 
 
 class ManufacturerSerializer(serializers.ModelSerializer):

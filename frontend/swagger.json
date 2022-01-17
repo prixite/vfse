@@ -1929,8 +1929,11 @@
                     "readOnly": true
                 },
                 "modalities": {
-                    "title": "Modalities",
-                    "type": "string",
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Modality"
+                    },
                     "readOnly": true
                 },
                 "organizations": {
