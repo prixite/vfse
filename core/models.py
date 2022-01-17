@@ -332,6 +332,10 @@ class System(models.Model):
     def documentation(self):
         return self.product_model.documentation.url
 
+    @property
+    def image_url(self):
+        return self.image.url
+
 
 class SystemImage(models.Model):
     image = models.URLField()

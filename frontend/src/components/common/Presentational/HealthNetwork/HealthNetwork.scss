@@ -3,13 +3,18 @@
   background: #fcfcfd;
   border: 1px solid #d9dbdd;
   margin-top: 20px;
+  position: relative;
+  .close-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+  }
   .info-label {
     font-weight: 600;
     margin-bottom: 6px;
   }
   .info-field {
     width: 360px;
-    height: 48px;
     .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
       border: 1px solid #d4d6db;
       border-radius: 8px;

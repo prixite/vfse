@@ -131,8 +131,8 @@
             "newOrganizationColor2": "Buttons:",
             "newOrganizationColor3": "Sidebar Text:",
             "newOrganizationColor4": "Buttons Text:",
-            "newOrganizationFont1": "Font #1",
-            "newOrganizationFont2": "Font #2",
+            "newOrganizationFont1": "Main content:",
+            "newOrganizationFont2": "Sidebar content:",
             "newOrganizationHealthNetworks": "Health networks",
             "newOrganizationAddNetwork": "Add Network"
         },

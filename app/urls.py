@@ -33,6 +33,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/exists/",
+        api.DistinctOrganizationViewSet.as_view(
+            {
+                "get": "retrieve",
+            }
+        ),
+    ),
+    path(
         "api/organizations/",
         api.CustomerViewSet.as_view(
             {
