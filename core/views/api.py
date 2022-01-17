@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from app.settings import LAMBDA_FUNCTION_ARN
+from app.settings import AWS_THUMBNAIL_LAMBDA_ARN
 from core import filters, models, serializers
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
@@ -60,10 +60,11 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
             "logo" in serializer.validated_data.get("appearance", [])
             and serializer.instance.appearance.get("logo")
             != serializer.validated_data["appearance"]["logo"]
+            and AWS_THUMBNAIL_LAMBDA_ARN is not None
         ):
             client = boto3.client("lambda")
             client.invoke(
-                FunctionName=LAMBDA_FUNCTION_ARN,
+                FunctionName=AWS_THUMBNAIL_LAMBDA_ARN,
                 Payload=json.dumps(
                     {
                         "appearance": serializer.validated_data["appearance"],
