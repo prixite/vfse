@@ -24,11 +24,7 @@ const injectedRtkApi = api.injectEndpoints({
       LambdaPartialUpdateApiResponse,
       LambdaPartialUpdateApiArg
     >({
-      query: (queryArg) => ({
-        url: `/lambda/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.organization,
-      }),
+      query: () => ({ url: `/lambda/`, method: "PATCH" }),
     }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
@@ -391,11 +387,8 @@ export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
 export type HealthNetworksListApiArg = {
   name?: string;
 };
-export type LambdaPartialUpdateApiResponse = /** status 200  */ Organization;
-export type LambdaPartialUpdateApiArg = {
-  id: string;
-  organization: Organization;
-};
+export type LambdaPartialUpdateApiResponse = unknown;
+export type LambdaPartialUpdateApiArg = void;
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = void;
 export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
@@ -597,7 +590,8 @@ export type UserRequestAcessSeriazlizer = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin";
+    | "cryo-admin"
+    | "lambda-admin";
   manager: number;
   organization: number;
   sites: number[];
@@ -623,6 +617,13 @@ export type HealthNetwork = {
   appearance?: Appearance;
   sites?: MetaSite[];
 };
+export type Manufacturer = {
+  name: string;
+  image?: number | null;
+};
+export type ManufacturerImage = {
+  image?: string | null;
+};
 export type Appearance2 = {
   sidebar_text: string;
   button_text: string;
@@ -641,13 +642,6 @@ export type Organization = {
   number_of_seats?: number | null;
   appearance?: Appearance2;
   sites?: MetaSite[];
-};
-export type Manufacturer = {
-  name: string;
-  image?: number | null;
-};
-export type ManufacturerImage = {
-  image?: string | null;
 };
 export type Me = {
   first_name?: string;
@@ -741,7 +735,8 @@ export type UpsertUser = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin";
+    | "cryo-admin"
+    | "lambda-admin";
   manager: number;
   organization: number;
   sites: number[];

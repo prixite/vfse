@@ -8,7 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from app.settings import LAMBDA_FUNCTION_ARN
 from core import filters, models, serializers
@@ -46,7 +46,6 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
             and serializer.instance.appearance.get("logo")
             != serializer.validated_data["appearance"]["logo"]
         ):
-            token = Token.objects.create(user=self.request.user)
             client = boto3.client("lambda")
             client.invoke(
                 FunctionName=LAMBDA_FUNCTION_ARN,
@@ -54,7 +53,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
                     {
                         "appearance": serializer.validated_data["appearance"],
                         "organization_id": self.kwargs["pk"],
-                        "token": token,
+                        "token": self.get_object().get_lambda_admin_token(),
                         "dimension": (50, 50),
                     }
                 ),
@@ -521,10 +520,23 @@ class ProductViewSet(ModelViewSet):
         )
 
 
-class LambdaView(OrganizationViewSet):
+class LambdaView(ViewSet):
+    serializer_class = serializers.OrganizationAppearanceSerializer
     authentication_classes = [TokenAuthentication]
 
-    def perform_update(self, serializer):
-        response = super().perform_update(serializer)
-        Token.objects.filter(user=self.request.user).delete()
-        return response
+    def get_object(self):
+        token = Token.objects.get(key=self.request.auth)
+        org = models.Membership.objects.get(
+            user=token.user, role=models.Role.LAMBDA_ADMIN
+        ).organization
+        return org
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.serializer_class(data=request.data, partial=True)
+        if instance.is_valid():
+            object = self.get_object()
+            object.appearance["icon"] = instance.validated_data["icon"]
+            object.save()
+            return Response("Appearance Updated")
+
+        raise exceptions.ValidationError()
