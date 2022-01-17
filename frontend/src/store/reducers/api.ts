@@ -715,6 +715,7 @@ export type User = {
   is_active?: boolean;
   health_networks?: string;
   modalities?: string;
+  organizations?: string;
 };
 export type UpsertUser = {
   meta?: Meta;

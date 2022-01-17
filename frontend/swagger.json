@@ -1922,6 +1922,11 @@
                     "title": "Modalities",
                     "type": "string",
                     "readOnly": true
+                },
+                "organizations": {
+                    "title": "Organizations",
+                    "type": "string",
+                    "readOnly": true
                 }
             }
         },
