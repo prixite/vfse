@@ -705,6 +705,8 @@ export type System = {
   dicom_info?: HisRisInfo;
   mri_embedded_parameters?: MriEmbeddedParameters;
   connection_options?: ConnectionOptions;
+  image_url?: string;
+  documentation?: string;
 };
 export type User = {
   id?: number;

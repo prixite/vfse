@@ -315,8 +315,9 @@ class SystemSerializer(serializers.ModelSerializer):
     connection_options = SystemConnectionOptions(
         default=defaults.ConnectionOptionDefault()
     )
-    image_url= serializers.ReadOnlyField()
+    image_url = serializers.ReadOnlyField()
     documentation = serializers.ReadOnlyField()
+
     class Meta:
         model = models.System
         fields = [
@@ -339,6 +340,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "image_url",
             "documentation",
         ]
+
 
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
