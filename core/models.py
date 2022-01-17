@@ -324,7 +324,7 @@ class System(models.Model):
 
     @property
     def image_url(self):
-        return self.image.url
+        return self.image.image
 
 
 class SystemImage(models.Model):
