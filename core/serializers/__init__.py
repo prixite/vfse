@@ -168,7 +168,7 @@ class MriInfoSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     modalities = serializers.SerializerMethodField()
     health_networks = serializers.SerializerMethodField()
-
+    organizations= serializers.SerializerMethodField()
     class Meta:
         model = models.User
         fields = [
@@ -180,6 +180,7 @@ class UserSerializer(serializers.ModelSerializer):
             "is_active",
             "health_networks",
             "modalities",
+            "organizations"
         ]
 
     def get_modalities(self, obj):
@@ -192,6 +193,10 @@ class UserSerializer(serializers.ModelSerializer):
             "organization_health_network__health_network__name", flat=True
         )
 
+    def get_organizations(self, obj):
+        return models.UserHealthNetwork.objects.filter(user=obj).values_list(
+            "organization_health_network__organization__name", flat=True
+        )
 
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField()
