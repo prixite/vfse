@@ -196,11 +196,11 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.System.objects.filter(
                 site__organization_id=self.kwargs["pk"],
-            )
+            ).select_related("image", "product_model")
 
         return models.System.objects.filter(
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
-        )
+        ).select_related("image", "product_model")
 
 
 class SiteSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
