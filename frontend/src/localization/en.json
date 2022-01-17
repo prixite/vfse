@@ -175,14 +175,14 @@
         "site": "Site Name #"
     },
     "systemModal" : {
-        "fieldName": "name",
+        "fieldName": "Name",
         "fieldSite": "Site",
-        "fieldModal": "Product model",
+        "fieldModal": "Product Model",
         "fieldVersion": "Software Version",
         "fieldAsset": "Asset Number",
         "fieldIp": "IP",
         "fieldLocalAE": "Local AE Title",
-        "fieldRisName": "HIS/RIS info",
+        "fieldRisName": "HIS/RIS Info",
         "fieldRisIp": "IP",
         "fieldRisTitle": "Title",
         "fieldRisPort": "Port",
