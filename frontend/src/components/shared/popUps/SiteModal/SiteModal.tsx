@@ -123,10 +123,12 @@ export default function SiteModal(props: siteProps) {
   };
 
   const resetModal = () => {
-    setSiteName("");
-    setNameError("");
-    setSiteAddress("");
-    setAddressError("");
+    if (props?.action == "add") {
+      setSiteName("");
+      setNameError("");
+      setSiteAddress("");
+      setAddressError("");
+    }
     props?.handleClose();
   };
 
