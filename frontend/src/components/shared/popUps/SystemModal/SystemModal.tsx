@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { TextField, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -9,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
@@ -19,7 +18,6 @@ interface systemProps {
 }
 
 export default function SystemModal(props: systemProps) {
-  const [selectedImage, setSelectedImage] = useState([]); // eslint-disable-line
   // const [newFields, setNewFields] = useState([1]);
 
   const {
@@ -76,6 +74,8 @@ export default function SystemModal(props: systemProps) {
       </DialogTitle>
       <DialogContent>
         <div className="modal-content">
+          <p className="gallery-title">Select Image</p>
+          <SystemImageGallery />
           {/* <DropzoneBox setSelectedImage={setSelectedImage} /> */}
           <div className="client-info">
             <Grid container spacing={2}>

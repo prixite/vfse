@@ -29,7 +29,9 @@ env = environ.Env(
     NPLUSONE_RAISE=(bool, False),
     AWS_ACCESS_KEY_ID=(str, None),
     AWS_SECRET_ACCESS_KEY=(str, None),
+    AWS_DEFAULT_REGION=(str, None),
     AWS_STORAGE_BUCKET_NAME=(str, None),
+    AWS_THUMBNAIL_LAMBDA_ARN=(str, None),
     ALLOWED_HOSTS=(list, []),
     EMAIL_BACKEND=(str, None),
     DUO_CLIENT_ID=(str, None),
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
     "django_extensions",
     # 3rd party apps
     "rest_framework",
+    "rest_framework.authtoken",
     "drf_yasg2",
     "drf_link_header_pagination",
     "django_filters",
@@ -206,3 +209,8 @@ SWAGGER_SETTINGS = {
         "drf_yasg2.inspectors.CoreAPICompatInspector",
     ],
 }
+
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_DEFAULT_REGION = env("AWS_DEFAULT_REGION")
+AWS_THUMBNAIL_LAMBDA_ARN = env("AWS_THUMBNAIL_LAMBDA_ARN")
