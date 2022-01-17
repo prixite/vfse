@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from rest_framework.authtoken.models import Token
 
 
 class Role(models.TextChoices):
@@ -14,6 +15,7 @@ class Role(models.TextChoices):
     CRYO = "cryo", "Cryo"
     CRYO_FSE = "cryo-fse", "Cryo FSE"
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
+    LAMBDA_ADMIN = "lambda-admin", "Lambda Admin"
 
 
 class User(AbstractUser):
@@ -203,6 +205,14 @@ class Organization(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def get_lambda_admin_token(self):
+        user = Membership.objects.get(
+            user__username=f"org-{self.id}-lambda-user",
+            organization=self,
+            role=Role.LAMBDA_ADMIN,
+        ).user
+        return Token.objects.get(user=user).key
+
 
 class Membership(models.Model):
     user = models.ForeignKey(
@@ -324,7 +334,7 @@ class System(models.Model):
 
     @property
     def image_url(self):
-        return self.image.url
+        return self.image.image
 
 
 class SystemImage(models.Model):

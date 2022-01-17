@@ -1,10 +1,16 @@
+import json
+
+import boto3
 from django.db import transaction
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
 
+from app.settings import AWS_THUMBNAIL_LAMBDA_ARN
 from core import filters, models, serializers
 from core.permissions import OrganizationDetailPermission
 from core.views import mixins
@@ -48,6 +54,28 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         models.System.objects.filter(site__organization=instance).delete()
         instance.delete()
+
+    def perform_update(self, serializer):
+        if (
+            "logo" in serializer.validated_data.get("appearance", [])
+            and serializer.instance.appearance.get("logo")
+            != serializer.validated_data["appearance"]["logo"]
+            and AWS_THUMBNAIL_LAMBDA_ARN is not None
+        ):
+            client = boto3.client("lambda")
+            client.invoke(
+                FunctionName=AWS_THUMBNAIL_LAMBDA_ARN,
+                Payload=json.dumps(
+                    {
+                        "appearance": serializer.validated_data["appearance"],
+                        "organization_id": self.kwargs["pk"],
+                        "token": self.get_object().get_lambda_admin_token(),
+                        "dimension": (50, 50),
+                    }
+                ),
+                InvocationType="Event",
+            )
+        return super().perform_update(serializer)
 
 
 class CustomerViewSet(OrganizationViewSet):
@@ -196,11 +224,11 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.System.objects.filter(
                 site__organization_id=self.kwargs["pk"],
-            )
+            ).select_related("image", "product_model")
 
         return models.System.objects.filter(
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
-        )
+        ).select_related("image", "product_model")
 
 
 class SiteSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
@@ -513,3 +541,25 @@ class ProductViewSet(ModelViewSet):
             name=serializer.validated_data["name"],
             manufacturer=serializer.validated_data["manufacturer"],
         )
+
+
+class LambdaView(ViewSet):
+    serializer_class = serializers.OrganizationAppearanceSerializer
+    authentication_classes = [TokenAuthentication]
+
+    def get_object(self):
+        token = Token.objects.get(key=self.request.auth)
+        org = models.Membership.objects.get(
+            user=token.user, role=models.Role.LAMBDA_ADMIN
+        ).organization
+        return org
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.serializer_class(data=request.data, partial=True)
+        if instance.is_valid():
+            object = self.get_object()
+            object.appearance["icon"] = instance.validated_data["icon"]
+            object.save()
+            return Response("Appearance Updated")
+
+        raise exceptions.ValidationError()

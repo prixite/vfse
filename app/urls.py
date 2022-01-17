@@ -60,6 +60,10 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/lambda/",
+        api.LambdaView.as_view({"patch": "partial_update"}),
+    ),
+    path(
         "api/organizations/<int:pk>/health_networks/",
         api.OrganizationHealthNetworkViewSet.as_view(
             {
