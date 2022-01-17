@@ -110,13 +110,13 @@ const TopViewBtns = ({
       id: id,
     });
 
-    const { data: sitesData, isFetching: isSitesFetching } =
+  const { data: sitesData, isFetching: isSitesFetching } =
     useOrganizationsSitesListQuery({
       page: 1,
       id: id,
     });
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!isNetworkDataLoading && !networkId) {
       const networkParam = queryParams?.get("health_network");
       if (networkParam !== null && network.length == 0) {
@@ -131,21 +131,21 @@ const TopViewBtns = ({
         }
       }
     }
-  },[isNetworkDataLoading])
+  }, [isNetworkDataLoading]);
 
- useEffect(()=>{
-  if (!isSitesFetching && !siteId) {
-    const siteParam = queryParams?.get("site");
-    if (siteParam !== null && site.length == 0) {
-      const list = sitesData?.filter(
-        (item) => siteParam == item?.id.toString()
-      );
-      if (list?.length) {
-        setSite([list[0].name]);
+  useEffect(() => {
+    if (!isSitesFetching && !siteId) {
+      const siteParam = queryParams?.get("site");
+      if (siteParam !== null && site.length == 0) {
+        const list = sitesData?.filter(
+          (item) => siteParam == item?.id.toString()
+        );
+        if (list?.length) {
+          setSite([list[0].name]);
+        }
       }
     }
-  }
- },[isSitesFetching])
+  }, [isSitesFetching]);
 
   const handleInput = (e) => {
     setSearchText(e.target.value);
@@ -198,7 +198,6 @@ const TopViewBtns = ({
         );
       }
     }
-
   };
 
   const handleClickSite = (event) => {
@@ -281,12 +280,12 @@ const TopViewBtns = ({
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
                   >
-                      <MenuItem
-                        style={{ marginLeft: "-15px"  ,display :"none" }}
-                        value=''
-                      >
-                        <ListItemText primary={``} />
-                      </MenuItem>
+                    <MenuItem
+                      style={{ marginLeft: "-15px", display: "none" }}
+                      value=""
+                    >
+                      <ListItemText primary={``} />
+                    </MenuItem>
                     {networksData?.map((item, index) => (
                       <MenuItem
                         style={{ marginLeft: "-15px" }}
@@ -318,11 +317,11 @@ const TopViewBtns = ({
                     MenuProps={dropdownStyles}
                   >
                     <MenuItem
-                        style={{ marginLeft: "-15px" , display :"none" }}
-                        value=''
-                      >
-                        <ListItemText primary={``} />
-                      </MenuItem>
+                      style={{ marginLeft: "-15px", display: "none" }}
+                      value=""
+                    >
+                      <ListItemText primary={``} />
+                    </MenuItem>
                     {sitesData?.map((item, index) => (
                       <MenuItem
                         style={{ marginLeft: "-15px" }}
