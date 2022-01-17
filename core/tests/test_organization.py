@@ -112,6 +112,31 @@ class OrganizationTestCase(BaseTestCase):
             },
         )
 
+    def test_update_organization_appearance(self):
+        self.client.force_login(self.super_admin)
+        new_appearance = {
+            "sidebar_text": "#773CBD",
+            "button_text": "#773CBD",
+            "sidebar_color": "#773CBD",
+            "primary_color": "#773CBD",
+            "secondary_color": "#EFE1FF",
+            "font_one": "helvetica",
+            "font_two": "arial",
+            "logo": "https://picsum.photos/200",
+            "banner": "https://picsum.photos/200",
+            "icon": "https://picsum.photos/200",
+        }
+        response = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/",
+            data={
+                "appearance": new_appearance,
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+
+        self.default_organization.refresh_from_db()
+        self.assertDictEqual(self.default_organization.appearance, new_appearance)
+
     def test_unique_name_constraint_while_create(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
