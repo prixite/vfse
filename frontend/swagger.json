@@ -1941,21 +1941,33 @@
                     "type": "boolean"
                 },
                 "health_networks": {
-                    "title": "Health networks",
-                    "type": "string",
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1
+                    },
                     "readOnly": true
                 },
                 "modalities": {
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Modality"
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1
                     },
                     "readOnly": true
                 },
                 "organizations": {
-                    "title": "Organizations",
-                    "type": "string",
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1
+                    },
                     "readOnly": true
                 }
             }

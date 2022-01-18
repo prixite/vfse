@@ -314,7 +314,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             return models.User.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.User.objects.all()
+            return models.User.objects.all().prefetch_related("usermodality_set")
 
         membership = models.Membership.objects.filter(
             organization=self.kwargs["pk"],
@@ -323,7 +323,9 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             ),
         )
 
-        return models.User.objects.filter(id__in=membership.values_list("user"))
+        return models.User.objects.filter(
+            id__in=membership.values_list("user")
+        ).prefetch_related("usermodality_set")
 
     @transaction.atomic
     def perform_create(self, serializer):

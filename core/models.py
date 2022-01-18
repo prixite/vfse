@@ -33,7 +33,25 @@ class User(AbstractUser):
 
     @property
     def modalities(self):
-        return UserModality.objects.filter(user=self).values_list("modality", flat=True)
+        return sorted(
+            [
+                obj.modality.name
+                for obj in self.usermodality_set.all().select_related("modality")
+            ]
+        )
+
+    @property
+    def health_networks(self):
+        return sorted([
+            obj.organization_health_network.health_network.name
+            for obj in self.userhealthnetwork_set.all().prefetch_related(
+                "organization_health_network"
+            )
+        ])
+
+    @property
+    def organizations(self):
+        return self.get_organizations().values_list("organization__name", flat=True)
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
@@ -97,9 +115,7 @@ class User(AbstractUser):
 
 
 class UserModality(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="modalities"
-    )
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     modality = models.ForeignKey(
         "Modality", on_delete=models.CASCADE, related_name="modalities"
     )
@@ -142,9 +158,7 @@ class UserSystem(models.Model):
 
 
 class UserHealthNetwork(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="health_networks"
-    )
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     organization_health_network = models.ForeignKey(
         "OrganizationHealthNetwork", on_delete=models.CASCADE
     )

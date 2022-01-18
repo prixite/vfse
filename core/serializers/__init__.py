@@ -172,9 +172,15 @@ class ModalitySerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    modalities = ModalitySerializer(many=True, read_only=True)
-    health_networks = serializers.SerializerMethodField()
-    organizations = serializers.SerializerMethodField()
+    modalities = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+    health_networks = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+    organizations = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
 
     class Meta:
         model = models.User
@@ -189,16 +195,6 @@ class UserSerializer(serializers.ModelSerializer):
             "modalities",
             "organizations",
         ]
-
-    def get_health_networks(self, obj):
-        return models.UserHealthNetwork.objects.filter(user=obj).values_list(
-            "organization_health_network__health_network__name", flat=True
-        )
-
-    def get_organizations(self, obj):
-        return models.UserHealthNetwork.objects.filter(user=obj).values_list(
-            "organization_health_network__organization__name", flat=True
-        )
 
 
 class MetaSerialzer(serializers.Serializer):
