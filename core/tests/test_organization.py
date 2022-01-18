@@ -291,6 +291,7 @@ class OrganizationTestCase(BaseTestCase):
             data={
                 "health_networks": [
                     {
+                        'id':self.health_network.id,
                         "name": self.health_network.name,
                         "appearance": {"logo": "https://picsum.photos/2000"},
                     },
@@ -340,6 +341,7 @@ class OrganizationTestCase(BaseTestCase):
             f"/api/organizations/{self.organization.id}/sites/",
             data={
                 "sites": [
+                    {"id":self.site.id,"name": "Existing Site", "address": "Milky Way"},
                     {"name": "1nd Test Site", "address": "Milky Way"},
                     {"name": "2nd Test Site", "address": "Coma Cluster"},
                 ]
@@ -348,8 +350,10 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             models.Site.objects.filter(organization=self.organization).count(),
-            2,
+            3,
         )
+        self.site.refresh_from_db()
+        self.assertTrue(self.site.name=='Existing Site')
 
     def test_post_health_network(self):
         self.client.force_login(self.super_admin)
@@ -363,7 +367,6 @@ class OrganizationTestCase(BaseTestCase):
                 },
             },
         )
-
         self.assertEqual(response.status_code, 201)
         self.assertEqual(
             models.OrganizationHealthNetwork.objects.filter(
@@ -391,7 +394,6 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_put_duplicate_organization_site(self):
         self.client.force_login(self.super_admin)
-
         response = self.client.put(
             f"/api/organizations/{self.organization.id}/sites/",
             data={
@@ -413,7 +415,6 @@ class OrganizationTestCase(BaseTestCase):
             ).count(),
             1,
         )
-
     def test_self_relation_organization_health_network(self):
         self.client.force_login(self.super_admin)
         health_networks = models.OrganizationHealthNetwork.objects.filter(
@@ -424,6 +425,7 @@ class OrganizationTestCase(BaseTestCase):
             data={
                 "health_networks": [
                     {
+                        "id":self.organization.id,
                         "name": self.organization.name,
                         "appearance": {"logo": "https://picsum.photos/200"},
                     },

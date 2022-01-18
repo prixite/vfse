@@ -1,8 +1,10 @@
 import json
+from os import remove
 
 import boto3
 from django.db import transaction
 from django.db.models.query import Prefetch
+from django.db.models import Q
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -137,10 +139,18 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             organization_id=self.kwargs["pk"]
         ).delete()
         health_networks = []
-        for health_network in serializer.validated_data["health_networks"] or []:
-            obj, created = models.Organization.objects.update_or_create(
-                name=health_network["name"],
-                defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
+        validated_data = []
+
+        for item in serializer.validated_data["health_networks"]:
+            if item not in validated_data:
+                validated_data.append(item)
+
+        for health_network in  validated_data or []:
+            obj, created = models.Organization.objects.filter(
+                Q(id=health_network.get('id',None))| Q(name=health_network['name'])
+            ).update_or_create(
+                id=health_network.pop('id',None),
+                defaults=health_network,
             )
             health_networks.append(obj)
             if obj.id == self.kwargs["pk"]:
@@ -148,7 +158,6 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                     detail=f"Cannot create self relation organization {obj.name}",
                 )
 
-        health_networks = set(health_networks)
         models.OrganizationHealthNetwork.objects.bulk_create(
             [
                 models.OrganizationHealthNetwork(
@@ -197,18 +206,24 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     @transaction.atomic
     def perform_update(self, serializer):
         names = []
-        for site in serializer.validated_data["sites"]:
-            names.append(site["name"])
-            models.Site.objects.update_or_create(
-                name=site["name"],
+        validted_sites =[]
+        for item in serializer.validated_data["sites"]:
+            if item not in validted_sites:
+                validted_sites.append(item)
+        for site in validted_sites or []:
+            object,created = models.Site.objects.filter(
+                Q(id=site.get('id',None))| Q(name=site['name']),
+            ).update_or_create(
+                id=site.pop('id',None),
                 organization_id=self.kwargs["pk"],
-                defaults={"address": site["address"]},
+                defaults={**site,'organization_id':self.kwargs['pk']},
             )
-        names = set(names)
+            names.append(object.name)
+        
         removed_sites = models.Site.objects.filter(
             organization=self.kwargs["pk"],
         ).exclude(name__in=names)
-
+        
         models.System.objects.filter(site__in=removed_sites).delete()
         removed_sites.delete()
 
