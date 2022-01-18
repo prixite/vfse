@@ -292,7 +292,7 @@ class OrganizationTestCase(BaseTestCase):
                 "health_networks": [
                     {
                         "name": self.health_network.name,
-                        "appearance": {"logo": "https://picsum.photos/200"},
+                        "appearance": {"logo": "https://picsum.photos/2000"},
                     },
                     {
                         "name": "New",
@@ -303,6 +303,8 @@ class OrganizationTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.other_organization.health_networks.count(), 2)
+        self.health_network.refresh_from_db()
+        self.assertTrue(self.health_network.appearance=={"logo": "https://picsum.photos/2000"})
 
     def test_put_new_health_network(self):
         self.client.force_login(self.super_admin)
@@ -431,7 +433,7 @@ class OrganizationTestCase(BaseTestCase):
         self.assertTrue(
             health_networks
             == models.OrganizationHealthNetwork.objects.filter(
-                organization=self.organization
+                organization=self.organization,
             ).count()
         )
         self.assertEqual(response.status_code, 400)

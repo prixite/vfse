@@ -138,7 +138,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         ).delete()
         health_networks = []
         for health_network in serializer.validated_data["health_networks"] or []:
-            obj, created = models.Organization.objects.get_or_create(
+            obj, created = models.Organization.objects.update_or_create(
                 name=health_network["name"],
                 defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
             )
@@ -199,7 +199,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         names = []
         for site in serializer.validated_data["sites"]:
             names.append(site["name"])
-            models.Site.objects.get_or_create(
+            models.Site.objects.update_or_create(
                 name=site["name"],
                 organization_id=self.kwargs["pk"],
                 defaults={"address": site["address"]},
