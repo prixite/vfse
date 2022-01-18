@@ -34,20 +34,22 @@ class User(AbstractUser):
     @property
     def modalities(self):
         return sorted(
-            [
-                obj.modality.name
-                for obj in self.usermodality_set.all().select_related("modality")
-            ]
+            Modality.objects.filter(
+                id__in=self.usermodality_set.all().values_list("modality")
+            )
         )
 
     @property
     def health_networks(self):
-        return sorted([
-            obj.organization_health_network.health_network.name
-            for obj in self.userhealthnetwork_set.all().prefetch_related(
-                "organization_health_network"
+        return sorted(
+            OrganizationHealthNetwork.objects.filter(
+                id__in=self.userhealthnetwork_set.all().values_list(
+                    "organization_health_network"
+                )
             )
-        ])
+            .select_related("health_network")
+            .values_list("health_network__name", flat=True)
+        )
 
     @property
     def organizations(self):
