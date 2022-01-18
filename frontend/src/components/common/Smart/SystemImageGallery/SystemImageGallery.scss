@@ -1,0 +1,25 @@
+.systemGallery {
+  position: relative;
+  width: 100%;
+  border: 1px dashed #a7aeb2;
+  padding: 20px 10px;
+  .selectedImage {
+    margin-bottom: 20px;
+    text-align: center;
+    img {
+      width: 70%;
+      height: 200px;
+      object-fit: contain;
+    }
+  }
+  .image {
+    height: 80px;
+    width: 80px;
+    cursor: pointer;
+    img {
+      height: 100%;
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+}

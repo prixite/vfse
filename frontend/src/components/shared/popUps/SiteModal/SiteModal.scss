@@ -1,11 +1,16 @@
-.system-modal {
+.site-modal {
   z-index: 2000;
   .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
-    width: 783px;
-    max-width: 783px;
+    width: 683px;
+    max-width: 683px;
     .css-ypiqx9-MuiDialogContent-root {
       padding: 20px 22px;
     }
+  }
+  .errorText {
+    color: #ff1744;
+    font-size: 0.8rem;
+    margin-top: 5px;
   }
   .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
     height: 1.8em;
@@ -29,6 +34,7 @@
           width: 15px;
           height: 15px;
           margin-left: 12px;
+          margin-top: 12px;
           cursor: pointer;
         }
       }
@@ -42,32 +48,8 @@
       font-weight: 600;
       margin-bottom: 8px;
     }
-    .gallery-title {
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .checkbox-container {
-      display: flex;
-      flex-direction: row;
-      margin-top: 26px;
-      margin-bottom: 26px;
-      justify-content: space-between;
-      align-items: center;
-      .checkBox {
-        .css-5tfqm9-MuiButtonBase-root-MuiCheckbox-root {
-          color: #d4d6db;
-          padding: 0;
-        }
-        .text {
-          font-size: 16px;
-          font-style: "ProximaNova-Regular";
-          margin-left: 5px;
-        }
-      }
-    }
     .client-info {
       width: 100%;
-      margin-top: 20px;
       .add-container {
         display: flex;
         flex-direction: row;
@@ -108,41 +90,12 @@
           }
         }
       }
-      .box-heading {
-        margin-top: 20px;
-        .heading {
-          font-weight: 600;
-          margin-bottom: 6px;
-        }
-        .box {
-          width: 100%;
-          height: fit-content;
-          border: 1px solid #d4d6db;
-          padding: 10px 20px;
-          border-radius: 5px;
-          .info-field {
-            width: 100%;
-            height: 100%;
-            .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
-              border: 1px solid #d4d6db;
-              border-radius: 8px;
-            }
-            input {
-              border: 1px solid #d4d6db;
-              border-radius: 8px;
-            }
-          }
-          .info-label {
-            font-weight: 600;
-            margin-bottom: 6px;
-          }
-        }
-      }
     }
   }
   .css-hlj6pa-MuiDialogActions-root {
     justify-content: center;
     margin-top: 2px;
+    margin-bottom: 12px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;

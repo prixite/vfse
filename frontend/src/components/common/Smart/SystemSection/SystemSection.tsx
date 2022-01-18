@@ -170,6 +170,7 @@ const SystemSection = () => {
                 deceleration={0.0075}
                 horizontal
                 bound
+                zIndex={1000}
                 gap={40}
                 style={{ height: "33px" }}
               >
@@ -244,7 +245,7 @@ const SystemSection = () => {
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
                 name={item?.name}
-                image={item?.image?.image}
+                image={item?.image_url}
                 his_ris_info={item?.his_ris_info}
                 dicom_info={item?.dicom_info}
                 serial_number={item?.serial_number}
@@ -282,7 +283,7 @@ const SystemSection = () => {
             <SystemCard
               key={key}
               name={item?.name}
-              image={item?.image?.image}
+              image={item?.image_url}
               his_ris_info={item?.his_ris_info}
               dicom_info={item?.dicom_info}
               serial_number={item?.serial_number}

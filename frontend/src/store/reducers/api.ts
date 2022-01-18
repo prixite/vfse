@@ -20,6 +20,12 @@ const injectedRtkApi = api.injectEndpoints({
         params: { name: queryArg.name },
       }),
     }),
+    lambdaPartialUpdate: build.mutation<
+      LambdaPartialUpdateApiResponse,
+      LambdaPartialUpdateApiArg
+    >({
+      query: () => ({ url: `/lambda/`, method: "PATCH" }),
+    }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
       ManufacturersListApiArg
@@ -387,6 +393,8 @@ export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
 export type HealthNetworksListApiArg = {
   name?: string;
 };
+export type LambdaPartialUpdateApiResponse = unknown;
+export type LambdaPartialUpdateApiArg = void;
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = void;
 export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
@@ -591,7 +599,8 @@ export type UserRequestAcessSeriazlizer = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin";
+    | "cryo-admin"
+    | "lambda-admin";
   manager: number;
   organization: number;
   sites: number[];
@@ -705,6 +714,8 @@ export type System = {
   dicom_info?: HisRisInfo;
   mri_embedded_parameters?: MriEmbeddedParameters;
   connection_options?: ConnectionOptions;
+  image_url?: string;
+  documentation?: string;
 };
 export type User = {
   id?: number;
@@ -713,6 +724,9 @@ export type User = {
   email?: string;
   username: string;
   is_active?: boolean;
+  health_networks?: string[];
+  modalities?: string[];
+  organizations?: string[];
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -730,7 +744,8 @@ export type UpsertUser = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin";
+    | "cryo-admin"
+    | "lambda-admin";
   manager: number;
   organization: number;
   sites: number[];
@@ -789,6 +804,7 @@ export type UserEnableDisable = {
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
+  useLambdaPartialUpdateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,

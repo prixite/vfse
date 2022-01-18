@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from rest_framework.authtoken.models import Token
 
 
 class Role(models.TextChoices):
@@ -14,6 +15,7 @@ class Role(models.TextChoices):
     CRYO = "cryo", "Cryo"
     CRYO_FSE = "cryo-fse", "Cryo FSE"
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
+    LAMBDA_ADMIN = "lambda-admin", "Lambda Admin"
 
 
 class User(AbstractUser):
@@ -28,6 +30,30 @@ class User(AbstractUser):
     )
 
     is_supermanager = models.BooleanField(default=False)
+
+    @property
+    def modalities(self):
+        return sorted(
+            Modality.objects.filter(
+                id__in=self.usermodality_set.all().values_list("modality")
+            )
+        )
+
+    @property
+    def health_networks(self):
+        return sorted(
+            OrganizationHealthNetwork.objects.filter(
+                id__in=self.userhealthnetwork_set.all().values_list(
+                    "organization_health_network"
+                )
+            )
+            .select_related("health_network")
+            .values_list("health_network__name", flat=True)
+        )
+
+    @property
+    def organizations(self):
+        return self.get_organizations().values_list("organization__name", flat=True)
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
@@ -91,10 +117,10 @@ class User(AbstractUser):
 
 
 class UserModality(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="modalities"
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    modality = models.ForeignKey(
+        "Modality", on_delete=models.CASCADE, related_name="modalities"
     )
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -134,9 +160,7 @@ class UserSystem(models.Model):
 
 
 class UserHealthNetwork(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="health_networks"
-    )
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     organization_health_network = models.ForeignKey(
         "OrganizationHealthNetwork", on_delete=models.CASCADE
     )
@@ -202,6 +226,14 @@ class Organization(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def get_lambda_admin_token(self):
+        user = Membership.objects.get(
+            user__username=f"org-{self.id}-lambda-user",
+            organization=self,
+            role=Role.LAMBDA_ADMIN,
+        ).user
+        return Token.objects.get(user=user).key
 
 
 class Membership(models.Model):
@@ -324,7 +356,7 @@ class System(models.Model):
 
     @property
     def image_url(self):
-        return self.image.url
+        return self.image.image
 
 
 class SystemImage(models.Model):

@@ -165,7 +165,23 @@ class MriInfoSerializer(serializers.Serializer):
     magnet_pressure = serializers.CharField()
 
 
+class ModalitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Modality
+        fields = ["id", "name"]
+
+
 class UserSerializer(serializers.ModelSerializer):
+    modalities = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+    health_networks = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+    organizations = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+
     class Meta:
         model = models.User
         fields = [
@@ -175,6 +191,9 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "username",
             "is_active",
+            "health_networks",
+            "modalities",
+            "organizations",
         ]
 
 
@@ -259,12 +278,6 @@ class UserEnableDisableSerializer(serializers.Serializer):
         return attrs
 
 
-class ModalitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Modality
-        fields = ["id", "name"]
-
-
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Manufacturer
@@ -315,6 +328,8 @@ class SystemSerializer(serializers.ModelSerializer):
     connection_options = SystemConnectionOptions(
         default=defaults.ConnectionOptionDefault()
     )
+    image_url = serializers.ReadOnlyField()
+    documentation = serializers.ReadOnlyField()
 
     class Meta:
         model = models.System
@@ -335,9 +350,9 @@ class SystemSerializer(serializers.ModelSerializer):
             "dicom_info",
             "mri_embedded_parameters",
             "connection_options",
+            "image_url",
+            "documentation",
         ]
-
-        read_only_fields = ["documentation", "image_url"]
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
