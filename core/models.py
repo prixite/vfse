@@ -31,6 +31,30 @@ class User(AbstractUser):
 
     is_supermanager = models.BooleanField(default=False)
 
+    @property
+    def modalities(self):
+        return sorted(
+            Modality.objects.filter(
+                id__in=self.usermodality_set.all().values_list("modality")
+            )
+        )
+
+    @property
+    def health_networks(self):
+        return sorted(
+            OrganizationHealthNetwork.objects.filter(
+                id__in=self.userhealthnetwork_set.all().values_list(
+                    "organization_health_network"
+                )
+            )
+            .select_related("health_network")
+            .values_list("health_network__name", flat=True)
+        )
+
+    @property
+    def organizations(self):
+        return self.get_organizations().values_list("organization__name", flat=True)
+
     def get_initials(self):
         if any([self.first_name, self.last_name]):
             return " ".join([self.first_name[0], self.last_name[0]])
@@ -93,10 +117,10 @@ class User(AbstractUser):
 
 
 class UserModality(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="modalities"
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    modality = models.ForeignKey(
+        "Modality", on_delete=models.CASCADE, related_name="modalities"
     )
-    modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -136,9 +160,7 @@ class UserSystem(models.Model):
 
 
 class UserHealthNetwork(models.Model):
-    user = models.ForeignKey(
-        "User", on_delete=models.CASCADE, related_name="health_networks"
-    )
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     organization_health_network = models.ForeignKey(
         "OrganizationHealthNetwork", on_delete=models.CASCADE
     )
