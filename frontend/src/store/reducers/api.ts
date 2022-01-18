@@ -662,9 +662,15 @@ export type Modality = {
   id?: number;
   name: string;
 };
+export type HealthNetworkCreate = {
+  id?: number | null;
+  name: string;
+  appearance?: Appearance;
+  sites?: MetaSite[];
+};
 export type OrganizationHealthNetwork = {
   id?: number;
-  health_networks: HealthNetwork[];
+  health_networks: HealthNetworkCreate[];
 };
 export type Seat = {
   system: number;
@@ -678,9 +684,15 @@ export type Site = {
   address: string;
   modalities?: string[];
 };
+export type SiteCreate = {
+  id?: number | null;
+  name: string;
+  address: string;
+  modalities?: string[];
+};
 export type OrganizationSite = {
   id?: number;
-  sites: Site[];
+  sites: SiteCreate[];
 };
 export type HisRisInfo = {
   ip: string;

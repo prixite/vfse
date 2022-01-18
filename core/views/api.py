@@ -1,10 +1,9 @@
 import json
-from os import remove
 
 import boto3
 from django.db import transaction
-from django.db.models.query import Prefetch
 from django.db.models import Q
+from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -145,11 +144,11 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             if item not in validated_data:
                 validated_data.append(item)
 
-        for health_network in  validated_data or []:
+        for health_network in validated_data or []:
             obj, created = models.Organization.objects.filter(
-                Q(id=health_network.get('id',None))| Q(name=health_network['name'])
+                Q(id=health_network.get("id", None)) | Q(name=health_network["name"])
             ).update_or_create(
-                id=health_network.pop('id',None),
+                id=health_network.pop("id", None),
                 defaults=health_network,
             )
             health_networks.append(obj)
@@ -206,24 +205,24 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     @transaction.atomic
     def perform_update(self, serializer):
         names = []
-        validted_sites =[]
+        validted_sites = []
         for item in serializer.validated_data["sites"]:
             if item not in validted_sites:
                 validted_sites.append(item)
         for site in validted_sites or []:
-            object,created = models.Site.objects.filter(
-                Q(id=site.get('id',None))| Q(name=site['name']),
+            object, created = models.Site.objects.filter(
+                Q(id=site.get("id", None)) | Q(name=site["name"]),
             ).update_or_create(
-                id=site.pop('id',None),
+                id=site.pop("id", None),
                 organization_id=self.kwargs["pk"],
-                defaults={**site,'organization_id':self.kwargs['pk']},
+                defaults={**site, "organization_id": self.kwargs["pk"]},
             )
             names.append(object.name)
-        
+
         removed_sites = models.Site.objects.filter(
             organization=self.kwargs["pk"],
         ).exclude(name__in=names)
-        
+
         models.System.objects.filter(site__in=removed_sites).delete()
         removed_sites.delete()
 

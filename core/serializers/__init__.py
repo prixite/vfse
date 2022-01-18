@@ -36,8 +36,10 @@ class SiteSerializer(serializers.ModelSerializer):
         model = models.Site
         fields = ["id", "name", "address", "modalities"]
 
+
 class SiteCreateSerializer(SiteSerializer):
-    id = serializers.IntegerField(allow_null=True,default=None)
+    id = serializers.IntegerField(allow_null=True, default=None)
+
 
 class OrganizationSiteSerializer(serializers.ModelSerializer):
     # Make it write only to avoid nplusone error. This update method in base
@@ -148,10 +150,11 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
 
 
 class HealthNetworkCreateSerializer(HealthNetworkSerializer):
-    id = serializers.IntegerField(allow_null=True,default=None)
+    id = serializers.IntegerField(allow_null=True, default=None)
+
 
 class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
-    health_networks = HealthNetworkCreateSerializer(many=True,write_only=True)
+    health_networks = HealthNetworkCreateSerializer(many=True, write_only=True)
 
     class Meta:
         model = models.Organization
