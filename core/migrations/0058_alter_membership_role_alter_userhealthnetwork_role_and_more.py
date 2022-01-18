@@ -7,33 +7,73 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0057_remove_system_service_web_browser_remove_system_ssh_and_more'),
+        ("core", "0057_remove_system_service_web_browser_remove_system_ssh_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='membership',
-            name='role',
-            field=models.CharField(choices=[('fse-admin', 'FSE Admin'), ('customer-admin', 'Customer Admin'), ('user-admin', 'User Admin'), ('fse', 'Field Service Engineer'), ('end-user', 'End User'), ('view-only', 'View Only'), ('one-time', 'One Time'), ('cryo', 'Cryo'), ('cryo-fse', 'Cryo FSE'), ('cryo-admin', 'Cryo Admin'), ('lambda-admin', 'Lambda Admin')], default='fse', max_length=32),
+            model_name="membership",
+            name="role",
+            field=models.CharField(
+                choices=[
+                    ("fse-admin", "FSE Admin"),
+                    ("customer-admin", "Customer Admin"),
+                    ("user-admin", "User Admin"),
+                    ("fse", "Field Service Engineer"),
+                    ("end-user", "End User"),
+                    ("view-only", "View Only"),
+                    ("one-time", "One Time"),
+                    ("cryo", "Cryo"),
+                    ("cryo-fse", "Cryo FSE"),
+                    ("cryo-admin", "Cryo Admin"),
+                    ("lambda-admin", "Lambda Admin"),
+                ],
+                default="fse",
+                max_length=32,
+            ),
         ),
         migrations.AlterField(
-            model_name='userhealthnetwork',
-            name='role',
-            field=models.CharField(choices=[('fse-admin', 'FSE Admin'), ('customer-admin', 'Customer Admin'), ('user-admin', 'User Admin'), ('fse', 'Field Service Engineer'), ('end-user', 'End User'), ('view-only', 'View Only'), ('one-time', 'One Time'), ('cryo', 'Cryo'), ('cryo-fse', 'Cryo FSE'), ('cryo-admin', 'Cryo Admin'), ('lambda-admin', 'Lambda Admin')], default='fse', max_length=32),
+            model_name="userhealthnetwork",
+            name="role",
+            field=models.CharField(
+                choices=[
+                    ("fse-admin", "FSE Admin"),
+                    ("customer-admin", "Customer Admin"),
+                    ("user-admin", "User Admin"),
+                    ("fse", "Field Service Engineer"),
+                    ("end-user", "End User"),
+                    ("view-only", "View Only"),
+                    ("one-time", "One Time"),
+                    ("cryo", "Cryo"),
+                    ("cryo-fse", "Cryo FSE"),
+                    ("cryo-admin", "Cryo Admin"),
+                    ("lambda-admin", "Lambda Admin"),
+                ],
+                default="fse",
+                max_length=32,
+            ),
         ),
         migrations.AlterField(
-            model_name='userhealthnetwork',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.user'),
+            model_name="userhealthnetwork",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="core.user"
+            ),
         ),
         migrations.AlterField(
-            model_name='usermodality',
-            name='modality',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='modalities', to='core.modality'),
+            model_name="usermodality",
+            name="modality",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="modalities",
+                to="core.modality",
+            ),
         ),
         migrations.AlterField(
-            model_name='usermodality',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.user'),
+            model_name="usermodality",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="core.user"
+            ),
         ),
     ]
