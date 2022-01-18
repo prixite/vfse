@@ -1,11 +1,6 @@
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import { useState, useEffect } from "react";
+
+import { DataGrid } from "@mui/x-data-grid";
 
 import EditLogo from "@src/assets/svgs/Edit.svg";
 import LinkLogo from "@src/assets/svgs/Link.svg";
@@ -15,31 +10,100 @@ import { useProductsModelsListQuery } from "@src/store/reducers/api";
 
 import TopTableFilters from "../TopTableFilters/TopTableFilters";
 
-const StyledTableCell = styled(TableCell)(() => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "#F9FAFB",
-    color: "#6B7280",
-    borderBottom: "1px solid #E5E7EB",
+const columns = [
+  {
+    field: "name",
+    headerName: "SYSTEM NAME",
+    width: 230,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
   },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+  {
+    field: "manufacturer",
+    headerName: "MANUFACTURER",
+    width: 250,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
   },
-}));
+  {
+    field: "modality",
+    headerName: "MODALITY",
+    width: 250,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
+    field: "documentation",
+    headerName: "DOCUMENTATION LINK",
+    width: 250,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+];
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
+const headers = [
+  {
+    field: "name",
+    headerName: "SYSTEM NAME",
+    width: 230,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
   },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
+  {
+    field: "manufacturer",
+    headerName: "MANUFACTURER",
+    width: 250,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
   },
-}));
+];
 
 export default function DocumentationSection() {
   const { title } = localizedData().documentation;
+  const [tableColumns, setTableColumns] = useState(columns);
+  const [columnHeaders, setColumnHeaders] = useState(headers);
+  const [pageSize, setPageSize] = useState(14);
+  const [docData, setDocData] = useState([]);
+  const [hideModality, setHideModality] = useState(false);
+  const [hideLink, setHideLink] = useState(false);
 
-  const { data: rows, isLoading } = useProductsModelsListQuery({ page: 1 });
+  const { data: rows, isLoading } = useProductsModelsListQuery();
+
+  useEffect(() => {
+    const dataArray = [];
+    rows?.map((row) => {
+      const obj = {
+        id: row.id,
+        name: row.product.name,
+        manufacturer: row.product.manufacturer.name,
+        modality: row.modality.name,
+        documentation: row.documentation.url,
+      };
+      dataArray.push(obj);
+    });
+    return setDocData([...dataArray]);
+  }, [rows]);
+
+  useEffect(() => {
+    if (tableColumns[2]?.hide === true) {
+      setHideModality(true);
+    } else {
+      setHideModality(false);
+    }
+    if (tableColumns[3]?.hide === true) {
+      setHideLink(true);
+    } else {
+      setHideLink(false);
+    }
+    const headers = [tableColumns[0], tableColumns[1]];
+    setColumnHeaders(headers);
+  }, [tableColumns]);
 
   if (isLoading) {
     return <p>Loading</p>;
@@ -77,41 +141,62 @@ export default function DocumentationSection() {
   return (
     <div className="documentaion-section">
       <h2>{title}</h2>
-      <TopTableFilters />
-      <TableContainer component={Paper} style={{ marginTop: "30px" }}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>SYSTEM NAME</StyledTableCell>
-              <StyledTableCell align="right">MANUFACTURER</StyledTableCell>
-              <StyledTableCell align="right">MODALITY</StyledTableCell>
-              <StyledTableCell align="right">
-                DOCUMENTATION LINK
-              </StyledTableCell>
-              <StyledTableCell align="right">ACTION</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row, index) => (
-              <StyledTableRow key={index}>
-                <StyledTableCell>
-                  <span className="dark-text">{row.product.name}</span>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {row.product.manufacturer.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {renderModalities([row.modality.name])}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {documentationLink(row.documentation.url)}
-                </StyledTableCell>
-                <StyledTableCell align="right">{actionLink()}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <TopTableFilters
+        tableColumns={tableColumns}
+        setTableColumns={setTableColumns}
+      />
+      <div style={{ marginTop: "30px" }}>
+        <DataGrid
+          rows={docData}
+          autoHeight
+          columns={[
+            ...columnHeaders,
+            {
+              field: "MODALITY",
+              disableColumnMenu: true,
+              width: 250,
+              hide: hideModality,
+              sortable: false,
+              renderCell: (cellValues) =>
+                renderModalities([cellValues.row.modality]),
+            },
+            {
+              field: "DOCUMENTATION LINK",
+              disableColumnMenu: true,
+              width: 450,
+              hide: hideLink,
+              sortable: false,
+              renderCell: (cellValues) =>
+                documentationLink(cellValues.row.documentation),
+            },
+            {
+              field: "Actions",
+              headerAlign: "center",
+              align: "center",
+              disableColumnMenu: true,
+              width: 85,
+              sortable: false,
+              renderCell: () => (
+                <div
+                  // onClick={handleClick}
+                  style={{
+                    cursor: "pointer",
+                    padding: "15px",
+                    marginLeft: "auto",
+                    marginTop: "10px",
+                  }}
+                >
+                  {actionLink()}
+                </div>
+              ),
+            },
+          ]}
+          loading={isLoading}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[14, 16, 18, 20]}
+        />
+      </div>
     </div>
   );
 }

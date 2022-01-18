@@ -28,12 +28,16 @@
   .documentaion-link {
     display: flex;
     flex-direction: row;
-    padding: 8px 45px 8px 13px;
+    align-items: center;
+    // padding: 8px 45px 8px 13px;
     border: 1px solid #d4d6db;
     border-radius: 6px;
-    width: fit-content;
+    height: 40px;
+    width: -webkit-fill-available;
     .img {
-      margin-right: 12px;
+      height: 23px;
+      width: 23px;
+      margin: 0px 12px;
     }
   }
 }
