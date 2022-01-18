@@ -16,7 +16,7 @@ interface Props {
 const NoDataFound = ({
   search,
   setQuery,
-  queryText,
+  queryText, // eslint-disable-line
   title,
   description,
 }: Props) => {
@@ -32,9 +32,7 @@ const NoDataFound = ({
   return (
     <Box component="div" className="NotFound">
       <div className="NotFound__content">
-        <h3 className="title">
-          {title} {queryText}
-        </h3>
+        <h3 className="title">{title}</h3>
         <p className="description">{description}</p>
         <Button className="Backbtn" onClick={handleBack}>
           {backbtn}
