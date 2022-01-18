@@ -4,11 +4,31 @@ import { Box, Button, InputAdornment, TextField } from "@mui/material";
 
 import ArrowDown from "@src/assets/svgs/arrow-long.svg";
 import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
+import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/TopTableFilters/TopTableFilters.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
-const TopTableFilters = () => {
-  const { btnFilter, btnCol, btnAsset } = localizedData().documentation;
+interface Props {
+  tableColumns?: {
+    field: string;
+    headerName: string;
+    width: number;
+    hide: boolean;
+    disableColumnMenu: boolean;
+  }[];
+  setTableColumns?: (
+    arg: {
+      field: string;
+      headerName: string;
+      width: number;
+      hide: boolean;
+      disableColumnMenu: boolean;
+    }[]
+  ) => void;
+}
+
+const TopTableFilters = ({ tableColumns, setTableColumns }: Props) => {
+  const { btnFilter, btnAsset } = localizedData().documentation;
 
   return (
     <>
@@ -20,18 +40,10 @@ const TopTableFilters = () => {
               <span>{btnFilter}</span>
             </div>
           </Button>
-          <Button variant="contained" className="Filterbtn">
-            <div className="btn-content" style={{ textTransform: "none" }}>
-              <span>{`${btnCol} 8/14`}</span>
-              <span className="coloumns-icon">
-                <img
-                  style={{ transform: "rotate(180deg)", marginBottom: "5px" }}
-                  src={ArrowUpIcon}
-                />
-                <img src={ArrowUpIcon} />
-              </span>
-            </div>
-          </Button>
+          <ColumnSelector
+            tableColumns={tableColumns}
+            setTableColumns={setTableColumns}
+          />
           <Button variant="contained" className="Filterbtn">
             <div className="btn-content" style={{ textTransform: "none" }}>
               <div
