@@ -137,10 +137,16 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             organization_id=self.kwargs["pk"]
         ).delete()
         health_networks = []
-        for health_network in serializer.validated_data["health_networks"] or []:
-            obj, created = models.Organization.objects.get_or_create(
-                name=health_network["name"],
-                defaults={"appearance": {"logo": health_network["appearance"]["logo"]}},
+        validated_data = []
+
+        for item in serializer.validated_data["health_networks"]:
+            if item not in validated_data:
+                validated_data.append(item)
+
+        for health_network in validated_data or []:
+            obj, created = models.Organization.objects.update_or_create(
+                id=health_network.pop("id", None),
+                defaults=health_network,
             )
             health_networks.append(obj)
             if obj.id == self.kwargs["pk"]:
@@ -148,7 +154,6 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                     detail=f"Cannot create self relation organization {obj.name}",
                 )
 
-        health_networks = set(health_networks)
         models.OrganizationHealthNetwork.objects.bulk_create(
             [
                 models.OrganizationHealthNetwork(
@@ -197,14 +202,18 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     @transaction.atomic
     def perform_update(self, serializer):
         names = []
-        for site in serializer.validated_data["sites"]:
-            names.append(site["name"])
-            models.Site.objects.get_or_create(
-                name=site["name"],
+        validted_sites = []
+        for item in serializer.validated_data["sites"]:
+            if item not in validted_sites:
+                validted_sites.append(item)
+        for site in validted_sites or []:
+            site_obj, created = models.Site.objects.update_or_create(
+                id=site.pop("id", None),
                 organization_id=self.kwargs["pk"],
-                defaults={"address": site["address"]},
+                defaults={**site, "organization_id": self.kwargs["pk"]},
             )
-        names = set(names)
+            names.append(site_obj.name)
+
         removed_sites = models.Site.objects.filter(
             organization=self.kwargs["pk"],
         ).exclude(name__in=names)

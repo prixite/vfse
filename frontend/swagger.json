@@ -1597,6 +1597,37 @@
                 }
             }
         },
+        "HealthNetworkCreate": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Id",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "appearance": {
+                    "$ref": "#/definitions/HealthNetworkAppearance"
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MetaSite"
+                    },
+                    "readOnly": true
+                }
+            }
+        },
         "OrganizationHealthNetwork": {
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
@@ -1613,7 +1644,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/HealthNetwork"
+                        "$ref": "#/definitions/HealthNetworkCreate"
                     }
                 }
             }
@@ -1682,6 +1713,41 @@
                 }
             }
         },
+        "SiteCreate": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Id",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "modalities": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "readOnly": true
+                }
+            }
+        },
         "OrganizationSite": {
             "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
@@ -1698,7 +1764,7 @@
                     "description": "",
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/Site"
+                        "$ref": "#/definitions/SiteCreate"
                     }
                 }
             }

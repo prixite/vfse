@@ -37,10 +37,14 @@ class SiteSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "address", "modalities"]
 
 
+class SiteCreateSerializer(SiteSerializer):
+    id = serializers.IntegerField(allow_null=True, default=None)
+
+
 class OrganizationSiteSerializer(serializers.ModelSerializer):
     # Make it write only to avoid nplusone error. This update method in base
     # class of DRF invalidates the prefetch cache.
-    sites = SiteSerializer(many=True, write_only=True)
+    sites = SiteCreateSerializer(many=True, write_only=True)
 
     class Meta:
         model = models.Organization
@@ -145,8 +149,12 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
         ]
 
 
+class HealthNetworkCreateSerializer(HealthNetworkSerializer):
+    id = serializers.IntegerField(allow_null=True, default=None)
+
+
 class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
-    health_networks = HealthNetworkSerializer(many=True, write_only=True)
+    health_networks = HealthNetworkCreateSerializer(many=True, write_only=True)
 
     class Meta:
         model = models.Organization
