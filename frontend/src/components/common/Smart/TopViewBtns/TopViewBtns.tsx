@@ -61,6 +61,7 @@ interface Props {
     }[]
   ) => void;
   setAction?: Dispatch<SetStateAction<string>>;
+  hasData: boolean;
 }
 
 const TopViewBtns = ({
@@ -76,6 +77,7 @@ const TopViewBtns = ({
   tableColumns,
   setTableColumns,
   setAction,
+  hasData,
 }: Props) => {
   const history = useHistory();
   const queryParams = new URLSearchParams(location?.search);
@@ -383,7 +385,7 @@ const TopViewBtns = ({
             ""
           )}
 
-          {path == "users" ? (
+          {path == "users" && hasData ? (
             <ColumnSelector
               tableColumns={tableColumns}
               setTableColumns={setTableColumns}

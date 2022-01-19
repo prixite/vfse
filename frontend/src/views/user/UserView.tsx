@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -47,6 +47,7 @@ export default function UserView() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [searchText, setSearchText] = useState("");
   const openModal = Boolean(anchorEl);
+  const [hasData, setHasData] = useState(false);
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
@@ -58,6 +59,16 @@ export default function UserView() {
   });
 
   const [userList, setUserList] = useState({});
+
+  // useEffect(() => {
+  //   if( searchText.length > 2 && userList?.results.length ){
+  //     setHasData(true);
+  //   } else if( items?.length && searchText.length <= 2){
+  //     setHasData(true);
+  //   } else{
+  //     setHasData(false);
+  //   }
+  // }, [searchText, userList?.results, items])
 
   if (isLoading) {
     return <p>Loading</p>;
@@ -86,6 +97,7 @@ export default function UserView() {
         actualData={items}
         searchText={searchText}
         setSearchText={setSearchText}
+        hasData={hasData}
       />
 
       <AddUser open={open} handleClose={handleClose} />
