@@ -2,7 +2,6 @@ import json
 
 import boto3
 from django.db import transaction
-from django.db.models import Q
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
