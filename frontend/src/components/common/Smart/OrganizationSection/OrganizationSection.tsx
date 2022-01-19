@@ -145,7 +145,7 @@ const OrganizationSection = () => {
                   <div
                     style={{
                       color: "gray",
-                      marginLeft: "50%",
+                      marginLeft: "45%",
                       marginTop: "20%",
                     }}
                   >

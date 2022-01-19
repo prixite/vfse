@@ -87,7 +87,7 @@ export default function DocumentationSection() {
       };
       dataArray.push(obj);
     });
-    return setDocData([...dataArray]);
+    setDocData([...dataArray]);
   }, [rows]);
 
   useEffect(() => {
@@ -104,10 +104,6 @@ export default function DocumentationSection() {
     const headers = [tableColumns[0], tableColumns[1]];
     setColumnHeaders(headers);
   }, [tableColumns]);
-
-  if (isLoading) {
-    return <p>Loading</p>;
-  }
 
   const renderModalities = (modalities) => {
     return (
