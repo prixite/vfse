@@ -123,6 +123,7 @@ export default function SiteModal(props: siteProps) {
 
   const getSiteObject = () => {
     return {
+      id: props?.siteId,
       name: siteName,
       address: siteAddress,
     };

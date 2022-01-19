@@ -31,7 +31,7 @@
         "title": "All Networks",
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
-        "noDataTitle": "No data found.",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
         "cardPopUp":
         {
@@ -59,7 +59,7 @@
         "btnAdd": "Add Site",
         "btnEdit": "Edit Site",
         "noResultMsg": "no results found",
-        "noDataTitle": "No data found.",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
         "popUp":{
             "popUpNewNetwork": "Add Network",
@@ -92,9 +92,9 @@
         "btnFilter": "Filter",
         "btnCol": "Columns",
         "btnAsset": "Sort by Asset #",
-        "noDataTitle": "No data found.",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
-        "btnAdd": "Add Systems"
+        "btnAdd": "Add System"
     },
     "systems_card": {
         "his_ris_info_txt": "HIS/RIS info",
@@ -114,8 +114,8 @@
     "organization":{
         "title": "All Clients",
         "btnFilter": "Filter",
-        "btnAdd": "Add Clients",
-        "noDataTitle": "No data found.",
+        "btnAdd": "Add Client",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
         "newHealthNetwork": " New Health Network",
         "popUp":{
@@ -150,7 +150,7 @@
         "backbtn" : "GO BACK"
     },
     "dataNotFound" : {
-        "title" : "No data found.!",
+        "title" : "Sorry! no results found :(",
         "description" : "Try Again",
         "backbtn" : "GO BACK"
     },
