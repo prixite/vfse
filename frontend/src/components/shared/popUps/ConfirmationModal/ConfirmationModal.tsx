@@ -23,7 +23,7 @@ const ConfirmationModal = ({
   handleDeleteOrganization,
   name,
 }: Props) => {
-  const { buttonBackground, buttonTextColor } = useAppSelector(
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
   const { dialogMessage, noButton, yesButton } =
@@ -41,7 +41,7 @@ const ConfirmationModal = ({
         <DialogActions className="ConfirmationModal__Actions">
           <Button
             style={{
-              backgroundColor: buttonBackground,
+              backgroundColor: secondaryColor,
               color: buttonTextColor,
             }}
             className="btnModal"

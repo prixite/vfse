@@ -14,10 +14,10 @@
     background-color: white;
     border-radius: 4px;
     .machine {
-      margin-top: 15px;
+      margin-top: 10px;
       width: 22%;
       .name {
-        padding-bottom: 25px;
+        // padding-bottom: 25px;
         margin-bottom: 7px;
       }
       .image {
@@ -30,7 +30,7 @@
       display: flex;
       flex-direction: column;
       // justify-content: space-between;
-      width: 40%;
+      width: 45%;
       padding: 0px 50px;
       margin-top: 10px;
       border-left: 1px solid #d4d6db;
@@ -73,8 +73,8 @@
     }
     .info-section {
       width: 23%;
-      padding: 10px 50px;
-      border-right: 1px solid #d4d6db;
+      padding: 10px 0px;
+      // border-right: 1px solid #d4d6db;
       .option {
         color: #94989e;
         margin-bottom: 18px;
@@ -86,15 +86,16 @@
     .btn-section {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 28px 0;
-      width: 15%;
+      // justify-content: center;
+      // align-items: center;
+      //width: 15%;
+      // padding: 28px 0;
+      // padding-left: 2%;
 
       button {
-        margin: 40px;
+        margin: 10px 0px;
         height: 40px;
-        width: 143px;
+        width: 80%;
         text-transform: capitalize;
         border-radius: 6px;
         font-size: 13px;
@@ -109,6 +110,8 @@
         color: #696f77;
         border: 1px solid black;
         box-shadow: none;
+        height: max-content;
+        padding: 6px 12px;
       }
     }
   }

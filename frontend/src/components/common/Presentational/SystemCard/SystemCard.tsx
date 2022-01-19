@@ -70,6 +70,27 @@ const SystemCard = ({
         <div className="machine">
           <p className="name">{name}</p>
           <img className="image" src={image == "" ? Machine : image} />
+          <div className="btn-section">
+            <Button
+              style={{
+                backgroundColor: buttonBackground,
+                color: buttonTextColor,
+              }}
+              className="connect-btn"
+            >
+              {connect}
+            </Button>
+            <Button
+              variant="contained"
+              className="link-btn"
+              onClick={() => window?.open(grafana_link, "_blank")}
+            >
+              <div className="btn-content">
+                <img src={AttachmentIcon} className="icon" />
+                <span>{grafana_link_txt}</span>
+              </div>
+            </Button>
+          </div>
         </div>
         <div className="features-section">
           <div className="features">
@@ -148,27 +169,6 @@ const SystemCard = ({
             {location} <br />
             <strong>{location_in_building}</strong>
           </p>
-        </div>
-        <div className="btn-section">
-          <Button
-            style={{
-              backgroundColor: buttonBackground,
-              color: buttonTextColor,
-            }}
-            className="connect-btn"
-          >
-            {connect}
-          </Button>
-          <Button
-            variant="contained"
-            className="link-btn"
-            onClick={() => window?.open(grafana_link, "_blank")}
-          >
-            <div className="btn-content">
-              <img src={AttachmentIcon} className="icon" />
-              <span>{grafana_link_txt}</span>
-            </div>
-          </Button>
         </div>
       </Box>
       <div>

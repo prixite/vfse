@@ -354,7 +354,7 @@ export default function AddUser(props: Props) {
         <Button
           style={{
             backgroundColor: secondaryColor,
-            color: buttonBackground,
+            color: buttonTextColor,
           }}
           onClick={props.handleClose}
           className="cancel-btn"

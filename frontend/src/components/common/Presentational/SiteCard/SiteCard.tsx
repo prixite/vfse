@@ -92,9 +92,9 @@ const SiteCard = ({
             : `/${organizationRoute}/${id}/${networkRoute}/${networkId}/${sitesRoute}/${siteId}/${systemsRoute}`
         }
         key={id}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", height: "100%" }}
       >
-        <Box component="div">
+        <Box component="div" style={{ height: "100%" }}>
           <div className="SiteCard__Header">
             <h3 className="ClientName">{name}</h3>
             <div className="location-logo">
