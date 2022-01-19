@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import Popover from "@mui/material/Popover";
-import Typography from "@mui/material/Typography";
 import { useHistory } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
@@ -14,6 +13,7 @@ import {
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
+import "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver.scss";
 
 interface Props {
   user: User;
@@ -78,21 +78,26 @@ const ProfilePopOver = ({ user, className }: Props) => {
           horizontal: "left",
         }}
       >
-        <Typography sx={{ p: 1 }}>
+        <div
+          className="profile-item"
+          style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
+        >
           {" "}
           <a
-            style={{ textDecoration: "none", cursor: "pointer" }}
+            style={{ textDecoration: "none" }}
             onClick={(e) => setDefaultOrganization(e)}
           >
-            default organization
+            Default Organization
           </a>
-        </Typography>
-        <Typography sx={{ p: 1 }}>
+        </div>
+        <div
+          onClick={() => (location.href = "/accounts/logout/")}
+          className="profile-item"
+          style={{ padding: "4px 8px 8px 8px", cursor: "pointer" }}
+        >
           {" "}
-          <a href="/accounts/logout/" style={{ textDecoration: "none" }}>
-            Logout
-          </a>
-        </Typography>
+          <a style={{ textDecoration: "none" }}>Logout</a>
+        </div>
       </Popover>
     </div>
   );

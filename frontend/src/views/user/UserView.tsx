@@ -54,7 +54,7 @@ export default function UserView() {
     (state) => state.organization.selectedOrganization
   );
   const { data: items, isLoading } = useOrganizationsUsersListQuery({
-    organizationPk: selectedOrganization.id.toString(),
+    id: selectedOrganization.id.toString(),
   });
 
   const [userList, setUserList] = useState({});
