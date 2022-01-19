@@ -145,9 +145,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                 validated_data.append(item)
 
         for health_network in validated_data or []:
-            obj, created = models.Organization.objects.filter(
-                Q(id=health_network.get("id", None)) | Q(name=health_network["name"])
-            ).update_or_create(
+            obj, created = models.Organization.objects.update_or_create(
                 id=health_network.pop("id", None),
                 defaults=health_network,
             )
@@ -210,14 +208,12 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             if item not in validted_sites:
                 validted_sites.append(item)
         for site in validted_sites or []:
-            object, created = models.Site.objects.filter(
-                Q(id=site.get("id", None)) | Q(name=site["name"]),
-            ).update_or_create(
+            site_obj, created = models.Site.objects.update_or_create(
                 id=site.pop("id", None),
                 organization_id=self.kwargs["pk"],
                 defaults={**site, "organization_id": self.kwargs["pk"]},
             )
-            names.append(object.name)
+            names.append(site_obj.name)
 
         removed_sites = models.Site.objects.filter(
             organization=self.kwargs["pk"],
