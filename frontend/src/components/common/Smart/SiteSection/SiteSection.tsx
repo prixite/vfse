@@ -83,7 +83,7 @@ const SiteSection = () => {
                 />
               ) : (
                 <div
-                  style={{ color: "gray", marginLeft: "50%", marginTop: "20%" }}
+                  style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}
                 >
                   <h2>{searching}</h2>
                 </div>
