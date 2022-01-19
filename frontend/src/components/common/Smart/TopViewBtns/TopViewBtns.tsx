@@ -18,12 +18,13 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import debounce from "debounce";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import ArrowDown from "@src/assets/svgs/arrow-long.svg";
 // import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
+import "@src/components/common/Smart/TopViewBtns/TopViewBtns.scss";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
@@ -76,6 +77,8 @@ const TopViewBtns = ({
   setTableColumns,
   setAction,
 }: Props) => {
+  const history = useHistory();
+  const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
   const [network, setNetwork] = useState([]);
   const [site, setSite] = useState([]);
@@ -113,6 +116,37 @@ const TopViewBtns = ({
       id: id,
     });
 
+  useEffect(() => {
+    if (!isNetworkDataLoading && !networkId) {
+      const networkParam = queryParams?.get("health_network");
+      if (networkParam !== null && network.length == 0) {
+        networkFilter(
+          networksData?.filter((item) => networkParam == item?.id.toString())[0]
+        );
+        const list = networksData?.filter(
+          (item) => networkParam == item?.id.toString()
+        );
+        if (list?.length) {
+          setNetwork([list[0].name]);
+        }
+      }
+    }
+  }, [isNetworkDataLoading]);
+
+  useEffect(() => {
+    if (!isSitesFetching && !siteId) {
+      const siteParam = queryParams?.get("site");
+      if (siteParam !== null && site.length == 0) {
+        const list = sitesData?.filter(
+          (item) => siteParam == item?.id.toString()
+        );
+        if (list?.length) {
+          setSite([list[0].name]);
+        }
+      }
+    }
+  }, [isSitesFetching]);
+
   const handleInput = (e) => {
     setSearchText(e.target.value);
   };
@@ -148,26 +182,39 @@ const TopViewBtns = ({
   };
 
   const handleClickNetwork = (event) => {
-    if (network?.length && event?.target?.outerText == network) {
-      setNetwork([]);
-      networkFilter({});
-    } else {
-      setNetwork(event?.target?.outerText);
-      networkFilter(
-        networksData?.filter((item) => event.target.outerText == item.name)[0]
-      );
+    if (event?.target?.outerText !== "") {
+      if (network?.length && event?.target?.outerText == network) {
+        setNetwork([]);
+        networkFilter({});
+        queryParams.delete("health_network");
+        history.replace({
+          search: queryParams.toString(),
+        });
+      } else {
+        queryParams.delete("health_network");
+        setNetwork([event?.target?.outerText]);
+        networkFilter(
+          networksData?.filter((item) => event.target.outerText == item.name)[0]
+        );
+      }
     }
   };
 
   const handleClickSite = (event) => {
-    if (site?.length && event?.target?.outerText == site) {
-      setSite([]);
-      siteFilter({});
-    } else {
-      setSite(event?.target?.outerText);
-      siteFilter(
-        sitesData?.filter((item) => event?.target?.outerText == item?.name)[0]
-      );
+    if (event?.target?.outerText !== "") {
+      if (site?.length && event?.target?.outerText == site) {
+        setSite([]);
+        siteFilter({});
+        queryParams.delete("site");
+        history.replace({
+          search: queryParams.toString(),
+        });
+      } else {
+        setSite([event?.target?.outerText]);
+        siteFilter(
+          sitesData?.filter((item) => event?.target?.outerText == item?.name)[0]
+        );
+      }
     }
   };
 
@@ -225,6 +272,7 @@ const TopViewBtns = ({
                   <Select
                     labelId="networks-dropdown"
                     id="network-dropdown"
+                    defaultValue={[]}
                     value={network}
                     onClick={handleClickNetwork}
                     style={{ width: 220 }}
@@ -232,6 +280,12 @@ const TopViewBtns = ({
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
                   >
+                    <MenuItem
+                      style={{ marginLeft: "-15px", display: "none" }}
+                      value=""
+                    >
+                      <ListItemText primary={``} />
+                    </MenuItem>
                     {networksData?.map((item, index) => (
                       <MenuItem
                         style={{ marginLeft: "-15px" }}
@@ -262,6 +316,12 @@ const TopViewBtns = ({
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
                   >
+                    <MenuItem
+                      style={{ marginLeft: "-15px", display: "none" }}
+                      value=""
+                    >
+                      <ListItemText primary={``} />
+                    </MenuItem>
                     {sitesData?.map((item, index) => (
                       <MenuItem
                         style={{ marginLeft: "-15px" }}
