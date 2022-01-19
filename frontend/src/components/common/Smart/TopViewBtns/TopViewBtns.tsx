@@ -20,7 +20,7 @@ import Select from "@mui/material/Select";
 import debounce from "debounce";
 import { useHistory, useParams } from "react-router-dom";
 
-import ArrowDown from "@src/assets/svgs/arrow-long.svg";
+// import ArrowDown from "@src/assets/svgs/arrow-long.svg";
 // import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
@@ -96,7 +96,7 @@ const TopViewBtns = ({
   }
   const { btnAdd } = constantData;
 
-  const { btnAsset } = localizedData().systems;
+  // const { btnAsset } = localizedData().systems;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -218,9 +218,9 @@ const TopViewBtns = ({
     }
   };
 
-  const handleSort = () => {
-    // sortSystems();
-  };
+  // const handleSort = () => {
+  //   // sortSystems();
+  // };
 
   const onEventSearch = useCallback(
     debounce((searchQuery: string) => {
@@ -264,9 +264,18 @@ const TopViewBtns = ({
             <>
               {!isNetworkDataLoading && !networkId && networksData.length ? (
                 <FormControl
-                  sx={{ m: 0, mr: 1, width: 220, background: "#ffffff" }}
+                  sx={{
+                    m: 0,
+                    mr: 1,
+                    maxWidth: "30%",
+                    minWidth: "26%",
+                    background: "#ffffff",
+                  }}
                 >
-                  <InputLabel id="networkInputLabel">
+                  <InputLabel
+                    id="networkInputLabel"
+                    style={{ marginTop: "-3px" }}
+                  >
                     Filter by network
                   </InputLabel>
                   <Select
@@ -275,7 +284,7 @@ const TopViewBtns = ({
                     defaultValue={[]}
                     value={network}
                     onClick={handleClickNetwork}
-                    style={{ width: 220 }}
+                    style={{ width: "100%", height: "100%" }}
                     input={<OutlinedInput label="Filter by network" />}
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
@@ -303,15 +312,23 @@ const TopViewBtns = ({
               )}
               {!isSitesFetching && !siteId && sitesData.length ? (
                 <FormControl
-                  sx={{ m: 0, mr: 1, width: 220, background: "#ffffff" }}
+                  sx={{
+                    m: 0,
+                    mr: 1,
+                    maxWidth: "30%",
+                    minWidth: "26%",
+                    background: "#ffffff",
+                  }}
                 >
-                  <InputLabel id="siteInputlabel">Filter by site</InputLabel>
+                  <InputLabel id="siteInputlabel" style={{ marginTop: "-3px" }}>
+                    Filter by site
+                  </InputLabel>
                   <Select
                     labelId="site-dropdown"
                     id="site-dropdown"
                     value={site}
                     onClick={handleClickSite}
-                    style={{ width: 220 }}
+                    style={{ width: "100%", height: "100%" }}
                     input={<OutlinedInput label="Filter by site" />}
                     renderValue={(selected) => selected}
                     MenuProps={dropdownStyles}
@@ -337,7 +354,8 @@ const TopViewBtns = ({
               ) : (
                 ""
               )}
-              <Button
+              {/* SORT BY ASSET BUTTON.............. */}
+              {/* <Button
                 variant="contained"
                 className="Filterbtn"
                 onClick={handleSort}
@@ -357,9 +375,9 @@ const TopViewBtns = ({
                   <span>{btnAsset}</span>
                   <span className="coloumns-icon">
                     {/* <img className="asset-image" src={ArrowUpIcon} /> */}
-                  </span>
+              {/* </span>
                 </div>
-              </Button>
+              </Button> */}
             </>
           ) : (
             ""

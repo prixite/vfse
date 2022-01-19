@@ -22,7 +22,7 @@ interface Props {
 
 export default function NewHealthNetwotkModal(props: Props) {
   const [networks, setNetworks] = useState([1]);
-  const { buttonBackground, buttonTextColor } = useAppSelector(
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
   const {
@@ -79,7 +79,7 @@ export default function NewHealthNetwotkModal(props: Props) {
       <DialogActions>
         <Button
           style={{
-            backgroundColor: buttonBackground,
+            backgroundColor: secondaryColor,
             color: buttonTextColor,
           }}
           onClick={props.handleClose}
