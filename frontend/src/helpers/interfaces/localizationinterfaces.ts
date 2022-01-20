@@ -1,5 +1,8 @@
 export interface SystemModal {
   fieldName: string;
+  fieldLocation: string;
+  fieldLink: string;
+  fieldNumber: string;
   fieldSite: string;
   fieldModal: string;
   fieldIp: string;
