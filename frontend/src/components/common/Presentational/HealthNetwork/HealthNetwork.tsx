@@ -39,8 +39,10 @@ const HealthNetwork = ({
   const [isUploading, setIsUploading] = useState(false);
   const handleNameChange = (event) => {
     const TempNetworks = [...allNetworks];
-    const { appearance } = TempNetworks[index];
-    TempNetworks[index] = { name: event.target.value, appearance };
+    const { appearance, id } = TempNetworks[index];
+    TempNetworks[index] = id
+      ? { id, name: event.target.value, appearance }
+      : { name: event.target.value, appearance };
     setNetworks([...TempNetworks]);
   };
 

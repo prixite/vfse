@@ -92,7 +92,7 @@ const updateHealthNetworkService = async (
           });
         })
         .catch((err) => {
-          toast.success(err.response, {
+          toast.error(err, {
             autoClose: 1000,
             pauseOnHover: false,
             onClose: refetch,
@@ -138,12 +138,6 @@ const addNewHealthNetworkService = async (
             onClose: refetch,
           });
         });
-    })
-    .catch(() => {
-      toast.success("HealthNetwork Add Failed", {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
     });
 };
 
