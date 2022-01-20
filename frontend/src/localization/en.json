@@ -184,6 +184,9 @@
     },
     "systemModal" : {
         "fieldName": "Name",
+        "fieldLocation": "Location in the building",
+        "fieldLink": "Documentation Link for the system",
+        "fieldNumber": "Serial Number",
         "fieldSite": "Site",
         "fieldModal": "Product Model",
         "fieldVersion": "Software Version",

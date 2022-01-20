@@ -195,8 +195,8 @@ const SystemSection = () => {
                 deceleration={0.0075}
                 horizontal
                 bound
-                zIndex={1000}
                 gap={40}
+                zIndex={1000}
                 style={{ height: "33px" }}
               >
                 <span
@@ -296,7 +296,7 @@ const SystemSection = () => {
             />
           </>
         ) : (
-          <div style={{ color: "gray", marginLeft: "50%", marginTop: "20%" }}>
+          <div style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}>
             <h2>{searching}</h2>
           </div>
         )
@@ -324,7 +324,11 @@ const SystemSection = () => {
           ))}
         </div>
       )}
-      <SystemModal open={open} handleClose={() => setOpen(false)} />
+      <SystemModal
+        open={open}
+        handleClose={() => setOpen(false)}
+        refetch={systemsRefetch}
+      />
     </Box>
   );
 };
