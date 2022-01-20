@@ -21,3 +21,12 @@ services:
       - .:/opt/code
     depends_on:
       - db
+
+  ping:
+    image: vfse_app
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    command: bash -c "python manage.py ping"
+    depends_on:
+      - app
