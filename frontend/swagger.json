@@ -2264,6 +2264,11 @@
                 },
                 "documentation": {
                     "$ref": "#/definitions/Documentation"
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "readOnly": true
                 }
             }
         },

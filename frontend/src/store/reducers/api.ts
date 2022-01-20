@@ -792,6 +792,7 @@ export type ProductModel = {
   model: string;
   modality: Modality;
   documentation: Documentation;
+  name?: string;
 };
 export type ProductModelCreate = {
   id?: number;
