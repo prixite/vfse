@@ -322,7 +322,6 @@ class OrganizationTestCase(BaseTestCase):
                 ]
             },
         )
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.other_organization.health_networks.count(), 1)
 
@@ -331,6 +330,21 @@ class OrganizationTestCase(BaseTestCase):
             org_health_network.health_network.appearance,
             {"logo": "https://picsum.photos/200"},
         )
+
+    def test_put_duplicate_health_network(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.other_organization.id}/health_networks/",
+            data={
+                "health_networks": [
+                    {
+                        "name": self.organization.name,
+                        "appearance": {"logo": "https://picsum.photos/200"},
+                    }
+                ]
+            },
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_put_organization_site(self):
         self.client.force_login(self.super_admin)
@@ -421,6 +435,18 @@ class OrganizationTestCase(BaseTestCase):
             ).count(),
             1,
         )
+
+    def test_put_existing_organization_site(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "sites": [
+                    {"name": self.site.name, "address": "There's no address"},
+                ]
+            },
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_self_relation_organization_health_network(self):
         self.client.force_login(self.super_admin)
