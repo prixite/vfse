@@ -7,6 +7,11 @@
       padding: 20px 22px;
     }
   }
+  .errorText{
+    color: #ff1744;
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
   .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
     height: 1.8em;
   }
@@ -123,7 +128,6 @@
           border-radius: 5px;
           .info-field {
             width: 100%;
-            height: 100%;
             .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
               border: 1px solid #d4d6db;
               border-radius: 8px;

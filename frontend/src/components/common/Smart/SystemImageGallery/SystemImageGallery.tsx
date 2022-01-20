@@ -1,26 +1,32 @@
-import { useState, useRef, useEffect } from "react";
+import { SetStateAction, useState, useRef, Dispatch, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
 
 import { useSystemsImagesListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/SystemImageGallery/SystemImageGallery.scss";
+import { number } from "prop-types";
 
-const SystemImageGallery = () => {
-  const [selectedImage, setSelectedImage] = useState(""); // eslint-disable-line
+interface galleryProps {
+  setSystemImage: Dispatch<SetStateAction<number>>;
+}
+
+const SystemImageGallery = ({setSystemImage} : galleryProps) => {
   const [index, setIndex] = useState(0);
   const carouselRef = useRef(null);
   const { data, isFetching } = useSystemsImagesListQuery();
 
   useEffect(() => {
     if (data?.length) {
-      setSelectedImage(data[0]?.image);
+      setSystemImage(data[0]?.id);
     }
   }, [data]);
 
-  const handleSelectedImage = (id, image) => {
+  const handleSelectedImage = (id, imageId) => {
+    const image= parseInt(imageId)
     setIndex(id);
-    setSelectedImage(image);
+    setSystemImage(image);
   };
+
   return (
     <div className="systemGallery">
       {/* <div className="selectedImage">
@@ -43,7 +49,7 @@ const SystemImageGallery = () => {
             <div
               className="image"
               key={imgIndex}
-              onClick={() => handleSelectedImage(imgIndex, image.image)}
+              onClick={() => handleSelectedImage(imgIndex, image?.id)}
             >
               <img
                 src={image.image}

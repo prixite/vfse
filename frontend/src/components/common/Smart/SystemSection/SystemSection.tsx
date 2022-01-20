@@ -323,7 +323,7 @@ const SystemSection = () => {
           ))}
         </div>
       )}
-      <SystemModal open={open} handleClose={() => setOpen(false)} />
+      <SystemModal open={open} handleClose={() => setOpen(false)} refetch={systemsRefetch}/>
     </Box>
   );
 };
