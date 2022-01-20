@@ -3,14 +3,14 @@ import { SetStateAction, useState, useRef, Dispatch, useEffect } from "react";
 import Flicking from "@egjs/react-flicking";
 
 import { useSystemsImagesListQuery } from "@src/store/reducers/api";
+
 import "@src/components/common/Smart/SystemImageGallery/SystemImageGallery.scss";
-import { number } from "prop-types";
 
 interface galleryProps {
   setSystemImage: Dispatch<SetStateAction<number>>;
 }
 
-const SystemImageGallery = ({setSystemImage} : galleryProps) => {
+const SystemImageGallery = ({ setSystemImage }: galleryProps) => {
   const [index, setIndex] = useState(0);
   const carouselRef = useRef(null);
   const { data, isFetching } = useSystemsImagesListQuery();
@@ -22,7 +22,7 @@ const SystemImageGallery = ({setSystemImage} : galleryProps) => {
   }, [data]);
 
   const handleSelectedImage = (id, imageId) => {
-    const image= parseInt(imageId)
+    const image = parseInt(imageId);
     setIndex(id);
     setSystemImage(image);
   };

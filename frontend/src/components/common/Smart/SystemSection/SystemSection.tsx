@@ -196,6 +196,7 @@ const SystemSection = () => {
                 horizontal
                 bound
                 gap={40}
+                zIndex={1000}
                 style={{ height: "33px" }}
               >
                 <span
@@ -323,7 +324,11 @@ const SystemSection = () => {
           ))}
         </div>
       )}
-      <SystemModal open={open} handleClose={() => setOpen(false)} refetch={systemsRefetch}/>
+      <SystemModal
+        open={open}
+        handleClose={() => setOpen(false)}
+        refetch={systemsRefetch}
+      />
     </Box>
   );
 };
