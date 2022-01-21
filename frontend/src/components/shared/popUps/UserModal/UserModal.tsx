@@ -23,7 +23,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
-import "@src/components/common/Smart/AddUser/AddUser.scss";
+import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import { Organization } from "@src/store/reducers/api";
 
 const mockData = {
@@ -64,7 +64,7 @@ interface Props {
   organization: Organization;
 }
 
-export default function AddUser(props: Props) {
+export default function UserModal(props: Props) {
   const [role, setRole] = useState(10);
   const [manager, setManager] = useState(10);
   const [customer, setCustomer] = useState(10);
