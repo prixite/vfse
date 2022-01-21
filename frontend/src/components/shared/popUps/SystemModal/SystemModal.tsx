@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
+import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
 import { addNewOrdanizationSystem } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
@@ -74,6 +75,7 @@ export default function SystemModal(props: systemProps) {
   const [ssh, setSsh] = useState(false);
   const [serviceWeb, setServiceWeb] = useState(false);
   const [virtualMedia, setVirtualMedia] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
 
   const selectedOrganization = useAppSelector(
@@ -112,70 +114,87 @@ export default function SystemModal(props: systemProps) {
     {
       name: name,
       setError: setNameError,
+      dName: fieldName,
     },
     {
       name: grafanaLink,
       setError: setLinkError,
+      dName: fieldLink,
     },
     {
       name: modal,
       setError: setModalError,
+      dName: fieldModal,
     },
     {
       name: version,
       setError: setVersionError,
+      dName: fieldVersion,
     },
     {
       name: asset,
       setError: setAssetError,
+      dName: fieldAsset,
     },
     {
       name: ip,
       setError: setIpError,
+      dName: fieldIp,
     },
     {
       name: localAE,
       setError: setLocalAeError,
+      dName: fieldLocalAE,
     },
     {
       name: risAE,
       setError: setRisAeError,
+      dName: fieldRisAE,
     },
     {
       name: risIp,
       setError: setRisIpError,
+      dName: fieldRisIp,
     },
     {
       name: risPort,
       setError: setRisPortError,
+      dName: fieldRisPort,
     },
     {
       name: risTitle,
       setError: setRisTitleError,
+      dName: fieldRisTitle,
     },
     {
       name: dicAE,
       setError: setDicAeError,
+      dName: fieldDicomAE,
     },
     {
       name: dicIP,
       setError: setDicIpError,
+      dName: fieldDicomIp,
     },
     {
       name: dicPort,
       setError: setDicPortError,
+      dName: fieldDicomPort,
     },
     {
       name: dicTitle,
       setError: setDicTitleError,
+      dName: fieldDicomTitle,
     },
     {
       name: mriHelium,
       setError: setMriHeliumError,
+      dName: fieldMRIHelium,
     },
     {
       name: mriMagnet,
       setError: setMriMagnetError,
+      dName: fieldMRIMagnet,
     },
   ];
 
@@ -229,10 +248,168 @@ export default function SystemModal(props: systemProps) {
     setVirtualMedia(false);
   };
 
+  const handleClear = () => {
+    resetModal();
+    props.handleClose();
+  };
+
+  const handleIpAddress = (e) => {
+    setIP(e.target.value);
+    if (!ValidateIPaddress(e.target.value)) {
+      setIpError("Enter valid IP address");
+    } else {
+      setIpError("");
+    }
+  };
+
+  const handleName = (e) => {
+    setName(e.target.value);
+    if (!e.target.value) {
+      setNameError("Name is required.");
+    } else {
+      setNameError("");
+    }
+  };
+
+  const handleModal = (e) => {
+    setModal(e.target.value);
+    if (!e.target.value) {
+      setModalError("Product model is required.");
+    } else {
+      setModalError("");
+    }
+  };
+
+  const handleVerion = (e) => {
+    setVersion(e.target.value);
+    if (!e.target.value) {
+      setVersionError("Software Version is required.");
+    } else {
+      setVersionError("");
+    }
+  };
+
+  const handleAsset = (e) => {
+    setAsset(e.target.value);
+    if (!e.target.value) {
+      setAssetError("Asset number is required.");
+    } else {
+      setAssetError("");
+    }
+  };
+
+  const handleLocalAe = (e) => {
+    setlocalAE(e.target.value);
+    if (!e.target.value) {
+      setLocalAeError("Local AE Title is required.");
+    } else {
+      setLocalAeError("");
+    }
+  };
+
+  const handleRisTitle = (e) => {
+    setRisTitle(e.target.value);
+    if (!e.target.value) {
+      setRisTitleError("Title is required.");
+    } else {
+      setRisTitleError("");
+    }
+  };
+
+  const handleRisPort = (e) => {
+    setRisPort(e.target.value);
+    if (!e.target.value) {
+      setRisPortError("Port is required.");
+    } else {
+      setRisPortError("");
+    }
+  };
+
+  const handleRisAeTitle = (e) => {
+    setRisAE(e.target.value);
+    if (!e.target.value) {
+      setRisAeError("AE Title is required.");
+    } else {
+      setRisAeError("");
+    }
+  };
+
+  const handleDicTitle = (e) => {
+    setDicTitle(e.target.value);
+    if (!e.target.value) {
+      setDicTitleError("AE Title is required.");
+    } else {
+      setDicTitleError("");
+    }
+  };
+
+  const handleDicPort = (e) => {
+    setDicPort(e.target.value);
+    if (!e.target.value) {
+      setDicPortError("Port is required.");
+    } else {
+      setDicPortError("");
+    }
+  };
+
+  const handleDicAeTitle = (e) => {
+    setDicAE(e.target.value);
+    if (!e.target.value) {
+      setDicAeError("AE Title is required.");
+    } else {
+      setDicAeError("");
+    }
+  };
+
+  const handleMriMagnet = (e) => {
+    setMriMagnet(e.target.value);
+    if (!e.target.value) {
+      setMriMagnetError("Magnet pressure is required.");
+    } else {
+      setMriMagnetError("");
+    }
+  };
+
+  const handleMriHelium = (e) => {
+    setMriHelium(e.target.value);
+    if (!e.target.value) {
+      setMriHeliumError("Magnet pressure is required.");
+    } else {
+      setMriHeliumError("");
+    }
+  };
+
+  const handleRisIpAddress = (e) => {
+    setRisIp(e.target.value);
+    if (!ValidateIPaddress(e.target.value)) {
+      setRisIpError("Enter valid IP address");
+    } else {
+      setRisIpError("");
+    }
+  };
+
+  const handleDicIpAddress = (e) => {
+    setDicIP(e.target.value);
+    if (!ValidateIPaddress(e.target.value)) {
+      setDicIpError("Enter valid IP address");
+    } else {
+      setDicIpError("");
+    }
+  };
+
+  const handleUrl = (e) => {
+    setGrafanaLink(e.target.value);
+    if (!isValidURL(e.target.value)) {
+      setLinkError("Enter valid url");
+    } else {
+      setLinkError("");
+    }
+  };
+
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
       if (!item.name) {
-        item.setError("this field is required");
+        item.setError(`${item.dName} is required`);
         return false;
       }
     });
@@ -288,6 +465,7 @@ export default function SystemModal(props: systemProps) {
       });
     } else {
       if (isValidPostRequest()) {
+        setDisableButton(true);
         const systemObj = {
           name: name,
           site: site?.id,
@@ -329,7 +507,8 @@ export default function SystemModal(props: systemProps) {
           addSystem,
           props.refetch,
           setErrors,
-          resetModal
+          handleClear,
+          setDisableButton
         );
       }
     }
@@ -342,20 +521,12 @@ export default function SystemModal(props: systemProps) {
   }, [selectedOrganization]);
 
   return (
-    <Dialog
-      className="system-modal"
-      open={props.open}
-      onClose={props.handleClose}
-    >
+    <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">{"Add System"}</span>
           <span className="dialog-page">
-            <img
-              src={CloseBtn}
-              className="cross-btn"
-              onClick={props.handleClose}
-            />
+            <img src={CloseBtn} className="cross-btn" onClick={handleClear} />
           </span>
         </div>
       </DialogTitle>
@@ -374,9 +545,7 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     value={name}
                     placeholder=""
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
+                    onChange={handleName}
                   />
                   {nameError ? <p className="errorText">{nameError}</p> : ""}
                 </div>
@@ -446,9 +615,7 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     value={modal}
                     placeholder=""
-                    onChange={(e) => {
-                      setModal(e.target.value);
-                    }}
+                    onChange={handleModal}
                   />
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
@@ -462,9 +629,7 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     value={version}
                     placeholder=""
-                    onChange={(e) => {
-                      setVersion(e.target.value);
-                    }}
+                    onChange={handleVerion}
                   />
                   {versionError ? (
                     <p className="errorText">{versionError}</p>
@@ -481,10 +646,8 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={ip}
-                    placeholder=""
-                    onChange={(e) => {
-                      setIP(e.target.value);
-                    }}
+                    placeholder="192.165.3.2"
+                    onChange={handleIpAddress}
                   />
                   {ipError ? <p className="errorText">{ipError}</p> : ""}
                 </div>
@@ -498,9 +661,7 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     value={asset}
                     placeholder=""
-                    onChange={(e) => {
-                      setAsset(e.target.value);
-                    }}
+                    onChange={handleAsset}
                   />
                   {assetError ? <p className="errorText">{assetError}</p> : ""}
                 </div>
@@ -514,9 +675,7 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     value={localAE}
                     placeholder=""
-                    onChange={(e) => {
-                      setlocalAE(e.target.value);
-                    }}
+                    onChange={handleLocalAe}
                   />
                   {localAeError ? (
                     <p className="errorText">{localAeError}</p>
@@ -569,11 +728,10 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder=""
+                    type="url"
+                    placeholder="https://example.com"
                     value={grafanaLink}
-                    onChange={(e) => {
-                      setGrafanaLink(e.target.value);
-                    }}
+                    onChange={handleUrl}
                   />
                   {linkError ? <p className="errorText">{linkError}</p> : ""}
                 </div>
@@ -589,11 +747,9 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="192.165.3.2"
                       value={risIp}
-                      onChange={(e) => {
-                        setRisIp(e.target.value);
-                      }}
+                      onChange={handleRisIpAddress}
                     />
                     {risIpError ? (
                       <p className="errorText">{risIpError}</p>
@@ -609,9 +765,7 @@ export default function SystemModal(props: systemProps) {
                       size="small"
                       placeholder=""
                       value={risTitle}
-                      onChange={(e) => {
-                        setRisTitle(e.target.value);
-                      }}
+                      onChange={handleRisTitle}
                     />
                     {risTitleError ? (
                       <p className="errorText">{risTitleError}</p>
@@ -628,9 +782,7 @@ export default function SystemModal(props: systemProps) {
                       size="small"
                       type="number"
                       value={risPort}
-                      onChange={(e) => {
-                        setRisPort(e.target.value);
-                      }}
+                      onChange={handleRisPort}
                     />
                     {risPortError ? (
                       <p className="errorText">{risPortError}</p>
@@ -646,9 +798,7 @@ export default function SystemModal(props: systemProps) {
                       size="small"
                       placeholder=""
                       value={risAE}
-                      onChange={(e) => {
-                        setRisAE(e.target.value);
-                      }}
+                      onChange={handleRisAeTitle}
                     />
                     {risAeError ? (
                       <p className="errorText">{risAeError}</p>
@@ -668,11 +818,9 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="192.165.3.2"
                         value={dicIP}
-                        onChange={(e) => {
-                          setDicIP(e.target.value);
-                        }}
+                        onChange={handleDicIpAddress}
                       />
                       {dicIpError ? (
                         <p className="errorText">{dicIpError}</p>
@@ -688,9 +836,7 @@ export default function SystemModal(props: systemProps) {
                         size="small"
                         placeholder=""
                         value={dicTitle}
-                        onChange={(e) => {
-                          setDicTitle(e.target.value);
-                        }}
+                        onChange={handleDicTitle}
                       />
                       {dicTitleError ? (
                         <p className="errorText">{dicTitleError}</p>
@@ -707,9 +853,7 @@ export default function SystemModal(props: systemProps) {
                         size="small"
                         value={dicPort}
                         type="number"
-                        onChange={(e) => {
-                          setDicPort(e.target.value);
-                        }}
+                        onChange={handleDicPort}
                       />
                       {dicPortError ? (
                         <p className="errorText">{dicPortError}</p>
@@ -725,9 +869,7 @@ export default function SystemModal(props: systemProps) {
                         size="small"
                         value={dicAE}
                         placeholder=""
-                        onChange={(e) => {
-                          setDicAE(e.target.value);
-                        }}
+                        onChange={handleDicAeTitle}
                       />
                       {dicAeError ? (
                         <p className="errorText">{dicAeError}</p>
@@ -750,9 +892,7 @@ export default function SystemModal(props: systemProps) {
                         size="small"
                         placeholder=""
                         value={mriHelium}
-                        onChange={(e) => {
-                          setMriHelium(e.target.value);
-                        }}
+                        onChange={handleMriHelium}
                       />
                       {mriHeliumError ? (
                         <p className="errorText">{mriHeliumError}</p>
@@ -768,9 +908,7 @@ export default function SystemModal(props: systemProps) {
                         size="small"
                         placeholder=""
                         value={mriMagnet}
-                        onChange={(e) => {
-                          setMriMagnet(e.target.value);
-                        }}
+                        onChange={handleMriMagnet}
                       />
                       {mriMagnetError ? (
                         <p className="errorText">{mriMagnetError}</p>
@@ -781,28 +919,6 @@ export default function SystemModal(props: systemProps) {
                   </Grid>
                 </div>
               </div>
-              {/* <div className="add-container" onClick={handleAdd}>
-                <div className="add-btn">
-                  <img src={AddIcon} />
-                </div>
-                <span className="text">{headdingAddInfo}</span>
-              </div> */}
-              {/* {newFields.map((newFields) => (
-                <div
-                  className="info-section"
-                  key={newFields}
-                  style={{ width: "356px", marginTop: "22px" }}
-                >
-                  <p className="info-label">Name this field</p>
-                  <TextField
-                    className="info-field"
-                    variant="outlined"
-                    type="number"
-                    size="small"
-                    placeholder=""
-                  />
-                </div>
-              ))} */}
             </div>
           </div>
         </div>
@@ -811,6 +927,8 @@ export default function SystemModal(props: systemProps) {
         <Button
           className="cancel-btn"
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
+          onClick={handleClear}
+          disabled={disableButton}
         >
           {btnCancel}
         </Button>
@@ -818,6 +936,7 @@ export default function SystemModal(props: systemProps) {
           className="add-btn"
           style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
           onClick={handleAdd}
+          disabled={disableButton}
         >
           {btnAdd}
         </Button>

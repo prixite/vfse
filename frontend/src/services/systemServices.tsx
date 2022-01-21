@@ -6,7 +6,8 @@ const addNewOrdanizationSystem = async (
   addOrganizationSystem,
   refetch,
   setErrors,
-  resetModal
+  handleClear,
+  setDisableButton
 ) => {
   await addOrganizationSystem({
     id: organizationId,
@@ -17,11 +18,15 @@ const addNewOrdanizationSystem = async (
       toast.success("System Successfully Added", {
         autoClose: 1000,
         pauseOnHover: false,
+        onClose: () => {
+          handleClear();
+          setDisableButton(false);
+          refetch();
+        },
       });
-      resetModal();
-      refetch();
     })
     .catch((err) => {
+      setDisableButton(false);
       if (err?.status === 400) {
         setErrors(err.data);
       }
