@@ -74,6 +74,9 @@ const ClientCard = ({
     handleClose();
   };
   const handleNetworkModal = () => {
+    setAction("new");
+    dispatch(openAddModal());
+    setOrganization(row);
     handleClose();
   };
 
@@ -113,10 +116,6 @@ const ClientCard = ({
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteOrganization}
       />
-      {/* <NewHealthNetwotkModal
-          open={openNetworkModal}
-          handleClose={handleNetworkModalClose}
-        /> */}
       <div className="dropdownIcon">
         <MoreVertIcon
           id="client-options-button"

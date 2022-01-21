@@ -43,7 +43,7 @@ export default function OrganizationModal({
   handleClose,
   refetch,
 }) {
-  const [page, setPage] = useState("1");
+  const [page, setPage] = useState("");
   const [organizationName, setOrganizationName] = useState("");
   const [organizationID, setOrganizationID] = useState();
   const [organizationSeats, setOrganizationSeats] = useState("");
@@ -80,7 +80,6 @@ export default function OrganizationModal({
       skip: !organizationID,
     }
   );
-
   const resetModal = () => {
     handleClose();
     setOrganizationName("");
@@ -148,8 +147,13 @@ export default function OrganizationModal({
       setFontOne(fontOne);
       setFontTwo(fontTwo);
     }
+
     if (open) {
-      setPage("1");
+      if (action === "new") {
+        setPage("2");
+      } else {
+        setPage("1");
+      }
     }
   }, [organization, open]);
 
@@ -315,7 +319,7 @@ export default function OrganizationModal({
     setFontTwo(event.target.value);
   };
   const addNetworks = () => {
-    setNetworks([{ name: "", appearance: { logo: "" } }, ...networks]);
+    setNetworks([...networks, { name: "", appearance: { logo: "" } }]);
     setIsDataPartiallyfilled(true);
   };
 
@@ -344,15 +348,17 @@ export default function OrganizationModal({
   }, [selectedImage]);
 
   useEffect(() => {
-    if (!isNetworkDataLoading && !error) {
-      if (networksData && networksData.length && open) {
-        setNetworks([...networksData]);
-      }
-      if (!(networksData && networksData.length) && open) {
-        setNetworks([{ name: "", appearance: { logo: "" } }]);
+    if (open) {
+      if (!isNetworkDataLoading && !error) {
+        if (networksData && networksData.length && open) {
+          setNetworks([...networksData]);
+        }
+        if (!(networksData && networksData.length) && open) {
+          setNetworks([{ name: "", appearance: { logo: "" } }]);
+        }
       }
     }
-  }, [isNetworkDataLoading, networksData, error]);
+  }, [isNetworkDataLoading, networksData, error, open]);
 
   return (
     <Dialog className="organization-modal" open={open} onClose={resetModal}>
@@ -362,28 +368,33 @@ export default function OrganizationModal({
             {organization?.name ?? "Add Client"}
           </span>
           <span className="dialog-page">
-            <span className="pg-number">
-              {`${newOrganizationPageTrackerdesc1} ${page} ${newOrganizationPageTrackerdesc2}`}
-              <span style={{ marginLeft: "16px" }}>
-                <Radio
-                  checked={page === "1"}
-                  onChange={handleChange}
-                  value="1"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "1" }}
-                  size="small"
-                />
-                <Radio
-                  checked={page === "2"}
-                  onChange={handleChange}
-                  disabled={!organizationID}
-                  value="2"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "2" }}
-                  size="small"
-                />
+            {action !== "new" ? (
+              <span className="pg-number">
+                {`${newOrganizationPageTrackerdesc1} ${page} ${newOrganizationPageTrackerdesc2}`}
+                <span style={{ marginLeft: "16px" }}>
+                  <Radio
+                    checked={page === "1"}
+                    disabled={action === "new" ? true : false}
+                    onChange={handleChange}
+                    value="1"
+                    name="radio-buttons"
+                    inputProps={{ "aria-label": "1" }}
+                    size="small"
+                  />
+                  <Radio
+                    checked={page === "2"}
+                    onChange={handleChange}
+                    disabled={!organizationID}
+                    value="2"
+                    name="radio-buttons"
+                    inputProps={{ "aria-label": "2" }}
+                    size="small"
+                  />
+                </span>
               </span>
-            </span>
+            ) : (
+              ""
+            )}
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
         </div>

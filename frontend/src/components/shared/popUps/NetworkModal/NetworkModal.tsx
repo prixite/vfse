@@ -72,7 +72,7 @@ export default function NetworkModal(props: Props) {
   } = localizedData().modalities.popUp;
 
   useEffect(() => {
-    if (props?.organization) {
+    if (props?.organization && props?.open) {
       setNetworkName(props.organization?.name);
       setNetworkLogo(props?.organization?.appearance?.logo);
       const sites = props?.organization?.sites;
@@ -81,7 +81,7 @@ export default function NetworkModal(props: Props) {
       setNetworkName("");
       setNetworkLogo("");
     }
-  }, [props?.organization]);
+  }, [props?.organization, props?.open]);
 
   useEffect(() => {
     if (selectedImage.length || networkLogo) {
@@ -161,6 +161,7 @@ export default function NetworkModal(props: Props) {
         }
       }
     }
+    setIsSiteDataPartiallyFilled(true);
     setIsLoading(false);
   };
 
@@ -168,7 +169,7 @@ export default function NetworkModal(props: Props) {
     setIsLoading(true);
     const { id } = selectedOrganization;
     if (!networkName) {
-      setNetworkError("This value is required");
+      setNetworkError("Name is required");
     }
     if (!selectedImage.length) {
       setImageError("Image is not selected");
@@ -176,8 +177,8 @@ export default function NetworkModal(props: Props) {
     if (networkName && selectedImage.length) {
       if (validateSiteForms()) {
         const organizationObject = getOrganizationObject();
-        await uploadImageToS3(selectedImage[0]).then(
-          async (data: S3Interface) => {
+        await uploadImageToS3(selectedImage[0])
+          .then(async (data: S3Interface) => {
             organizationObject.appearance.banner = data?.location;
             organizationObject.appearance.logo = data?.location;
             organizationObject.appearance.icon = data?.location;
@@ -200,8 +201,13 @@ export default function NetworkModal(props: Props) {
                   });
                 });
             }
-          }
-        );
+          })
+          .catch(() =>
+            toast.error("Failed to upload Image", {
+              autoClose: 1000,
+              pauseOnHover: false,
+            })
+          );
       }
     }
     setIsSiteDataPartiallyFilled(true);

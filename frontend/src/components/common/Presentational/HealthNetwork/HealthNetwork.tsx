@@ -44,6 +44,9 @@ const HealthNetwork = ({
       ? { id, name: event.target.value, appearance }
       : { name: event.target.value, appearance };
     setNetworks([...TempNetworks]);
+    if (event.target.value !== "") {
+      setNetworkNameErr("");
+    }
   };
 
   const handleImageUploadChange = async () => {
@@ -67,6 +70,7 @@ const HealthNetwork = ({
   useEffect(() => {
     if (selectedImage && selectedImage.length) {
       handleImageUploadChange();
+      setNetworkImageErr("");
     }
   }, [selectedImage]);
   useEffect(() => {
