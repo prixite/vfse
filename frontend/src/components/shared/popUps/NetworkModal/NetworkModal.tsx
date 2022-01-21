@@ -243,6 +243,7 @@ export default function NetworkModal(props: Props) {
     setSitePointer([{ name: "", address: "" }]);
     setNetworkLogo("");
     setNetworkName("");
+    setImageError("");
     setNetworkError("");
     props?.handleClose();
   };
