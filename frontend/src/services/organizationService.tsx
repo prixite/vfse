@@ -82,22 +82,8 @@ const updateHealthNetworkService = async (
       await updateOrganizationSites({
         id: response?.id,
         organizationSite: { sites: [...sites] },
-      })
-        .unwrap()
-        .then(() => {
-          toast.success("Sites Updated.", {
-            autoClose: 1000,
-            pauseOnHover: false,
-            onClose: refetch,
-          });
-        })
-        .catch((err) => {
-          toast.error(err, {
-            autoClose: 1000,
-            pauseOnHover: false,
-            onClose: refetch,
-          });
-        });
+      }).unwrap();
+      refetch();
     });
 };
 
@@ -122,22 +108,8 @@ const addNewHealthNetworkService = async (
       await updateOrganizationSites({
         id: response?.id,
         organizationSite: { sites: [...sites] },
-      })
-        .unwrap()
-        .then(() => {
-          toast.success("Sites Updated.", {
-            autoClose: 1000,
-            pauseOnHover: false,
-            onClose: refetch,
-          });
-        })
-        .catch((err) => {
-          toast.success(err.response, {
-            autoClose: 1000,
-            pauseOnHover: false,
-            onClose: refetch,
-          });
-        });
+      }).unwrap();
+      refetch();
     });
 };
 
