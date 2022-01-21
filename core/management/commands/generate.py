@@ -168,4 +168,17 @@ class Command(BaseCommand):
             ).health_network,
         )
 
+        factories.SystemFactory(
+            ip_address="10.21.2.21", site=site, connection_monitoring=True
+        )
+        factories.SystemFactory(
+            ip_address="10.21.11.70", site=site, connection_monitoring=True
+        )
+        factories.SystemFactory(
+            ip_address="10.21.12.70", site=site, connection_monitoring=True
+        )
+        factories.SystemFactory(
+            ip_address="10.21.16.70", site=site, connection_monitoring=True
+        )
+
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
