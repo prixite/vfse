@@ -8,10 +8,11 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { toast } from "react-toastify";
-import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
+import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
 import { addNewOrdanizationSystem } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
@@ -247,206 +248,163 @@ export default function SystemModal(props: systemProps) {
     setVirtualMedia(false);
   };
 
-  const handleClear= ()=>{
+  const handleClear = () => {
     resetModal();
     props.handleClose();
-  }
+  };
 
-  const handleIpAddress= (e)=>{
-    setIP(e.target.value)
-    if(!ValidateIPaddress(e.target.value))
-    {
-       setIpError("Enter valid IP address")
-    }
-    else{
+  const handleIpAddress = (e) => {
+    setIP(e.target.value);
+    if (!ValidateIPaddress(e.target.value)) {
+      setIpError("Enter valid IP address");
+    } else {
       setIpError("");
     }
-  }
+  };
 
-  const handleName= (e)=>{
-    setName(e.target.value)
-    if(!e.target.value)
-    {
-       setNameError("Name is required.");
+  const handleName = (e) => {
+    setName(e.target.value);
+    if (!e.target.value) {
+      setNameError("Name is required.");
+    } else {
+      setNameError("");
     }
-    else{
-       setNameError("");
-    }
-  }
+  };
 
-  const handleModal= (e)=>{
-    setModal(e.target.value)
-    if(!e.target.value)
-    {
-       setModalError("Product model is required.");
-    }
-    else{
+  const handleModal = (e) => {
+    setModal(e.target.value);
+    if (!e.target.value) {
+      setModalError("Product model is required.");
+    } else {
       setModalError("");
     }
-  }
+  };
 
-  const handleVerion= (e)=>{
-    setVersion(e.target.value)
-    if(!e.target.value)
-    {
-       setVersionError("Software Version is required.");
-    }
-    else{
+  const handleVerion = (e) => {
+    setVersion(e.target.value);
+    if (!e.target.value) {
+      setVersionError("Software Version is required.");
+    } else {
       setVersionError("");
     }
-  }
+  };
 
-  const handleAsset= (e)=>{
-    setAsset(e.target.value)
-    if(!e.target.value)
-    {
-       setAssetError("Asset number is required.");
-    }
-    else{
+  const handleAsset = (e) => {
+    setAsset(e.target.value);
+    if (!e.target.value) {
+      setAssetError("Asset number is required.");
+    } else {
       setAssetError("");
     }
-  }
+  };
 
-  const handleLocalAe= (e)=>{
-    setlocalAE(e.target.value)
-    if(!e.target.value)
-    {
-       setLocalAeError("Local AE Title is required.");
-    }
-    else{
+  const handleLocalAe = (e) => {
+    setlocalAE(e.target.value);
+    if (!e.target.value) {
+      setLocalAeError("Local AE Title is required.");
+    } else {
       setLocalAeError("");
     }
-  }
+  };
 
-  const handleRisTitle= (e)=>{
-    setRisTitle(e.target.value)
-    if(!e.target.value)
-    {
-       setRisTitleError("Title is required.");
+  const handleRisTitle = (e) => {
+    setRisTitle(e.target.value);
+    if (!e.target.value) {
+      setRisTitleError("Title is required.");
+    } else {
+      setRisTitleError("");
     }
-    else
-    {
-       setRisTitleError("");
-    }
-  }
+  };
 
-  const handleRisPort= (e)=>{
-    setRisPort(e.target.value)
-    if(!e.target.value)
-    {
-       setRisPortError("Port is required.");
+  const handleRisPort = (e) => {
+    setRisPort(e.target.value);
+    if (!e.target.value) {
+      setRisPortError("Port is required.");
+    } else {
+      setRisPortError("");
     }
-    else
-    {
-       setRisPortError("");
-    }
-  }
+  };
 
-  const handleRisAeTitle= (e)=>{
-    setRisAE(e.target.value)
-    if(!e.target.value)
-    {
-       setRisAeError("AE Title is required.");
-    }
-    else
-    {
+  const handleRisAeTitle = (e) => {
+    setRisAE(e.target.value);
+    if (!e.target.value) {
+      setRisAeError("AE Title is required.");
+    } else {
       setRisAeError("");
     }
-  }
+  };
 
-  const handleDicTitle= (e)=>{
-    setDicTitle(e.target.value)
-    if(!e.target.value)
-    {
-       setDicTitleError("AE Title is required.");
-    }
-    else
-    {
+  const handleDicTitle = (e) => {
+    setDicTitle(e.target.value);
+    if (!e.target.value) {
+      setDicTitleError("AE Title is required.");
+    } else {
       setDicTitleError("");
     }
-  }
+  };
 
-  const handleDicPort= (e)=>{
-    setDicPort(e.target.value)
-    if(!e.target.value)
-    {
-       setDicPortError("Port is required.");
-    }
-    else
-    {
+  const handleDicPort = (e) => {
+    setDicPort(e.target.value);
+    if (!e.target.value) {
+      setDicPortError("Port is required.");
+    } else {
       setDicPortError("");
     }
-  }
+  };
 
-  const handleDicAeTitle= (e)=>{
-    setDicAE(e.target.value)
-    if(!e.target.value)
-    {
-       setDicAeError("AE Title is required.");
+  const handleDicAeTitle = (e) => {
+    setDicAE(e.target.value);
+    if (!e.target.value) {
+      setDicAeError("AE Title is required.");
+    } else {
+      setDicAeError("");
     }
-    else
-    {
-       setDicAeError("");
-    }
-  }
+  };
 
-  const handleMriMagnet= (e)=>{
-    setMriMagnet(e.target.value)
-    if(!e.target.value)
-    {
-       setMriMagnetError("Magnet pressure is required.");
+  const handleMriMagnet = (e) => {
+    setMriMagnet(e.target.value);
+    if (!e.target.value) {
+      setMriMagnetError("Magnet pressure is required.");
+    } else {
+      setMriMagnetError("");
     }
-    else
-    {
-       setMriMagnetError("");
-    }
-  }
+  };
 
-  const handleMriHelium= (e)=>{
-    setMriHelium(e.target.value)
-    if(!e.target.value)
-    {
-       setMriHeliumError("Magnet pressure is required.");
-    }
-    else
-    {
+  const handleMriHelium = (e) => {
+    setMriHelium(e.target.value);
+    if (!e.target.value) {
+      setMriHeliumError("Magnet pressure is required.");
+    } else {
       setMriHeliumError("");
     }
-  }
+  };
 
-  const handleRisIpAddress= (e)=>{
-    setRisIp(e.target.value)
-    if(!ValidateIPaddress(e.target.value))
-    {
-       setRisIpError("Enter valid IP address")
-    }
-    else{
+  const handleRisIpAddress = (e) => {
+    setRisIp(e.target.value);
+    if (!ValidateIPaddress(e.target.value)) {
+      setRisIpError("Enter valid IP address");
+    } else {
       setRisIpError("");
     }
-  }
+  };
 
-  const handleDicIpAddress= (e)=>{
-    setDicIP(e.target.value)
-    if(!ValidateIPaddress(e.target.value))
-    {
-       setDicIpError("Enter valid IP address");
-    }
-    else{
+  const handleDicIpAddress = (e) => {
+    setDicIP(e.target.value);
+    if (!ValidateIPaddress(e.target.value)) {
+      setDicIpError("Enter valid IP address");
+    } else {
       setDicIpError("");
     }
-  }
+  };
 
-  const handleUrl= (e)=>{
+  const handleUrl = (e) => {
     setGrafanaLink(e.target.value);
-    if(!isValidURL(e.target.value))
-    {
+    if (!isValidURL(e.target.value)) {
       setLinkError("Enter valid url");
-    }
-    else{
+    } else {
       setLinkError("");
     }
-
-  }
+  };
 
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
@@ -550,7 +508,7 @@ export default function SystemModal(props: systemProps) {
           props.refetch,
           setErrors,
           handleClear,
-          setDisableButton,
+          setDisableButton
         );
       }
     }
@@ -563,20 +521,12 @@ export default function SystemModal(props: systemProps) {
   }, [selectedOrganization]);
 
   return (
-    <Dialog
-      className="system-modal"
-      open={props.open}
-      onClose={handleClear}
-    >
+    <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">{"Add System"}</span>
           <span className="dialog-page">
-            <img
-              src={CloseBtn}
-              className="cross-btn"
-              onClick={handleClear}
-            />
+            <img src={CloseBtn} className="cross-btn" onClick={handleClear} />
           </span>
         </div>
       </DialogTitle>
