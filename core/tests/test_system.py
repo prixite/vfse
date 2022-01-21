@@ -53,6 +53,15 @@ class SystemTestCase(BaseTestCase):
             )
             self.assertEqual(len(response.json()), 1)
 
+    def test_list_systems_vfse(self):
+        self.client.force_login(self.fse)
+        models.UserSystem.objects.create(user=self.fse, system=self.system)
+        models.UserSite.objects.create(user=self.fse, site=self.site)
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/systems/"
+        )
+        self.assertEqual(len(response.json()), 1)
+
     def test_post_system(self):
         self.client.force_login(self.super_admin)
 

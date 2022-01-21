@@ -93,10 +93,10 @@ class User(AbstractUser):
         ).values_list("health_network")
 
     def get_sites(self):
-        return UserSite.objects.filter(user=self)
+        return UserSite.objects.filter(user=self).values_list("site")
 
     def get_systems(self):
-        return UserSystem.objects.filter(user=self)
+        return UserSystem.objects.filter(user=self).values_list("system")
 
     def get_organization_systems(self, organization_pk):
         return System.objects.filter(
