@@ -4,9 +4,9 @@ import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
-import AddUser from "@src/components/common/Smart/AddUser/AddUser";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import UserModal from "@src/components/shared/popUps/UserModal/UserModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
@@ -88,7 +88,7 @@ export default function UserView() {
         setSearchText={setSearchText}
       />
 
-      <AddUser open={open} handleClose={handleClose} />
+      <UserModal open={open} handleClose={handleClose} />
 
       <div style={{ marginTop: "32px", overflow: "hidden" }}>
         {searchText?.length > 2 ? (
