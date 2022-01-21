@@ -4,10 +4,10 @@ import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
-import AddUser from "@src/components/common/Smart/AddUser/AddUser";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import ListModal from "@src/components/shared/popUps/ListModal/ListModal";
+import UserModal from "@src/components/shared/popUps/UserModal/UserModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
@@ -115,11 +115,7 @@ const headers = [
   },
 ];
 
-const temp = [
-  "abcdefg",
-  "abcdg",
-  "abcdefghijk",
-]
+// const temp = ["abcdefg", "abcdg", "abcdefghijk"];
 
 export default function UserSection() {
   const [pageSize, setPageSize] = useState(14);
@@ -151,14 +147,14 @@ export default function UserSection() {
   const [userList, setUserList] = useState({});
 
   useEffect(() => {
-    if( searchText?.length > 2 && userList && userList?.results?.length ){
+    if (searchText?.length > 2 && userList && userList?.results?.length) {
       setHasData(true);
-    } else if( items?.length && searchText?.length <= 2){
+    } else if (items?.length && searchText?.length <= 2) {
       setHasData(true);
-    } else{
+    } else {
       setHasData(false);
     }
-  }, [searchText, userList, items])
+  }, [searchText, userList, items]);
 
   useEffect(() => {
     if (tableColumns[5]?.hide === true) {
@@ -181,7 +177,13 @@ export default function UserSection() {
     } else {
       setHideStatus(false);
     }
-    const header = [tableColumns[0], tableColumns[1], tableColumns[2], tableColumns[3], tableColumns[4]];
+    const header = [
+      tableColumns[0],
+      tableColumns[1],
+      tableColumns[2],
+      tableColumns[3],
+      tableColumns[4],
+    ];
     setColumnHeaders(header);
   }, [tableColumns]);
 
@@ -217,17 +219,15 @@ export default function UserSection() {
 
   const renderCustomers = (customers) => {
     return (
-        <div>
-            { customers?.length > 1 ? `${customers[0]},...` : customers[0] }
-        </div>
+      <div>{customers?.length > 1 ? `${customers[0]},...` : customers[0]}</div>
     );
   };
 
   const handleModalClick = (name, list) => {
-      setModalHeader(name);
-      setModalList(list);
-      setOpenListModal(true);
-  }
+    setModalHeader(name);
+    setModalList(list);
+    setOpenListModal(true);
+  };
 
   return (
     <Fragment>
@@ -245,9 +245,12 @@ export default function UserSection() {
         hasData={hasData}
       />
 
-      <AddUser open={open} handleClose={handleClose} />
+      <UserModal open={open} handleClose={handleClose} />
 
-      <div style={{ marginTop: "32px", overflow: "hidden" }} className="user-section">
+      <div
+        style={{ marginTop: "32px", overflow: "hidden" }}
+        className="user-section"
+      >
         {searchText?.length > 2 ? (
           userList &&
           userList?.results?.length &&
@@ -264,9 +267,23 @@ export default function UserSection() {
                   sortable: false,
                   width: 170,
                   renderCell: (cellValues) => (
-                    <div 
-                      onClick={cellValues?.row?.organizations?.length > 1 ? () => handleModalClick("Customers", cellValues?.row?.organizations) : undefined}
-                      style={{ cursor: `${cellValues?.row?.organizations?.length > 1 ? "pointer" : ""}` }}
+                    <div
+                      onClick={
+                        cellValues?.row?.organizations?.length > 1
+                          ? () =>
+                              handleModalClick(
+                                "Customers",
+                                cellValues?.row?.organizations
+                              )
+                          : undefined
+                      }
+                      style={{
+                        cursor: `${
+                          cellValues?.row?.organizations?.length > 1
+                            ? "pointer"
+                            : ""
+                        }`,
+                      }}
                     >
                       {renderCustomers(cellValues?.row?.organizations)}
                     </div>
@@ -278,9 +295,8 @@ export default function UserSection() {
                   disableColumnMenu: true,
                   sortable: false,
                   width: 280,
-                  renderCell: (cellValues) => (
-                    renderModalities(cellValues.row.modalities)
-                  ),
+                  renderCell: (cellValues) =>
+                    renderModalities(cellValues.row.modalities),
                 },
                 {
                   field: "Health Network",
@@ -289,9 +305,23 @@ export default function UserSection() {
                   sortable: false,
                   width: 190,
                   renderCell: (cellValues) => (
-                    <div 
-                      onClick={cellValues?.row?.health_networks?.length > 1 ? () => handleModalClick("Health Networks", cellValues?.row?.health_networks) : undefined}
-                      style={{ cursor: `${cellValues?.row?.health_networks?.length > 1 ? "pointer" : ""}` }}
+                    <div
+                      onClick={
+                        cellValues?.row?.health_networks?.length > 1
+                          ? () =>
+                              handleModalClick(
+                                "Health Networks",
+                                cellValues?.row?.health_networks
+                              )
+                          : undefined
+                      }
+                      style={{
+                        cursor: `${
+                          cellValues?.row?.health_networks?.length > 1
+                            ? "pointer"
+                            : ""
+                        }`,
+                      }}
                     >
                       {renderCustomers(cellValues?.row?.health_networks)}
                     </div>
@@ -304,7 +334,11 @@ export default function UserSection() {
                   sortable: false,
                   width: 100,
                   renderCell: (cellValues) => (
-                    <span style={{ color: `${cellValues.row.is_active ? "" : "red"}` }}>
+                    <span
+                      style={{
+                        color: `${cellValues.row.is_active ? "" : "red"}`,
+                      }}
+                    >
                       {cellValues.row.is_active ? "Active" : "Locked"}
                     </span>
                   ),
@@ -359,9 +393,23 @@ export default function UserSection() {
                 sortable: false,
                 width: 170,
                 renderCell: (cellValues) => (
-                  <div 
-                    onClick={cellValues?.row?.organizations?.length > 1 ? () => handleModalClick("Customers", cellValues?.row?.organizations) : undefined}
-                    style={{ cursor: `${cellValues?.row?.organizations?.length > 1 ? "pointer" : ""}` }}
+                  <div
+                    onClick={
+                      cellValues?.row?.organizations?.length > 1
+                        ? () =>
+                            handleModalClick(
+                              "Customers",
+                              cellValues?.row?.organizations
+                            )
+                        : undefined
+                    }
+                    style={{
+                      cursor: `${
+                        cellValues?.row?.organizations?.length > 1
+                          ? "pointer"
+                          : ""
+                      }`,
+                    }}
                   >
                     {renderCustomers(cellValues?.row?.organizations)}
                   </div>
@@ -373,9 +421,8 @@ export default function UserSection() {
                 disableColumnMenu: true,
                 sortable: false,
                 width: 280,
-                renderCell: (cellValues) => (
-                  renderModalities(cellValues.row.modalities)
-                ),
+                renderCell: (cellValues) =>
+                  renderModalities(cellValues.row.modalities),
               },
               {
                 field: "Health Network",
@@ -384,9 +431,23 @@ export default function UserSection() {
                 sortable: false,
                 width: 190,
                 renderCell: (cellValues) => (
-                  <div 
-                    onClick={cellValues?.row?.health_networks?.length > 1 ? () => handleModalClick("Health Networks", cellValues?.row?.health_networks) : undefined}
-                    style={{ cursor: `${cellValues?.row?.health_networks?.length > 1 ? "pointer" : ""}` }}
+                  <div
+                    onClick={
+                      cellValues?.row?.health_networks?.length > 1
+                        ? () =>
+                            handleModalClick(
+                              "Health Networks",
+                              cellValues?.row?.health_networks
+                            )
+                        : undefined
+                    }
+                    style={{
+                      cursor: `${
+                        cellValues?.row?.health_networks?.length > 1
+                          ? "pointer"
+                          : ""
+                      }`,
+                    }}
                   >
                     {renderCustomers(cellValues?.row?.health_networks)}
                   </div>
@@ -399,7 +460,11 @@ export default function UserSection() {
                 sortable: false,
                 width: 100,
                 renderCell: (cellValues) => (
-                  <span style={{ color: `${cellValues.row.is_active ? "" : "red"}` }}>
+                  <span
+                    style={{
+                      color: `${cellValues.row.is_active ? "" : "red"}`,
+                    }}
+                  >
                     {cellValues.row.is_active ? "Active" : "Locked"}
                   </span>
                 ),
@@ -447,7 +512,12 @@ export default function UserSection() {
         <MenuItem>Delete</MenuItem>
         <MenuItem>Status</MenuItem>
       </Menu>
-      <ListModal name={modalHeader} list={modalList} open={openListModal} handleClose={handleModalClose} />
+      <ListModal
+        name={modalHeader}
+        list={modalList}
+        open={openListModal}
+        handleClose={handleModalClose}
+      />
     </Fragment>
   );
 }
