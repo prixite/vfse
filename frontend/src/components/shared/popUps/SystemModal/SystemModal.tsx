@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { TextField, Grid } from "@mui/material";
+import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
@@ -21,12 +22,17 @@ interface systemProps {
   handleClose: () => void;
   refetch: () => void;
 }
+interface siteProps {
+  name?: string;
+  id?: number;
+}
 
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
+  const siteData: siteProps = {};
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
-  const [site, setSite] = useState("");
+  const [site, setSite] = useState(siteData);
   const [siteError, setSiteError] = useState("");
   const [modal, setModal] = useState("");
   const [modalError, setModalError] = useState("");
@@ -108,12 +114,8 @@ export default function SystemModal(props: systemProps) {
       setError: setNameError,
     },
     {
-      name: site,
-      setError: setSiteError,
-    },
-    {
       name: grafanaLink,
-      setError: setNameError,
+      setError: setLinkError,
     },
     {
       name: modal,
@@ -177,79 +179,6 @@ export default function SystemModal(props: systemProps) {
     },
   ];
 
-  const generalInfoArray = [
-    {
-      name: fieldName,
-      setState: setName,
-      state: name,
-      showError: true,
-      type: "text",
-      error: nameError,
-    },
-    {
-      name: fieldSite,
-      setState: setSite,
-      state: site,
-      showError: true,
-      type: "number",
-      error: siteError,
-    },
-    {
-      name: fieldNumber,
-      setState: setSerialNumber,
-      state: serialNumber,
-      showError: false,
-      type: "text",
-    },
-    {
-      name: fieldLocation,
-      setState: setBuildingLocation,
-      state: buildingLocation,
-      showError: false,
-      type: "text",
-    },
-    {
-      name: fieldModal,
-      setState: setModal,
-      state: modal,
-      showError: true,
-      type: "number",
-      error: modalError,
-    },
-    {
-      name: fieldVersion,
-      setState: setVersion,
-      state: version,
-      showError: true,
-      type: "text",
-      error: versionError,
-    },
-    {
-      name: fieldIp,
-      setState: setIP,
-      state: ip,
-      showError: true,
-      type: "text",
-      error: ipError,
-    },
-    {
-      name: fieldAsset,
-      setState: setAsset,
-      state: asset,
-      showError: true,
-      type: "text",
-      error: assetError,
-    },
-    {
-      name: fieldLocalAE,
-      setState: setlocalAE,
-      state: localAE,
-      showError: true,
-      type: "text",
-      error: localAeError,
-    },
-  ];
-
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -257,7 +186,6 @@ export default function SystemModal(props: systemProps) {
   const resetModal = () => {
     setName("");
     setNameError("");
-    setSite("");
     setSiteError("");
     setModal("");
     setModalError("");
@@ -353,52 +281,65 @@ export default function SystemModal(props: systemProps) {
   };
 
   const handleAdd = async () => {
-    if (isValidPostRequest()) {
-      const systemObj = {
-        name: name,
-        site: site,
-        serial_number: serialNumber,
-        location_in_building: buildingLocation,
-        system_contact_info: systemContactInfo,
-        grafana_link: grafanaLink,
-        product_model: modal,
-        image: systemImage,
-        software_version: version,
-        asset_number: asset,
-        ip_address: ip,
-        local_ae_title: localAE,
-        his_ris_info: {
-          ip: risIp,
-          title: risTitle,
-          port: risPort,
-          ae_title: risAE,
-        },
-        dicom_info: {
-          ip: dicIP,
-          title: dicTitle,
-          port: dicPort,
-          ae_title: dicAE,
-        },
-        mri_embedded_parameters: {
-          helium: mriHelium,
-          magnet_pressure: mriMagnet,
-        },
-        connection_options: {
-          virtual_media_control: virtualMedia,
-          service_web_browser: serviceWeb,
-          ssh: ssh,
-        },
-      };
-      await addNewOrdanizationSystem(
-        selectedOrganization.id,
-        systemObj,
-        addSystem,
-        props.refetch,
-        setErrors,
-        resetModal
-      );
+    if (!selectedOrganization?.sites.length) {
+      toast.success("Can not create system as this organization has no sites", {
+        autoClose: 5000,
+        pauseOnHover: false,
+      });
+    } else {
+      if (isValidPostRequest()) {
+        const systemObj = {
+          name: name,
+          site: site?.id,
+          serial_number: serialNumber,
+          location_in_building: buildingLocation,
+          system_contact_info: systemContactInfo,
+          grafana_link: grafanaLink,
+          product_model: modal,
+          image: systemImage,
+          software_version: version,
+          asset_number: asset,
+          ip_address: ip,
+          local_ae_title: localAE,
+          his_ris_info: {
+            ip: risIp,
+            title: risTitle,
+            port: risPort,
+            ae_title: risAE,
+          },
+          dicom_info: {
+            ip: dicIP,
+            title: dicTitle,
+            port: dicPort,
+            ae_title: dicAE,
+          },
+          mri_embedded_parameters: {
+            helium: mriHelium,
+            magnet_pressure: mriMagnet,
+          },
+          connection_options: {
+            virtual_media_control: virtualMedia,
+            service_web_browser: serviceWeb,
+            ssh: ssh,
+          },
+        };
+        await addNewOrdanizationSystem(
+          selectedOrganization.id,
+          systemObj,
+          addSystem,
+          props.refetch,
+          setErrors,
+          resetModal
+        );
+      }
     }
   };
+
+  useEffect(() => {
+    if (selectedOrganization?.sites.length) {
+      setSite(selectedOrganization?.sites[0]);
+    }
+  }, [selectedOrganization]);
 
   return (
     <Dialog
@@ -424,29 +365,166 @@ export default function SystemModal(props: systemProps) {
           <SystemImageGallery setSystemImage={setSystemImage} />
           <div className="client-info">
             <Grid container spacing={2}>
-              {generalInfoArray.map((item, index) => (
-                <Grid item xs={6} key={index}>
-                  <div className="info-section">
-                    <p className="info-label">{item.name}</p>
-                    <TextField
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldName}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={name}
+                    placeholder=""
+                    onChange={(e) => {
+                      setName(e.target.value);
+                    }}
+                  />
+                  {nameError ? <p className="errorText">{nameError}</p> : ""}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldSite}</p>
+                  <FormControl sx={{ minWidth: "100%" }}>
+                    <Select
+                      value={site?.name}
+                      displayEmpty
+                      disabled={!selectedOrganization?.sites?.length}
                       className="info-field"
-                      variant="outlined"
-                      size="small"
-                      value={item?.state}
-                      placeholder=""
-                      type={item?.type}
-                      onChange={(e) => {
-                        item?.setState(e.target.value);
-                      }}
-                    />
-                    {item?.showError && item.error ? (
-                      <p className="errorText">{item?.error}</p>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </Grid>
-              ))}
+                      inputProps={{ "aria-label": "Without label" }}
+                      style={{ height: "48px", marginRight: "15px" }}
+                    >
+                      {selectedOrganization?.sites.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          value={item.name}
+                          onClick={() => setSite(item)}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {siteError ? <p className="errorText">{siteError}</p> : ""}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldNumber}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={serialNumber}
+                    placeholder=""
+                    onChange={(e) => {
+                      setSerialNumber(e.target.value);
+                    }}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldLocation}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={buildingLocation}
+                    placeholder=""
+                    onChange={(e) => {
+                      setBuildingLocation(e.target.value);
+                    }}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldModal}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={modal}
+                    placeholder=""
+                    onChange={(e) => {
+                      setModal(e.target.value);
+                    }}
+                  />
+                  {modalError ? <p className="errorText">{modalError}</p> : ""}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldVersion}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={version}
+                    placeholder=""
+                    onChange={(e) => {
+                      setVersion(e.target.value);
+                    }}
+                  />
+                  {versionError ? (
+                    <p className="errorText">{versionError}</p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldIp}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={ip}
+                    placeholder=""
+                    onChange={(e) => {
+                      setIP(e.target.value);
+                    }}
+                  />
+                  {ipError ? <p className="errorText">{ipError}</p> : ""}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldAsset}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={asset}
+                    placeholder=""
+                    onChange={(e) => {
+                      setAsset(e.target.value);
+                    }}
+                  />
+                  {assetError ? <p className="errorText">{assetError}</p> : ""}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldLocalAE}</p>
+                  <TextField
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    value={localAE}
+                    placeholder=""
+                    onChange={(e) => {
+                      setlocalAE(e.target.value);
+                    }}
+                  />
+                  {localAeError ? (
+                    <p className="errorText">{localAeError}</p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Grid>
             </Grid>
             <div className="checkbox-container">
               <div className="checkBox">

@@ -1,7 +1,7 @@
 import json
 
 import boto3
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
@@ -144,10 +144,16 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
                 validated_data.append(item)
 
         for health_network in validated_data or []:
-            obj, created = models.Organization.objects.update_or_create(
-                id=health_network.pop("id", None),
-                defaults=health_network,
-            )
+            try:
+                obj, created = models.Organization.objects.update_or_create(
+                    id=health_network.pop("id", None),
+                    defaults=health_network,
+                )
+            except IntegrityError:
+                raise exceptions.ValidationError(
+                    f'Organization with name {health_network.get("name")} already exist'
+                )
+
             health_networks.append(obj)
             if obj.id == self.kwargs["pk"]:
                 raise exceptions.ValidationError(
@@ -207,11 +213,16 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
             if item not in validted_sites:
                 validted_sites.append(item)
         for site in validted_sites or []:
-            site_obj, created = models.Site.objects.update_or_create(
-                id=site.pop("id", None),
-                organization_id=self.kwargs["pk"],
-                defaults={**site, "organization_id": self.kwargs["pk"]},
-            )
+            try:
+                site_obj, created = models.Site.objects.update_or_create(
+                    id=site.pop("id", None),
+                    organization_id=self.kwargs["pk"],
+                    defaults={**site, "organization_id": self.kwargs["pk"]},
+                )
+            except IntegrityError:
+                raise exceptions.ValidationError(
+                    f"Site with name {site['name']} already exists"
+                )
             names.append(site_obj.name)
 
         removed_sites = models.Site.objects.filter(

@@ -33,7 +33,8 @@ const SystemSection = () => {
   const [systemList, setSystemList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState();
-  const { siteId, networkId } = useParams();
+  const { siteId, networkId } =
+    useParams<{ siteId: string; networkId: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const { isLoading: isModalitiesLoading, data: modalitiesList } =
@@ -48,11 +49,11 @@ const SystemSection = () => {
   useEffect(() => {
     modalitiesList?.length &&
       modalitiesList?.map((item, key) => {
-        if (item.id === modality) {
+        if (item?.id.toString() === paramModality) {
           return setIndex(key + 1);
         }
       });
-    if (!modality) {
+    if (!paramModality) {
       setIndex(1);
     }
   }, [modalitiesList]);
