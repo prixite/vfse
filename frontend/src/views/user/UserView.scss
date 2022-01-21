@@ -51,3 +51,19 @@
 .css-11bfvty-MuiToolbar-root-MuiTablePagination-toolbar {
   padding-top: 2px;
 }
+
+.user-section {
+  .modality-section {
+    display: flex;
+    flex-direction: row;
+    .modality {
+      background-color: rgba(146, 213, 9, 0.16);
+      padding: 2px 10px;
+      margin-right: 4px;
+      color: #395303;
+      line-height: 16px;
+      font-size: 12px;
+      font-family: "ProximaNova-Regular";
+    }
+  }
+}
