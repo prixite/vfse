@@ -33,6 +33,27 @@
     flex-direction: column;
     margin-top: 20px;
     font-family: "ProximaNova-Regular" !important;
+    .errorText {
+      color: #ff1744;
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+    .SiteSection {
+      background: #fcfcfd;
+      border: 1px solid #d9dbdd;
+      padding: 20px;
+      padding-bottom: 0px;
+      position: relative;
+      .network-info {
+        margin-top: 0;
+        margin-bottom: 24px;
+      }
+      .close-icon {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+      }
+    }
     .dropzone-title {
       font-weight: 600;
       margin-bottom: 8px;

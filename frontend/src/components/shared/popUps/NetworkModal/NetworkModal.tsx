@@ -6,6 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -49,6 +50,7 @@ export default function NetworkModal(props: Props) {
   const [addHealthNetwork] = useOrganizationsHealthNetworksCreateMutation();
   const [updateOrganizationSites] = useOrganizationsSitesUpdateMutation();
   const [networkName, setNetworkName] = useState("");
+  const [networkLogo, setNetworkLogo] = useState("");
   const [networkError, setNetworkError] = useState("");
   const [selectedImage, setSelectedImage] = useState([]);
   const [imageError, setImageError] = useState("");
@@ -59,6 +61,8 @@ export default function NetworkModal(props: Props) {
   const [sitePointer, setSitePointer] = useState<Site[]>([
     { name: "", address: "" },
   ]);
+  const [isSiteDataPartiallyFilled, setIsSiteDataPartiallyFilled] =
+    useState(false);
   const {
     newNetworkAddSite,
     newNetworkLogo,
@@ -68,14 +72,22 @@ export default function NetworkModal(props: Props) {
   } = localizedData().modalities.popUp;
 
   useEffect(() => {
-    if (props?.organization) {
+    if (props?.organization && props?.open) {
       setNetworkName(props.organization?.name);
+      setNetworkLogo(props?.organization?.appearance?.logo);
       const sites = props?.organization?.sites;
       setSitePointer([...sites]);
     } else {
       setNetworkName("");
+      setNetworkLogo("");
     }
-  }, [props?.organization]);
+  }, [props?.organization, props?.open]);
+
+  useEffect(() => {
+    if (selectedImage.length || networkLogo) {
+      setImageError("");
+    }
+  }, [selectedImage.length, networkLogo]);
 
   const handleNetworkName = (event) => {
     if (event.target.value.length) {
@@ -84,68 +96,121 @@ export default function NetworkModal(props: Props) {
     setNetworkName(event.target.value);
   };
 
+  const validateSiteForms = () => {
+    const valid = sitePointer?.every((site) => {
+      if (
+        (site?.name === "" && site?.address !== "") ||
+        (site?.name !== "" && site?.address === "")
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    return valid;
+  };
+
   const handleSetNewOrganization = async () => {
     setIsLoading(true);
     const { id } = props.organization;
     if (!networkName) {
       setNetworkError("This value is required");
     }
-    if (!selectedImage.length) {
+    if (!(selectedImage.length || networkLogo)) {
       setImageError("Image is not selected");
     }
-    if (networkName && selectedImage.length) {
-      const organizationObject = getOrganizationObject();
-      await uploadImageToS3(selectedImage[0]).then(
-        async (data: S3Interface) => {
-          organizationObject.appearance.banner = data?.location;
-          organizationObject.appearance.logo = data?.location;
-          organizationObject.appearance.icon = data?.location;
-          if (organizationObject?.appearance.banner || organizationObject) {
-            await updateHealthNetworkService(
-              id,
-              organizationObject,
-              updateOrganization,
-              updateOrganizationSites,
-              organizationObject?.sites,
-              props.refetch
-            );
+    if (validateSiteForms()) {
+      if (networkName && selectedImage.length) {
+        const organizationObject = getOrganizationObject();
+        await uploadImageToS3(selectedImage[0]).then(
+          async (data: S3Interface) => {
+            organizationObject.appearance.banner = data?.location;
+            organizationObject.appearance.logo = data?.location;
+            organizationObject.appearance.icon = data?.location;
+            if (organizationObject?.appearance.banner || organizationObject) {
+              await updateHealthNetworkService(
+                id,
+                organizationObject,
+                updateOrganization,
+                updateOrganizationSites,
+                organizationObject?.sites,
+                props.refetch
+              );
+            }
           }
+        );
+        resetModal();
+      } else if (networkName && networkLogo) {
+        const organizationObject = getOrganizationObject();
+        if (organizationObject?.appearance.banner || organizationObject) {
+          await updateHealthNetworkService(
+            id,
+            organizationObject,
+            updateOrganization,
+            updateOrganizationSites,
+            organizationObject?.sites,
+            props.refetch
+          )
+            .then(() => resetModal())
+            .catch(() => {
+              toast.error("HealthNetwork Update Failed", {
+                autoClose: 1000,
+                pauseOnHover: false,
+              });
+            });
         }
-      );
-      resetModal();
+      }
     }
+    setIsSiteDataPartiallyFilled(true);
     setIsLoading(false);
   };
+
   const handleAddNewHealthNetwork = async () => {
     setIsLoading(true);
     const { id } = selectedOrganization;
     if (!networkName) {
-      setNetworkError("This value is required");
+      setNetworkError("Name is required");
     }
     if (!selectedImage.length) {
       setImageError("Image is not selected");
     }
     if (networkName && selectedImage.length) {
-      const organizationObject = getOrganizationObject();
-      await uploadImageToS3(selectedImage[0]).then(
-        async (data: S3Interface) => {
-          organizationObject.appearance.banner = data?.location;
-          organizationObject.appearance.logo = data?.location;
-          organizationObject.appearance.icon = data?.location;
-          if (organizationObject?.appearance.banner || organizationObject) {
-            await addNewHealthNetworkService(
-              id,
-              organizationObject,
-              addHealthNetwork,
-              updateOrganizationSites,
-              organizationObject?.sites,
-              props.refetch
-            );
-          }
-        }
-      );
-      resetModal();
+      if (validateSiteForms()) {
+        const organizationObject = getOrganizationObject();
+        await uploadImageToS3(selectedImage[0])
+          .then(async (data: S3Interface) => {
+            organizationObject.appearance.banner = data?.location;
+            organizationObject.appearance.logo = data?.location;
+            organizationObject.appearance.icon = data?.location;
+            if (organizationObject?.appearance.banner || organizationObject) {
+              await addNewHealthNetworkService(
+                id,
+                organizationObject,
+                addHealthNetwork,
+                updateOrganizationSites,
+                organizationObject?.sites,
+                props.refetch
+              )
+                .then(() => {
+                  resetModal();
+                })
+                .catch(() => {
+                  toast.error("HealthNetwork Add Failed", {
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                  });
+                });
+            }
+          })
+          .catch(() =>
+            toast.error("Failed to upload Image", {
+              autoClose: 1000,
+              pauseOnHover: false,
+            })
+          );
+      }
     }
+    setIsSiteDataPartiallyFilled(true);
     setIsLoading(false);
   };
 
@@ -159,11 +224,12 @@ export default function NetworkModal(props: Props) {
         button_text: appearance.button_text,
         sidebar_color: appearance.sidebar_color,
         primary_color: appearance.primary_color,
+        secondary_color: appearance?.secondary_color,
         font_one: appearance.font_one,
         font_two: appearance.font_two,
-        banner: "",
-        logo: "",
-        icon: "",
+        banner: networkLogo,
+        logo: networkLogo,
+        icon: networkLogo,
       },
       sites: TempSites,
     };
@@ -175,7 +241,9 @@ export default function NetworkModal(props: Props) {
   };
   const resetModal = () => {
     setSitePointer([{ name: "", address: "" }]);
+    setNetworkLogo("");
     setNetworkName("");
+    setImageError("");
     setNetworkError("");
     props?.handleClose();
   };
@@ -197,7 +265,10 @@ export default function NetworkModal(props: Props) {
         <div className="modal-content">
           <div>
             <p className="dropzone-title">{newNetworkLogo}</p>
-            <DropzoneBox setSelectedImage={setSelectedImage} />
+            <DropzoneBox
+              setSelectedImage={setSelectedImage}
+              imgSrc={networkLogo}
+            />
             {imageError?.length ? (
               <p className="errorText">{imageError}</p>
             ) : (
@@ -212,8 +283,8 @@ export default function NetworkModal(props: Props) {
               value={networkName}
               placeholder="Enter name here"
               onChange={handleNetworkName}
-              helperText={networkError}
             />
+            <p className="errorText">{networkError}</p>
           </div>
           {sitePointer.map((site, index) => (
             <SiteSection
@@ -221,6 +292,8 @@ export default function NetworkModal(props: Props) {
               index={index}
               sitee={site}
               setSites={setSitePointer}
+              isSiteDataPartiallyFilled={isSiteDataPartiallyFilled}
+              setIsSiteDataPartiallyFilled={setIsSiteDataPartiallyFilled}
               AllSites={sitePointer}
             />
           ))}
@@ -271,7 +344,7 @@ export default function NetworkModal(props: Props) {
           disabled={isLoading}
           className="add-btn"
         >
-          {newNetworkBtnSave}
+          {props?.action === "edit" ? "Edit" : newNetworkBtnSave}
         </Button>
       </DialogActions>
     </Dialog>
