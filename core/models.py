@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.db.models import Q
 from rest_framework.authtoken.models import Token
 
 
@@ -100,9 +101,14 @@ class User(AbstractUser):
     def get_organization_systems(self, organization_pk):
         return System.objects.filter(
             id__in=self.get_systems(),
-            site__organization=organization_pk,
-            site__organization__in=self.get_organizations(),
             site__in=self.get_sites(),
+        ).filter(
+            Q(
+                site__organization__in=self.get_organization_health_networks(
+                    organization_pk
+                )
+            )
+            | Q(site__organization=organization_pk),
         )
 
     def get_site_systems(self, site_pk):
