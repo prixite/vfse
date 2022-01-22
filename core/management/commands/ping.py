@@ -29,7 +29,7 @@ class Command(BaseCommand):
         for system in systems:
             system.is_online = False
 
-            response = ping(address=system.ip_address, count=1, privileged=False)
+            response = ping(address=system.ip_address, count=1)
             if response.is_alive:
                 system.is_online = True
                 system.last_successful_ping_at = timezone.now()

@@ -33,6 +33,15 @@ services:
     depends_on:
       - app
 
+  ping:
+    image: vfse_app
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    command: bash -c "python manage.py ping"
+    depends_on:
+      - app
+
 volumes:
   static_volume:
   shm:
