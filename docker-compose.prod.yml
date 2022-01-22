@@ -29,7 +29,7 @@ services:
     image: vfse_app
     env_file:
       - ./.env
-    command: bash -c "python manage.py ping"
+    command: bash -c "python manage.py ping 300"
     depends_on:
       - app
 
