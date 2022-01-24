@@ -134,6 +134,7 @@ export default function UserSection() {
   const [openListModal, setOpenListModal] = useState(false);
   const [modalHeader, setModalHeader] = useState("");
   const [modalList, setModalList] = useState(null);
+  const { searching } = localizedData().common;
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
@@ -378,7 +379,15 @@ export default function UserSection() {
               description={noDataDescription}
             />
           ) : (
-            ""
+            <div
+              style={{
+                color: "gray",
+                marginLeft: "45%",
+                marginTop: "20%",
+              }}
+            >
+              <h2>{searching}</h2>
+            </div>
           )
         ) : items && items?.length ? (
           <DataGrid
