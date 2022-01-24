@@ -175,7 +175,7 @@ export default function OrganizationModal({
   const handleSetNewOrganization = async () => {
     setIsLoading(true);
     if (!organizationName) {
-      setOrganizationError("This value is required");
+      setOrganizationError("Name is required");
     }
     if (!selectedImage.length) {
       setImageError("Image is not selected");
@@ -218,7 +218,7 @@ export default function OrganizationModal({
   const handleUpdateOrganization = async () => {
     setIsLoading(true);
     if (!organizationName) {
-      setOrganizationError("This value is required");
+      setOrganizationError("Name is required");
     }
     if (!(selectedImage.length || organizationLogo)) {
       setImageError("Image is not selected");

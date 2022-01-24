@@ -114,7 +114,7 @@ export default function NetworkModal(props: Props) {
     setIsLoading(true);
     const { id } = props.organization;
     if (!networkName) {
-      setNetworkError("This value is required");
+      setNetworkError("Name is required");
     }
     if (!(selectedImage.length || networkLogo)) {
       setImageError("Image is not selected");
@@ -284,7 +284,12 @@ export default function NetworkModal(props: Props) {
               placeholder="Enter name here"
               onChange={handleNetworkName}
             />
-            <p className="errorText">{networkError}</p>
+            <p
+              className="errorText"
+              style={{ marginTop: "0px", marginBottom: "5px" }}
+            >
+              {networkError}
+            </p>
           </div>
           {sitePointer.map((site, index) => (
             <SiteSection
