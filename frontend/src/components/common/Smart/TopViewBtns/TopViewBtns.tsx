@@ -95,6 +95,8 @@ const TopViewBtns = ({
     constantData = localizedData()?.users;
   } else if (path == "systems") {
     constantData = localizedData()?.systems;
+  } else if (path == "documentation") {
+    constantData = localizedData()?.documentation;
   }
   const { btnAdd } = constantData;
 
@@ -233,8 +235,12 @@ const TopViewBtns = ({
             ? data?.username
                 ?.toLowerCase()
                 .search(searchQuery?.toLowerCase()) != -1
+            : path === "documentation"
+            ? data?.product?.name
+                ?.toLowerCase()
+                .search(searchQuery?.toLowerCase()) != -1
             : data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !=
-                -1;
+              -1;
         });
         newList.results = result;
         setList(newList);
@@ -385,7 +391,7 @@ const TopViewBtns = ({
             ""
           )}
 
-          {path == "users" && hasData ? (
+          {path == "users" || (path == "documentation" && hasData) ? (
             <ColumnSelector
               tableColumns={tableColumns}
               setTableColumns={setTableColumns}
@@ -412,22 +418,26 @@ const TopViewBtns = ({
             }}
           />
         </Box>
-        <Button
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
-          onClick={handleModal}
-          variant="contained"
-          className="AddClientsbtn"
-        >
-          <div className="btn-content">
-            <AddIcon />
-            <span style={{ display: "inline-block", paddingTop: "3px" }}>
-              {btnAdd}
-            </span>
-          </div>
-        </Button>
+        {path !== "documentation" ? (
+          <Button
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
+            onClick={handleModal}
+            variant="contained"
+            className="AddClientsbtn"
+          >
+            <div className="btn-content">
+              <AddIcon />
+              <span style={{ display: "inline-block", paddingTop: "3px" }}>
+                {btnAdd}
+              </span>
+            </div>
+          </Button>
+        ) : (
+          ""
+        )}
       </Box>
     </>
   );
