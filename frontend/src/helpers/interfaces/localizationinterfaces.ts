@@ -238,6 +238,12 @@ export interface SiteSectionInterface {
   site: string;
 }
 
+export interface ConfirmSiteModal {
+  dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
+  noButton: "Cancel";
+  yesButton: "Add Site";
+}
+
 export interface LocalizationInterface {
   users: UsersInterface;
   modalities: ModalitiesInterface;
@@ -251,4 +257,5 @@ export interface LocalizationInterface {
   healthNetwork: HealthNetworkInterface;
   siteSection: SiteSectionInterface;
   systemModal: SystemModal;
+  confirmSiteDialog: ConfirmSiteModal;
 }
