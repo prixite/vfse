@@ -83,7 +83,10 @@ const ClientCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(id, deleteOrganization, refetch);
-    toast.success("Organization successfully deleted");
+    toast.success("Organization successfully deleted", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
   };
   const handleUpdateSelectedOrganization = () => {
     dispatch(setSelectedOrganization({ selectedOrganization: row }));

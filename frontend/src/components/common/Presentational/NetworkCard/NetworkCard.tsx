@@ -66,7 +66,10 @@ const NetworkCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(networkId, deleteOrganization, refetch);
-    toast.success("Network successfully deleted");
+    toast.success("Network successfully deleted", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
   };
 
   const handleEditAppearance = () => {

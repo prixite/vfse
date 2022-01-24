@@ -276,7 +276,7 @@ export default function OrganizationModal({
       );
       if (!TempNetworks.length) {
         toast.error("Add Networks first", {
-          autoClose: 2000,
+          autoClose: 1000,
           pauseOnHover: false,
         });
       } else {

@@ -156,7 +156,7 @@ const TopViewBtns = ({
   const handleModal = () => {
     if (path === "users") {
       setOpen(true);
-      setData(null);
+      // setData(null);
     } else if (path === "modality") {
       dispatch(openNetworkModal());
       setAction("add");
