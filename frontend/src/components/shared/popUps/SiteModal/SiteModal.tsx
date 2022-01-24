@@ -54,7 +54,7 @@ export default function SiteModal(props: siteProps) {
       setSiteName(props?.name);
       setSiteAddress(props?.address);
     }
-  }, [props?.name, props?.address]);
+  }, [props?.open]);
 
   const handleSiteName = (event) => {
     if (event.target.value.length) {
@@ -83,10 +83,15 @@ export default function SiteModal(props: siteProps) {
         siteObject,
         addNewSite,
         props.refetch
-      );
-      resetModal();
+      ).then(() => {
+        setTimeout(() => {
+          resetModal();
+          setIsLoading(false);
+        }, 500);
+      });
+    } else {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleEditSite = async () => {
@@ -114,11 +119,15 @@ export default function SiteModal(props: siteProps) {
         updateSite,
         props?.refetch,
         "edit"
-      );
-      resetModal();
+      ).then(() => {
+        setTimeout(() => {
+          resetModal();
+          setIsLoading(false);
+        }, 500);
+      });
+    } else {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const getSiteObject = () => {
@@ -139,6 +148,8 @@ export default function SiteModal(props: siteProps) {
       if (props?.name && props?.address) {
         setSiteName(props?.name);
         setSiteAddress(props?.address);
+        setNameError("");
+        setAddressError("");
       }
     }
     props?.handleClose();
