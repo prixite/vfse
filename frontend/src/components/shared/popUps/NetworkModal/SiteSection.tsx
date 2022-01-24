@@ -42,10 +42,10 @@ const SiteSection = ({
     if (isSiteDataPartiallyFilled) {
       if (sitee?.name === "" && sitee?.address !== "") {
         setSiteAddressErr("");
-        setSiteNameErr("This field is required");
+        setSiteNameErr("Name is required");
       }
       if (sitee?.name !== "" && sitee?.address === "") {
-        setSiteAddressErr("This field is required");
+        setSiteAddressErr("Location is required");
         setSiteNameErr("");
       }
       if (

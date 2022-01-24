@@ -77,7 +77,7 @@ const HealthNetwork = ({
     if (isDataPartiallyfilled) {
       if (network?.name === "" && network?.appearance?.logo !== "") {
         setNetworkImageErr("");
-        setNetworkNameErr("Title is required");
+        setNetworkNameErr("Name is required");
       }
       if (network?.name !== "" && network?.appearance?.logo === "") {
         setNetworkImageErr("Image is required");
