@@ -1,3 +1,4 @@
+import TableSkeleton from "@src/components/common/Presentational/TableSkeleton/TableSkeleton";
 import UserSection from "@src/components/common/Smart/UserSection/UserSection";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
@@ -10,5 +11,5 @@ export default function UserView() {
     id: selectedOrganization.id.toString(),
   });
 
-  return <>{!isLoading ? <UserSection /> : <p>Loading...</p>}</>;
+  return <>{!isLoading ? <UserSection /> : <TableSkeleton />}</>;
 }
