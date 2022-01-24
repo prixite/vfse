@@ -7,6 +7,7 @@ import { useLocation, useHistory, useParams } from "react-router-dom";
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import AddSiteFirstModal from "@src/components/shared/popUps/AddSiteFirstModal/AddSiteFirstModal";
 import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
@@ -24,6 +25,7 @@ const SystemSection = () => {
   const paramModality = queryParams?.get("modality");
   const [networkFilter, setNetworkFilter] = useState({});
   const [siteFilter, setSiteFilter] = useState({});
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -249,7 +251,9 @@ const SystemSection = () => {
       </div>
       {!isSystemDataLoading ? (
         <TopViewBtns
-          setOpen={setOpen}
+          setOpen={
+            !selectedOrganization.sites.length ? setOpenConfirmModal : setOpen
+          }
           path="systems"
           setData={setSystem}
           setList={setSystemList}
@@ -329,6 +333,10 @@ const SystemSection = () => {
         open={open}
         handleClose={() => setOpen(false)}
         refetch={systemsRefetch}
+      />
+      <AddSiteFirstModal
+        open={openConfirmModal}
+        handleClose={() => setOpenConfirmModal(false)}
       />
     </Box>
   );

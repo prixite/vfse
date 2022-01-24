@@ -209,6 +209,11 @@
         "headdingAddInfo": "Add Info",
         "btnAdd": "Add",
         "btnCancel": "Cancel"
+    },
+    "confirmSiteDialog" : {
+        "dialogMessage" : "Sites do not exist for this organization, you have to create site first to create system.",
+        "noButton" : "Cancel",
+        "yesButton" : "Add Site"
     }
 
 }
