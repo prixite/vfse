@@ -83,13 +83,12 @@ export default function SiteModal(props: siteProps) {
         siteObject,
         addNewSite,
         props.refetch
-      );
-      setTimeout(() => {
-        resetModal();
-      }, 1000);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      ).then(() => {
+        setTimeout(() => {
+          resetModal();
+          setIsLoading(false);
+        }, 500);
+      });
     } else {
       setIsLoading(false);
     }
@@ -120,13 +119,12 @@ export default function SiteModal(props: siteProps) {
         updateSite,
         props?.refetch,
         "edit"
-      );
-      setTimeout(() => {
-        resetModal();
-      }, 1000);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      ).then(() => {
+        setTimeout(() => {
+          resetModal();
+          setIsLoading(false);
+        }, 500);
+      });
     } else {
       setIsLoading(false);
     }
