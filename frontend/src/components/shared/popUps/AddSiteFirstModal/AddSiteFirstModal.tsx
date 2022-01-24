@@ -3,10 +3,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { localizedData } from "@src/helpers/utils/language";
-import { constants } from "@src/helpers/utils/constants";
-import { useAppSelector } from "@src/store/hooks";
 import { useHistory } from "react-router-dom";
+
+import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
+
 import "@src/components/shared/popUps/AddSiteFirstModal/AddSiteFirstModal.scss";
 
 interface Props {
@@ -14,10 +16,7 @@ interface Props {
   handleClose: () => void;
 }
 
-const AddSiteFirstModal = ({
-  open,
-  handleClose,
-}: Props) => {
+const AddSiteFirstModal = ({ open, handleClose }: Props) => {
   const history = useHistory();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -29,9 +28,9 @@ const AddSiteFirstModal = ({
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-  const navigateToSite = ()=>{
+  const navigateToSite = () => {
     history.push(`/${organizationRoute}/${selectedOrganization?.id}/sites`);
-  }
+  };
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ConfirmationModal">
