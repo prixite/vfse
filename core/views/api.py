@@ -347,6 +347,8 @@ class OrganizationSeatViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationSeatSeriazlier
+        elif self.action == "list":
+            return serializers.SeatListSerializer
         return serializers.SeatSerializer
 
     def get_queryset(self):

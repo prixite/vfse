@@ -449,7 +449,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
-export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
+export type OrganizationsSeatsListApiResponse = /** status 200  */ SeatList[];
 export type OrganizationsSeatsListApiArg = {
   id: string;
 };
@@ -665,28 +665,6 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetworkCreate[];
 };
-export type Seat = {
-  system: number;
-};
-export type OrganizationSeatSeriazlier = {
-  seats: Seat[];
-};
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
-export type SiteCreate = {
-  id?: number | null;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
-export type OrganizationSite = {
-  id?: number;
-  sites: SiteCreate[];
-};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -722,6 +700,31 @@ export type System = {
   connection_options?: ConnectionOptions;
   image_url?: string;
   documentation?: string;
+};
+export type SeatList = {
+  system: System;
+};
+export type Seat = {
+  system: number;
+};
+export type OrganizationSeatSeriazlier = {
+  seats: Seat[];
+};
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+  modalities?: string[];
+};
+export type SiteCreate = {
+  id?: number | null;
+  name: string;
+  address: string;
+  modalities?: string[];
+};
+export type OrganizationSite = {
+  id?: number;
+  sites: SiteCreate[];
 };
 export type User = {
   id?: number;
