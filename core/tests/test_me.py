@@ -29,8 +29,8 @@ class MeTestCase(BaseTestCase):
                     if k in ["first_name", "last_name", "flags"]
                 },
                 {
-                    "first_name": "",
-                    "last_name": "",
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
                     "flags": flags,
                 },
             )
