@@ -210,6 +210,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.system,
       }),
     }),
+    organizationsSystemsPartialUpdate: build.mutation<
+      OrganizationsSystemsPartialUpdateApiResponse,
+      OrganizationsSystemsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/`,
+        method: "PATCH",
+        body: queryArg.system,
+      }),
+    }),
+    organizationsSystemsDelete: build.mutation<
+      OrganizationsSystemsDeleteApiResponse,
+      OrganizationsSystemsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/`,
+        method: "DELETE",
+      }),
+    }),
     organizationsUsersList: build.query<
       OrganizationsUsersListApiResponse,
       OrganizationsUsersListApiArg
@@ -293,12 +312,6 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    sitesSystemsList: build.query<
-      SitesSystemsListApiResponse,
-      SitesSystemsListApiArg
-    >({
-      query: (queryArg) => ({ url: `/sites/${queryArg.id}/systems/` }),
-    }),
     systemsImagesList: build.query<
       SystemsImagesListApiResponse,
       SystemsImagesListApiArg
@@ -313,25 +326,6 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/systems/images/`,
         method: "POST",
         body: queryArg.systemImage,
-      }),
-    }),
-    systemsPartialUpdate: build.mutation<
-      SystemsPartialUpdateApiResponse,
-      SystemsPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/systems/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.system,
-      }),
-    }),
-    systemsDelete: build.mutation<
-      SystemsDeleteApiResponse,
-      SystemsDeleteApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/systems/${queryArg.id}/`,
-        method: "DELETE",
       }),
     }),
     systemsNotesList: build.query<
@@ -492,6 +486,18 @@ export type OrganizationsSystemsCreateApiArg = {
   id: string;
   system: System;
 };
+export type OrganizationsSystemsPartialUpdateApiResponse =
+  /** status 200  */ System;
+export type OrganizationsSystemsPartialUpdateApiArg = {
+  id: string;
+  systemPk: string;
+  system: System;
+};
+export type OrganizationsSystemsDeleteApiResponse = unknown;
+export type OrganizationsSystemsDeleteApiArg = {
+  id: string;
+  systemPk: string;
+};
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
   id: string;
@@ -536,24 +542,11 @@ export type ProductsModelsDeleteApiArg = {
   id: string;
   productPk: string;
 };
-export type SitesSystemsListApiResponse = /** status 200  */ System[];
-export type SitesSystemsListApiArg = {
-  id: string;
-};
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = void;
 export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
 export type SystemsImagesCreateApiArg = {
   systemImage: SystemImage;
-};
-export type SystemsPartialUpdateApiResponse = /** status 200  */ System;
-export type SystemsPartialUpdateApiArg = {
-  id: string;
-  system: System;
-};
-export type SystemsDeleteApiResponse = unknown;
-export type SystemsDeleteApiArg = {
-  id: string;
 };
 export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
 export type SystemsNotesListApiArg = {
@@ -840,6 +833,8 @@ export const {
   useOrganizationsSitesUpdateMutation,
   useOrganizationsSystemsListQuery,
   useOrganizationsSystemsCreateMutation,
+  useOrganizationsSystemsPartialUpdateMutation,
+  useOrganizationsSystemsDeleteMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,
@@ -850,11 +845,8 @@ export const {
   useProductsDeleteMutation,
   useProductsModelsPartialUpdateMutation,
   useProductsModelsDeleteMutation,
-  useSitesSystemsListQuery,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
-  useSystemsPartialUpdateMutation,
-  useSystemsDeleteMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
   useUsersActivatePartialUpdateMutation,

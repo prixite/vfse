@@ -11,8 +11,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from app.settings import AWS_THUMBNAIL_LAMBDA_ARN
-from core import filters, models, serializers
-from core.permissions import OrganizationDetailPermission
+from core import filters, models, permissions, serializers
 from core.views import mixins
 
 
@@ -40,7 +39,7 @@ class DistinctOrganizationViewSet(ModelViewSet):
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
-    permission_classes = [IsAuthenticated, OrganizationDetailPermission]
+    permission_classes = [IsAuthenticated, permissions.OrganizationDetailPermission]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -100,6 +99,8 @@ class CustomerViewSet(OrganizationViewSet):
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
+    permission_classes = [IsAuthenticated, permissions.OrganizationReadOnlyPermissions]
+
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Organization.objects.none()
@@ -251,34 +252,8 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         ).select_related("image", "product_model")
 
 
-class SiteSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    serializer_class = serializers.SystemSerializer
-
-    def get_queryset(self):
-        if getattr(self, "swagger_fake_view", False):
-            return models.System.objects.none()
-
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.System.objects.filter(
-                site_id=self.kwargs["pk"],
-            )
-
-        return models.System.objects.filter(
-            id__in=self.request.user.get_site_systems(self.kwargs["pk"])
-        )
-
-
-class SystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    serializer_class = serializers.SystemSerializer
-
-    def get_queryset(self):
-        if getattr(self, "swagger_fake_view", False):
-            return models.System.objects.none()
-
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.System.objects.all()
-
-        return models.System.objects.filter(id__in=self.request.user.get_systems())
+class SystemViewSet(OrganizationSystemViewSet):
+    lookup_url_kwarg = "system_pk"
 
 
 class UserViewSet(ModelViewSet, mixins.UserMixin):

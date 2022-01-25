@@ -17,3 +17,17 @@ class OrganizationDetailPermission(BasePermission):
             ).exists()
 
         return False
+
+
+class OrganizationReadOnlyPermissions(BasePermission):
+    def has_permission(self, request, view):
+        if request.user.is_superuser:
+            return True
+
+        if request.method not in SAFE_METHODS:
+            return not models.Membership.objects.filter(
+                organization_id=view.kwargs["pk"],
+                user=request.user,
+                role=models.Role.VIEW_ONLY,
+            ).exists()
+        return False
