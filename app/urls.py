@@ -22,7 +22,33 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
+
 api_urlpatterns = [
+    path(
+        "api/me/",
+        api.MeViewSet.as_view(
+            {
+                "get": "retrieve",
+            }
+        ),
+    ),
+    path(
+        "api/organizations/exists/",
+        api.DistinctOrganizationViewSet.as_view(
+            {
+                "get": "retrieve",
+            }
+        ),
+    ),
+    path(
+        "api/organizations/",
+        api.CustomerViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
     path(
         "api/organizations/<int:pk>/",
         api.OrganizationViewSet.as_view(
@@ -32,6 +58,10 @@ api_urlpatterns = [
                 "patch": "partial_update",
             }
         ),
+    ),
+    path(
+        "api/lambda/",
+        api.LambdaView.as_view({"patch": "partial_update"}),
     ),
     path(
         "api/organizations/<int:pk>/health_networks/",
@@ -88,35 +118,6 @@ api_urlpatterns = [
                 "patch": "partial_update",
             }
         ),
-    ),
-    path(
-        "api/me/",
-        api.MeViewSet.as_view(
-            {
-                "get": "retrieve",
-            }
-        ),
-    ),
-    path(
-        "api/organizations/exists/",
-        api.DistinctOrganizationViewSet.as_view(
-            {
-                "get": "retrieve",
-            }
-        ),
-    ),
-    path(
-        "api/organizations/",
-        api.CustomerViewSet.as_view(
-            {
-                "get": "list",
-                "post": "create",
-            }
-        ),
-    ),
-    path(
-        "api/lambda/",
-        api.LambdaView.as_view({"patch": "partial_update"}),
     ),
     path(
         "api/users/deactivate/",
