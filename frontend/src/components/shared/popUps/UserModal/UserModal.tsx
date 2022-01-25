@@ -22,8 +22,10 @@ import Radio from "@mui/material/Radio";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { addNewUserService } from "@src/services/usersService";
+import { addNewUserService } from "@src/services/userService";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import {
@@ -230,18 +232,22 @@ export default function UserModal(props: Props) {
     setIsLoading(true);
     handleErrors();
     if (verifyErrors()) {
-      const userObject = getUserObject();
-      await addNewUserService(
-        selectedOrganization.id,
-        userObject,
-        createUser,
-        props?.refetch
-      ).then(() => {
-        setTimeout(() => {
-          resetModal();
-          setIsLoading(false);
-        }, 500);
-      });
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          const userObject = getUserObject(data?.location);
+          await addNewUserService(
+            selectedOrganization.id,
+            userObject,
+            createUser,
+            props?.refetch
+          ).then(() => {
+            setTimeout(() => {
+              resetModal();
+              setIsLoading(false);
+            }, 500);
+          });
+        }
+      );
     } else {
       setIsLoading(false);
     }
@@ -257,13 +263,13 @@ export default function UserModal(props: Props) {
     }
   };
 
-  const getUserObject = () => {
+  const getUserObject = (imageUrl: string) => {
     return {
       memberships: [
         {
           meta: {
-            profile_picture: "http://tinyurl.com/systm-image",
-            title: "User Profile",
+            profile_picture: imageUrl,
+            title: "User Profile Image",
           },
           first_name: firstname,
           last_name: lastname,
