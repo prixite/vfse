@@ -43,6 +43,8 @@ const AppearanceSection = () => {
   const [buttonColor, setButtonColor] = useState("");
   const [buttonContentColor, setButtonContentColor] = useState("");
   const [secondColor, setSecondColor] = useState("");
+  const [sideBarFont, setSideBarFont] = useState("");
+  const [mainContentFont, setMainContentFont] = useState("");
   const { refetch: refetchOrgList } = useOrganizationsListQuery({
     page: 1,
   });
@@ -73,6 +75,8 @@ const AppearanceSection = () => {
     setButtonColor(buttonBackground);
     setButtonContentColor(buttonTextColor);
     setSecondColor(secondaryColor);
+    setMainContentFont(fontOne);
+    setSideBarFont(fontTwo);
   }, []);
 
   const compileOrganization = () => {
@@ -101,6 +105,16 @@ const AppearanceSection = () => {
       buttonContentColor,
       "button_text"
     );
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      mainContentFont,
+      "font_one"
+    );
+    currentOrganiationDummyData = compileOrganizationColorObject(
+      currentOrganiationDummyData,
+      sideBarFont,
+      "font_two"
+    );
   };
   const changeSideBarColor = (color: string) => {
     setSideBarColor(color);
@@ -117,6 +131,8 @@ const AppearanceSection = () => {
     dispatch(updateButtonColor(buttonColor));
     dispatch(updateButtonTextColor(buttonContentColor));
     dispatch(updateSecondaryColor(secondColor));
+    dispatch(updateFontOne(mainContentFont));
+    dispatch(updateFontTwo(sideBarFont));
     compileOrganization();
     dispatch(
       setSelectedOrganization({
@@ -159,20 +175,10 @@ const AppearanceSection = () => {
   };
 
   const onChangeFont = (event) => {
-    dispatch(updateFontOne(event.target.value));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      event.target.value,
-      "font_one"
-    );
+    setMainContentFont(event.target.value);
   };
   const onChangeFontTwo = (event) => {
-    dispatch(updateFontTwo(event.target.value));
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      event.target.value,
-      "font_two"
-    );
+    setSideBarFont(event.target.value);
   };
 
   return (
@@ -248,7 +254,7 @@ const AppearanceSection = () => {
               <h4 className="labels">{newOrganizationFont1}</h4>
               <FormControl sx={{ minWidth: 195 }}>
                 <Select
-                  value={fontOne}
+                  value={mainContentFont}
                   displayEmpty
                   onChange={onChangeFont}
                   inputProps={{ "aria-label": "Without label" }}
@@ -262,12 +268,17 @@ const AppearanceSection = () => {
                 </Select>
               </FormControl>
             </Box>
-            <h2 className="font-demo">AaBbCcDd</h2>
+            <h2
+              className="font-demo"
+              style={{ fontFamily: `${mainContentFont}` }}
+            >
+              AaBbCcDd
+            </h2>
             <Box component="div" className="font-section">
               <h4 className="labels">{newOrganizationFont2}</h4>
               <FormControl sx={{ minWidth: 195 }}>
                 <Select
-                  value={fontTwo}
+                  value={sideBarFont}
                   displayEmpty
                   onChange={onChangeFontTwo}
                   inputProps={{ "aria-label": "Without label" }}
@@ -281,7 +292,7 @@ const AppearanceSection = () => {
                 </Select>
               </FormControl>
             </Box>
-            <h2 className="font-demo" style={{ fontFamily: `${fontTwo}` }}>
+            <h2 className="font-demo" style={{ fontFamily: `${sideBarFont}` }}>
               AaBbCcDd
             </h2>
           </Box>

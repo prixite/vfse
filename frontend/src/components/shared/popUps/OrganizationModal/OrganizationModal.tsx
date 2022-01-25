@@ -137,6 +137,7 @@ export default function OrganizationModal({
       setFontOne(organization?.appearance?.font_one);
       setFontTwo(organization?.appearance?.font_two);
       setOrganizationLogo(organization?.appearance?.logo);
+      setOrganizationSeats(organization?.number_of_seats?.toString() || "");
     }
     if (!organization && open) {
       setSidebarColor(sideBarBackground);
