@@ -1,7 +1,11 @@
 import factory
 from django.db.models.signals import post_save
+from faker import Faker
 
 from core import models
+
+fake = Faker()
+fake.seed_instance(1234)
 
 
 def _add_member(organization, users, role):
@@ -17,7 +21,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Organization
 
-    name = factory.Sequence(lambda x: f"organization-{x}")
+    name = factory.Faker("company")
     appearance = factory.lazy_attribute(
         lambda obj: {
             "sidebar_text": "#94989E",
@@ -120,7 +124,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    username = factory.Sequence(lambda x: f"user-{x}@example.com")
+    username = factory.Sequence(lambda x: str(fake.unique.email()))
     email = factory.LazyAttribute(lambda x: x.username)
     profile = factory.RelatedFactory(
         "core.tests.factories.ProfileFactory", factory_related_name="user"
@@ -176,7 +180,7 @@ class MembershipFactory(factory.django.DjangoModelFactory):
 
 
 class HealthNetworkFactory(OrganizationFactory):
-    name = factory.Sequence(lambda x: f"health-network-{x}")
+    name = factory.Faker("company")
     sites = False
 
     @factory.post_generation
