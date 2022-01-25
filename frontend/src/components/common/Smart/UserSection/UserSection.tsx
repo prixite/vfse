@@ -189,7 +189,7 @@ export default function UserSection() {
     data: items,
     isLoading,
     refetch: usersRefetch,
-    isFetching: isUserListFetching
+    isFetching: isUserListFetching,
   } = useOrganizationsUsersListQuery({
     id: selectedOrganization.id.toString(),
   });
