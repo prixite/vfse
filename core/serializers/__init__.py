@@ -356,6 +356,7 @@ class SystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.System
         fields = [
+            "id",
             "name",
             "site",
             "serial_number",
