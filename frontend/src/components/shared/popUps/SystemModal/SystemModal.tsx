@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -7,7 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { toast } from "react-toastify";
+import debounce from "debounce";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
@@ -15,7 +15,11 @@ import { localizedData } from "@src/helpers/utils/language";
 import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
 import { addNewOrdanizationSystem } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
+import {
+  useProductsModelsListQuery,
+  ProductModel,
+  useOrganizationsSystemsCreateMutation,
+} from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
 interface systemProps {
@@ -28,14 +32,22 @@ interface siteProps {
   id?: number;
 }
 
+interface productSearch {
+  query?: string;
+  results: ProductModel[];
+}
+
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
+  let product: ProductModel; // eslint-disable-line
+  let productState: productSearch; // eslint-disable-line
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [site, setSite] = useState(siteData);
+  const [query, setQuery] = useState("");
   const [siteError, setSiteError] = useState("");
-  const [modal, setModal] = useState("");
+  const [modal, setModal] = useState(product);
   const [modalError, setModalError] = useState("");
   const [version, setVersion] = useState("");
   const [versionError, setVersionError] = useState("");
@@ -76,11 +88,24 @@ export default function SystemModal(props: systemProps) {
   const [serviceWeb, setServiceWeb] = useState(false);
   const [virtualMedia, setVirtualMedia] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [productList, setProductList] = useState(productState);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
+
+  const { data: productData, isFetching: fetchingProducts } =
+    useProductsModelsListQuery();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+
+  const dropdownStyles = {
+    PaperProps: {
+      style: {
+        maxHeight: 300,
+        width: 220,
+      },
+    },
+  };
 
   const {
     fieldName,
@@ -206,7 +231,6 @@ export default function SystemModal(props: systemProps) {
     setName("");
     setNameError("");
     setSiteError("");
-    setModal("");
     setModalError("");
     setVersion("");
     setVersionError("");
@@ -268,15 +292,6 @@ export default function SystemModal(props: systemProps) {
       setNameError("Name is required.");
     } else {
       setNameError("");
-    }
-  };
-
-  const handleModal = (e) => {
-    setModal(e.target.value);
-    if (!e.target.value) {
-      setModalError("Product model is required.");
-    } else {
-      setModalError("");
     }
   };
 
@@ -406,6 +421,11 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const handleSearch = (e, products) => {
+    setQuery(e.target.value);
+    onSearch(e.target.value, products);
+  };
+
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
       if (!item.name) {
@@ -458,60 +478,72 @@ export default function SystemModal(props: systemProps) {
   };
 
   const handleAdd = async () => {
-    if (!selectedOrganization?.sites.length) {
-      toast.success("Can not create system as this organization has no sites", {
-        autoClose: 5000,
-        pauseOnHover: false,
-      });
-    } else {
-      if (isValidPostRequest()) {
-        setDisableButton(true);
-        const systemObj = {
-          name: name,
-          site: site?.id,
-          serial_number: serialNumber,
-          location_in_building: buildingLocation,
-          system_contact_info: systemContactInfo,
-          grafana_link: grafanaLink,
-          product_model: modal,
-          image: systemImage,
-          software_version: version,
-          asset_number: asset,
-          ip_address: ip,
-          local_ae_title: localAE,
-          his_ris_info: {
-            ip: risIp,
-            title: risTitle,
-            port: risPort,
-            ae_title: risAE,
-          },
-          dicom_info: {
-            ip: dicIP,
-            title: dicTitle,
-            port: dicPort,
-            ae_title: dicAE,
-          },
-          mri_embedded_parameters: {
-            helium: mriHelium,
-            magnet_pressure: mriMagnet,
-          },
-          connection_options: {
-            virtual_media_control: virtualMedia,
-            service_web_browser: serviceWeb,
-            ssh: ssh,
-          },
-        };
-        await addNewOrdanizationSystem(
-          selectedOrganization.id,
-          systemObj,
-          addSystem,
-          props.refetch,
-          setErrors,
-          handleClear,
-          setDisableButton
-        );
-      }
+    if (isValidPostRequest()) {
+      setDisableButton(true);
+      const systemObj = {
+        name: name,
+        site: site?.id,
+        serial_number: serialNumber,
+        location_in_building: buildingLocation,
+        system_contact_info: systemContactInfo,
+        grafana_link: grafanaLink,
+        product_model: modal?.id,
+        image: systemImage,
+        software_version: version,
+        asset_number: asset,
+        ip_address: ip,
+        local_ae_title: localAE,
+        his_ris_info: {
+          ip: risIp,
+          title: risTitle,
+          port: risPort,
+          ae_title: risAE,
+        },
+        dicom_info: {
+          ip: dicIP,
+          title: dicTitle,
+          port: dicPort,
+          ae_title: dicAE,
+        },
+        mri_embedded_parameters: {
+          helium: mriHelium,
+          magnet_pressure: mriMagnet,
+        },
+        connection_options: {
+          virtual_media_control: virtualMedia,
+          service_web_browser: serviceWeb,
+          ssh: ssh,
+        },
+      };
+      await addNewOrdanizationSystem(
+        selectedOrganization.id,
+        systemObj,
+        addSystem,
+        props.refetch,
+        setErrors,
+        handleClear,
+        setDisableButton
+      );
     }
+  };
+
+  const onSearch = useCallback(
+    debounce((searchQuery: string, products: ProductModel[]) => {
+      if (searchQuery?.length > 1) {
+        const result = products?.filter(
+          (data) =>
+            data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+        const newList: productSearch = { query: searchQuery, results: result };
+        setProductList(newList);
+      }
+    }, 500),
+    []
+  );
+
+  const stopImmediatePropagation = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
   };
 
   useEffect(() => {
@@ -519,6 +551,12 @@ export default function SystemModal(props: systemProps) {
       setSite(selectedOrganization?.sites[0]);
     }
   }, [selectedOrganization]);
+
+  useEffect(() => {
+    if (productData?.length) {
+      setModal(productData[0]);
+    }
+  }, [productData]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
@@ -609,14 +647,57 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  <TextField
-                    className="info-field"
-                    variant="outlined"
-                    size="small"
-                    value={modal}
-                    placeholder=""
-                    onChange={handleModal}
-                  />
+                  <FormControl sx={{ minWidth: "100%" }}>
+                    <Select
+                      value={modal?.name}
+                      displayEmpty
+                      disabled={!productData?.length}
+                      className="info-field"
+                      inputProps={{ "aria-label": "Without label" }}
+                      style={{ height: "48px", marginRight: "15px" }}
+                      MenuProps={dropdownStyles}
+                    >
+                      <MenuItem
+                        onKeyDown={(e) => e.stopPropagation()}
+                        onClickCapture={stopImmediatePropagation}
+                        style={{ background: "transparent", padding: "0" }}
+                      >
+                        <TextField
+                          style={{ width: "100%", padding: "10px" }}
+                          className="search"
+                          variant="outlined"
+                          size="small"
+                          value={query}
+                          placeholder="search"
+                          onChange={(e) => handleSearch(e, productData)}
+                        />
+                      </MenuItem>
+                      {productList?.results?.length &&
+                      !fetchingProducts &&
+                      query?.length > 1
+                        ? productList?.results?.map((item, index) => (
+                            <MenuItem
+                              key={index}
+                              value={item.name}
+                              onClick={() => setModal(item)}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))
+                        : !fetchingProducts
+                        ? productData?.map((item, index) => (
+                            <MenuItem
+                              key={index}
+                              value={item.name}
+                              onClick={() => setModal(item)}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))
+                        : ""}
+                    </Select>
+                  </FormControl>
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
@@ -687,19 +768,31 @@ export default function SystemModal(props: systemProps) {
             </Grid>
             <div className="checkbox-container">
               <div className="checkBox">
-                <Checkbox onClick={() => setVfse(!vfse)} />
+                <Checkbox
+                  onClick={() => setVfse(!vfse)}
+                  style={{ color: vfse ? buttonBackground : "" }}
+                />
                 <span className="text">vFSE[VNC OR OTHER]</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setSsh(!ssh)} />
+                <Checkbox
+                  onClick={() => setSsh(!ssh)}
+                  style={{ color: ssh ? buttonBackground : "" }}
+                />
                 <span className="text">SSH [or terminal]</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setServiceWeb(!serviceWeb)} />
+                <Checkbox
+                  onClick={() => setServiceWeb(!serviceWeb)}
+                  style={{ color: serviceWeb ? buttonBackground : "" }}
+                />
                 <span className="text">Service web browser</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setVirtualMedia(!virtualMedia)} />
+                <Checkbox
+                  onClick={() => setVirtualMedia(!virtualMedia)}
+                  style={{ color: virtualMedia ? buttonBackground : "" }}
+                />
                 <span className="text">Virtual media control</span>
               </div>
             </div>
