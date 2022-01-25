@@ -705,6 +705,7 @@ export type MriEmbeddedParameters = {
   magnet_pressure: string;
 };
 export type ConnectionOptions = {
+  vfse: boolean;
   virtual_media_control: boolean;
   service_web_browser: boolean;
   ssh: boolean;

@@ -367,6 +367,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
         ]
 
+
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Note
