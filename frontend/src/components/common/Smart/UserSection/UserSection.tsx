@@ -189,7 +189,7 @@ export default function UserSection() {
     data: items,
     isLoading,
     refetch: usersRefetch,
-    isFetching: isUserListFetching,
+    isFetching: isUserListFetching
   } = useOrganizationsUsersListQuery({
     id: selectedOrganization.id.toString(),
   });
@@ -312,7 +312,12 @@ export default function UserSection() {
         <div style={{ height: "70px" }} />
       )}
 
-      <UserModal open={open} handleClose={handleClose} />
+      <UserModal
+        open={open}
+        handleClose={handleClose}
+        action={"add"}
+        refetch={usersRefetch}
+      />
 
       <div
         style={{ marginTop: "32px", overflow: "hidden" }}
