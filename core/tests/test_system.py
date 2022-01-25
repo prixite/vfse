@@ -117,7 +117,7 @@ class SystemTestCase(BaseTestCase):
             "magnet_pressure": "Strongest",
         }
         response = self.client.patch(
-            f"/api/systems/{self.system.id}/",
+            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/",
             data={
                 "name": "Post System",
                 "mri_embedded_parameters": mri_info,

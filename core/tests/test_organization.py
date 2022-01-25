@@ -513,6 +513,34 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.json()["ok"])
 
+    def test_put_view_only_health_network(self):
+        self.client.force_login(self.view_only)
+
+        response = self.client.put(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "name": "Latest Health Network",
+                "appearance": {
+                    "logo": "https://picsum.photos/200",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_view_only_health_network(self):
+        self.client.force_login(self.view_only)
+
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "name": "Latest Health Network",
+                "appearance": {
+                    "logo": "https://picsum.photos/200",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
 
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):
