@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
@@ -14,12 +14,32 @@ import { toast } from "react-toastify";
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
-import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import {
+  hisRISInterface,
+  dicomInfoInterface,
+  MRIParamInterface,
+} from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
+interface SystemCardProps {
+  name: string;
+  image: string;
+  software_version: string;
+  serial_number: string;
+  asset_number: string;
+  ip_address: string;
+  local_ae_title: string;
+  his_ris_info: hisRISInterface;
+  dicom_info: dicomInfoInterface;
+  mri_embedded_parameters: MRIParamInterface;
+  location_in_building: string;
+  grafana_link: string;
+  documentation: string;
+  setToggleDrawer: Dispatch<SetStateAction<boolean>>;
+}
 const SystemCard = ({
   name,
   image,
@@ -34,7 +54,8 @@ const SystemCard = ({
   location_in_building,
   grafana_link,
   documentation,
-}: SystemInterface) => {
+  setToggleDrawer,
+}: SystemCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -195,6 +216,14 @@ const SystemCard = ({
         >
           <MenuItem>
             <span style={{ marginLeft: "12px" }}>Edit</span>
+          </MenuItem>
+          <MenuItem>
+            <span
+              style={{ marginLeft: "12px" }}
+              onClick={() => setToggleDrawer(true)}
+            >
+              Comments
+            </span>
           </MenuItem>
           <MenuItem>
             <span style={{ marginLeft: "12px" }}>Delete</span>

@@ -1,0 +1,33 @@
+.DrawerHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #dce1e5;
+  margin-bottom: 15px;
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #151e39;
+  }
+}
+.AddComment {
+  padding: 14px;
+  .css-ao4qq6-MuiInputBase-root-MuiOutlinedInput-root {
+    padding: 8px 12px;
+    flex-direction: column;
+  }
+  .css-1laqsz7-MuiInputAdornment-root {
+    height: unset;
+    max-height: unset;
+    align-self: flex-end;
+  }
+  .AddCommentBtn {
+    width: 78px;
+    padding: 6px 14px 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    max-width: 200px;
+  }
+}

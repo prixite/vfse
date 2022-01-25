@@ -16,6 +16,8 @@ import {
   useModalitiesListQuery,
   OrganizationsSystemsListApiArg,
 } from "@src/store/reducers/api";
+
+import CommentsDrawer from "../CommentsDrawer/CommentsDrawer";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 
 const SystemSection = () => {
@@ -28,6 +30,7 @@ const SystemSection = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
+  const [toggleDrawer, setToggleDrawer] = useState(false);
   // eslint-disable-next-line
   const [system, setSystem] = useState(null);
   const [index, setIndex] = useState(null);
@@ -274,6 +277,7 @@ const SystemSection = () => {
           systemList?.results?.map((item, key) => (
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
+                setToggleDrawer={setToggleDrawer}
                 name={item?.name}
                 image={item?.image_url}
                 his_ris_info={item?.his_ris_info}
@@ -311,6 +315,7 @@ const SystemSection = () => {
         <div style={{ marginTop: "32px" }}>
           {systemsData?.map((item, key) => (
             <SystemCard
+              setToggleDrawer={setToggleDrawer}
               key={key}
               name={item?.name}
               image={item?.image_url}
@@ -337,6 +342,10 @@ const SystemSection = () => {
       <AddSiteFirstModal
         open={openConfirmModal}
         handleClose={() => setOpenConfirmModal(false)}
+      />
+      <CommentsDrawer
+        toggleDrawer={toggleDrawer}
+        setToggleDrawer={setToggleDrawer}
       />
     </Box>
   );
