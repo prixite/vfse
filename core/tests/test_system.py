@@ -85,6 +85,12 @@ class SystemTestCase(BaseTestCase):
             "helium": "High",
             "magnet_pressure": "strong",
         }
+        connection_options = {
+            "vfse": True,
+            "virtual_media_control": False,
+            "service_web_browser": False,
+            "ssh": False,
+        }
         product_model = factories.ProductModelFactory(model="Last model")
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/systems/",
@@ -100,6 +106,7 @@ class SystemTestCase(BaseTestCase):
                 "asset_number": "12452",
                 "ip_address": "192.168.23.25",
                 "local_ae_title": "new title",
+                "connection_options": connection_options,
             },
         )
         self.assertEqual(response.status_code, 201)
@@ -114,7 +121,7 @@ class SystemTestCase(BaseTestCase):
             "magnet_pressure": "Strongest",
         }
         response = self.client.patch(
-            f"/api/systems/{self.system.id}/",
+            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/",
             data={
                 "name": "Post System",
                 "mri_embedded_parameters": mri_info,

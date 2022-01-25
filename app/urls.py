@@ -111,15 +111,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/sites/<int:pk>/systems/",
-        api.SiteSystemViewSet.as_view(
-            {
-                "get": "list",
-            }
-        ),
-    ),
-    path(
-        "api/systems/<int:pk>/",
+        "api/organizations/<int:pk>/systems/<int:system_pk>/",
         api.SystemViewSet.as_view(
             {
                 "delete": "destroy",
