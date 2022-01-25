@@ -259,9 +259,6 @@ const AppearanceSection = () => {
                   onChange={onChangeFont}
                   inputProps={{ "aria-label": "Without label" }}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={"helvetica"}>Helvetica</MenuItem>
                   <MenuItem value={"calibri"}>Calibiri</MenuItem>
                   <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
@@ -283,9 +280,6 @@ const AppearanceSection = () => {
                   onChange={onChangeFontTwo}
                   inputProps={{ "aria-label": "Without label" }}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
                   <MenuItem value={"helvetica"}>Helvetica</MenuItem>
                   <MenuItem value={"calibri"}>Calibri</MenuItem>
                   <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
