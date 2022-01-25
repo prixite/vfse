@@ -602,14 +602,14 @@
                         "in": "query",
                         "description": "",
                         "required": false,
-                        "type": "string"
+                        "type": "number"
                     },
                     {
                         "name": "modality",
                         "in": "query",
                         "description": "",
                         "required": false,
-                        "type": "string"
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -1738,6 +1738,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "name": {
                     "title": "Name",
                     "type": "string",
@@ -1902,6 +1907,11 @@
                         "minLength": 1
                     },
                     "readOnly": true
+                },
+                "connections": {
+                    "title": "Connections",
+                    "type": "integer",
+                    "readOnly": true
                 }
             }
         },
@@ -1937,6 +1947,11 @@
                         "minLength": 1
                     },
                     "readOnly": true
+                },
+                "connections": {
+                    "title": "Connections",
+                    "type": "integer",
+                    "readOnly": true
                 }
             }
         },
@@ -1958,6 +1973,24 @@
                     "items": {
                         "$ref": "#/definitions/SiteCreate"
                     }
+                }
+            }
+        },
+        "Profile": {
+            "title": "Profile",
+            "description": "Profile(id, user, manager, phone, meta, mfa_enabled, fse_accessible, audit_enabled, can_leave_notes, is_view_only, is_one_time, view_only, one_time_complete, created_at, updated_at)",
+            "type": "object",
+            "properties": {
+                "manager": {
+                    "title": "Manager",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "phone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 1
                 }
             }
         },
@@ -2030,6 +2063,9 @@
                         "minLength": 1
                     },
                     "readOnly": true
+                },
+                "profile": {
+                    "$ref": "#/definitions/Profile"
                 }
             }
         },
