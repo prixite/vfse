@@ -7,16 +7,15 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ProductModel } from "@src/store/reducers/api";
 import debounce from "debounce";
-import { useProductsModelsListQuery } from "@src/store/reducers/api";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
 import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
 import { addNewOrdanizationSystem } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
+import { useProductsModelsListQuery , ProductModel , useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
 interface systemProps {
@@ -30,15 +29,15 @@ interface siteProps {
 }
 
 interface productSearch {
-  query?: string,
-  results: ProductModel[]
+  query?: string;
+  results: ProductModel[];
 }
 
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
-  let product: ProductModel;
-  let productState: productSearch;
+  let product: ProductModel; // eslint-disable-line
+  let productState: productSearch; // eslint-disable-line
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [site, setSite] = useState(siteData);
@@ -88,7 +87,8 @@ export default function SystemModal(props: systemProps) {
   const [productList, setProductList] = useState(productState);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
 
-  const { data: productData, isFetching: fetchingProducts } = useProductsModelsListQuery();
+  const { data: productData, isFetching: fetchingProducts } =
+    useProductsModelsListQuery();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -291,15 +291,6 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
-  const handleModal = (e) => {
-    setModal(e.target.value);
-    if (!e.target.value) {
-      setModalError("Product model is required.");
-    } else {
-      setModalError("");
-    }
-  };
-
   const handleVerion = (e) => {
     setVersion(e.target.value);
     if (!e.target.value) {
@@ -427,8 +418,8 @@ export default function SystemModal(props: systemProps) {
   };
 
   const handleSearch = (e, products) => {
-   setQuery(e.target.value);
-   onSearch(e.target.value, products)
+    setQuery(e.target.value);
+    onSearch(e.target.value, products);
   };
 
   const isValidPostRequest = () => {
@@ -483,61 +474,63 @@ export default function SystemModal(props: systemProps) {
   };
 
   const handleAdd = async () => {
-      if (isValidPostRequest()) {
-        setDisableButton(true);
-        const systemObj = {
-          name: name,
-          site: site?.id,
-          serial_number: serialNumber,
-          location_in_building: buildingLocation,
-          system_contact_info: systemContactInfo,
-          grafana_link: grafanaLink,
-          product_model: modal?.id,
-          image: systemImage,
-          software_version: version,
-          asset_number: asset,
-          ip_address: ip,
-          local_ae_title: localAE,
-          his_ris_info: {
-            ip: risIp,
-            title: risTitle,
-            port: risPort,
-            ae_title: risAE,
-          },
-          dicom_info: {
-            ip: dicIP,
-            title: dicTitle,
-            port: dicPort,
-            ae_title: dicAE,
-          },
-          mri_embedded_parameters: {
-            helium: mriHelium,
-            magnet_pressure: mriMagnet,
-          },
-          connection_options: {
-            virtual_media_control: virtualMedia,
-            service_web_browser: serviceWeb,
-            ssh: ssh,
-          },
-        };
-        await addNewOrdanizationSystem(
-          selectedOrganization.id,
-          systemObj,
-          addSystem,
-          props.refetch,
-          setErrors,
-          handleClear,
-          setDisableButton
-        );
-      }
+    if (isValidPostRequest()) {
+      setDisableButton(true);
+      const systemObj = {
+        name: name,
+        site: site?.id,
+        serial_number: serialNumber,
+        location_in_building: buildingLocation,
+        system_contact_info: systemContactInfo,
+        grafana_link: grafanaLink,
+        product_model: modal?.id,
+        image: systemImage,
+        software_version: version,
+        asset_number: asset,
+        ip_address: ip,
+        local_ae_title: localAE,
+        his_ris_info: {
+          ip: risIp,
+          title: risTitle,
+          port: risPort,
+          ae_title: risAE,
+        },
+        dicom_info: {
+          ip: dicIP,
+          title: dicTitle,
+          port: dicPort,
+          ae_title: dicAE,
+        },
+        mri_embedded_parameters: {
+          helium: mriHelium,
+          magnet_pressure: mriMagnet,
+        },
+        connection_options: {
+          virtual_media_control: virtualMedia,
+          service_web_browser: serviceWeb,
+          ssh: ssh,
+        },
+      };
+      await addNewOrdanizationSystem(
+        selectedOrganization.id,
+        systemObj,
+        addSystem,
+        props.refetch,
+        setErrors,
+        handleClear,
+        setDisableButton
+      );
+    }
   };
 
   const onSearch = useCallback(
     debounce((searchQuery: string, products: ProductModel[]) => {
       if (searchQuery?.length > 1) {
-        const result = products?.filter((data) => data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !=
-        -1);
-        const newList : productSearch = { query: searchQuery, results: result };
+        const result = products?.filter(
+          (data) =>
+            data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+        const newList: productSearch = { query: searchQuery, results: result };
         setProductList(newList);
       }
     }, 500),
@@ -603,17 +596,15 @@ export default function SystemModal(props: systemProps) {
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "48px", marginRight: "15px" }}
                     >
-                      {
-                        selectedOrganization?.sites.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item.name}
-                            onClick={() => setSite(item)}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))
-                      }
+                      {selectedOrganization?.sites.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          value={item.name}
+                          onClick={() => setSite(item)}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                   {siteError ? <p className="errorText">{siteError}</p> : ""}
@@ -665,43 +656,42 @@ export default function SystemModal(props: systemProps) {
                       <MenuItem
                         onKeyDown={(e) => e.stopPropagation()}
                         onClickCapture={stopImmediatePropagation}
-                        style={{background: 'transparent', padding: '0'}}
+                        style={{ background: "transparent", padding: "0" }}
                       >
-                      <TextField
-                          style={{width: '100%', padding: '10px'}}
-                          className='search'
+                        <TextField
+                          style={{ width: "100%", padding: "10px" }}
+                          className="search"
                           variant="outlined"
                           size="small"
                           value={query}
                           placeholder="search"
-                          onChange={(e)=> handleSearch(e, productData)}
+                          onChange={(e) => handleSearch(e, productData)}
                         />
                       </MenuItem>
-                      {
-                        productList?.results?.length && !fetchingProducts && query?.length > 1? 
-                        productList?.results?.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item.name}
-                            onClick={() => setModal(item)}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))
-                        : 
-                        !fetchingProducts ?
-                       productData?.map((item, index) => (
-                        <MenuItem
-                          key={index}
-                          value={item.name}
-                          onClick={() => setModal(item)}
-                          onKeyDown={(e) => e.stopPropagation()}
-                        >
-                          {item.name}
-                        </MenuItem>
-                      ))
-                      : ''
-                    }
+                      {productList?.results?.length &&
+                      !fetchingProducts &&
+                      query?.length > 1
+                        ? productList?.results?.map((item, index) => (
+                            <MenuItem
+                              key={index}
+                              value={item.name}
+                              onClick={() => setModal(item)}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))
+                        : !fetchingProducts
+                        ? productData?.map((item, index) => (
+                            <MenuItem
+                              key={index}
+                              value={item.name}
+                              onClick={() => setModal(item)}
+                              onKeyDown={(e) => e.stopPropagation()}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))
+                        : ""}
                     </Select>
                   </FormControl>
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
@@ -774,19 +764,31 @@ export default function SystemModal(props: systemProps) {
             </Grid>
             <div className="checkbox-container">
               <div className="checkBox">
-                <Checkbox onClick={() => setVfse(!vfse)} style={{color: vfse? buttonBackground : ''}}/>
+                <Checkbox
+                  onClick={() => setVfse(!vfse)}
+                  style={{ color: vfse ? buttonBackground : "" }}
+                />
                 <span className="text">vFSE[VNC OR OTHER]</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setSsh(!ssh)} style={{color: ssh? buttonBackground : ''}}/>
+                <Checkbox
+                  onClick={() => setSsh(!ssh)}
+                  style={{ color: ssh ? buttonBackground : "" }}
+                />
                 <span className="text">SSH [or terminal]</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setServiceWeb(!serviceWeb)} style={{color : serviceWeb? buttonBackground : ''}}/>
+                <Checkbox
+                  onClick={() => setServiceWeb(!serviceWeb)}
+                  style={{ color: serviceWeb ? buttonBackground : "" }}
+                />
                 <span className="text">Service web browser</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setVirtualMedia(!virtualMedia)} style={{color: virtualMedia ? buttonBackground : ''}}/>
+                <Checkbox
+                  onClick={() => setVirtualMedia(!virtualMedia)}
+                  style={{ color: virtualMedia ? buttonBackground : "" }}
+                />
                 <span className="text">Virtual media control</span>
               </div>
             </div>
