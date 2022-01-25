@@ -330,14 +330,16 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             return models.User.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.User.objects.all().select_related("profile")
+            return models.User.objects.exclude(
+                memberships__role=models.Role.LAMBDA_ADMIN
+            ).select_related("profile")
 
         membership = models.Membership.objects.filter(
             organization=self.kwargs["pk"],
             organization__in=self.request.user.get_organizations(
                 role=[models.Role.USER_ADMIN]
             ),
-        )
+        ).exlude(role=models.Role.LAMBDA_ADMIN)
 
         return models.User.objects.filter(
             id__in=membership.values_list("user")
