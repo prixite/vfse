@@ -328,6 +328,7 @@ class SystemImageSerializer(serializers.ModelSerializer):
 
 
 class SystemConnectionOptions(serializers.Serializer):
+    vfse = serializers.BooleanField(write_only=True)
     virtual_media_control = serializers.BooleanField()
     service_web_browser = serializers.BooleanField()
     ssh = serializers.BooleanField()

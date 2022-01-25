@@ -250,6 +250,15 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
         ).select_related("image", "product_model")
 
+    def perform_create(self, serializer):
+        seat = serializer.validated_data["connection_options"].pop("vfse")
+        system = serializer.save()
+        seat_serializer = serializers.OrganizationSeatSeriazlier(
+            data={"seats": [{"system": system.id}]}, context={"view": self}
+        )
+        if seat and seat_serializer.is_valid(raise_exception=True):
+            models.Seat.objects.create(system=system, organization_id=self.kwargs["pk"])
+
 
 class SiteSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SystemSerializer

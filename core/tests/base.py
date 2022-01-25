@@ -59,7 +59,6 @@ class BaseTestCase(TestCase):
             customer_admin_roles=[self.customer_admin],
             users=[self.customer_admin],
         )
-
         self.site = models.Site.objects.get(organization=self.organization)
         self.system = models.System.objects.get(site=self.site)
         self.product_model = self.system.product_model
