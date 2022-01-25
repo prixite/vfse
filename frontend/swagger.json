@@ -1813,12 +1813,17 @@
             "title": "Connection options",
             "description": "",
             "required": [
+                "vfse",
                 "virtual_media_control",
                 "service_web_browser",
                 "ssh"
             ],
             "type": "object",
             "properties": {
+                "vfse": {
+                    "title": "Vfse",
+                    "type": "boolean"
+                },
                 "virtual_media_control": {
                     "title": "Virtual media control",
                     "type": "boolean"
