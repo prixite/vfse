@@ -22,7 +22,9 @@ class Command(BaseCommand):
         )
 
         factories.UserWithPasswordFactory(
-            is_supermanager=True, username="super-manager@example.com",profile__manager=super_user,
+            is_supermanager=True,
+            username="super-manager@example.com",
+            profile__manager=super_user,
         )
 
         factories.OrganizationFactory(
@@ -37,30 +39,54 @@ class Command(BaseCommand):
             site__users=[super_user],
             site__system__users=[super_user],
             fse_admin_roles=[
-                factories.UserWithPasswordFactory(username="fse-admin@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="fse-admin@example.com", profile__manager=super_user
+                )
             ],
             customer_admin_roles=[
-                factories.UserWithPasswordFactory(username="customer-admin@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="customer-admin@example.com", profile__manager=super_user
+                )
             ],
             user_admin_roles=[
-                factories.UserWithPasswordFactory(username="user-admin@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="user-admin@example.com", profile__manager=super_user
+                )
             ],
-            fse_roles=[factories.UserWithPasswordFactory(username="fse@example.com",profile__manager=super_user)],
+            fse_roles=[
+                factories.UserWithPasswordFactory(
+                    username="fse@example.com", profile__manager=super_user
+                )
+            ],
             end_user_roles=[
-                factories.UserWithPasswordFactory(username="end-user@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="end-user@example.com", profile__manager=super_user
+                )
             ],
             view_only_roles=[
-                factories.UserWithPasswordFactory(username="view-only@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="view-only@example.com", profile__manager=super_user
+                )
             ],
             one_time_roles=[
-                factories.UserWithPasswordFactory(username="one-time@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="one-time@example.com", profile__manager=super_user
+                )
             ],
-            cryo_roles=[factories.UserWithPasswordFactory(username="cryo@example.com",profile__manager=super_user)],
+            cryo_roles=[
+                factories.UserWithPasswordFactory(
+                    username="cryo@example.com", profile__manager=super_user
+                )
+            ],
             cryo_fse_roles=[
-                factories.UserWithPasswordFactory(username="cryo-fse@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="cryo-fse@example.com", profile__manager=super_user
+                )
             ],
             cryo_admin_roles=[
-                factories.UserWithPasswordFactory(username="cryo-admin@example.com",profile__manager=super_user)
+                factories.UserWithPasswordFactory(
+                    username="cryo-admin@example.com", profile__manager=super_user
+                )
             ],
             sites=True,
         )
@@ -181,8 +207,12 @@ class Command(BaseCommand):
         )
         factories.OrganizationFactory.create_batch(175, is_customer=True)
         factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
-        factories.SiteFactory.create_batch(5, organization=health_network,users=[super_user],
-            system__users=[super_user],)
+        factories.SiteFactory.create_batch(
+            5,
+            organization=health_network,
+            users=[super_user],
+            system__users=[super_user],
+        )
         factories.SystemFactory.create_batch(
             10,
             seats=True,
@@ -195,7 +225,6 @@ class Command(BaseCommand):
                 health_network__id=191
             ).health_network,
             users=[super_user],
-
         )
 
         factories.SystemFactory(

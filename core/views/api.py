@@ -2,7 +2,7 @@ import json
 
 import boto3
 from django.db import IntegrityError, transaction
-from django.db.models import Q,Count
+from django.db.models import Count, Q
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
@@ -182,17 +182,21 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
-        return models.Site.objects.filter(
-            organization=self.kwargs["pk"],
-            organization__in=self.get_user_organizations(),
-        ).prefetch_related(
-            Prefetch(
-                "systems",
-                queryset=models.System.objects.all().select_related(
-                    "product_model__modality"
+        return (
+            models.Site.objects.filter(
+                organization=self.kwargs["pk"],
+                organization__in=self.get_user_organizations(),
+            )
+            .prefetch_related(
+                Prefetch(
+                    "systems",
+                    queryset=models.System.objects.all().select_related(
+                        "product_model__modality"
+                    ),
                 ),
-            ),
-        ).annotate(connections=Count('systems'))
+            )
+            .annotate(connections=Count("systems"))
+        )
 
     def get_serializer_class(self, *args, **kwargs):
         if self.action == "update":
@@ -245,8 +249,14 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.System.objects.filter(
-                Q(site__organization_id=self.kwargs["pk"]) |
-                Q(site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(organization_id=self.kwargs['pk']).values_list('health_network'))
+                Q(site__organization_id=self.kwargs["pk"])
+                | Q(
+                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(
+                        organization_id=self.kwargs["pk"]
+                    ).values_list(
+                        "health_network"
+                    )
+                )
             ).select_related("image", "product_model")
 
         return models.System.objects.filter(

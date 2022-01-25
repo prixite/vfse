@@ -123,7 +123,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     profile = factory.RelatedFactory(
         "core.tests.factories.ProfileFactory", factory_related_name="user"
     )
-    
+
     @factory.post_generation
     def organizations(
         user,
@@ -158,7 +158,7 @@ class UserWithPasswordFactory(UserFactory):
 
 @factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
-    phone = factory.Faker('phone_number')
+    phone = factory.Faker("phone_number")
 
     class Meta:
         model = models.Profile
@@ -349,6 +349,7 @@ class SystemFactory(factory.django.DjangoModelFactory):
         models.UserSystem.objects.bulk_create(
             models.UserSystem(user=user, system=obj) for user in extracted or []
         )
+
 
 class SystemNoteFactory(factory.django.DjangoModelFactory):
     class Meta:
