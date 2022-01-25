@@ -331,7 +331,7 @@ class SystemFactory(factory.django.DjangoModelFactory):
     }
 
     class Params:
-        sites = factory.Trait(
+        seats = factory.Trait(
             seat=factory.RelatedFactory(
                 SeatFactory,
                 factory_related_name="system",

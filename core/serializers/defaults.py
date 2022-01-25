@@ -62,6 +62,7 @@ class HealthNetworkAppearanceDefault:
 class ConnectionOptionDefault:
     def __call__(self, *args, **kwds):
         return {
+            "vfse":False,
             "virtual_media_control": False,
             "service_web_browser": False,
             "ssh": False,
