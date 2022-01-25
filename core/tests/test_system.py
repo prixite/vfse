@@ -55,8 +55,8 @@ class SystemTestCase(BaseTestCase):
 
     def test_list_systems_vfse(self):
         self.client.force_login(self.fse)
-        models.UserSystem.objects.create(user=self.fse, system=self.system)
-        models.UserSite.objects.create(user=self.fse, site=self.site)
+        models.UserSystem.objects.create(user=self.fse, system=self.system,organization=self.organization)
+        models.UserSite.objects.create(user=self.fse, site=self.site,organization=self.organization)
         response = self.client.get(
             f"/api/organizations/{self.organization.id}/systems/"
         )
