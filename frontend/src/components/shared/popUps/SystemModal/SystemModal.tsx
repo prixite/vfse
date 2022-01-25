@@ -15,7 +15,11 @@ import { localizedData } from "@src/helpers/utils/language";
 import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
 import { addNewOrdanizationSystem } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
-import { useProductsModelsListQuery , ProductModel , useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
+import {
+  useProductsModelsListQuery,
+  ProductModel,
+  useOrganizationsSystemsCreateMutation,
+} from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
 interface systemProps {
@@ -537,7 +541,7 @@ export default function SystemModal(props: systemProps) {
     []
   );
 
-  const stopImmediatePropagation = (e: any) => {
+  const stopImmediatePropagation = (e) => {
     e.stopPropagation();
     e.preventDefault();
   };
