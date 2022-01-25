@@ -342,6 +342,7 @@ class SystemSerializer(serializers.ModelSerializer):
     )
     image_url = serializers.ReadOnlyField()
     documentation = serializers.ReadOnlyField()
+    vfse = serializers.SerializerMethodField()
 
     class Meta:
         model = models.System
@@ -365,6 +366,9 @@ class SystemSerializer(serializers.ModelSerializer):
             "image_url",
             "documentation",
         ]
+
+    def get_vfse(self, value):
+        return True
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
