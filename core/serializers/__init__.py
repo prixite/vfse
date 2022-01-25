@@ -380,6 +380,14 @@ class ManufacturerImageSerializer(serializers.ModelSerializer):
         fields = ["image"]
 
 
+class SeatListSerializer(serializers.ModelSerializer):
+    system = SystemSerializer()
+
+    class Meta:
+        model = models.Seat
+        fields = ["system"]
+
+
 class SeatSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Seat

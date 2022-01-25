@@ -463,7 +463,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Seat"
+                                "$ref": "#/definitions/SeatList"
                             }
                         }
                     }
@@ -1626,6 +1626,221 @@
                 }
             }
         },
+        "SystemInfo": {
+            "title": "His ris info",
+            "description": "",
+            "required": [
+                "ip",
+                "title",
+                "port",
+                "ae_title"
+            ],
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "title": "Ip",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "port": {
+                    "title": "Port",
+                    "type": "integer"
+                },
+                "ae_title": {
+                    "title": "Ae title",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "ip": "192.187.23.23",
+                "title": "HIS System 1",
+                "port": 2000,
+                "ae_title": "HS1"
+            }
+        },
+        "MriInfo": {
+            "title": "Mri embedded parameters",
+            "description": "",
+            "required": [
+                "helium",
+                "magnet_pressure"
+            ],
+            "type": "object",
+            "properties": {
+                "helium": {
+                    "title": "Helium",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "magnet_pressure": {
+                    "title": "Magnet pressure",
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "default": {
+                "helium": "High",
+                "magnet_pressure": "strong"
+            }
+        },
+        "SystemConnectionOptions": {
+            "title": "Connection options",
+            "description": "",
+            "required": [
+                "vfse",
+                "virtual_media_control",
+                "service_web_browser",
+                "ssh"
+            ],
+            "type": "object",
+            "properties": {
+                "vfse": {
+                    "title": "Vfse",
+                    "type": "boolean"
+                },
+                "virtual_media_control": {
+                    "title": "Virtual media control",
+                    "type": "boolean"
+                },
+                "service_web_browser": {
+                    "title": "Service web browser",
+                    "type": "boolean"
+                },
+                "ssh": {
+                    "title": "Ssh",
+                    "type": "boolean"
+                }
+            },
+            "default": {
+                "virtual_media_control": false,
+                "service_web_browser": false,
+                "ssh": false
+            }
+        },
+        "System": {
+            "title": "System",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, last_successful_ping_at, created_at, updated_at)",
+            "required": [
+                "name",
+                "site",
+                "grafana_link",
+                "product_model",
+                "software_version",
+                "asset_number",
+                "ip_address",
+                "local_ae_title"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "site": {
+                    "title": "Site",
+                    "type": "integer"
+                },
+                "serial_number": {
+                    "title": "Serial number",
+                    "type": "string",
+                    "maxLength": 32,
+                    "x-nullable": true
+                },
+                "location_in_building": {
+                    "title": "Location in building",
+                    "type": "string",
+                    "maxLength": 32,
+                    "x-nullable": true
+                },
+                "system_contact_info": {
+                    "title": "System contact info",
+                    "type": "string",
+                    "maxLength": 256,
+                    "x-nullable": true
+                },
+                "grafana_link": {
+                    "title": "Grafana link",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                },
+                "product_model": {
+                    "title": "Product model",
+                    "type": "integer"
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "software_version": {
+                    "title": "Software version",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "asset_number": {
+                    "title": "Asset number",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "ip_address": {
+                    "title": "Ip address",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "local_ae_title": {
+                    "title": "Local ae title",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "his_ris_info": {
+                    "$ref": "#/definitions/SystemInfo"
+                },
+                "dicom_info": {
+                    "$ref": "#/definitions/SystemInfo"
+                },
+                "mri_embedded_parameters": {
+                    "$ref": "#/definitions/MriInfo"
+                },
+                "connection_options": {
+                    "$ref": "#/definitions/SystemConnectionOptions"
+                },
+                "image_url": {
+                    "title": "Image url",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "documentation": {
+                    "title": "Documentation",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
+        "SeatList": {
+            "description": "Seat(id, system, organization, created_at, updated_at)",
+            "required": [
+                "system"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "$ref": "#/definitions/System"
+                }
+            }
+        },
         "Seat": {
             "description": "Seat(id, system, organization, created_at, updated_at)",
             "required": [
@@ -1743,208 +1958,6 @@
                     "items": {
                         "$ref": "#/definitions/SiteCreate"
                     }
-                }
-            }
-        },
-        "SystemInfo": {
-            "title": "His ris info",
-            "description": "",
-            "required": [
-                "ip",
-                "title",
-                "port",
-                "ae_title"
-            ],
-            "type": "object",
-            "properties": {
-                "ip": {
-                    "title": "Ip",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "title": {
-                    "title": "Title",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "port": {
-                    "title": "Port",
-                    "type": "integer"
-                },
-                "ae_title": {
-                    "title": "Ae title",
-                    "type": "string",
-                    "minLength": 1
-                }
-            },
-            "default": {
-                "ip": "192.187.23.23",
-                "title": "HIS System 1",
-                "port": 2000,
-                "ae_title": "HS1"
-            }
-        },
-        "MriInfo": {
-            "title": "Mri embedded parameters",
-            "description": "",
-            "required": [
-                "helium",
-                "magnet_pressure"
-            ],
-            "type": "object",
-            "properties": {
-                "helium": {
-                    "title": "Helium",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "magnet_pressure": {
-                    "title": "Magnet pressure",
-                    "type": "string",
-                    "minLength": 1
-                }
-            },
-            "default": {
-                "helium": "High",
-                "magnet_pressure": "strong"
-            }
-        },
-        "SystemConnectionOptions": {
-            "title": "Connection options",
-            "description": "",
-            "required": [
-                "vfse",
-                "virtual_media_control",
-                "service_web_browser",
-                "ssh"
-            ],
-            "type": "object",
-            "properties": {
-                "vfse": {
-                    "title": "Vfse",
-                    "type": "boolean"
-                },
-                "virtual_media_control": {
-                    "title": "Virtual media control",
-                    "type": "boolean"
-                },
-                "service_web_browser": {
-                    "title": "Service web browser",
-                    "type": "boolean"
-                },
-                "ssh": {
-                    "title": "Ssh",
-                    "type": "boolean"
-                }
-            },
-            "default": {
-                "virtual_media_control": false,
-                "service_web_browser": false,
-                "ssh": false
-            }
-        },
-        "System": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, last_successful_ping_at, created_at, updated_at)",
-            "required": [
-                "name",
-                "site",
-                "grafana_link",
-                "product_model",
-                "software_version",
-                "asset_number",
-                "ip_address",
-                "local_ae_title"
-            ],
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 1
-                },
-                "site": {
-                    "title": "Site",
-                    "type": "integer"
-                },
-                "serial_number": {
-                    "title": "Serial number",
-                    "type": "string",
-                    "maxLength": 32,
-                    "x-nullable": true
-                },
-                "location_in_building": {
-                    "title": "Location in building",
-                    "type": "string",
-                    "maxLength": 32,
-                    "x-nullable": true
-                },
-                "system_contact_info": {
-                    "title": "System contact info",
-                    "type": "string",
-                    "maxLength": 256,
-                    "x-nullable": true
-                },
-                "grafana_link": {
-                    "title": "Grafana link",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "minLength": 1
-                },
-                "product_model": {
-                    "title": "Product model",
-                    "type": "integer"
-                },
-                "image": {
-                    "title": "Image",
-                    "type": "integer",
-                    "x-nullable": true
-                },
-                "software_version": {
-                    "title": "Software version",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "asset_number": {
-                    "title": "Asset number",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "ip_address": {
-                    "title": "Ip address",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "local_ae_title": {
-                    "title": "Local ae title",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "his_ris_info": {
-                    "$ref": "#/definitions/SystemInfo"
-                },
-                "dicom_info": {
-                    "$ref": "#/definitions/SystemInfo"
-                },
-                "mri_embedded_parameters": {
-                    "$ref": "#/definitions/MriInfo"
-                },
-                "connection_options": {
-                    "$ref": "#/definitions/SystemConnectionOptions"
-                },
-                "image_url": {
-                    "title": "Image url",
-                    "type": "string",
-                    "readOnly": true
-                },
-                "documentation": {
-                    "title": "Documentation",
-                    "type": "string",
-                    "readOnly": true
                 }
             }
         },
