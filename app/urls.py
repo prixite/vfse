@@ -23,7 +23,6 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 api_urlpatterns = [
-    
     path(
         "api/organizations/<int:pk>/",
         api.OrganizationViewSet.as_view(
