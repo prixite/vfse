@@ -34,8 +34,10 @@ class User(AbstractUser):
 
     @property
     def modalities(self):
-        return Modality.objects.filter(
-            id__in=self.usermodality_set.all().values_list("modality")
+        return sorted(
+            Modality.objects.filter(
+                id__in=self.usermodality_set.all().values_list("modality")
+            ).values_list("name", flat=True)
         )
 
     @property

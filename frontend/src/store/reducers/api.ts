@@ -478,8 +478,8 @@ export type OrganizationsSystemsListApiResponse = /** status 200  */ System[];
 export type OrganizationsSystemsListApiArg = {
   id: string;
   site?: string;
-  healthNetwork?: string;
-  modality?: string;
+  healthNetwork?: number;
+  modality?: number;
 };
 export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
 export type OrganizationsSystemsCreateApiArg = {
@@ -682,6 +682,7 @@ export type ConnectionOptions = {
   ssh: boolean;
 };
 export type System = {
+  id?: number;
   name: string;
   site: number;
   serial_number?: string | null;
@@ -715,16 +716,22 @@ export type Site = {
   name: string;
   address: string;
   modalities?: string[];
+  connections?: number;
 };
 export type SiteCreate = {
   id?: number | null;
   name: string;
   address: string;
   modalities?: string[];
+  connections?: number;
 };
 export type OrganizationSite = {
   id?: number;
   sites: SiteCreate[];
+};
+export type Profile = {
+  manager?: number | null;
+  phone?: string;
 };
 export type User = {
   id?: number;
@@ -736,6 +743,7 @@ export type User = {
   health_networks?: string[];
   modalities?: string[];
   organizations?: string[];
+  profile?: Profile;
 };
 export type UpsertUser = {
   meta?: Meta;
