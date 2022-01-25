@@ -35,12 +35,6 @@ const updateOrganizationService = async (
         pauseOnHover: false,
         onClose: refetch,
       });
-    })
-    .catch((err) => {
-      toast.success(err?.response, {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
     });
 };
 
