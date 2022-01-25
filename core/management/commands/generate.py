@@ -82,7 +82,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Crothal Site",
             site__system__name="Crothal System",
-            site__system__sites=True,
+            site__system__seats=True,
         )
         factories.HealthNetworkFactory(
             name="Crothal Health Network",
@@ -96,14 +96,14 @@ class Command(BaseCommand):
             sites=True,
             site__name="Alira Site",
             site__system__name="Alira System",
-            site__system__sites=True,
+            site__system__seats=True,
         )
         factories.HealthNetworkFactory(
             name="Alira Health Network",
             organizations=[orgnization],
         )
         factories.SystemFactory.create_batch(
-            10, sites=True, site=organization.sites.first()
+            10, seats=True, site=organization.sites.first()
         )
         # Conni
         orgnization = factories.OrganizationFactory(
@@ -113,7 +113,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Conni Site",
             site__system__name="Conni System",
-            site__system__sites=True,
+            site__system__seats=True,
         )
         factories.HealthNetworkFactory(
             name="Conni Health Network",
@@ -127,7 +127,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Conventry Site",
             site__system__name="Conventry System",
-            site__system__sites=True,
+            site__system__seats=True,
         )
         factories.HealthNetworkFactory(
             name="Conventry Health Network",
@@ -141,7 +141,7 @@ class Command(BaseCommand):
             sites=True,
             site__name="Heartbeat Site",
             site__system__name="Heartbeat System",
-            site__system__sites=True,
+            site__system__seats=True,
         )
         factories.HealthNetworkFactory(
             name="Heartbeat Health Network",
@@ -158,7 +158,7 @@ class Command(BaseCommand):
         factories.SiteFactory.create_batch(5, organization=health_network)
         factories.SystemFactory.create_batch(
             10,
-            sites=True,
+            seats=True,
             site=health_network.sites.get(id=12),
         )
         factories.SiteFactory.create_batch(
