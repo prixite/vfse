@@ -71,7 +71,7 @@ export default function UserModal(props: Props) {
   const [emailError, setEmailError] = useState("");
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [role, setRole] = useState(roles[0].value);
+  const [role, setRole] = useState(roles[0]?.value);
   const [manager, setManager] = useState<number>();
   const [customer, setCustomer] = useState<number>();
   const [selectedModalities, setSelectedModalities] = useState([]);
@@ -245,8 +245,6 @@ export default function UserModal(props: Props) {
     } else {
       setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleEditUser = async () => {
@@ -288,6 +286,7 @@ export default function UserModal(props: Props) {
 
   const resetModal = () => {
     if (props?.action == "add") {
+      setPage("1");
       setUserProfileImage("");
       setSelectedImage([]);
       setImageError("");
@@ -309,6 +308,13 @@ export default function UserModal(props: Props) {
       setOneTimeLinkCreation(false);
       setSitesError("");
       setModalitiesError("");
+      setRole(roles[0]?.value);
+      if (!isUsersLoading && usersList?.length) {
+        setManager(usersList[0]?.id);
+      }
+      if (!isOrganisationLoading && organizationData?.length) {
+        setCustomer(organizationData[0]?.id);
+      }
     } else if (props?.action == "edit") {
       // if (props?.firstname && props?.lastname) {
       //   setFirstName(props?.firstname);
