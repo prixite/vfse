@@ -3,6 +3,13 @@
     width: 784px;
     max-width: 800px;
   }
+
+  .errorText {
+    color: #ff1744;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+
   .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
@@ -114,10 +121,10 @@
     }
     .toggle-btn {
       min-width: 65px;
-      margin-right: 20px !important;
+      margin-right: 12px !important;
       border: 1px solid #d4d6db !important;
-      border-radius: 4px !important;
-      margin-bottom: 16px;
+      border-radius: 8px !important;
+      margin-bottom: 18px;
       padding: 8px 24px;
     }
     .services {
@@ -133,6 +140,7 @@
   }
   .css-hlj6pa-MuiDialogActions-root {
     justify-content: center;
+    margin-bottom: 12px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;

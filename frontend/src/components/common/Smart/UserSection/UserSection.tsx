@@ -141,7 +141,11 @@ export default function UserSection() {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-  const { data: items, isLoading } = useOrganizationsUsersListQuery({
+  const {
+    data: items,
+    isLoading,
+    refetch: usersRefetch,
+  } = useOrganizationsUsersListQuery({
     id: selectedOrganization.id.toString(),
   });
 
@@ -246,7 +250,12 @@ export default function UserSection() {
         hasData={hasData}
       />
 
-      <UserModal open={open} handleClose={handleClose} />
+      <UserModal
+        open={open}
+        handleClose={handleClose}
+        action={"add"}
+        refetch={usersRefetch}
+      />
 
       <div
         style={{ marginTop: "32px", overflow: "hidden" }}
