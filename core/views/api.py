@@ -371,6 +371,9 @@ class OrganizationSeatViewSet(ModelViewSet):
             organization=self.kwargs["pk"],
         )
 
+        if self.action == "list":
+            assigned = assigned.select_related("system")
+
         if not (self.request.user.is_superuser or self.request.user.is_supermanager):
             assigned = assigned.filter(
                 organization__in=self.request.user.get_organizations(),
