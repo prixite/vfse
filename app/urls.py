@@ -22,9 +22,9 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
-organization_api = [
+api_urlpatterns = [
     path(
-        "",
+        "api/organizations/<int:pk>/",
         api.OrganizationViewSet.as_view(
             {
                 "get": "retrieve",
@@ -34,7 +34,7 @@ organization_api = [
         ),
     ),
     path(
-        "health_networks/",
+        "api/organizations/<int:pk>/health_networks/",
         api.OrganizationHealthNetworkViewSet.as_view(
             {
                 "put": "update",
@@ -44,7 +44,7 @@ organization_api = [
         ),
     ),
     path(
-        "users/",
+        "api/organizations/<int:pk>/users/",
         api.OrganizationUserViewSet.as_view(
             {
                 "get": "list",
@@ -53,7 +53,7 @@ organization_api = [
         ),
     ),
     path(
-        "seats/",
+        "api/organizations/<int:pk>/seats/",
         api.OrganizationSeatViewSet.as_view(
             {
                 "get": "list",
@@ -62,7 +62,7 @@ organization_api = [
         ),
     ),
     path(
-        "sites/",
+        "api/organizations/<int:pk>/sites/",
         api.OrganizationSiteViewSet.as_view(
             {
                 "post": "create",
@@ -72,7 +72,7 @@ organization_api = [
         ),
     ),
     path(
-        "systems/",
+        "api/organizations/<int:pk>/systems/",
         api.OrganizationSystemViewSet.as_view(
             {
                 "get": "list",
@@ -81,19 +81,13 @@ organization_api = [
         ),
     ),
     path(
-        "systems/<int:system_pk>/",
+        "api/organizations/<int:pk>/systems/<int:system_pk>/",
         api.SystemViewSet.as_view(
             {
                 "delete": "destroy",
                 "patch": "partial_update",
             }
         ),
-    ),
-]
-api_urlpatterns = [
-    path(
-        "api/organizations/<int:pk>/",
-        include(organization_api),
     ),
     path(
         "api/me/",
