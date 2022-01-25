@@ -251,7 +251,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
             return models.System.objects.filter(
                 Q(site__organization_id=self.kwargs["pk"])
                 | Q(
-                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(
+                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
                         organization_id=self.kwargs["pk"]
                     ).values_list(
                         "health_network"
