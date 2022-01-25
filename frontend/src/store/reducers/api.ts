@@ -706,6 +706,7 @@ export type ConnectionOptions = {
   ssh: boolean;
 };
 export type System = {
+  id?: number;
   name: string;
   site: number;
   serial_number?: string | null;
