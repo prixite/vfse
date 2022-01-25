@@ -1,4 +1,5 @@
 import re
+from django.db import connection
 
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -31,10 +32,10 @@ class SiteSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
         child=serializers.CharField(), allow_empty=True, read_only=True
     )
-
+    connections = serializers.IntegerField(read_only=True)
     class Meta:
         model = models.Site
-        fields = ["id", "name", "address", "modalities"]
+        fields = ["id", "name", "address", "modalities","connections"]
 
 
 class SiteCreateSerializer(SiteSerializer):
@@ -178,6 +179,10 @@ class ModalitySerializer(serializers.ModelSerializer):
         model = models.Modality
         fields = ["id", "name"]
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Profile
+        fields = ["manager",'phone']
 
 class UserSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
@@ -189,7 +194,7 @@ class UserSerializer(serializers.ModelSerializer):
     organizations = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
-
+    profile = ProfileSerializer(read_only=True)
     class Meta:
         model = models.User
         fields = [
@@ -202,6 +207,7 @@ class UserSerializer(serializers.ModelSerializer):
             "health_networks",
             "modalities",
             "organizations",
+            "profile"
         ]
 
 
