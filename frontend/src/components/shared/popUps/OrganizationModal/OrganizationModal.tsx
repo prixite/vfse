@@ -237,7 +237,14 @@ export default function OrganizationModal({
               organizationObject,
               updateOrganization,
               refetch
-            );
+            )
+              .then(() => setPage("2"))
+              .catch(() =>
+                toast.success("Error Occured", {
+                  autoClose: 1000,
+                  pauseOnHover: false,
+                })
+              );
           }
         }
       );
@@ -249,7 +256,14 @@ export default function OrganizationModal({
           organizationObject,
           updateOrganization,
           refetch
-        );
+        )
+          .then(() => setPage("2"))
+          .catch(() =>
+            toast.error("Error Occured", {
+              autoClose: 1000,
+              pauseOnHover: false,
+            })
+          );
       }
     }
     setIsLoading(false);
@@ -609,7 +623,9 @@ export default function OrganizationModal({
           {isLoading
             ? "Loading..."
             : action === "edit"
-            ? "Edit"
+            ? page === "1"
+              ? newOrganizationBtnNext
+              : "Edit"
             : page === "1"
             ? newOrganizationBtnNext
             : newOrganizationBtnSave}
