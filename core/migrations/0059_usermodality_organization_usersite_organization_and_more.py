@@ -7,26 +7,38 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0058_alter_membership_role_alter_userhealthnetwork_role_and_more'),
+        ("core", "0058_alter_membership_role_alter_userhealthnetwork_role_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='usermodality',
-            name='organization',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to='core.organization'),
+            model_name="usermodality",
+            name="organization",
+            field=models.ForeignKey(
+                default="",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="core.organization",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='usersite',
-            name='organization',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to='core.organization'),
+            model_name="usersite",
+            name="organization",
+            field=models.ForeignKey(
+                default="",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="core.organization",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='usersystem',
-            name='organization',
-            field=models.ForeignKey(default='', on_delete=django.db.models.deletion.CASCADE, to='core.organization'),
+            model_name="usersystem",
+            name="organization",
+            field=models.ForeignKey(
+                default="",
+                on_delete=django.db.models.deletion.CASCADE,
+                to="core.organization",
+            ),
             preserve_default=False,
         ),
     ]
