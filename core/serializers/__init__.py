@@ -215,7 +215,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField()
-    title = serializers.CharField()
+    title = serializers.CharField(required=False)
 
 
 class UpsertUserSerializer(serializers.Serializer):
@@ -240,6 +240,7 @@ class UpsertUserSerializer(serializers.Serializer):
     can_leave_notes = serializers.BooleanField()
     view_only = serializers.BooleanField()
     is_one_time = serializers.BooleanField()
+    documentation_url = serializers.BooleanField()
 
     def validate_phone(self, value):
         result = re.match(r"(?P<phone>\+1\d{10}$)", value)

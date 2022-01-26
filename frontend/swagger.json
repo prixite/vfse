@@ -1163,8 +1163,7 @@
             "title": "Meta",
             "description": "",
             "required": [
-                "profile_picture",
-                "title"
+                "profile_picture"
             ],
             "type": "object",
             "properties": {
@@ -1201,6 +1200,7 @@
                 "can_leave_notes",
                 "view_only",
                 "is_one_time",
+                "documentation_url",
                 "health_networks"
             ],
             "type": "object",
@@ -1287,6 +1287,10 @@
                 },
                 "is_one_time": {
                     "title": "Is one time",
+                    "type": "boolean"
+                },
+                "documentation_url": {
+                    "title": "Documentation url",
                     "type": "boolean"
                 },
                 "health_networks": {
@@ -1978,7 +1982,7 @@
         },
         "Profile": {
             "title": "Profile",
-            "description": "Profile(id, user, manager, phone, meta, mfa_enabled, fse_accessible, audit_enabled, can_leave_notes, is_view_only, is_one_time, view_only, one_time_complete, created_at, updated_at)",
+            "description": "Profile(id, user, manager, phone, meta, mfa_enabled, fse_accessible, audit_enabled, can_leave_notes, is_view_only, is_one_time, view_only, documentation_url, one_time_complete, created_at, updated_at)",
             "type": "object",
             "properties": {
                 "manager": {
@@ -2084,7 +2088,8 @@
                 "audit_enabled",
                 "can_leave_notes",
                 "view_only",
-                "is_one_time"
+                "is_one_time",
+                "documentation_url"
             ],
             "type": "object",
             "properties": {
@@ -2170,6 +2175,10 @@
                 },
                 "is_one_time": {
                     "title": "Is one time",
+                    "type": "boolean"
+                },
+                "documentation_url": {
+                    "title": "Documentation url",
                     "type": "boolean"
                 }
             }
