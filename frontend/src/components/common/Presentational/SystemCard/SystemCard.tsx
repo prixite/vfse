@@ -10,7 +10,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import { toast } from "react-toastify";
-
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { DeleteOrganizationSystemService } from "@src/services/systemServices";
+import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
@@ -22,6 +24,7 @@ import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
 const SystemCard = ({
   name,
+  id,
   image,
   his_ris_info,
   dicom_info,
@@ -35,11 +38,17 @@ const SystemCard = ({
   grafana_link,
   documentation,
   handleEdit,
+  refetch,
 }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [modal, setModal] = React.useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
+  );
+  const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const open = Boolean(anchorEl);
   const {
     his_ris_info_txt,
@@ -64,6 +73,17 @@ const SystemCard = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleDelete = async()=>{
+    setModal(false);
+    await DeleteOrganizationSystemService(
+       selectedOrganization.id,
+       id,
+       deleteSystem,
+       refetch,
+    );
+    handleClose();
+  }
 
   return (
     <div className="system-card">
@@ -197,11 +217,17 @@ const SystemCard = ({
           <MenuItem onClick={handleEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={()=> setModal(true)}>
             <span style={{ marginLeft: "12px" }}>Delete</span>
           </MenuItem>
         </Menu>
       </div>
+      <ConfirmationModal
+        name={name}
+        open={modal}
+        handleClose={()=> setModal(false)}
+        handleDeleteOrganization={handleDelete}
+      />
     </div>
   );
 };

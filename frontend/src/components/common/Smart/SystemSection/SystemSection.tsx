@@ -280,6 +280,7 @@ const SystemSection = () => {
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
                 name={item?.name}
+                id={item?.id}
                 image={item?.image_url}
                 his_ris_info={item?.his_ris_info}
                 dicom_info={item?.dicom_info}
@@ -293,6 +294,7 @@ const SystemSection = () => {
                 grafana_link={item?.grafana_link}
                 documentation={item?.documentation}
                 handleEdit={() => handleEdit(item)}
+                refetch={systemsRefetch}
               />
             </div>
           ))
@@ -319,6 +321,7 @@ const SystemSection = () => {
             <SystemCard
               key={key}
               name={item?.name}
+              id={item?.id}
               image={item?.image_url}
               his_ris_info={item?.his_ris_info}
               dicom_info={item?.dicom_info}
@@ -332,6 +335,7 @@ const SystemSection = () => {
               grafana_link={item?.grafana_link}
               documentation={item?.documentation}
               handleEdit={() => handleEdit(item)}
+              refetch={systemsRefetch}
             />
           ))}
         </div>
