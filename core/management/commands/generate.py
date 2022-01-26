@@ -31,7 +31,6 @@ class Command(BaseCommand):
             is_default=True,
             name="626",
             number_of_seats=10,
-
         )
         fse_admin = factories.UserWithPasswordFactory(
             username="fse-admin@example.com", profile__manager=super_user
