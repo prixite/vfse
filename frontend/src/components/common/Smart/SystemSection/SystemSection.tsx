@@ -204,7 +204,6 @@ const SystemSection = () => {
                 horizontal
                 bound
                 gap={40}
-                zIndex={1000}
                 style={{ height: "33px" }}
               >
                 <span

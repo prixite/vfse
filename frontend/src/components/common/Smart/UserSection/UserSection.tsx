@@ -182,7 +182,7 @@ export default function UserSection() {
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
-  const { lock, unlock, edit, delete_user } = localizedData().user_menu_options;
+  const { lock, unlock, edit } = localizedData().user_menu_options;
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -384,7 +384,7 @@ export default function UserSection() {
                         cellValues?.row?.health_networks?.length > 1
                           ? () =>
                               handleModalClick(
-                                "Health Networks",
+                                "Sites",
                                 cellValues?.row?.health_networks
                               )
                           : undefined
@@ -524,7 +524,7 @@ export default function UserSection() {
                       cellValues?.row?.health_networks?.length > 1
                         ? () =>
                             handleModalClick(
-                              "Health Networks",
+                              "Sites",
                               cellValues?.row?.health_networks
                             )
                         : undefined
@@ -613,7 +613,6 @@ export default function UserSection() {
           </MenuItem>
         )}
         <MenuItem>{edit}</MenuItem>
-        <MenuItem>{delete_user}</MenuItem>
       </Menu>
       <ListModal
         name={modalHeader}
