@@ -1163,8 +1163,7 @@
             "title": "Meta",
             "description": "",
             "required": [
-                "profile_picture",
-                "title"
+                "profile_picture"
             ],
             "type": "object",
             "properties": {
