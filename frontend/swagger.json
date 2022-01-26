@@ -1066,6 +1066,22 @@
                 }
             ]
         },
+        "/user_roles/": {
+            "get": {
+                "operationId": "user_roles_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "user_roles"
+                ]
+            },
+            "parameters": []
+        },
         "/users/activate/": {
             "patch": {
                 "operationId": "users_activate_partial_update",
