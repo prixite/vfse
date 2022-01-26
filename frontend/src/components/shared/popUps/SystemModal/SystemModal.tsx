@@ -659,7 +659,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={name}
-                    placeholder=""
+                    placeholder="System1"
                     onChange={handleName}
                   />
                   {nameError ? <p className="errorText">{nameError}</p> : ""}
@@ -699,7 +699,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={serialNumber}
-                    placeholder=""
+                    placeholder="9xuiua002"
                     onChange={(e) => {
                       setSerialNumber(e.target.value);
                     }}
@@ -714,7 +714,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={buildingLocation}
-                    placeholder=""
+                    placeholder="3161 Cunningham Avenue Suite 905"
                     onChange={(e) => {
                       setBuildingLocation(e.target.value);
                     }}
@@ -790,7 +790,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={version}
-                    placeholder=""
+                    placeholder="v2.7"
                     onChange={handleVerion}
                   />
                   {versionError ? (
@@ -822,7 +822,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={asset}
-                    placeholder=""
+                    placeholder="Wm90d47P84"
                     onChange={handleAsset}
                   />
                   {assetError ? <p className="errorText">{assetError}</p> : ""}
@@ -836,7 +836,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={localAE}
-                    placeholder=""
+                    placeholder="HS1"
                     onChange={handleLocalAe}
                   />
                   {localAeError ? (
@@ -889,7 +889,7 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder=""
+                    placeholder="971-091-9353x05482"
                     value={systemContactInfo}
                     onChange={(e) => {
                       setSystemContactInfo(e.target.value);
@@ -941,7 +941,7 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="HS1"
                       value={risTitle}
                       onChange={handleRisTitle}
                     />
@@ -956,7 +956,7 @@ export default function SystemModal(props: systemProps) {
                     <TextField
                       className="info-field"
                       variant="outlined"
-                      placeholder=""
+                      placeholder="200"
                       size="small"
                       type="number"
                       value={risPort}
@@ -974,7 +974,7 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="system 1"
                       value={risAE}
                       onChange={handleRisAeTitle}
                     />
@@ -1012,7 +1012,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="Dic 1"
                         value={dicTitle}
                         onChange={handleDicTitle}
                       />
@@ -1027,7 +1027,7 @@ export default function SystemModal(props: systemProps) {
                       <TextField
                         className="info-field"
                         variant="outlined"
-                        placeholder=""
+                        placeholder="280"
                         size="small"
                         value={dicPort}
                         type="number"
@@ -1046,7 +1046,7 @@ export default function SystemModal(props: systemProps) {
                         variant="outlined"
                         size="small"
                         value={dicAE}
-                        placeholder=""
+                        placeholder="system 1"
                         onChange={handleDicAeTitle}
                       />
                       {dicAeError ? (
@@ -1068,7 +1068,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="strong"
                         value={mriHelium}
                         onChange={handleMriHelium}
                       />
@@ -1084,7 +1084,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="low"
                         value={mriMagnet}
                         onChange={handleMriMagnet}
                       />

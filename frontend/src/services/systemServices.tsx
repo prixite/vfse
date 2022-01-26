@@ -75,12 +75,9 @@ const DeleteOrganizationSystemService = async (
   deleteSystemsOrganization,
   refetch
 ) => {
-  const OrganizationsSystemsDeleteApiArg = {
+  await deleteSystemsOrganization({
     id: organizationId,
     systemPk: systemId,
-  };
-  await deleteSystemsOrganization({
-    OrganizationsSystemsDeleteApiArg,
   }).unwrap();
   refetch(); // TODO: invalidate cache instead of this.
 };
