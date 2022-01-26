@@ -1,7 +1,6 @@
 import re
 
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueValidator
 
 from core import models
@@ -246,7 +245,7 @@ class UpsertUserSerializer(serializers.Serializer):
         result = re.match(r"(?P<phone>\+1\d{10}$)", value)
 
         if not result:
-            raise ValidationError(
+            raise serializers.ValidationError(
                 "Invalid.id phone number",
                 code="invalid",
             )
@@ -262,7 +261,7 @@ class UpsertUserSerializer(serializers.Serializer):
                 .exists()
             )
             if not managed_org:
-                raise ValidationError(
+                raise serializers.ValidationError(
                     "Some organizations are not accessible",
                     code="invalid",
                 )
@@ -290,7 +289,7 @@ class UserEnableDisableSerializer(serializers.Serializer):
         if len(set(self.context["view"].get_queryset()) & set(attrs["users"])) != len(
             attrs["users"]
         ):
-            raise ValidationError("Some users are not accessible")
+            raise serializers.ValidationError("Some users are not accessible")
 
         return attrs
 
@@ -423,7 +422,7 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         if models.Organization.objects.get(
             id=organization_pk
         ).number_of_seats - occupied_seats < len(attrs["seats"]):
-            raise ValidationError("Seats not available")
+            raise serializers.ValidationError("Seats not available")
         return attrs
 
 
@@ -443,6 +442,11 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 
 class ProductModelCreateSerializer(serializers.ModelSerializer):
+    documentation = DocumentationSerializer()
     class Meta:
         model = models.ProductModel
         fields = ["id", "model", "documentation", "modality", "product"]
+
+    def create(self, validated_data):
+        documentation_data = validated_data.pop('documentation')
+        return models.ProductModel(**validated_data,documentation=models.Documentation.objects.create(**documentation_data))
