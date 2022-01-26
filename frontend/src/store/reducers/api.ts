@@ -603,6 +603,7 @@ export type UserRequestAcessSeriazlizer = {
   can_leave_notes: boolean;
   view_only: boolean;
   is_one_time: boolean;
+  documentation_url: boolean;
   health_networks: number[];
 };
 export type Appearance = {
@@ -772,6 +773,7 @@ export type UpsertUser = {
   can_leave_notes: boolean;
   view_only: boolean;
   is_one_time: boolean;
+  documentation_url: boolean;
 };
 export type OrganizationUpsertUser = {
   id?: number;
