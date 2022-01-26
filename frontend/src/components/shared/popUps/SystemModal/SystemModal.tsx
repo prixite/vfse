@@ -8,14 +8,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import debounce from "debounce";
-import { System } from "@src/store/reducers/api";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
 import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
-import { addNewOrdanizationSystem, updateOrdanizationSystem } from "@src/services/systemServices";
-import { useAppSelector } from "@src/store/hooks";
 import {
+  addNewOrdanizationSystem,
+  updateOrdanizationSystem,
+} from "@src/services/systemServices";
+import { useAppSelector } from "@src/store/hooks";
+import { System ,
   useProductsModelsListQuery,
   ProductModel,
   useOrganizationsSystemsCreateMutation,
@@ -94,7 +97,7 @@ export default function SystemModal(props: systemProps) {
   const [productList, setProductList] = useState(productState);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
-  
+
   const { data: productData, isFetching: fetchingProducts } =
     useProductsModelsListQuery();
 
@@ -231,7 +234,7 @@ export default function SystemModal(props: systemProps) {
     (state) => state.myTheme
   );
 
-  const editModal = ()=>{
+  const editModal = () => {
     setName(props?.system?.name);
     setVersion(props?.system?.software_version);
     setIP(props?.system?.ip_address);
@@ -252,11 +255,27 @@ export default function SystemModal(props: systemProps) {
     setDicAE(props.system.dicom_info.ae_title);
     setMriHelium(props.system.mri_embedded_parameters.helium);
     setMriMagnet(props.system.mri_embedded_parameters.magnet_pressure);
-    setVfse(props?.system?.connection_options?.vfse ? props.system.connection_options.vfse : false);
-    setSsh(props?.system?.connection_options?.ssh ? props.system.connection_options.ssh :  false);
-    setServiceWeb(props?.system?.connection_options?.service_web_browser ? props?.system?.connection_options?.service_web_browser  : false );
-    setVirtualMedia(props?.system?.connection_options?.virtual_media_control ? props?.system?.connection_options?.virtual_media_control : false);
-  }
+    setVfse(
+      props?.system?.connection_options?.vfse
+        ? props.system.connection_options.vfse
+        : false
+    );
+    setSsh(
+      props?.system?.connection_options?.ssh
+        ? props.system.connection_options.ssh
+        : false
+    );
+    setServiceWeb(
+      props?.system?.connection_options?.service_web_browser
+        ? props?.system?.connection_options?.service_web_browser
+        : false
+    );
+    setVirtualMedia(
+      props?.system?.connection_options?.virtual_media_control
+        ? props?.system?.connection_options?.virtual_media_control
+        : false
+    );
+  };
 
   const resetModal = () => {
     setName("");
@@ -509,63 +528,61 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
-  const returnObj = ()=>{
-      const systemObj = {
-          name: name,
-          site: site?.id,
-          serial_number: serialNumber,
-          location_in_building: buildingLocation,
-          system_contact_info: systemContactInfo,
-          grafana_link: grafanaLink,
-          product_model: modal?.id,
-          image: systemImage,
-          software_version: version,
-          asset_number: asset,
-          ip_address: ip,
-          local_ae_title: localAE,
-          his_ris_info: {
-            ip: risIp,
-            title: risTitle,
-            port: risPort,
-            ae_title: risAE,
-          },
-          dicom_info: {
-            ip: dicIP,
-            title: dicTitle,
-            port: dicPort,
-            ae_title: dicAE,
-          },
-          mri_embedded_parameters: {
-            helium: mriHelium,
-            magnet_pressure: mriMagnet,
-          },
-          connection_options: {
-            vfse: vfse,
-            virtual_media_control: virtualMedia,
-            service_web_browser: serviceWeb,
-            ssh: ssh,
-          },
-        };
-        return systemObj
-  }
+  const returnObj = () => {
+    const systemObj = {
+      name: name,
+      site: site?.id,
+      serial_number: serialNumber,
+      location_in_building: buildingLocation,
+      system_contact_info: systemContactInfo,
+      grafana_link: grafanaLink,
+      product_model: modal?.id,
+      image: systemImage,
+      software_version: version,
+      asset_number: asset,
+      ip_address: ip,
+      local_ae_title: localAE,
+      his_ris_info: {
+        ip: risIp,
+        title: risTitle,
+        port: risPort,
+        ae_title: risAE,
+      },
+      dicom_info: {
+        ip: dicIP,
+        title: dicTitle,
+        port: dicPort,
+        ae_title: dicAE,
+      },
+      mri_embedded_parameters: {
+        helium: mriHelium,
+        magnet_pressure: mriMagnet,
+      },
+      connection_options: {
+        vfse: vfse,
+        virtual_media_control: virtualMedia,
+        service_web_browser: serviceWeb,
+        ssh: ssh,
+      },
+    };
+    return systemObj;
+  };
 
   const handleAdd = async () => {
     if (isValidPostRequest()) {
       setDisableButton(true);
       const obj = returnObj();
-      if(!props.system)
-      {
-      await addNewOrdanizationSystem(
-        selectedOrganization.id,
-        obj,
-        addSystem,
-        props.refetch,
-        setErrors,
-        handleClear,
-        setDisableButton
-      );
-      }
-      else{
+      if (!props.system) {
+        await addNewOrdanizationSystem(
+          selectedOrganization.id,
+          obj,
+          addSystem,
+          props.refetch,
+          setErrors,
+          handleClear,
+          setDisableButton
+        );
+      } else {
         await updateOrdanizationSystem(
           selectedOrganization.id,
           props.system.id,
@@ -575,7 +592,7 @@ export default function SystemModal(props: systemProps) {
           setErrors,
           handleClear,
           setDisableButton
-        ); 
+        );
       }
     }
   };
@@ -600,8 +617,7 @@ export default function SystemModal(props: systemProps) {
   };
 
   useEffect(() => {
-    if(props.system)
-    {
+    if (props.system) {
       editModal();
     }
   }, [props.system]);
@@ -732,12 +748,9 @@ export default function SystemModal(props: systemProps) {
                           onChange={(e) => handleSearch(e, productData)}
                         />
                       </MenuItem>
-                      {
-                      query?.length > 1
-                        ?
-                        productList?.results?.length &&
-                      !fetchingProducts?
-                       productList?.results?.map((item, index) => (
+                      {query?.length > 1 ? (
+                        productList?.results?.length && !fetchingProducts ? (
+                          productList?.results?.map((item, index) => (
                             <MenuItem
                               key={index}
                               value={item.name}
@@ -746,19 +759,23 @@ export default function SystemModal(props: systemProps) {
                               {item.name}
                             </MenuItem>
                           ))
-                          : <p style={{padding: '20px'}}>No data found...</p>
-                        : !fetchingProducts
-                        ? productData?.map((item, index) => (
-                            <MenuItem
-                              key={index}
-                              value={item.name}
-                              onClick={() => setModal(item)}
-                              onKeyDown={(e) => e.stopPropagation()}
-                            >
-                              {item.name}
-                            </MenuItem>
-                          ))
-                        : ""}
+                        ) : (
+                          <p style={{ padding: "20px" }}>No data found...</p>
+                        )
+                      ) : !fetchingProducts ? (
+                        productData?.map((item, index) => (
+                          <MenuItem
+                            key={index}
+                            value={item.name}
+                            onClick={() => setModal(item)}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            {item.name}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        ""
+                      )}
                     </Select>
                   </FormControl>
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
@@ -1086,7 +1103,10 @@ export default function SystemModal(props: systemProps) {
       <DialogActions>
         <Button
           className="cancel-btn"
-          style={{ backgroundColor: disableButton ? '#d9dbdd' : secondaryColor, color: buttonTextColor }}
+          style={{
+            backgroundColor: disableButton ? "#d9dbdd" : secondaryColor,
+            color: buttonTextColor,
+          }}
           onClick={handleClear}
           disabled={disableButton}
         >
@@ -1094,7 +1114,10 @@ export default function SystemModal(props: systemProps) {
         </Button>
         <Button
           className="add-btn"
-          style={{ backgroundColor: disableButton ? '#d9dbdd' : buttonBackground, color: buttonTextColor }}
+          style={{
+            backgroundColor: disableButton ? "#d9dbdd" : buttonBackground,
+            color: buttonTextColor,
+          }}
           onClick={handleAdd}
           disabled={disableButton}
         >

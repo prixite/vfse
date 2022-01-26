@@ -46,38 +46,47 @@ const updateOrdanizationSystem = async (
   const OrganizationsSystemsPartialUpdateApiArg = {
     id: organizationId,
     systemPk: id,
-    system: system
-  }
+    system: system,
+  };
   await updateSystem(OrganizationsSystemsPartialUpdateApiArg)
-  .unwrap()
-  .then(() => {
-    toast.success("System Successfully Updated", {
-      autoClose: 1000,
-      pauseOnHover: false,
-      onClose: () => {
-        handleClear();
-        setDisableButton(false);
-        refetch();
-      },
+    .unwrap()
+    .then(() => {
+      toast.success("System Successfully Updated", {
+        autoClose: 1000,
+        pauseOnHover: false,
+        onClose: () => {
+          handleClear();
+          setDisableButton(false);
+          refetch();
+        },
+      });
+    })
+    .catch((err) => {
+      setDisableButton(false);
+      if (err?.status === 400) {
+        setErrors(err.data);
+      }
     });
-  })
-  .catch((err) => {
-    setDisableButton(false);
-    if (err?.status === 400) {
-      setErrors(err.data);
-    }
-  });
 };
 
-const DeleteOrganizationSystemService = async ( organizationId, systemId, deleteSystemsOrganization, refetch) => {
-  const OrganizationsSystemsDeleteApiArg ={
+const DeleteOrganizationSystemService = async (
+  organizationId,
+  systemId,
+  deleteSystemsOrganization,
+  refetch
+) => {
+  const OrganizationsSystemsDeleteApiArg = {
     id: organizationId,
-    systemPk: systemId
-  }
+    systemPk: systemId,
+  };
   await deleteSystemsOrganization({
-    OrganizationsSystemsDeleteApiArg
+    OrganizationsSystemsDeleteApiArg,
   }).unwrap();
   refetch(); // TODO: invalidate cache instead of this.
 };
 
-export { addNewOrdanizationSystem, updateOrdanizationSystem, DeleteOrganizationSystemService };
+export {
+  addNewOrdanizationSystem,
+  updateOrdanizationSystem,
+  DeleteOrganizationSystemService,
+};

@@ -123,7 +123,7 @@ export interface SystemInterface {
   location_in_building: string;
   grafana_link: string;
   documentation: string;
-  handleEdit: ()=>void;
+  handleEdit: () => void;
 }
 
 export interface PopUp3Interface {

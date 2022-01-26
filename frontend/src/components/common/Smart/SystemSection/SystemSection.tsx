@@ -60,10 +60,10 @@ const SystemSection = () => {
     }
   }, [modalitiesList]);
 
-  const handleEdit= (system)=>{
+  const handleEdit = (system) => {
     setOpen(true);
     setSystem(system);
-  }
+  };
 
   const changeModality = (item) => {
     if (item == null) {
@@ -292,7 +292,7 @@ const SystemSection = () => {
                 location_in_building={item?.location_in_building}
                 grafana_link={item?.grafana_link}
                 documentation={item?.documentation}
-                handleEdit={()=>handleEdit(item)}
+                handleEdit={() => handleEdit(item)}
               />
             </div>
           ))
@@ -331,7 +331,7 @@ const SystemSection = () => {
               location_in_building={item?.location_in_building}
               grafana_link={item?.grafana_link}
               documentation={item?.documentation}
-              handleEdit={()=>handleEdit(item)}
+              handleEdit={() => handleEdit(item)}
             />
           ))}
         </div>

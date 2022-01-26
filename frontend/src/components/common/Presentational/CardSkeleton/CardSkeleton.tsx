@@ -2,13 +2,13 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 interface cardProps {
-  height?: number
+  height?: number;
 }
 
-const CardSkeleton = ({height}: cardProps) => {
+const CardSkeleton = ({ height }: cardProps) => {
   return (
     <>
-      <Skeleton height={height ?  height : 187} />
+      <Skeleton height={height ? height : 187} />
     </>
   );
 };
