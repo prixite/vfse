@@ -2314,6 +2314,7 @@
             "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
                 "model",
+                "documentation",
                 "modality",
                 "product"
             ],
@@ -2331,9 +2332,7 @@
                     "minLength": 1
                 },
                 "documentation": {
-                    "title": "Documentation",
-                    "type": "integer",
-                    "x-nullable": true
+                    "$ref": "#/definitions/Documentation"
                 },
                 "modality": {
                     "title": "Modality",

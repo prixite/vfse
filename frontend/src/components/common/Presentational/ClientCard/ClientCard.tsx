@@ -8,8 +8,9 @@ import { toast } from "react-toastify";
 import "@src/components/common/Presentational/ClientCard/ClientCard.scss";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationService } from "@src/services/organizationService";
-import { useAppDispatch } from "@src/store/hooks";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   Organization,
   useOrganizationsDeleteMutation,
@@ -34,6 +35,7 @@ interface ClientCardProps {
   logo: string;
   name: string;
   setAction: Dispatch<SetStateAction<string>>;
+  selected: boolean;
 }
 const ClientCard = ({
   id,
@@ -43,6 +45,7 @@ const ClientCard = ({
   row,
   setOrganization,
   setAction,
+  selected,
 }: ClientCardProps) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -51,6 +54,11 @@ const ClientCard = ({
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute, networkRoute } = constants;
+
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+
+  const { switch_org, edit, new_network, delete_org } =
+    localizedData().organization_menu_options;
 
   const handleModalOpen = () => {
     setOpenModal(true);
@@ -99,8 +107,16 @@ const ClientCard = ({
     dispatch(updateFontTwo(row.appearance.font_two));
     history.replace(`/${organizationRoute}/${id}/${networkRoute}`);
   };
+  const switchOrganization = () => {
+    dispatch(setSelectedOrganization({ selectedOrganization: row }));
+    history.replace(`/${organizationRoute}/${id}/`);
+    handleClose();
+  };
   return (
-    <div className="ClientCard">
+    <div
+      className="ClientCard"
+      style={{ border: `${selected ? `3px solid ${buttonBackground}` : ""}` }}
+    >
       <Box
         component="div"
         className="card"
@@ -141,12 +157,11 @@ const ClientCard = ({
           className="dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem onClick={handleEditAppearance}>Edit appearance</MenuItem>
-          <MenuItem onClick={handleNetworkModal}>
-            Add new HealthNetwork
-          </MenuItem>
+          <MenuItem onClick={switchOrganization}>{switch_org}</MenuItem>
+          <MenuItem onClick={handleEditAppearance}>{edit}</MenuItem>
+          <MenuItem onClick={handleNetworkModal}>{new_network}</MenuItem>
           <MenuItem onClick={handleModalOpen} style={{ marginBottom: "0px" }}>
-            Delete
+            {delete_org}
           </MenuItem>
         </Menu>
       </div>

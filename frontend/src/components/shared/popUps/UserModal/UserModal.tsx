@@ -224,6 +224,17 @@ export default function UserModal(props: Props) {
     return count;
   };
 
+  // const verifySitesChecked = (network: any) => {
+  //   let found = false;
+  //   if (network?.sites?.length) {
+  //     found = network?.sites?.find((val: any) => {
+  //       return selectedSites.includes(val)
+  //     })
+  //   }
+
+  //   return found;
+  // }
+
   const handleSelectedModalities = (event, newFormats) => {
     setSelectedModalities(newFormats);
   };
@@ -285,6 +296,7 @@ export default function UserModal(props: Props) {
           can_leave_notes: viewOnly,
           view_only: auditEnable,
           is_one_time: oneTimeLinkCreation,
+          documentation_url: docLink,
         },
       ],
     };
@@ -606,6 +618,7 @@ export default function UserModal(props: Props) {
                                 control={
                                   <Checkbox
                                     onChange={handleSitesSelection}
+                                    checked={selectedSites.includes(site?.id)}
                                     value={site?.id}
                                     name={site?.address}
                                     color="primary"
