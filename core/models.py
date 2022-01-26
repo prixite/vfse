@@ -201,6 +201,7 @@ class Profile(models.Model):
     is_view_only = models.BooleanField(default=False)
     is_one_time = models.BooleanField(default=True)
     view_only = models.BooleanField(default=False)
+    documentation_url = models.BooleanField(default=False)
     one_time_complete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
