@@ -60,7 +60,7 @@ class UserTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
-            "documentation_url":"true",
+            "documentation_url": "true",
             "health_networks": [self.health_network.id],
         }
         response = self.client.post("/api/accounts/requests/", data=user_data)

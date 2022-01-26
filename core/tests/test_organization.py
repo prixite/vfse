@@ -196,7 +196,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
-            "documentation_url":"true",
+            "documentation_url": "true",
         }
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/users/",
@@ -237,7 +237,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
-            "documentation_url":"true",
+            "documentation_url": "true",
         }
         response = self.client.patch(
             f"/api/users/{self.end_user.id}/",

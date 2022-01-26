@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0058_alter_membership_role_alter_userhealthnetwork_role_and_more'),
+        ("core", "0058_alter_membership_role_alter_userhealthnetwork_role_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='documentation_url',
+            model_name="profile",
+            name="documentation_url",
             field=models.BooleanField(default=False),
         ),
     ]
