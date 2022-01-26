@@ -18,7 +18,8 @@ import {
   updateOrdanizationSystem,
 } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
-import { System ,
+import {
+  System,
   useProductsModelsListQuery,
   ProductModel,
   useOrganizationsSystemsCreateMutation,
