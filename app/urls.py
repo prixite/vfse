@@ -33,6 +33,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/users/roles/",
+        api.UserRolesView.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
+    path(
         "api/organizations/exists/",
         api.DistinctOrganizationViewSet.as_view(
             {

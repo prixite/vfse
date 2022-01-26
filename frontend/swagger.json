@@ -1122,6 +1122,22 @@
             },
             "parameters": []
         },
+        "/users/roles/": {
+            "get": {
+                "operationId": "users_roles_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
         "/users/{id}/": {
             "patch": {
                 "operationId": "users_partial_update",

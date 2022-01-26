@@ -592,3 +592,8 @@ class LambdaView(ViewSet):
             return Response("Appearance Updated")
 
         raise exceptions.ValidationError()
+
+
+class UserRolesView(ViewSet):
+    def list(self, request, *args, **kwargs):
+        return Response(models.Role.choices)

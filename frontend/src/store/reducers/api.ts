@@ -364,6 +364,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userEnableDisable,
       }),
     }),
+    usersRolesList: build.query<
+      UsersRolesListApiResponse,
+      UsersRolesListApiArg
+    >({
+      query: () => ({ url: `/users/roles/` }),
+    }),
     usersPartialUpdate: build.mutation<
       UsersPartialUpdateApiResponse,
       UsersPartialUpdateApiArg
@@ -567,6 +573,8 @@ export type UsersDeactivatePartialUpdateApiResponse =
 export type UsersDeactivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
 };
+export type UsersRolesListApiResponse = unknown;
+export type UsersRolesListApiArg = void;
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
   id: string;
@@ -863,5 +871,6 @@ export const {
   useSystemsNotesCreateMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;
