@@ -16,11 +16,11 @@ const SectionSkeleton = () => {
           spacing={2}
           className="OrganizationSectionSkeleton__CardsGrid"
         >
-          {Array(16).fill(
-            <Grid item={true} xs={3} className="cardSkeleton">
+          {[...Array(16)].map((e, index) => (
+            <Grid key={index} item={true} xs={3} className="cardSkeleton">
               <CardSkeleton />
             </Grid>
-          )}
+          ))}
         </Grid>
       </Box>
     </>

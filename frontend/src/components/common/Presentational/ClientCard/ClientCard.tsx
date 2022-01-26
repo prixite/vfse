@@ -55,7 +55,9 @@ const ClientCard = ({
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute, networkRoute } = constants;
 
-  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
 
   const { switch_org, edit, new_network, delete_org } =
     localizedData().organization_menu_options;
@@ -129,6 +131,17 @@ const ClientCard = ({
           <img src={logo} />
         </div>
       </Box>
+      <div
+        className="location-logo"
+        onClick={switchOrganization}
+        style={{ backgroundColor: buttonBackground }}
+      >
+        <div className="location-logo__content">
+          <p className="text" style={{ color: buttonTextColor }}>
+            {switch_org}
+          </p>
+        </div>
+      </div>
       <ConfirmationModal
         name={name}
         open={openModal}
@@ -157,7 +170,6 @@ const ClientCard = ({
           className="dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem onClick={switchOrganization}>{switch_org}</MenuItem>
           <MenuItem onClick={handleEditAppearance}>{edit}</MenuItem>
           <MenuItem onClick={handleNetworkModal}>{new_network}</MenuItem>
           <MenuItem onClick={handleModalOpen} style={{ marginBottom: "0px" }}>
