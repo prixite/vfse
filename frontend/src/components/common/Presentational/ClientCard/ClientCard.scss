@@ -54,7 +54,14 @@
         color: #696f77;
         font-weight: 600;
         text-transform: lowercase;
+        padding-left: 1px;
       }
+    }
+    &:hover {
+      width: 84px;
+      height: 24px;
+      padding-top: 1px;
+      padding-bottom: 1px;
     }
   }
   .dropdown {
