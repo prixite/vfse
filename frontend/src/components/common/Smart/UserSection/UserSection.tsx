@@ -142,11 +142,11 @@ const headers = [
     hide: false,
   },
   {
-    headerName: "Modality",
+    headerName: "Modalities",
     hide: false,
   },
   {
-    headerName: "Health Network",
+    headerName: "Sites",
     hide: false,
   },
   {
@@ -181,6 +181,8 @@ export default function UserSection() {
   const [userActivateMutation] = useUsersActivatePartialUpdateMutation();
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
+
+  const { lock, unlock, edit, delete_user } = localizedData().user_menu_options;
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -362,7 +364,7 @@ export default function UserSection() {
                   ),
                 },
                 {
-                  field: "Modality",
+                  field: "Modalities",
                   hide: hideModality,
                   disableColumnMenu: true,
                   sortable: false,
@@ -371,7 +373,7 @@ export default function UserSection() {
                     renderModalities(cellValues.row.modalities),
                 },
                 {
-                  field: "Health Network",
+                  field: "Sites",
                   hide: hideNetwork,
                   disableColumnMenu: true,
                   sortable: false,
@@ -502,7 +504,7 @@ export default function UserSection() {
                 ),
               },
               {
-                field: "Modality",
+                field: "Modalities",
                 hide: hideModality,
                 disableColumnMenu: true,
                 sortable: false,
@@ -511,7 +513,7 @@ export default function UserSection() {
                   renderModalities(cellValues.row.modalities),
               },
               {
-                field: "Health Network",
+                field: "Sites",
                 hide: hideNetwork,
                 disableColumnMenu: true,
                 sortable: false,
@@ -601,17 +603,17 @@ export default function UserSection() {
         className="UserDropdownMenu"
         onClose={handleActionClose}
       >
-        <MenuItem>Delete</MenuItem>
-        <MenuItem>Edit</MenuItem>
         {status ? (
           <MenuItem onClick={() => deactivateUser(currentUser)}>
-            Deactivate
+            {lock}
           </MenuItem>
         ) : (
           <MenuItem onClick={() => activateUser(currentUser)}>
-            Activate
+            {unlock}
           </MenuItem>
         )}
+        <MenuItem>{edit}</MenuItem>
+        <MenuItem>{delete_user}</MenuItem>
       </Menu>
       <ListModal
         name={modalHeader}

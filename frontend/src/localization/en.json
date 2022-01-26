@@ -28,6 +28,12 @@
                 "newUser": "New User"
             }
     },
+    "user_menu_options": {
+        "lock": "Lock",
+        "unlock": "Unlock",
+        "edit": "Edit",
+        "delete_user": "Delete"
+    },
     "modalities":{
         "title": "All Networks",
         "btnFilter": "Filter",
@@ -112,6 +118,12 @@
         "location": "Location",
         "connect": "Connect",
         "grafana_link_txt": "Grafana Link"
+    },
+    "organization_menu_options": {
+        "switch_org": "Switch Organization",
+        "edit": "Edit appearance",
+        "new_network": "Add new HealthNetwork",
+        "delete_org": "Delete"
     },
     "organization":{
         "title": "All Clients",

@@ -130,6 +130,7 @@ const OrganizationSection = () => {
                         id={item.id}
                         name={item.name}
                         logo={item.appearance.logo}
+                        selected={+id === item?.id ? true : false}
                       />
                     </Grid>
                   ))
@@ -163,6 +164,7 @@ const OrganizationSection = () => {
                       id={item.id}
                       name={item.name}
                       logo={item.appearance.logo}
+                      selected={+id === item?.id ? true : false}
                     />
                   </Grid>
                 ))
