@@ -83,12 +83,33 @@ class Command(BaseCommand):
             ],
             sites=True,
         )
-        product_model = factories.ProductModelFactory(modality__users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],modality__users__organization=organization)
+        product_model = factories.ProductModelFactory(
+            modality__users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
+            modality__users__organization=organization,
+        )
         health_network = factories.HealthNetworkFactory(
             name="Health Network with Sites",
             organizations=[organization],
             site__name="sites with Systems",
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__users=[super_user],
             site__system__users=[super_user],
             site__system__product_model=product_model,
@@ -115,7 +136,16 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Crothal Health Network",
             organizations=[orgnization],
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__users=[super_user],
             site__system__users=[super_user],
             site__system__product_model=product_model,
@@ -135,7 +165,16 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Alira Health Network",
             organizations=[orgnization],
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__users=[super_user],
             site__system__users=[super_user],
             site__system__product_model=product_model,
@@ -158,7 +197,16 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Conni Health Network",
             organizations=[orgnization],
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__users=[super_user],
             site__system__users=[super_user],
             site__system__product_model=product_model,
@@ -178,7 +226,16 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Conventry Health Network",
             organizations=[orgnization],
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__users=[super_user],
             site__system__users=[super_user],
             site__system__product_model=product_model,
@@ -195,11 +252,32 @@ class Command(BaseCommand):
             site__users=[super_user],
             site__system__users=[super_user],
         )
-        product_model = factories.ProductModelFactory(modality__users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],modality__users__organization=organization)
+        product_model = factories.ProductModelFactory(
+            modality__users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
+            modality__users__organization=organization,
+        )
         factories.HealthNetworkFactory(
             name="Heartbeat Health Network",
             organizations=[orgnization],
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__users=[super_user],
             site__system__users=[super_user],
             site__system__product_model=product_model,
@@ -215,7 +293,16 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory.create_batch(
             5,
             organizations=[organization],
-            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            users=[
+                super_user,
+                view_only,
+                fse_role,
+                end_user_role,
+                one_time_role,
+                user_admin,
+                customer_admin,
+                fse_admin,
+            ],
             site__system__product_model=product_model,
         )
         factories.SiteFactory.create_batch(
@@ -240,7 +327,9 @@ class Command(BaseCommand):
         )
 
         factories.SystemFactory(
-            ip_address="10.21.2.21", site=site, connection_monitoring=True,
+            ip_address="10.21.2.21",
+            site=site,
+            connection_monitoring=True,
             product_model=product_model,
         )
         factories.SystemFactory(

@@ -257,9 +257,12 @@ class ModalityFactory(factory.django.DjangoModelFactory):
             return
 
         models.UserModality.objects.bulk_create(
-            models.UserModality(user=user, modality=obj, organization=kwargs['organization'])
+            models.UserModality(
+                user=user, modality=obj, organization=kwargs["organization"]
+            )
             for user in extracted or []
         )
+
 
 class ManufacturerImageFactory(factory.django.DjangoModelFactory):
     class Meta:
