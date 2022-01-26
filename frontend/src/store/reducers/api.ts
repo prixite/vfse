@@ -730,10 +730,6 @@ export type OrganizationSite = {
   id?: number;
   sites: SiteCreate[];
 };
-export type Profile = {
-  manager?: number | null;
-  phone?: string;
-};
 export type User = {
   id?: number;
   first_name?: string;
@@ -744,7 +740,9 @@ export type User = {
   health_networks?: string[];
   modalities?: string[];
   organizations?: string[];
-  profile?: Profile;
+  phone?: string;
+  role?: string[];
+  manager?: string;
 };
 export type UpsertUser = {
   meta?: Meta;

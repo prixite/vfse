@@ -180,12 +180,6 @@ class ModalitySerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Profile
-        fields = ["manager", "phone"]
-
-
 class UserSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
@@ -196,7 +190,12 @@ class UserSerializer(serializers.ModelSerializer):
     organizations = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
-    profile = ProfileSerializer(read_only=True)
+
+    phone = serializers.CharField(source="profile.phone", read_only=True)
+    role = serializers.SlugRelatedField(
+        source="memberships", slug_field="role", many=True, read_only=True
+    )
+    manager = serializers.CharField(read_only=True)
 
     class Meta:
         model = models.User
@@ -210,7 +209,9 @@ class UserSerializer(serializers.ModelSerializer):
             "health_networks",
             "modalities",
             "organizations",
-            "profile",
+            "phone",
+            "role",
+            "manager",
         ]
 
 
