@@ -97,3 +97,8 @@ class UserTestCase(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, True)
+
+    def test_list_user_roles(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get("/api/users/roles/")
+        self.assertEqual(len(response.json()),len(models.Role.choices))

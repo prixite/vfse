@@ -33,7 +33,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/user_roles/",
+        "api/users/roles/",
         api.UserRolesView.as_view(
             {
                 "get": "list",
