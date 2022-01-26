@@ -463,7 +463,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Seat"
+                                "$ref": "#/definitions/SeatList"
                             }
                         }
                     }
@@ -602,14 +602,14 @@
                         "in": "query",
                         "description": "",
                         "required": false,
-                        "type": "string"
+                        "type": "number"
                     },
                     {
                         "name": "modality",
                         "in": "query",
                         "description": "",
                         "required": false,
-                        "type": "string"
+                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -1626,126 +1626,6 @@
                 }
             }
         },
-        "Seat": {
-            "description": "Seat(id, system, organization, created_at, updated_at)",
-            "required": [
-                "system"
-            ],
-            "type": "object",
-            "properties": {
-                "system": {
-                    "title": "System",
-                    "type": "integer"
-                }
-            }
-        },
-        "OrganizationSeatSeriazlier": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
-            "required": [
-                "seats"
-            ],
-            "type": "object",
-            "properties": {
-                "seats": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Seat"
-                    }
-                }
-            }
-        },
-        "Site": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "modalities": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "readOnly": true
-                }
-            }
-        },
-        "SiteCreate": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
-            "required": [
-                "name",
-                "address"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "Id",
-                    "type": "integer",
-                    "x-nullable": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "address": {
-                    "title": "Address",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "modalities": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "readOnly": true
-                }
-            }
-        },
-        "OrganizationSite": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
-            "required": [
-                "sites"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "sites": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/SiteCreate"
-                    }
-                }
-            }
-        },
         "SystemInfo": {
             "title": "His ris info",
             "description": "",
@@ -1844,6 +1724,7 @@
             }
         },
         "System": {
+            "title": "System",
             "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
@@ -1857,6 +1738,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "name": {
                     "title": "Name",
                     "type": "string",
@@ -1948,6 +1834,166 @@
                 }
             }
         },
+        "SeatList": {
+            "description": "Seat(id, system, organization, created_at, updated_at)",
+            "required": [
+                "system"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "$ref": "#/definitions/System"
+                }
+            }
+        },
+        "Seat": {
+            "description": "Seat(id, system, organization, created_at, updated_at)",
+            "required": [
+                "system"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                }
+            }
+        },
+        "OrganizationSeatSeriazlier": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "seats"
+            ],
+            "type": "object",
+            "properties": {
+                "seats": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Seat"
+                    }
+                }
+            }
+        },
+        "Site": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "modalities": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "readOnly": true
+                },
+                "connections": {
+                    "title": "Connections",
+                    "type": "integer",
+                    "readOnly": true
+                }
+            }
+        },
+        "SiteCreate": {
+            "description": "Site(id, organization, name, address, created_at, updated_at)",
+            "required": [
+                "name",
+                "address"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Id",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "address": {
+                    "title": "Address",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "modalities": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "readOnly": true
+                },
+                "connections": {
+                    "title": "Connections",
+                    "type": "integer",
+                    "readOnly": true
+                }
+            }
+        },
+        "OrganizationSite": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "sites"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/SiteCreate"
+                    }
+                }
+            }
+        },
+        "Profile": {
+            "title": "Profile",
+            "description": "Profile(id, user, manager, phone, meta, mfa_enabled, fse_accessible, audit_enabled, can_leave_notes, is_view_only, is_one_time, view_only, one_time_complete, created_at, updated_at)",
+            "type": "object",
+            "properties": {
+                "manager": {
+                    "title": "Manager",
+                    "type": "integer",
+                    "x-nullable": true
+                },
+                "phone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 1
+                }
+            }
+        },
         "User": {
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
             "required": [
@@ -2017,6 +2063,9 @@
                         "minLength": 1
                     },
                     "readOnly": true
+                },
+                "profile": {
+                    "$ref": "#/definitions/Profile"
                 }
             }
         },

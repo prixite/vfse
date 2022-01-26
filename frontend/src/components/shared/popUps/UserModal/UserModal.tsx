@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   TextField,
@@ -21,57 +21,74 @@ import Radio from "@mui/material/Radio";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
+import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { addNewUserService } from "@src/services/userService";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
-import { Organization } from "@src/store/reducers/api";
+import {
+  Organization,
+  useModalitiesListQuery,
+  useOrganizationsHealthNetworksListQuery,
+  useOrganizationsListQuery,
+  useOrganizationsUsersCreateMutation,
+  useOrganizationsUsersListQuery,
+} from "@src/store/reducers/api";
 
-const mockData = {
-  healthNetworks: [
-    {
-      name: "Advent Health",
-      locations: ["loc1", "loc2", "loc3", "loc4"],
-    },
-    {
-      name: "Nova Health",
-      locations: ["loc1", "loc2", "loc3", "loc4"],
-    },
-    {
-      name: "Super Health",
-      locations: ["loc1", "loc2", "loc3", "loc4"],
-    },
-  ],
-  modalities: [
-    "CT",
-    "MAMMO",
-    "US",
-    "XR",
-    "SPECT",
-    "PEM",
-    "RGS",
-    "USS",
-    "XRR",
-    "SPECTT",
-    "PEMM",
-    "RGSS",
-  ],
-};
+const roles = [
+  { value: "fse-admin", title: "FSE Admin" },
+  { value: "customer-admin", title: "Customer Admin" },
+  { value: "user-admin", title: "User Admin" },
+  { value: "fse", title: "Field Service Engineer" },
+  { value: "end-user", title: "End User" },
+  { value: "view-only", title: "View Only" },
+  { value: "one-time", title: "One Time" },
+  { value: "cryo", title: "Cryo" },
+  { value: "cryo-fse", title: "Cryo FSE" },
+  { value: "cryo-admin", title: "Cryo Admin" },
+  { value: "lambda-admin", title: "Lambda Admin" },
+];
 
 interface Props {
   add: (arg: { username: string; email: string }) => void;
   open: boolean;
   handleClose: () => void;
   organization: Organization;
+  refetch: () => void;
+  action: string;
 }
 
 export default function UserModal(props: Props) {
-  const [role, setRole] = useState(10);
-  const [manager, setManager] = useState(10);
-  const [customer, setCustomer] = useState(10);
   const [page, setPage] = useState("1");
-  const [data, setData] = useState(mockData);
-  console.log(setData); // eslint-disable-line no-console
-  const [formats, setFormats] = useState([]);
+  const [userProfileImage, setUserProfileImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState([]);
+  const [imageError, setImageError] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [firstnameError, setFirstNameError] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [lastnameError, setLastNameError] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [phone, setPhone] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [role, setRole] = useState(roles[0]?.value);
+  const [manager, setManager] = useState<number>();
+  const [customer, setCustomer] = useState<number>();
+  const [selectedModalities, setSelectedModalities] = useState([]);
+  const [modalitiesError, setModalitiesError] = useState("");
+  const [selectedSites, setSelectedSites] = useState([]);
+  const [sitesError, setSitesError] = useState("");
+  const [docLink, setDocLink] = useState<boolean>(false);
+  const [possibilitytoLeave, setPossibilitytoLeave] = useState<boolean>(false);
+  const [accessToFSEFunctions, setAccessToFSEFunctions] =
+    useState<boolean>(false);
+  const [viewOnly, setViewOnly] = useState<boolean>(false);
+  const [auditEnable, setAuditEnable] = useState<boolean>(false);
+  const [oneTimeLinkCreation, setOneTimeLinkCreation] =
+    useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const constantData: object = localizedData()?.users?.popUp;
   const {
     addNewUser,
@@ -79,7 +96,8 @@ export default function UserModal(props: Props) {
     pageTrackerdesc2,
     btnCancel,
     btnNext,
-    btnClient,
+    btnAddUser,
+    btnEditUser,
     userFirstName,
     userLastName,
     userEmail,
@@ -92,8 +110,83 @@ export default function UserModal(props: Props) {
     (state) => state.myTheme
   );
 
+  const emailReg =
+    /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
+
+  const [createUser] = useOrganizationsUsersCreateMutation();
+
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
+  );
+
+  const { isLoading: isModalitiesLoading, data: modalitiesList } =
+    useModalitiesListQuery();
+
+  const { data: usersList, isLoading: isUsersLoading } =
+    useOrganizationsUsersListQuery({
+      id: selectedOrganization.id.toString(),
+    });
+
+  const { isLoading: isOrganisationLoading, data: organizationData } =
+    useOrganizationsListQuery({ page: 1 });
+
+  const { data: networksData, isLoading: isNetworkDataLoading } =
+    useOrganizationsHealthNetworksListQuery({
+      id: selectedOrganization?.id.toString(),
+    });
+
+  useEffect(() => {
+    if (!isUsersLoading && usersList?.length) {
+      setManager(usersList[0]?.id);
+    }
+    if (!isOrganisationLoading && organizationData?.length) {
+      setCustomer(organizationData[0]?.id);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedImage?.length) {
+      setImageError("");
+    }
+  }, [selectedImage]);
+
   const handleChange = (event) => {
-    setPage(event.target.value);
+    if (page == "1") {
+      moveToNextPage();
+    } else {
+      setPage(event.target.value);
+    }
+  };
+
+  const handleFirstName = (event) => {
+    if (event.target.value.length) {
+      setFirstNameError("");
+    }
+    setFirstName(event?.target?.value);
+  };
+
+  const handleLastName = (event) => {
+    if (event.target.value.length) {
+      setLastNameError("");
+    }
+    setLastName(event?.target?.value);
+  };
+
+  const handleEmail = (event) => {
+    if (
+      event.target.value.length &&
+      emailReg.test(event.target.value) == true
+    ) {
+      setEmailError("");
+    }
+    setEmail(event?.target?.value);
+  };
+
+  const handlePhone = (event) => {
+    if (event?.target?.value?.length == 10) {
+      setPhoneError("");
+    }
+    setPhone(event?.target?.value);
   };
 
   const handleRoleChange = (event) => {
@@ -108,20 +201,208 @@ export default function UserModal(props: Props) {
     setCustomer(event.target.value);
   };
 
-  const handleCheckChange = () => {
-    return null;
+  const handleSitesSelection = (e) => {
+    const val = parseInt(e.target.value);
+    if (selectedSites.indexOf(val) > -1) {
+      selectedSites?.splice(selectedSites?.indexOf(val), 1);
+      setSelectedSites([...selectedSites]);
+    } else {
+      setSelectedSites([...selectedSites, parseInt(e.target.value)]);
+    }
+    if (sitesError?.length && sitesLength() > 0) {
+      setSitesError("");
+    }
   };
 
-  const handleFormat = (event, newFormats) => {
-    setFormats(newFormats);
+  const sitesLength = () => {
+    let count = 0;
+    networksData?.forEach((item) => {
+      if (item?.sites?.length) {
+        count += item?.sites?.length;
+      }
+    });
+    return count;
+  };
+
+  const handleSelectedModalities = (event, newFormats) => {
+    setSelectedModalities(newFormats);
+  };
+
+  const handleAddUser = async () => {
+    setIsLoading(true);
+    handleErrors();
+    if (verifyErrors()) {
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          const userObject = getUserObject(data?.location);
+          await addNewUserService(
+            selectedOrganization.id,
+            userObject,
+            createUser,
+            props?.refetch
+          ).then(() => {
+            setTimeout(() => {
+              resetModal();
+              setIsLoading(false);
+            }, 500);
+          });
+        }
+      );
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEditUser = async () => {
+    setIsLoading(true);
+    handleErrors();
+    if (verifyErrors()) {
+      // TODO
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const getUserObject = (imageUrl: string) => {
+    return {
+      memberships: [
+        {
+          meta: {
+            profile_picture: imageUrl,
+            title: "User Profile Image",
+          },
+          first_name: firstname,
+          last_name: lastname,
+          email: email,
+          phone: "+1" + phone,
+          role: role,
+          manager: manager,
+          organization: customer,
+          sites: selectedSites,
+          modalities: selectedModalities,
+          fse_accessible: possibilitytoLeave,
+          audit_enabled: accessToFSEFunctions,
+          can_leave_notes: viewOnly,
+          view_only: auditEnable,
+          is_one_time: oneTimeLinkCreation,
+        },
+      ],
+    };
+  };
+
+  const resetModal = () => {
+    if (props?.action == "add") {
+      setPage("1");
+      setUserProfileImage("");
+      setSelectedImage([]);
+      setImageError("");
+      setFirstName("");
+      setFirstNameError("");
+      setLastName("");
+      setLastNameError("");
+      setEmail("");
+      setEmailError("");
+      setPhone("");
+      setPhoneError("");
+      setSelectedSites([]);
+      setSelectedModalities([]);
+      setDocLink(false);
+      setPossibilitytoLeave(false);
+      setAccessToFSEFunctions(false);
+      setViewOnly(false);
+      setAuditEnable(false);
+      setOneTimeLinkCreation(false);
+      setSitesError("");
+      setModalitiesError("");
+      setRole(roles[0]?.value);
+      if (!isUsersLoading && usersList?.length) {
+        setManager(usersList[0]?.id);
+      }
+      if (!isOrganisationLoading && organizationData?.length) {
+        setCustomer(organizationData[0]?.id);
+      }
+    } else if (props?.action == "edit") {
+      // if (props?.firstname && props?.lastname) {
+      //   setFirstName(props?.firstname);
+      //   setLastName(props?.lastname);
+      //   setEmail(props?.email);
+      //   setPhone(props?.phone)
+      //   setFirstNameError("");
+      //   setLastNameError("");
+      //   setEmailError("");
+      //   setPhoneError("");
+      // }
+    }
+    props?.handleClose();
+  };
+
+  const moveToNextPage = () => {
+    handleErrors();
+    if (
+      selectedImage.length &&
+      firstname.length &&
+      lastname.length &&
+      email?.length &&
+      emailReg.test(email) == true &&
+      phone?.length &&
+      phone?.length == 10 &&
+      role?.length &&
+      manager &&
+      customer
+    ) {
+      setPage("2");
+    }
+  };
+
+  const verifyErrors = () => {
+    if (
+      firstname &&
+      lastname &&
+      email?.length &&
+      emailReg.test(email) == true &&
+      phone?.length &&
+      phone?.length == 10 &&
+      selectedImage.length &&
+      manager &&
+      customer &&
+      selectedSites?.length &&
+      selectedModalities?.length
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleErrors = () => {
+    !selectedImage.length
+      ? setImageError("Image is not selected")
+      : setImageError("");
+    !firstname
+      ? setFirstNameError("First Name is required.")
+      : setFirstNameError("");
+    !lastname
+      ? setLastNameError("Last Name is required.")
+      : setLastNameError("");
+    !email
+      ? setEmailError("Email is required.")
+      : emailReg.test(email) == false
+      ? setEmailError("Invalid Email.")
+      : setEmailError("");
+    !phone
+      ? setPhoneError("Phone number is required.")
+      : phone?.length !== 10
+      ? setPhoneError("Phone number is incorrect.")
+      : setPhoneError("");
+    page == "2" && !selectedSites.length
+      ? setSitesError("Select atleast 1 site.")
+      : setSitesError("");
+    page == "2" && !selectedModalities.length
+      ? setModalitiesError("Select atleast 1 modality.")
+      : setModalitiesError("");
   };
 
   return (
-    <Dialog
-      className="users-modal"
-      open={props.open}
-      onClose={props.handleClose}
-    >
+    <Dialog className="users-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
@@ -149,11 +430,7 @@ export default function UserModal(props: Props) {
                 />
               </span>
             </span>
-            <img
-              src={CloseBtn}
-              className="cross-btn"
-              onClick={props.handleClose}
-            />
+            <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
         </div>
       </DialogTitle>
@@ -162,35 +439,71 @@ export default function UserModal(props: Props) {
           {page === "1" ? (
             <>
               <div>
+                <p className="info-label">Profile Image</p>
+                <DropzoneBox
+                  imgSrc={userProfileImage}
+                  setSelectedImage={setSelectedImage}
+                />
+                {imageError?.length ? (
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {imageError}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div>
                 <p className="info-label">{userFirstName}</p>
                 <TextField
                   className="full-field"
+                  value={firstname}
+                  type="text"
+                  onChange={handleFirstName}
                   variant="outlined"
-                  placeholder="Default"
+                  placeholder="First Name"
                 />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {firstnameError}
+                </p>
               </div>
               <div>
                 <p className="info-label">{userLastName}</p>
                 <TextField
                   className="full-field"
+                  type="text"
+                  value={lastname}
+                  onChange={handleLastName}
                   variant="outlined"
-                  placeholder="Default"
+                  placeholder="Last Name"
                 />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {lastnameError}
+                </p>
               </div>
               <div className="divided-div">
                 <div>
                   <p className="info-label">{userEmail}</p>
                   <TextField
                     className="info-field"
+                    type="email"
+                    value={email}
+                    onChange={handleEmail}
                     variant="outlined"
-                    placeholder="Default"
+                    placeholder="Email"
                   />
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {emailError}
+                  </p>
                 </div>
                 <div>
                   <p className="info-label">{userPhoneNumber}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
+                    value={phone}
+                    type="number"
+                    onChange={handlePhone}
+                    placeholder="1234567890"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -199,6 +512,9 @@ export default function UserModal(props: Props) {
                       ),
                     }}
                   />
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {phoneError}
+                  </p>
                 </div>
               </div>
               <div className="divided-div">
@@ -207,13 +523,17 @@ export default function UserModal(props: Props) {
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
                       value={role}
+                      disabled={!roles?.length}
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
+                      defaultValue="none"
                       onChange={handleRoleChange}
                     >
-                      <MenuItem value={10}>FSE</MenuItem>
-                      <MenuItem value={20}>Adminitrator</MenuItem>
-                      <MenuItem value={30}>Manager</MenuItem>
+                      {roles?.map((item, key) => (
+                        <MenuItem key={key} value={item.value}>
+                          {item.title}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -226,9 +546,12 @@ export default function UserModal(props: Props) {
                       style={{ height: "43px", borderRadius: "8px" }}
                       onChange={handleManagerChange}
                     >
-                      <MenuItem value={10}>Default</MenuItem>
-                      <MenuItem value={20}>Font 2</MenuItem>
-                      <MenuItem value={30}>Font 3</MenuItem>
+                      {!isUsersLoading &&
+                        usersList?.map((item, key) => (
+                          <MenuItem key={key} value={item?.id}>
+                            {item?.username}
+                          </MenuItem>
+                        ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -242,9 +565,12 @@ export default function UserModal(props: Props) {
                     style={{ height: "43px", borderRadius: "8px" }}
                     onChange={handleCustomerChange}
                   >
-                    <MenuItem value={10}>Crothall</MenuItem>
-                    <MenuItem value={20}>Font 2</MenuItem>
-                    <MenuItem value={30}>Font 3</MenuItem>
+                    {!isOrganisationLoading &&
+                      organizationData?.map((item, key) => (
+                        <MenuItem key={key} value={item?.id}>
+                          {item?.name}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               </div>
@@ -252,97 +578,134 @@ export default function UserModal(props: Props) {
           ) : (
             <>
               <div>
-                <p className="info-label">Health Network Access</p>
-                {data.healthNetworks.map((item, key) => (
-                  <div key={key}>
-                    <details className="network-details">
-                      <summary className="header">
-                        <span className="title">{item.name}</span>
-                        <span className="checked-ratio">{`0/${item.locations.length}`}</span>
-                      </summary>
-                      {item.locations.map((loc, key) => (
-                        <FormGroup
-                          key={key}
-                          style={{ marginLeft: "20px" }}
-                          className="options"
-                        >
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                onChange={handleCheckChange}
-                                name={loc}
-                                color="primary"
+                <p className="modalities-header">
+                  <span className="info-label">Health Network Access</span>
+                  <span className="checked-ratio">{`${
+                    selectedSites?.length
+                  }/${sitesLength()}`}</span>
+                </p>
+
+                {!isNetworkDataLoading &&
+                  networksData?.map((item, key) =>
+                    item?.sites?.length ? (
+                      <div key={key}>
+                        <details className="network-details">
+                          <summary
+                            className="header"
+                            style={{ cursor: "pointer" }}
+                          >
+                            <span className="title">{item?.name}</span>
+                          </summary>
+                          {item?.sites?.map((site, key) => (
+                            <FormGroup
+                              key={key}
+                              style={{ marginLeft: "20px" }}
+                              className="options"
+                            >
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    onChange={handleSitesSelection}
+                                    value={site?.id}
+                                    name={site?.address}
+                                    color="primary"
+                                  />
+                                }
+                                label={site?.address}
                               />
-                            }
-                            label={loc}
-                          />
-                        </FormGroup>
-                      ))}
-                    </details>
-                  </div>
-                ))}
+                            </FormGroup>
+                          ))}
+                        </details>
+                      </div>
+                    ) : (
+                      ""
+                    )
+                  )}
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {sitesError}
+                </p>
               </div>
               <div>
                 <p className="modalities-header">
                   <span className="info-label">Access to modalities</span>
-                  <span className="checked-ratio">{`0/${data.modalities.length}`}</span>
+                  <span className="checked-ratio">{`${selectedModalities?.length}/${modalitiesList?.length}`}</span>
                 </p>
-                <ToggleButtonGroup
-                  value={formats}
-                  onChange={handleFormat}
-                  aria-label="text formatting"
-                  style={{ flexWrap: "wrap" }}
-                >
-                  {data.modalities.map((item, key) => (
-                    <ToggleButton key={key} value={item} className="toggle-btn">
-                      {item}
-                    </ToggleButton>
-                  ))}
-                </ToggleButtonGroup>
+                {!isModalitiesLoading ? (
+                  <ToggleButtonGroup
+                    value={selectedModalities}
+                    color="primary"
+                    onChange={handleSelectedModalities}
+                    aria-label="text formatting"
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {modalitiesList?.length &&
+                      modalitiesList?.map((item, key) => (
+                        <ToggleButton
+                          key={key}
+                          value={item?.id}
+                          className="toggle-btn"
+                        >
+                          {item?.name}
+                        </ToggleButton>
+                      ))}
+                  </ToggleButtonGroup>
+                ) : (
+                  ""
+                )}
+                <p className="errorText" style={{ marginBottom: "15px" }}>
+                  {modalitiesError}
+                </p>
               </div>
               <div className="services">
                 <FormGroup className="service-options">
                   <FormControlLabel
-                    control={
-                      <Checkbox
-                        onChange={handleCheckChange}
-                        name="documentation"
-                      />
-                    }
-                    label="Documentation link available"
+                    control={<Checkbox onClick={() => setDocLink(!docLink)} />}
+                    label="Documentation Link Available"
                   />
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckChange} name="functions" />
+                      <Checkbox
+                        onClick={() =>
+                          setAccessToFSEFunctions(!accessToFSEFunctions)
+                        }
+                      />
                     }
                     label="Access to FSE functions"
                   />
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckChange} name="audit" />
+                      <Checkbox onClick={() => setAuditEnable(!auditEnable)} />
                     }
-                    label="Audit enable"
+                    label="Audit Enable"
                   />
                 </FormGroup>
 
                 <FormGroup className="options">
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckChange} name="notes" />
+                      <Checkbox
+                        onClick={() =>
+                          setPossibilitytoLeave(!possibilitytoLeave)
+                        }
+                      />
                     }
-                    label="Possibility to leave notes"
+                    label="Possibility to Leave Notes"
                   />
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckChange} name="view" />
+                      <Checkbox onClick={() => setViewOnly(!viewOnly)} />
                     }
-                    label="View only"
+                    label="View Only"
                   />
                   <FormControlLabel
                     control={
-                      <Checkbox onChange={handleCheckChange} name="link" />
+                      <Checkbox
+                        onClick={() =>
+                          setOneTimeLinkCreation(!oneTimeLinkCreation)
+                        }
+                      />
                     }
-                    label="One-time link creation"
+                    label="One-time Link Creation"
                   />
                 </FormGroup>
               </div>
@@ -352,36 +715,53 @@ export default function UserModal(props: Props) {
       </DialogContent>
       <DialogActions>
         <Button
-          style={{
-            backgroundColor: secondaryColor,
-            color: buttonTextColor,
-          }}
-          onClick={props.handleClose}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "lightgray",
+                  color: buttonTextColor,
+                }
+              : {
+                  backgroundColor: secondaryColor,
+                  color: buttonTextColor,
+                }
+          }
+          onClick={resetModal}
+          disabled={isLoading}
           className="cancel-btn"
         >
           {btnCancel}
         </Button>
+
         {page === "1" ? (
           <Button
             style={{
               backgroundColor: buttonBackground,
               color: buttonTextColor,
             }}
-            onClick={() => setPage("2")}
+            onClick={moveToNextPage}
             className="add-btn"
           >
             {btnNext}
           </Button>
         ) : (
           <Button
-            style={{
-              backgroundColor: buttonBackground,
-              color: buttonTextColor,
-            }}
-            // onClick={handleSetNewOrganization}
+            style={
+              isLoading
+                ? {
+                    backgroundColor: "lightgray",
+                    color: buttonTextColor,
+                  }
+                : {
+                    backgroundColor: buttonBackground,
+                    color: buttonTextColor,
+                  }
+            }
+            disabled={isLoading}
+            onClick={props?.action === "add" ? handleAddUser : handleEditUser}
             className="add-btn"
           >
-            {btnClient}
+            {props?.action == "add" ? btnAddUser : btnEditUser}
           </Button>
         )}
       </DialogActions>

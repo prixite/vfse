@@ -31,10 +31,11 @@ class SiteSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
         child=serializers.CharField(), allow_empty=True, read_only=True
     )
+    connections = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = models.Site
-        fields = ["id", "name", "address", "modalities"]
+        fields = ["id", "name", "address", "modalities", "connections"]
 
 
 class SiteCreateSerializer(SiteSerializer):
@@ -179,6 +180,12 @@ class ModalitySerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Profile
+        fields = ["manager", "phone"]
+
+
 class UserSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
@@ -189,6 +196,7 @@ class UserSerializer(serializers.ModelSerializer):
     organizations = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
+    profile = ProfileSerializer(read_only=True)
 
     class Meta:
         model = models.User
@@ -202,6 +210,7 @@ class UserSerializer(serializers.ModelSerializer):
             "health_networks",
             "modalities",
             "organizations",
+            "profile",
         ]
 
 
@@ -347,6 +356,7 @@ class SystemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.System
         fields = [
+            "id",
             "name",
             "site",
             "serial_number",
@@ -378,6 +388,14 @@ class ManufacturerImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ManufacturerImage
         fields = ["image"]
+
+
+class SeatListSerializer(serializers.ModelSerializer):
+    system = SystemSerializer()
+
+    class Meta:
+        model = models.Seat
+        fields = ["system"]
 
 
 class SeatSerializer(serializers.ModelSerializer):

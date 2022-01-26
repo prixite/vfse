@@ -449,7 +449,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
-export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
+export type OrganizationsSeatsListApiResponse = /** status 200  */ SeatList[];
 export type OrganizationsSeatsListApiArg = {
   id: string;
 };
@@ -478,8 +478,8 @@ export type OrganizationsSystemsListApiResponse = /** status 200  */ System[];
 export type OrganizationsSystemsListApiArg = {
   id: string;
   site?: string;
-  healthNetwork?: string;
-  modality?: string;
+  healthNetwork?: number;
+  modality?: number;
 };
 export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
 export type OrganizationsSystemsCreateApiArg = {
@@ -665,28 +665,6 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetworkCreate[];
 };
-export type Seat = {
-  system: number;
-};
-export type OrganizationSeatSeriazlier = {
-  seats: Seat[];
-};
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
-export type SiteCreate = {
-  id?: number | null;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
-export type OrganizationSite = {
-  id?: number;
-  sites: SiteCreate[];
-};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -704,6 +682,7 @@ export type ConnectionOptions = {
   ssh: boolean;
 };
 export type System = {
+  id?: number;
   name: string;
   site: number;
   serial_number?: string | null;
@@ -723,6 +702,37 @@ export type System = {
   image_url?: string;
   documentation?: string;
 };
+export type SeatList = {
+  system: System;
+};
+export type Seat = {
+  system: number;
+};
+export type OrganizationSeatSeriazlier = {
+  seats: Seat[];
+};
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+  modalities?: string[];
+  connections?: number;
+};
+export type SiteCreate = {
+  id?: number | null;
+  name: string;
+  address: string;
+  modalities?: string[];
+  connections?: number;
+};
+export type OrganizationSite = {
+  id?: number;
+  sites: SiteCreate[];
+};
+export type Profile = {
+  manager?: number | null;
+  phone?: string;
+};
 export type User = {
   id?: number;
   first_name?: string;
@@ -733,6 +743,7 @@ export type User = {
   health_networks?: string[];
   modalities?: string[];
   organizations?: string[];
+  profile?: Profile;
 };
 export type UpsertUser = {
   meta?: Meta;
