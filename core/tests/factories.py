@@ -240,7 +240,8 @@ class SiteFactory(factory.django.DjangoModelFactory):
             return
 
         models.UserSite.objects.bulk_create(
-            models.UserSite(user=user, site=obj) for user in extracted or []
+            models.UserSite(user=user, site=obj, organization=obj.organization)
+            for user in extracted or []
         )
 
 
@@ -353,7 +354,8 @@ class SystemFactory(factory.django.DjangoModelFactory):
             return
 
         models.UserSystem.objects.bulk_create(
-            models.UserSystem(user=user, system=obj) for user in extracted or []
+            models.UserSystem(user=user, system=obj, organization=obj.site.organization)
+            for user in extracted or []
         )
 
 
