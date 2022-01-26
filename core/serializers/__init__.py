@@ -216,7 +216,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField()
-    title = serializers.CharField()
+    title = serializers.CharField(required=False)
 
 
 class UpsertUserSerializer(serializers.Serializer):
