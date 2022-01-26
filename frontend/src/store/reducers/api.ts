@@ -574,7 +574,7 @@ export type UsersPartialUpdateApiArg = {
 };
 export type Meta = {
   profile_picture: string;
-  title: string;
+  title?: string;
 };
 export type UserRequestAcessSeriazlizer = {
   meta?: Meta;
