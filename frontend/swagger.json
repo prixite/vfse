@@ -1066,22 +1066,6 @@
                 }
             ]
         },
-        "/user_roles/": {
-            "get": {
-                "operationId": "user_roles_list",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "user_roles"
-                ]
-            },
-            "parameters": []
-        },
         "/users/activate/": {
             "patch": {
                 "operationId": "users_activate_partial_update",
@@ -1130,6 +1114,22 @@
                         "schema": {
                             "$ref": "#/definitions/UserEnableDisable"
                         }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
+        "/users/roles/": {
+            "get": {
+                "operationId": "users_roles_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
                     }
                 },
                 "tags": [
