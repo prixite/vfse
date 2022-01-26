@@ -21,7 +21,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Organization
 
-    name = factory.Sequence(lambda x: f"{x}-Organization")
+    name = factory.Sequence(lambda x: str(fake.unique.company()))
     appearance = factory.lazy_attribute(
         lambda obj: {
             "sidebar_text": "#94989E",
