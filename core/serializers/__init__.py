@@ -453,7 +453,7 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data):
         documentation_data = validated_data.pop("documentation")
-        return models.ProductModel(
+        return models.ProductModel.objects.create(
             **validated_data,
             documentation=models.Documentation.objects.create(**documentation_data),
         )
