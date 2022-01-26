@@ -60,6 +60,11 @@ const SystemSection = () => {
     }
   }, [modalitiesList]);
 
+  const handleEdit= (system)=>{
+    setOpen(true);
+    setSystem(system);
+  }
+
   const changeModality = (item) => {
     if (item == null) {
       // if no modality selected
@@ -287,6 +292,7 @@ const SystemSection = () => {
                 location_in_building={item?.location_in_building}
                 grafana_link={item?.grafana_link}
                 documentation={item?.documentation}
+                handleEdit={()=>handleEdit(item)}
               />
             </div>
           ))
@@ -325,6 +331,7 @@ const SystemSection = () => {
               location_in_building={item?.location_in_building}
               grafana_link={item?.grafana_link}
               documentation={item?.documentation}
+              handleEdit={()=>handleEdit(item)}
             />
           ))}
         </div>
@@ -333,6 +340,8 @@ const SystemSection = () => {
         open={open}
         handleClose={() => setOpen(false)}
         refetch={systemsRefetch}
+        system={system}
+        setSystem={setSystem}
       />
       <AddSiteFirstModal
         open={openConfirmModal}

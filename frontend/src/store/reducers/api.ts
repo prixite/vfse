@@ -215,6 +215,7 @@ const injectedRtkApi = api.injectEndpoints({
       OrganizationsSystemsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
+        
         url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/`,
         method: "PATCH",
         body: queryArg.system,

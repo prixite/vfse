@@ -34,6 +34,7 @@ const SystemCard = ({
   location_in_building,
   grafana_link,
   documentation,
+  handleEdit,
 }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -193,7 +194,7 @@ const SystemCard = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem>
+          <MenuItem onClick={handleEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
           <MenuItem>
