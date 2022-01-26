@@ -19,12 +19,19 @@ class UserMixin:
         )
 
     def add_sites(self, data, user_id):
-        sites = [models.UserSite(user_id=user_id, site=site) for site in data["sites"]]
+        sites = [
+            models.UserSite(
+                user_id=user_id, site=site, organization=data["organization"]
+            )
+            for site in data["sites"]
+        ]
         models.UserSite.objects.bulk_create(sites)
 
     def add_modalities(self, data, user_id):
         modalities = [
-            models.UserModality(user_id=user_id, modality=modality)
+            models.UserModality(
+                user_id=user_id, modality=modality, organization=data["organization"]
+            )
             for modality in data["modalities"]
         ]
         models.UserModality.objects.bulk_create(modalities)
