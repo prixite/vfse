@@ -443,10 +443,14 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 class ProductModelCreateSerializer(serializers.ModelSerializer):
     documentation = DocumentationSerializer()
+
     class Meta:
         model = models.ProductModel
         fields = ["id", "model", "documentation", "modality", "product"]
 
     def create(self, validated_data):
-        documentation_data = validated_data.pop('documentation')
-        return models.ProductModel(**validated_data,documentation=models.Documentation.objects.create(**documentation_data))
+        documentation_data = validated_data.pop("documentation")
+        return models.ProductModel(
+            **validated_data,
+            documentation=models.Documentation.objects.create(**documentation_data),
+        )

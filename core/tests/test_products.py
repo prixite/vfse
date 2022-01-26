@@ -64,7 +64,7 @@ class ProductTestCase(BaseTestCase):
                 "model": "test model",
                 "product": self.product.id,
                 "modality": self.modality.id,
-                "documentation": {"url":'http://example.com/doc.pdf'},
+                "documentation": {"url": "http://example.com/doc.pdf"},
             },
         )
         print(response.content.decode())
