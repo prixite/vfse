@@ -67,7 +67,6 @@ class ProductTestCase(BaseTestCase):
                 "documentation": {"url": "http://example.com/doc.pdf"},
             },
         )
-        print(response.content.decode())
         self.assertEqual(response.status_code, 201),
         self.assertTrue(models.ProductModel.objects.filter(model="test model").exists())
 
