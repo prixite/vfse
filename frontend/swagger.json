@@ -2053,7 +2053,8 @@
                 "phone": {
                     "title": "Phone",
                     "type": "string",
-                    "readOnly": true
+                    "readOnly": true,
+                    "minLength": 1
                 },
                 "role": {
                     "type": "array",

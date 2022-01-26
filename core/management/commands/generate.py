@@ -53,7 +53,15 @@ class Command(BaseCommand):
         one_time_role = factories.UserWithPasswordFactory(
             username="one-time@example.com", profile__manager=super_user
         )
-        users = [one_time_role,view_only,end_user_role,fse_role,user_admin,customer_admin,fse_admin]
+        users = [
+            one_time_role,
+            view_only,
+            end_user_role,
+            fse_role,
+            user_admin,
+            customer_admin,
+            fse_admin,
+        ]
         organization = factories.OrganizationFactory(
             name="All Data",
             is_customer=True,
