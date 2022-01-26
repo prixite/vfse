@@ -30,6 +30,8 @@ class Command(BaseCommand):
         factories.OrganizationFactory(
             is_default=True,
             name="626",
+            number_of_seats=10,
+
         )
         fse_admin = factories.UserWithPasswordFactory(
             username="fse-admin@example.com", profile__manager=super_user
@@ -56,6 +58,7 @@ class Command(BaseCommand):
         organization = factories.OrganizationFactory(
             name="All Data",
             is_customer=True,
+            number_of_seats=10,
             site__name="All data Site",
             site__users=[super_user],
             site__system__users=[super_user],
@@ -126,6 +129,7 @@ class Command(BaseCommand):
         orgnization = factories.OrganizationFactory(
             name="Crothal",
             is_customer=True,
+            number_of_seats=10,
             sites=True,
             site__users=[super_user],
             site__system__users=[super_user],
@@ -154,6 +158,7 @@ class Command(BaseCommand):
         orgnization = factories.OrganizationFactory(
             name="Alira Health",
             logo="https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png",
+            number_of_seats=10,
             is_customer=True,
             sites=True,
             site__users=[super_user],
@@ -186,6 +191,7 @@ class Command(BaseCommand):
         orgnization = factories.OrganizationFactory(
             name="Conni Health",
             logo="https://vfse.s3.us-east-2.amazonaws.com/connihealth.png",
+            number_of_seats=10,
             is_customer=True,
             sites=True,
             site__name="Conni Site",
@@ -215,6 +221,7 @@ class Command(BaseCommand):
         orgnization = factories.OrganizationFactory(
             name="Conventry Health",
             logo="https://vfse.s3.us-east-2.amazonaws.com/coventry.png",
+            number_of_seats=10,
             is_customer=True,
             sites=True,
             site__name="Conventry Site",
@@ -245,6 +252,7 @@ class Command(BaseCommand):
             name="Heartbeat Health",
             logo=" https://vfse.s3.us-east-2.amazonaws.com/heartbeat.png",
             is_customer=True,
+            number_of_seats=10,
             sites=True,
             site__name="Heartbeat Site",
             site__system__name="Heartbeat System",
