@@ -1,5 +1,6 @@
 import re
 
+from django.db import transaction
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -449,6 +450,7 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
         model = models.ProductModel
         fields = ["id", "model", "documentation", "modality", "product"]
 
+    @transaction.atomic
     def create(self, validated_data):
         documentation_data = validated_data.pop("documentation")
         return models.ProductModel(
