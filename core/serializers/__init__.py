@@ -191,9 +191,7 @@ class UserSerializer(serializers.ModelSerializer):
         child=serializers.CharField(max_length=32), read_only=True
     )
 
-    phone = serializers.SlugRelatedField(
-        source="profile", slug_field="phone", read_only=True
-    )
+    phone = serializers.CharField(source='profile.phone',read_only=True)
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
     )
