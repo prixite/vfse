@@ -31,6 +31,27 @@ class Command(BaseCommand):
             is_default=True,
             name="626",
         )
+        fse_admin = factories.UserWithPasswordFactory(
+            username="fse-admin@example.com", profile__manager=super_user
+        )
+        customer_admin = factories.UserWithPasswordFactory(
+            username="customer-admin@example.com", profile__manager=super_user
+        )
+        user_admin = factories.UserWithPasswordFactory(
+            username="user-admin@example.com", profile__manager=super_user
+        )
+        fse_role = factories.UserWithPasswordFactory(
+            username="fse@example.com", profile__manager=super_user
+        )
+        end_user_role = factories.UserWithPasswordFactory(
+            username="end-user@example.com", profile__manager=super_user
+        )
+        view_only = factories.UserWithPasswordFactory(
+            username="view-only@example.com", profile__manager=super_user
+        )
+        one_time_role = factories.UserWithPasswordFactory(
+            username="one-time@example.com", profile__manager=super_user
+        )
 
         organization = factories.OrganizationFactory(
             name="All Data",
@@ -38,41 +59,13 @@ class Command(BaseCommand):
             site__name="All data Site",
             site__users=[super_user],
             site__system__users=[super_user],
-            fse_admin_roles=[
-                factories.UserWithPasswordFactory(
-                    username="fse-admin@example.com", profile__manager=super_user
-                )
-            ],
-            customer_admin_roles=[
-                factories.UserWithPasswordFactory(
-                    username="customer-admin@example.com", profile__manager=super_user
-                )
-            ],
-            user_admin_roles=[
-                factories.UserWithPasswordFactory(
-                    username="user-admin@example.com", profile__manager=super_user
-                )
-            ],
-            fse_roles=[
-                factories.UserWithPasswordFactory(
-                    username="fse@example.com", profile__manager=super_user
-                )
-            ],
-            end_user_roles=[
-                factories.UserWithPasswordFactory(
-                    username="end-user@example.com", profile__manager=super_user
-                )
-            ],
-            view_only_roles=[
-                factories.UserWithPasswordFactory(
-                    username="view-only@example.com", profile__manager=super_user
-                )
-            ],
-            one_time_roles=[
-                factories.UserWithPasswordFactory(
-                    username="one-time@example.com", profile__manager=super_user
-                )
-            ],
+            fse_admin_roles=[fse_admin],
+            customer_admin_roles=[customer_admin],
+            user_admin_roles=[user_admin],
+            fse_roles=[fse_role],
+            end_user_roles=[end_user_role],
+            view_only_roles=[view_only],
+            one_time_roles=[one_time_role],
             cryo_roles=[
                 factories.UserWithPasswordFactory(
                     username="cryo@example.com", profile__manager=super_user
@@ -90,13 +83,15 @@ class Command(BaseCommand):
             ],
             sites=True,
         )
-
+        product_model = factories.ProductModelFactory(modality__users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],modality__users__organization=organization)
         health_network = factories.HealthNetworkFactory(
             name="Health Network with Sites",
             organizations=[organization],
             site__name="sites with Systems",
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
             site__users=[super_user],
             site__system__users=[super_user],
+            site__system__product_model=product_model,
             site__system__connection_monitoring=True,
         )
 
@@ -120,8 +115,10 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Crothal Health Network",
             organizations=[orgnization],
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
             site__users=[super_user],
             site__system__users=[super_user],
+            site__system__product_model=product_model,
         )
         # Alira
         orgnization = factories.OrganizationFactory(
@@ -138,8 +135,10 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Alira Health Network",
             organizations=[orgnization],
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
             site__users=[super_user],
             site__system__users=[super_user],
+            site__system__product_model=product_model,
         )
         factories.SystemFactory.create_batch(
             10, seats=True, site=organization.sites.first()
@@ -159,8 +158,10 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Conni Health Network",
             organizations=[orgnization],
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
             site__users=[super_user],
             site__system__users=[super_user],
+            site__system__product_model=product_model,
         )
         # Coventry
         orgnization = factories.OrganizationFactory(
@@ -177,8 +178,10 @@ class Command(BaseCommand):
         factories.HealthNetworkFactory(
             name="Conventry Health Network",
             organizations=[orgnization],
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
             site__users=[super_user],
             site__system__users=[super_user],
+            site__system__product_model=product_model,
         )
         # Heart Beat
         orgnization = factories.OrganizationFactory(
@@ -192,11 +195,14 @@ class Command(BaseCommand):
             site__users=[super_user],
             site__system__users=[super_user],
         )
+        product_model = factories.ProductModelFactory(modality__users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],modality__users__organization=organization)
         factories.HealthNetworkFactory(
             name="Heartbeat Health Network",
             organizations=[orgnization],
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
             site__users=[super_user],
             site__system__users=[super_user],
+            site__system__product_model=product_model,
         )
 
         # Bulk Creations
@@ -206,12 +212,18 @@ class Command(BaseCommand):
             users=[super_user],
         )
         factories.OrganizationFactory.create_batch(175, is_customer=True)
-        factories.HealthNetworkFactory.create_batch(5, organizations=[organization])
+        factories.HealthNetworkFactory.create_batch(
+            5,
+            organizations=[organization],
+            users=[super_user, view_only, fse_role, end_user_role, one_time_role,user_admin,customer_admin,fse_admin],
+            site__system__product_model=product_model,
+        )
         factories.SiteFactory.create_batch(
             5,
             organization=health_network,
             users=[super_user],
             system__users=[super_user],
+            system__product_model=product_model,
         )
         factories.SystemFactory.create_batch(
             10,
@@ -228,7 +240,8 @@ class Command(BaseCommand):
         )
 
         factories.SystemFactory(
-            ip_address="10.21.2.21", site=site, connection_monitoring=True
+            ip_address="10.21.2.21", site=site, connection_monitoring=True,
+            product_model=product_model,
         )
         factories.SystemFactory(
             ip_address="10.21.11.70", site=site, connection_monitoring=True

@@ -1980,24 +1980,6 @@
                 }
             }
         },
-        "Profile": {
-            "title": "Profile",
-            "description": "Profile(id, user, manager, phone, meta, mfa_enabled, fse_accessible, audit_enabled, can_leave_notes, is_view_only, is_one_time, view_only, documentation_url, one_time_complete, created_at, updated_at)",
-            "type": "object",
-            "properties": {
-                "manager": {
-                    "title": "Manager",
-                    "type": "integer",
-                    "x-nullable": true
-                },
-                "phone": {
-                    "title": "Phone",
-                    "type": "string",
-                    "maxLength": 15,
-                    "minLength": 1
-                }
-            }
-        },
         "User": {
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
             "required": [
@@ -2068,8 +2050,24 @@
                     },
                     "readOnly": true
                 },
-                "profile": {
-                    "$ref": "#/definitions/Profile"
+                "phone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "role": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "readOnly": true,
+                    "uniqueItems": true
+                },
+                "manager": {
+                    "title": "Manager",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
                 }
             }
         },

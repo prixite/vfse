@@ -56,6 +56,10 @@ class User(AbstractUser):
     def organizations(self):
         return self.get_organizations().values_list("organization__name", flat=True)
 
+    @property
+    def manager(self):
+        return str(self.profile.manager.get_full_name())
+
     def get_initials(self):
         if any([self.first_name, self.last_name]):
             return " ".join([self.first_name[0], self.last_name[0]])
@@ -93,7 +97,7 @@ class User(AbstractUser):
         ).values_list("health_network")
 
     def get_sites(self):
-        return UserSite.objects.filter(user=self).values_list("site")
+        return UserSite.objects.filter(user=self).values_list("site", flat=True)
 
     def get_systems(self):
         return UserSystem.objects.filter(user=self).values_list("system")
