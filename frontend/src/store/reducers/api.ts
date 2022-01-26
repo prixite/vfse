@@ -804,7 +804,7 @@ export type ProductModel = {
 export type ProductModelCreate = {
   id?: number;
   model: string;
-  documentation?: number | null;
+  documentation: Documentation;
   modality: number;
   product: number;
 };
