@@ -364,6 +364,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userEnableDisable,
       }),
     }),
+    usersRolesList: build.query<
+      UsersRolesListApiResponse,
+      UsersRolesListApiArg
+    >({
+      query: () => ({ url: `/users/roles/` }),
+    }),
     usersPartialUpdate: build.mutation<
       UsersPartialUpdateApiResponse,
       UsersPartialUpdateApiArg
@@ -567,6 +573,8 @@ export type UsersDeactivatePartialUpdateApiResponse =
 export type UsersDeactivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
 };
+export type UsersRolesListApiResponse = unknown;
+export type UsersRolesListApiArg = void;
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
   id: string;
@@ -730,10 +738,6 @@ export type OrganizationSite = {
   id?: number;
   sites: SiteCreate[];
 };
-export type Profile = {
-  manager?: number | null;
-  phone?: string;
-};
 export type User = {
   id?: number;
   first_name?: string;
@@ -744,7 +748,9 @@ export type User = {
   health_networks?: string[];
   modalities?: string[];
   organizations?: string[];
-  profile?: Profile;
+  phone?: string;
+  role?: string[];
+  manager?: string;
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -865,5 +871,6 @@ export const {
   useSystemsNotesCreateMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;

@@ -21,7 +21,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Organization
 
-    name = factory.Faker("company")
+    name = factory.Sequence(lambda x: str(fake.unique.company()))
     appearance = factory.lazy_attribute(
         lambda obj: {
             "sidebar_text": "#94989E",
@@ -250,6 +250,18 @@ class ModalityFactory(factory.django.DjangoModelFactory):
         model = models.Modality
 
     name = factory.Sequence(lambda x: f"modality-{x}")
+
+    @factory.post_generation
+    def users(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        models.UserModality.objects.bulk_create(
+            models.UserModality(
+                user=user, modality=obj, organization=kwargs["organization"]
+            )
+            for user in extracted or []
+        )
 
 
 class ManufacturerImageFactory(factory.django.DjangoModelFactory):
