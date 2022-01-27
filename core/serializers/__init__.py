@@ -2,7 +2,7 @@ import re
 
 from django.db import transaction
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
+from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from core import models
 from core.serializers import defaults
@@ -175,6 +175,10 @@ class MriInfoSerializer(serializers.Serializer):
 
 
 class ModalitySerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        validators=[UniqueValidator(queryset=models.Modality.objects.all())]
+    )
+
     class Meta:
         model = models.Modality
         fields = ["id", "name"]
@@ -224,7 +228,14 @@ class UpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
     last_name = serializers.CharField()
-    email = serializers.EmailField()
+    email = serializers.EmailField(
+        validators=[
+            UniqueValidator(
+                queryset=models.User.objects.all().values_list("username"),
+                message="Email already in use",
+            )
+        ],
+    )
     phone = serializers.CharField()
     role = serializers.ChoiceField(choices=models.Role, default=models.Role.FSE)
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
@@ -378,6 +389,13 @@ class SystemSerializer(serializers.ModelSerializer):
             "image_url",
             "documentation",
         ]
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.System.objects.all(),
+                fields=["name", "site"],
+                message="System with given name for selected site already exists",
+            )
+        ]
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
@@ -443,6 +461,14 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         model = models.Product
         fields = ["id", "name", "manufacturer"]
 
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.Product.objects.all(),
+                fields=["name", "manufacturer"],
+                message="Product with given name under selected manufacturer exists",
+            )
+        ]
+
 
 class ProductModelCreateSerializer(serializers.ModelSerializer):
     documentation = DocumentationSerializer()
@@ -450,6 +476,14 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ProductModel
         fields = ["id", "model", "documentation", "modality", "product"]
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.ProductModel.objects.all(),
+                fields=["product", "model"],
+                message="Model with given name already exists for selected product",
+            )
+        ]
 
     @transaction.atomic
     def create(self, validated_data):

@@ -1589,7 +1589,6 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
                     "minLength": 1
                 }
             }
