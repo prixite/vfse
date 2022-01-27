@@ -579,7 +579,8 @@ class LambdaView(ViewSet):
     def get_object(self):
         token = Token.objects.get(key=self.request.auth)
         org = models.Membership.objects.get(
-            user=token.user, user__profile__is_lambda_user=True,
+            user=token.user,
+            user__profile__is_lambda_user=True,
         ).organization
         return org
 
