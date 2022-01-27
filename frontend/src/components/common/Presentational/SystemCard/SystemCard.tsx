@@ -9,6 +9,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import moment from "moment";
 import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
@@ -139,7 +140,10 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
               </p>
               <p className="option">
                 {latest_ping} <br />
-                <strong>{system.last_successful_ping_at}</strong>
+                <strong>
+                  {moment(system.last_successful_ping_at).format("l")}{" "}
+                  {moment(system.last_successful_ping_at).format("LT")}
+                </strong>
               </p>
             </div>
           </div>
