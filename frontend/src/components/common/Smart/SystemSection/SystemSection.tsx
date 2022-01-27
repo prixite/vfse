@@ -48,6 +48,7 @@ const SystemSection = () => {
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });
+
   useEffect(() => {
     modalitiesList?.length &&
       modalitiesList?.map((item, key) => {
@@ -256,7 +257,7 @@ const SystemSection = () => {
       {!isSystemDataLoading ? (
         <TopViewBtns
           setOpen={
-            !selectedOrganization.sites.length ? setOpenConfirmModal : setOpen
+            !selectedOrganization?.sites?.length ? setOpenConfirmModal : setOpen
           }
           path="systems"
           setData={setSystem}

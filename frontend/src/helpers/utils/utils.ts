@@ -17,4 +17,9 @@ const isValidURL = (url: string) => {
   return res !== null;
 };
 
-export { ValidateIPaddress, isValidURL };
+const returnSearchedOject = (data, key) => {
+ const list =  data.filter((item)=> item.id === key);
+ return list;
+}
+
+export { ValidateIPaddress, isValidURL, returnSearchedOject };
