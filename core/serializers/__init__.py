@@ -389,6 +389,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "image_url",
             "documentation",
             "is_online",
+            "last_successful_ping_at",
         ]
         validators = [
             UniqueTogetherValidator(

@@ -711,6 +711,7 @@ export type System = {
   image_url?: string;
   documentation?: string;
   is_online?: boolean;
+  last_successful_ping_at?: string | null;
 };
 export type SeatList = {
   system: System;

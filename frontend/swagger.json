@@ -1854,6 +1854,12 @@
                 "is_online": {
                     "title": "Is online",
                     "type": "boolean"
+                },
+                "last_successful_ping_at": {
+                    "title": "Last successful ping at",
+                    "type": "string",
+                    "format": "date-time",
+                    "x-nullable": true
                 }
             }
         },

@@ -42,6 +42,7 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
     asset_txt,
     helium_level,
     mpc_status,
+    latest_ping,
     copy_btn,
     ip_address_txt,
     local_ae_title_txt,
@@ -117,8 +118,8 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
                 <strong>{system.serial_number}</strong>
               </p>
               <p className="option">
-                {is_online}  <br />
-                <strong>{system.is_online ? "Yes": "No"}</strong>
+                {is_online} <br />
+                <strong>{system.is_online ? "Yes" : "No"}</strong>
               </p>
             </div>
             <div>
@@ -135,6 +136,10 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
                 <strong>
                   {system.mri_embedded_parameters?.magnet_pressure}
                 </strong>
+              </p>
+              <p className="option">
+                {latest_ping} <br />
+                <strong>{system.last_successful_ping_at}</strong>
               </p>
             </div>
           </div>
