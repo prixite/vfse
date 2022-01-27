@@ -32,6 +32,7 @@ def use_one_time_login(sender, request, user, **kwargs):
 @receiver(post_save, sender=models.Organization)
 def create_lambda_admin(sender, instance=None, created=False, **kwargs):
     if created:
-        models.User.objects.create_user(
+        user = models.User.objects.create_user(
             username=f"org-{instance.id}-lambda-user",
         )
+        Token.objects.create(user=user)

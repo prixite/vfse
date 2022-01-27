@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0060_profile_documentation_url'),
+        ("core", "0060_profile_documentation_url"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='is_lambda_user',
+            model_name="profile",
+            name="is_lambda_user",
             field=models.BooleanField(default=False),
         ),
     ]
