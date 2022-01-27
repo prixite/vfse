@@ -1748,7 +1748,6 @@
             "required": [
                 "name",
                 "site",
-                "grafana_link",
                 "product_model",
                 "software_version",
                 "asset_number",
@@ -1795,7 +1794,7 @@
                     "type": "string",
                     "format": "uri",
                     "maxLength": 200,
-                    "minLength": 1
+                    "x-nullable": true
                 },
                 "product_model": {
                     "title": "Product model",

@@ -697,7 +697,7 @@ export type System = {
   serial_number?: string | null;
   location_in_building?: string | null;
   system_contact_info?: string | null;
-  grafana_link: string;
+  grafana_link?: string | null;
   product_model: number;
   image?: number | null;
   software_version: string;
