@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
-import { TextField, Grid, MenuItem, FormControl, Select, Autocomplete } from "@mui/material";
+
+import {
+  TextField,
+  Grid,
+  MenuItem,
+  FormControl,
+  Select,
+  Autocomplete,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
@@ -36,7 +44,6 @@ interface siteProps {
   name?: string;
   id?: number;
 }
-
 
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
@@ -90,8 +97,7 @@ export default function SystemModal(props: systemProps) {
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
 
-  const { data: productData } =
-    useProductsModelsListQuery();
+  const { data: productData } = useProductsModelsListQuery();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -683,24 +689,24 @@ export default function SystemModal(props: systemProps) {
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
                   <Autocomplete
-      id="country-select-demo"
-      sx={{ width: '100%'}}
-      style={{height: '48px'}}
-      value={modal}
-      onChange={(e, item: ProductModel)=> setModal(item)} // eslint-disable-line
-      options={productData}
-      autoHighlight
-      getOptionLabel={(option) => option?.name}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'new-password', // disable autocomplete and autofill
-          }}
-        />
-      )}
-    />
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    value={modal}
+                    onChange={(e, item: ProductModel) => setModal(item)} // eslint-disable-line
+                    options={productData}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                        }}
+                      />
+                    )}
+                  />
 
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
