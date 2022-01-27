@@ -119,6 +119,7 @@ const HealthNetwork = ({
           <DropzoneBox
             imgSrc={network?.appearance?.logo}
             setSelectedImage={setSelectedImage}
+            selectedImage={selectedImage}
             isUploading={isUploading}
           />
         </div>

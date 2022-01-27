@@ -94,6 +94,7 @@ export default function OrganizationModal({
     setOrganizationLogo("");
     setSecondColor("");
     setNetworks([{ name: "", appearance: { logo: "" } }]);
+    setSelectedImage([]);
   };
 
   const {
@@ -423,6 +424,7 @@ export default function OrganizationModal({
                 <DropzoneBox
                   imgSrc={organizationLogo}
                   setSelectedImage={setSelectedImage}
+                  selectedImage={selectedImage}
                 />
                 {imageError?.length ? (
                   <p className="errorText">{imageError}</p>

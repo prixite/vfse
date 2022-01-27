@@ -455,6 +455,7 @@ export default function UserModal(props: Props) {
                 <DropzoneBox
                   imgSrc={userProfileImage}
                   setSelectedImage={setSelectedImage}
+                  selectedImage={selectedImage}
                 />
                 {imageError?.length ? (
                   <p className="errorText" style={{ marginTop: "5px" }}>
