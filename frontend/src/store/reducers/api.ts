@@ -752,6 +752,8 @@ export type User = {
   phone?: string;
   role?: string[];
   manager?: string;
+  image?: string;
+  sites?: string[];
 };
 export type UpsertUser = {
   meta?: Meta;

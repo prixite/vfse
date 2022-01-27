@@ -62,7 +62,7 @@ class User(AbstractUser):
 
     @property
     def sites(self):
-        return self.get_sites().values_list('site__name',flat=True)
+        return self.get_sites().values_list("site__name", flat=True)
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
