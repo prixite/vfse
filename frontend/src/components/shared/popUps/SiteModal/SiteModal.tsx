@@ -1,25 +1,28 @@
 import { useEffect, useState } from "react";
+
 import { TextField, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { returnSearchedOject } from "@src/helpers/utils/utils";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { localizedData } from "@src/helpers/utils/language";
+import { returnSearchedOject } from "@src/helpers/utils/utils";
 import {
   addNewSiteService,
   updateSitesService,
 } from "@src/services/sitesService";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
-import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
-import "@src/components/shared/popUps/SiteModal/SiteModal.scss";
 import {
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
+
+import "@src/components/shared/popUps/SiteModal/SiteModal.scss";
 
 interface siteProps {
   open: boolean;
@@ -40,7 +43,7 @@ export default function SiteModal(props: siteProps) {
   const [reset, setReset] = useState(true);
   const [nameError, setNameError] = useState("");
   const [addressError, setAddressError] = useState("");
-  
+
   const [addNewSite] = useOrganizationsSitesCreateMutation();
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const dispatch = useAppDispatch();
@@ -51,7 +54,7 @@ export default function SiteModal(props: siteProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  
+
   const {
     data: organizationList,
     refetch,
@@ -99,32 +102,34 @@ export default function SiteModal(props: siteProps) {
         props.refetch,
         refetch,
         setIsLoading
-      )
-      .then(() => {
+      ).then(() => {
         setTimeout(() => {
           setReset(false);
         }, 500);
-      })
+      });
     } else {
       setIsLoading(false);
     }
   };
-  
-  useEffect(()=>{
-     if(!isOrgListFetching && !reset)
-     {
-      const data = returnSearchedOject(organizationList, selectedOrganization?.id);
-      if(data)
-      {
-         dispatch(setSelectedOrganization({
-          selectedOrganization: data[0]
-        }));
+
+  useEffect(() => {
+    if (!isOrgListFetching && !reset) {
+      const data = returnSearchedOject(
+        organizationList,
+        selectedOrganization?.id
+      );
+      if (data) {
+        dispatch(
+          setSelectedOrganization({
+            selectedOrganization: data[0],
+          })
+        );
       }
-          resetModal();
-          setIsLoading(false);
-          setReset(true);
-     }
-  }, [isOrgListFetching])
+      resetModal();
+      setIsLoading(false);
+      setReset(true);
+    }
+  }, [isOrgListFetching]);
 
   const handleEditSite = async () => {
     setIsLoading(true);
@@ -155,7 +160,7 @@ export default function SiteModal(props: siteProps) {
         setIsLoading
       ).then(() => {
         setTimeout(() => {
-          setReset(false)
+          setReset(false);
         }, 500);
       });
     } else {

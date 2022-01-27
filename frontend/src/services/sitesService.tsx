@@ -1,6 +1,14 @@
 import { toast } from "react-toastify";
 
-const updateSitesService = async (id, sites, updateSites, refetch, type, refetchOrganization, disableButton) => {
+const updateSitesService = async (
+  id,
+  sites,
+  updateSites,
+  refetch,
+  type,
+  refetchOrganization,
+  disableButton
+) => {
   await updateSites({
     id: id?.toString(),
     organizationSite: { sites: [...sites] },
