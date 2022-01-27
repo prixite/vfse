@@ -39,6 +39,7 @@ const OrganizationSection = () => {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   const { id } = useParams();
@@ -84,9 +85,25 @@ const OrganizationSection = () => {
               value={tabValue}
               onChange={handleChange}
               aria-label="basic tabs example"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: buttonBackground,
+                },
+              }}
             >
               {organizationTabs.map((tab: string, index: number) => {
-                return <Tab key={index} label={tab} className="tab-style" />;
+                return (
+                  <Tab
+                    key={index}
+                    label={tab}
+                    sx={{
+                      "&.Mui-selected": {
+                        color: buttonBackground,
+                      },
+                    }}
+                    className="tab-style"
+                  />
+                );
               })}
             </Tabs>
             <hr

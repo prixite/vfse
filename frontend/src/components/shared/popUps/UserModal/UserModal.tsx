@@ -431,6 +431,11 @@ export default function UserModal(props: Props) {
                   name="radio-buttons"
                   inputProps={{ "aria-label": "1" }}
                   size="small"
+                  sx={{
+                    "&.Mui-checked": {
+                      color: buttonBackground,
+                    },
+                  }}
                 />
                 <Radio
                   checked={page === "2"}
@@ -439,6 +444,11 @@ export default function UserModal(props: Props) {
                   name="radio-buttons"
                   inputProps={{ "aria-label": "2" }}
                   size="small"
+                  sx={{
+                    "&.Mui-checked": {
+                      color: buttonBackground,
+                    },
+                  }}
                 />
               </span>
             </span>
