@@ -97,7 +97,8 @@ export default function SystemModal(props: systemProps) {
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
 
-  const { data: productData } = useProductsModelsListQuery();
+  const { data: productData, isLoading: isProductsModelsLoading } =
+    useProductsModelsListQuery();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -594,7 +595,7 @@ export default function SystemModal(props: systemProps) {
   }, [selectedOrganization]);
 
   useEffect(() => {
-    if (productData?.length) {
+    if (productData?.length && !isProductsModelsLoading) {
       setModal(productData[0]);
     }
   }, [productData]);
@@ -688,26 +689,27 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  <Autocomplete
-                    id="country-select-demo"
-                    sx={{ width: "100%" }}
-                    style={{ height: "48px" }}
-                    value={modal}
-                    onChange={(e, item: ProductModel) => setModal(item)} // eslint-disable-line
-                    options={productData}
-                    autoHighlight
-                    getOptionLabel={(option) => option?.name}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                        }}
-                      />
-                    )}
-                  />
-
+                  {!isProductsModelsLoading && (
+                    <Autocomplete
+                      id="country-select-demo"
+                      sx={{ width: "100%" }}
+                      style={{ height: "48px" }}
+                      value={modal}
+                      onChange={(e, item: ProductModel) => setModal(item)} // eslint-disable-line
+                      options={productData}
+                      autoHighlight
+                      getOptionLabel={(option) => option?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                    />
+                  )}
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>

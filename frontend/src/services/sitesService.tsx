@@ -7,7 +7,7 @@ const updateSitesService = async (
   refetch,
   type,
   refetchOrganization,
-  disableButton
+  disableButton // eslint-disable-line
 ) => {
   await updateSites({
     id: id?.toString(),
@@ -30,16 +30,6 @@ const updateSitesService = async (
           },
         }
       );
-    })
-    .catch(() => {
-      disableButton(false);
-      toast.error(
-        `${type == "delete" ? "Site deletion error." : "Site edit error."}`,
-        {
-          autoClose: 1000,
-          pauseOnHover: false,
-        }
-      );
     });
 };
 
@@ -49,7 +39,7 @@ const addNewSiteService = async (
   addNewSite,
   refetch,
   refetchOrganization,
-  disableButton
+  disableButton // eslint-disable-line
 ) => {
   await addNewSite({
     id: selectionID?.toString(),
@@ -64,13 +54,6 @@ const addNewSiteService = async (
           refetch();
           refetchOrganization();
         },
-      });
-    })
-    .catch(() => {
-      disableButton(false);
-      toast.error("Adding site failed.", {
-        autoClose: 1000,
-        pauseOnHover: false,
       });
     });
 };
