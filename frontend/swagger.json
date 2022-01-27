@@ -2080,6 +2080,42 @@
                     "readOnly": true,
                     "minLength": 1
                 },
+                "fse_accessible": {
+                    "title": "Fse accessible",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "audit_enabled": {
+                    "title": "Audit enabled",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "can_leave_notes": {
+                    "title": "Can leave notes",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "view_only": {
+                    "title": "View only",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "is_one_time": {
+                    "title": "Is one time",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "documentation_url": {
+                    "title": "Documentation url",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
                 "role": {
                     "type": "array",
                     "items": {

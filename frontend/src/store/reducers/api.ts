@@ -751,6 +751,12 @@ export type User = {
   modalities?: string[];
   organizations?: string[];
   phone?: string;
+  fse_accessible?: string;
+  audit_enabled?: string;
+  can_leave_notes?: string;
+  view_only?: string;
+  is_one_time?: string;
+  documentation_url?: string;
   role?: string[];
   manager?: string;
 };
