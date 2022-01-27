@@ -199,7 +199,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
-    phone = models.CharField(max_length=15, default="")
+    phone = models.CharField(max_length=32, default="")
     meta = models.JSONField(default=dict)
     mfa_enabled = models.BooleanField(default=False)
     fse_accessible = models.BooleanField(default=False)
