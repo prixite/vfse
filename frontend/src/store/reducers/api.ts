@@ -819,7 +819,6 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  system: number;
   author: number;
   note: string;
   created_at?: string;

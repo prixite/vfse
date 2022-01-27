@@ -2385,16 +2385,11 @@
         "SystemNotes": {
             "description": "Note(id, system, author, note, created_at, updated_at)",
             "required": [
-                "system",
                 "author",
                 "note"
             ],
             "type": "object",
             "properties": {
-                "system": {
-                    "title": "System",
-                    "type": "integer"
-                },
                 "author": {
                     "title": "Author",
                     "type": "integer"

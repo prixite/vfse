@@ -497,9 +497,9 @@ class SystemNoteViewSet(ModelViewSet):
         return models.Note.objects.filter(
             system_id=self.kwargs["pk"], author=self.request.user
         )
-    
+
     def perform_create(self, serializer):
-        serializer.save(system_id=self.kwargs['pk'])
+        serializer.save(system_id=self.kwargs["pk"])
 
 
 class SystemImageViewSet(ModelViewSet):
