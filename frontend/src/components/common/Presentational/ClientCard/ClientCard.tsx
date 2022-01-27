@@ -117,7 +117,10 @@ const ClientCard = ({
   return (
     <div
       className="ClientCard"
-      style={{ border: `${selected ? `3px solid ${buttonBackground}` : ""}` }}
+      style={{
+        outline: `${selected ? `3px solid ${buttonBackground}` : ""}`,
+        outlineOffset: `${selected ? "-3px" : ""}`,
+      }}
     >
       <Box
         component="div"
