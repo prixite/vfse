@@ -14,12 +14,12 @@ import {
   addNewSiteService,
   updateSitesService,
 } from "@src/services/sitesService";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 
 import "@src/components/shared/popUps/SiteModal/SiteModal.scss";
