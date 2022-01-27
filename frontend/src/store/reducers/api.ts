@@ -590,7 +590,7 @@ export type UserRequestAcessSeriazlizer = {
   last_name: string;
   email: string;
   phone: string;
-  role?:
+  role:
     | "fse-admin"
     | "customer-admin"
     | "user-admin"
@@ -604,8 +604,8 @@ export type UserRequestAcessSeriazlizer = {
     | "lambda-admin";
   manager: number;
   organization: number;
-  sites: number[];
-  modalities: number[];
+  sites?: number[];
+  modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
   can_leave_notes: boolean;
@@ -758,7 +758,7 @@ export type UpsertUser = {
   last_name: string;
   email: string;
   phone: string;
-  role?:
+  role:
     | "fse-admin"
     | "customer-admin"
     | "user-admin"
@@ -772,8 +772,8 @@ export type UpsertUser = {
     | "lambda-admin";
   manager: number;
   organization: number;
-  sites: number[];
-  modalities: number[];
+  sites?: number[];
+  modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
   can_leave_notes: boolean;

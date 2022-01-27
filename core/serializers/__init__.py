@@ -226,16 +226,23 @@ class UpsertUserSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     email = serializers.EmailField()
     phone = serializers.CharField()
-    role = serializers.ChoiceField(choices=models.Role, default=models.Role.FSE)
+    role = serializers.ChoiceField(
+        choices=models.Role,
+        required=True,
+    )
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
     )
     sites = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Site.objects.all()
+        many=True,
+        queryset=models.Site.objects.all(),
+        required=False,
     )
     modalities = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Modality.objects.all()
+        many=True,
+        queryset=models.Modality.objects.all(),
+        required=False,
     )
     fse_accessible = serializers.BooleanField()
     audit_enabled = serializers.BooleanField()

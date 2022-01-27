@@ -1207,10 +1207,9 @@
                 "last_name",
                 "email",
                 "phone",
+                "role",
                 "manager",
                 "organization",
-                "sites",
-                "modalities",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -1260,8 +1259,7 @@
                         "cryo-fse",
                         "cryo-admin",
                         "lambda-admin"
-                    ],
-                    "default": "fse"
+                    ]
                 },
                 "manager": {
                     "title": "Manager",
@@ -2095,10 +2093,9 @@
                 "last_name",
                 "email",
                 "phone",
+                "role",
                 "manager",
                 "organization",
-                "sites",
-                "modalities",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2147,8 +2144,7 @@
                         "cryo-fse",
                         "cryo-admin",
                         "lambda-admin"
-                    ],
-                    "default": "fse"
+                    ]
                 },
                 "manager": {
                     "title": "Manager",

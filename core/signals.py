@@ -16,7 +16,10 @@ def create_profile(
     **kwargs,
 ):
     if created:
-        models.Profile.objects.create(user=instance)
+        models.Profile.objects.create(
+            user=instance,
+            is_lambda_user=True if "lambda-user" in instance.username else False,
+        )
 
 
 @receiver(user_logged_in)
@@ -29,10 +32,6 @@ def use_one_time_login(sender, request, user, **kwargs):
 @receiver(post_save, sender=models.Organization)
 def create_lambda_admin(sender, instance=None, created=False, **kwargs):
     if created:
-        user = models.User.objects.create_user(
-            username=f"org-{instance.id}-lambda-user"
+        models.User.objects.create_user(
+            username=f"org-{instance.id}-lambda-user",
         )
-        models.Membership.objects.create(
-            user=user, organization=instance, role=models.Role.LAMBDA_ADMIN
-        )
-        Token.objects.create(user=user)

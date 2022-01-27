@@ -164,7 +164,7 @@ class UserWithPasswordFactory(UserFactory):
 
 @factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
-    phone = factory.Faker("phone_number")
+    phone = factory.Faker("bothify", text="+1##########")
 
     class Meta:
         model = models.Profile
@@ -328,7 +328,7 @@ class SystemFactory(factory.django.DjangoModelFactory):
     serial_number = factory.Faker("ssn")
     local_ae_title = factory.Faker("sentence", nb_words=2)
     location_in_building = factory.Faker("street_address")
-    system_contact_info = factory.Faker("phone_number")
+    system_contact_info = factory.Faker("bothify", text="+1##########")
     his_ris_info = {
         "ip": "192.187.23.23",
         "title": "HIS System 1",
