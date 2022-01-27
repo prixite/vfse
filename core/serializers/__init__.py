@@ -383,7 +383,7 @@ class SystemSerializer(serializers.ModelSerializer):
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Note
-        fields = ["system", "author", "note", "created_at"]
+        fields = ["author", "note", "created_at"]
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):
