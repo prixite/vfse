@@ -1,3 +1,5 @@
+import { System } from "@src/store/reducers/api";
+
 export interface SystemModal {
   fieldName: string;
   fieldLocation: string;
@@ -110,22 +112,9 @@ export interface imagePropInterface {
 }
 
 export interface SystemInterface {
-  name: string;
-  id: number;
-  image: string;
-  software_version: string;
-  serial_number: string;
-  asset_number: string;
-  ip_address: string;
-  local_ae_title: string;
-  his_ris_info: hisRISInterface;
-  dicom_info: dicomInfoInterface;
-  mri_embedded_parameters: MRIParamInterface;
-  location_in_building: string;
-  grafana_link: string;
-  documentation: string;
-  handleEdit: () => void;
-  refetch: () => void;
+  system: System;
+  handleEdit?: () => void;
+  refetch?: () => void;
 }
 
 export interface PopUp3Interface {

@@ -345,7 +345,7 @@ class System(models.Model):
     location_in_building = models.CharField(max_length=32, blank=True, null=True)
     system_contact_info = models.TextField(max_length=256, blank=True, null=True)
     connection_monitoring = models.BooleanField(default=False)
-    grafana_link = models.URLField()
+    grafana_link = models.URLField(null=True, blank=True)
     system_option = models.TextField(blank=True, null=True)
     other = models.TextField(null=True, blank=True)
 
