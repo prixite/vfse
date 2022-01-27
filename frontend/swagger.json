@@ -1548,7 +1548,7 @@
             }
         },
         "Me": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "type": "object",
             "properties": {
                 "first_name": {
@@ -1994,7 +1994,7 @@
             }
         },
         "User": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "required": [
                 "username"
             ],
