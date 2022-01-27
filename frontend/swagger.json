@@ -1257,8 +1257,7 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin",
-                        "lambda-admin"
+                        "cryo-admin"
                     ]
                 },
                 "manager": {
@@ -2142,8 +2141,7 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin",
-                        "lambda-admin"
+                        "cryo-admin"
                     ]
                 },
                 "manager": {

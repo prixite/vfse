@@ -17,6 +17,7 @@ class Role(models.TextChoices):
     CRYO_FSE = "cryo-fse", "Cryo FSE"
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
 
+
 class User(AbstractUser):
     # username is an email field. Use this instead of email attribute of user
     # for email address.

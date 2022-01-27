@@ -600,8 +600,7 @@ export type UserRequestAcessSeriazlizer = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin"
-    | "lambda-admin";
+    | "cryo-admin";
   manager: number;
   organization: number;
   sites?: number[];
@@ -768,8 +767,7 @@ export type UpsertUser = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin"
-    | "lambda-admin";
+    | "cryo-admin";
   manager: number;
   organization: number;
   sites?: number[];
