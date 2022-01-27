@@ -819,7 +819,7 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  author: number;
+  author?: number;
   note: string;
   created_at?: string;
 };

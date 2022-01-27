@@ -384,8 +384,7 @@ class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Note
         fields = ["author", "note", "created_at"]
-        extra_kwargs = {"author":{'read_only':True}}
-
+        extra_kwargs = {"author": {"read_only": True}}
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):

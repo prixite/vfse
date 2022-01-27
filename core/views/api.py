@@ -499,7 +499,7 @@ class SystemNoteViewSet(ModelViewSet):
         )
 
     def perform_create(self, serializer):
-        serializer.save(system_id=self.kwargs["pk"],author=self.request.user)
+        serializer.save(system_id=self.kwargs["pk"], author=self.request.user)
 
 
 class SystemImageViewSet(ModelViewSet):

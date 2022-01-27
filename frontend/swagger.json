@@ -2385,14 +2385,14 @@
         "SystemNotes": {
             "description": "Note(id, system, author, note, created_at, updated_at)",
             "required": [
-                "author",
                 "note"
             ],
             "type": "object",
             "properties": {
                 "author": {
                     "title": "Author",
-                    "type": "integer"
+                    "type": "integer",
+                    "readOnly": true
                 },
                 "note": {
                     "title": "Note",
