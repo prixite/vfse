@@ -245,6 +245,7 @@ export default function NetworkModal(props: Props) {
     setNetworkName("");
     setImageError("");
     setNetworkError("");
+    setSelectedImage([]);
     props?.handleClose();
   };
   return (
@@ -268,6 +269,7 @@ export default function NetworkModal(props: Props) {
             <DropzoneBox
               setSelectedImage={setSelectedImage}
               imgSrc={networkLogo}
+              selectedImage={selectedImage}
             />
             {imageError?.length ? (
               <p className="errorText">{imageError}</p>

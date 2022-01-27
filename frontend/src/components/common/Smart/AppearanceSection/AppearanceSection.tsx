@@ -201,6 +201,7 @@ const AppearanceSection = () => {
               <Box component="div" className="logo">
                 <DropzoneBox
                   setSelectedImage={setSelectedImage}
+                  selectedImage={selectedImage}
                   imgSrc={selectedOrganization?.appearance?.logo}
                 />
               </Box>
