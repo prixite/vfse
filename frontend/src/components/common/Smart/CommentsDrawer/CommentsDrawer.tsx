@@ -1,22 +1,19 @@
-import { Dispatch, SetStateAction } from "react";
+
 
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
 
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector,useAppDispatch } from "@src/store/hooks";
 import "@src/components/common/Smart/CommentsDrawer/CommentsDrawer.scss";
+import { closeSystemDrawer } from "@src/store/reducers/appStore";
 
-interface CommentsDrawerProps {
-  toggleDrawer: boolean;
-  setToggleDrawer: Dispatch<SetStateAction<boolean>>;
-}
-const CommentsDrawer = ({
-  toggleDrawer,
-  setToggleDrawer,
-}: CommentsDrawerProps) => {
+
+const CommentsDrawer = () => {
   const { fontTwo, buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+  const {openSystemNotesDrawer} = useAppSelector((state)=>state.app);
+  const dispatch = useAppDispatch();
   return (
     <Drawer
       anchor={"right"}
@@ -28,15 +25,15 @@ const CommentsDrawer = ({
           flexDirection: "column",
         },
       }}
-      open={toggleDrawer}
-      onClose={() => setToggleDrawer(false)}
+      open={openSystemNotesDrawer}
+      onClose={() => dispatch(closeSystemDrawer())}
       hideBackdrop={true}
     >
       <div className="DrawerHeader">
         <h3 className="title">Comments</h3>
         <CloseIcon
           style={{ cursor: "pointer" }}
-          onClick={() => setToggleDrawer(false)}
+          onClick={() => dispatch(closeSystemDrawer())}
         />
       </div>
       <div className="AddComment">

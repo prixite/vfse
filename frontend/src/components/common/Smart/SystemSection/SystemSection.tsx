@@ -30,7 +30,6 @@ const SystemSection = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
-  const [toggleDrawer, setToggleDrawer] = useState(false);
   // eslint-disable-next-line
   const [system, setSystem] = useState(null);
   const [index, setIndex] = useState(null);
@@ -281,7 +280,6 @@ const SystemSection = () => {
           systemList?.results?.map((item, key) => (
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
-               setToggleDrawer={setToggleDrawer}
                 system={item}
                 handleEdit={() => handleEdit(item)}
                 refetch={systemsRefetch}
@@ -309,7 +307,6 @@ const SystemSection = () => {
         <div style={{ marginTop: "32px" }}>
           {systemsData?.map((item, key) => (
             <SystemCard
-              setToggleDrawer={setToggleDrawer}
               key={key}
               system={item}
               handleEdit={() => handleEdit(item)}
@@ -330,8 +327,6 @@ const SystemSection = () => {
         handleClose={() => setOpenConfirmModal(false)}
       />
       <CommentsDrawer
-        toggleDrawer={toggleDrawer}
-        setToggleDrawer={setToggleDrawer}
       />
     </Box>
   );

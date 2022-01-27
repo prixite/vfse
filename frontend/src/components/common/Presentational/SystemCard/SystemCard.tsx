@@ -19,12 +19,13 @@ import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/C
 import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
+import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
-const SystemCard = ({ system, handleEdit, refetch ,setToggleDrawer }: SystemInterface) => {
+const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modal, setModal] = React.useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -33,6 +34,7 @@ const SystemCard = ({ system, handleEdit, refetch ,setToggleDrawer }: SystemInte
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+  const dispatch = useAppDispatch();
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const open = Boolean(anchorEl);
   const {
@@ -223,7 +225,7 @@ const SystemCard = ({ system, handleEdit, refetch ,setToggleDrawer }: SystemInte
           <MenuItem>
             <span
               style={{ marginLeft: "12px" }}
-              onClick={() => setToggleDrawer(true)}
+              onClick={() => dispatch(openSystemDrawer(system?.id))}
             >
               Comments
             </span>

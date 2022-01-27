@@ -115,7 +115,6 @@ export interface SystemInterface {
   system: System;
   handleEdit?: () => void;
   refetch?: () => void;
-  setToggleDrawer: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface PopUp3Interface {
