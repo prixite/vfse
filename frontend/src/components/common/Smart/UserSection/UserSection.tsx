@@ -311,7 +311,7 @@ export default function UserSection() {
           hasData={hasData}
         />
       ) : (
-        <div style={{ height: "70px" }} />
+        ""
       )}
 
       <UserModal
