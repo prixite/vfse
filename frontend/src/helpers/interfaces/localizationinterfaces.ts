@@ -111,6 +111,7 @@ export interface imagePropInterface {
 
 export interface SystemInterface {
   name: string;
+  id: number;
   image: string;
   software_version: string;
   serial_number: string;
@@ -123,6 +124,8 @@ export interface SystemInterface {
   location_in_building: string;
   grafana_link: string;
   documentation: string;
+  handleEdit: () => void;
+  refetch: () => void;
 }
 
 export interface PopUp3Interface {
