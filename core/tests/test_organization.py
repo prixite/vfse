@@ -78,7 +78,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
             )
-            self.assertEqual(len(response.json()), 18)
+            self.assertEqual(len(response.json()), 14)
 
     def test_organization_prevent_delete_is_default(self):
         self.client.force_login(self.super_admin)
@@ -196,6 +196,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "documentation_url": "true",
         }
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/users/",
@@ -236,6 +237,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "documentation_url": "true",
         }
         response = self.client.patch(
             f"/api/users/{self.end_user.id}/",

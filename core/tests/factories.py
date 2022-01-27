@@ -1,7 +1,11 @@
 import factory
 from django.db.models.signals import post_save
+from faker import Faker
 
 from core import models
+
+fake = Faker()
+fake.seed_instance(1234)
 
 
 def _add_member(organization, users, role):
@@ -17,7 +21,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Organization
 
-    name = factory.Sequence(lambda x: f"organization-{x}")
+    name = factory.Sequence(lambda x: str(fake.unique.company()))
     appearance = factory.lazy_attribute(
         lambda obj: {
             "sidebar_text": "#94989E",
@@ -118,7 +122,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.User
 
-    username = factory.Sequence(lambda x: f"user-{x}@example.com")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+    username = factory.Sequence(lambda x: str(fake.unique.email()))
     email = factory.LazyAttribute(lambda x: x.username)
     profile = factory.RelatedFactory(
         "core.tests.factories.ProfileFactory", factory_related_name="user"
@@ -158,6 +164,8 @@ class UserWithPasswordFactory(UserFactory):
 
 @factory.django.mute_signals(post_save)
 class ProfileFactory(factory.django.DjangoModelFactory):
+    phone = factory.Faker("phone_number")
+
     class Meta:
         model = models.Profile
 
@@ -172,7 +180,7 @@ class MembershipFactory(factory.django.DjangoModelFactory):
 
 
 class HealthNetworkFactory(OrganizationFactory):
-    name = factory.Sequence(lambda x: f"health-network-{x}")
+    name = factory.Faker("company")
     sites = False
 
     @factory.post_generation
@@ -232,7 +240,8 @@ class SiteFactory(factory.django.DjangoModelFactory):
             return
 
         models.UserSite.objects.bulk_create(
-            models.UserSite(user=user, site=obj) for user in extracted or []
+            models.UserSite(user=user, site=obj, organization=obj.organization)
+            for user in extracted or []
         )
 
 
@@ -241,6 +250,18 @@ class ModalityFactory(factory.django.DjangoModelFactory):
         model = models.Modality
 
     name = factory.Sequence(lambda x: f"modality-{x}")
+
+    @factory.post_generation
+    def users(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        models.UserModality.objects.bulk_create(
+            models.UserModality(
+                user=user, modality=obj, organization=kwargs["organization"]
+            )
+            for user in extracted or []
+        )
 
 
 class ManufacturerImageFactory(factory.django.DjangoModelFactory):
@@ -337,6 +358,16 @@ class SystemFactory(factory.django.DjangoModelFactory):
                 factory_related_name="system",
                 organization=factory.SelfAttribute("..site.organization"),
             )
+        )
+
+    @factory.post_generation
+    def users(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        models.UserSystem.objects.bulk_create(
+            models.UserSystem(user=user, system=obj, organization=obj.site.organization)
+            for user in extracted or []
         )
 
 

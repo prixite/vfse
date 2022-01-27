@@ -364,6 +364,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userEnableDisable,
       }),
     }),
+    usersRolesList: build.query<
+      UsersRolesListApiResponse,
+      UsersRolesListApiArg
+    >({
+      query: () => ({ url: `/users/roles/` }),
+    }),
     usersPartialUpdate: build.mutation<
       UsersPartialUpdateApiResponse,
       UsersPartialUpdateApiArg
@@ -449,7 +455,7 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
 };
-export type OrganizationsSeatsListApiResponse = /** status 200  */ Seat[];
+export type OrganizationsSeatsListApiResponse = /** status 200  */ SeatList[];
 export type OrganizationsSeatsListApiArg = {
   id: string;
 };
@@ -478,8 +484,8 @@ export type OrganizationsSystemsListApiResponse = /** status 200  */ System[];
 export type OrganizationsSystemsListApiArg = {
   id: string;
   site?: string;
-  healthNetwork?: string;
-  modality?: string;
+  healthNetwork?: number;
+  modality?: number;
 };
 export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
 export type OrganizationsSystemsCreateApiArg = {
@@ -567,6 +573,8 @@ export type UsersDeactivatePartialUpdateApiResponse =
 export type UsersDeactivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
 };
+export type UsersRolesListApiResponse = unknown;
+export type UsersRolesListApiArg = void;
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
   id: string;
@@ -574,7 +582,7 @@ export type UsersPartialUpdateApiArg = {
 };
 export type Meta = {
   profile_picture: string;
-  title: string;
+  title?: string;
 };
 export type UserRequestAcessSeriazlizer = {
   meta?: Meta;
@@ -603,6 +611,7 @@ export type UserRequestAcessSeriazlizer = {
   can_leave_notes: boolean;
   view_only: boolean;
   is_one_time: boolean;
+  documentation_url: boolean;
   health_networks: number[];
 };
 export type Appearance = {
@@ -665,28 +674,6 @@ export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetworkCreate[];
 };
-export type Seat = {
-  system: number;
-};
-export type OrganizationSeatSeriazlier = {
-  seats: Seat[];
-};
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
-export type SiteCreate = {
-  id?: number | null;
-  name: string;
-  address: string;
-  modalities?: string[];
-};
-export type OrganizationSite = {
-  id?: number;
-  sites: SiteCreate[];
-};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -704,12 +691,13 @@ export type ConnectionOptions = {
   ssh: boolean;
 };
 export type System = {
+  id?: number;
   name: string;
   site: number;
   serial_number?: string | null;
   location_in_building?: string | null;
   system_contact_info?: string | null;
-  grafana_link: string;
+  grafana_link?: string | null;
   product_model: number;
   image?: number | null;
   software_version: string;
@@ -722,6 +710,35 @@ export type System = {
   connection_options?: ConnectionOptions;
   image_url?: string;
   documentation?: string;
+  is_online?: boolean;
+  last_successful_ping_at?: string | null;
+};
+export type SeatList = {
+  system: System;
+};
+export type Seat = {
+  system: number;
+};
+export type OrganizationSeatSeriazlier = {
+  seats: Seat[];
+};
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+  modalities?: string[];
+  connections?: number;
+};
+export type SiteCreate = {
+  id?: number | null;
+  name: string;
+  address: string;
+  modalities?: string[];
+  connections?: number;
+};
+export type OrganizationSite = {
+  id?: number;
+  sites: SiteCreate[];
 };
 export type User = {
   id?: number;
@@ -733,6 +750,9 @@ export type User = {
   health_networks?: string[];
   modalities?: string[];
   organizations?: string[];
+  phone?: string;
+  role?: string[];
+  manager?: string;
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -761,6 +781,7 @@ export type UpsertUser = {
   can_leave_notes: boolean;
   view_only: boolean;
   is_one_time: boolean;
+  documentation_url: boolean;
 };
 export type OrganizationUpsertUser = {
   id?: number;
@@ -791,7 +812,7 @@ export type ProductModel = {
 export type ProductModelCreate = {
   id?: number;
   model: string;
-  documentation?: number | null;
+  documentation: Documentation;
   modality: number;
   product: number;
 };
@@ -852,5 +873,6 @@ export const {
   useSystemsNotesCreateMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
 } = injectedRtkApi;

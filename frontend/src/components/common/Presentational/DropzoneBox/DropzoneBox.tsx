@@ -11,10 +11,12 @@ interface DropzoneProps {
   setSelectedImage: Dispatch<SetStateAction<unknown[]>>;
   imgSrc?: string;
   isUploading?: boolean;
+  selectedImage?: File[];
 }
 
 const DropzoneBox = ({
   setSelectedImage,
+  selectedImage,
   imgSrc,
   isUploading,
 }: DropzoneProps) => {
@@ -34,16 +36,18 @@ const DropzoneBox = ({
       : "Uploadoptions";
 
   useEffect(() => {
-    setSelectedImage(acceptedFiles);
+    if (acceptedFiles && acceptedFiles?.length) {
+      setSelectedImage(acceptedFiles);
+    }
   }, [acceptedFiles]);
   return (
     <section className="dropzone-style">
-      {acceptedFiles && acceptedFiles.length ? (
+      {selectedImage && selectedImage.length ? (
         <div className="UploadedImg">
           {isUploading ? (
             <CircularProgress color="secondary" />
           ) : (
-            <img src={acceptedFiles[0].preview} />
+            <img src={selectedImage[0].preview} />
           )}
         </div>
       ) : imgSrc ? (

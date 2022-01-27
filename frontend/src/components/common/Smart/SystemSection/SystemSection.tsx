@@ -63,6 +63,11 @@ const SystemSection = () => {
     }
   }, [modalitiesList]);
 
+  const handleEdit = (system) => {
+    setOpen(true);
+    setSystem(system);
+  };
+
   const changeModality = (item) => {
     if (item == null) {
       // if no modality selected
@@ -202,7 +207,6 @@ const SystemSection = () => {
                 horizontal
                 bound
                 gap={40}
-                zIndex={1000}
                 style={{ height: "33px" }}
               >
                 <span
@@ -277,20 +281,10 @@ const SystemSection = () => {
           systemList?.results?.map((item, key) => (
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
-                setToggleDrawer={setToggleDrawer}
-                name={item?.name}
-                image={item?.image_url}
-                his_ris_info={item?.his_ris_info}
-                dicom_info={item?.dicom_info}
-                serial_number={item?.serial_number}
-                asset_number={item?.asset_number}
-                mri_embedded_parameters={item?.mri_embedded_parameters}
-                ip_address={item?.ip_address}
-                local_ae_title={item?.local_ae_title}
-                software_version={item?.software_version}
-                location_in_building={item?.location_in_building}
-                grafana_link={item?.grafana_link}
-                documentation={item?.documentation}
+               setToggleDrawer={setToggleDrawer}
+                system={item}
+                handleEdit={() => handleEdit(item)}
+                refetch={systemsRefetch}
               />
             </div>
           ))
@@ -317,19 +311,9 @@ const SystemSection = () => {
             <SystemCard
               setToggleDrawer={setToggleDrawer}
               key={key}
-              name={item?.name}
-              image={item?.image_url}
-              his_ris_info={item?.his_ris_info}
-              dicom_info={item?.dicom_info}
-              serial_number={item?.serial_number}
-              asset_number={item?.asset_number}
-              mri_embedded_parameters={item?.mri_embedded_parameters}
-              ip_address={item?.ip_address}
-              local_ae_title={item?.local_ae_title}
-              software_version={item?.software_version}
-              location_in_building={item?.location_in_building}
-              grafana_link={item?.grafana_link}
-              documentation={item?.documentation}
+              system={item}
+              handleEdit={() => handleEdit(item)}
+              refetch={systemsRefetch}
             />
           ))}
         </div>
@@ -338,6 +322,8 @@ const SystemSection = () => {
         open={open}
         handleClose={() => setOpen(false)}
         refetch={systemsRefetch}
+        system={system}
+        setSystem={setSystem}
       />
       <AddSiteFirstModal
         open={openConfirmModal}

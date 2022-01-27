@@ -60,6 +60,7 @@ class UserTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "documentation_url": "true",
             "health_networks": [self.health_network.id],
         }
         response = self.client.post("/api/accounts/requests/", data=user_data)
@@ -96,3 +97,8 @@ class UserTestCase(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, True)
+
+    def test_list_user_roles(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get("/api/users/roles/")
+        self.assertEqual(len(response.json()), len(models.Role.choices))

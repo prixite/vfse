@@ -9,65 +9,41 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import moment from "moment";
 import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
-import {
-  hisRISInterface,
-  dicomInfoInterface,
-  MRIParamInterface,
-} from "@src/helpers/interfaces/localizationinterfaces";
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
+import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
+import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
-interface SystemCardProps {
-  name: string;
-  image: string;
-  software_version: string;
-  serial_number: string;
-  asset_number: string;
-  ip_address: string;
-  local_ae_title: string;
-  his_ris_info: hisRISInterface;
-  dicom_info: dicomInfoInterface;
-  mri_embedded_parameters: MRIParamInterface;
-  location_in_building: string;
-  grafana_link: string;
-  documentation: string;
-  setToggleDrawer: Dispatch<SetStateAction<boolean>>;
-}
-const SystemCard = ({
-  name,
-  image,
-  his_ris_info,
-  dicom_info,
-  serial_number,
-  asset_number,
-  mri_embedded_parameters,
-  ip_address,
-  local_ae_title,
-  software_version,
-  location_in_building,
-  grafana_link,
-  documentation,
-  setToggleDrawer,
-}: SystemCardProps) => {
+const SystemCard = ({ system, handleEdit, refetch ,setToggleDrawer }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [modal, setModal] = React.useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
+  );
+  const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const open = Boolean(anchorEl);
   const {
     his_ris_info_txt,
     dicom_info_txt,
     serial_txt,
+    is_online,
     asset_txt,
     helium_level,
     mpc_status,
+    latest_ping,
     copy_btn,
     ip_address_txt,
     local_ae_title_txt,
@@ -85,12 +61,26 @@ const SystemCard = ({
     setAnchorEl(null);
   };
 
+  const handleDelete = async () => {
+    setModal(false);
+    await DeleteOrganizationSystemService(
+      selectedOrganization.id,
+      system.id,
+      deleteSystem,
+      refetch
+    );
+    handleClose();
+  };
+
   return (
     <div className="system-card">
       <Box className="container">
         <div className="machine">
-          <p className="name">{name}</p>
-          <img className="image" src={image == "" ? Machine : image} />
+          <p className="name">{system.name}</p>
+          <img
+            className="image"
+            src={system.image_url == "" ? Machine : system.image_url}
+          />
           <div className="btn-section">
             <Button
               style={{
@@ -104,7 +94,7 @@ const SystemCard = ({
             <Button
               variant="contained"
               className="link-btn"
-              onClick={() => window?.open(grafana_link, "_blank")}
+              onClick={() => window?.open(system.grafana_link, "_blank")}
             >
               <div className="btn-content">
                 <img src={AttachmentIcon} className="icon" />
@@ -118,36 +108,49 @@ const SystemCard = ({
             <div style={{ marginRight: "32px" }}>
               <p className="option">
                 {his_ris_info_txt} <br />
-                <strong>{his_ris_info?.title}</strong>
+                <strong>{system.his_ris_info?.title}</strong>
               </p>
               <p className="option">
                 {dicom_info_txt} <br />
-                <strong>{dicom_info?.title}</strong>
+                <strong>{system.dicom_info?.title}</strong>
               </p>
               <p className="option">
                 {serial_txt} <br />
-                <strong>{serial_number}</strong>
+                <strong>{system.serial_number}</strong>
+              </p>
+              <p className="option">
+                {is_online} <br />
+                <strong>{system.is_online ? "Yes" : "No"}</strong>
               </p>
             </div>
             <div>
               <p className="option">
                 {asset_txt} <br />
-                <strong>{asset_number}</strong>
+                <strong>{system.asset_number}</strong>
               </p>
               <p className="option">
                 {helium_level} <br />
-                <strong>{mri_embedded_parameters?.helium}</strong>
+                <strong>{system.mri_embedded_parameters?.helium}</strong>
               </p>
               <p className="option">
                 {mpc_status} <br />
-                <strong>{mri_embedded_parameters?.magent_pressure}</strong>
+                <strong>
+                  {system.mri_embedded_parameters?.magnet_pressure}
+                </strong>
+              </p>
+              <p className="option">
+                {latest_ping} <br />
+                <strong>
+                  {moment(system.last_successful_ping_at).format("l")}{" "}
+                  {moment(system.last_successful_ping_at).format("LT")}
+                </strong>
               </p>
             </div>
           </div>
           <TextField
             className="copy-field"
             variant="outlined"
-            value={documentation}
+            value={system.documentation}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -159,7 +162,7 @@ const SystemCard = ({
                   <Button
                     className="copy-btn"
                     onClick={() => {
-                      navigator?.clipboard?.writeText(documentation);
+                      navigator?.clipboard?.writeText(system.documentation);
                       toast.success("Link Copied.", {
                         autoClose: 1000,
                         pauseOnHover: false,
@@ -176,19 +179,19 @@ const SystemCard = ({
         <div className="info-section">
           <p className="option">
             {ip_address_txt} <br />
-            <strong>{ip_address}</strong>
+            <strong>{system.ip_address}</strong>
           </p>
           <p className="option">
             {local_ae_title_txt} <br />
-            <strong>{local_ae_title}</strong>
+            <strong>{system.local_ae_title}</strong>
           </p>
           <p className="option">
             {software_version_txt} <br />
-            <strong>{software_version}</strong>
+            <strong>{system.software_version}</strong>
           </p>
           <p className="option">
             {location} <br />
-            <strong>{location_in_building}</strong>
+            <strong>{system.location_in_building}</strong>
           </p>
         </div>
       </Box>
@@ -214,7 +217,7 @@ const SystemCard = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem>
+          <MenuItem onClick={handleEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
           <MenuItem>
@@ -225,11 +228,17 @@ const SystemCard = ({
               Comments
             </span>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => setModal(true)}>
             <span style={{ marginLeft: "12px" }}>Delete</span>
           </MenuItem>
         </Menu>
       </div>
+      <ConfirmationModal
+        name={system.name}
+        open={modal}
+        handleClose={() => setModal(false)}
+        handleDeleteOrganization={handleDelete}
+      />
     </div>
   );
 };

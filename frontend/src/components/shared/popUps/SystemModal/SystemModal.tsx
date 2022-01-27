@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -7,35 +7,54 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { toast } from "react-toastify";
+import debounce from "debounce";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
 import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
-import { addNewOrdanizationSystem } from "@src/services/systemServices";
+import {
+  addNewOrdanizationSystem,
+  updateOrdanizationSystem,
+} from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsSystemsCreateMutation } from "@src/store/reducers/api";
+import {
+  System,
+  useProductsModelsListQuery,
+  ProductModel,
+  useOrganizationsSystemsCreateMutation,
+  useOrganizationsSystemsPartialUpdateMutation,
+} from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
 interface systemProps {
   open: boolean;
   handleClose: () => void;
   refetch: () => void;
+  system?: System;
+  setSystem?: (arg: object) => void;
 }
 interface siteProps {
   name?: string;
   id?: number;
 }
 
+interface productSearch {
+  query?: string;
+  results: ProductModel[];
+}
+
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
+  let product: ProductModel; // eslint-disable-line
+  let productState: productSearch; // eslint-disable-line
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [site, setSite] = useState(siteData);
+  const [query, setQuery] = useState("");
   const [siteError, setSiteError] = useState("");
-  const [modal, setModal] = useState("");
+  const [modal, setModal] = useState(product);
   const [modalError, setModalError] = useState("");
   const [version, setVersion] = useState("");
   const [versionError, setVersionError] = useState("");
@@ -76,11 +95,25 @@ export default function SystemModal(props: systemProps) {
   const [serviceWeb, setServiceWeb] = useState(false);
   const [virtualMedia, setVirtualMedia] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [productList, setProductList] = useState(productState);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
+  const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
+
+  const { data: productData, isFetching: fetchingProducts } =
+    useProductsModelsListQuery();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+
+  const dropdownStyles = {
+    PaperProps: {
+      style: {
+        maxHeight: 300,
+        width: 220,
+      },
+    },
+  };
 
   const {
     fieldName,
@@ -202,11 +235,53 @@ export default function SystemModal(props: systemProps) {
     (state) => state.myTheme
   );
 
+  const editModal = () => {
+    setName(props?.system?.name);
+    setVersion(props?.system?.software_version);
+    setIP(props?.system?.ip_address);
+    setAsset(props?.system?.asset_number);
+    setlocalAE(props?.system?.local_ae_title);
+    setBuildingLocation(props?.system?.location_in_building);
+    setGrafanaLink(props?.system?.grafana_link);
+    setSystemContactInfo(props?.system?.system_contact_info);
+    setSystemImage(props?.system?.image);
+    setSerialNumber(props?.system?.serial_number);
+    setRisIp(props?.system?.his_ris_info?.ip);
+    setRisTitle(props.system.his_ris_info?.title);
+    setRisPort(props?.system?.his_ris_info?.port.toString());
+    setRisAE(props.system.his_ris_info.ae_title);
+    setDicIP(props.system.dicom_info.ip);
+    setDicTitle(props.system.dicom_info.title);
+    setDicPort(props.system.dicom_info.port.toString());
+    setDicAE(props.system.dicom_info.ae_title);
+    setMriHelium(props.system.mri_embedded_parameters.helium);
+    setMriMagnet(props.system.mri_embedded_parameters.magnet_pressure);
+    setVfse(
+      props?.system?.connection_options?.vfse
+        ? props.system.connection_options.vfse
+        : false
+    );
+    setSsh(
+      props?.system?.connection_options?.ssh
+        ? props.system.connection_options.ssh
+        : false
+    );
+    setServiceWeb(
+      props?.system?.connection_options?.service_web_browser
+        ? props?.system?.connection_options?.service_web_browser
+        : false
+    );
+    setVirtualMedia(
+      props?.system?.connection_options?.virtual_media_control
+        ? props?.system?.connection_options?.virtual_media_control
+        : false
+    );
+  };
+
   const resetModal = () => {
     setName("");
     setNameError("");
     setSiteError("");
-    setModal("");
     setModalError("");
     setVersion("");
     setVersionError("");
@@ -251,6 +326,7 @@ export default function SystemModal(props: systemProps) {
   const handleClear = () => {
     resetModal();
     props.handleClose();
+    props.setSystem(null);
   };
 
   const handleIpAddress = (e) => {
@@ -268,15 +344,6 @@ export default function SystemModal(props: systemProps) {
       setNameError("Name is required.");
     } else {
       setNameError("");
-    }
-  };
-
-  const handleModal = (e) => {
-    setModal(e.target.value);
-    if (!e.target.value) {
-      setModalError("Product model is required.");
-    } else {
-      setModalError("");
     }
   };
 
@@ -406,6 +473,11 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const handleSearch = (e, products) => {
+    setQuery(e.target.value);
+    onSearch(e.target.value, products);
+  };
+
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
       if (!item.name) {
@@ -457,54 +529,66 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const returnObj = () => {
+    const systemObj = {
+      name: name,
+      site: site?.id,
+      serial_number: serialNumber,
+      location_in_building: buildingLocation,
+      system_contact_info: systemContactInfo,
+      grafana_link: grafanaLink,
+      product_model: modal?.id,
+      image: systemImage,
+      software_version: version,
+      asset_number: asset,
+      ip_address: ip,
+      local_ae_title: localAE,
+      his_ris_info: {
+        ip: risIp,
+        title: risTitle,
+        port: risPort,
+        ae_title: risAE,
+      },
+      dicom_info: {
+        ip: dicIP,
+        title: dicTitle,
+        port: dicPort,
+        ae_title: dicAE,
+      },
+      mri_embedded_parameters: {
+        helium: mriHelium,
+        magnet_pressure: mriMagnet,
+      },
+      connection_options: {
+        vfse: vfse,
+        virtual_media_control: virtualMedia,
+        service_web_browser: serviceWeb,
+        ssh: ssh,
+      },
+    };
+    return systemObj;
+  };
+
   const handleAdd = async () => {
-    if (!selectedOrganization?.sites.length) {
-      toast.success("Can not create system as this organization has no sites", {
-        autoClose: 5000,
-        pauseOnHover: false,
-      });
-    } else {
-      if (isValidPostRequest()) {
-        setDisableButton(true);
-        const systemObj = {
-          name: name,
-          site: site?.id,
-          serial_number: serialNumber,
-          location_in_building: buildingLocation,
-          system_contact_info: systemContactInfo,
-          grafana_link: grafanaLink,
-          product_model: modal,
-          image: systemImage,
-          software_version: version,
-          asset_number: asset,
-          ip_address: ip,
-          local_ae_title: localAE,
-          his_ris_info: {
-            ip: risIp,
-            title: risTitle,
-            port: risPort,
-            ae_title: risAE,
-          },
-          dicom_info: {
-            ip: dicIP,
-            title: dicTitle,
-            port: dicPort,
-            ae_title: dicAE,
-          },
-          mri_embedded_parameters: {
-            helium: mriHelium,
-            magnet_pressure: mriMagnet,
-          },
-          connection_options: {
-            virtual_media_control: virtualMedia,
-            service_web_browser: serviceWeb,
-            ssh: ssh,
-          },
-        };
+    if (isValidPostRequest()) {
+      setDisableButton(true);
+      const obj = returnObj();
+      if (!props.system) {
         await addNewOrdanizationSystem(
           selectedOrganization.id,
-          systemObj,
+          obj,
           addSystem,
+          props.refetch,
+          setErrors,
+          handleClear,
+          setDisableButton
+        );
+      } else {
+        await updateOrdanizationSystem(
+          selectedOrganization.id,
+          props.system.id,
+          obj,
+          updateSystem,
           props.refetch,
           setErrors,
           handleClear,
@@ -514,11 +598,42 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const onSearch = useCallback(
+    debounce((searchQuery: string, products: ProductModel[]) => {
+      if (searchQuery?.length > 1) {
+        const result = products?.filter(
+          (data) =>
+            data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+        const newList: productSearch = { query: searchQuery, results: result };
+        setProductList(newList);
+      }
+    }, 500),
+    []
+  );
+
+  const stopImmediatePropagation = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    if (props.system) {
+      editModal();
+    }
+  }, [props.system]);
+
   useEffect(() => {
     if (selectedOrganization?.sites.length) {
       setSite(selectedOrganization?.sites[0]);
     }
   }, [selectedOrganization]);
+
+  useEffect(() => {
+    if (productData?.length) {
+      setModal(productData[0]);
+    }
+  }, [productData]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
@@ -544,7 +659,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={name}
-                    placeholder=""
+                    placeholder="System1"
                     onChange={handleName}
                   />
                   {nameError ? <p className="errorText">{nameError}</p> : ""}
@@ -584,7 +699,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={serialNumber}
-                    placeholder=""
+                    placeholder="9xuiua002"
                     onChange={(e) => {
                       setSerialNumber(e.target.value);
                     }}
@@ -599,7 +714,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={buildingLocation}
-                    placeholder=""
+                    placeholder="3161 Cunningham Avenue Suite 905"
                     onChange={(e) => {
                       setBuildingLocation(e.target.value);
                     }}
@@ -609,14 +724,61 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  <TextField
-                    className="info-field"
-                    variant="outlined"
-                    size="small"
-                    value={modal}
-                    placeholder=""
-                    onChange={handleModal}
-                  />
+                  <FormControl sx={{ minWidth: "100%" }}>
+                    <Select
+                      value={modal?.name}
+                      displayEmpty
+                      disabled={!productData?.length}
+                      className="info-field"
+                      inputProps={{ "aria-label": "Without label" }}
+                      style={{ height: "48px", marginRight: "15px" }}
+                      MenuProps={dropdownStyles}
+                    >
+                      <MenuItem
+                        onKeyDown={(e) => e.stopPropagation()}
+                        onClickCapture={stopImmediatePropagation}
+                        style={{ background: "transparent", padding: "0" }}
+                      >
+                        <TextField
+                          style={{ width: "100%", padding: "10px" }}
+                          className="search"
+                          variant="outlined"
+                          size="small"
+                          value={query}
+                          placeholder="search"
+                          onChange={(e) => handleSearch(e, productData)}
+                        />
+                      </MenuItem>
+                      {query?.length > 1 ? (
+                        productList?.results?.length && !fetchingProducts ? (
+                          productList?.results?.map((item, index) => (
+                            <MenuItem
+                              key={index}
+                              value={item.name}
+                              onClick={() => setModal(item)}
+                            >
+                              {item.name}
+                            </MenuItem>
+                          ))
+                        ) : (
+                          <p style={{ padding: "20px" }}>No data found...</p>
+                        )
+                      ) : !fetchingProducts ? (
+                        productData?.map((item, index) => (
+                          <MenuItem
+                            key={index}
+                            value={item.name}
+                            onClick={() => setModal(item)}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            {item.name}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        ""
+                      )}
+                    </Select>
+                  </FormControl>
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
@@ -628,7 +790,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={version}
-                    placeholder=""
+                    placeholder="v2.7"
                     onChange={handleVerion}
                   />
                   {versionError ? (
@@ -660,7 +822,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={asset}
-                    placeholder=""
+                    placeholder="Wm90d47P84"
                     onChange={handleAsset}
                   />
                   {assetError ? <p className="errorText">{assetError}</p> : ""}
@@ -674,7 +836,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={localAE}
-                    placeholder=""
+                    placeholder="HS1"
                     onChange={handleLocalAe}
                   />
                   {localAeError ? (
@@ -687,19 +849,35 @@ export default function SystemModal(props: systemProps) {
             </Grid>
             <div className="checkbox-container">
               <div className="checkBox">
-                <Checkbox onClick={() => setVfse(!vfse)} />
+                <Checkbox
+                  onClick={() => setVfse(!vfse)}
+                  style={{ color: vfse ? buttonBackground : "" }}
+                  checked={vfse}
+                />
                 <span className="text">vFSE[VNC OR OTHER]</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setSsh(!ssh)} />
+                <Checkbox
+                  onClick={() => setSsh(!ssh)}
+                  style={{ color: ssh ? buttonBackground : "" }}
+                  checked={ssh}
+                />
                 <span className="text">SSH [or terminal]</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setServiceWeb(!serviceWeb)} />
+                <Checkbox
+                  onClick={() => setServiceWeb(!serviceWeb)}
+                  style={{ color: serviceWeb ? buttonBackground : "" }}
+                  checked={serviceWeb}
+                />
                 <span className="text">Service web browser</span>
               </div>
               <div className="checkBox">
-                <Checkbox onClick={() => setVirtualMedia(!virtualMedia)} />
+                <Checkbox
+                  onClick={() => setVirtualMedia(!virtualMedia)}
+                  style={{ color: virtualMedia ? buttonBackground : "" }}
+                  checked={virtualMedia}
+                />
                 <span className="text">Virtual media control</span>
               </div>
             </div>
@@ -711,7 +889,7 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder=""
+                    placeholder="971-091-9353x05482"
                     value={systemContactInfo}
                     onChange={(e) => {
                       setSystemContactInfo(e.target.value);
@@ -763,7 +941,7 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="HS1"
                       value={risTitle}
                       onChange={handleRisTitle}
                     />
@@ -778,7 +956,7 @@ export default function SystemModal(props: systemProps) {
                     <TextField
                       className="info-field"
                       variant="outlined"
-                      placeholder=""
+                      placeholder="200"
                       size="small"
                       type="number"
                       value={risPort}
@@ -796,7 +974,7 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="system 1"
                       value={risAE}
                       onChange={handleRisAeTitle}
                     />
@@ -834,7 +1012,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="Dic 1"
                         value={dicTitle}
                         onChange={handleDicTitle}
                       />
@@ -849,7 +1027,7 @@ export default function SystemModal(props: systemProps) {
                       <TextField
                         className="info-field"
                         variant="outlined"
-                        placeholder=""
+                        placeholder="280"
                         size="small"
                         value={dicPort}
                         type="number"
@@ -868,7 +1046,7 @@ export default function SystemModal(props: systemProps) {
                         variant="outlined"
                         size="small"
                         value={dicAE}
-                        placeholder=""
+                        placeholder="system 1"
                         onChange={handleDicAeTitle}
                       />
                       {dicAeError ? (
@@ -890,7 +1068,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="strong"
                         value={mriHelium}
                         onChange={handleMriHelium}
                       />
@@ -906,7 +1084,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="low"
                         value={mriMagnet}
                         onChange={handleMriMagnet}
                       />
@@ -926,7 +1104,10 @@ export default function SystemModal(props: systemProps) {
       <DialogActions>
         <Button
           className="cancel-btn"
-          style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
+          style={{
+            backgroundColor: disableButton ? "#d9dbdd" : secondaryColor,
+            color: buttonTextColor,
+          }}
           onClick={handleClear}
           disabled={disableButton}
         >
@@ -934,7 +1115,10 @@ export default function SystemModal(props: systemProps) {
         </Button>
         <Button
           className="add-btn"
-          style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
+          style={{
+            backgroundColor: disableButton ? "#d9dbdd" : buttonBackground,
+            color: buttonTextColor,
+          }}
           onClick={handleAdd}
           disabled={disableButton}
         >

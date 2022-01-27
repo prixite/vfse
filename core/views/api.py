@@ -2,6 +2,7 @@ import json
 
 import boto3
 from django.db import IntegrityError, transaction
+from django.db.models import Count, Q
 from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
@@ -181,16 +182,20 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
-        return models.Site.objects.filter(
-            organization=self.kwargs["pk"],
-            organization__in=self.get_user_organizations(),
-        ).prefetch_related(
-            Prefetch(
-                "systems",
-                queryset=models.System.objects.all().select_related(
-                    "product_model__modality"
+        return (
+            models.Site.objects.filter(
+                organization=self.kwargs["pk"],
+                organization__in=self.get_user_organizations(),
+            )
+            .prefetch_related(
+                Prefetch(
+                    "systems",
+                    queryset=models.System.objects.all().select_related(
+                        "product_model__modality"
+                    ),
                 ),
-            ),
+            )
+            .annotate(connections=Count("systems"))
         )
 
     def get_serializer_class(self, *args, **kwargs):
@@ -244,7 +249,14 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.System.objects.filter(
-                site__organization_id=self.kwargs["pk"],
+                Q(site__organization_id=self.kwargs["pk"])
+                | Q(
+                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
+                        organization_id=self.kwargs["pk"]
+                    ).values_list(
+                        "health_network"
+                    )
+                )
             ).select_related("image", "product_model")
 
         return models.System.objects.filter(
@@ -318,16 +330,24 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             return models.User.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.User.objects.all()
+            return (
+                models.User.objects.exclude(memberships__role=models.Role.LAMBDA_ADMIN)
+                .prefetch_related("memberships")
+                .select_related("profile")
+            )
 
         membership = models.Membership.objects.filter(
             organization=self.kwargs["pk"],
             organization__in=self.request.user.get_organizations(
                 role=[models.Role.USER_ADMIN]
             ),
-        )
+        ).exlude(role=models.Role.LAMBDA_ADMIN)
 
-        return models.User.objects.filter(id__in=membership.values_list("user"))
+        return (
+            models.User.objects.filter(id__in=membership.values_list("user"))
+            .prefetch_related("memberships")
+            .select_related("profile")
+        )
 
     @transaction.atomic
     def perform_create(self, serializer):
@@ -347,6 +367,8 @@ class OrganizationSeatViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationSeatSeriazlier
+        elif self.action == "list":
+            return serializers.SeatListSerializer
         return serializers.SeatSerializer
 
     def get_queryset(self):
@@ -357,10 +379,14 @@ class OrganizationSeatViewSet(ModelViewSet):
             organization=self.kwargs["pk"],
         )
 
+        if self.action == "list":
+            assigned = assigned.select_related("system")
+
         if not (self.request.user.is_superuser or self.request.user.is_supermanager):
             assigned = assigned.filter(
                 organization__in=self.request.user.get_organizations(),
             )
+
         return assigned
 
     def perform_create(self, serializer):
@@ -567,3 +593,8 @@ class LambdaView(ViewSet):
             return Response("Appearance Updated")
 
         raise exceptions.ValidationError()
+
+
+class UserRolesView(ViewSet):
+    def list(self, request, *args, **kwargs):
+        return Response(models.Role.choices)

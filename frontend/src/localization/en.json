@@ -13,8 +13,9 @@
                 "btnAdd": "Add",
                 "btnCancel": "Cancel",
                 "btnNext": "Next",
-                "btnClient": "Add User",
-                "addNewUser": "Add user",
+                "btnAddUser": "Add User",
+                "btnEditUser": "Edit User",
+                "addNewUser": "Add User",
                 "pageTrackerdesc1": "Step",
                 "pageTrackerdesc2": "of 2",
                 "userFirstName": "First Name",
@@ -26,6 +27,12 @@
                 "userCustomer": "Customer",
                 "newUser": "New User"
             }
+    },
+    "user_menu_options": {
+        "lock": "Lock",
+        "unlock": "Unlock",
+        "edit": "Edit",
+        "delete_user": "Delete"
     },
     "modalities":{
         "title": "All Networks",
@@ -101,6 +108,8 @@
         "his_ris_info_txt": "HIS/RIS info",
         "dicom_info_txt": "Dicom info",
         "serial_txt": "Serial",
+        "is_online": "Is Online",
+        "latest_ping": "Latest Ping",
         "asset_txt": "Asset",
         "helium_level": "Helium level",
         "mpc_status": "MPC Status",
@@ -111,6 +120,12 @@
         "location": "Location",
         "connect": "Connect",
         "grafana_link_txt": "Grafana Link"
+    },
+    "organization_menu_options": {
+        "switch_org": "Switch   >>",
+        "edit": "Edit appearance",
+        "new_network": "Add new HealthNetwork",
+        "delete_org": "Delete"
     },
     "organization":{
         "title": "All Clients",

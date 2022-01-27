@@ -9,14 +9,38 @@ import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import ListModal from "@src/components/shared/popUps/ListModal/ListModal";
 import UserModal from "@src/components/shared/popUps/UserModal/UserModal";
 import { localizedData } from "@src/helpers/utils/language";
+import {
+  deactivateUserService,
+  activateUserService,
+} from "@src/services/userService";
 import { useAppSelector } from "@src/store/hooks";
-import { useOrganizationsUsersListQuery } from "@src/store/reducers/api";
+import {
+  useOrganizationsUsersListQuery,
+  useUsersActivatePartialUpdateMutation,
+  useUsersDeactivatePartialUpdateMutation,
+} from "@src/store/reducers/api";
 import "@src/views/user/UserView.scss";
 
 const columns = [
   {
+    field: "first_name",
+    headerName: "First Name",
+    width: 220,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
+    field: "last_name",
+    headerName: "Last Name",
+    width: 220,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
     field: "username",
-    headerName: "Name",
+    headerName: "Username",
     width: 220,
     hide: false,
     disableColumnMenu: true,
@@ -58,8 +82,24 @@ const columns = [
 
 const headers = [
   {
+    field: "first_name",
+    headerName: "First Name",
+    width: 220,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
+    field: "last_name",
+    headerName: "Last Name",
+    width: 220,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
     field: "username",
-    headerName: "Name",
+    headerName: "Username",
     width: 220,
     hide: false,
     disableColumnMenu: true,
@@ -102,11 +142,11 @@ const headers = [
     hide: false,
   },
   {
-    headerName: "Modality",
+    headerName: "Modalities",
     hide: false,
   },
   {
-    headerName: "Health Network",
+    headerName: "Sites",
     hide: false,
   },
   {
@@ -134,14 +174,25 @@ export default function UserSection() {
   const [openListModal, setOpenListModal] = useState(false);
   const [modalHeader, setModalHeader] = useState("");
   const [modalList, setModalList] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [status, setStatus] = useState(null);
   const { searching } = localizedData().common;
+  const [userDeactivateMutation] = useUsersDeactivatePartialUpdateMutation();
+  const [userActivateMutation] = useUsersActivatePartialUpdateMutation();
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
+
+  const { lock, unlock, edit } = localizedData().user_menu_options;
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-  const { data: items, isLoading } = useOrganizationsUsersListQuery({
+  const {
+    data: items,
+    isLoading,
+    refetch: usersRefetch,
+    isFetching: isUserListFetching,
+  } = useOrganizationsUsersListQuery({
     id: selectedOrganization.id.toString(),
   });
 
@@ -158,22 +209,22 @@ export default function UserSection() {
   }, [searchText, userList, items]);
 
   useEffect(() => {
-    if (tableColumns[5]?.hide === true) {
+    if (tableColumns[7]?.hide === true) {
       setHideCustomer(true);
     } else {
       setHideCustomer(false);
     }
-    if (tableColumns[6]?.hide === true) {
+    if (tableColumns[8]?.hide === true) {
       setHideModality(true);
     } else {
       setHideModality(false);
     }
-    if (tableColumns[7]?.hide === true) {
+    if (tableColumns[9]?.hide === true) {
       setHideNetwork(true);
     } else {
       setHideNetwork(false);
     }
-    if (tableColumns[8]?.hide === true) {
+    if (tableColumns[10]?.hide === true) {
       setHideStatus(true);
     } else {
       setHideStatus(false);
@@ -184,6 +235,8 @@ export default function UserSection() {
       tableColumns[2],
       tableColumns[3],
       tableColumns[4],
+      tableColumns[5],
+      tableColumns[6],
     ];
     setColumnHeaders(header);
   }, [tableColumns]);
@@ -192,7 +245,9 @@ export default function UserSection() {
     return <p>Loading</p>;
   }
 
-  const handleClick = (event) => {
+  const handleClick = (event, id, active) => {
+    setCurrentUser(id);
+    setStatus(active);
     setAnchorEl(event.currentTarget);
   };
 
@@ -204,6 +259,16 @@ export default function UserSection() {
 
   const handleActionClose = () => {
     setAnchorEl(null);
+  };
+
+  const deactivateUser = async (id) => {
+    await deactivateUserService(id, userDeactivateMutation, usersRefetch);
+    handleActionClose();
+  };
+
+  const activateUser = async (id) => {
+    await activateUserService(id, userActivateMutation, usersRefetch);
+    handleActionClose();
   };
 
   const renderModalities = (modalities) => {
@@ -233,20 +298,28 @@ export default function UserSection() {
   return (
     <Fragment>
       <h2>{userAdministration}</h2>
+      {!isUserListFetching ? (
+        <TopViewBtns
+          setOpen={setOpen}
+          path="users"
+          tableColumns={tableColumns}
+          setTableColumns={setTableColumns}
+          setList={setUserList}
+          actualData={items}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          hasData={hasData}
+        />
+      ) : (
+        <div style={{ height: "70px" }} />
+      )}
 
-      <TopViewBtns
-        setOpen={setOpen}
-        path="users"
-        tableColumns={tableColumns}
-        setTableColumns={setTableColumns}
-        setList={setUserList}
-        actualData={items}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        hasData={hasData}
+      <UserModal
+        open={open}
+        handleClose={handleClose}
+        action={"add"}
+        refetch={usersRefetch}
       />
-
-      <UserModal open={open} handleClose={handleClose} />
 
       <div
         style={{ marginTop: "32px", overflow: "hidden" }}
@@ -291,7 +364,7 @@ export default function UserSection() {
                   ),
                 },
                 {
-                  field: "Modality",
+                  field: "Modalities",
                   hide: hideModality,
                   disableColumnMenu: true,
                   sortable: false,
@@ -300,7 +373,7 @@ export default function UserSection() {
                     renderModalities(cellValues.row.modalities),
                 },
                 {
-                  field: "Health Network",
+                  field: "Sites",
                   hide: hideNetwork,
                   disableColumnMenu: true,
                   sortable: false,
@@ -311,7 +384,7 @@ export default function UserSection() {
                         cellValues?.row?.health_networks?.length > 1
                           ? () =>
                               handleModalClick(
-                                "Health Networks",
+                                "Sites",
                                 cellValues?.row?.health_networks
                               )
                           : undefined
@@ -351,9 +424,15 @@ export default function UserSection() {
                   disableColumnMenu: true,
                   width: 85,
                   sortable: false,
-                  renderCell: () => (
+                  renderCell: (cellValues) => (
                     <div
-                      onClick={handleClick}
+                      onClick={(e) =>
+                        handleClick(
+                          e,
+                          cellValues.row.id,
+                          cellValues.row.is_active
+                        )
+                      }
                       style={{
                         cursor: "pointer",
                         padding: "15px",
@@ -425,7 +504,7 @@ export default function UserSection() {
                 ),
               },
               {
-                field: "Modality",
+                field: "Modalities",
                 hide: hideModality,
                 disableColumnMenu: true,
                 sortable: false,
@@ -434,7 +513,7 @@ export default function UserSection() {
                   renderModalities(cellValues.row.modalities),
               },
               {
-                field: "Health Network",
+                field: "Sites",
                 hide: hideNetwork,
                 disableColumnMenu: true,
                 sortable: false,
@@ -445,7 +524,7 @@ export default function UserSection() {
                       cellValues?.row?.health_networks?.length > 1
                         ? () =>
                             handleModalClick(
-                              "Health Networks",
+                              "Sites",
                               cellValues?.row?.health_networks
                             )
                         : undefined
@@ -485,9 +564,15 @@ export default function UserSection() {
                 disableColumnMenu: true,
                 width: 85,
                 sortable: false,
-                renderCell: () => (
+                renderCell: (cellValues) => (
                   <div
-                    onClick={handleClick}
+                    onClick={(e) =>
+                      handleClick(
+                        e,
+                        cellValues.row.id,
+                        cellValues.row.is_active
+                      )
+                    }
                     style={{
                       cursor: "pointer",
                       padding: "15px",
@@ -518,8 +603,16 @@ export default function UserSection() {
         className="UserDropdownMenu"
         onClose={handleActionClose}
       >
-        <MenuItem>Delete</MenuItem>
-        <MenuItem>Status</MenuItem>
+        {status ? (
+          <MenuItem onClick={() => deactivateUser(currentUser)}>
+            {lock}
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={() => activateUser(currentUser)}>
+            {unlock}
+          </MenuItem>
+        )}
+        <MenuItem>{edit}</MenuItem>
       </Menu>
       <ListModal
         name={modalHeader}

@@ -37,7 +37,7 @@ class User(AbstractUser):
         return sorted(
             Modality.objects.filter(
                 id__in=self.usermodality_set.all().values_list("modality")
-            )
+            ).values_list("name", flat=True)
         )
 
     @property
@@ -55,6 +55,10 @@ class User(AbstractUser):
     @property
     def organizations(self):
         return self.get_organizations().values_list("organization__name", flat=True)
+
+    @property
+    def manager(self):
+        return str(self.profile.manager.get_full_name())
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
@@ -93,7 +97,7 @@ class User(AbstractUser):
         ).values_list("health_network")
 
     def get_sites(self):
-        return UserSite.objects.filter(user=self).values_list("site")
+        return UserSite.objects.filter(user=self).values_list("site", flat=True)
 
     def get_systems(self):
         return UserSystem.objects.filter(user=self).values_list("system")
@@ -127,6 +131,7 @@ class UserModality(models.Model):
     modality = models.ForeignKey(
         "Modality", on_delete=models.CASCADE, related_name="modalities"
     )
+    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -142,6 +147,7 @@ class UserModality(models.Model):
 class UserSite(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="sites")
     site = models.ForeignKey("Site", on_delete=models.CASCADE)
+    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -154,6 +160,7 @@ class UserSite(models.Model):
 class UserSystem(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     system = models.ForeignKey("System", on_delete=models.CASCADE)
+    organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -192,7 +199,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
     )
-    phone = models.CharField(max_length=15, default="")
+    phone = models.CharField(max_length=32, default="")
     meta = models.JSONField(default=dict)
     mfa_enabled = models.BooleanField(default=False)
     fse_accessible = models.BooleanField(default=False)
@@ -201,6 +208,7 @@ class Profile(models.Model):
     is_view_only = models.BooleanField(default=False)
     is_one_time = models.BooleanField(default=True)
     view_only = models.BooleanField(default=False)
+    documentation_url = models.BooleanField(default=False)
     one_time_complete = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -337,7 +345,7 @@ class System(models.Model):
     location_in_building = models.CharField(max_length=32, blank=True, null=True)
     system_contact_info = models.TextField(max_length=256, blank=True, null=True)
     connection_monitoring = models.BooleanField(default=False)
-    grafana_link = models.URLField()
+    grafana_link = models.URLField(null=True, blank=True)
     system_option = models.TextField(blank=True, null=True)
     other = models.TextField(null=True, blank=True)
 

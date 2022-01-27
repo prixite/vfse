@@ -58,14 +58,14 @@ export default function SiteModal(props: siteProps) {
 
   const handleSiteName = (event) => {
     if (event.target.value.length) {
-      setSiteName("");
+      setNameError("");
     }
     setSiteName(event.target.value);
   };
 
   const handleSiteAddress = (event) => {
     if (event.target.value.length) {
-      setSiteAddress("");
+      setAddressError("");
     }
     setSiteAddress(event.target.value);
   };
