@@ -23,24 +23,7 @@ import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
-const SystemCard = ({
-  name,
-  id,
-  image,
-  his_ris_info,
-  dicom_info,
-  serial_number,
-  asset_number,
-  mri_embedded_parameters,
-  ip_address,
-  local_ae_title,
-  software_version,
-  location_in_building,
-  grafana_link,
-  documentation,
-  handleEdit,
-  refetch,
-}: SystemInterface) => {
+const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modal, setModal] = React.useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -79,7 +62,7 @@ const SystemCard = ({
     setModal(false);
     await DeleteOrganizationSystemService(
       selectedOrganization.id,
-      id,
+      system.id,
       deleteSystem,
       refetch
     );
@@ -90,8 +73,11 @@ const SystemCard = ({
     <div className="system-card">
       <Box className="container">
         <div className="machine">
-          <p className="name">{name}</p>
-          <img className="image" src={image == "" ? Machine : image} />
+          <p className="name">{system.name}</p>
+          <img
+            className="image"
+            src={system.image_url == "" ? Machine : system.image_url}
+          />
           <div className="btn-section">
             <Button
               style={{
@@ -105,7 +91,7 @@ const SystemCard = ({
             <Button
               variant="contained"
               className="link-btn"
-              onClick={() => window?.open(grafana_link, "_blank")}
+              onClick={() => window?.open(system.grafana_link, "_blank")}
             >
               <div className="btn-content">
                 <img src={AttachmentIcon} className="icon" />
@@ -119,36 +105,38 @@ const SystemCard = ({
             <div style={{ marginRight: "32px" }}>
               <p className="option">
                 {his_ris_info_txt} <br />
-                <strong>{his_ris_info?.title}</strong>
+                <strong>{system.his_ris_info?.title}</strong>
               </p>
               <p className="option">
                 {dicom_info_txt} <br />
-                <strong>{dicom_info?.title}</strong>
+                <strong>{system.dicom_info?.title}</strong>
               </p>
               <p className="option">
                 {serial_txt} <br />
-                <strong>{serial_number}</strong>
+                <strong>{system.serial_number}</strong>
               </p>
             </div>
             <div>
               <p className="option">
                 {asset_txt} <br />
-                <strong>{asset_number}</strong>
+                <strong>{system.asset_number}</strong>
               </p>
               <p className="option">
                 {helium_level} <br />
-                <strong>{mri_embedded_parameters?.helium}</strong>
+                <strong>{system.mri_embedded_parameters?.helium}</strong>
               </p>
               <p className="option">
                 {mpc_status} <br />
-                <strong>{mri_embedded_parameters?.magent_pressure}</strong>
+                <strong>
+                  {system.mri_embedded_parameters?.magnet_pressure}
+                </strong>
               </p>
             </div>
           </div>
           <TextField
             className="copy-field"
             variant="outlined"
-            value={documentation}
+            value={system.documentation}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -160,7 +148,7 @@ const SystemCard = ({
                   <Button
                     className="copy-btn"
                     onClick={() => {
-                      navigator?.clipboard?.writeText(documentation);
+                      navigator?.clipboard?.writeText(system.documentation);
                       toast.success("Link Copied.", {
                         autoClose: 1000,
                         pauseOnHover: false,
@@ -177,19 +165,19 @@ const SystemCard = ({
         <div className="info-section">
           <p className="option">
             {ip_address_txt} <br />
-            <strong>{ip_address}</strong>
+            <strong>{system.ip_address}</strong>
           </p>
           <p className="option">
             {local_ae_title_txt} <br />
-            <strong>{local_ae_title}</strong>
+            <strong>{system.local_ae_title}</strong>
           </p>
           <p className="option">
             {software_version_txt} <br />
-            <strong>{software_version}</strong>
+            <strong>{system.software_version}</strong>
           </p>
           <p className="option">
             {location} <br />
-            <strong>{location_in_building}</strong>
+            <strong>{system.location_in_building}</strong>
           </p>
         </div>
       </Box>
@@ -224,7 +212,7 @@ const SystemCard = ({
         </Menu>
       </div>
       <ConfirmationModal
-        name={name}
+        name={system.name}
         open={modal}
         handleClose={() => setModal(false)}
         handleDeleteOrganization={handleDelete}
