@@ -7,6 +7,15 @@
       padding: 20px 22px;
     }
   }
+  .MuiAutocomplete-hasPopupIcon.css-dd2h8b-MuiAutocomplete-root
+    .MuiOutlinedInput-root {
+    height: 48px;
+    border-radius: 8px;
+    .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+      border: 1px solid #d4d6db !important;
+      border-radius: 8px !important;
+    }
+  }
   .errorText {
     color: #ff1744;
     font-size: 0.8rem;
