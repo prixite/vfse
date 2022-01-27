@@ -190,7 +190,10 @@ class UserSerializer(serializers.ModelSerializer):
     organizations = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
-
+    sites = serializers.ListField(
+        child=serializers.CharField(max_length=32),read_only=True
+    )
+    image = serializers.CharField(source='profile.meta.profile_picture',read_only=True)
     phone = serializers.CharField(source="profile.phone", read_only=True)
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
@@ -212,6 +215,7 @@ class UserSerializer(serializers.ModelSerializer):
             "phone",
             "role",
             "manager",
+            "image","sites",
         ]
 
 
