@@ -592,4 +592,4 @@ class LambdaView(ViewSet):
 
 class UserRolesView(ViewSet):
     def list(self, request, *args, **kwargs):
-        return Response(models.Role.choices)
+        return Response([{'value':item,"title":value} for item,value in models.Role.choices])
