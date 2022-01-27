@@ -1586,7 +1586,6 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
                     "minLength": 1
                 }
             }
@@ -1746,7 +1745,6 @@
             "required": [
                 "name",
                 "site",
-                "grafana_link",
                 "product_model",
                 "software_version",
                 "asset_number",
@@ -1793,7 +1791,7 @@
                     "type": "string",
                     "format": "uri",
                     "maxLength": 200,
-                    "minLength": 1
+                    "x-nullable": true
                 },
                 "product_model": {
                     "title": "Product model",
@@ -1848,6 +1846,16 @@
                     "title": "Documentation",
                     "type": "string",
                     "readOnly": true
+                },
+                "is_online": {
+                    "title": "Is online",
+                    "type": "boolean"
+                },
+                "last_successful_ping_at": {
+                    "title": "Last successful ping at",
+                    "type": "string",
+                    "format": "date-time",
+                    "x-nullable": true
                 }
             }
         },

@@ -1,6 +1,14 @@
 import { toast } from "react-toastify";
 
-const updateSitesService = async (id, sites, updateSites, refetch, type) => {
+const updateSitesService = async (
+  id,
+  sites,
+  updateSites,
+  refetch,
+  type,
+  refetchOrganization,
+  disableButton
+) => {
   await updateSites({
     id: id?.toString(),
     organizationSite: { sites: [...sites] },
@@ -16,10 +24,15 @@ const updateSitesService = async (id, sites, updateSites, refetch, type) => {
         {
           autoClose: 1000,
           pauseOnHover: false,
+          onClose: () => {
+            refetch();
+            refetchOrganization();
+          },
         }
       );
     })
     .catch(() => {
+      disableButton(false);
       toast.error(
         `${type == "delete" ? "Site deletion error." : "Site edit error."}`,
         {
@@ -28,14 +41,15 @@ const updateSitesService = async (id, sites, updateSites, refetch, type) => {
         }
       );
     });
-  refetch(); // TODO: invalidate cache instead of this.
 };
 
 const addNewSiteService = async (
   selectionID,
   siteObject,
   addNewSite,
-  refetch
+  refetch,
+  refetchOrganization,
+  disableButton
 ) => {
   await addNewSite({
     id: selectionID?.toString(),
@@ -46,10 +60,14 @@ const addNewSiteService = async (
       toast.success("New Site Added.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: refetch,
+        onClose: () => {
+          refetch();
+          refetchOrganization();
+        },
       });
     })
     .catch(() => {
+      disableButton(false);
       toast.error("Adding site failed.", {
         autoClose: 1000,
         pauseOnHover: false,

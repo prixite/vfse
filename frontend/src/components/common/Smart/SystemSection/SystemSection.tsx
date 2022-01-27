@@ -48,6 +48,7 @@ const SystemSection = () => {
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });
+
   useEffect(() => {
     modalitiesList?.length &&
       modalitiesList?.map((item, key) => {
@@ -256,7 +257,7 @@ const SystemSection = () => {
       {!isSystemDataLoading ? (
         <TopViewBtns
           setOpen={
-            !selectedOrganization.sites.length ? setOpenConfirmModal : setOpen
+            !selectedOrganization?.sites?.length ? setOpenConfirmModal : setOpen
           }
           path="systems"
           setData={setSystem}
@@ -278,20 +279,7 @@ const SystemSection = () => {
           systemList?.results?.map((item, key) => (
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
-                name={item?.name}
-                id={item?.id}
-                image={item?.image_url}
-                his_ris_info={item?.his_ris_info}
-                dicom_info={item?.dicom_info}
-                serial_number={item?.serial_number}
-                asset_number={item?.asset_number}
-                mri_embedded_parameters={item?.mri_embedded_parameters}
-                ip_address={item?.ip_address}
-                local_ae_title={item?.local_ae_title}
-                software_version={item?.software_version}
-                location_in_building={item?.location_in_building}
-                grafana_link={item?.grafana_link}
-                documentation={item?.documentation}
+                system={item}
                 handleEdit={() => handleEdit(item)}
                 refetch={systemsRefetch}
               />
@@ -319,20 +307,7 @@ const SystemSection = () => {
           {systemsData?.map((item, key) => (
             <SystemCard
               key={key}
-              name={item?.name}
-              id={item?.id}
-              image={item?.image_url}
-              his_ris_info={item?.his_ris_info}
-              dicom_info={item?.dicom_info}
-              serial_number={item?.serial_number}
-              asset_number={item?.asset_number}
-              mri_embedded_parameters={item?.mri_embedded_parameters}
-              ip_address={item?.ip_address}
-              local_ae_title={item?.local_ae_title}
-              software_version={item?.software_version}
-              location_in_building={item?.location_in_building}
-              grafana_link={item?.grafana_link}
-              documentation={item?.documentation}
+              system={item}
               handleEdit={() => handleEdit(item)}
               refetch={systemsRefetch}
             />

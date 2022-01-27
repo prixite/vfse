@@ -108,6 +108,8 @@
         "his_ris_info_txt": "HIS/RIS info",
         "dicom_info_txt": "Dicom info",
         "serial_txt": "Serial",
+        "is_online": "Is Online",
+        "latest_ping": "Latest Ping",
         "asset_txt": "Asset",
         "helium_level": "Helium level",
         "mpc_status": "MPC Status",

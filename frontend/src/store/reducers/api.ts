@@ -696,7 +696,7 @@ export type System = {
   serial_number?: string | null;
   location_in_building?: string | null;
   system_contact_info?: string | null;
-  grafana_link: string;
+  grafana_link?: string | null;
   product_model: number;
   image?: number | null;
   software_version: string;
@@ -709,6 +709,8 @@ export type System = {
   connection_options?: ConnectionOptions;
   image_url?: string;
   documentation?: string;
+  is_online?: boolean;
+  last_successful_ping_at?: string | null;
 };
 export type SeatList = {
   system: System;

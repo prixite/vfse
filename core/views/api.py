@@ -386,6 +386,7 @@ class OrganizationSeatViewSet(ModelViewSet):
             assigned = assigned.filter(
                 organization__in=self.request.user.get_organizations(),
             )
+
         return assigned
 
     def perform_create(self, serializer):
