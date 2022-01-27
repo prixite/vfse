@@ -710,6 +710,7 @@ export type System = {
   connection_options?: ConnectionOptions;
   image_url?: string;
   documentation?: string;
+  is_online?: boolean;
 };
 export type SeatList = {
   system: System;

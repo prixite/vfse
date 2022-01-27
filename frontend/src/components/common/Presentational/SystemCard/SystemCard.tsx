@@ -38,6 +38,7 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
     his_ris_info_txt,
     dicom_info_txt,
     serial_txt,
+    is_online,
     asset_txt,
     helium_level,
     mpc_status,
@@ -114,6 +115,10 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
               <p className="option">
                 {serial_txt} <br />
                 <strong>{system.serial_number}</strong>
+              </p>
+              <p className="option">
+                {is_online}  <br />
+                <strong>{system.is_online ? "Yes": "No"}</strong>
               </p>
             </div>
             <div>

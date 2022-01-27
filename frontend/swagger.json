@@ -1850,6 +1850,10 @@
                     "title": "Documentation",
                     "type": "string",
                     "readOnly": true
+                },
+                "is_online": {
+                    "title": "Is online",
+                    "type": "boolean"
                 }
             }
         },

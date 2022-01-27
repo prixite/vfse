@@ -388,6 +388,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "connection_options",
             "image_url",
             "documentation",
+            "is_online",
         ]
         validators = [
             UniqueTogetherValidator(
