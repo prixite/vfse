@@ -331,7 +331,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return (
-                models.User.objects.exclude(profile__is_lambda_user=True)
+                models.User.objects.exclude(is_lambda_user=True)
                 .prefetch_related("memberships")
                 .select_related("profile")
             )
@@ -341,7 +341,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             organization__in=self.request.user.get_organizations(
                 role=[models.Role.USER_ADMIN]
             ),
-        ).exclude(profile__is_lambda_user=True)
+        ).exclude(is_lambda_user=True)
 
         return (
             models.User.objects.filter(id__in=membership.values_list("user"))
@@ -580,7 +580,7 @@ class LambdaView(ViewSet):
         token = Token.objects.get(key=self.request.auth)
         org = models.Membership.objects.get(
             user=token.user,
-            user__profile__is_lambda_user=True,
+            user__is_lambda_user=True,
         ).organization
         return org
 

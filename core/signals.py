@@ -18,7 +18,6 @@ def create_profile(
     if created:
         models.Profile.objects.create(
             user=instance,
-            is_lambda_user=True if "lambda-user" in instance.username else False,
         )
 
 
@@ -34,5 +33,6 @@ def create_lambda_admin(sender, instance=None, created=False, **kwargs):
     if created:
         user = models.User.objects.create_user(
             username=f"org-{instance.id}-lambda-user",
+            is_lambda_user=True,
         )
         Token.objects.create(user=user)

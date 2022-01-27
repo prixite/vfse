@@ -30,6 +30,8 @@ class User(AbstractUser):
     )
 
     is_supermanager = models.BooleanField(default=False)
+    is_lambda_user = models.BooleanField(default=False)
+
 
     @property
     def modalities(self):
@@ -209,7 +211,6 @@ class Profile(models.Model):
     view_only = models.BooleanField(default=False)
     documentation_url = models.BooleanField(default=False)
     one_time_complete = models.BooleanField(default=False)
-    is_lambda_user = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
