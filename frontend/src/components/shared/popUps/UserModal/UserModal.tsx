@@ -540,6 +540,7 @@ export default function UserModal(props: Props) {
                       style={{ height: "43px", borderRadius: "8px" }}
                       defaultValue="none"
                       onChange={handleRoleChange}
+                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
                       {roles?.map((item, key) => (
                         <MenuItem key={key} value={item.value}>
@@ -557,6 +558,7 @@ export default function UserModal(props: Props) {
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
                       onChange={handleManagerChange}
+                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
                       {!isUsersLoading &&
                         usersList?.map((item, key) => (
@@ -576,6 +578,7 @@ export default function UserModal(props: Props) {
                     inputProps={{ "aria-label": "Without label" }}
                     style={{ height: "43px", borderRadius: "8px" }}
                     onChange={handleCustomerChange}
+                    MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                   >
                     {!isOrganisationLoading &&
                       organizationData?.map((item, key) => (

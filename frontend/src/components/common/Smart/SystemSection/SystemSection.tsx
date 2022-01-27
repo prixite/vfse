@@ -60,6 +60,11 @@ const SystemSection = () => {
     }
   }, [modalitiesList]);
 
+  const handleEdit = (system) => {
+    setOpen(true);
+    setSystem(system);
+  };
+
   const changeModality = (item) => {
     if (item == null) {
       // if no modality selected
@@ -199,7 +204,6 @@ const SystemSection = () => {
                 horizontal
                 bound
                 gap={40}
-                zIndex={1000}
                 style={{ height: "33px" }}
               >
                 <span
@@ -275,6 +279,7 @@ const SystemSection = () => {
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
                 name={item?.name}
+                id={item?.id}
                 image={item?.image_url}
                 his_ris_info={item?.his_ris_info}
                 dicom_info={item?.dicom_info}
@@ -287,6 +292,8 @@ const SystemSection = () => {
                 location_in_building={item?.location_in_building}
                 grafana_link={item?.grafana_link}
                 documentation={item?.documentation}
+                handleEdit={() => handleEdit(item)}
+                refetch={systemsRefetch}
               />
             </div>
           ))
@@ -313,6 +320,7 @@ const SystemSection = () => {
             <SystemCard
               key={key}
               name={item?.name}
+              id={item?.id}
               image={item?.image_url}
               his_ris_info={item?.his_ris_info}
               dicom_info={item?.dicom_info}
@@ -325,6 +333,8 @@ const SystemSection = () => {
               location_in_building={item?.location_in_building}
               grafana_link={item?.grafana_link}
               documentation={item?.documentation}
+              handleEdit={() => handleEdit(item)}
+              refetch={systemsRefetch}
             />
           ))}
         </div>
@@ -333,6 +343,8 @@ const SystemSection = () => {
         open={open}
         handleClose={() => setOpen(false)}
         refetch={systemsRefetch}
+        system={system}
+        setSystem={setSystem}
       />
       <AddSiteFirstModal
         open={openConfirmModal}

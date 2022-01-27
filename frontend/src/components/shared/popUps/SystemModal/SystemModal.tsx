@@ -13,12 +13,17 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
 import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
-import { addNewOrdanizationSystem } from "@src/services/systemServices";
+import {
+  addNewOrdanizationSystem,
+  updateOrdanizationSystem,
+} from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
 import {
+  System,
   useProductsModelsListQuery,
   ProductModel,
   useOrganizationsSystemsCreateMutation,
+  useOrganizationsSystemsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
@@ -26,6 +31,8 @@ interface systemProps {
   open: boolean;
   handleClose: () => void;
   refetch: () => void;
+  system?: System;
+  setSystem?: (arg: object) => void;
 }
 interface siteProps {
   name?: string;
@@ -90,6 +97,7 @@ export default function SystemModal(props: systemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [productList, setProductList] = useState(productState);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
+  const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
 
   const { data: productData, isFetching: fetchingProducts } =
     useProductsModelsListQuery();
@@ -227,6 +235,49 @@ export default function SystemModal(props: systemProps) {
     (state) => state.myTheme
   );
 
+  const editModal = () => {
+    setName(props?.system?.name);
+    setVersion(props?.system?.software_version);
+    setIP(props?.system?.ip_address);
+    setAsset(props?.system?.asset_number);
+    setlocalAE(props?.system?.local_ae_title);
+    setBuildingLocation(props?.system?.location_in_building);
+    setGrafanaLink(props?.system?.grafana_link);
+    setSystemContactInfo(props?.system?.system_contact_info);
+    setSystemImage(props?.system?.image);
+    setSerialNumber(props?.system?.serial_number);
+    setRisIp(props?.system?.his_ris_info?.ip);
+    setRisTitle(props.system.his_ris_info?.title);
+    setRisPort(props?.system?.his_ris_info?.port.toString());
+    setRisAE(props.system.his_ris_info.ae_title);
+    setDicIP(props.system.dicom_info.ip);
+    setDicTitle(props.system.dicom_info.title);
+    setDicPort(props.system.dicom_info.port.toString());
+    setDicAE(props.system.dicom_info.ae_title);
+    setMriHelium(props.system.mri_embedded_parameters.helium);
+    setMriMagnet(props.system.mri_embedded_parameters.magnet_pressure);
+    setVfse(
+      props?.system?.connection_options?.vfse
+        ? props.system.connection_options.vfse
+        : false
+    );
+    setSsh(
+      props?.system?.connection_options?.ssh
+        ? props.system.connection_options.ssh
+        : false
+    );
+    setServiceWeb(
+      props?.system?.connection_options?.service_web_browser
+        ? props?.system?.connection_options?.service_web_browser
+        : false
+    );
+    setVirtualMedia(
+      props?.system?.connection_options?.virtual_media_control
+        ? props?.system?.connection_options?.virtual_media_control
+        : false
+    );
+  };
+
   const resetModal = () => {
     setName("");
     setNameError("");
@@ -275,6 +326,7 @@ export default function SystemModal(props: systemProps) {
   const handleClear = () => {
     resetModal();
     props.handleClose();
+    props.setSystem(null);
   };
 
   const handleIpAddress = (e) => {
@@ -477,53 +529,72 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const returnObj = () => {
+    const systemObj = {
+      name: name,
+      site: site?.id,
+      serial_number: serialNumber,
+      location_in_building: buildingLocation,
+      system_contact_info: systemContactInfo,
+      grafana_link: grafanaLink,
+      product_model: modal?.id,
+      image: systemImage,
+      software_version: version,
+      asset_number: asset,
+      ip_address: ip,
+      local_ae_title: localAE,
+      his_ris_info: {
+        ip: risIp,
+        title: risTitle,
+        port: risPort,
+        ae_title: risAE,
+      },
+      dicom_info: {
+        ip: dicIP,
+        title: dicTitle,
+        port: dicPort,
+        ae_title: dicAE,
+      },
+      mri_embedded_parameters: {
+        helium: mriHelium,
+        magnet_pressure: mriMagnet,
+      },
+      connection_options: {
+        vfse: vfse,
+        virtual_media_control: virtualMedia,
+        service_web_browser: serviceWeb,
+        ssh: ssh,
+      },
+    };
+    return systemObj;
+  };
+
   const handleAdd = async () => {
     if (isValidPostRequest()) {
       setDisableButton(true);
-      const systemObj = {
-        name: name,
-        site: site?.id,
-        serial_number: serialNumber,
-        location_in_building: buildingLocation,
-        system_contact_info: systemContactInfo,
-        grafana_link: grafanaLink,
-        product_model: modal?.id,
-        image: systemImage,
-        software_version: version,
-        asset_number: asset,
-        ip_address: ip,
-        local_ae_title: localAE,
-        his_ris_info: {
-          ip: risIp,
-          title: risTitle,
-          port: risPort,
-          ae_title: risAE,
-        },
-        dicom_info: {
-          ip: dicIP,
-          title: dicTitle,
-          port: dicPort,
-          ae_title: dicAE,
-        },
-        mri_embedded_parameters: {
-          helium: mriHelium,
-          magnet_pressure: mriMagnet,
-        },
-        connection_options: {
-          virtual_media_control: virtualMedia,
-          service_web_browser: serviceWeb,
-          ssh: ssh,
-        },
-      };
-      await addNewOrdanizationSystem(
-        selectedOrganization.id,
-        systemObj,
-        addSystem,
-        props.refetch,
-        setErrors,
-        handleClear,
-        setDisableButton
-      );
+      const obj = returnObj();
+      if (!props.system) {
+        await addNewOrdanizationSystem(
+          selectedOrganization.id,
+          obj,
+          addSystem,
+          props.refetch,
+          setErrors,
+          handleClear,
+          setDisableButton
+        );
+      } else {
+        await updateOrdanizationSystem(
+          selectedOrganization.id,
+          props.system.id,
+          obj,
+          updateSystem,
+          props.refetch,
+          setErrors,
+          handleClear,
+          setDisableButton
+        );
+      }
     }
   };
 
@@ -545,6 +616,12 @@ export default function SystemModal(props: systemProps) {
     e.stopPropagation();
     e.preventDefault();
   };
+
+  useEffect(() => {
+    if (props.system) {
+      editModal();
+    }
+  }, [props.system]);
 
   useEffect(() => {
     if (selectedOrganization?.sites.length) {
@@ -582,7 +659,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={name}
-                    placeholder=""
+                    placeholder="System1"
                     onChange={handleName}
                   />
                   {nameError ? <p className="errorText">{nameError}</p> : ""}
@@ -622,7 +699,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={serialNumber}
-                    placeholder=""
+                    placeholder="9xuiua002"
                     onChange={(e) => {
                       setSerialNumber(e.target.value);
                     }}
@@ -637,7 +714,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={buildingLocation}
-                    placeholder=""
+                    placeholder="3161 Cunningham Avenue Suite 905"
                     onChange={(e) => {
                       setBuildingLocation(e.target.value);
                     }}
@@ -672,10 +749,9 @@ export default function SystemModal(props: systemProps) {
                           onChange={(e) => handleSearch(e, productData)}
                         />
                       </MenuItem>
-                      {productList?.results?.length &&
-                      !fetchingProducts &&
-                      query?.length > 1
-                        ? productList?.results?.map((item, index) => (
+                      {query?.length > 1 ? (
+                        productList?.results?.length && !fetchingProducts ? (
+                          productList?.results?.map((item, index) => (
                             <MenuItem
                               key={index}
                               value={item.name}
@@ -684,18 +760,23 @@ export default function SystemModal(props: systemProps) {
                               {item.name}
                             </MenuItem>
                           ))
-                        : !fetchingProducts
-                        ? productData?.map((item, index) => (
-                            <MenuItem
-                              key={index}
-                              value={item.name}
-                              onClick={() => setModal(item)}
-                              onKeyDown={(e) => e.stopPropagation()}
-                            >
-                              {item.name}
-                            </MenuItem>
-                          ))
-                        : ""}
+                        ) : (
+                          <p style={{ padding: "20px" }}>No data found...</p>
+                        )
+                      ) : !fetchingProducts ? (
+                        productData?.map((item, index) => (
+                          <MenuItem
+                            key={index}
+                            value={item.name}
+                            onClick={() => setModal(item)}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            {item.name}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        ""
+                      )}
                     </Select>
                   </FormControl>
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
@@ -709,7 +790,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={version}
-                    placeholder=""
+                    placeholder="v2.7"
                     onChange={handleVerion}
                   />
                   {versionError ? (
@@ -741,7 +822,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={asset}
-                    placeholder=""
+                    placeholder="Wm90d47P84"
                     onChange={handleAsset}
                   />
                   {assetError ? <p className="errorText">{assetError}</p> : ""}
@@ -755,7 +836,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     value={localAE}
-                    placeholder=""
+                    placeholder="HS1"
                     onChange={handleLocalAe}
                   />
                   {localAeError ? (
@@ -771,6 +852,7 @@ export default function SystemModal(props: systemProps) {
                 <Checkbox
                   onClick={() => setVfse(!vfse)}
                   style={{ color: vfse ? buttonBackground : "" }}
+                  checked={vfse}
                 />
                 <span className="text">vFSE[VNC OR OTHER]</span>
               </div>
@@ -778,6 +860,7 @@ export default function SystemModal(props: systemProps) {
                 <Checkbox
                   onClick={() => setSsh(!ssh)}
                   style={{ color: ssh ? buttonBackground : "" }}
+                  checked={ssh}
                 />
                 <span className="text">SSH [or terminal]</span>
               </div>
@@ -785,6 +868,7 @@ export default function SystemModal(props: systemProps) {
                 <Checkbox
                   onClick={() => setServiceWeb(!serviceWeb)}
                   style={{ color: serviceWeb ? buttonBackground : "" }}
+                  checked={serviceWeb}
                 />
                 <span className="text">Service web browser</span>
               </div>
@@ -792,6 +876,7 @@ export default function SystemModal(props: systemProps) {
                 <Checkbox
                   onClick={() => setVirtualMedia(!virtualMedia)}
                   style={{ color: virtualMedia ? buttonBackground : "" }}
+                  checked={virtualMedia}
                 />
                 <span className="text">Virtual media control</span>
               </div>
@@ -804,7 +889,7 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder=""
+                    placeholder="971-091-9353x05482"
                     value={systemContactInfo}
                     onChange={(e) => {
                       setSystemContactInfo(e.target.value);
@@ -856,7 +941,7 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="HS1"
                       value={risTitle}
                       onChange={handleRisTitle}
                     />
@@ -871,7 +956,7 @@ export default function SystemModal(props: systemProps) {
                     <TextField
                       className="info-field"
                       variant="outlined"
-                      placeholder=""
+                      placeholder="200"
                       size="small"
                       type="number"
                       value={risPort}
@@ -889,7 +974,7 @@ export default function SystemModal(props: systemProps) {
                       className="info-field"
                       variant="outlined"
                       size="small"
-                      placeholder=""
+                      placeholder="system 1"
                       value={risAE}
                       onChange={handleRisAeTitle}
                     />
@@ -927,7 +1012,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="Dic 1"
                         value={dicTitle}
                         onChange={handleDicTitle}
                       />
@@ -942,7 +1027,7 @@ export default function SystemModal(props: systemProps) {
                       <TextField
                         className="info-field"
                         variant="outlined"
-                        placeholder=""
+                        placeholder="280"
                         size="small"
                         value={dicPort}
                         type="number"
@@ -961,7 +1046,7 @@ export default function SystemModal(props: systemProps) {
                         variant="outlined"
                         size="small"
                         value={dicAE}
-                        placeholder=""
+                        placeholder="system 1"
                         onChange={handleDicAeTitle}
                       />
                       {dicAeError ? (
@@ -983,7 +1068,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="strong"
                         value={mriHelium}
                         onChange={handleMriHelium}
                       />
@@ -999,7 +1084,7 @@ export default function SystemModal(props: systemProps) {
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        placeholder=""
+                        placeholder="low"
                         value={mriMagnet}
                         onChange={handleMriMagnet}
                       />
@@ -1019,7 +1104,10 @@ export default function SystemModal(props: systemProps) {
       <DialogActions>
         <Button
           className="cancel-btn"
-          style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
+          style={{
+            backgroundColor: disableButton ? "#d9dbdd" : secondaryColor,
+            color: buttonTextColor,
+          }}
           onClick={handleClear}
           disabled={disableButton}
         >
@@ -1027,7 +1115,10 @@ export default function SystemModal(props: systemProps) {
         </Button>
         <Button
           className="add-btn"
-          style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
+          style={{
+            backgroundColor: disableButton ? "#d9dbdd" : buttonBackground,
+            color: buttonTextColor,
+          }}
           onClick={handleAdd}
           disabled={disableButton}
         >
