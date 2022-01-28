@@ -19,7 +19,11 @@ import { toast } from "react-toastify";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
-import { returnSearchedOject , ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
+import {
+  returnSearchedOject,
+  ValidateIPaddress,
+  isValidURL,
+} from "@src/helpers/utils/utils";
 import {
   addNewOrdanizationSystem,
   updateOrdanizationSystem,
