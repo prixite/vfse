@@ -232,7 +232,11 @@ class Command(BaseCommand):
             site=site,
             users=users,
         )
-        factories.OrganizationFactory.create_batch(175, is_customer=True)
+        factories.OrganizationFactory.create_batch(
+            175,
+            is_customer=True,
+            number_of_seats=10,
+        )
         factories.HealthNetworkFactory.create_batch(
             5,
             organizations=[organization],
