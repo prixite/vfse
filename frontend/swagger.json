@@ -1207,10 +1207,9 @@
                 "last_name",
                 "email",
                 "phone",
+                "role",
                 "manager",
                 "organization",
-                "sites",
-                "modalities",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -1258,10 +1257,8 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin",
-                        "lambda-admin"
-                    ],
-                    "default": "fse"
+                        "cryo-admin"
+                    ]
                 },
                 "manager": {
                     "title": "Manager",
@@ -1551,7 +1548,7 @@
             }
         },
         "Me": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "type": "object",
             "properties": {
                 "first_name": {
@@ -2005,7 +2002,7 @@
             }
         },
         "User": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "required": [
                 "username"
             ],
@@ -2129,6 +2126,22 @@
                     "type": "string",
                     "readOnly": true,
                     "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1
+                    },
+                    "readOnly": true
                 }
             }
         },
@@ -2139,10 +2152,9 @@
                 "last_name",
                 "email",
                 "phone",
+                "role",
                 "manager",
                 "organization",
-                "sites",
-                "modalities",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2189,10 +2201,8 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin",
-                        "lambda-admin"
-                    ],
-                    "default": "fse"
+                        "cryo-admin"
+                    ]
                 },
                 "manager": {
                     "title": "Manager",

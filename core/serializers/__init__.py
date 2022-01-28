@@ -194,7 +194,10 @@ class UserSerializer(serializers.ModelSerializer):
     organizations = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
-
+    sites = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+    image = serializers.CharField(source="profile.meta.profile_picture", read_only=True)
     phone = serializers.CharField(source="profile.phone", read_only=True)
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
@@ -236,6 +239,8 @@ class UserSerializer(serializers.ModelSerializer):
             "documentation_url",
             "role",
             "manager",
+            "image",
+            "sites",
         ]
 
 
@@ -257,16 +262,23 @@ class UpsertUserSerializer(serializers.Serializer):
         ],
     )
     phone = serializers.CharField()
-    role = serializers.ChoiceField(choices=models.Role, default=models.Role.FSE)
+    role = serializers.ChoiceField(
+        choices=models.Role,
+        required=True,
+    )
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
     )
     sites = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Site.objects.all()
+        many=True,
+        queryset=models.Site.objects.all(),
+        required=False,
     )
     modalities = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Modality.objects.all()
+        many=True,
+        queryset=models.Modality.objects.all(),
+        required=False,
     )
     fse_accessible = serializers.BooleanField()
     audit_enabled = serializers.BooleanField()

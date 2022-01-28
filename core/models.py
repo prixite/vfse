@@ -16,7 +16,6 @@ class Role(models.TextChoices):
     CRYO = "cryo", "Cryo"
     CRYO_FSE = "cryo-fse", "Cryo FSE"
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
-    LAMBDA_ADMIN = "lambda-admin", "Lambda Admin"
 
 
 class User(AbstractUser):
@@ -31,6 +30,7 @@ class User(AbstractUser):
     )
 
     is_supermanager = models.BooleanField(default=False)
+    is_lambda_user = models.BooleanField(default=False)
 
     @property
     def modalities(self):
@@ -59,6 +59,10 @@ class User(AbstractUser):
     @property
     def manager(self):
         return str(self.profile.manager.get_full_name())
+
+    @property
+    def sites(self):
+        return self.get_sites().values_list("site__name", flat=True)
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
@@ -145,7 +149,7 @@ class UserModality(models.Model):
 
 
 class UserSite(models.Model):
-    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="sites")
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
     site = models.ForeignKey("Site", on_delete=models.CASCADE)
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
