@@ -591,9 +591,9 @@ class LambdaView(ViewSet):
     def partial_update(self, request, *args, **kwargs):
         instance = self.serializer_class(data=request.data, partial=True)
         if instance.is_valid():
-            object = self.get_object()
-            object.appearance["icon"] = instance.validated_data["icon"]
-            object.save()
+            organization = self.get_object()
+            organization.appearance["icon"] = instance.validated_data["icon"]
+            organization.save()
             return Response("Appearance Updated")
 
         raise exceptions.ValidationError()
