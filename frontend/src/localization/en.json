@@ -211,7 +211,7 @@
     "systemModal" : {
         "fieldName": "Name",
         "fieldLocation": "Location in the building",
-        "fieldLink": "Documentation Link for the system",
+        "fieldLink": "Grafana link",
         "fieldNumber": "Serial Number",
         "fieldSite": "Site",
         "fieldModal": "Product Model",
