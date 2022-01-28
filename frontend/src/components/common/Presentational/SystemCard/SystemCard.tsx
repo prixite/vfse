@@ -61,10 +61,10 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
     setAnchorEl(null);
   };
 
-const onEdit= () => {
-  handleClose();
-  handleEdit();
-}
+  const onEdit = () => {
+    handleClose();
+    handleEdit();
+  };
   const handleDelete = async () => {
     setModal(false);
     await DeleteOrganizationSystemService(

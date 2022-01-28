@@ -12,7 +12,7 @@ import "@src/components/common/Smart/SystemImageGallery/SystemImageGallery.scss"
 
 interface galleryProps {
   setSystemImage: Dispatch<SetStateAction<number>>;
-  systemImage: number
+  systemImage: number;
 }
 
 interface imgProps {
@@ -77,7 +77,11 @@ const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
               key={item.id}
               onClick={() => handleSelectedImage(item?.id)}
             >
-              <RenderImage src={item?.image} imgIndex={item?.id} index={systemImage} />
+              <RenderImage
+                src={item?.image}
+                imgIndex={item?.id}
+                index={systemImage}
+              />
             </ImageListItem>
           ))}
         </ImageList>

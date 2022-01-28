@@ -6,7 +6,7 @@ const updateSitesService = async (
   updateSites,
   refetch,
   type,
-  refetchOrganization,
+  refetchOrganization
 ) => {
   await updateSites({
     id: id?.toString(),
@@ -37,7 +37,7 @@ const addNewSiteService = async (
   siteObject,
   addNewSite,
   refetch,
-  refetchOrganization,
+  refetchOrganization
 ) => {
   await addNewSite({
     id: selectionID?.toString(),

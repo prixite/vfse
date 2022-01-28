@@ -23,7 +23,7 @@ const addNewOrdanizationSystem = async (
           refetch();
         },
       });
-    })
+    });
 };
 
 const updateOrdanizationSystem = async (
@@ -52,7 +52,7 @@ const updateOrdanizationSystem = async (
           refetch();
         },
       });
-    })
+    });
 };
 
 const DeleteOrganizationSystemService = async (
