@@ -35,8 +35,11 @@ const deactivateUserService = async (id, userDeactivateMutation, refetch) => {
     userEnableDisable: {
       users: [id],
     },
-  }).unwrap();
-  refetch();
+  })
+    .unwrap()
+    .then(async () => {
+      refetch();
+    });
 };
 
 const activateUserService = async (id, userActivateMutation, refetch) => {
@@ -44,8 +47,11 @@ const activateUserService = async (id, userActivateMutation, refetch) => {
     userEnableDisable: {
       users: [id],
     },
-  }).unwrap();
-  refetch();
+  })
+    .unwrap()
+    .then(async () => {
+      refetch();
+    });
 };
 
 export {
