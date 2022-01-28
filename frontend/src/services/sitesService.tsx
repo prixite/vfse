@@ -6,8 +6,7 @@ const updateSitesService = async (
   updateSites,
   refetch,
   type,
-  refetchOrganization,
-  disableButton // eslint-disable-line
+  refetchOrganization
 ) => {
   await updateSites({
     id: id?.toString(),
@@ -38,8 +37,7 @@ const addNewSiteService = async (
   siteObject,
   addNewSite,
   refetch,
-  refetchOrganization,
-  disableButton // eslint-disable-line
+  refetchOrganization
 ) => {
   await addNewSite({
     id: selectionID?.toString(),
