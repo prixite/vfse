@@ -234,6 +234,7 @@
         "fieldMRIMagnet": "Magnet pressure",
         "headdingAddInfo": "Add Info",
         "btnAdd": "Add",
+        "btnEdit": "Edit",
         "btnCancel": "Cancel"
     },
     "confirmSiteDialog" : {

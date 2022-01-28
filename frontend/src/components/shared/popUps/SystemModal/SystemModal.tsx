@@ -130,6 +130,7 @@ export default function SystemModal(props: systemProps) {
     fieldMRIMagnet,
     btnAdd,
     btnCancel,
+    btnEdit
   } = localizedData().systemModal;
 
   const requiredStates = [
@@ -555,6 +556,7 @@ export default function SystemModal(props: systemProps) {
 
   const handleAdd = async () => {
     if (isValidPostRequest()) {
+      console.log(returnObj());
       setDisableButton(true);
       const obj = returnObj();
       if (!props.system) {
@@ -604,7 +606,7 @@ export default function SystemModal(props: systemProps) {
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
         <div className="title-section">
-          <span className="modal-header">{"Add System"}</span>
+          <span className="modal-header">{props.system ? "Edit System" : "Add System"}</span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={handleClear} />
           </span>
@@ -1053,7 +1055,7 @@ export default function SystemModal(props: systemProps) {
           onClick={handleAdd}
           disabled={disableButton}
         >
-          {btnAdd}
+          {props.system ? btnEdit : btnAdd}
         </Button>
       </DialogActions>
     </Dialog>

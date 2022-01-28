@@ -117,7 +117,7 @@ export default function SideBar() {
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
     setCurrentRoute(pathRoute);
-  }, [selectedOrganization]);
+  }, [selectedOrganization, pathRoute]);
   const handleUpdateSelectedOrganization = (item) => {
     dispatch(setSelectedOrganization({ selectedOrganization: item }));
     dispatch(updateSideBarColor(item.appearance.sidebar_color));

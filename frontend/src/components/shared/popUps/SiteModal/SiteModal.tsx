@@ -129,7 +129,8 @@ export default function SiteModal(props: siteProps) {
         organizationList,
         selectedOrganization?.id
       );
-      if (data) {
+      console.log(data);
+      if (data?.length) {
         dispatch(
           setSelectedOrganization({
             selectedOrganization: data[0],

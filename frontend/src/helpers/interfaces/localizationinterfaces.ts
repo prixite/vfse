@@ -27,6 +27,7 @@ export interface SystemModal {
   headdingAddInfo: string;
   btnAdd: string;
   btnCancel: string;
+  btnEdit: string;
 }
 export interface PopUpInterface {
   userNameText: string;
