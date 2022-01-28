@@ -543,14 +543,93 @@ class OrganizationTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 403)
 
+    def test_update_user_duplicate_email(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.patch(f'/api/users/{self.customer_admin.id}/',
+        data={
+            'email':self.customer_admin.username
+        })
+        self.assertEqual(response.status_code,400)
 
-class VfseTestCase(BaseTestCase):
-    def test_list_vfse_systems(self):
-        models.Seat.objects.create(
-            organization=self.organization,
-            system=self.system,
+    def test_put_organization_duplicate_site(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "name": self.site.name,
+                "address": "Lahore k qareeb",
+            },
+        )
+        self.assertEqual(response.status_code,400)
+    
+    def test_post_organization_duplicate_sites(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "name": self.site.name,
+                "address": "Lahore k qareeb",
+            },
         )
 
+        self.assertEqual(response.status_code, 400)
+
+    def test_update_duplicate_organization(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/",
+            data={
+                "name": self.other_organization.name,
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_duplicate_health_network(self):
+        self.client.force_login(self.super_admin)
+
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "name": self.health_network.name,
+                "appearance": {
+                    "logo": "https://picsum.photos/200",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_duplicate_user(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": self.user_admin.email,
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/users/",
+            data={"memberships": [user_data]},
+        )
+        self.assertEqual(response.status_code, 400)
+
+    
+class VfseTestCase(BaseTestCase):
+    def test_list_vfse_systems(self):
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
             response = self.client.get(
@@ -585,10 +664,10 @@ class VfseTestCase(BaseTestCase):
     def test_create_vfse_systems_valid(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
-            f"/api/organizations/{self.organization.id}/seats/",
+            f"/api/organizations/{self.other_organization.id}/seats/",
             data={
                 "seats": [
-                    {"system": self.system.id, "organization": self.organization.id}
+                    {"system": self.system.id}
                 ],
             },
         )
@@ -597,3 +676,15 @@ class VfseTestCase(BaseTestCase):
             len(models.Seat.objects.filter(organization=self.organization))
             <= self.organization.number_of_seats
         )
+
+    def test_post_duplicate_vfse_system(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/seats/",
+            data={
+                "seats": [
+                    {"system": self.seat.system.id, "organization": self.seat.organization.id},
+                ],
+            },
+        )
+        self.assertEqual(response.status_code, 400)
