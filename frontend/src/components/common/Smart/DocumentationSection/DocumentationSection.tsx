@@ -7,6 +7,7 @@ import LinkLogo from "@src/assets/svgs/Link.svg";
 import "@src/components/common/Smart/DocumentationSection/DocumentationSection.scss";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import DocumentModal from "@src/components/shared/popUps/DocumentModal/DocumentModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useProductsModelsListQuery } from "@src/store/reducers/api";
 
@@ -76,6 +77,7 @@ export default function DocumentationSection() {
   const [hasData, setHasData] = useState(false);
   const [searchedData, setSearchedData] = useState(null);
   const { searching } = localizedData().common;
+  const [open, setOpen] = useState(false);
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
@@ -138,6 +140,8 @@ export default function DocumentationSection() {
     setColumnHeaders(headers);
   }, [tableColumns]);
 
+  const handleClose = () => setOpen(false);
+
   const renderModalities = (modalities) => {
     return (
       <div className="modality-section">
@@ -175,6 +179,7 @@ export default function DocumentationSection() {
         setTableColumns={setTableColumns}
       /> */}
       <TopViewBtns
+        setOpen={setOpen}
         path="documentation"
         tableColumns={tableColumns}
         setTableColumns={setTableColumns}
@@ -313,6 +318,7 @@ export default function DocumentationSection() {
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         )}
       </div>
+      <DocumentModal open={open} handleClose={handleClose} />
     </div>
   );
 }

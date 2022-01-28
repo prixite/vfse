@@ -590,7 +590,7 @@ export type UserRequestAcessSeriazlizer = {
   last_name: string;
   email: string;
   phone: string;
-  role?:
+  role:
     | "fse-admin"
     | "customer-admin"
     | "user-admin"
@@ -600,12 +600,11 @@ export type UserRequestAcessSeriazlizer = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin"
-    | "lambda-admin";
+    | "cryo-admin";
   manager: number;
   organization: number;
-  sites: number[];
-  modalities: number[];
+  sites?: number[];
+  modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
   can_leave_notes: boolean;
@@ -751,8 +750,16 @@ export type User = {
   modalities?: string[];
   organizations?: string[];
   phone?: string;
+  fse_accessible?: string;
+  audit_enabled?: string;
+  can_leave_notes?: string;
+  view_only?: string;
+  is_one_time?: string;
+  documentation_url?: string;
   role?: string[];
   manager?: string;
+  image?: string;
+  sites?: string[];
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -760,7 +767,7 @@ export type UpsertUser = {
   last_name: string;
   email: string;
   phone: string;
-  role?:
+  role:
     | "fse-admin"
     | "customer-admin"
     | "user-admin"
@@ -770,12 +777,11 @@ export type UpsertUser = {
     | "one-time"
     | "cryo"
     | "cryo-fse"
-    | "cryo-admin"
-    | "lambda-admin";
+    | "cryo-admin";
   manager: number;
   organization: number;
-  sites: number[];
-  modalities: number[];
+  sites?: number[];
+  modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
   can_leave_notes: boolean;
@@ -821,8 +827,7 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  system: number;
-  author: number;
+  author?: number;
   note: string;
   created_at?: string;
 };

@@ -194,12 +194,29 @@ class UserSerializer(serializers.ModelSerializer):
     organizations = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
-
+    sites = serializers.ListField(
+        child=serializers.CharField(max_length=32), read_only=True
+    )
+    image = serializers.CharField(source="profile.meta.profile_picture", read_only=True)
     phone = serializers.CharField(source="profile.phone", read_only=True)
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
     )
     manager = serializers.CharField(read_only=True)
+    documentation_url = serializers.CharField(
+        source="profile.documentation_url", read_only=True
+    )
+    fse_accessible = serializers.CharField(
+        source="profile.fse_accessible", read_only=True
+    )
+    audit_enabled = serializers.CharField(
+        source="profile.audit_enabled", read_only=True
+    )
+    can_leave_notes = serializers.CharField(
+        source="profile.can_leave_notes", read_only=True
+    )
+    is_one_time = serializers.CharField(source="profile.is_one_time", read_only=True)
+    view_only = serializers.CharField(source="profile.view_only", read_only=True)
 
     class Meta:
         model = models.User
@@ -214,8 +231,16 @@ class UserSerializer(serializers.ModelSerializer):
             "modalities",
             "organizations",
             "phone",
+            "fse_accessible",
+            "audit_enabled",
+            "can_leave_notes",
+            "view_only",
+            "is_one_time",
+            "documentation_url",
             "role",
             "manager",
+            "image",
+            "sites",
         ]
 
 
@@ -237,16 +262,23 @@ class UpsertUserSerializer(serializers.Serializer):
         ],
     )
     phone = serializers.CharField()
-    role = serializers.ChoiceField(choices=models.Role, default=models.Role.FSE)
+    role = serializers.ChoiceField(
+        choices=models.Role,
+        required=True,
+    )
     manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
     organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
     )
     sites = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Site.objects.all()
+        many=True,
+        queryset=models.Site.objects.all(),
+        required=False,
     )
     modalities = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=models.Modality.objects.all()
+        many=True,
+        queryset=models.Modality.objects.all(),
+        required=False,
     )
     fse_accessible = serializers.BooleanField()
     audit_enabled = serializers.BooleanField()
@@ -403,7 +435,8 @@ class SystemSerializer(serializers.ModelSerializer):
 class SystemNotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Note
-        fields = ["system", "author", "note", "created_at"]
+        fields = ["author", "note", "created_at"]
+        extra_kwargs = {"author": {"read_only": True}}
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):

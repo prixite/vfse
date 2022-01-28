@@ -12,11 +12,20 @@ const addNewUserService = async (id, userObject, addNewUser, refetch) => {
         pauseOnHover: false,
         onClose: refetch,
       });
-    })
-    .catch(() => {
-      toast.error("Adding user failed.", {
+    });
+};
+
+const updateUserService = async (id, userObject, updateUser, refetch) => {
+  await updateUser({
+    id: id?.toString(),
+    upsertUser: userObject,
+  })
+    .unwrap()
+    .then(async () => {
+      toast.success("User updated successfully.", {
         autoClose: 1000,
         pauseOnHover: false,
+        onClose: refetch,
       });
     });
 };
@@ -39,4 +48,9 @@ const activateUserService = async (id, userActivateMutation, refetch) => {
   refetch();
 };
 
-export { addNewUserService, deactivateUserService, activateUserService };
+export {
+  addNewUserService,
+  updateUserService,
+  deactivateUserService,
+  activateUserService,
+};

@@ -331,7 +331,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return (
-                models.User.objects.exclude(memberships__role=models.Role.LAMBDA_ADMIN)
+                models.User.objects.filter(is_lambda_user=False)
                 .prefetch_related("memberships")
                 .select_related("profile")
             )
@@ -341,7 +341,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             organization__in=self.request.user.get_organizations(
                 role=[models.Role.USER_ADMIN]
             ),
-        ).exlude(role=models.Role.LAMBDA_ADMIN)
+        ).filter(is_lambda_user=False)
 
         return (
             models.User.objects.filter(id__in=membership.values_list("user"))
@@ -499,6 +499,9 @@ class SystemNoteViewSet(ModelViewSet):
             system_id=self.kwargs["pk"], author=self.request.user
         )
 
+    def perform_create(self, serializer):
+        serializer.save(system_id=self.kwargs["pk"], author=self.request.user)
+
 
 class SystemImageViewSet(ModelViewSet):
     serializer_class = serializers.SystemImageSerializer
@@ -580,16 +583,17 @@ class LambdaView(ViewSet):
     def get_object(self):
         token = Token.objects.get(key=self.request.auth)
         org = models.Membership.objects.get(
-            user=token.user, role=models.Role.LAMBDA_ADMIN
+            user=token.user,
+            user__is_lambda_user=True,
         ).organization
         return org
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.serializer_class(data=request.data, partial=True)
         if instance.is_valid():
-            object = self.get_object()
-            object.appearance["icon"] = instance.validated_data["icon"]
-            object.save()
+            organization = self.get_object()
+            organization.appearance["icon"] = instance.validated_data["icon"]
+            organization.save()
             return Response("Appearance Updated")
 
         raise exceptions.ValidationError()
@@ -597,4 +601,6 @@ class LambdaView(ViewSet):
 
 class UserRolesView(ViewSet):
     def list(self, request, *args, **kwargs):
-        return Response(models.Role.choices)
+        return Response(
+            [{"value": item, "title": value} for item, value in models.Role.choices]
+        )

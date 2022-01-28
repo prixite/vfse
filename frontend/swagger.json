@@ -1207,10 +1207,9 @@
                 "last_name",
                 "email",
                 "phone",
+                "role",
                 "manager",
                 "organization",
-                "sites",
-                "modalities",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -1258,10 +1257,8 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin",
-                        "lambda-admin"
-                    ],
-                    "default": "fse"
+                        "cryo-admin"
+                    ]
                 },
                 "manager": {
                     "title": "Manager",
@@ -1551,7 +1548,7 @@
             }
         },
         "Me": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "type": "object",
             "properties": {
                 "first_name": {
@@ -2005,7 +2002,7 @@
             }
         },
         "User": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "required": [
                 "username"
             ],
@@ -2080,6 +2077,42 @@
                     "readOnly": true,
                     "minLength": 1
                 },
+                "fse_accessible": {
+                    "title": "Fse accessible",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "audit_enabled": {
+                    "title": "Audit enabled",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "can_leave_notes": {
+                    "title": "Can leave notes",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "view_only": {
+                    "title": "View only",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "is_one_time": {
+                    "title": "Is one time",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "documentation_url": {
+                    "title": "Documentation url",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
                 "role": {
                     "type": "array",
                     "items": {
@@ -2093,6 +2126,22 @@
                     "type": "string",
                     "readOnly": true,
                     "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "sites": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "maxLength": 32,
+                        "minLength": 1
+                    },
+                    "readOnly": true
                 }
             }
         },
@@ -2103,10 +2152,9 @@
                 "last_name",
                 "email",
                 "phone",
+                "role",
                 "manager",
                 "organization",
-                "sites",
-                "modalities",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2153,10 +2201,8 @@
                         "one-time",
                         "cryo",
                         "cryo-fse",
-                        "cryo-admin",
-                        "lambda-admin"
-                    ],
-                    "default": "fse"
+                        "cryo-admin"
+                    ]
                 },
                 "manager": {
                     "title": "Manager",
@@ -2393,19 +2439,14 @@
         "SystemNotes": {
             "description": "Note(id, system, author, note, created_at, updated_at)",
             "required": [
-                "system",
-                "author",
                 "note"
             ],
             "type": "object",
             "properties": {
-                "system": {
-                    "title": "System",
-                    "type": "integer"
-                },
                 "author": {
                     "title": "Author",
-                    "type": "integer"
+                    "type": "integer",
+                    "readOnly": true
                 },
                 "note": {
                     "title": "Note",

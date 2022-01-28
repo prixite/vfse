@@ -18,6 +18,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
@@ -25,16 +26,20 @@ import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/Dropz
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { addNewUserService } from "@src/services/userService";
+import {
+  addNewUserService,
+  updateUserService,
+} from "@src/services/userService";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import {
-  Organization,
   useModalitiesListQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsListQuery,
   useOrganizationsUsersCreateMutation,
   useOrganizationsUsersListQuery,
+  User,
+  useUsersPartialUpdateMutation,
 } from "@src/store/reducers/api";
 
 const roles = [
@@ -52,10 +57,10 @@ const roles = [
 ];
 
 interface Props {
-  add: (arg: { username: string; email: string }) => void;
   open: boolean;
   handleClose: () => void;
-  organization: Organization;
+  selectedUser?: number;
+  usersData?: Array<User>;
   refetch: () => void;
   action: string;
 }
@@ -77,9 +82,7 @@ export default function UserModal(props: Props) {
   const [manager, setManager] = useState<number>();
   const [customer, setCustomer] = useState<number>();
   const [selectedModalities, setSelectedModalities] = useState([]);
-  const [modalitiesError, setModalitiesError] = useState("");
   const [selectedSites, setSelectedSites] = useState([]);
-  const [sitesError, setSitesError] = useState("");
   const [docLink, setDocLink] = useState<boolean>(false);
   const [possibilitytoLeave, setPossibilitytoLeave] = useState<boolean>(false);
   const [accessToFSEFunctions, setAccessToFSEFunctions] =
@@ -114,6 +117,7 @@ export default function UserModal(props: Props) {
     /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
 
   const [createUser] = useOrganizationsUsersCreateMutation();
+  const [updateUser] = useUsersPartialUpdateMutation();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -136,19 +140,71 @@ export default function UserModal(props: Props) {
     });
 
   useEffect(() => {
-    if (!isUsersLoading && usersList?.length) {
-      setManager(usersList[0]?.id);
-    }
-    if (!isOrganisationLoading && organizationData?.length) {
-      setCustomer(organizationData[0]?.id);
+    if (props?.action == "add") {
+      if (!isUsersLoading && usersList?.length) {
+        setManager(usersList[0]?.id);
+      }
+      if (!isOrganisationLoading && organizationData?.length) {
+        setCustomer(organizationData[0]?.id);
+      }
     }
   }, []);
+
+  useEffect(() => {
+    if (props?.selectedUser && props?.action == "edit") {
+      populateEditableData();
+    }
+  }, [props?.selectedUser]);
 
   useEffect(() => {
     if (selectedImage?.length) {
       setImageError("");
     }
   }, [selectedImage]);
+
+  const populateEditableData = () => {
+    const editedUser: User = props?.usersData?.filter((user) => {
+      return user?.id == props?.selectedUser;
+    })[0];
+    if (editedUser) {
+      setFirstName(editedUser?.first_name);
+      setLastName(editedUser?.last_name);
+      setEmail(editedUser?.email);
+      setPhone(editedUser?.phone);
+      if (editedUser?.role?.length) {
+        setRole(editedUser?.role[0]);
+      }
+      if (editedUser?.manager) {
+        setManager(
+          usersList?.filter((user) => {
+            return user?.username == editedUser?.username;
+          })[0]?.id
+        );
+      }
+      if (editedUser?.organizations?.length) {
+        setCustomer(
+          organizationData?.filter((org) => {
+            return (
+              org?.name?.toString() == editedUser?.organizations[0]?.toString()
+            );
+          })[0]?.id
+        );
+      }
+      if (editedUser?.sites) {
+        // TODO
+      }
+      if (editedUser?.modalities?.length) {
+        const filterModalities = modalitiesList?.filter((modality) => {
+          return editedUser?.modalities?.includes(modality?.name?.toString());
+        });
+        const mod_ids: Array<number> = [];
+        filterModalities?.forEach((mod) => {
+          mod_ids.push(mod?.id);
+        });
+        setSelectedModalities(mod_ids);
+      }
+    }
+  };
 
   const handleChange = (event) => {
     if (page == "1") {
@@ -209,9 +265,6 @@ export default function UserModal(props: Props) {
     } else {
       setSelectedSites([...selectedSites, parseInt(e.target.value)]);
     }
-    if (sitesError?.length && sitesLength() > 0) {
-      setSitesError("");
-    }
   };
 
   const sitesLength = () => {
@@ -223,17 +276,6 @@ export default function UserModal(props: Props) {
     });
     return count;
   };
-
-  // const verifySitesChecked = (network: any) => {
-  //   let found = false;
-  //   if (network?.sites?.length) {
-  //     found = network?.sites?.find((val: any) => {
-  //       return selectedSites.includes(val)
-  //     })
-  //   }
-
-  //   return found;
-  // }
 
   const handleSelectedModalities = (event, newFormats) => {
     setSelectedModalities(newFormats);
@@ -251,12 +293,20 @@ export default function UserModal(props: Props) {
             userObject,
             createUser,
             props?.refetch
-          ).then(() => {
-            setTimeout(() => {
-              resetModal();
+          )
+            .then(() => {
+              setTimeout(() => {
+                resetModal();
+                setIsLoading(false);
+              }, 500);
+            })
+            .catch(() => {
+              toast.error("User with this username already exists.", {
+                autoClose: 2000,
+                pauseOnHover: false,
+              });
               setIsLoading(false);
-            }, 500);
-          });
+            });
         }
       );
     } else {
@@ -268,7 +318,30 @@ export default function UserModal(props: Props) {
     setIsLoading(true);
     handleErrors();
     if (verifyErrors()) {
-      // TODO
+      await uploadImageToS3(selectedImage[0]).then(
+        async (data: S3Interface) => {
+          const userObject = constructObject(data?.location);
+          await updateUserService(
+            props?.selectedUser,
+            userObject,
+            updateUser,
+            props?.refetch
+          )
+            .then(() => {
+              setTimeout(() => {
+                resetModal();
+                setIsLoading(false);
+              }, 500);
+            })
+            .catch(() => {
+              toast.error("User with this username already exists.", {
+                autoClose: 2000,
+                pauseOnHover: false,
+              });
+              setIsLoading(false);
+            });
+        }
+      );
     } else {
       setIsLoading(false);
     }
@@ -276,29 +349,31 @@ export default function UserModal(props: Props) {
 
   const getUserObject = (imageUrl: string) => {
     return {
-      memberships: [
-        {
-          meta: {
-            profile_picture: imageUrl,
-            title: "User Profile Image",
-          },
-          first_name: firstname,
-          last_name: lastname,
-          email: email,
-          phone: "+1" + phone,
-          role: role,
-          manager: manager,
-          organization: customer,
-          sites: selectedSites,
-          modalities: selectedModalities,
-          fse_accessible: possibilitytoLeave,
-          audit_enabled: accessToFSEFunctions,
-          can_leave_notes: viewOnly,
-          view_only: auditEnable,
-          is_one_time: oneTimeLinkCreation,
-          documentation_url: docLink,
-        },
-      ],
+      memberships: [constructObject(imageUrl)],
+    };
+  };
+
+  const constructObject = (imageUrl: string) => {
+    return {
+      meta: {
+        profile_picture: imageUrl,
+        title: "User Profile Image",
+      },
+      first_name: firstname,
+      last_name: lastname,
+      email: email,
+      phone: "+1" + phone,
+      role: role,
+      manager: manager,
+      organization: customer,
+      sites: selectedSites,
+      modalities: selectedModalities,
+      fse_accessible: possibilitytoLeave,
+      audit_enabled: accessToFSEFunctions,
+      can_leave_notes: viewOnly,
+      view_only: auditEnable,
+      is_one_time: oneTimeLinkCreation,
+      documentation_url: docLink,
     };
   };
 
@@ -316,6 +391,13 @@ export default function UserModal(props: Props) {
       setEmailError("");
       setPhone("");
       setPhoneError("");
+      setRole(roles[0]?.value);
+      if (!isUsersLoading && usersList?.length) {
+        setManager(usersList[0]?.id);
+      }
+      if (!isOrganisationLoading && organizationData?.length) {
+        setCustomer(organizationData[0]?.id);
+      }
       setSelectedSites([]);
       setSelectedModalities([]);
       setDocLink(false);
@@ -324,26 +406,13 @@ export default function UserModal(props: Props) {
       setViewOnly(false);
       setAuditEnable(false);
       setOneTimeLinkCreation(false);
-      setSitesError("");
-      setModalitiesError("");
-      setRole(roles[0]?.value);
-      if (!isUsersLoading && usersList?.length) {
-        setManager(usersList[0]?.id);
-      }
-      if (!isOrganisationLoading && organizationData?.length) {
-        setCustomer(organizationData[0]?.id);
-      }
     } else if (props?.action == "edit") {
-      // if (props?.firstname && props?.lastname) {
-      //   setFirstName(props?.firstname);
-      //   setLastName(props?.lastname);
-      //   setEmail(props?.email);
-      //   setPhone(props?.phone)
-      //   setFirstNameError("");
-      //   setLastNameError("");
-      //   setEmailError("");
-      //   setPhoneError("");
-      // }
+      populateEditableData();
+      setImageError("");
+      setFirstNameError("");
+      setLastNameError("");
+      setEmailError("");
+      setPhoneError("");
     }
     props?.handleClose();
   };
@@ -368,17 +437,16 @@ export default function UserModal(props: Props) {
 
   const verifyErrors = () => {
     if (
+      selectedImage.length &&
       firstname &&
       lastname &&
       email?.length &&
       emailReg.test(email) == true &&
       phone?.length &&
       phone?.length == 10 &&
-      selectedImage.length &&
+      role &&
       manager &&
-      customer &&
-      selectedSites?.length &&
-      selectedModalities?.length
+      customer
     ) {
       return true;
     }
@@ -405,12 +473,6 @@ export default function UserModal(props: Props) {
       : phone?.length !== 10
       ? setPhoneError("Phone number is incorrect.")
       : setPhoneError("");
-    page == "2" && !selectedSites.length
-      ? setSitesError("Select atleast 1 site.")
-      : setSitesError("");
-    page == "2" && !selectedModalities.length
-      ? setModalitiesError("Select atleast 1 modality.")
-      : setModalitiesError("");
   };
 
   return (
@@ -418,7 +480,7 @@ export default function UserModal(props: Props) {
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">
-            {props.organization?.name ?? addNewUser}
+            {!props?.selectedUser ? addNewUser : "Edit User"}
           </span>
           <span className="dialog-page">
             <span className="pg-number">
@@ -431,6 +493,11 @@ export default function UserModal(props: Props) {
                   name="radio-buttons"
                   inputProps={{ "aria-label": "1" }}
                   size="small"
+                  sx={{
+                    "&.Mui-checked": {
+                      color: buttonBackground,
+                    },
+                  }}
                 />
                 <Radio
                   checked={page === "2"}
@@ -439,6 +506,11 @@ export default function UserModal(props: Props) {
                   name="radio-buttons"
                   inputProps={{ "aria-label": "2" }}
                   size="small"
+                  sx={{
+                    "&.Mui-checked": {
+                      color: buttonBackground,
+                    },
+                  }}
                 />
               </span>
             </span>
@@ -564,7 +636,7 @@ export default function UserModal(props: Props) {
                       {!isUsersLoading &&
                         usersList?.map((item, key) => (
                           <MenuItem key={key} value={item?.id}>
-                            {item?.username}
+                            {item?.manager}
                           </MenuItem>
                         ))}
                     </Select>
@@ -594,13 +666,14 @@ export default function UserModal(props: Props) {
           ) : (
             <>
               <div>
-                <p className="modalities-header">
-                  <span className="info-label">Health Network Access</span>
-                  <span className="checked-ratio">{`${
-                    selectedSites?.length
-                  }/${sitesLength()}`}</span>
-                </p>
-
+                {!isNetworkDataLoading && sitesLength() > 0 && (
+                  <p className="modalities-header">
+                    <span className="info-label">Health Network Access</span>
+                    <span className="checked-ratio">{`${
+                      selectedSites?.length
+                    }/${sitesLength()}`}</span>
+                  </p>
+                )}
                 {!isNetworkDataLoading &&
                   networksData?.map((item, key) =>
                     item?.sites?.length ? (
@@ -638,15 +711,14 @@ export default function UserModal(props: Props) {
                       ""
                     )
                   )}
-                <p className="errorText" style={{ marginTop: "5px" }}>
-                  {sitesError}
-                </p>
               </div>
               <div>
-                <p className="modalities-header">
-                  <span className="info-label">Access to modalities</span>
-                  <span className="checked-ratio">{`${selectedModalities?.length}/${modalitiesList?.length}`}</span>
-                </p>
+                {!isModalitiesLoading && modalitiesList?.length && (
+                  <p className="modalities-header">
+                    <span className="info-label">Access to modalities</span>
+                    <span className="checked-ratio">{`${selectedModalities?.length}/${modalitiesList?.length}`}</span>
+                  </p>
+                )}
                 {!isModalitiesLoading ? (
                   <ToggleButtonGroup
                     value={selectedModalities}
@@ -669,19 +741,22 @@ export default function UserModal(props: Props) {
                 ) : (
                   ""
                 )}
-                <p className="errorText" style={{ marginBottom: "15px" }}>
-                  {modalitiesError}
-                </p>
               </div>
               <div className="services">
                 <FormGroup className="service-options">
                   <FormControlLabel
-                    control={<Checkbox onClick={() => setDocLink(!docLink)} />}
+                    control={
+                      <Checkbox
+                        checked={docLink}
+                        onClick={() => setDocLink(!docLink)}
+                      />
+                    }
                     label="Documentation Link Available"
                   />
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={accessToFSEFunctions}
                         onClick={() =>
                           setAccessToFSEFunctions(!accessToFSEFunctions)
                         }
@@ -691,7 +766,10 @@ export default function UserModal(props: Props) {
                   />
                   <FormControlLabel
                     control={
-                      <Checkbox onClick={() => setAuditEnable(!auditEnable)} />
+                      <Checkbox
+                        checked={auditEnable}
+                        onClick={() => setAuditEnable(!auditEnable)}
+                      />
                     }
                     label="Audit Enable"
                   />
@@ -701,6 +779,7 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={possibilitytoLeave}
                         onClick={() =>
                           setPossibilitytoLeave(!possibilitytoLeave)
                         }
@@ -710,13 +789,17 @@ export default function UserModal(props: Props) {
                   />
                   <FormControlLabel
                     control={
-                      <Checkbox onClick={() => setViewOnly(!viewOnly)} />
+                      <Checkbox
+                        checked={viewOnly}
+                        onClick={() => setViewOnly(!viewOnly)}
+                      />
                     }
                     label="View Only"
                   />
                   <FormControlLabel
                     control={
                       <Checkbox
+                        checked={oneTimeLinkCreation}
                         onClick={() =>
                           setOneTimeLinkCreation(!oneTimeLinkCreation)
                         }

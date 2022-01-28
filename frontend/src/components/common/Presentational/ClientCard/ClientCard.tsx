@@ -111,8 +111,14 @@ const ClientCard = ({
   };
   const switchOrganization = () => {
     dispatch(setSelectedOrganization({ selectedOrganization: row }));
+    dispatch(updateSideBarColor(row.appearance.sidebar_color));
+    dispatch(updateButtonColor(row.appearance.primary_color));
+    dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
+    dispatch(updateButtonTextColor(row.appearance.button_text));
+    dispatch(updateSecondaryColor(row.appearance.secondary_color));
+    dispatch(updateFontOne(row.appearance.font_one));
+    dispatch(updateFontTwo(row.appearance.font_two));
     history.replace(`/${organizationRoute}/${id}/`);
-    handleClose();
   };
   return (
     <div

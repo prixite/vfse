@@ -259,6 +259,7 @@ export default function UserSection() {
 
   const handleActionClose = () => {
     setAnchorEl(null);
+    setCurrentUser(null);
   };
 
   const deactivateUser = async (id) => {
@@ -269,6 +270,10 @@ export default function UserSection() {
   const activateUser = async (id) => {
     await activateUserService(id, userActivateMutation, usersRefetch);
     handleActionClose();
+  };
+
+  const editUserModal = async () => {
+    setOpen(true);
   };
 
   const renderModalities = (modalities) => {
@@ -311,15 +316,19 @@ export default function UserSection() {
           hasData={hasData}
         />
       ) : (
-        <div style={{ height: "70px" }} />
+        ""
       )}
 
-      <UserModal
-        open={open}
-        handleClose={handleClose}
-        action={"add"}
-        refetch={usersRefetch}
-      />
+      {open && (
+        <UserModal
+          open={open}
+          handleClose={handleClose}
+          selectedUser={currentUser}
+          usersData={items}
+          action={currentUser ? "edit" : "add"}
+          refetch={usersRefetch}
+        />
+      )}
 
       <div
         style={{ marginTop: "32px", overflow: "hidden" }}
@@ -612,7 +621,7 @@ export default function UserSection() {
             {unlock}
           </MenuItem>
         )}
-        <MenuItem>{edit}</MenuItem>
+        <MenuItem onClick={() => editUserModal()}>{edit}</MenuItem>
       </Menu>
       <ListModal
         name={modalHeader}

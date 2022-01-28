@@ -95,6 +95,7 @@ const App = () => {
   useEffect(() => {
     if (fontOne && document?.getElementById("container")) {
       document.getElementById("container").style.fontFamily = fontOne;
+      document.body.style.fontFamily = fontOne;
     }
     if (fontTwo && document?.getElementById("SideBarcontainer")) {
       document.getElementById("SideBarcontainer").style.fontFamily = fontTwo;
