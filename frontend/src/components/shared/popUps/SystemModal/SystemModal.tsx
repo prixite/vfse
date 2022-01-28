@@ -1,13 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
-import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
+import {
+  TextField,
+  Grid,
+  MenuItem,
+  FormControl,
+  Select,
+  Autocomplete,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import debounce from "debounce";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
@@ -39,20 +45,13 @@ interface siteProps {
   id?: number;
 }
 
-interface productSearch {
-  query?: string;
-  results: ProductModel[];
-}
-
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
   let product: ProductModel; // eslint-disable-line
-  let productState: productSearch; // eslint-disable-line
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [site, setSite] = useState(siteData);
-  const [query, setQuery] = useState("");
   const [siteError, setSiteError] = useState("");
   const [modal, setModal] = useState(product);
   const [modalError, setModalError] = useState("");
@@ -95,25 +94,15 @@ export default function SystemModal(props: systemProps) {
   const [serviceWeb, setServiceWeb] = useState(false);
   const [virtualMedia, setVirtualMedia] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [productList, setProductList] = useState(productState);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
 
-  const { data: productData, isFetching: fetchingProducts } =
+  const { data: productData, isLoading: isProductsModelsLoading } =
     useProductsModelsListQuery();
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
-
-  const dropdownStyles = {
-    PaperProps: {
-      style: {
-        maxHeight: 300,
-        width: 220,
-      },
-    },
-  };
 
   const {
     fieldName,
@@ -141,6 +130,7 @@ export default function SystemModal(props: systemProps) {
     fieldMRIMagnet,
     btnAdd,
     btnCancel,
+    btnEdit,
   } = localizedData().systemModal;
 
   const requiredStates = [
@@ -473,11 +463,6 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
-  const handleSearch = (e, products) => {
-    setQuery(e.target.value);
-    onSearch(e.target.value, products);
-  };
-
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
       if (!item.name) {
@@ -598,25 +583,6 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
-  const onSearch = useCallback(
-    debounce((searchQuery: string, products: ProductModel[]) => {
-      if (searchQuery?.length > 1) {
-        const result = products?.filter(
-          (data) =>
-            data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
-        );
-        const newList: productSearch = { query: searchQuery, results: result };
-        setProductList(newList);
-      }
-    }, 500),
-    []
-  );
-
-  const stopImmediatePropagation = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
   useEffect(() => {
     if (props.system) {
       editModal();
@@ -630,7 +596,7 @@ export default function SystemModal(props: systemProps) {
   }, [selectedOrganization]);
 
   useEffect(() => {
-    if (productData?.length) {
+    if (productData?.length && !isProductsModelsLoading) {
       setModal(productData[0]);
     }
   }, [productData]);
@@ -639,7 +605,9 @@ export default function SystemModal(props: systemProps) {
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
         <div className="title-section">
-          <span className="modal-header">{"Add System"}</span>
+          <span className="modal-header">
+            {props.system ? "Edit System" : "Add System"}
+          </span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={handleClear} />
           </span>
@@ -724,61 +692,27 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  <FormControl sx={{ minWidth: "100%" }}>
-                    <Select
-                      value={modal?.name}
-                      displayEmpty
-                      disabled={!productData?.length}
-                      className="info-field"
-                      inputProps={{ "aria-label": "Without label" }}
-                      style={{ height: "48px", marginRight: "15px" }}
-                      MenuProps={dropdownStyles}
-                    >
-                      <MenuItem
-                        onKeyDown={(e) => e.stopPropagation()}
-                        onClickCapture={stopImmediatePropagation}
-                        style={{ background: "transparent", padding: "0" }}
-                      >
+                  {!isProductsModelsLoading && (
+                    <Autocomplete
+                      id="country-select-demo"
+                      sx={{ width: "100%" }}
+                      style={{ height: "48px" }}
+                      value={modal}
+                      onChange={(e, item: ProductModel) => setModal(item)} // eslint-disable-line
+                      options={productData}
+                      autoHighlight
+                      getOptionLabel={(option) => option?.name}
+                      renderInput={(params) => (
                         <TextField
-                          style={{ width: "100%", padding: "10px" }}
-                          className="search"
-                          variant="outlined"
-                          size="small"
-                          value={query}
-                          placeholder="search"
-                          onChange={(e) => handleSearch(e, productData)}
+                          {...params}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
                         />
-                      </MenuItem>
-                      {query?.length > 1 ? (
-                        productList?.results?.length && !fetchingProducts ? (
-                          productList?.results?.map((item, index) => (
-                            <MenuItem
-                              key={index}
-                              value={item.name}
-                              onClick={() => setModal(item)}
-                            >
-                              {item.name}
-                            </MenuItem>
-                          ))
-                        ) : (
-                          <p style={{ padding: "20px" }}>No data found...</p>
-                        )
-                      ) : !fetchingProducts ? (
-                        productData?.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item.name}
-                            onClick={() => setModal(item)}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))
-                      ) : (
-                        ""
                       )}
-                    </Select>
-                  </FormControl>
+                    />
+                  )}
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
@@ -1122,7 +1056,7 @@ export default function SystemModal(props: systemProps) {
           onClick={handleAdd}
           disabled={disableButton}
         >
-          {btnAdd}
+          {props.system ? btnEdit : btnAdd}
         </Button>
       </DialogActions>
     </Dialog>

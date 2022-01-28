@@ -6,6 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { localizedData } from "@src/helpers/utils/language";
@@ -102,11 +103,21 @@ export default function SiteModal(props: siteProps) {
         props.refetch,
         refetch,
         setIsLoading
-      ).then(() => {
-        setTimeout(() => {
-          setReset(false);
-        }, 500);
-      });
+      )
+        .then(() => {
+          setTimeout(() => {
+            resetModal();
+            setReset(false);
+            setIsLoading(false);
+          }, 500);
+        })
+        .catch(() => {
+          toast.error("Site with this name already exists.", {
+            autoClose: 2000,
+            pauseOnHover: false,
+          });
+          setIsLoading(false);
+        });
     } else {
       setIsLoading(false);
     }
@@ -118,7 +129,7 @@ export default function SiteModal(props: siteProps) {
         organizationList,
         selectedOrganization?.id
       );
-      if (data) {
+      if (data?.length) {
         dispatch(
           setSelectedOrganization({
             selectedOrganization: data[0],
@@ -158,11 +169,21 @@ export default function SiteModal(props: siteProps) {
         "edit",
         refetch,
         setIsLoading
-      ).then(() => {
-        setTimeout(() => {
-          setReset(false);
-        }, 500);
-      });
+      )
+        .then(() => {
+          setTimeout(() => {
+            resetModal();
+            setReset(false);
+            setIsLoading(false);
+          }, 500);
+        })
+        .catch(() => {
+          toast.error("Site with this name already exists.", {
+            autoClose: 2000,
+            pauseOnHover: false,
+          });
+          setIsLoading(false);
+        });
     } else {
       setIsLoading(false);
     }

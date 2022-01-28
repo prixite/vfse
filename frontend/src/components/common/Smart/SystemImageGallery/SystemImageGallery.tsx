@@ -3,6 +3,7 @@ import { SetStateAction, useState, Dispatch, useEffect } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
+import { useAppSelector } from "@src/store/hooks";
 import { useSystemsImagesListQuery } from "@src/store/reducers/api";
 
 import CardSkeleton from "../../Presentational/CardSkeleton/CardSkeleton";
@@ -21,6 +22,7 @@ interface imgProps {
 
 const RenderImage = ({ src, imgIndex, index }: imgProps) => {
   const [loaded, setIsLoaded] = useState(false);
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
   return (
     <>
       <img
@@ -31,7 +33,9 @@ const RenderImage = ({ src, imgIndex, index }: imgProps) => {
           setIsLoaded(true);
         }}
         style={{
-          border: `${index === imgIndex ? "5px solid rgb(119, 60, 189)" : ""}`,
+          border: `${
+            index === imgIndex ? `5px solid ${buttonBackground}` : ""
+          }`,
           width: "164px",
           height: "164px",
           cursor: "pointer",

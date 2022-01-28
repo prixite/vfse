@@ -499,6 +499,9 @@ class SystemNoteViewSet(ModelViewSet):
             system_id=self.kwargs["pk"], author=self.request.user
         )
 
+    def perform_create(self, serializer):
+        serializer.save(system_id=self.kwargs["pk"], author=self.request.user)
+
 
 class SystemImageViewSet(ModelViewSet):
     serializer_class = serializers.SystemImageSerializer
@@ -598,4 +601,6 @@ class LambdaView(ViewSet):
 
 class UserRolesView(ViewSet):
     def list(self, request, *args, **kwargs):
-        return Response(models.Role.choices)
+        return Response(
+            [{"value": item, "title": value} for item, value in models.Role.choices]
+        )

@@ -170,6 +170,9 @@ const TopViewBtns = ({
       setAction("add");
       dispatch(openAddModal());
       setData(null);
+    } else if (path === "documentation") {
+      setOpen(true);
+      // setData(null);
     } else {
       setOpen(true);
       setData(null);
@@ -418,26 +421,22 @@ const TopViewBtns = ({
             }}
           />
         </Box>
-        {path !== "documentation" ? (
-          <Button
-            style={{
-              backgroundColor: buttonBackground,
-              color: buttonTextColor,
-            }}
-            onClick={handleModal}
-            variant="contained"
-            className="AddClientsbtn"
-          >
-            <div className="btn-content">
-              <AddIcon />
-              <span style={{ display: "inline-block", paddingTop: "3px" }}>
-                {btnAdd}
-              </span>
-            </div>
-          </Button>
-        ) : (
-          ""
-        )}
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={handleModal}
+          variant="contained"
+          className="AddClientsbtn"
+        >
+          <div className="btn-content">
+            <AddIcon />
+            <span style={{ display: "inline-block", paddingTop: "3px" }}>
+              {btnAdd}
+            </span>
+          </div>
+        </Button>
       </Box>
     </>
   );

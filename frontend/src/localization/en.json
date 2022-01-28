@@ -93,7 +93,17 @@
         "btnFilter": "Filter",
         "btnCol": "Columns",
         "btnAsset": "Sort by Asset #",
-        "btnAdd": ""
+        "btnAdd": "Add Document",
+        "popUp":{
+            "title": "Add documentation",
+            "link": "Documentation Link",
+            "upload_btn": "Upload",
+            "model": "Model",
+            "product_model": "Product Model",
+            "modalities": "Modalities",
+            "btnSave": "Add",
+            "btnCancel": "Cancel"
+        }
     },
     "systems": {
         "title": "Documentation database",
@@ -224,6 +234,7 @@
         "fieldMRIMagnet": "Magnet pressure",
         "headdingAddInfo": "Add Info",
         "btnAdd": "Add",
+        "btnEdit": "Edit",
         "btnCancel": "Cancel"
     },
     "confirmSiteDialog" : {
