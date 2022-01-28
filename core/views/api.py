@@ -263,7 +263,11 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
                 )
             )
 
-        return queryset.select_related('image','product_model') if self.action != 'partial_update' else queryset
+        return (
+            queryset.select_related("image", "product_model")
+            if self.action != "partial_update"
+            else queryset
+        )
 
     def perform_create(self, serializer):
         seat = serializer.validated_data["connection_options"].pop("vfse")

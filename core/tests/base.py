@@ -53,7 +53,7 @@ class BaseTestCase(TestCase):
         self.other_organization = factories.OrganizationFactory(
             customer_admin_roles=[self.other_customer_admin],
             user_admin_roles=[self.other_user_admin],
-            number_of_seats = 10,
+            number_of_seats=10,
             sites=True,
             is_customer=True,
         )
@@ -65,7 +65,9 @@ class BaseTestCase(TestCase):
         )
         self.site = models.Site.objects.get(organization=self.organization)
         self.system = models.System.objects.get(site=self.site)
-        self.seat = models.Seat.objects.get(system=self.system,organization=self.organization)
+        self.seat = models.Seat.objects.get(
+            system=self.system, organization=self.organization
+        )
         self.product_model = self.system.product_model
         self.product = self.product_model.product
         self.modality = self.system.product_model.modality

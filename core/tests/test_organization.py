@@ -545,11 +545,11 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_update_user_duplicate_email(self):
         self.client.force_login(self.super_admin)
-        response = self.client.patch(f'/api/users/{self.customer_admin.id}/',
-        data={
-            'email':self.customer_admin.username
-        })
-        self.assertEqual(response.status_code,400)
+        response = self.client.patch(
+            f"/api/users/{self.customer_admin.id}/",
+            data={"email": self.customer_admin.username},
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_put_organization_duplicate_site(self):
         self.client.force_login(self.super_admin)
@@ -560,8 +560,8 @@ class OrganizationTestCase(BaseTestCase):
                 "address": "Lahore k qareeb",
             },
         )
-        self.assertEqual(response.status_code,400)
-    
+        self.assertEqual(response.status_code, 400)
+
     def test_post_organization_duplicate_sites(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
@@ -627,7 +627,7 @@ class OrganizationTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 400)
 
-    
+
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):
         for user in [self.super_admin, self.super_manager]:
@@ -666,9 +666,7 @@ class VfseTestCase(BaseTestCase):
         response = self.client.post(
             f"/api/organizations/{self.other_organization.id}/seats/",
             data={
-                "seats": [
-                    {"system": self.system.id}
-                ],
+                "seats": [{"system": self.system.id}],
             },
         )
         self.assertEqual(response.status_code, 201)
@@ -683,7 +681,10 @@ class VfseTestCase(BaseTestCase):
             f"/api/organizations/{self.organization.id}/seats/",
             data={
                 "seats": [
-                    {"system": self.seat.system.id, "organization": self.seat.organization.id},
+                    {
+                        "system": self.seat.system.id,
+                        "organization": self.seat.organization.id,
+                    },
                 ],
             },
         )

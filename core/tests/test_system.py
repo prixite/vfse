@@ -188,12 +188,12 @@ class SystemTestCase(BaseTestCase):
 
     def test_update_system_invalid(self):
         self.client.force_login(self.super_admin)
-        system = factories.SystemFactory(name = 'New System',site=self.site)
+        system = factories.SystemFactory(name="New System", site=self.site)
         response = self.client.patch(
             f"/api/organizations/{self.organization.id}/systems/{self.system.id}/",
             data={
                 "name": system.name,
-                'site':self.site.id,
+                "site": self.site.id,
                 "software_version": "v3",
                 "asset_number": "1245255",
                 "ip_address": "192.168.23.8",
