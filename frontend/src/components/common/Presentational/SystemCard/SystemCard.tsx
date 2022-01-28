@@ -61,6 +61,10 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
     setAnchorEl(null);
   };
 
+const onEdit= () => {
+  handleClose();
+  handleEdit();
+}
   const handleDelete = async () => {
     setModal(false);
     await DeleteOrganizationSystemService(
@@ -217,7 +221,7 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
           className="system-dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem onClick={handleEdit}>
+          <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
           <MenuItem onClick={() => setModal(true)}>

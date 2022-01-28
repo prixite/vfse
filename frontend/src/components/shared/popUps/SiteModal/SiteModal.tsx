@@ -102,7 +102,6 @@ export default function SiteModal(props: siteProps) {
         addNewSite,
         props.refetch,
         refetch,
-        setIsLoading
       )
         .then(() => {
           setTimeout(() => {
@@ -168,7 +167,6 @@ export default function SiteModal(props: siteProps) {
         props?.refetch,
         "edit",
         refetch,
-        setIsLoading
       )
         .then(() => {
           setTimeout(() => {

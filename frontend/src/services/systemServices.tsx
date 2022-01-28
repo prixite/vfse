@@ -5,7 +5,6 @@ const addNewOrdanizationSystem = async (
   systemObject,
   addOrganizationSystem,
   refetch,
-  setErrors,
   handleClear,
   setDisableButton
 ) => {
@@ -25,12 +24,6 @@ const addNewOrdanizationSystem = async (
         },
       });
     })
-    .catch((err) => {
-      setDisableButton(false);
-      if (err?.status === 400) {
-        setErrors(err.data);
-      }
-    });
 };
 
 const updateOrdanizationSystem = async (
@@ -39,7 +32,6 @@ const updateOrdanizationSystem = async (
   system,
   updateSystem,
   refetch,
-  setErrors,
   handleClear,
   setDisableButton
 ) => {
@@ -61,12 +53,6 @@ const updateOrdanizationSystem = async (
         },
       });
     })
-    .catch((err) => {
-      setDisableButton(false);
-      if (err?.status === 400) {
-        setErrors(err.data);
-      }
-    });
 };
 
 const DeleteOrganizationSystemService = async (
