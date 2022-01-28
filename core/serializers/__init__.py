@@ -200,6 +200,20 @@ class UserSerializer(serializers.ModelSerializer):
         source="memberships", slug_field="role", many=True, read_only=True
     )
     manager = serializers.CharField(read_only=True)
+    documentation_url = serializers.CharField(
+        source="profile.documentation_url", read_only=True
+    )
+    fse_accessible = serializers.CharField(
+        source="profile.fse_accessible", read_only=True
+    )
+    audit_enabled = serializers.CharField(
+        source="profile.audit_enabled", read_only=True
+    )
+    can_leave_notes = serializers.CharField(
+        source="profile.can_leave_notes", read_only=True
+    )
+    is_one_time = serializers.CharField(source="profile.is_one_time", read_only=True)
+    view_only = serializers.CharField(source="profile.view_only", read_only=True)
 
     class Meta:
         model = models.User
@@ -214,6 +228,12 @@ class UserSerializer(serializers.ModelSerializer):
             "modalities",
             "organizations",
             "phone",
+            "fse_accessible",
+            "audit_enabled",
+            "can_leave_notes",
+            "view_only",
+            "is_one_time",
+            "documentation_url",
             "role",
             "manager",
         ]
