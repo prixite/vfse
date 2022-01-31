@@ -171,7 +171,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
 
     user = factory.SubFactory(UserFactory, profile=None)
     is_one_time = False
-    meta = {"profile_picture": "", "title": ""}
+    meta = {"profile_picture": "https://tinyurl.com/meta-profile", "title": ""}
 
 
 class MembershipFactory(factory.django.DjangoModelFactory):

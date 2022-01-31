@@ -11,29 +11,6 @@
 	{%else%}
 		<p>Please select options below</p>
 	{% endif %}
-	{% if "organization" in user_data.flags %}
-	<div class="card">
-		<div class="card-body">
-			<div class='item-col me-2'>
-				{% if user.profile.meta.profile_picture %}
-				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
-				{% else %}
-				<span class="alt-text">{{user.get_initials}}</span>
-				{%endif %}
-			</div>
-			<div class='col' style="align-self:center;">
-				<div>{% firstof user.get_full_name user.get_initials %}</div>
-				<div>{{user.email}}</div>
-			</div>
-			<div class='item-col' style="align-self:flex-end;">
-				<a class="btn btn-primary"
-			     style="background-color: #773CBD; border-color: transparent;"
-					 href="{{url_map.organization}}"
-					 role="button">Organization Administration</a>
-			</div>
-		</div>
-	</div>
-	{% endif %}
 
 	{% if "modality" in user_data.flags %}
 	<div class="card">
@@ -54,6 +31,30 @@
 					 href="{{url_map.modality}}"
 			     style="background-color: #773CBD; border-color: transparent;"
 					 role="button">Modality Administration</a>
+			</div>
+		</div>
+	</div>
+	{% endif %}
+
+	{% if "organization" in user_data.flags %}
+	<div class="card">
+		<div class="card-body">
+			<div class='item-col me-2'>
+				{% if user.profile.meta.profile_picture %}
+				<img src="{{user.profile.meta.profile_picture}}" alt="image" class='rounded-circle'>
+				{% else %}
+				<span class="alt-text">{{user.get_initials}}</span>
+				{%endif %}
+			</div>
+			<div class='col' style="align-self:center;">
+				<div>{% firstof user.get_full_name user.get_initials %}</div>
+				<div>{{user.email}}</div>
+			</div>
+			<div class='item-col' style="align-self:flex-end;">
+				<a class="btn btn-primary"
+			     style="background-color: #773CBD; border-color: transparent;"
+					 href="{{url_map.organization}}"
+					 role="button">Organization Administration</a>
 			</div>
 		</div>
 	</div>

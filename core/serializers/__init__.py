@@ -230,20 +230,20 @@ class UserSerializer(serializers.ModelSerializer):
         source="memberships", slug_field="role", many=True, read_only=True
     )
     manager = serializers.CharField(read_only=True)
-    documentation_url = serializers.CharField(
+    documentation_url = serializers.BooleanField(
         source="profile.documentation_url", read_only=True
     )
-    fse_accessible = serializers.CharField(
+    fse_accessible = serializers.BooleanField(
         source="profile.fse_accessible", read_only=True
     )
-    audit_enabled = serializers.CharField(
+    audit_enabled = serializers.BooleanField(
         source="profile.audit_enabled", read_only=True
     )
-    can_leave_notes = serializers.CharField(
+    can_leave_notes = serializers.BooleanField(
         source="profile.can_leave_notes", read_only=True
     )
-    is_one_time = serializers.CharField(source="profile.is_one_time", read_only=True)
-    view_only = serializers.CharField(source="profile.view_only", read_only=True)
+    is_one_time = serializers.BooleanField(source="profile.is_one_time", read_only=True)
+    view_only = serializers.BooleanField(source="profile.view_only", read_only=True)
 
     class Meta:
         model = models.User

@@ -316,6 +316,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(serializer.validated_data, kwargs["pk"])
 
             models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
+            models.UserHealthNetwork.objects.filter(user_id=kwargs["pk"]).delete()
             self.add_sites(serializer.validated_data, kwargs["pk"])
 
             models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
@@ -337,7 +338,11 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return (
-                models.User.objects.filter(is_lambda_user=False)
+                models.User.objects.filter(
+                    is_lambda_user=False,
+                    is_superuser=False,
+                    is_supermanager=False,
+                )
                 .prefetch_related("memberships")
                 .select_related("profile")
             )
@@ -347,10 +352,15 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             organization__in=self.request.user.get_organizations(
                 role=[models.Role.USER_ADMIN]
             ),
-        ).filter(is_lambda_user=False)
+        )
 
         return (
-            models.User.objects.filter(id__in=membership.values_list("user"))
+            models.User.objects.filter(
+                id__in=membership.values_list("user"),
+                is_lambda_user=False,
+                is_superuser=False,
+                is_supermanager=False,
+            )
             .prefetch_related("memberships")
             .select_related("profile")
         )
