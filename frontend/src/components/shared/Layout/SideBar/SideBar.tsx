@@ -118,19 +118,14 @@ export default function SideBar() {
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
     if (
-      (pathRoute.includes(
+      pathRoute.includes(
         `/${organizationRoute}/${selectedOrganization?.id}/networks/`
       ) ||
-        pathRoute.includes(
-          `/${organizationRoute}/${selectedOrganization?.id}/sites/`
-        )) &&
-      !pathRoute.includes("systems")
+      pathRoute.includes(
+        `/${organizationRoute}/${selectedOrganization?.id}/sites/`
+      )
     ) {
       setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
-    } else if (pathRoute.includes("system")) {
-      setCurrentRoute(
-        `/${organizationRoute}/${selectedOrganization?.id}/systems/`
-      );
     } else {
       setCurrentRoute(pathRoute);
     }
@@ -215,10 +210,10 @@ export default function SideBar() {
         textcolor={sideBarTextColor}
       >
         <List className="leftLists">
-          <ListItem button style={{ marginBottom: "0px" }}>
+          <ListItem button style={{ marginBottom: "0px", cursor: "initial" }}>
             <ListItemIcon
               className="client-image"
-              style={{ marginBottom: "0px" }}
+              style={{ marginBottom: "0px", cursor: "initial" }}
             >
               <img
                 src={selectedOrganization?.appearance?.logo}
