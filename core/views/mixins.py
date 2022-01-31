@@ -26,9 +26,6 @@ class UserMixin:
             for site in data["sites"]
         ]
         models.UserSite.objects.bulk_create(sites)
-        health_networks = models.OrganizationHealthNetwork.objects.filter(
-            health_network__in=[site.organization for site in data["sites"]]
-        )
         models.UserHealthNetwork.objects.bulk_create(
             [
                 models.UserHealthNetwork(
@@ -36,7 +33,8 @@ class UserMixin:
                     organization_health_network=health_network,
                     role=data["role"],
                 )
-                for health_network in health_networks
+                for health_network in models.OrganizationHealthNetwork.objects.filter(
+            health_network__sites__in=data['sites']).distinct()
             ]
         )
 
