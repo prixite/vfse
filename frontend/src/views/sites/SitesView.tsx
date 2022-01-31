@@ -17,10 +17,9 @@ const SitesView = () => {
     (state) => state.organization.selectedOrganization
   );
   const { organizationRoute, networkRoute } = constants;
-  const { data: organization } =
-    useOrganizationsReadQuery({
-      id: networkId,
-    });
+  const { data: organization } = useOrganizationsReadQuery({
+    id: networkId,
+  });
 
   return (
     <>

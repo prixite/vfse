@@ -20,7 +20,7 @@ const BreadCrumb = ({ breadCrumbList }: props) => {
         className="breadcrumb"
       >
         {breadCrumbList?.map((item, index) => (
-          <div key={item.index}>
+          <div key={index}>
             {item.route ? (
               <Link
                 to={item.route}
