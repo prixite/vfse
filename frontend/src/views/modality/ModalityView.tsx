@@ -12,5 +12,7 @@ export default function ModalityView() {
     id: selectedOrganization.id.toString(),
   });
 
-  return <>{!isLoading ? <ModalitySection /> : <SectionSkeleton />}</>;
+  return <>
+  <p>bc</p>
+  {!isLoading ? <ModalitySection /> : <SectionSkeleton />}</>;
 }

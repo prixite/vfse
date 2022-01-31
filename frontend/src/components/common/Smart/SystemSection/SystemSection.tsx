@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-
+import { returnSearchedOject } from "@src/helpers/utils/utils";
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
 import { useLocation, useHistory, useParams } from "react-router-dom";
-
+import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
+import { constants } from "@src/helpers/utils/constants";
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
@@ -15,6 +16,7 @@ import {
   useOrganizationsSystemsListQuery,
   useModalitiesListQuery,
   OrganizationsSystemsListApiArg,
+  useOrganizationsReadQuery
 } from "@src/store/reducers/api";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 
@@ -35,6 +37,7 @@ const SystemSection = () => {
   const [systemList, setSystemList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState();
+  const { organizationRoute, sitesRoute, networkRoute } = constants;
   const { siteId, networkId } =
     useParams<{ siteId: string; networkId: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
@@ -189,6 +192,35 @@ const SystemSection = () => {
   } = useOrganizationsSystemsListQuery(apiArgData);
 
   return (
+    <>
+    <BreadCrumb
+  breadCrumbList = {
+    !history.location.pathname.includes("networks") && !history.location.pathname.includes("sites") ?
+    [
+      {
+        name: selectedOrganization?.name,
+        route: `/${organizationRoute}/${selectedOrganization?.id}`
+      },
+      {
+        name: "Systems",
+      }
+    ]
+    : 
+    [
+      {
+        name: selectedOrganization?.name,
+        route: `/${organizationRoute}/${selectedOrganization?.id}`
+      },
+      {
+        name: returnSearchedOject(selectedOrganization?.sites, siteId)[0]?.name ,
+        route: `/${organizationRoute}/${selectedOrganization?.id}/sites`
+      },
+      {
+        name: "Systems",
+      }
+    ]
+  }
+/>
     <Box component="div" className="system-section">
       <h2>{selectedOrganization?.name}</h2>
       <div
@@ -326,6 +358,7 @@ const SystemSection = () => {
         handleClose={() => setOpenConfirmModal(false)}
       />
     </Box>
+    </>
   );
 };
 
