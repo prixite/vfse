@@ -56,9 +56,9 @@ const OrganizationSection = () => {
     if (
       event.target.innerText.toLowerCase() == organizationTabs[0].toLowerCase()
     ) {
-      history.replace(`/${organizationRoute}/${id}/${networkRoute}`);
+      history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
     } else {
-      history.replace(`/${organizationRoute}/${id}/${sitesRoute}`);
+      history.replace(`/${organizationRoute}/${id}/${sitesRoute}/`);
     }
   };
 
