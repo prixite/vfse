@@ -26,6 +26,15 @@ class MetaSiteSerializer(serializers.ModelSerializer):
         model = models.Site
         fields = ["id", "name", "address"]
 
+    def validate(self, attrs):
+        if models.Site.objects.filter(
+            name=attrs["name"], organization=self.context["view"].kwargs["pk"]
+        ).exists():
+            raise serializers.ValidationError(
+                "Site with given in name in selected organization already exists"
+            )
+        return attrs
+
 
 class SiteSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
@@ -59,7 +68,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(
         max_length=32,
-        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
+        validators=[
+            UniqueValidator(
+                queryset=models.Organization.objects.all(),
+                message="Organization name must be unique",
+            )
+        ],
     )
 
     sites = MetaSiteSerializer(many=True, read_only=True)
@@ -149,6 +163,14 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
             "sites",
         ]
 
+    def validate(self, attrs):
+        if (
+            "id" not in attrs
+            and models.Organization.objects.filter(name=attrs["name"]).exists()
+        ):
+            raise serializers.ValidationError("Health Network name must be unique")
+        return attrs
+
 
 class HealthNetworkCreateSerializer(HealthNetworkSerializer):
     id = serializers.IntegerField(allow_null=True, default=None)
@@ -176,7 +198,12 @@ class MriInfoSerializer(serializers.Serializer):
 
 class ModalitySerializer(serializers.ModelSerializer):
     name = serializers.CharField(
-        validators=[UniqueValidator(queryset=models.Modality.objects.all())]
+        validators=[
+            UniqueValidator(
+                queryset=models.Modality.objects.all(),
+                message="Modality name must be unique",
+            )
+        ]
     )
 
     class Meta:
@@ -470,8 +497,15 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         if getattr(self.context["view"], "swagger_fake_view", False):
             # Short circuit this when openapi code is running.
             return attrs
-
         organization_pk = self.context["view"].kwargs["pk"]
+        if models.Seat.objects.filter(
+            system__in=[item.get("system") for item in attrs["seats"]],
+            organization_id=organization_pk,
+        ).exists():
+            raise serializers.ValidationError(
+                "Seat for a selected system in current organization already exists"
+            )
+
         occupied_seats = models.Seat.objects.filter(
             organization_id=organization_pk
         ).count()
