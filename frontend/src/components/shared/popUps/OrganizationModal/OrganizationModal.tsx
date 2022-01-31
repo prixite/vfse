@@ -71,9 +71,9 @@ export default function OrganizationModal({
     data: networksData,
     error,
     isLoading: isNetworkDataLoading,
+    refetch: refetchNetworksList,
   } = useOrganizationsHealthNetworksListQuery(
     {
-      page: 1,
       id: organizationID,
     },
     {
@@ -299,7 +299,8 @@ export default function OrganizationModal({
         await addNewHealthNetworksService(
           organizationID,
           addNewNetworks,
-          TempNetworks
+          TempNetworks,
+          refetchNetworksList
         ).then(() => {
           resetModal();
         });
