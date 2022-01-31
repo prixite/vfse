@@ -16,4 +16,17 @@ const addProductModelService = async (
     });
 };
 
-export { addProductModelService };
+const deleteProductModelService = async (
+  id,
+  prod_id,
+  deleteProductModel,
+  refetch
+) => {
+  await deleteProductModel({
+    id: id.toString(),
+    productPk: prod_id.toString(),
+  }).unwrap();
+  refetch();
+};
+
+export { addProductModelService, deleteProductModelService };
