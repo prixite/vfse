@@ -205,22 +205,30 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(
             models.UserModality.objects.filter(
-                user__username=user_data["email"],modality=self.modality,
+                user__username=user_data["email"],
+                modality=self.modality,
             ).exists(),
             1,
         )
         self.assertEqual(
-            models.UserSite.objects.filter(user__username=user_data["email"],site=self.site,).exists(),
+            models.UserSite.objects.filter(
+                user__username=user_data["email"],
+                site=self.site,
+            ).exists(),
             1,
         )
         self.assertEqual(
             models.Membership.objects.filter(
-                user__username=user_data["email"], role=user_data["role"],organization=self.organization,
+                user__username=user_data["email"],
+                role=user_data["role"],
+                organization=self.organization,
             ).exists(),
             True,
         )
-        self.assertEqual(models.Profile.objects.get(user__username=user_data['email']).manager,self.customer_admin)
-    
+        self.assertEqual(
+            models.Profile.objects.get(user__username=user_data["email"]).manager,
+            self.customer_admin,
+        )
 
     def test_user_upsert_edit(self):
         self.client.force_login(self.super_admin)
@@ -715,7 +723,9 @@ class OrganizationTestCase(BaseTestCase):
             data=user_data,
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(models.Profile.objects.get(user=self.customer_admin).manager,self.fse_admin)
+        self.assertEqual(
+            models.Profile.objects.get(user=self.customer_admin).manager, self.fse_admin
+        )
 
 
 class VfseTestCase(BaseTestCase):
