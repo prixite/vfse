@@ -5,7 +5,7 @@ import { Box, Grid } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import { useHistory, useParams } from "react-router-dom";
-import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
+
 import "react-toastify/dist/ReactToastify.css";
 import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
 import ModalitySection from "@src/components/common/Smart/ModalitySection/ModalitySection";
@@ -19,6 +19,8 @@ import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import { closeAddModal } from "@src/store/reducers/appStore";
+
+import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
 
 const OrganizationSection = () => {
   const [tabValue, setTabValue] = React.useState(0);
@@ -77,22 +79,22 @@ const OrganizationSection = () => {
 
   return (
     <>
-    { history.location.pathname.includes("networks") || history.location.pathname.includes("sites") ?
-     <BreadCrumb
-  breadCrumbList = {
-    [
-      {
-        name: selectedOrganization?.name,
-        route: `/${organizationRoute}/${selectedOrganization?.id}`
-      },
-      {
-        name: tabValue === 0 ? "Networks" : "Sites",
-      }
-    ]
-  }
-/>
-: ''
-}
+      {history.location.pathname.includes("networks") ||
+      history.location.pathname.includes("sites") ? (
+        <BreadCrumb
+          breadCrumbList={[
+            {
+              name: selectedOrganization?.name,
+              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+            },
+            {
+              name: tabValue === 0 ? "Networks" : "Sites",
+            },
+          ]}
+        />
+      ) : (
+        ""
+      )}
       <Box component="div" className="OrganizationSection">
         {!showTabs() ? <h2>{title}</h2> : <h2>{selectedOrganization?.name}</h2>}
         {showTabs() ? (
