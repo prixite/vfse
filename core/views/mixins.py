@@ -26,6 +26,19 @@ class UserMixin:
             for site in data["sites"]
         ]
         models.UserSite.objects.bulk_create(sites)
+        health_networks = models.OrganizationHealthNetwork.objects.filter(
+            health_network__in=[site.organization for site in data["sites"]]
+        )
+        models.UserHealthNetwork.objects.bulk_create(
+            [
+                models.UserHealthNetwork(
+                    user_id=user_id,
+                    organization_health_network=health_network,
+                    role=data["role"],
+                )
+                for health_network in health_networks
+            ]
+        )
 
     def add_modalities(self, data, user_id):
         modalities = [
@@ -41,6 +54,7 @@ class UserMixin:
             **{
                 key: data[key]
                 for key in [
+                    "meta",
                     "manager",
                     "phone",
                     "fse_accessible",
@@ -48,6 +62,8 @@ class UserMixin:
                     "can_leave_notes",
                     "view_only",
                     "is_one_time",
+                    "documentation_url",
                 ]
+                if key in data
             }
         )

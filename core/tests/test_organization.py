@@ -246,12 +246,12 @@ class OrganizationTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            models.UserModality.objects.filter(user__email=user_data["email"]).exists(),
-            True,
+            models.UserModality.objects.filter(user__email=user_data["email"]).count(),
+            1,
         )
         self.assertEqual(
-            models.UserSite.objects.filter(user__email=user_data["email"]).exists(),
-            True,
+            models.UserSite.objects.filter(user__email=user_data["email"]).count(),
+            1,
         )
         self.assertEqual(
             models.Membership.objects.filter(
@@ -542,6 +542,42 @@ class OrganizationTestCase(BaseTestCase):
             },
         )
         self.assertEqual(response.status_code, 403)
+
+    def test_user_update_verification(self):
+        self.client.force_login(self.super_admin)
+        site = factories.SiteFactory(organization=self.other_organization)
+        modality = factories.ModalityFactory()
+
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john@doe.com",
+            "phone": "+19876543210",
+            "role": models.Role.FSE_ADMIN,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [site.id],
+            "modalities": [modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        response = self.client.patch(f"/api/users/{self.fse.id}/", data=user_data)
+        self.assertEqual(response.status_code, 200)
+        self.fse.refresh_from_db()
+        self.assertDictEqual(self.fse.profile.meta, user_data["meta"])
+        self.assertTrue(self.fse.usermodality_set.filter(modality=modality).exists())
+        self.assertEqual(self.fse.usermodality_set.all().count(),1)
+
+        self.assertTrue(self.fse.usersite_set.filter(site=site).exists())
+        self.assertEqual(self.fse.usersite_set.all().count(),1)
 
 
 class VfseTestCase(BaseTestCase):
