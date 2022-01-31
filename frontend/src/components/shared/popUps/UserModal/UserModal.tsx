@@ -41,25 +41,12 @@ import {
   useUsersPartialUpdateMutation,
 } from "@src/store/reducers/api";
 
-const roles = [
-  { value: "fse-admin", title: "FSE Admin" },
-  { value: "customer-admin", title: "Customer Admin" },
-  { value: "user-admin", title: "User Admin" },
-  { value: "fse", title: "Field Service Engineer" },
-  { value: "end-user", title: "End User" },
-  { value: "view-only", title: "View Only" },
-  { value: "one-time", title: "One Time" },
-  { value: "cryo", title: "Cryo" },
-  { value: "cryo-fse", title: "Cryo FSE" },
-  { value: "cryo-admin", title: "Cryo Admin" },
-  { value: "lambda-admin", title: "Lambda Admin" },
-];
-
 interface Props {
   open: boolean;
   handleClose: () => void;
   selectedUser?: number;
   usersData?: Array<User>;
+  roles: unknown;
   networksData?: Array<HealthNetwork>;
   organizationData?: Array<Organization>;
   modalitiesList?: Array<Modality>;
@@ -80,7 +67,7 @@ export default function UserModal(props: Props) {
   const [emailError, setEmailError] = useState("");
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [role, setRole] = useState(roles[0]?.value);
+  const [role, setRole] = useState(props?.roles[0]?.value);
   const [manager, setManager] = useState<number>();
   const [customer, setCustomer] = useState<number>();
   const [selectedModalities, setSelectedModalities] = useState([]);
@@ -153,6 +140,9 @@ export default function UserModal(props: Props) {
       return user?.id == props?.selectedUser;
     })[0];
     if (editedUser) {
+      if (editedUser?.image?.length) {
+        setUserProfileImage(editedUser?.image);
+      }
       setFirstName(editedUser?.first_name);
       setLastName(editedUser?.last_name);
       setEmail(editedUser?.email);
@@ -165,7 +155,7 @@ export default function UserModal(props: Props) {
       if (editedUser?.manager) {
         setManager(
           props?.usersData?.filter((user) => {
-            return user?.username == editedUser?.username;
+            return user?.email?.toString() == editedUser?.email?.toString();
           })[0]?.id
         );
       }
@@ -204,24 +194,24 @@ export default function UserModal(props: Props) {
         });
         setSelectedModalities(mod_ids);
       }
-      // if (editedUser?.fse_accessible) {
-      //   setAccessToFSEFunctions(editedUser?.fse_accessible);
-      // }
-      // if (editedUser?.audit_enabled) {
-      //   setAuditEnable(editedUser?.audit_enabled);
-      // }
-      // if (editedUser?.can_leave_notes) {
-      //   setPossibilitytoLeave(editedUser?.can_leave_notes);
-      // }
-      // if (editedUser?.view_only) {
-      //   setViewOnly(editedUser?.view_only);
-      // }
-      // if (editedUser?.is_one_time) {
-      //   setOneTimeLinkCreation(editedUser?.is_one_time);
-      // }
-      // if (editedUser?.documentation_url) {
-      //   setDocLink(editedUser?.documentation_url);
-      // }
+      if (editedUser?.fse_accessible) {
+        setAccessToFSEFunctions(editedUser?.fse_accessible);
+      }
+      if (editedUser?.audit_enabled) {
+        setAuditEnable(editedUser?.audit_enabled);
+      }
+      if (editedUser?.can_leave_notes) {
+        setPossibilitytoLeave(editedUser?.can_leave_notes);
+      }
+      if (editedUser?.view_only) {
+        setViewOnly(editedUser?.view_only);
+      }
+      if (editedUser?.is_one_time) {
+        setOneTimeLinkCreation(editedUser?.is_one_time);
+      }
+      if (editedUser?.documentation_url) {
+        setDocLink(editedUser?.documentation_url);
+      }
     }
   };
 
@@ -337,33 +327,41 @@ export default function UserModal(props: Props) {
     setIsLoading(true);
     handleErrors();
     if (verifyErrors()) {
-      await uploadImageToS3(selectedImage[0]).then(
-        async (data: S3Interface) => {
-          const userObject = constructObject(data?.location);
-          await updateUserService(
-            props?.selectedUser,
-            userObject,
-            updateUser,
-            props?.refetch
-          )
-            .then(() => {
-              setTimeout(() => {
-                resetModal();
-                setIsLoading(false);
-              }, 500);
-            })
-            .catch(() => {
-              toast.error("User with this username already exists.", {
-                autoClose: 2000,
-                pauseOnHover: false,
-              });
-              setIsLoading(false);
-            });
-        }
-      );
+      if (!selectedImage.length && userProfileImage?.length) {
+        performEditUser(userProfileImage);
+      } else {
+        await uploadImageToS3(selectedImage[0]).then(
+          async (data: S3Interface) => {
+            performEditUser(data?.location);
+          }
+        );
+      }
     } else {
       setIsLoading(false);
     }
+  };
+
+  const performEditUser = async (data: string) => {
+    const userObject = constructObject(data);
+    await updateUserService(
+      props?.selectedUser,
+      userObject,
+      updateUser,
+      props?.refetch
+    )
+      .then(() => {
+        setTimeout(() => {
+          resetModal();
+          setIsLoading(false);
+        }, 500);
+      })
+      .catch(() => {
+        toast.error("User with this username already exists.", {
+          autoClose: 2000,
+          pauseOnHover: false,
+        });
+        setIsLoading(false);
+      });
   };
 
   const getUserObject = (imageUrl: string) => {
@@ -410,7 +408,7 @@ export default function UserModal(props: Props) {
       setEmailError("");
       setPhone("");
       setPhoneError("");
-      setRole(roles[0]?.value);
+      setRole(props?.roles[0]?.value);
       if (props?.usersData?.length) {
         setManager(props?.usersData[0]?.id);
       }
@@ -439,7 +437,7 @@ export default function UserModal(props: Props) {
   const moveToNextPage = () => {
     handleErrors();
     if (
-      selectedImage.length &&
+      (selectedImage.length || userProfileImage.length) &&
       firstname.length &&
       lastname.length &&
       email?.length &&
@@ -456,7 +454,7 @@ export default function UserModal(props: Props) {
 
   const verifyErrors = () => {
     if (
-      selectedImage.length &&
+      (selectedImage.length || userProfileImage.length) &&
       firstname &&
       lastname &&
       email?.length &&
@@ -473,7 +471,7 @@ export default function UserModal(props: Props) {
   };
 
   const handleErrors = () => {
-    !selectedImage.length
+    !userProfileImage.length && !selectedImage.length
       ? setImageError("Image is not selected")
       : setImageError("");
     !firstname
@@ -627,14 +625,14 @@ export default function UserModal(props: Props) {
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
                       value={role}
-                      disabled={!roles?.length}
+                      disabled={!props?.roles?.length}
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
                       defaultValue="none"
                       onChange={handleRoleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
-                      {roles?.map((item, key) => (
+                      {props?.roles?.map((item, key) => (
                         <MenuItem key={key} value={item.value}>
                           {item.title}
                         </MenuItem>
@@ -654,7 +652,7 @@ export default function UserModal(props: Props) {
                     >
                       {props?.usersData?.map((item, key) => (
                         <MenuItem key={key} value={item?.id}>
-                          {item?.manager}
+                          {item?.username}
                         </MenuItem>
                       ))}
                     </Select>

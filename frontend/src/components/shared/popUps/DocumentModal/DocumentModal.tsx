@@ -199,7 +199,8 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
           <div className="info-section">
             <p className="info-label">{link}</p>
             <TextField
-              value={docLink ? docLink : ""}
+              inputProps={{ readOnly: true }}
+              value={docLink}
               className="info-field"
               variant="outlined"
               size="small"

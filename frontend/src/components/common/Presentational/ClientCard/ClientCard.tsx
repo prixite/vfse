@@ -107,7 +107,7 @@ const ClientCard = ({
     dispatch(updateSecondaryColor(row.appearance.secondary_color));
     dispatch(updateFontOne(row.appearance.font_one));
     dispatch(updateFontTwo(row.appearance.font_two));
-    history.replace(`/${organizationRoute}/${id}/${networkRoute}`);
+    history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
   };
   const switchOrganization = () => {
     dispatch(setSelectedOrganization({ selectedOrganization: row }));
