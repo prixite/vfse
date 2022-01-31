@@ -750,12 +750,12 @@ export type User = {
   modalities?: string[];
   organizations?: string[];
   phone?: string;
-  fse_accessible?: string;
-  audit_enabled?: string;
-  can_leave_notes?: string;
-  view_only?: string;
-  is_one_time?: string;
-  documentation_url?: string;
+  fse_accessible?: boolean;
+  audit_enabled?: boolean;
+  can_leave_notes?: boolean;
+  view_only?: boolean;
+  is_one_time?: boolean;
+  documentation_url?: boolean;
   role?: string[];
   manager?: string;
   image?: string;
