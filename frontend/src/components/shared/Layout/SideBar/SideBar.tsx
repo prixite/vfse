@@ -105,9 +105,6 @@ export default function SideBar() {
   const { sideBarBackground, sideBarTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const defaultOrganizationData = useAppSelector(
-    (state) => state.organization.currentOrganization
-  );
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -209,24 +206,6 @@ export default function SideBar() {
       document.getElementById("search-clients").focus();
     }, 0);
   };
-  const setDefaultOrganization = () => {
-    dispatch(
-      setSelectedOrganization({ selectedOrganization: defaultOrganizationData })
-    );
-    dispatch(
-      updateSideBarColor(defaultOrganizationData.appearance.sidebar_color)
-    );
-    dispatch(
-      updateButtonColor(defaultOrganizationData.appearance.primary_color)
-    );
-    dispatch(
-      updateSideBarTextColor(defaultOrganizationData.appearance.sidebar_text)
-    );
-    dispatch(
-      updateButtonTextColor(defaultOrganizationData.appearance.button_text)
-    );
-    history.replace(`/${organizationRoute}/${defaultOrganizationData.id}/`);
-  };
   return (
     <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
       <Drawer
@@ -236,17 +215,13 @@ export default function SideBar() {
         textcolor={sideBarTextColor}
       >
         <List className="leftLists">
-          <ListItem
-            button
-            onClick={setDefaultOrganization}
-            style={{ marginBottom: "0px" }}
-          >
+          <ListItem button style={{ marginBottom: "0px" }}>
             <ListItemIcon
               className="client-image"
               style={{ marginBottom: "0px" }}
             >
               <img
-                src={defaultOrganizationData?.appearance?.logo}
+                src={selectedOrganization?.appearance?.logo}
                 className="img"
               />
             </ListItemIcon>
