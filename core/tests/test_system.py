@@ -201,3 +201,25 @@ class SystemTestCase(BaseTestCase):
             },
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_update_system_remove_seat(self):
+        self.client.force_login(self.super_admin)
+        connection_options = {
+            "vfse": False,
+            "virtual_media_control": False,
+            "service_web_browser": False,
+            "ssh": False,
+        }
+        response = self.client.patch(
+            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/",
+            data={
+                "name": "Post System",
+                "connection_options": connection_options,
+                "software_version": "v3",
+                "asset_number": "1245255",
+                "ip_address": "192.168.23.8",
+                "local_ae_title": "Updated Title",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["connection_options"], connection_options)

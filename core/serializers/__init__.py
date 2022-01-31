@@ -409,10 +409,14 @@ class SystemImageSerializer(serializers.ModelSerializer):
 
 
 class SystemConnectionOptions(serializers.Serializer):
-    vfse = serializers.BooleanField(write_only=True)
-    virtual_media_control = serializers.BooleanField()
-    service_web_browser = serializers.BooleanField()
-    ssh = serializers.BooleanField()
+    vfse = serializers.BooleanField()
+    virtual_media_control = serializers.BooleanField(
+        source="connection_options.virtual_media_control"
+    )
+    service_web_browser = serializers.BooleanField(
+        source="connection_options.service_web_browser"
+    )
+    ssh = serializers.BooleanField(source="connection_options.ssh")
 
 
 class SystemSerializer(serializers.ModelSerializer):
@@ -420,7 +424,8 @@ class SystemSerializer(serializers.ModelSerializer):
     dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
     mri_embedded_parameters = MriInfoSerializer(default=defaults.MriInfoDefault())
     connection_options = SystemConnectionOptions(
-        default=defaults.ConnectionOptionDefault()
+        source="*",
+        default=defaults.ConnectionOptionDefault(),
     )
     image_url = serializers.ReadOnlyField()
     documentation = serializers.ReadOnlyField()
@@ -457,6 +462,33 @@ class SystemSerializer(serializers.ModelSerializer):
                 message="System with given name for selected site already exists",
             )
         ]
+
+    def create(self, validated_data):
+        seat = validated_data.pop("vfse")
+        system = super().create(validated_data)
+        seat_serializer = OrganizationSeatSeriazlier(
+            data={"seats": [{"system": system.id}]},
+            context={"view": self.context["view"]},
+        )
+        if seat and seat_serializer.is_valid(raise_exception=True):
+            models.Seat.objects.create(
+                system=system, organization_id=self.context["view"].kwargs["pk"]
+            )
+        return system
+
+    def update(self, instance, validated_data):
+        if "vfse" in validated_data:
+            seat = validated_data.pop("vfse")
+            validated_data["connection_options"]["vfse"] = seat
+            if instance.vfse and not seat:
+                models.Seat.objects.filter(
+                    system=instance, organization=instance.site.organization
+                ).delete()
+            elif not instance.vfse and seat:
+                models.Seat.objects.create(
+                    system=instance, organization=instance.site.organization
+                )
+        return super().update(instance, validated_data)
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):

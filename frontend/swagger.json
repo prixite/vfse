@@ -1732,11 +1732,6 @@
                     "title": "Ssh",
                     "type": "boolean"
                 }
-            },
-            "default": {
-                "virtual_media_control": false,
-                "service_web_browser": false,
-                "ssh": false
             }
         },
         "System": {

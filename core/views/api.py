@@ -264,19 +264,10 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
             )
 
         return (
-            queryset.select_related("image", "product_model")
+            queryset.select_related("site", "image", "product_model")
             if self.action != "partial_update"
             else queryset
         )
-
-    def perform_create(self, serializer):
-        seat = serializer.validated_data["connection_options"].pop("vfse")
-        system = serializer.save()
-        seat_serializer = serializers.OrganizationSeatSeriazlier(
-            data={"seats": [{"system": system.id}]}, context={"view": self}
-        )
-        if seat and seat_serializer.is_valid(raise_exception=True):
-            models.Seat.objects.create(system=system, organization_id=self.kwargs["pk"])
 
 
 class SystemViewSet(OrganizationSystemViewSet):
@@ -302,10 +293,11 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
+                username=serializer.validated_data["email"],
                 **{
                     key: serializer.validated_data[key]
                     for key in ["first_name", "last_name", "email"]
-                }
+                },
             )
 
             models.Membership.objects.filter(
