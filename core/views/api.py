@@ -247,8 +247,12 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
 
+        queryset = models.System.objects.filter(
+            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
+        )
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.System.objects.filter(
+            queryset = models.System.objects.filter(
                 Q(site__organization_id=self.kwargs["pk"])
                 | Q(
                     site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
@@ -257,11 +261,13 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
                         "health_network"
                     )
                 )
-            ).select_related("image", "product_model")
+            )
 
-        return models.System.objects.filter(
-            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
-        ).select_related("image", "product_model")
+        return (
+            queryset.select_related("image", "product_model")
+            if self.action != "partial_update"
+            else queryset
+        )
 
     def perform_create(self, serializer):
         seat = serializer.validated_data["connection_options"].pop("vfse")
@@ -294,7 +300,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
     def update(self, request, *args, **kwargs):
         # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
                 **{
                     key: serializer.validated_data[key]
@@ -389,6 +395,7 @@ class OrganizationSeatViewSet(ModelViewSet):
 
         return assigned
 
+    @transaction.atomic
     def perform_create(self, serializer):
         seats = [
             models.Seat(organization_id=self.kwargs["pk"], system=seat["system"])
