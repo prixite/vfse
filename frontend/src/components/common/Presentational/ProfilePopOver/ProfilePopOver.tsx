@@ -54,7 +54,7 @@ const ProfilePopOver = ({ user, className }: Props) => {
       updateButtonTextColor(defaultOrganizationData.appearance.button_text)
     );
     handleClose();
-    history.replace(`/${organizationRoute}/${defaultOrganizationData.id}`);
+    history.replace(`/${organizationRoute}/${defaultOrganizationData.id}/`);
   };
 
   const open = Boolean(anchorEl);

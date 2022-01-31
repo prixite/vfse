@@ -105,6 +105,9 @@ export default function SideBar() {
   const { sideBarBackground, sideBarTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+  const defaultOrganizationData = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -114,9 +117,26 @@ export default function SideBar() {
     setOpen((prevState) => !prevState);
   };
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
+
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
-    setCurrentRoute(pathRoute);
+    if (
+      (pathRoute.includes(
+        `/${organizationRoute}/${selectedOrganization?.id}/networks/`
+      ) ||
+        pathRoute.includes(
+          `/${organizationRoute}/${selectedOrganization?.id}/sites/`
+        )) &&
+      !pathRoute.includes("systems")
+    ) {
+      setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
+    } else if (pathRoute.includes("system")) {
+      setCurrentRoute(
+        `/${organizationRoute}/${selectedOrganization?.id}/systems/`
+      );
+    } else {
+      setCurrentRoute(pathRoute);
+    }
   }, [selectedOrganization, pathRoute]);
   const handleUpdateSelectedOrganization = (item) => {
     dispatch(setSelectedOrganization({ selectedOrganization: item }));
@@ -184,10 +204,28 @@ export default function SideBar() {
 
   const onSearchClick = () => {
     history.push(`/${organizationRoute}/${selectedOrganization?.id}/`);
-    setCurrentRoute("/");
+    setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
     window.setTimeout(function () {
       document.getElementById("search-clients").focus();
     }, 0);
+  };
+  const setDefaultOrganization = () => {
+    dispatch(
+      setSelectedOrganization({ selectedOrganization: defaultOrganizationData })
+    );
+    dispatch(
+      updateSideBarColor(defaultOrganizationData.appearance.sidebar_color)
+    );
+    dispatch(
+      updateButtonColor(defaultOrganizationData.appearance.primary_color)
+    );
+    dispatch(
+      updateSideBarTextColor(defaultOrganizationData.appearance.sidebar_text)
+    );
+    dispatch(
+      updateButtonTextColor(defaultOrganizationData.appearance.button_text)
+    );
+    history.replace(`/${organizationRoute}/${defaultOrganizationData.id}/`);
   };
   return (
     <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
@@ -200,8 +238,7 @@ export default function SideBar() {
         <List className="leftLists">
           <ListItem
             button
-            component="a"
-            href="/"
+            onClick={setDefaultOrganization}
             style={{ marginBottom: "0px" }}
           >
             <ListItemIcon
@@ -209,7 +246,7 @@ export default function SideBar() {
               style={{ marginBottom: "0px" }}
             >
               <img
-                src={selectedOrganization?.appearance?.logo}
+                src={defaultOrganizationData?.appearance?.logo}
                 className="img"
               />
             </ListItemIcon>
