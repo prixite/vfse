@@ -39,7 +39,7 @@ const columns = [
   {
     field: "documentation",
     headerName: "DOCUMENTATION LINK",
-    width: 250,
+    width: 450,
     hide: false,
     disableColumnMenu: true,
     sortable: false,
@@ -81,7 +81,11 @@ export default function DocumentationSection() {
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
-  const { data: rows, isLoading } = useProductsModelsListQuery();
+  const {
+    data: rows,
+    isLoading,
+    refetch: docsRefetch,
+  } = useProductsModelsListQuery();
 
   const [docList, setDocList] = useState({});
 
@@ -158,7 +162,7 @@ export default function DocumentationSection() {
     return (
       <div className="documentaion-link">
         <img className="img" src={LinkLogo} />
-        <span>{link}</span>
+        <span className="text">{link}</span>
       </div>
     );
   };
@@ -174,10 +178,6 @@ export default function DocumentationSection() {
   return (
     <div className="documentaion-section">
       <h2>{title}</h2>
-      {/* <TopTableFilters
-        tableColumns={tableColumns}
-        setTableColumns={setTableColumns}
-      /> */}
       <TopViewBtns
         setOpen={setOpen}
         path="documentation"
@@ -318,7 +318,11 @@ export default function DocumentationSection() {
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         )}
       </div>
-      <DocumentModal open={open} handleClose={handleClose} />
+      <DocumentModal
+        open={open}
+        handleClose={handleClose}
+        refetch={docsRefetch}
+      />
     </div>
   );
 }
