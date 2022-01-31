@@ -574,10 +574,10 @@ class OrganizationTestCase(BaseTestCase):
         self.fse.refresh_from_db()
         self.assertDictEqual(self.fse.profile.meta, user_data["meta"])
         self.assertTrue(self.fse.usermodality_set.filter(modality=modality).exists())
-        self.assertEqual(self.fse.usermodality_set.all().count(),1)
+        self.assertEqual(self.fse.usermodality_set.all().count(), 1)
 
         self.assertTrue(self.fse.usersite_set.filter(site=site).exists())
-        self.assertEqual(self.fse.usersite_set.all().count(),1)
+        self.assertEqual(self.fse.usersite_set.all().count(), 1)
 
     def test_update_user_duplicate_email(self):
         self.client.force_login(self.super_admin)
