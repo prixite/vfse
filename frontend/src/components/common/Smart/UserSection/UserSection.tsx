@@ -21,6 +21,7 @@ import {
   useOrganizationsUsersListQuery,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersRolesListQuery,
 } from "@src/store/reducers/api";
 import "@src/views/user/UserView.scss";
 
@@ -198,6 +199,8 @@ export default function UserSection() {
     id: selectedOrganization.id.toString(),
   });
 
+  const { data: usersRoles } = useUsersRolesListQuery();
+
   const { data: modalitiesList } = useModalitiesListQuery();
 
   const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
@@ -335,6 +338,7 @@ export default function UserSection() {
           handleClose={handleClose}
           selectedUser={currentUser}
           usersData={items}
+          roles={usersRoles}
           action={currentUser ? "edit" : "add"}
           networksData={networksData}
           organizationData={organizationData}
