@@ -26,6 +26,7 @@ import {
   useOrganizationsPartialUpdateMutation,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsSitesUpdateMutation,
+  useOrganizationsSitesListQuery,
   Site,
 } from "@src/store/reducers/api";
 
@@ -43,6 +44,14 @@ interface Props {
 export default function NetworkModal(props: Props) {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
+  );
+  const { refetch: sitesRefetch } = useOrganizationsSitesListQuery(
+    {
+      id: props?.organization?.id.toString(),
+    },
+    {
+      skip: false,
+    }
   );
   const { appearance } = selectedOrganization;
   //const [addNewOrganization] = useOrganizationsCreateMutation();
@@ -135,7 +144,17 @@ export default function NetworkModal(props: Props) {
                 updateOrganizationSites,
                 organizationObject?.sites,
                 props.refetch
-              );
+              )
+                .then(() => {
+                  sitesRefetch();
+                  resetModal();
+                })
+                .catch(() => {
+                  toast.error("HealthNetwork Update Failed", {
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                  });
+                });
             }
           }
         );
@@ -151,7 +170,10 @@ export default function NetworkModal(props: Props) {
             organizationObject?.sites,
             props.refetch
           )
-            .then(() => resetModal())
+            .then(() => {
+              sitesRefetch();
+              resetModal();
+            })
             .catch(() => {
               toast.error("HealthNetwork Update Failed", {
                 autoClose: 1000,
@@ -192,6 +214,7 @@ export default function NetworkModal(props: Props) {
                 props.refetch
               )
                 .then(() => {
+                  sitesRefetch();
                   resetModal();
                 })
                 .catch(() => {

@@ -6,7 +6,8 @@ const updateSitesService = async (
   updateSites,
   refetch,
   type,
-  refetchOrganization
+  refetchOrganization,
+  refetchNetworks
 ) => {
   await updateSites({
     id: id?.toString(),
@@ -26,6 +27,7 @@ const updateSitesService = async (
           onClose: () => {
             refetch();
             refetchOrganization();
+            refetchNetworks();
           },
         }
       );
@@ -37,7 +39,8 @@ const addNewSiteService = async (
   siteObject,
   addNewSite,
   refetch,
-  refetchOrganization
+  refetchOrganization,
+  refetchNetwork
 ) => {
   await addNewSite({
     id: selectionID?.toString(),
@@ -51,6 +54,7 @@ const addNewSiteService = async (
         onClose: () => {
           refetch();
           refetchOrganization();
+          refetchNetwork();
         },
       });
     });
