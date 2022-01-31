@@ -20,6 +20,8 @@ import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { useOrganizationsListQuery } from "@src/store/reducers/api";
 import { closeAddModal } from "@src/store/reducers/appStore";
 
+import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
+
 const OrganizationSection = () => {
   const [tabValue, setTabValue] = React.useState(0);
   const history = useHistory();
@@ -77,6 +79,22 @@ const OrganizationSection = () => {
 
   return (
     <>
+      {history.location.pathname.includes("networks") ||
+      history.location.pathname.includes("sites") ? (
+        <BreadCrumb
+          breadCrumbList={[
+            {
+              name: selectedOrganization?.name,
+              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+            },
+            {
+              name: tabValue === 0 ? "Networks" : "Sites",
+            },
+          ]}
+        />
+      ) : (
+        ""
+      )}
       <Box component="div" className="OrganizationSection">
         {!showTabs() ? <h2>{title}</h2> : <h2>{selectedOrganization?.name}</h2>}
         {showTabs() ? (
