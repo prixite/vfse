@@ -316,7 +316,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(serializer.validated_data, kwargs["pk"])
 
             models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
-            models.UserHealthNetwork.objects.filter(user_id=kwargs['pk']).delete()
+            models.UserHealthNetwork.objects.filter(user_id=kwargs["pk"]).delete()
             self.add_sites(serializer.validated_data, kwargs["pk"])
 
             models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()

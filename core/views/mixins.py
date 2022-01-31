@@ -34,7 +34,8 @@ class UserMixin:
                     role=data["role"],
                 )
                 for health_network in models.OrganizationHealthNetwork.objects.filter(
-            health_network__sites__in=data['sites']).distinct()
+                    health_network__sites__in=data["sites"]
+                ).distinct()
             ]
         )
 
