@@ -37,7 +37,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 2)
+            self.assertEqual(len(organizations), 3)
 
     def test_list_organizations(self):
         for user in [self.customer_admin, self.fse_admin]:
@@ -205,20 +205,22 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(
             models.UserModality.objects.filter(
-                user__username=user_data["email"]
+                user__username=user_data["email"],modality=self.modality,
             ).exists(),
-            True,
+            1,
         )
         self.assertEqual(
-            models.UserSite.objects.filter(user__username=user_data["email"]).exists(),
-            True,
+            models.UserSite.objects.filter(user__username=user_data["email"],site=self.site,).exists(),
+            1,
         )
         self.assertEqual(
             models.Membership.objects.filter(
-                user__username=user_data["email"], role=user_data["role"]
+                user__username=user_data["email"], role=user_data["role"],organization=self.organization,
             ).exists(),
             True,
         )
+        self.assertEqual(models.Profile.objects.get(user__username=user_data['email']).manager,self.customer_admin)
+    
 
     def test_user_upsert_edit(self):
         self.client.force_login(self.super_admin)
@@ -581,9 +583,30 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_update_user_duplicate_email(self):
         self.client.force_login(self.super_admin)
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": self.super_admin.username,
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
         response = self.client.patch(
             f"/api/users/{self.customer_admin.id}/",
-            data={"email": self.customer_admin.username},
+            data=user_data,
         )
         self.assertEqual(response.status_code, 400)
 
@@ -643,7 +666,7 @@ class OrganizationTestCase(BaseTestCase):
             },
             "first_name": "John",
             "last_name": "Doe",
-            "email": self.user_admin.email,
+            "email": self.user_admin.username,
             "phone": "+19876543210",
             "role": models.Role.FSE,
             "manager": self.customer_admin.id,
@@ -662,6 +685,37 @@ class OrganizationTestCase(BaseTestCase):
             data={"memberships": [user_data]},
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_update_user_verification(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": self.customer_admin.username,
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.fse_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        user_data["first_name"] = "Amir"
+        response = self.client.patch(
+            f"/api/users/{self.customer_admin.id}/",
+            data=user_data,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(models.Profile.objects.get(user=self.customer_admin).manager,self.fse_admin)
 
 
 class VfseTestCase(BaseTestCase):

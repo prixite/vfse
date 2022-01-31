@@ -89,8 +89,8 @@ class CustomerViewSet(OrganizationViewSet):
             super()
             .get_user_organizations()
             .filter(
-                is_customer=True,
-                is_default=False,
+                Q(is_customer=True)|
+                Q(is_default=True)
             )
             .prefetch_related("sites")
         )

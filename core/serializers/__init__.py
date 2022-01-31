@@ -1,6 +1,7 @@
 import re
 
 from django.db import transaction
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
@@ -280,14 +281,7 @@ class UpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
     last_name = serializers.CharField()
-    email = serializers.EmailField(
-        validators=[
-            UniqueValidator(
-                queryset=models.User.objects.all().values_list("username"),
-                message="Email already in use",
-            )
-        ],
-    )
+    email = serializers.EmailField()
     phone = serializers.CharField()
     role = serializers.ChoiceField(
         choices=models.Role,
@@ -315,7 +309,7 @@ class UpsertUserSerializer(serializers.Serializer):
     documentation_url = serializers.BooleanField()
 
     def validate_phone(self, value):
-        result = re.match(r"(?P<phone>\+1\d{10}$)", value)
+        result = re.match(r"(?P<phUpsertUserSerializerone>\+1\d{10}$)", value)
 
         if not result:
             raise serializers.ValidationError(
@@ -340,6 +334,22 @@ class UpsertUserSerializer(serializers.Serializer):
                 )
             return value
         return value
+
+    def validate(self, data):
+        error_message = "Email already in use"
+        if (
+            self.context["request"].method == "PATCH"
+            and models.User.objects.filter(username=data["email"])
+            .exclude(id=self.context["view"].kwargs["pk"])
+            .exists()
+        ):
+            raise serializers.ValidationError(error_message)
+        if (
+            self.context["request"].method == "POST"
+            and models.User.objects.filter(username=data["email"]).exists()
+        ):
+            raise serializers.ValidationError(error_message)
+        return data
 
 
 class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
