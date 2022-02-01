@@ -488,7 +488,7 @@ class ProductModelViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.action == "create":
+        if self.action in ["create", "partial_update"]:
             return serializers.ProductModelCreateSerializer
         return serializers.ProductModelSerializer
 

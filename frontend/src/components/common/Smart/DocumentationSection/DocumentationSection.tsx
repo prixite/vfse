@@ -1,15 +1,22 @@
 import { useState, useEffect } from "react";
 
+import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { toast } from "react-toastify";
 
 import EditLogo from "@src/assets/svgs/Edit.svg";
 import LinkLogo from "@src/assets/svgs/Link.svg";
 import "@src/components/common/Smart/DocumentationSection/DocumentationSection.scss";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/DocumentModal/DocumentModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { useProductsModelsListQuery } from "@src/store/reducers/api";
+import { deleteProductModelService } from "@src/services/DocumentationService";
+import {
+  useProductsModelsListQuery,
+  useProductsModelsDeleteMutation,
+} from "@src/store/reducers/api";
 
 const columns = [
   {
@@ -78,6 +85,14 @@ export default function DocumentationSection() {
   const [searchedData, setSearchedData] = useState(null);
   const { searching } = localizedData().common;
   const [open, setOpen] = useState(false);
+  const [currentDoc, setCurrentDoc] = useState(null);
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [productName, setProductName] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openModal = Boolean(anchorEl);
+  const [openConfModal, setOpenConfModal] = useState(false);
+
+  const [deleteProductModel] = useProductsModelsDeleteMutation();
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
@@ -104,6 +119,7 @@ export default function DocumentationSection() {
     rows?.map((row) => {
       const obj = {
         id: row.id,
+        product_id: row.product.id,
         name: row.product.name,
         manufacturer: row.product.manufacturer.name,
         modality: row.modality.name,
@@ -175,6 +191,39 @@ export default function DocumentationSection() {
     );
   };
 
+  const handleClick = (event, id, prod_id, name) => {
+    setCurrentDoc(id);
+    setCurrentProduct(prod_id);
+    setProductName(name);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleActionClose = () => {
+    setAnchorEl(null);
+  };
+
+  const deleteDocument = async () => {
+    handleModalClose();
+    await deleteProductModelService(
+      currentDoc,
+      currentProduct,
+      deleteProductModel,
+      docsRefetch
+    );
+    toast.success("Documentation successfully deleted", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
+  };
+
+  const handleModalOpen = () => {
+    setOpenConfModal(true);
+    handleActionClose();
+  };
+  const handleModalClose = () => {
+    setOpenConfModal(false);
+  };
+
   return (
     <div className="documentaion-section">
       <h2>{title}</h2>
@@ -225,9 +274,16 @@ export default function DocumentationSection() {
                   disableColumnMenu: true,
                   width: 85,
                   sortable: false,
-                  renderCell: () => (
+                  renderCell: (cellValues) => (
                     <div
-                      // onClick={handleClick}
+                      onClick={(e) =>
+                        handleClick(
+                          e,
+                          cellValues.row.id,
+                          cellValues.row.product_id,
+                          cellValues.row.name
+                        )
+                      }
                       style={{
                         cursor: "pointer",
                         padding: "15px",
@@ -294,9 +350,16 @@ export default function DocumentationSection() {
                 disableColumnMenu: true,
                 width: 85,
                 sortable: false,
-                renderCell: () => (
+                renderCell: (cellValues) => (
                   <div
-                    // onClick={handleClick}
+                    onClick={(e) =>
+                      handleClick(
+                        e,
+                        cellValues.row.id,
+                        cellValues.row.product_id,
+                        cellValues.row.name
+                      )
+                    }
                     style={{
                       cursor: "pointer",
                       padding: "15px",
@@ -318,6 +381,23 @@ export default function DocumentationSection() {
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         )}
       </div>
+      <ConfirmationModal
+        name={`Product Model of ${productName}`}
+        open={openConfModal}
+        handleClose={handleModalClose}
+        handleDeleteOrganization={deleteDocument}
+      />
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="client-options-button"
+        anchorEl={anchorEl}
+        open={openModal}
+        className="UserDropdownMenu"
+        onClose={handleActionClose}
+      >
+        <MenuItem>Edit</MenuItem>
+        <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+      </Menu>
       <DocumentModal
         open={open}
         handleClose={handleClose}

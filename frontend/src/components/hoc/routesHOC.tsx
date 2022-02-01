@@ -39,12 +39,12 @@ const RoutesHOC = ({ isLoading }: Props) => {
             exact
           />
           <Route
-            path={`/${organizationRoute}/:id/${networkRoute}`}
+            path={`/${organizationRoute}/:id/${networkRoute}/`}
             component={OrganizationView}
             exact
           />
           <Route
-            path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}`}
+            path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/`}
             component={SitesView}
             exact
           />

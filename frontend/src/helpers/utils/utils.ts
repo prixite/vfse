@@ -18,7 +18,7 @@ const isValidURL = (url: string) => {
 };
 
 const returnSearchedOject = (data, key) => {
-  const list = data.filter((item) => item.id === key);
+  const list = data.filter((item) => item.id == key);
   return list;
 };
 

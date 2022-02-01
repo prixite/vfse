@@ -274,6 +274,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.productModelCreate,
       }),
     }),
+    productsModelsPartialUpdate: build.mutation<
+      ProductsModelsPartialUpdateApiResponse,
+      ProductsModelsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/models/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.productModelCreate,
+      }),
+    }),
+    productsModelsDelete: build.mutation<
+      ProductsModelsDeleteApiResponse,
+      ProductsModelsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/products/models/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     productsPartialUpdate: build.mutation<
       ProductsPartialUpdateApiResponse,
       ProductsPartialUpdateApiArg
@@ -290,25 +309,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/products/${queryArg.id}/`,
-        method: "DELETE",
-      }),
-    }),
-    productsModelsPartialUpdate: build.mutation<
-      ProductsModelsPartialUpdateApiResponse,
-      ProductsModelsPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/products/${queryArg.productPk}/models/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.productModel,
-      }),
-    }),
-    productsModelsDelete: build.mutation<
-      ProductsModelsDeleteApiResponse,
-      ProductsModelsDeleteApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/products/${queryArg.productPk}/models/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -527,6 +527,16 @@ export type ProductsModelsCreateApiResponse =
 export type ProductsModelsCreateApiArg = {
   productModelCreate: ProductModelCreate;
 };
+export type ProductsModelsPartialUpdateApiResponse =
+  /** status 200  */ ProductModelCreate;
+export type ProductsModelsPartialUpdateApiArg = {
+  id: string;
+  productModelCreate: ProductModelCreate;
+};
+export type ProductsModelsDeleteApiResponse = unknown;
+export type ProductsModelsDeleteApiArg = {
+  id: string;
+};
 export type ProductsPartialUpdateApiResponse = /** status 200  */ Product;
 export type ProductsPartialUpdateApiArg = {
   id: string;
@@ -535,18 +545,6 @@ export type ProductsPartialUpdateApiArg = {
 export type ProductsDeleteApiResponse = unknown;
 export type ProductsDeleteApiArg = {
   id: string;
-};
-export type ProductsModelsPartialUpdateApiResponse =
-  /** status 200  */ ProductModel;
-export type ProductsModelsPartialUpdateApiArg = {
-  id: string;
-  productPk: string;
-  productModel: ProductModel;
-};
-export type ProductsModelsDeleteApiResponse = unknown;
-export type ProductsModelsDeleteApiArg = {
-  id: string;
-  productPk: string;
 };
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = void;
@@ -827,9 +825,10 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  author?: number;
+  author?: string;
   note: string;
   created_at?: string;
+  author_image?: string;
 };
 export type UserEnableDisable = {
   users: number[];
@@ -868,10 +867,10 @@ export const {
   useProductsCreateMutation,
   useProductsModelsListQuery,
   useProductsModelsCreateMutation,
-  useProductsPartialUpdateMutation,
-  useProductsDeleteMutation,
   useProductsModelsPartialUpdateMutation,
   useProductsModelsDeleteMutation,
+  useProductsPartialUpdateMutation,
+  useProductsDeleteMutation,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,

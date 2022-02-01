@@ -114,9 +114,21 @@ export default function SideBar() {
     setOpen((prevState) => !prevState);
   };
   const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
+
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
-    setCurrentRoute(pathRoute);
+    if (
+      pathRoute.includes(
+        `/${organizationRoute}/${selectedOrganization?.id}/networks/`
+      ) ||
+      pathRoute.includes(
+        `/${organizationRoute}/${selectedOrganization?.id}/sites/`
+      )
+    ) {
+      setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
+    } else {
+      setCurrentRoute(pathRoute);
+    }
   }, [selectedOrganization, pathRoute]);
   const handleUpdateSelectedOrganization = (item) => {
     dispatch(setSelectedOrganization({ selectedOrganization: item }));
@@ -184,7 +196,7 @@ export default function SideBar() {
 
   const onSearchClick = () => {
     history.push(`/${organizationRoute}/${selectedOrganization?.id}/`);
-    setCurrentRoute("/");
+    setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
     window.setTimeout(function () {
       document.getElementById("search-clients").focus();
     }, 0);
@@ -198,15 +210,10 @@ export default function SideBar() {
         textcolor={sideBarTextColor}
       >
         <List className="leftLists">
-          <ListItem
-            button
-            component="a"
-            href="/"
-            style={{ marginBottom: "0px" }}
-          >
+          <ListItem button style={{ marginBottom: "0px", cursor: "initial" }}>
             <ListItemIcon
               className="client-image"
-              style={{ marginBottom: "0px" }}
+              style={{ marginBottom: "0px", cursor: "initial" }}
             >
               <img
                 src={selectedOrganization?.appearance?.logo}
