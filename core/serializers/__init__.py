@@ -335,10 +335,10 @@ class UpsertUserSerializer(serializers.Serializer):
         return value
 
     def validate(self, data):
-        user_query = models.User.objects.filter(username=data['email'])
-        if 'pk' in self.context['view'].kwargs:
-            user_query = user_query.exclude(id=self.context['view'].kwargs['pk'])
-        
+        user_query = models.User.objects.filter(username=data["email"])
+        if "pk" in self.context["view"].kwargs:
+            user_query = user_query.exclude(id=self.context["view"].kwargs["pk"])
+
         if user_query.exists():
             raise serializers.ValidationError("Email already exists")
         return data

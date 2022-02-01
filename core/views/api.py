@@ -508,10 +508,12 @@ class SystemNoteViewSet(ModelViewSet):
             return models.Note.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.Note.objects.filter(system_id=self.kwargs["pk"]).select_related('author')
+            return models.Note.objects.filter(
+                system_id=self.kwargs["pk"]
+            ).select_related("author")
         return models.Note.objects.filter(
             system_id=self.kwargs["pk"], author=self.request.user
-        ).select_related('author')
+        ).select_related("author")
 
     def perform_create(self, serializer):
         serializer.save(system_id=self.kwargs["pk"], author=self.request.user)
