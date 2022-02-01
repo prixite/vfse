@@ -376,6 +376,10 @@ class System(models.Model):
     def image_url(self):
         return self.image.image
 
+    @property
+    def vfse(self):
+        return self.seats.filter(organization=self.site.organization).exists()
+
 
 class SystemImage(models.Model):
     image = models.URLField()
@@ -467,7 +471,7 @@ class Note(models.Model):
 
 
 class Seat(models.Model):
-    system = models.ForeignKey("System", on_delete=models.CASCADE)
+    system = models.ForeignKey("System", on_delete=models.CASCADE, related_name="seats")
     organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, related_name="seats"
     )
