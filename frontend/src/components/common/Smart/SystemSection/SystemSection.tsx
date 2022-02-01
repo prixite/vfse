@@ -223,11 +223,11 @@ const SystemSection = () => {
             },
             {
               name: selectedOrganization?.name,
-              route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks`,
             },
             {
               name: organization?.name,
-              route: `/${organizationRoute}/${selectedOrganization?.id}/networks`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/${networkId}/sites`,
             },
             {
               name: returnSearchedOject(organization?.sites, siteId)[0]?.name,
