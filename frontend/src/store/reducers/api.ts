@@ -737,6 +737,10 @@ export type OrganizationSite = {
   id?: number;
   sites: SiteCreate[];
 };
+export type Manager = {
+  email: string;
+  name: string;
+};
 export type User = {
   id?: number;
   first_name?: string;
@@ -755,7 +759,7 @@ export type User = {
   is_one_time?: boolean;
   documentation_url?: boolean;
   role?: string[];
-  manager?: string;
+  manager?: Manager;
   image?: string;
   sites?: string[];
 };

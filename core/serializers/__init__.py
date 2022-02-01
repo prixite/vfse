@@ -211,6 +211,11 @@ class ModalitySerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
+class ManagerMetaSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    name = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
@@ -229,7 +234,7 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
     )
-    manager = serializers.CharField(read_only=True)
+    manager = ManagerMetaSerializer(read_only=True)
     documentation_url = serializers.BooleanField(
         source="profile.documentation_url", read_only=True
     )

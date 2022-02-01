@@ -58,7 +58,10 @@ class User(AbstractUser):
 
     @property
     def manager(self):
-        return str(self.profile.manager.get_full_name())
+        return {
+            "name": str(self.profile.manager.get_full_name()),
+            "email": self.username,
+        }
 
     @property
     def sites(self):
