@@ -155,7 +155,10 @@ export default function UserModal(props: Props) {
       if (editedUser?.manager) {
         setManager(
           props?.usersData?.filter((user) => {
-            return user?.email?.toString() == editedUser?.email?.toString();
+            return (
+              user?.manager?.email?.toString() ==
+              editedUser?.manager?.email?.toString()
+            );
           })[0]?.id
         );
       }
@@ -664,6 +667,7 @@ export default function UserModal(props: Props) {
                 <FormControl sx={{ width: "100%" }}>
                   <Select
                     value={customer}
+                    disabled={props?.action == "edit"}
                     inputProps={{ "aria-label": "Without label" }}
                     style={{ height: "43px", borderRadius: "8px" }}
                     onChange={handleCustomerChange}

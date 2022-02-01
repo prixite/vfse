@@ -264,7 +264,10 @@ export default function UserSection() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    handleActionClose();
+  };
 
   const handleModalClose = () => {
     setOpenListModal(false);
