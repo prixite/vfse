@@ -16,6 +16,7 @@ import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
   useModalitiesListQuery,
+  useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
 } from "@src/store/reducers/api";
 
@@ -46,6 +47,10 @@ const SystemSection = () => {
   const { searching } = localizedData().common;
   const { isLoading: isModalitiesLoading, data: modalitiesList } =
     useModalitiesListQuery();
+    const { data: organization, isFetching: fetching } =
+    useOrganizationsReadQuery({
+      id: networkId,
+    });
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -69,6 +74,23 @@ const SystemSection = () => {
   const handleEdit = (system) => {
     setOpen(true);
     setSystem(system);
+  };
+
+  const returnSiteName = () => {
+    if(history.location.pathname.includes("networks") && history.location.pathname.includes("sites"))
+    {
+    return  returnSearchedOject(
+        organization?.sites,
+        siteId
+      )[0]?.name
+    }
+    else if (history.location.pathname.includes("sites")){
+      return  returnSearchedOject(
+        selectedOrganization?.sites,
+        siteId
+      )[0]?.name
+    }
+    return selectedOrganization?.name;
   };
 
   const changeModality = (item) => {
@@ -195,39 +217,59 @@ const SystemSection = () => {
 
   return (
     <>
+    {
+          history.location.pathname.includes("sites") && !fetching  && history.location.pathname.includes("networks") ? 
       <BreadCrumb
         breadCrumbList={
-          !history.location.pathname.includes("networks") &&
-          !history.location.pathname.includes("sites")
-            ? [
-                {
-                  name: selectedOrganization?.name,
-                  route: `/${organizationRoute}/${selectedOrganization?.id}`,
-                },
-                {
-                  name: "Systems",
-                },
-              ]
-            : [
-                {
-                  name: selectedOrganization?.name,
-                  route: `/${organizationRoute}/${selectedOrganization?.id}`,
-                },
-                {
-                  name: returnSearchedOject(
-                    selectedOrganization?.sites,
-                    siteId
-                  )[0]?.name,
-                  route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
-                },
-                {
-                  name: "Systems",
-                },
-              ]
+            [
+              {
+                name:  "Home",
+                route: `/${organizationRoute}/${selectedOrganization?.id}`,
+              },
+              {
+                name: selectedOrganization?.name,
+                route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
+              },
+              {
+                name: organization?.name,
+                route: `/${organizationRoute}/${selectedOrganization?.id}/networks`,
+              },
+              {
+                name: returnSearchedOject(
+                  organization?.sites,
+                  siteId
+                )[0]?.name
+              },
+            ]
         }
       />
+      :
+      history.location.pathname.includes("sites") && !fetching ?
+      <BreadCrumb
+        breadCrumbList={
+            [
+              {
+                name:  "Home",
+                route: `/${organizationRoute}/${selectedOrganization?.id}`,
+              },
+              {
+                name: selectedOrganization?.name,
+                route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
+              },
+              {
+                name: returnSearchedOject(
+                  selectedOrganization?.sites,
+                  siteId
+                )[0]?.name
+              },
+            ]
+        }
+      />
+      : ''
+
+}
       <Box component="div" className="system-section">
-        <h2>{selectedOrganization?.name}</h2>
+        <h2>{!fetching ? returnSiteName() : ''}</h2>
         <div
           style={{
             width: "100%",
