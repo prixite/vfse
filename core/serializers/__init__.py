@@ -335,19 +335,12 @@ class UpsertUserSerializer(serializers.Serializer):
         return value
 
     def validate(self, data):
-        error_message = "Email already in use"
-        if (
-            self.context["request"].method == "PATCH"
-            and models.User.objects.filter(username=data["email"])
-            .exclude(id=self.context["view"].kwargs["pk"])
-            .exists()
-        ):
-            raise serializers.ValidationError(error_message)
-        if (
-            self.context["request"].method == "POST"
-            and models.User.objects.filter(username=data["email"]).exists()
-        ):
-            raise serializers.ValidationError(error_message)
+        user_query = models.User.objects.filter(username=data['email'])
+        if 'pk' in self.context['view'].kwargs:
+            user_query = user_query.exclude(id=self.context['view'].kwargs['pk'])
+        
+        if user_query.exists():
+            raise serializers.ValidationError("Email already exists")
         return data
 
 
