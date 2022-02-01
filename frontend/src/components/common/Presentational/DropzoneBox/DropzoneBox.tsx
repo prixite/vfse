@@ -47,7 +47,13 @@ const DropzoneBox = ({
           {isUploading ? (
             <CircularProgress color="secondary" />
           ) : (
-            <img src={selectedImage[0].preview} />
+            <>
+              <div
+                className="blurBg"
+                style={{ backgroundImage: `url(${selectedImage[0]?.preview})` }}
+              />
+              <img src={selectedImage[0].preview} />
+            </>
           )}
         </div>
       ) : imgSrc ? (
@@ -57,7 +63,7 @@ const DropzoneBox = ({
       ) : (
         ""
       )}
-      <div style={{ zIndex: "100" }} className={dropzoneOptions}>
+      <div style={{ zIndex: "1000" }} className={dropzoneOptions}>
         <img src={UploadBtn} className="" />
         <p>
           <b>{heading}</b>
