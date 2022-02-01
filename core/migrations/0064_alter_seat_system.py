@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0063_user_is_lambda_user_alter_membership_role_and_more'),
+        ("core", "0063_user_is_lambda_user_alter_membership_role_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='seat',
-            name='system',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='seats', to='core.system'),
+            model_name="seat",
+            name="system",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="seats",
+                to="core.system",
+            ),
         ),
     ]
