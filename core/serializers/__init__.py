@@ -460,11 +460,14 @@ class SystemSerializer(serializers.ModelSerializer):
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
-    author_image = serializers.URLField(source='author.profile.meta.profile_picture',read_only=True)
-    author = serializers.CharField(source='author.get_full_name',read_only=True)
+    author_image = serializers.URLField(
+        source="author.profile.meta.profile_picture", read_only=True
+    )
+    author = serializers.CharField(source="author.get_full_name", read_only=True)
+
     class Meta:
         model = models.Note
-        fields = ["author", "note", "created_at","author_image"]
+        fields = ["author", "note", "created_at", "author_image"]
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):

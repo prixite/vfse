@@ -2439,8 +2439,9 @@
             "properties": {
                 "author": {
                     "title": "Author",
-                    "type": "integer",
-                    "readOnly": true
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
                 },
                 "note": {
                     "title": "Note",
@@ -2452,6 +2453,13 @@
                     "type": "string",
                     "format": "date-time",
                     "readOnly": true
+                },
+                "author_image": {
+                    "title": "Author image",
+                    "type": "string",
+                    "format": "uri",
+                    "readOnly": true,
+                    "minLength": 1
                 }
             }
         },
