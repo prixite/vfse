@@ -72,9 +72,7 @@ class ProductTestCase(BaseTestCase):
 
     def test_delete_product_model(self):
         self.client.force_login(self.super_admin)
-        response = self.client.delete(
-            f"/api/products/models/{self.product_model.id}/"
-        )
+        response = self.client.delete(f"/api/products/models/{self.product_model.id}/")
         self.assertEqual(response.status_code, 204)
 
     def test_update_product_model(self):
