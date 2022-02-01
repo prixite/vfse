@@ -463,28 +463,30 @@ class SystemSerializer(serializers.ModelSerializer):
             )
         ]
 
+    @transaction.atomic
     def create(self, validated_data):
-        seat = validated_data.pop("vfse")
+        add_to_vfse = validated_data.pop("vfse")
         system = super().create(validated_data)
         seat_serializer = OrganizationSeatSeriazlier(
             data={"seats": [{"system": system.id}]},
             context={"view": self.context["view"]},
         )
-        if seat and seat_serializer.is_valid(raise_exception=True):
+        if add_to_vfse and seat_serializer.is_valid(raise_exception=True):
             models.Seat.objects.create(
                 system=system, organization_id=self.context["view"].kwargs["pk"]
             )
         return system
-
+    
+    @transaction.atomic
     def update(self, instance, validated_data):
         if "vfse" in validated_data:
-            seat = validated_data.pop("vfse")
-            validated_data["connection_options"]["vfse"] = seat
-            if instance.vfse and not seat:
+            add_to_vfse = validated_data.pop("vfse")
+            validated_data["connection_options"]["vfse"] = add_to_vfse
+            if instance.vfse and not add_to_vfse:
                 models.Seat.objects.filter(
                     system=instance, organization=instance.site.organization
                 ).delete()
-            elif not instance.vfse and seat:
+            elif not instance.vfse and add_to_vfse:
                 models.Seat.objects.create(
                     system=instance, organization=instance.site.organization
                 )
