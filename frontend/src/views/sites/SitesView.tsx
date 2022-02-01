@@ -26,15 +26,15 @@ const SitesView = () => {
       <BreadCrumb
         breadCrumbList={[
           {
-            name: selectedOrganization?.name,
+            name: "Home",
             route: `/${organizationRoute}/${selectedOrganization?.id}`,
           },
           {
-            name: organization?.name,
+            name: selectedOrganization?.name,
             route: `/${organizationRoute}/${selectedOrganization?.id}/${networkRoute}`,
           },
           {
-            name: "All Sites",
+            name: organization?.name,
           },
         ]}
       />
