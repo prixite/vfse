@@ -33,6 +33,26 @@
   .hideOptions {
     display: none !important;
   }
+  .blurBg {
+    z-index: 20;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    img {
+      display: inline-block;
+      width: 100%;
+      height: -webkit-fill-available;
+      object-fit: cover;
+    }
+  }
   .UploadedImg {
     position: absolute;
     top: 0;
@@ -60,8 +80,10 @@
       height: inherit;
       object-fit: contain;
       margin: 0;
+      z-index: 500;
     }
   }
+
   img {
     margin-bottom: 12px;
   }
