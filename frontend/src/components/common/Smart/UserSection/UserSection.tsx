@@ -15,9 +15,13 @@ import {
 } from "@src/services/userService";
 import { useAppSelector } from "@src/store/hooks";
 import {
+  useModalitiesListQuery,
+  useOrganizationsHealthNetworksListQuery,
+  useOrganizationsListQuery,
   useOrganizationsUsersListQuery,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersRolesListQuery,
 } from "@src/store/reducers/api";
 import "@src/views/user/UserView.scss";
 
@@ -189,11 +193,20 @@ export default function UserSection() {
   );
   const {
     data: items,
-    isLoading,
+    isLoading: isUsersLoading,
     refetch: usersRefetch,
-    isFetching: isUserListFetching,
   } = useOrganizationsUsersListQuery({
     id: selectedOrganization.id.toString(),
+  });
+
+  const { data: usersRoles } = useUsersRolesListQuery();
+
+  const { data: modalitiesList } = useModalitiesListQuery();
+
+  const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
+
+  const { data: networksData } = useOrganizationsHealthNetworksListQuery({
+    id: selectedOrganization?.id.toString(),
   });
 
   const [userList, setUserList] = useState({});
@@ -241,7 +254,7 @@ export default function UserSection() {
     setColumnHeaders(header);
   }, [tableColumns]);
 
-  if (isLoading) {
+  if (isUsersLoading) {
     return <p>Loading</p>;
   }
 
@@ -303,29 +316,33 @@ export default function UserSection() {
   return (
     <Fragment>
       <h2>{userAdministration}</h2>
-      {!isUserListFetching ? (
-        <TopViewBtns
-          setOpen={setOpen}
-          path="users"
-          tableColumns={tableColumns}
-          setTableColumns={setTableColumns}
-          setList={setUserList}
-          actualData={items}
-          searchText={searchText}
-          setSearchText={setSearchText}
-          hasData={hasData}
-        />
-      ) : (
+      {/* {!isUserListFetching ? ( */}
+      <TopViewBtns
+        setOpen={setOpen}
+        path="users"
+        tableColumns={tableColumns}
+        setTableColumns={setTableColumns}
+        setList={setUserList}
+        actualData={items}
+        searchText={searchText}
+        setSearchText={setSearchText}
+        hasData={hasData}
+      />
+      {/* ) : (
         ""
-      )}
+      )} */}
 
-      {open && (
+      {open && !isUsersLoading && (
         <UserModal
           open={open}
           handleClose={handleClose}
           selectedUser={currentUser}
           usersData={items}
+          roles={usersRoles}
           action={currentUser ? "edit" : "add"}
+          networksData={networksData}
+          organizationData={organizationData}
+          modalitiesList={modalitiesList}
           refetch={usersRefetch}
         />
       )}
@@ -390,23 +407,18 @@ export default function UserSection() {
                   renderCell: (cellValues) => (
                     <div
                       onClick={
-                        cellValues?.row?.health_networks?.length > 1
+                        cellValues?.row?.sites?.length > 1
                           ? () =>
-                              handleModalClick(
-                                "Sites",
-                                cellValues?.row?.health_networks
-                              )
+                              handleModalClick("Sites", cellValues?.row?.sites)
                           : undefined
                       }
                       style={{
                         cursor: `${
-                          cellValues?.row?.health_networks?.length > 1
-                            ? "pointer"
-                            : ""
+                          cellValues?.row?.sites?.length > 1 ? "pointer" : ""
                         }`,
                       }}
                     >
-                      {renderCustomers(cellValues?.row?.health_networks)}
+                      {renderCustomers(cellValues?.row?.sites)}
                     </div>
                   ),
                 },
@@ -454,7 +466,7 @@ export default function UserSection() {
                   ),
                 },
               ]}
-              loading={isLoading}
+              loading={isUsersLoading}
               pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[14, 16, 18, 20]}
@@ -530,23 +542,18 @@ export default function UserSection() {
                 renderCell: (cellValues) => (
                   <div
                     onClick={
-                      cellValues?.row?.health_networks?.length > 1
+                      cellValues?.row?.sites?.length > 1
                         ? () =>
-                            handleModalClick(
-                              "Sites",
-                              cellValues?.row?.health_networks
-                            )
+                            handleModalClick("Sites", cellValues?.row?.sites)
                         : undefined
                     }
                     style={{
                       cursor: `${
-                        cellValues?.row?.health_networks?.length > 1
-                          ? "pointer"
-                          : ""
+                        cellValues?.row?.sites?.length > 1 ? "pointer" : ""
                       }`,
                     }}
                   >
-                    {renderCustomers(cellValues?.row?.health_networks)}
+                    {renderCustomers(cellValues?.row?.sites)}
                   </div>
                 ),
               },
@@ -594,7 +601,7 @@ export default function UserSection() {
                 ),
               },
             ]}
-            loading={isLoading}
+            loading={isUsersLoading}
             pageSize={pageSize}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[14, 16, 18, 20]}

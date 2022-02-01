@@ -99,7 +99,7 @@
             "link": "Documentation Link",
             "upload_btn": "Upload",
             "model": "Model",
-            "product_model": "Product Model",
+            "product_model": "Product",
             "modalities": "Modalities",
             "btnSave": "Add",
             "btnCancel": "Cancel"
@@ -211,7 +211,7 @@
     "systemModal" : {
         "fieldName": "Name",
         "fieldLocation": "Location in the building",
-        "fieldLink": "Documentation Link for the system",
+        "fieldLink": "Grafana link",
         "fieldNumber": "Serial Number",
         "fieldSite": "Site",
         "fieldModal": "Product Model",

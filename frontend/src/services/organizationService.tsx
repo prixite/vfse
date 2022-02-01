@@ -110,7 +110,8 @@ const addNewHealthNetworkService = async (
 const addNewHealthNetworksService = async (
   organizationId,
   addNewNetworks,
-  networks
+  networks,
+  refetchNetworksList
 ) => {
   await addNewNetworks({
     id: organizationId,
@@ -118,6 +119,7 @@ const addNewHealthNetworksService = async (
   })
     .unwrap()
     .then(() => {
+      refetchNetworksList();
       toast.success("HealthNetwork Successfully Added", {
         autoClose: 1000,
         pauseOnHover: false,

@@ -37,7 +37,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get("/api/organizations/")
 
             organizations = response.json()
-            self.assertEqual(len(organizations), 2)
+            self.assertEqual(len(organizations), 3)
 
     def test_list_organizations(self):
         for user in [self.customer_admin, self.fse_admin]:
@@ -78,7 +78,7 @@ class OrganizationTestCase(BaseTestCase):
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
             )
-            self.assertEqual(len(response.json()), 14)
+            self.assertEqual(len(response.json()), 12)
 
     def test_organization_prevent_delete_is_default(self):
         self.client.force_login(self.super_admin)
@@ -205,19 +205,29 @@ class OrganizationTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(
             models.UserModality.objects.filter(
-                user__username=user_data["email"]
+                user__username=user_data["email"],
+                modality=self.modality,
             ).exists(),
-            True,
+            1,
         )
         self.assertEqual(
-            models.UserSite.objects.filter(user__username=user_data["email"]).exists(),
-            True,
+            models.UserSite.objects.filter(
+                user__username=user_data["email"],
+                site=self.site,
+            ).exists(),
+            1,
         )
         self.assertEqual(
             models.Membership.objects.filter(
-                user__username=user_data["email"], role=user_data["role"]
+                user__username=user_data["email"],
+                role=user_data["role"],
+                organization=self.organization,
             ).exists(),
             True,
+        )
+        self.assertEqual(
+            models.Profile.objects.get(user__username=user_data["email"]).manager,
+            self.customer_admin,
         )
 
     def test_user_upsert_edit(self):
@@ -246,12 +256,12 @@ class OrganizationTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            models.UserModality.objects.filter(user__email=user_data["email"]).exists(),
-            True,
+            models.UserModality.objects.filter(user__email=user_data["email"]).count(),
+            1,
         )
         self.assertEqual(
-            models.UserSite.objects.filter(user__email=user_data["email"]).exists(),
-            True,
+            models.UserSite.objects.filter(user__email=user_data["email"]).count(),
+            1,
         )
         self.assertEqual(
             models.Membership.objects.filter(
@@ -543,14 +553,183 @@ class OrganizationTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 403)
 
+    def test_user_update_verification(self):
+        self.client.force_login(self.super_admin)
+        site = factories.SiteFactory(organization=self.other_organization)
+        modality = factories.ModalityFactory()
+
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "john@doe.com",
+            "phone": "+19876543210",
+            "role": models.Role.FSE_ADMIN,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [site.id],
+            "modalities": [modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        response = self.client.patch(f"/api/users/{self.fse.id}/", data=user_data)
+        self.assertEqual(response.status_code, 200)
+        self.fse.refresh_from_db()
+        self.assertDictEqual(self.fse.profile.meta, user_data["meta"])
+        self.assertTrue(self.fse.usermodality_set.filter(modality=modality).exists())
+        self.assertEqual(self.fse.usermodality_set.all().count(), 1)
+
+        self.assertTrue(self.fse.usersite_set.filter(site=site).exists())
+        self.assertEqual(self.fse.usersite_set.all().count(), 1)
+
+    def test_update_user_duplicate_email(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": self.super_admin.username,
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        response = self.client.patch(
+            f"/api/users/{self.customer_admin.id}/",
+            data=user_data,
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_put_organization_duplicate_site(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "name": self.site.name,
+                "address": "Lahore k qareeb",
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_organization_duplicate_sites(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/sites/",
+            data={
+                "name": self.site.name,
+                "address": "Lahore k qareeb",
+            },
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_update_duplicate_organization(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/",
+            data={
+                "name": self.other_organization.name,
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_duplicate_health_network(self):
+        self.client.force_login(self.super_admin)
+
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={
+                "name": self.health_network.name,
+                "appearance": {
+                    "logo": "https://picsum.photos/200",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_post_duplicate_user(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": self.user_admin.username,
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/users/",
+            data={"memberships": [user_data]},
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_update_user_verification(self):
+        self.client.force_login(self.super_admin)
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": self.customer_admin.username,
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.fse_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+        }
+        user_data["first_name"] = "Amir"
+        response = self.client.patch(
+            f"/api/users/{self.customer_admin.id}/",
+            data=user_data,
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            models.Profile.objects.get(user=self.customer_admin).manager, self.fse_admin
+        )
+
 
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):
-        models.Seat.objects.create(
-            organization=self.organization,
-            system=self.system,
-        )
-
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
             response = self.client.get(
@@ -585,11 +764,9 @@ class VfseTestCase(BaseTestCase):
     def test_create_vfse_systems_valid(self):
         self.client.force_login(self.super_admin)
         response = self.client.post(
-            f"/api/organizations/{self.organization.id}/seats/",
+            f"/api/organizations/{self.other_organization.id}/seats/",
             data={
-                "seats": [
-                    {"system": self.system.id, "organization": self.organization.id}
-                ],
+                "seats": [{"system": self.system.id}],
             },
         )
         self.assertEqual(response.status_code, 201)
@@ -597,3 +774,18 @@ class VfseTestCase(BaseTestCase):
             len(models.Seat.objects.filter(organization=self.organization))
             <= self.organization.number_of_seats
         )
+
+    def test_post_duplicate_vfse_system(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/seats/",
+            data={
+                "seats": [
+                    {
+                        "system": self.seat.system.id,
+                        "organization": self.seat.organization.id,
+                    },
+                ],
+            },
+        )
+        self.assertEqual(response.status_code, 400)

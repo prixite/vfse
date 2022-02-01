@@ -37,5 +37,11 @@
       width: 23px;
       margin: 0px 12px;
     }
+    .text {
+      width: 90%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 }

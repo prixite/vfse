@@ -14,11 +14,16 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
-import { ValidateIPaddress, isValidURL } from "@src/helpers/utils/utils";
+import {
+  returnSearchedOject,
+  ValidateIPaddress,
+  isValidURL,
+} from "@src/helpers/utils/utils";
 import {
   addNewOrdanizationSystem,
   updateOrdanizationSystem,
@@ -463,6 +468,13 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const handleProductModel = (item) => {
+    if (item) {
+      setModal(item);
+      setModalError("");
+    }
+  };
+
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
       if (!item.name) {
@@ -502,10 +514,16 @@ export default function SystemModal(props: systemProps) {
     if (data?.local_ae_title) {
       setLocalAeError(data?.local_ae_title[0]);
     }
-    if (data.his_ris_info) {
+    if (data?.his_ris_info) {
       if (data?.his_ris_info?.ip) {
         setRisIpError(data?.his_ris_info?.ip[0]);
       }
+    }
+    if (data?.non_field_errors) {
+      toast.error("Site with this name already exists.", {
+        autoClose: 2000,
+        pauseOnHover: false,
+      });
     }
     if (data.dicom_info) {
       if (data?.dicom_info?.ip) {
@@ -564,10 +582,14 @@ export default function SystemModal(props: systemProps) {
           obj,
           addSystem,
           props.refetch,
-          setErrors,
           handleClear,
           setDisableButton
-        );
+        ).catch((err) => {
+          setDisableButton(false);
+          if (err?.status === 400) {
+            setErrors(err.data);
+          }
+        });
       } else {
         await updateOrdanizationSystem(
           selectedOrganization.id,
@@ -575,10 +597,14 @@ export default function SystemModal(props: systemProps) {
           obj,
           updateSystem,
           props.refetch,
-          setErrors,
           handleClear,
           setDisableButton
-        );
+        ).catch((err) => {
+          setDisableButton(false);
+          if (err?.status === 400) {
+            setErrors(err.data);
+          }
+        });
       }
     }
   };
@@ -591,15 +617,33 @@ export default function SystemModal(props: systemProps) {
 
   useEffect(() => {
     if (selectedOrganization?.sites.length) {
-      setSite(selectedOrganization?.sites[0]);
+      if (props.system) {
+        const data = returnSearchedOject(
+          selectedOrganization?.sites,
+          props.system.site
+        );
+        setSite(data.length ? data[0] : selectedOrganization?.sites[0]);
+      } else {
+        setSite(selectedOrganization?.sites[0]);
+      }
     }
-  }, [selectedOrganization]);
+  }, [selectedOrganization, props.system]);
 
   useEffect(() => {
-    if (productData?.length && !isProductsModelsLoading) {
-      setModal(productData[0]);
+    if (productData?.length && !isProductsModelsLoading && props.open) {
+      if (props.system) {
+        const data = returnSearchedOject(
+          productData,
+          props.system.product_model
+        );
+        if (data.length) {
+          setModal(data[0]);
+        }
+      } else {
+        setModal(productData[0]);
+      }
     }
-  }, [productData]);
+  }, [productData, props.open]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
@@ -616,7 +660,10 @@ export default function SystemModal(props: systemProps) {
       <DialogContent>
         <div className="modal-content">
           <p className="gallery-title">Select Image</p>
-          <SystemImageGallery setSystemImage={setSystemImage} />
+          <SystemImageGallery
+            setSystemImage={setSystemImage}
+            systemImage={systemImage}
+          />
           <div className="client-info">
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -698,7 +745,9 @@ export default function SystemModal(props: systemProps) {
                       sx={{ width: "100%" }}
                       style={{ height: "48px" }}
                       value={modal}
-                      onChange={(e, item: ProductModel) => setModal(item)} // eslint-disable-line
+                      onChange={(e, item: ProductModel) =>
+                        handleProductModel(item)
+                      } // eslint-disable-line
                       options={productData}
                       autoHighlight
                       getOptionLabel={(option) => option?.name}

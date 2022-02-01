@@ -34,6 +34,7 @@ interface siteProps {
   selectionID: string;
   sites?: any; // eslint-disable-line
   refetch: () => void;
+  orgNetworkRefetch: () => void;
   action: string;
 }
 
@@ -66,6 +67,7 @@ export default function SiteModal(props: siteProps) {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+
   useEffect(() => {
     if (props?.name && props?.address) {
       setSiteName(props?.name);
@@ -102,7 +104,7 @@ export default function SiteModal(props: siteProps) {
         addNewSite,
         props.refetch,
         refetch,
-        setIsLoading
+        props?.orgNetworkRefetch
       )
         .then(() => {
           setTimeout(() => {
@@ -167,8 +169,7 @@ export default function SiteModal(props: siteProps) {
         updateSite,
         props?.refetch,
         "edit",
-        refetch,
-        setIsLoading
+        refetch.props?.orgNetworkRefetch
       )
         .then(() => {
           setTimeout(() => {

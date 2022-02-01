@@ -9,7 +9,9 @@ import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import AddSiteFirstModal from "@src/components/shared/popUps/AddSiteFirstModal/AddSiteFirstModal";
 import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
+import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import { returnSearchedOject } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
@@ -18,6 +20,7 @@ import {
 } from "@src/store/reducers/api";
 
 import CommentsDrawer from "../CommentsDrawer/CommentsDrawer";
+import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 
 const SystemSection = () => {
@@ -37,6 +40,7 @@ const SystemSection = () => {
   const [systemList, setSystemList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState();
+  const { organizationRoute } = constants;
   const { siteId, networkId } =
     useParams<{ siteId: string; networkId: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
@@ -191,130 +195,164 @@ const SystemSection = () => {
   } = useOrganizationsSystemsListQuery(apiArgData);
 
   return (
-    <Box component="div" className="system-section">
-      <h2>{selectedOrganization?.name}</h2>
-      <div
-        style={{
-          width: "100%",
-        }}
-      >
-        {!isModalitiesLoading && index ? (
-          <>
-            <div className="modalities">
-              <Flicking
-                defaultIndex={index - 1}
-                deceleration={0.0075}
-                horizontal
-                bound
-                gap={40}
-                style={{ height: "33px" }}
-              >
-                <span
-                  className="modality"
-                  style={{
-                    color: `${modality === null ? buttonBackground : ""}`,
-                    borderBottom: `${
-                      modality === null ? `1px solid ${buttonBackground}` : ""
-                    }`,
-                  }}
-                  onClick={() => changeModality(null)}
-                >
-                  All
-                </span>
+    <>
+      <BreadCrumb
+        breadCrumbList={
+          !history.location.pathname.includes("networks") &&
+          !history.location.pathname.includes("sites")
+            ? [
                 {
-                  // eslint-disable-next-line
-                  modalitiesList?.length &&
-                    modalitiesList?.map((item, key) => (
-                      <span
-                        key={key}
-                        className="modality"
-                        style={{
-                          color: `${
-                            modality === item?.id.toString()
-                              ? buttonBackground
-                              : ""
-                          }`,
-                          borderBottom: `${
-                            modality === item?.id.toString()
-                              ? `1px solid ${buttonBackground}`
-                              : ""
-                          }`,
-                        }}
-                        onClick={() => changeModality(item)}
-                      >
-                        {item.name}
-                      </span>
-                    ))
-                }
-              </Flicking>
-            </div>
-            <hr
-              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
-            />
-          </>
+                  name: selectedOrganization?.name,
+                  route: `/${organizationRoute}/${selectedOrganization?.id}`,
+                },
+                {
+                  name: "Systems",
+                },
+              ]
+            : [
+                {
+                  name: selectedOrganization?.name,
+                  route: `/${organizationRoute}/${selectedOrganization?.id}`,
+                },
+                {
+                  name: returnSearchedOject(
+                    selectedOrganization?.sites,
+                    siteId
+                  )[0]?.name,
+                  route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
+                },
+                {
+                  name: "Systems",
+                },
+              ]
+        }
+      />
+      <Box component="div" className="system-section">
+        <h2>{selectedOrganization?.name}</h2>
+        <div
+          style={{
+            width: "100%",
+          }}
+        >
+          {!isModalitiesLoading && index ? (
+            <>
+              <div className="modalities">
+                <Flicking
+                  defaultIndex={index - 1}
+                  deceleration={0.0075}
+                  horizontal
+                  bound
+                  gap={40}
+                  style={{ height: "33px" }}
+                >
+                  <span
+                    className="modality"
+                    style={{
+                      color: `${modality === null ? buttonBackground : ""}`,
+                      borderBottom: `${
+                        modality === null ? `1px solid ${buttonBackground}` : ""
+                      }`,
+                    }}
+                    onClick={() => changeModality(null)}
+                  >
+                    All
+                  </span>
+                  {
+                    // eslint-disable-next-line
+                    modalitiesList?.length &&
+                      modalitiesList?.map((item, key) => (
+                        <span
+                          key={key}
+                          className="modality"
+                          style={{
+                            color: `${
+                              modality === item?.id.toString()
+                                ? buttonBackground
+                                : ""
+                            }`,
+                            borderBottom: `${
+                              modality === item?.id.toString()
+                                ? `1px solid ${buttonBackground}`
+                                : ""
+                            }`,
+                          }}
+                          onClick={() => changeModality(item)}
+                        >
+                          {item.name}
+                        </span>
+                      ))
+                  }
+                </Flicking>
+              </div>
+              <hr
+                style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+              />
+            </>
+          ) : (
+            ""
+          )}
+        </div>
+        {!isSystemDataLoading ? (
+          <TopViewBtns
+            setOpen={
+              !selectedOrganization?.sites?.length
+                ? setOpenConfirmModal
+                : setOpen
+            }
+            path="systems"
+            setData={setSystem}
+            setList={setSystemList}
+            networkFilter={setNetworkFilter}
+            siteFilter={setSiteFilter}
+            actualData={systemsData}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
         ) : (
           ""
         )}
-      </div>
-      {!isSystemDataLoading ? (
-        <TopViewBtns
-          setOpen={
-            !selectedOrganization?.sites?.length ? setOpenConfirmModal : setOpen
-          }
-          path="systems"
-          setData={setSystem}
-          setList={setSystemList}
-          networkFilter={setNetworkFilter}
-          siteFilter={setSiteFilter}
-          actualData={systemsData}
-          searchText={searchText}
-          setSearchText={setSearchText}
-        />
-      ) : (
-        ""
-      )}
-      {searchText?.length > 2 ? (
-        !isSystemDataLoading &&
-        systemList &&
-        systemList?.results?.length &&
-        systemList?.query === searchText ? (
-          systemList?.results?.map((item, key) => (
-            <div key={key} style={{ marginTop: "32px" }}>
+        {searchText?.length > 2 ? (
+          !isSystemDataLoading &&
+          systemList &&
+          systemList?.results?.length &&
+          systemList?.query === searchText ? (
+            systemList?.results?.map((item, key) => (
+              <div key={key} style={{ marginTop: "32px" }}>
+                <SystemCard
+                  system={item}
+                  handleEdit={() => handleEdit(item)}
+                  refetch={systemsRefetch}
+                />
+              </div>
+            ))
+          ) : systemList?.query === searchText ? (
+            <>
+              <NoDataFound
+                search
+                setQuery={setSearchText}
+                queryText={searchText}
+                title={noDataTitle}
+                description={noDataDescription}
+              />
+            </>
+          ) : (
+            <div style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}>
+              <h2>{searching}</h2>
+            </div>
+          )
+        ) : !isSystemDataLoading && !systemsData?.length ? (
+          <NoDataFound title={noDataTitle} description={noDataDescription} />
+        ) : (
+          <div style={{ marginTop: "32px" }}>
+            {systemsData?.map((item, key) => (
               <SystemCard
+                key={key}
                 system={item}
                 handleEdit={() => handleEdit(item)}
                 refetch={systemsRefetch}
               />
-            </div>
-          ))
-        ) : systemList?.query === searchText ? (
-          <>
-            <NoDataFound
-              search
-              setQuery={setSearchText}
-              queryText={searchText}
-              title={noDataTitle}
-              description={noDataDescription}
-            />
-          </>
-        ) : (
-          <div style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}>
-            <h2>{searching}</h2>
+            ))}
           </div>
-        )
-      ) : !isSystemDataLoading && !systemsData?.length ? (
-        <NoDataFound title={noDataTitle} description={noDataDescription} />
-      ) : (
-        <div style={{ marginTop: "32px" }}>
-          {systemsData?.map((item, key) => (
-            <SystemCard
-              key={key}
-              system={item}
-              handleEdit={() => handleEdit(item)}
-              refetch={systemsRefetch}
-            />
-          ))}
-        </div>
       )}
       <SystemModal
         open={open}
@@ -330,6 +368,7 @@ const SystemSection = () => {
       <CommentsDrawer
       />
     </Box>
+    </>
   );
 };
 

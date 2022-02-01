@@ -33,34 +33,23 @@ import {
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import {
-  useModalitiesListQuery,
-  useOrganizationsHealthNetworksListQuery,
-  useOrganizationsListQuery,
+  HealthNetwork,
+  Modality,
+  Organization,
   useOrganizationsUsersCreateMutation,
-  useOrganizationsUsersListQuery,
   User,
   useUsersPartialUpdateMutation,
 } from "@src/store/reducers/api";
-
-const roles = [
-  { value: "fse-admin", title: "FSE Admin" },
-  { value: "customer-admin", title: "Customer Admin" },
-  { value: "user-admin", title: "User Admin" },
-  { value: "fse", title: "Field Service Engineer" },
-  { value: "end-user", title: "End User" },
-  { value: "view-only", title: "View Only" },
-  { value: "one-time", title: "One Time" },
-  { value: "cryo", title: "Cryo" },
-  { value: "cryo-fse", title: "Cryo FSE" },
-  { value: "cryo-admin", title: "Cryo Admin" },
-  { value: "lambda-admin", title: "Lambda Admin" },
-];
 
 interface Props {
   open: boolean;
   handleClose: () => void;
   selectedUser?: number;
   usersData?: Array<User>;
+  roles: unknown;
+  networksData?: Array<HealthNetwork>;
+  organizationData?: Array<Organization>;
+  modalitiesList?: Array<Modality>;
   refetch: () => void;
   action: string;
 }
@@ -78,7 +67,7 @@ export default function UserModal(props: Props) {
   const [emailError, setEmailError] = useState("");
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
-  const [role, setRole] = useState(roles[0]?.value);
+  const [role, setRole] = useState(props?.roles[0]?.value);
   const [manager, setManager] = useState<number>();
   const [customer, setCustomer] = useState<number>();
   const [selectedModalities, setSelectedModalities] = useState([]);
@@ -123,29 +112,13 @@ export default function UserModal(props: Props) {
     (state) => state.organization.selectedOrganization
   );
 
-  const { isLoading: isModalitiesLoading, data: modalitiesList } =
-    useModalitiesListQuery();
-
-  const { data: usersList, isLoading: isUsersLoading } =
-    useOrganizationsUsersListQuery({
-      id: selectedOrganization.id.toString(),
-    });
-
-  const { isLoading: isOrganisationLoading, data: organizationData } =
-    useOrganizationsListQuery({ page: 1 });
-
-  const { data: networksData, isLoading: isNetworkDataLoading } =
-    useOrganizationsHealthNetworksListQuery({
-      id: selectedOrganization?.id.toString(),
-    });
-
   useEffect(() => {
     if (props?.action == "add") {
-      if (!isUsersLoading && usersList?.length) {
-        setManager(usersList[0]?.id);
+      if (props?.usersData?.length) {
+        setManager(props?.usersData[0]?.id);
       }
-      if (!isOrganisationLoading && organizationData?.length) {
-        setCustomer(organizationData[0]?.id);
+      if (props?.organizationData?.length) {
+        setCustomer(props?.organizationData[0]?.id);
       }
     }
   }, []);
@@ -167,23 +140,28 @@ export default function UserModal(props: Props) {
       return user?.id == props?.selectedUser;
     })[0];
     if (editedUser) {
+      if (editedUser?.image?.length) {
+        setUserProfileImage(editedUser?.image);
+      }
       setFirstName(editedUser?.first_name);
       setLastName(editedUser?.last_name);
       setEmail(editedUser?.email);
-      setPhone(editedUser?.phone);
+      if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
+        setPhone(editedUser?.phone?.substring(2));
+      }
       if (editedUser?.role?.length) {
         setRole(editedUser?.role[0]);
       }
       if (editedUser?.manager) {
         setManager(
-          usersList?.filter((user) => {
-            return user?.username == editedUser?.username;
+          props?.usersData?.filter((user) => {
+            return user?.email?.toString() == editedUser?.email?.toString();
           })[0]?.id
         );
       }
       if (editedUser?.organizations?.length) {
         setCustomer(
-          organizationData?.filter((org) => {
+          props?.organizationData?.filter((org) => {
             return (
               org?.name?.toString() == editedUser?.organizations[0]?.toString()
             );
@@ -191,10 +169,23 @@ export default function UserModal(props: Props) {
         );
       }
       if (editedUser?.sites) {
-        // TODO
+        const sites_ids: Array<number> = [];
+        props?.networksData?.forEach((item) => {
+          item?.sites?.length &&
+            item?.sites?.forEach((site) => {
+              editedUser?.sites?.forEach((newSite) => {
+                if (newSite == site?.name) {
+                  sites_ids.push(site?.id);
+                }
+              });
+            });
+        });
+        if (sites_ids?.length == editedUser?.sites?.length) {
+          setSelectedSites(sites_ids);
+        }
       }
       if (editedUser?.modalities?.length) {
-        const filterModalities = modalitiesList?.filter((modality) => {
+        const filterModalities = props?.modalitiesList?.filter((modality) => {
           return editedUser?.modalities?.includes(modality?.name?.toString());
         });
         const mod_ids: Array<number> = [];
@@ -202,6 +193,24 @@ export default function UserModal(props: Props) {
           mod_ids.push(mod?.id);
         });
         setSelectedModalities(mod_ids);
+      }
+      if (editedUser?.fse_accessible) {
+        setAccessToFSEFunctions(editedUser?.fse_accessible);
+      }
+      if (editedUser?.audit_enabled) {
+        setAuditEnable(editedUser?.audit_enabled);
+      }
+      if (editedUser?.can_leave_notes) {
+        setPossibilitytoLeave(editedUser?.can_leave_notes);
+      }
+      if (editedUser?.view_only) {
+        setViewOnly(editedUser?.view_only);
+      }
+      if (editedUser?.is_one_time) {
+        setOneTimeLinkCreation(editedUser?.is_one_time);
+      }
+      if (editedUser?.documentation_url) {
+        setDocLink(editedUser?.documentation_url);
       }
     }
   };
@@ -269,7 +278,7 @@ export default function UserModal(props: Props) {
 
   const sitesLength = () => {
     let count = 0;
-    networksData?.forEach((item) => {
+    props?.networksData?.forEach((item) => {
       if (item?.sites?.length) {
         count += item?.sites?.length;
       }
@@ -318,33 +327,41 @@ export default function UserModal(props: Props) {
     setIsLoading(true);
     handleErrors();
     if (verifyErrors()) {
-      await uploadImageToS3(selectedImage[0]).then(
-        async (data: S3Interface) => {
-          const userObject = constructObject(data?.location);
-          await updateUserService(
-            props?.selectedUser,
-            userObject,
-            updateUser,
-            props?.refetch
-          )
-            .then(() => {
-              setTimeout(() => {
-                resetModal();
-                setIsLoading(false);
-              }, 500);
-            })
-            .catch(() => {
-              toast.error("User with this username already exists.", {
-                autoClose: 2000,
-                pauseOnHover: false,
-              });
-              setIsLoading(false);
-            });
-        }
-      );
+      if (!selectedImage.length && userProfileImage?.length) {
+        performEditUser(userProfileImage);
+      } else {
+        await uploadImageToS3(selectedImage[0]).then(
+          async (data: S3Interface) => {
+            performEditUser(data?.location);
+          }
+        );
+      }
     } else {
       setIsLoading(false);
     }
+  };
+
+  const performEditUser = async (data: string) => {
+    const userObject = constructObject(data);
+    await updateUserService(
+      props?.selectedUser,
+      userObject,
+      updateUser,
+      props?.refetch
+    )
+      .then(() => {
+        setTimeout(() => {
+          resetModal();
+          setIsLoading(false);
+        }, 500);
+      })
+      .catch(() => {
+        toast.error("User with this username already exists.", {
+          autoClose: 2000,
+          pauseOnHover: false,
+        });
+        setIsLoading(false);
+      });
   };
 
   const getUserObject = (imageUrl: string) => {
@@ -368,10 +385,10 @@ export default function UserModal(props: Props) {
       organization: customer,
       sites: selectedSites,
       modalities: selectedModalities,
-      fse_accessible: possibilitytoLeave,
-      audit_enabled: accessToFSEFunctions,
-      can_leave_notes: viewOnly,
-      view_only: auditEnable,
+      fse_accessible: accessToFSEFunctions,
+      audit_enabled: auditEnable,
+      can_leave_notes: possibilitytoLeave,
+      view_only: viewOnly,
       is_one_time: oneTimeLinkCreation,
       documentation_url: docLink,
     };
@@ -391,12 +408,12 @@ export default function UserModal(props: Props) {
       setEmailError("");
       setPhone("");
       setPhoneError("");
-      setRole(roles[0]?.value);
-      if (!isUsersLoading && usersList?.length) {
-        setManager(usersList[0]?.id);
+      setRole(props?.roles[0]?.value);
+      if (props?.usersData?.length) {
+        setManager(props?.usersData[0]?.id);
       }
-      if (!isOrganisationLoading && organizationData?.length) {
-        setCustomer(organizationData[0]?.id);
+      if (props?.organizationData?.length) {
+        setCustomer(props?.organizationData[0]?.id);
       }
       setSelectedSites([]);
       setSelectedModalities([]);
@@ -420,7 +437,7 @@ export default function UserModal(props: Props) {
   const moveToNextPage = () => {
     handleErrors();
     if (
-      selectedImage.length &&
+      (selectedImage.length || userProfileImage.length) &&
       firstname.length &&
       lastname.length &&
       email?.length &&
@@ -437,7 +454,7 @@ export default function UserModal(props: Props) {
 
   const verifyErrors = () => {
     if (
-      selectedImage.length &&
+      (selectedImage.length || userProfileImage.length) &&
       firstname &&
       lastname &&
       email?.length &&
@@ -454,7 +471,7 @@ export default function UserModal(props: Props) {
   };
 
   const handleErrors = () => {
-    !selectedImage.length
+    !userProfileImage.length && !selectedImage.length
       ? setImageError("Image is not selected")
       : setImageError("");
     !firstname
@@ -608,14 +625,14 @@ export default function UserModal(props: Props) {
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
                       value={role}
-                      disabled={!roles?.length}
+                      disabled={!props?.roles?.length}
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
                       defaultValue="none"
                       onChange={handleRoleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
-                      {roles?.map((item, key) => (
+                      {props?.roles?.map((item, key) => (
                         <MenuItem key={key} value={item.value}>
                           {item.title}
                         </MenuItem>
@@ -633,12 +650,11 @@ export default function UserModal(props: Props) {
                       onChange={handleManagerChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
-                      {!isUsersLoading &&
-                        usersList?.map((item, key) => (
-                          <MenuItem key={key} value={item?.id}>
-                            {item?.manager}
-                          </MenuItem>
-                        ))}
+                      {props?.usersData?.map((item, key) => (
+                        <MenuItem key={key} value={item?.id}>
+                          {item?.username}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -653,12 +669,11 @@ export default function UserModal(props: Props) {
                     onChange={handleCustomerChange}
                     MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                   >
-                    {!isOrganisationLoading &&
-                      organizationData?.map((item, key) => (
-                        <MenuItem key={key} value={item?.id}>
-                          {item?.name}
-                        </MenuItem>
-                      ))}
+                    {props?.organizationData?.map((item, key) => (
+                      <MenuItem key={key} value={item?.id}>
+                        {item?.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -666,7 +681,7 @@ export default function UserModal(props: Props) {
           ) : (
             <>
               <div>
-                {!isNetworkDataLoading && sitesLength() > 0 && (
+                {sitesLength() > 0 && (
                   <p className="modalities-header">
                     <span className="info-label">Health Network Access</span>
                     <span className="checked-ratio">{`${
@@ -674,73 +689,68 @@ export default function UserModal(props: Props) {
                     }/${sitesLength()}`}</span>
                   </p>
                 )}
-                {!isNetworkDataLoading &&
-                  networksData?.map((item, key) =>
-                    item?.sites?.length ? (
-                      <div key={key}>
-                        <details className="network-details">
-                          <summary
-                            className="header"
-                            style={{ cursor: "pointer" }}
+                {props?.networksData?.map((item, key) =>
+                  item?.sites?.length ? (
+                    <div key={key}>
+                      <details className="network-details">
+                        <summary
+                          className="header"
+                          style={{ cursor: "pointer" }}
+                        >
+                          <span className="title">{item?.name}</span>
+                        </summary>
+                        {item?.sites?.map((site, key) => (
+                          <FormGroup
+                            key={key}
+                            style={{ marginLeft: "20px" }}
+                            className="options"
                           >
-                            <span className="title">{item?.name}</span>
-                          </summary>
-                          {item?.sites?.map((site, key) => (
-                            <FormGroup
-                              key={key}
-                              style={{ marginLeft: "20px" }}
-                              className="options"
-                            >
-                              <FormControlLabel
-                                control={
-                                  <Checkbox
-                                    onChange={handleSitesSelection}
-                                    checked={selectedSites.includes(site?.id)}
-                                    value={site?.id}
-                                    name={site?.address}
-                                    color="primary"
-                                  />
-                                }
-                                label={site?.address}
-                              />
-                            </FormGroup>
-                          ))}
-                        </details>
-                      </div>
-                    ) : (
-                      ""
-                    )
-                  )}
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  onChange={handleSitesSelection}
+                                  checked={selectedSites.includes(site?.id)}
+                                  value={site?.id}
+                                  name={site?.address}
+                                  color="primary"
+                                />
+                              }
+                              label={site?.address}
+                            />
+                          </FormGroup>
+                        ))}
+                      </details>
+                    </div>
+                  ) : (
+                    ""
+                  )
+                )}
               </div>
               <div>
-                {!isModalitiesLoading && modalitiesList?.length && (
+                {props?.modalitiesList?.length && (
                   <p className="modalities-header">
                     <span className="info-label">Access to modalities</span>
-                    <span className="checked-ratio">{`${selectedModalities?.length}/${modalitiesList?.length}`}</span>
+                    <span className="checked-ratio">{`${selectedModalities?.length}/${props?.modalitiesList?.length}`}</span>
                   </p>
                 )}
-                {!isModalitiesLoading ? (
-                  <ToggleButtonGroup
-                    value={selectedModalities}
-                    color="primary"
-                    onChange={handleSelectedModalities}
-                    aria-label="text formatting"
-                    style={{ flexWrap: "wrap" }}
-                  >
-                    {modalitiesList?.length &&
-                      modalitiesList?.map((item, key) => (
-                        <ToggleButton
-                          key={key}
-                          value={item?.id}
-                          className="toggle-btn"
-                        >
-                          {item?.name}
-                        </ToggleButton>
-                      ))}
-                  </ToggleButtonGroup>
-                ) : (
-                  ""
-                )}
+                <ToggleButtonGroup
+                  value={selectedModalities}
+                  color="primary"
+                  onChange={handleSelectedModalities}
+                  aria-label="text formatting"
+                  style={{ flexWrap: "wrap" }}
+                >
+                  {props?.modalitiesList?.length &&
+                    props?.modalitiesList?.map((item, key) => (
+                      <ToggleButton
+                        key={key}
+                        value={item?.id}
+                        className="toggle-btn"
+                      >
+                        {item?.name}
+                      </ToggleButton>
+                    ))}
+                </ToggleButtonGroup>
               </div>
               <div className="services">
                 <FormGroup className="service-options">

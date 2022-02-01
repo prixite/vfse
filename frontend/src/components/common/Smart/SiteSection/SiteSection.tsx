@@ -8,7 +8,11 @@ import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { useOrganizationsSitesListQuery } from "@src/store/reducers/api";
+import { useAppSelector } from "@src/store/hooks";
+import {
+  useOrganizationsSitesListQuery,
+  useOrganizationsHealthNetworksListQuery,
+} from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
 
@@ -19,6 +23,9 @@ const SiteSection = () => {
   const [open, setOpen] = useState(false);
 
   const { id, networkId } = useParams();
+  const selectedOrganization = useAppSelector(
+    (state) => state.organization.selectedOrganization
+  );
   const selectionID =
     networkId == undefined ? id?.toString() : networkId?.toString();
 
@@ -27,9 +34,17 @@ const SiteSection = () => {
     isFetching: isSitesFetching,
     refetch: sitesRefetch,
   } = useOrganizationsSitesListQuery({
-    page: 1,
     id: selectionID,
   });
+  const { refetch: orgNetworkRefetch } =
+    useOrganizationsHealthNetworksListQuery(
+      {
+        id: selectedOrganization?.id.toString(),
+      },
+      {
+        skip: false,
+      }
+    );
 
   const { title, noDataTitle, noDataDescription } = localizedData().sites;
   const { searching } = localizedData().common;
@@ -113,6 +128,7 @@ const SiteSection = () => {
           selectionID={selectionID}
           handleClose={handleClose}
           refetch={sitesRefetch}
+          orgNetworkRefetch={orgNetworkRefetch}
         />
       </Box>
     </>

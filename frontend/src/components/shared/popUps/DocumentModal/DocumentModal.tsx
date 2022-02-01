@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 import {
   TextField,
@@ -7,6 +7,7 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Autocomplete,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -14,29 +15,42 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDropzone } from "react-dropzone";
+import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { addProductModelService } from "@src/services/DocumentationService";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/DocumentModal/DocumentModal.scss";
 import {
-  useProductsModelsListQuery,
+  useProductsListQuery,
   useModalitiesListQuery,
+  useProductsModelsCreateMutation,
 } from "@src/store/reducers/api";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
+  refetch: () => void;
 }
 
-export default function DocumentModal({ open, handleClose }: Props) {
+export default function DocumentModal({ open, handleClose, refetch }: Props) {
+  const [docLink, setDocLink] = useState(null);
+  const [modelName, setModelName] = useState("");
   const [modal, setModal] = useState(null);
   const [modality, setModality] = useState(null);
+  const [docLinkError, setDocLinkError] = useState("");
+  const [modelNameError, setModelNameError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [addProductModel] = useProductsModelsCreateMutation();
+
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const { data: productData, isFetching: fetchingProducts } =
-    useProductsModelsListQuery();
+  const { data: productData, isLoading: isProductsModelsLoading } =
+    useProductsListQuery();
   const { data: modalitiesList, isLoading: isModalitiesLoading } =
     useModalitiesListQuery();
   const {
@@ -50,11 +64,6 @@ export default function DocumentModal({ open, handleClose }: Props) {
     btnCancel,
   } = localizedData().documentation.popUp;
 
-  // eslint-disable-next-line
-  const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the files
-  }, []);
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const dropdownStyles = {
     PaperProps: {
       style: {
@@ -63,10 +72,32 @@ export default function DocumentModal({ open, handleClose }: Props) {
       },
     },
   };
-  const stopImmediatePropagation = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
+
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+    accept: ".pdf",
+    onDrop: (acceptedFiles) =>
+      acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      ),
+  });
+
+  useEffect(() => {
+    if (acceptedFiles && acceptedFiles?.length) {
+      (async () => {
+        setIsLoading(true);
+        await uploadImageToS3(acceptedFiles[0]).then(
+          async (data: S3Interface) => {
+            setDocLink(data?.location);
+            setIsLoading(false);
+            setDocLinkError("");
+          }
+        );
+      })();
+    }
+  }, [acceptedFiles]);
+
   useEffect(() => {
     if (productData?.length) {
       setModal(productData[0]);
@@ -79,13 +110,87 @@ export default function DocumentModal({ open, handleClose }: Props) {
     }
   }, [modalitiesList]);
 
+  const handleModelName = (e) => {
+    if (e.target.value.length) {
+      setModelNameError("");
+    }
+    setModelName(e.target.value);
+  };
+
+  const handleErrors = () => {
+    !docLink?.length
+      ? setDocLinkError("Document is not uploaded")
+      : setDocLinkError("");
+    !modelName
+      ? setModelNameError("Model Name is required.")
+      : setModelNameError("");
+  };
+
+  const verifyErrors = () => {
+    if (docLink?.length && modelName && modal && modality) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleAddDocument = async () => {
+    setIsLoading(true);
+    handleErrors();
+    if (verifyErrors()) {
+      const newProductModel = getNewProductModel();
+      if (newProductModel.documentation.url || newProductModel) {
+        await addProductModelService(newProductModel, addProductModel, refetch)
+          .then(() => {
+            setTimeout(() => {
+              resetModal();
+              setIsLoading(false);
+            }, 500);
+          })
+          .catch(() => {
+            toast.error(
+              "Model with given name already exists for selected product",
+              {
+                autoClose: 2000,
+                pauseOnHover: false,
+              }
+            );
+            setIsLoading(false);
+          });
+      }
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const getNewProductModel = () => {
+    const Documentation = {
+      url: docLink,
+    };
+    return {
+      model: modelName,
+      documentation: Documentation,
+      modality: modality.id,
+      product: modal.id,
+    };
+  };
+
+  const resetModal = () => {
+    setDocLink(null);
+    setModelName("");
+    setModal(productData[0]);
+    setModality(modalitiesList[0]);
+    setDocLinkError("");
+    setModelNameError("");
+    handleClose();
+  };
+
   return (
-    <Dialog className="document-modal" open={open} onClose={handleClose}>
+    <Dialog className="document-modal" open={open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section">
           <span className="modal-header">{title}</span>
           <span className="dialog-page">
-            <img src={CloseBtn} className="cross-btn" onClick={handleClose} />
+            <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
         </div>
       </DialogTitle>
@@ -94,11 +199,13 @@ export default function DocumentModal({ open, handleClose }: Props) {
           <div className="info-section">
             <p className="info-label">{link}</p>
             <TextField
+              inputProps={{ readOnly: true }}
+              value={docLink}
               className="info-field"
               variant="outlined"
               size="small"
               type="url"
-              placeholder="https://example.com"
+              placeholder="PDF file to be uploaded"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
@@ -112,64 +219,50 @@ export default function DocumentModal({ open, handleClose }: Props) {
                 ),
               }}
             />
+            {docLinkError ? <p className="errorText">{docLinkError}</p> : ""}
           </div>
           <div className="info-section">
             <p className="info-label">{model}</p>
             <TextField
+              value={modelName}
               className="info-field"
               variant="outlined"
               size="small"
               type="url"
               placeholder="Model Name"
+              onChange={handleModelName}
             />
+            {modelNameError ? (
+              <p className="errorText">{modelNameError}</p>
+            ) : (
+              ""
+            )}
           </div>
           <div className="dropdown-wrapper">
             <Grid item xs={6}>
               <div className="info-section" style={{ marginRight: "8px" }}>
                 <p className="info-label">{product_model}</p>
-                <FormControl sx={{ minWidth: "100%" }}>
-                  <Select
-                    value={modal?.name}
-                    displayEmpty
-                    disabled={!productData?.length}
-                    className="info-field"
-                    inputProps={{ "aria-label": "Without label" }}
-                    style={{
-                      height: "48px",
-                      marginRight: "15px",
-                      zIndex: "2000",
-                    }}
-                    MenuProps={dropdownStyles}
-                  >
-                    <MenuItem
-                      onKeyDown={(e) => e.stopPropagation()}
-                      onClickCapture={stopImmediatePropagation}
-                      style={{ background: "transparent", padding: "0" }}
-                    >
+                {!isProductsModelsLoading && (
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    value={modal}
+                    onChange={(e, item) => setModal(item)} // eslint-disable-line
+                    options={productData}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name}
+                    renderInput={(params) => (
                       <TextField
-                        style={{ width: "100%", padding: "10px" }}
-                        className="search"
-                        variant="outlined"
-                        size="small"
-                        // value={query}
-                        placeholder="search"
-                        //onChange={(e) => handleSearch(e, productData)}
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                        }}
                       />
-                    </MenuItem>
-                    {!fetchingProducts
-                      ? productData?.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item.name}
-                            onClick={() => setModal(item)}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))
-                      : ""}
-                  </Select>
-                </FormControl>
+                    )}
+                  />
+                )}
               </div>
             </Grid>
             <Grid item xs={6}>
@@ -189,21 +282,6 @@ export default function DocumentModal({ open, handleClose }: Props) {
                     }}
                     MenuProps={dropdownStyles}
                   >
-                    <MenuItem
-                      onKeyDown={(e) => e.stopPropagation()}
-                      onClickCapture={stopImmediatePropagation}
-                      style={{ background: "transparent", padding: "0" }}
-                    >
-                      <TextField
-                        style={{ width: "100%", padding: "10px" }}
-                        className="search"
-                        variant="outlined"
-                        size="small"
-                        // value={query}
-                        placeholder="search"
-                        //onChange={(e) => handleSearch(e, modalitiesList)}
-                      />
-                    </MenuItem>
                     {!isModalitiesLoading
                       ? modalitiesList?.map((item, index) => (
                           <MenuItem
@@ -226,20 +304,37 @@ export default function DocumentModal({ open, handleClose }: Props) {
       <DialogActions>
         <Button
           className="cancel-btn"
-          style={{
-            backgroundColor: secondaryColor,
-            color: buttonTextColor,
-          }}
-          onClick={handleClose}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "lightgray",
+                  color: buttonTextColor,
+                }
+              : {
+                  backgroundColor: secondaryColor,
+                  color: buttonTextColor,
+                }
+          }
+          onClick={resetModal}
+          disabled={isLoading}
         >
           {btnCancel}
         </Button>
         <Button
           className="add-btn"
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
+          style={
+            isLoading
+              ? {
+                  backgroundColor: "lightgray",
+                  color: buttonTextColor,
+                }
+              : {
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }
+          }
+          disabled={isLoading}
+          onClick={handleAddDocument}
         >
           {btnSave}
         </Button>

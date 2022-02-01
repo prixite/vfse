@@ -88,10 +88,7 @@ class CustomerViewSet(OrganizationViewSet):
         return (
             super()
             .get_user_organizations()
-            .filter(
-                is_customer=True,
-                is_default=False,
-            )
+            .filter(Q(is_customer=True) | Q(is_default=True))
             .prefetch_related("sites")
         )
 
@@ -247,8 +244,12 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
 
+        queryset = models.System.objects.filter(
+            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
+        )
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.System.objects.filter(
+            queryset = models.System.objects.filter(
                 Q(site__organization_id=self.kwargs["pk"])
                 | Q(
                     site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
@@ -257,11 +258,13 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
                         "health_network"
                     )
                 )
-            ).select_related("image", "product_model")
+            )
 
-        return models.System.objects.filter(
-            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
-        ).select_related("image", "product_model")
+        return (
+            queryset.select_related("image", "product_model")
+            if self.action != "partial_update"
+            else queryset
+        )
 
     def perform_create(self, serializer):
         seat = serializer.validated_data["connection_options"].pop("vfse")
@@ -294,7 +297,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
     def update(self, request, *args, **kwargs):
         # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
                 **{
                     key: serializer.validated_data[key]
@@ -310,6 +313,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(serializer.validated_data, kwargs["pk"])
 
             models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
+            models.UserHealthNetwork.objects.filter(user_id=kwargs["pk"]).delete()
             self.add_sites(serializer.validated_data, kwargs["pk"])
 
             models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
@@ -331,7 +335,11 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return (
-                models.User.objects.filter(is_lambda_user=False)
+                models.User.objects.filter(
+                    is_lambda_user=False,
+                    is_superuser=False,
+                    is_supermanager=False,
+                )
                 .prefetch_related("memberships")
                 .select_related("profile")
             )
@@ -341,10 +349,15 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             organization__in=self.request.user.get_organizations(
                 role=[models.Role.USER_ADMIN]
             ),
-        ).filter(is_lambda_user=False)
+        )
 
         return (
-            models.User.objects.filter(id__in=membership.values_list("user"))
+            models.User.objects.filter(
+                id__in=membership.values_list("user"),
+                is_lambda_user=False,
+                is_superuser=False,
+                is_supermanager=False,
+            )
             .prefetch_related("memberships")
             .select_related("profile")
         )
@@ -389,6 +402,7 @@ class OrganizationSeatViewSet(ModelViewSet):
 
         return assigned
 
+    @transaction.atomic
     def perform_create(self, serializer):
         seats = [
             models.Seat(organization_id=self.kwargs["pk"], system=seat["system"])
@@ -474,7 +488,7 @@ class ProductModelViewSet(ModelViewSet):
         return queryset
 
     def get_serializer_class(self):
-        if self.action == "create":
+        if self.action in ["create", "partial_update"]:
             return serializers.ProductModelCreateSerializer
         return serializers.ProductModelSerializer
 
@@ -494,10 +508,12 @@ class SystemNoteViewSet(ModelViewSet):
             return models.Note.objects.none()
 
         if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.Note.objects.filter(system_id=self.kwargs["pk"])
+            return models.Note.objects.filter(
+                system_id=self.kwargs["pk"]
+            ).select_related("author")
         return models.Note.objects.filter(
             system_id=self.kwargs["pk"], author=self.request.user
-        )
+        ).select_related("author")
 
     def perform_create(self, serializer):
         serializer.save(system_id=self.kwargs["pk"], author=self.request.user)

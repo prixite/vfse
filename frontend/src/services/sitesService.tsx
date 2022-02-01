@@ -7,7 +7,7 @@ const updateSitesService = async (
   refetch,
   type,
   refetchOrganization,
-  disableButton // eslint-disable-line
+  refetchNetworks
 ) => {
   await updateSites({
     id: id?.toString(),
@@ -27,6 +27,7 @@ const updateSitesService = async (
           onClose: () => {
             refetch();
             refetchOrganization();
+            refetchNetworks();
           },
         }
       );
@@ -39,7 +40,7 @@ const addNewSiteService = async (
   addNewSite,
   refetch,
   refetchOrganization,
-  disableButton // eslint-disable-line
+  refetchNetwork
 ) => {
   await addNewSite({
     id: selectionID?.toString(),
@@ -53,6 +54,7 @@ const addNewSiteService = async (
         onClose: () => {
           refetch();
           refetchOrganization();
+          refetchNetwork();
         },
       });
     });

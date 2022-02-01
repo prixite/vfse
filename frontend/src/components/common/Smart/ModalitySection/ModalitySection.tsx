@@ -38,7 +38,6 @@ const ModalitySection = () => {
     isLoading: isNetworkDataLoading,
     refetch: orgNetworkRefetch,
   } = useOrganizationsHealthNetworksListQuery({
-    page: 1,
     id: selectedOrganization?.id.toString(),
   });
 

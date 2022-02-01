@@ -12,6 +12,7 @@ import "@src/components/common/Smart/SystemImageGallery/SystemImageGallery.scss"
 
 interface galleryProps {
   setSystemImage: Dispatch<SetStateAction<number>>;
+  systemImage: number;
 }
 
 interface imgProps {
@@ -53,19 +54,17 @@ const RenderImage = ({ src, imgIndex, index }: imgProps) => {
   );
 };
 
-const SystemImageGallery = ({ setSystemImage }: galleryProps) => {
-  const [index, setIndex] = useState(0);
+const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
   const { data, isFetching } = useSystemsImagesListQuery();
 
   useEffect(() => {
-    if (data?.length) {
+    if (data?.length && systemImage === 0) {
       setSystemImage(data[0]?.id);
     }
   }, [data]);
 
-  const handleSelectedImage = (id, imageId) => {
+  const handleSelectedImage = (imageId) => {
     const image = parseInt(imageId);
-    setIndex(id);
     setSystemImage(image);
   };
 
@@ -73,12 +72,16 @@ const SystemImageGallery = ({ setSystemImage }: galleryProps) => {
     <div className="systemGallery">
       {!isFetching && data?.length ? (
         <ImageList sx={{ width: "100%", height: 300 }} cols={4} rowHeight={150}>
-          {data.map((item, imgIndex) => (
+          {data.map((item) => (
             <ImageListItem
               key={item.id}
-              onClick={() => handleSelectedImage(imgIndex, item?.id)}
+              onClick={() => handleSelectedImage(item?.id)}
             >
-              <RenderImage src={item.image} imgIndex={imgIndex} index={index} />
+              <RenderImage
+                src={item?.image}
+                imgIndex={item?.id}
+                index={systemImage}
+              />
             </ImageListItem>
           ))}
         </ImageList>

@@ -53,6 +53,15 @@ class Command(BaseCommand):
         one_time_role = factories.UserWithPasswordFactory(
             username="one-time@example.com", profile__manager=super_user
         )
+        cryo = factories.UserWithPasswordFactory(
+            username="cryo@example.com", profile__manager=super_user
+        )
+        cryo_fse = factories.UserWithPasswordFactory(
+            username="cryo-fse@example.com", profile__manager=super_user
+        )
+        cryo_admin = factories.UserWithPasswordFactory(
+            username="cryo-admin@example.com", profile__manager=super_user
+        )
         users = [
             one_time_role,
             view_only,
@@ -61,6 +70,9 @@ class Command(BaseCommand):
             user_admin,
             customer_admin,
             fse_admin,
+            cryo,
+            cryo_admin,
+            cryo_fse,
         ]
         organization = factories.OrganizationFactory(
             name="All Data",
@@ -76,21 +88,9 @@ class Command(BaseCommand):
             end_user_roles=[end_user_role],
             view_only_roles=[view_only],
             one_time_roles=[one_time_role],
-            cryo_roles=[
-                factories.UserWithPasswordFactory(
-                    username="cryo@example.com", profile__manager=super_user
-                )
-            ],
-            cryo_fse_roles=[
-                factories.UserWithPasswordFactory(
-                    username="cryo-fse@example.com", profile__manager=super_user
-                )
-            ],
-            cryo_admin_roles=[
-                factories.UserWithPasswordFactory(
-                    username="cryo-admin@example.com", profile__manager=super_user
-                )
-            ],
+            cryo_roles=[cryo],
+            cryo_fse_roles=[cryo_fse],
+            cryo_admin_roles=[cryo_admin],
             sites=True,
         )
         product_model = factories.ProductModelFactory(
@@ -232,7 +232,11 @@ class Command(BaseCommand):
             site=site,
             users=users,
         )
-        factories.OrganizationFactory.create_batch(175, is_customer=True)
+        factories.OrganizationFactory.create_batch(
+            175,
+            is_customer=True,
+            number_of_seats=10,
+        )
         factories.HealthNetworkFactory.create_batch(
             5,
             organizations=[organization],

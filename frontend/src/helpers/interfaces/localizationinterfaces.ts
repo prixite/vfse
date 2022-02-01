@@ -88,30 +88,6 @@ export interface ModalitiesInterface {
   deleteDialog: DeleteDialogInterface;
 }
 
-export interface hisRISInterface {
-  ip: string;
-  title: string;
-  port: number;
-  ae_title: string;
-}
-
-export interface dicomInfoInterface {
-  ip: string;
-  title: string;
-  port: number;
-  ae_title: string;
-}
-
-export interface MRIParamInterface {
-  helium: string;
-  magent_pressure: string;
-}
-
-export interface imagePropInterface {
-  image: string;
-  description: object;
-}
-
 export interface SystemInterface {
   system: System;
   handleEdit?: () => void;

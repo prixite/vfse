@@ -26,6 +26,15 @@ class MetaSiteSerializer(serializers.ModelSerializer):
         model = models.Site
         fields = ["id", "name", "address"]
 
+    def validate(self, attrs):
+        if models.Site.objects.filter(
+            name=attrs["name"], organization=self.context["view"].kwargs["pk"]
+        ).exists():
+            raise serializers.ValidationError(
+                "Site with given in name in selected organization already exists"
+            )
+        return attrs
+
 
 class SiteSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(
@@ -59,7 +68,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(
         max_length=32,
-        validators=[UniqueValidator(queryset=models.Organization.objects.all())],
+        validators=[
+            UniqueValidator(
+                queryset=models.Organization.objects.all(),
+                message="Organization name must be unique",
+            )
+        ],
     )
 
     sites = MetaSiteSerializer(many=True, read_only=True)
@@ -149,6 +163,14 @@ class HealthNetworkSerializer(serializers.ModelSerializer):
             "sites",
         ]
 
+    def validate(self, attrs):
+        if (
+            "id" not in attrs
+            and models.Organization.objects.filter(name=attrs["name"]).exists()
+        ):
+            raise serializers.ValidationError("Health Network name must be unique")
+        return attrs
+
 
 class HealthNetworkCreateSerializer(HealthNetworkSerializer):
     id = serializers.IntegerField(allow_null=True, default=None)
@@ -176,7 +198,12 @@ class MriInfoSerializer(serializers.Serializer):
 
 class ModalitySerializer(serializers.ModelSerializer):
     name = serializers.CharField(
-        validators=[UniqueValidator(queryset=models.Modality.objects.all())]
+        validators=[
+            UniqueValidator(
+                queryset=models.Modality.objects.all(),
+                message="Modality name must be unique",
+            )
+        ]
     )
 
     class Meta:
@@ -203,20 +230,20 @@ class UserSerializer(serializers.ModelSerializer):
         source="memberships", slug_field="role", many=True, read_only=True
     )
     manager = serializers.CharField(read_only=True)
-    documentation_url = serializers.CharField(
+    documentation_url = serializers.BooleanField(
         source="profile.documentation_url", read_only=True
     )
-    fse_accessible = serializers.CharField(
+    fse_accessible = serializers.BooleanField(
         source="profile.fse_accessible", read_only=True
     )
-    audit_enabled = serializers.CharField(
+    audit_enabled = serializers.BooleanField(
         source="profile.audit_enabled", read_only=True
     )
-    can_leave_notes = serializers.CharField(
+    can_leave_notes = serializers.BooleanField(
         source="profile.can_leave_notes", read_only=True
     )
-    is_one_time = serializers.CharField(source="profile.is_one_time", read_only=True)
-    view_only = serializers.CharField(source="profile.view_only", read_only=True)
+    is_one_time = serializers.BooleanField(source="profile.is_one_time", read_only=True)
+    view_only = serializers.BooleanField(source="profile.view_only", read_only=True)
 
     class Meta:
         model = models.User
@@ -253,14 +280,7 @@ class UpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
     last_name = serializers.CharField()
-    email = serializers.EmailField(
-        validators=[
-            UniqueValidator(
-                queryset=models.User.objects.all().values_list("username"),
-                message="Email already in use",
-            )
-        ],
-    )
+    email = serializers.EmailField()
     phone = serializers.CharField()
     role = serializers.ChoiceField(
         choices=models.Role,
@@ -288,7 +308,7 @@ class UpsertUserSerializer(serializers.Serializer):
     documentation_url = serializers.BooleanField()
 
     def validate_phone(self, value):
-        result = re.match(r"(?P<phone>\+1\d{10}$)", value)
+        result = re.match(r"(?P<phUpsertUserSerializerone>\+1\d{10}$)", value)
 
         if not result:
             raise serializers.ValidationError(
@@ -313,6 +333,15 @@ class UpsertUserSerializer(serializers.Serializer):
                 )
             return value
         return value
+
+    def validate(self, data):
+        user_query = models.User.objects.filter(username=data["email"])
+        if "pk" in self.context["view"].kwargs:
+            user_query = user_query.exclude(id=self.context["view"].kwargs["pk"])
+
+        if user_query.exists():
+            raise serializers.ValidationError("Email already exists")
+        return data
 
 
 class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
@@ -433,10 +462,14 @@ class SystemSerializer(serializers.ModelSerializer):
 
 
 class SystemNotesSerializer(serializers.ModelSerializer):
+    author_image = serializers.URLField(
+        source="author.profile.meta.profile_picture", read_only=True
+    )
+    author = serializers.CharField(source="author.get_full_name", read_only=True)
+
     class Meta:
         model = models.Note
-        fields = ["author", "note", "created_at"]
-        extra_kwargs = {"author": {"read_only": True}}
+        fields = ["author", "note", "created_at", "author_image"]
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):
@@ -470,8 +503,15 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         if getattr(self.context["view"], "swagger_fake_view", False):
             # Short circuit this when openapi code is running.
             return attrs
-
         organization_pk = self.context["view"].kwargs["pk"]
+        if models.Seat.objects.filter(
+            system__in=[item.get("system") for item in attrs["seats"]],
+            organization_id=organization_pk,
+        ).exists():
+            raise serializers.ValidationError(
+                "Seat for a selected system in current organization already exists"
+            )
+
         occupied_seats = models.Seat.objects.filter(
             organization_id=organization_pk
         ).count()

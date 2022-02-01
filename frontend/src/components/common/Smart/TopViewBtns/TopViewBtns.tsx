@@ -41,7 +41,7 @@ interface Props {
   networkFilter: (arg: object) => void;
   siteFilter: (arg: object) => void;
   setList: (arg: { query: string; results?: { name: string }[] }) => void;
-  actualData: HealthNetwork[];
+  actualData?: HealthNetwork[];
   searchText: string;
   setSearchText: (arg: string) => void;
   tableColumns?: {
