@@ -476,7 +476,7 @@ class SystemSerializer(serializers.ModelSerializer):
                 system=system, organization_id=self.context["view"].kwargs["pk"]
             )
         return system
-    
+
     @transaction.atomic
     def update(self, instance, validated_data):
         if "vfse" in validated_data:
