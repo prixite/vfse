@@ -210,9 +210,11 @@ class ModalitySerializer(serializers.ModelSerializer):
         model = models.Modality
         fields = ["id", "name"]
 
+
 class ManagerMetaSerializer(serializers.Serializer):
     email = serializers.EmailField()
     name = serializers.CharField()
+
 
 class UserSerializer(serializers.ModelSerializer):
     modalities = serializers.ListField(

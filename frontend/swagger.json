@@ -2001,6 +2001,28 @@
                 }
             }
         },
+        "ManagerMeta": {
+            "title": "Manager",
+            "description": "",
+            "required": [
+                "email",
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "email": {
+                    "title": "Email",
+                    "type": "string",
+                    "format": "email",
+                    "minLength": 1
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
         "User": {
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "required": [
@@ -2116,13 +2138,7 @@
                     "uniqueItems": true
                 },
                 "manager": {
-                    "title": "Manager",
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "string",
-                        "minLength": 1
-                    },
-                    "readOnly": true
+                    "$ref": "#/definitions/ManagerMeta"
                 },
                 "image": {
                     "title": "Image",
