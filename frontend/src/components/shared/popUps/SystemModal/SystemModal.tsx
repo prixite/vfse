@@ -334,7 +334,7 @@ export default function SystemModal(props: systemProps) {
   const handleName = (e) => {
     setName(e.target.value);
     if (e.target.value) {
-         setNameError("");
+      setNameError("");
     }
   };
 
@@ -449,13 +449,15 @@ export default function SystemModal(props: systemProps) {
         item.setError(`${item.dName} is required`);
         return false;
       }
-      if(item.name &&  item.dName === 'IP' && !ValidateIPaddress(item.name))
-      {
+      if (item.name && item.dName === "IP" && !ValidateIPaddress(item.name)) {
         item.setError(`Invalid ip address`);
         return false;
       }
-      if(item.name &&  item.dName === 'Grafana link' && !isValidURL(item.name))
-      {
+      if (
+        item.name &&
+        item.dName === "Grafana link" &&
+        !isValidURL(item.name)
+      ) {
         item.setError(`Invalid url`);
         return false;
       }
