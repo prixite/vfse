@@ -827,9 +827,10 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  author?: number;
+  author?: string;
   note: string;
   created_at?: string;
+  author_image?: string;
 };
 export type UserEnableDisable = {
   users: number[];
