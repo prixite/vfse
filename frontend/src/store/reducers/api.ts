@@ -757,7 +757,9 @@ export type User = {
   is_one_time?: boolean;
   documentation_url?: boolean;
   role?: string[];
-  manager?: string;
+  manager?: {
+    [key: string]: string;
+  };
   image?: string;
   sites?: string[];
 };

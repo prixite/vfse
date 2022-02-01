@@ -229,7 +229,7 @@ class UserSerializer(serializers.ModelSerializer):
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
     )
-    manager = serializers.CharField(read_only=True)
+    manager = serializers.DictField(child=serializers.CharField(), read_only=True)
     documentation_url = serializers.BooleanField(
         source="profile.documentation_url", read_only=True
     )

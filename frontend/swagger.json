@@ -2117,9 +2117,12 @@
                 },
                 "manager": {
                     "title": "Manager",
-                    "type": "string",
-                    "readOnly": true,
-                    "minLength": 1
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "readOnly": true
                 },
                 "image": {
                     "title": "Image",
