@@ -24,13 +24,14 @@ class OrganizationReadOnlyPermissions(BasePermission):
         if request.user.is_superuser:
             return True
 
-        if request.method not in SAFE_METHODS:
-            return not models.Membership.objects.filter(
-                organization_id=view.kwargs["pk"],
-                user=request.user,
-                role=models.Role.VIEW_ONLY,
-            ).exists()
-        return False
+        if request.method in SAFE_METHODS:
+            return True
+
+        return not models.Membership.objects.filter(
+            organization_id=view.kwargs["pk"],
+            user=request.user,
+            role=models.Role.VIEW_ONLY,
+        ).exists()
 
 
 class OrganizationPermission(BasePermission):
