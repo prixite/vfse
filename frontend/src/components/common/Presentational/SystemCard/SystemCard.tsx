@@ -232,10 +232,8 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
           <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
-          <MenuItem>
-            <span style={{ marginLeft: "12px" }} onClick={onComment}>
-              Comments
-            </span>
+          <MenuItem onClick={onComment}>
+            <span style={{ marginLeft: "12px" }}>Comments</span>
           </MenuItem>
           <MenuItem onClick={() => setModal(true)}>
             <span style={{ marginLeft: "12px" }}>Delete</span>
