@@ -81,7 +81,7 @@ class User(AbstractUser):
 
     def get_default_organization(self):
         if self.is_superuser or self.is_supermanager:
-            return Organization.objects.get(is_default=True)
+            return Organization.objects.filter(is_default=True).first()
 
         organizations = Organization.objects.filter(
             id__in=self.get_organizations(),
