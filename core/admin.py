@@ -73,6 +73,7 @@ class ModalityAdmin(admin.ModelAdmin):
 @admin.register(models.System)
 class SystemAdmin(admin.ModelAdmin):
     list_display = (
+        "name",
         "product_model",
         "site",
         "ip_address",
