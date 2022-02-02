@@ -1,5 +1,3 @@
-import React, { Dispatch, SetStateAction } from "react";
-
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -25,7 +23,7 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
-const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
+const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [modal, setModal] = React.useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -80,7 +78,7 @@ const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
   const onComment = () => {
     dispatch(openSystemDrawer(system?.id));
     handleClose();
-  }
+  };
 
   return (
     <div className="system-card">
@@ -233,10 +231,7 @@ const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
           <MenuItem>
-            <span
-              style={{ marginLeft: "12px" }}
-              onClick={onComment}
-            >
+            <span style={{ marginLeft: "12px" }} onClick={onComment}>
               Comments
             </span>
           </MenuItem>

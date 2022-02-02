@@ -1,28 +1,27 @@
 .NoCommentsFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  .Logo {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-content: center;
-    .Logo {
-        display: flex;
-        justify-content: center;
-        img {
-            object-fit: contain;
-        }
+    img {
+      object-fit: contain;
     }
-    .Heading {
-        font-size: 16px;
-        color : #151E29;
-        font-weight: 600;
-        margin-top: 25px;
-        text-align: center;
-        
-    }
-    .description {
-        font-size: 14px;
-        font-weight: 400;
-        margin-top: 8px;
-        color: #696F77;
-        text-align: center;
-    }
+  }
+  .Heading {
+    font-size: 16px;
+    color: #151e29;
+    font-weight: 600;
+    margin-top: 25px;
+    text-align: center;
+  }
+  .description {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 8px;
+    color: #696f77;
+    text-align: center;
+  }
 }
