@@ -624,7 +624,7 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if "documentation" in validated_data:
-            documentation = validated_data.pop('documentation')
-            instance.documentation.url = documentation.get('url')
+            documentation = validated_data.pop("documentation")
+            instance.documentation.url = documentation.get("url")
             instance.save()
-        return super().update(instance,validated_data)
+        return super().update(instance, validated_data)
