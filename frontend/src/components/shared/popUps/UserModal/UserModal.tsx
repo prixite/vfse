@@ -112,10 +112,13 @@ export default function UserModal(props: Props) {
     (state) => state.organization.selectedOrganization
   );
 
+  const usersData = Array.from(props?.usersData);
+  usersData?.unshift({ id: -1, username: "Select Manager" });
+
   useEffect(() => {
     if (props?.action == "add") {
-      if (props?.usersData?.length) {
-        setManager(props?.usersData[0]?.id);
+      if (usersData?.length) {
+        setManager(usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
         setCustomer(props?.organizationData[0]?.id);
@@ -136,7 +139,7 @@ export default function UserModal(props: Props) {
   }, [selectedImage]);
 
   const populateEditableData = () => {
-    const editedUser: User = props?.usersData?.filter((user) => {
+    const editedUser: User = usersData?.filter((user) => {
       return user?.id == props?.selectedUser;
     })[0];
     if (editedUser) {
@@ -154,13 +157,17 @@ export default function UserModal(props: Props) {
       }
       if (editedUser?.manager) {
         setManager(
-          props?.usersData?.filter((user) => {
+          usersData?.filter((user) => {
             return (
               user?.manager?.email?.toString() ==
               editedUser?.manager?.email?.toString()
             );
           })[0]?.id
         );
+      } else {
+        if (usersData?.length) {
+          setManager(usersData[0]?.id);
+        }
       }
       if (editedUser?.organizations?.length) {
         setCustomer(
@@ -374,7 +381,7 @@ export default function UserModal(props: Props) {
   };
 
   const constructObject = (imageUrl: string) => {
-    return {
+    const obj = {
       meta: {
         profile_picture: imageUrl,
         title: "User Profile Image",
@@ -384,7 +391,6 @@ export default function UserModal(props: Props) {
       email: email,
       phone: "+1" + phone,
       role: role,
-      manager: manager,
       organization: customer,
       sites: selectedSites,
       modalities: selectedModalities,
@@ -395,6 +401,10 @@ export default function UserModal(props: Props) {
       is_one_time: oneTimeLinkCreation,
       documentation_url: docLink,
     };
+    if (manager !== -1) {
+      obj["manager"] = manager;
+    }
+    return obj;
   };
 
   const resetModal = () => {
@@ -412,8 +422,8 @@ export default function UserModal(props: Props) {
       setPhone("");
       setPhoneError("");
       setRole(props?.roles[0]?.value);
-      if (props?.usersData?.length) {
-        setManager(props?.usersData[0]?.id);
+      if (usersData?.length) {
+        setManager(usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
         setCustomer(props?.organizationData[0]?.id);
@@ -647,12 +657,20 @@ export default function UserModal(props: Props) {
                     <Select
                       value={manager}
                       inputProps={{ "aria-label": "Without label" }}
-                      style={{ height: "43px", borderRadius: "8px" }}
+                      style={{
+                        height: "43px",
+                        borderRadius: "8px",
+                        color: manager == -1 ? "darkgray" : "",
+                      }}
                       onChange={handleManagerChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
-                      {props?.usersData?.map((item, key) => (
-                        <MenuItem key={key} value={item?.id}>
+                      {usersData?.map((item, key) => (
+                        <MenuItem
+                          key={key}
+                          value={item?.id}
+                          style={{ color: item?.id == -1 ? "darkgray" : "" }}
+                        >
                           {item?.username}
                         </MenuItem>
                       ))}
