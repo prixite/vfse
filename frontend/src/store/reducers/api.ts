@@ -67,6 +67,22 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/modalities/` }),
     }),
+    notesPartialUpdate: build.mutation<
+      NotesPartialUpdateApiResponse,
+      NotesPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/notes/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.noteSerialier,
+      }),
+    }),
+    notesDelete: build.mutation<NotesDeleteApiResponse, NotesDeleteApiArg>({
+      query: (queryArg) => ({
+        url: `/notes/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     organizationsList: build.query<
       OrganizationsListApiResponse,
       OrganizationsListApiArg
@@ -344,25 +360,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemNotes,
       }),
     }),
-    systemsNotesPartialUpdate: build.mutation<
-      SystemsNotesPartialUpdateApiResponse,
-      SystemsNotesPartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/systems/${queryArg.systemPk}/notes/${queryArg.id}/`,
-        method: "PATCH",
-        body: queryArg.systemNotes,
-      }),
-    }),
-    systemsNotesDelete: build.mutation<
-      SystemsNotesDeleteApiResponse,
-      SystemsNotesDeleteApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/systems/${queryArg.systemPk}/notes/${queryArg.id}/`,
-        method: "DELETE",
-      }),
-    }),
     usersActivatePartialUpdate: build.mutation<
       UsersActivatePartialUpdateApiResponse,
       UsersActivatePartialUpdateApiArg
@@ -432,6 +429,15 @@ export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = void;
+export type NotesPartialUpdateApiResponse = /** status 200  */ NoteSerialier;
+export type NotesPartialUpdateApiArg = {
+  id: string;
+  noteSerialier: NoteSerialier;
+};
+export type NotesDeleteApiResponse = unknown;
+export type NotesDeleteApiArg = {
+  id: string;
+};
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
   name?: string;
@@ -580,18 +586,6 @@ export type SystemsNotesCreateApiArg = {
   id: string;
   systemNotes: SystemNotes;
 };
-export type SystemsNotesPartialUpdateApiResponse =
-  /** status 200  */ SystemNotes;
-export type SystemsNotesPartialUpdateApiArg = {
-  id: string;
-  systemPk: string;
-  systemNotes: SystemNotes;
-};
-export type SystemsNotesDeleteApiResponse = unknown;
-export type SystemsNotesDeleteApiArg = {
-  id: string;
-  systemPk: string;
-};
 export type UsersActivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
 export type UsersActivatePartialUpdateApiArg = {
@@ -694,6 +688,10 @@ export type Me = {
 export type Modality = {
   id?: number;
   name: string;
+};
+export type NoteSerialier = {
+  id?: number;
+  note: string;
 };
 export type HealthNetworkCreate = {
   id?: number | null;
@@ -882,6 +880,8 @@ export const {
   useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
+  useNotesPartialUpdateMutation,
+  useNotesDeleteMutation,
   useOrganizationsListQuery,
   useOrganizationsCreateMutation,
   useOrganizationsExistsReadQuery,
@@ -914,8 +914,6 @@ export const {
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
-  useSystemsNotesPartialUpdateMutation,
-  useSystemsNotesDeleteMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,

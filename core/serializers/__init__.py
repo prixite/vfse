@@ -532,7 +532,9 @@ class SystemNotesSerializer(serializers.ModelSerializer):
 class NoteSerialier(serializers.ModelSerializer):
     class Meta:
         model = models.Note
-        fields = ['id','note']
+        fields = ["id", "note"]
+
+
 class ManufacturerImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ManufacturerImage

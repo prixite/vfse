@@ -226,20 +226,21 @@ class SystemTestCase(BaseTestCase):
 
     def test_system_notes_patch(self):
         self.client.force_login(self.fse)
-        note = factories.SystemNoteFactory(system=self.system,author=self.fse)
-        new_sentence = 'This is the new sentence'
-        response = self.client.patch(f'/api/notes/{note.id}/',
-        data={
-            "note":new_sentence,
-        })
+        note = factories.SystemNoteFactory(system=self.system, author=self.fse)
+        new_sentence = "This is the new sentence"
+        response = self.client.patch(
+            f"/api/notes/{note.id}/",
+            data={
+                "note": new_sentence,
+            },
+        )
 
         note.refresh_from_db()
-        self.assertEqual(response.status_code,200)
-        self.assertEqual(self.note.note,new_sentence)
-    
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.note.note, new_sentence)
+
     def test_system_notes_delete(self):
         self.client.force_login(self.super_admin)
-        response = self.client.delete(f'/api/notes/{self.note.id}/')
+        response = self.client.delete(f"/api/notes/{self.note.id}/")
 
-        self.assertEqual(response.status_code,204)
-        
+        self.assertEqual(response.status_code, 204)

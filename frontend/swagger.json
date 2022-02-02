@@ -235,6 +235,54 @@
             },
             "parameters": []
         },
+        "/notes/{id}/": {
+            "patch": {
+                "operationId": "notes_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NoteSerialier"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/NoteSerialier"
+                        }
+                    }
+                },
+                "tags": [
+                    "notes"
+                ]
+            },
+            "delete": {
+                "operationId": "notes_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "notes"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/": {
             "get": {
                 "operationId": "organizations_list",
@@ -1060,60 +1108,6 @@
                 }
             ]
         },
-        "/systems/{system_pk}/notes/{id}/": {
-            "patch": {
-                "operationId": "systems_notes_partial_update",
-                "description": "",
-                "parameters": [
-                    {
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/SystemNotes"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/SystemNotes"
-                        }
-                    }
-                },
-                "tags": [
-                    "systems"
-                ]
-            },
-            "delete": {
-                "operationId": "systems_notes_delete",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "204": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "systems"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "system_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
         "/users/activate/": {
             "patch": {
                 "operationId": "users_activate_partial_update",
@@ -1645,6 +1639,25 @@
                 },
                 "name": {
                     "title": "Name",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "NoteSerialier": {
+            "description": "Note(id, system, author, note, created_at, updated_at)",
+            "required": [
+                "note"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "note": {
+                    "title": "Note",
                     "type": "string",
                     "minLength": 1
                 }
