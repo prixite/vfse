@@ -107,13 +107,7 @@ class MeSerializer(serializers.ModelSerializer):
 
     def get_role(self, obj):
         user = self.context["view"].request.user
-        if user.is_superuser or user.is_supermanager:
-            return ""
-
-        return models.Membership.objects.get(
-            user=user,
-            organization=user.get_default_organization(),
-        ).role
+        return user.get_organization_role(user.get_default_organization())
 
     def get_flags(self, user):
         organization_flag = "organization"

@@ -122,6 +122,15 @@ class User(AbstractUser):
             | Q(site__organization=organization_pk),
         )
 
+    def get_organization_role(self, organization_pk):
+        if self.is_superuser or self.is_supermanager:
+            return ""
+
+        return Membership.objects.get(
+            user=self,
+            organization=organization_pk,
+        ).role
+
     def get_site_systems(self, site_pk):
         return System.objects.filter(
             id__in=self.get_systems(),
