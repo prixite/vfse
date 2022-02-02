@@ -249,7 +249,12 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
         )
 
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.request.user.get_organization_role(self.kwargs["pk"])
+            == models.Role.CUSTOMER_ADMIN
+        ):
             queryset = models.System.objects.filter(
                 Q(site__organization_id=self.kwargs["pk"])
                 | Q(
