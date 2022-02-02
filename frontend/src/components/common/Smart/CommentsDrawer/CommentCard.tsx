@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 
 import { SystemNotes } from "@src/store/reducers/api";
-import "@src/components/common/Smart/CommentsDrawer/Comment.scss";
+import "@src/components/common/Smart/CommentsDrawer/CommentCard.scss";
 
 interface CommentProps {
   comment: SystemNotes;
