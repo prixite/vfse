@@ -1561,6 +1561,16 @@
                 },
                 "organization": {
                     "$ref": "#/definitions/Organization"
+                },
+                "role": {
+                    "title": "Role",
+                    "type": "string",
+                    "readOnly": true
+                },
+                "is_superuser": {
+                    "title": "Superuser status",
+                    "description": "Designates that this user has all permissions without explicitly assigning them.",
+                    "type": "boolean"
                 }
             }
         },

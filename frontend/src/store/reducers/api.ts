@@ -656,6 +656,8 @@ export type Me = {
   last_name?: string;
   flags?: string;
   organization?: Organization;
+  role?: string;
+  is_superuser?: boolean;
 };
 export type Modality = {
   id?: number;

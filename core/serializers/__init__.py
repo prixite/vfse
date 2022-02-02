@@ -92,10 +92,28 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=defaults.DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
+    role = serializers.SerializerMethodField()
 
     class Meta:
         model = models.User
-        fields = ["first_name", "last_name", "flags", "organization"]
+        fields = [
+            "first_name",
+            "last_name",
+            "flags",
+            "organization",
+            "role",
+            "is_superuser",
+        ]
+
+    def get_role(self, obj):
+        user = self.context["view"].request.user
+        if user.is_superuser or user.is_supermanager:
+            return ""
+
+        return models.Membership.objects.get(
+            user=user,
+            organization=user.get_default_organization(),
+        ).role
 
     def get_flags(self, user):
         organization_flag = "organization"
