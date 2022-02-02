@@ -297,7 +297,7 @@ const TopViewBtns = ({
 
           {path === "systems" ? (
             <>
-              {!isNetworkDataLoading && !networkId && networksData.length ? (
+              {!isNetworkDataLoading && !networkId && networksData?.length ? (
                 <FormControl
                   sx={{
                     m: 0,
