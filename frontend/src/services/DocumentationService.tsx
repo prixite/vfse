@@ -16,15 +16,9 @@ const addProductModelService = async (
     });
 };
 
-const deleteProductModelService = async (
-  id,
-  prod_id,
-  deleteProductModel,
-  refetch
-) => {
+const deleteProductModelService = async (id, deleteProductModel, refetch) => {
   await deleteProductModel({
     id: id.toString(),
-    productPk: prod_id.toString(),
   }).unwrap();
   refetch();
 };
