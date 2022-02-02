@@ -141,6 +141,7 @@ class MeSerializer(serializers.ModelSerializer):
             models.Role.FSE: {vfse_flag},
             models.Role.END_USER: {modality_flag},
             models.Role.VIEW_ONLY: {modality_flag},
+            models.Role.ONE_TIME: {vfse_flag},
         }
 
         flags = set()
