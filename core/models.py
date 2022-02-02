@@ -58,6 +58,9 @@ class User(AbstractUser):
 
     @property
     def manager(self):
+        if not self.profile.manager:
+            return None
+
         return {
             "name": str(self.profile.manager.get_full_name()),
             "email": self.profile.manager.username,
@@ -264,6 +267,12 @@ class Organization(models.Model):
             role=Role.LAMBDA_ADMIN,
         ).user
         return Token.objects.get(user=user).key
+
+    @staticmethod
+    def get_organization_health_networks(organization_pk):
+        return OrganizationHealthNetwork.objects.filter(
+            organization=organization_pk,
+        ).values_list("health_network", flat=True)
 
 
 class Membership(models.Model):

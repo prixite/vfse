@@ -14,6 +14,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -35,6 +36,7 @@ import {
   ProductModel,
   useOrganizationsSystemsCreateMutation,
   useOrganizationsSystemsPartialUpdateMutation,
+  useOrganizationsReadQuery,
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
@@ -101,6 +103,7 @@ export default function SystemModal(props: systemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
+  const [sites, setSites] = useState([]);
 
   const { data: productData, isLoading: isProductsModelsLoading } =
     useProductsModelsListQuery();
@@ -596,18 +599,15 @@ export default function SystemModal(props: systemProps) {
   }, [props.system]);
 
   useEffect(() => {
-    if (selectedOrganization?.sites.length) {
+    if (sites) {
       if (props.system) {
-        const data = returnSearchedOject(
-          selectedOrganization?.sites,
-          props.system.site
-        );
-        setSite(data.length ? data[0] : selectedOrganization?.sites[0]);
+        const data = returnSearchedOject(sites, props.system.site);
+        setSite(data.length ? data[0] : sites[0]);
       } else {
-        setSite(selectedOrganization?.sites[0]);
+        setSite(sites[0]);
       }
     }
-  }, [selectedOrganization, props.system]);
+  }, [sites, props.system]);
 
   useEffect(() => {
     if (productData?.length && !isProductsModelsLoading && props.open) {
@@ -624,6 +624,20 @@ export default function SystemModal(props: systemProps) {
       }
     }
   }, [productData, props.open]);
+
+  const { networkId } = useParams();
+
+  const { data: healthNetwork } = useOrganizationsReadQuery({
+    id: networkId,
+  });
+
+  useEffect(() => {
+    if (healthNetwork) {
+      setSites(healthNetwork.sites);
+    } else {
+      setSites(selectedOrganization.sites);
+    }
+  }, [healthNetwork, selectedOrganization]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
@@ -672,7 +686,7 @@ export default function SystemModal(props: systemProps) {
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "48px", marginRight: "15px" }}
                     >
-                      {selectedOrganization?.sites.map((item, index) => (
+                      {sites.map((item, index) => (
                         <MenuItem
                           key={index}
                           value={item.name}

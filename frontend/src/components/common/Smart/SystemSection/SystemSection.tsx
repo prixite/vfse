@@ -21,6 +21,7 @@ import {
 } from "@src/store/reducers/api";
 
 import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
+import CommentsDrawer from "../CommentsDrawer/CommentsDrawer";
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 
 const SystemSection = () => {
@@ -398,6 +399,7 @@ const SystemSection = () => {
           open={openConfirmModal}
           handleClose={() => setOpenConfirmModal(false)}
         />
+        <CommentsDrawer />
       </Box>
     </>
   );

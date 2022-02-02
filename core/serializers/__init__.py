@@ -9,16 +9,16 @@ from core.serializers import defaults
 
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
-    sidebar_text = serializers.CharField()
-    button_text = serializers.CharField()
-    sidebar_color = serializers.CharField()
-    primary_color = serializers.CharField()
-    secondary_color = serializers.CharField()
-    font_one = serializers.CharField()
-    font_two = serializers.CharField()
-    logo = serializers.URLField()
-    banner = serializers.URLField()
-    icon = serializers.URLField()
+    sidebar_text = serializers.CharField(default="")
+    button_text = serializers.CharField(default="")
+    sidebar_color = serializers.CharField(default="")
+    primary_color = serializers.CharField(default="")
+    secondary_color = serializers.CharField(default="")
+    font_one = serializers.CharField(default="")
+    font_two = serializers.CharField(default="")
+    logo = serializers.URLField(default="")
+    banner = serializers.URLField(default="")
+    icon = serializers.URLField(default="")
 
 
 class MetaSiteSerializer(serializers.ModelSerializer):

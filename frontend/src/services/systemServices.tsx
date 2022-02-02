@@ -67,9 +67,19 @@ const DeleteOrganizationSystemService = async (
   }).unwrap();
   refetch(); // TODO: invalidate cache instead of this.
 };
-
+const addNewSystemNoteService = async (systemID, note, addNewNote, refetch) => {
+  await addNewNote({
+    id: systemID,
+    systemNotes: { note },
+  })
+    .unwrap()
+    .then(() => {
+      refetch();
+    });
+};
 export {
   addNewOrdanizationSystem,
   updateOrdanizationSystem,
   DeleteOrganizationSystemService,
+  addNewSystemNoteService,
 };

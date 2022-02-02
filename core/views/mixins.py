@@ -7,7 +7,14 @@ class UserOganizationMixin:
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return queryset
 
-        return queryset.filter(id__in=self.request.user.get_organizations())
+        user_orgs = [x for x in self.request.user.get_organizations()]
+
+        child_orgs = [
+            x
+            for parent in user_orgs
+            for x in models.Organization.get_organization_health_networks(parent)
+        ]
+        return queryset.filter(id__in=user_orgs + child_orgs)
 
     def is_customer_admin(self, organization_pk):
         return (

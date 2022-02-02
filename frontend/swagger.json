@@ -1474,71 +1474,69 @@
         "OrganizationAppearance": {
             "title": "Appearance",
             "description": "",
-            "required": [
-                "sidebar_text",
-                "button_text",
-                "sidebar_color",
-                "primary_color",
-                "secondary_color",
-                "font_one",
-                "font_two",
-                "logo",
-                "banner",
-                "icon"
-            ],
             "type": "object",
             "properties": {
                 "sidebar_text": {
                     "title": "Sidebar text",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "button_text": {
                     "title": "Button text",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "sidebar_color": {
                     "title": "Sidebar color",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "primary_color": {
                     "title": "Primary color",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "secondary_color": {
                     "title": "Secondary color",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "font_one": {
                     "title": "Font one",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "font_two": {
                     "title": "Font two",
                     "type": "string",
+                    "default": "",
                     "minLength": 1
                 },
                 "logo": {
                     "title": "Logo",
                     "type": "string",
                     "format": "uri",
+                    "default": "",
                     "minLength": 1
                 },
                 "banner": {
                     "title": "Banner",
                     "type": "string",
                     "format": "uri",
+                    "default": "",
                     "minLength": 1
                 },
                 "icon": {
                     "title": "Icon",
                     "type": "string",
                     "format": "uri",
+                    "default": "",
                     "minLength": 1
                 }
             },
