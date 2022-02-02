@@ -9,6 +9,12 @@ class UserOganizationMixin:
 
         return queryset.filter(id__in=self.request.user.get_organizations())
 
+    def is_customer_admin(self, organization_pk):
+        return (
+            self.request.user.get_organization_role(organization_pk)
+            == models.Role.CUSTOMER_ADMIN
+        )
+
 
 class UserMixin:
     def create_membership(self, data, user_id):

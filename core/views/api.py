@@ -107,14 +107,10 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
-        role = self.request.user.get_organization_role(
-            self.request.user.get_default_organization()
-        )
-
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
-            or role == models.Role.CUSTOMER_ADMIN
+            or self.is_customer_admin(self.kwargs["pk"])
         ):
             return models.Organization.objects.filter(
                 id__in=models.OrganizationHealthNetwork.objects.filter(
@@ -260,8 +256,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
-            or self.request.user.get_organization_role(self.kwargs["pk"])
-            == models.Role.CUSTOMER_ADMIN
+            or self.is_customer_admin(self.kwargs["pk"])
         ):
             queryset = models.System.objects.filter(
                 Q(site__organization_id=self.kwargs["pk"])
