@@ -123,13 +123,13 @@ const CommentsDrawer = () => {
           }}
         />
       </div>
-      <div className="CommentsSection">
-        {systemNotesList && systemNotesList?.length ? (
-          generateComments()
-        ) : (
+      {systemNotesList && systemNotesList?.length ? (
+        <div className="CommentsSection">{generateComments()}</div>
+      ) : (
+        <div className="CommentsSection" style={{ margin: "auto" }}>
           <NoCommentsFound />
-        )}
-      </div>
+        </div>
+      )}
     </Drawer>
   );
 };
