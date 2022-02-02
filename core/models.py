@@ -60,7 +60,7 @@ class User(AbstractUser):
     def manager(self):
         return {
             "name": str(self.profile.manager.get_full_name()),
-            "email": self.username,
+            "email": self.profile.manager.username,
         }
 
     @property

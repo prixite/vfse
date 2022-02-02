@@ -14,7 +14,11 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(response, False)
 
     def test_one_time_login(self):
-        user = factories.UserWithPasswordFactory(profile__is_one_time=True)
+        user = factories.UserWithPasswordFactory(
+            profile__is_one_time=True,
+            organizations=[self.organization],
+            organizations__role=models.Role.ONE_TIME,
+        )
         response = test.Client().post(
             "/accounts/login/",
             data={
