@@ -31,3 +31,14 @@ class OrganizationReadOnlyPermissions(BasePermission):
                 role=models.Role.VIEW_ONLY,
             ).exists()
         return False
+
+
+class OrganizationPermission(BasePermission):
+    def has_permission(self, request, view):
+        if request.method.lower() == "post":
+            if request.user.is_superuser:
+                return True
+
+            return False
+
+        return True

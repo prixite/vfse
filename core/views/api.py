@@ -80,6 +80,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class CustomerViewSet(OrganizationViewSet):
     filterset_class = filters.OrganizationNameFilter
+    permission_classes = [permissions.OrganizationPermission]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
