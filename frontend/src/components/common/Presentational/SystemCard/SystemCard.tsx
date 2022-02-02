@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -25,8 +25,8 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
 const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [modal, setModal] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [modal, setModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
