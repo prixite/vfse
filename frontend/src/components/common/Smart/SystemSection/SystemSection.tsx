@@ -287,31 +287,25 @@ const SystemSection = () => {
                 >
                   All
                 </span>
-                {
-                  // eslint-disable-next-line
-                  modalitiesList?.length &&
-                    modalitiesList?.map((item, key) => (
-                      <span
-                        key={key}
-                        className="modality"
-                        style={{
-                          color: `${
-                            modality === item?.id.toString()
-                              ? buttonBackground
-                              : ""
-                          }`,
-                          borderBottom: `${
-                            modality === item?.id.toString()
-                              ? `1px solid ${buttonBackground}`
-                              : ""
-                          }`,
-                        }}
-                        onClick={() => changeModality(item)}
-                      >
-                        {item.name}
-                      </span>
-                    ))
-                }
+                {modalitiesList.map((item, key) => (
+                  <span
+                    key={key}
+                    className="modality"
+                    style={{
+                      color: `${
+                        modality === item?.id.toString() ? buttonBackground : ""
+                      }`,
+                      borderBottom: `${
+                        modality === item?.id.toString()
+                          ? `1px solid ${buttonBackground}`
+                          : ""
+                      }`,
+                    }}
+                    onClick={() => changeModality(item)}
+                  >
+                    {item.name}
+                  </span>
+                ))}
               </Flicking>
             </div>
             <hr
