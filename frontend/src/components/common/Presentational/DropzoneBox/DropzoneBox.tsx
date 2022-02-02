@@ -58,6 +58,10 @@ const DropzoneBox = ({
         </div>
       ) : imgSrc ? (
         <div className="UploadedImg">
+          <div
+            className="blurBg"
+            style={{ backgroundImage: `url(${imgSrc})` }}
+          />
           <img src={imgSrc} />
         </div>
       ) : (
