@@ -77,6 +77,10 @@ const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
     );
     handleClose();
   };
+  const onComment = () => {
+    dispatch(openSystemDrawer(system?.id));
+    handleClose();
+  }
 
   return (
     <div className="system-card">
@@ -231,7 +235,7 @@ const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
           <MenuItem>
             <span
               style={{ marginLeft: "12px" }}
-              onClick={() => dispatch(openSystemDrawer(system?.id))}
+              onClick={onComment}
             >
               Comments
             </span>

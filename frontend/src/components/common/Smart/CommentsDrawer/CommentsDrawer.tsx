@@ -9,6 +9,7 @@ import { closeSystemDrawer } from "@src/store/reducers/appStore";
 import { useSystemsNotesListQuery,useSystemsNotesCreateMutation } from "@src/store/reducers/api";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import NoCommentsFound from "./NoCommentsFound";
+import CommentCard from "./CommentCard";
 
 
 const CommentsDrawer = () => {
@@ -25,9 +26,12 @@ const CommentsDrawer = () => {
     skip : !systemID
   } 
   );
-console.log(systemNotesList , "system Notes List");
-console.log(isLoading);
   const [addNewNote] = useSystemsNotesCreateMutation();
+  useEffect(()=>{
+    if(openSystemNotesDrawer) {
+   setNote("");
+    }
+  },[openSystemNotesDrawer])
  const resetNoteHandler = () => {
    setNote("");
  }
@@ -44,6 +48,9 @@ console.log(isLoading);
     resetNoteHandler();
     setIsLoading(false);
  }
+ const generateComments = () => (
+   systemNotesList.map((systemNote)=><CommentCard comment={systemNote} />)
+ )
   return (
     <Drawer
       anchor={"right"}
@@ -103,7 +110,7 @@ console.log(isLoading);
         {
           systemNotesList && systemNotesList?.length 
           ?
-          <h1>Comments Exist </h1>
+           generateComments()
           : <NoCommentsFound/>
         }
       </div>
