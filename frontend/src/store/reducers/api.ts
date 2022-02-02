@@ -344,6 +344,25 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemNotes,
       }),
     }),
+    systemsNotesPartialUpdate: build.mutation<
+      SystemsNotesPartialUpdateApiResponse,
+      SystemsNotesPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/${queryArg.systemPk}/notes/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.systemNotes,
+      }),
+    }),
+    systemsNotesDelete: build.mutation<
+      SystemsNotesDeleteApiResponse,
+      SystemsNotesDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/${queryArg.systemPk}/notes/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     usersActivatePartialUpdate: build.mutation<
       UsersActivatePartialUpdateApiResponse,
       UsersActivatePartialUpdateApiArg
@@ -561,6 +580,18 @@ export type SystemsNotesCreateApiArg = {
   id: string;
   systemNotes: SystemNotes;
 };
+export type SystemsNotesPartialUpdateApiResponse =
+  /** status 200  */ SystemNotes;
+export type SystemsNotesPartialUpdateApiArg = {
+  id: string;
+  systemPk: string;
+  systemNotes: SystemNotes;
+};
+export type SystemsNotesDeleteApiResponse = unknown;
+export type SystemsNotesDeleteApiArg = {
+  id: string;
+  systemPk: string;
+};
 export type UsersActivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
 export type UsersActivatePartialUpdateApiArg = {
@@ -652,6 +683,7 @@ export type Organization = {
   sites?: MetaSite[];
 };
 export type Me = {
+  id?: number;
   first_name?: string;
   last_name?: string;
   flags?: string;
@@ -831,10 +863,11 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  author?: string;
+  author: number;
   note: string;
   created_at?: string;
   author_image?: string;
+  author_full_name?: string;
 };
 export type UserEnableDisable = {
   users: number[];
@@ -881,6 +914,8 @@ export const {
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
+  useSystemsNotesPartialUpdateMutation,
+  useSystemsNotesDeleteMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,

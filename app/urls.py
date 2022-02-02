@@ -214,6 +214,15 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/notes/<int:pk>/",
+        api.NoteViewSet.as_view(
+            {
+                "delete": "destroy",
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/systems/images/",
         api.SystemImageViewSet.as_view(
             {

@@ -318,6 +318,13 @@ class SystemImageFactory(factory.django.DjangoModelFactory):
     image = "//tinyurl.com/systm-image"
 
 
+class SystemNoteFactory(factory.django.DjangoModelFactory):
+    note = factory.Faker("sentence")
+
+    class Meta:
+        model = models.Note
+
+
 class SystemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.System
@@ -373,7 +380,9 @@ class SystemFactory(factory.django.DjangoModelFactory):
             for user in extracted or []
         )
 
-
-class SystemNoteFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = models.Note
+        models.Note.objects.bulk_create(
+            [
+                models.Note(author=user, system=obj, note=fake.sentence())
+                for user in extracted or []
+            ]
+        )
