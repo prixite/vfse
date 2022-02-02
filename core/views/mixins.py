@@ -50,7 +50,7 @@ class UserMixin:
 
     def update_profile(self, data, user_id):
         models.Profile.objects.filter(user_id=user_id).update(
-            manager_id=data["manager"],
+            manager_id=data.get("manager"),
             **{
                 key: data[key]
                 for key in [

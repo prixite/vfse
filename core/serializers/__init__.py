@@ -291,7 +291,9 @@ class UpsertUserSerializer(serializers.Serializer):
         choices=models.Role,
         required=True,
     )
-    manager = serializers.PrimaryKeyRelatedField(queryset=models.User.objects.all())
+    manager = serializers.PrimaryKeyRelatedField(
+        queryset=models.User.objects.all(), required=False
+    )
     organization = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all()
     )

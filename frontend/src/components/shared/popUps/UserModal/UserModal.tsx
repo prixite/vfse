@@ -448,7 +448,6 @@ export default function UserModal(props: Props) {
       phone?.length &&
       phone?.length == 10 &&
       role?.length &&
-      manager &&
       customer
     ) {
       setPage("2");
@@ -465,7 +464,6 @@ export default function UserModal(props: Props) {
       phone?.length &&
       phone?.length == 10 &&
       role &&
-      manager &&
       customer
     ) {
       return true;

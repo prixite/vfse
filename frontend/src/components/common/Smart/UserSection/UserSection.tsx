@@ -371,7 +371,7 @@ export default function UserSection() {
                   sortable: false,
                   width: 180,
                   renderCell: (cellValues) => (
-                    <div>{cellValues.row.manager.name}</div>
+                    <div>{cellValues.row.manager?.name}</div>
                   ),
                 },
                 {
@@ -516,7 +516,7 @@ export default function UserSection() {
                 sortable: false,
                 width: 180,
                 renderCell: (cellValues) => (
-                  <div>{cellValues.row.manager.name}</div>
+                  <div>{cellValues.row.manager?.name}</div>
                 ),
               },
               {

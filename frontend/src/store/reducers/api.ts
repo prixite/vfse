@@ -599,7 +599,7 @@ export type UserRequestAcessSeriazlizer = {
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
-  manager: number;
+  manager?: number;
   organization: number;
   sites?: number[];
   modalities?: number[];
@@ -780,7 +780,7 @@ export type UpsertUser = {
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
-  manager: number;
+  manager?: number;
   organization: number;
   sites?: number[];
   modalities?: number[];
