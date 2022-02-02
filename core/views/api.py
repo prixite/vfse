@@ -459,6 +459,7 @@ class ModalityViewSet(ModelViewSet):
     serializer_class = serializers.ModalitySerializer
 
     def get_queryset(self):
+        # TODO: Namespace modality with organization
         if getattr(self, "swagger_fake_view", False):
             return models.Modality.objects.none()
 
