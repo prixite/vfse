@@ -101,8 +101,7 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
             >
               {connect}
             </Button>
-            {
-              system?.grafana_link ?
+            {system?.grafana_link ? (
               <Button
                 variant="contained"
                 className="link-btn"
@@ -113,8 +112,9 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
                   <span>{grafana_link_txt}</span>
                 </div>
               </Button>
-              :''
-            }
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="features-section">

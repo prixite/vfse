@@ -59,7 +59,7 @@ const SystemSection = () => {
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });
- 
+
   useEffect(() => {
     modalitiesList?.length &&
       modalitiesList?.map((item, key) => {
