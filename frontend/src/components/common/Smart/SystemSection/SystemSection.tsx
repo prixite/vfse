@@ -29,6 +29,7 @@ const SystemSection = () => {
   const history = useHistory();
   const queryParams = new URLSearchParams(location?.search);
   const paramModality = queryParams?.get("modality");
+  const [sites, setSites] = useState([]);
   const [networkFilter, setNetworkFilter] = useState({});
   const [siteFilter, setSiteFilter] = useState({});
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
@@ -84,7 +85,7 @@ const SystemSection = () => {
     ) {
       return returnSearchedOject(organization?.sites, siteId)[0]?.name;
     } else if (history.location.pathname.includes("sites")) {
-      return returnSearchedOject(selectedOrganization?.sites, siteId)[0]?.name;
+      return returnSearchedOject(sites, siteId)[0]?.name;
     }
     return selectedOrganization?.name;
   };
@@ -251,8 +252,7 @@ const SystemSection = () => {
               route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
             },
             {
-              name: returnSearchedOject(selectedOrganization?.sites, siteId)[0]
-                ?.name,
+              name: returnSearchedOject(sites, siteId)[0]?.name,
             },
           ]}
         />
@@ -320,6 +320,18 @@ const SystemSection = () => {
     );
   };
 
+  const { data: healthNetwork } = useOrganizationsReadQuery({
+    id: networkId,
+  });
+
+  useEffect(() => {
+    if (healthNetwork) {
+      setSites(healthNetwork.sites);
+    } else {
+      setSites(selectedOrganization.sites);
+    }
+  }, [healthNetwork, selectedOrganization]);
+
   return (
     <>
       {addBreadcrumbs()}
@@ -328,11 +340,7 @@ const SystemSection = () => {
         {createModalitySection()}
         {!isSystemDataLoading ? (
           <TopViewBtns
-            setOpen={
-              !selectedOrganization?.sites?.length
-                ? setOpenConfirmModal
-                : setOpen
-            }
+            setOpen={!sites?.length ? setOpenConfirmModal : setOpen}
             path="systems"
             setData={setSystem}
             setList={setSystemList}
