@@ -261,74 +261,76 @@ const SystemSection = () => {
     }
   };
 
+  const createModalitySection = () => {
+    return (
+      <div style={{ width: "100%" }}>
+        {!isModalitiesLoading && index ? (
+          <>
+            <div className="modalities">
+              <Flicking
+                defaultIndex={index - 1}
+                deceleration={0.0075}
+                horizontal
+                bound
+                gap={40}
+                style={{ height: "33px" }}
+              >
+                <span
+                  className="modality"
+                  style={{
+                    color: `${modality === null ? buttonBackground : ""}`,
+                    borderBottom: `${
+                      modality === null ? `1px solid ${buttonBackground}` : ""
+                    }`,
+                  }}
+                  onClick={() => changeModality(null)}
+                >
+                  All
+                </span>
+                {
+                  // eslint-disable-next-line
+                  modalitiesList?.length &&
+                    modalitiesList?.map((item, key) => (
+                      <span
+                        key={key}
+                        className="modality"
+                        style={{
+                          color: `${
+                            modality === item?.id.toString()
+                              ? buttonBackground
+                              : ""
+                          }`,
+                          borderBottom: `${
+                            modality === item?.id.toString()
+                              ? `1px solid ${buttonBackground}`
+                              : ""
+                          }`,
+                        }}
+                        onClick={() => changeModality(item)}
+                      >
+                        {item.name}
+                      </span>
+                    ))
+                }
+              </Flicking>
+            </div>
+            <hr
+              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+            />
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  };
+
   return (
     <>
       {addBreadcrumbs()}
       <Box component="div" className="system-section">
         <h2>{!fetching ? returnSiteName() : ""}</h2>
-        <div
-          style={{
-            width: "100%",
-          }}
-        >
-          {!isModalitiesLoading && index ? (
-            <>
-              <div className="modalities">
-                <Flicking
-                  defaultIndex={index - 1}
-                  deceleration={0.0075}
-                  horizontal
-                  bound
-                  gap={40}
-                  style={{ height: "33px" }}
-                >
-                  <span
-                    className="modality"
-                    style={{
-                      color: `${modality === null ? buttonBackground : ""}`,
-                      borderBottom: `${
-                        modality === null ? `1px solid ${buttonBackground}` : ""
-                      }`,
-                    }}
-                    onClick={() => changeModality(null)}
-                  >
-                    All
-                  </span>
-                  {
-                    // eslint-disable-next-line
-                    modalitiesList?.length &&
-                      modalitiesList?.map((item, key) => (
-                        <span
-                          key={key}
-                          className="modality"
-                          style={{
-                            color: `${
-                              modality === item?.id.toString()
-                                ? buttonBackground
-                                : ""
-                            }`,
-                            borderBottom: `${
-                              modality === item?.id.toString()
-                                ? `1px solid ${buttonBackground}`
-                                : ""
-                            }`,
-                          }}
-                          onClick={() => changeModality(item)}
-                        >
-                          {item.name}
-                        </span>
-                      ))
-                  }
-                </Flicking>
-              </div>
-              <hr
-                style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
-              />
-            </>
-          ) : (
-            ""
-          )}
-        </div>
+        {createModalitySection()}
         {!isSystemDataLoading ? (
           <TopViewBtns
             setOpen={
