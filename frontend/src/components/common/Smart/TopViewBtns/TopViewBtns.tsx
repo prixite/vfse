@@ -29,6 +29,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   HealthNetwork,
+  useMeReadQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
 } from "@src/store/reducers/api";
@@ -79,6 +80,8 @@ const TopViewBtns = ({
   setAction,
   hasData,
 }: Props) => {
+  const { data: currentUser } = useMeReadQuery();
+
   const history = useHistory();
   const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
@@ -256,6 +259,27 @@ const TopViewBtns = ({
     onEventSearch(searchText);
   }, [searchText]);
 
+  const createAddButton = () => {
+    return (
+      <Button
+        style={{
+          backgroundColor: buttonBackground,
+          color: buttonTextColor,
+        }}
+        onClick={handleModal}
+        variant="contained"
+        className="AddClientsbtn"
+      >
+        <div className="btn-content">
+          <AddIcon />
+          <span style={{ display: "inline-block", paddingTop: "3px" }}>
+            {btnAdd}
+          </span>
+        </div>
+      </Button>
+    );
+  };
+
   return (
     <>
       <Box component="div" className="OrganizationSection__Header">
@@ -273,7 +297,7 @@ const TopViewBtns = ({
 
           {path === "systems" ? (
             <>
-              {!isNetworkDataLoading && !networkId && networksData.length ? (
+              {!isNetworkDataLoading && !networkId && networksData?.length ? (
                 <FormControl
                   sx={{
                     m: 0,
@@ -421,22 +445,10 @@ const TopViewBtns = ({
             }}
           />
         </Box>
-        <Button
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
-          onClick={handleModal}
-          variant="contained"
-          className="AddClientsbtn"
-        >
-          <div className="btn-content">
-            <AddIcon />
-            <span style={{ display: "inline-block", paddingTop: "3px" }}>
-              {btnAdd}
-            </span>
-          </div>
-        </Button>
+        {currentUser.is_superuser &&
+          path === "organizations" &&
+          createAddButton()}
+        {path !== "organizations" && createAddButton()}
       </Box>
     </>
   );

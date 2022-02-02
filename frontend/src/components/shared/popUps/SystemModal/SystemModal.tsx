@@ -326,144 +326,112 @@ export default function SystemModal(props: systemProps) {
 
   const handleIpAddress = (e) => {
     setIP(e.target.value);
-    if (!ValidateIPaddress(e.target.value)) {
-      setIpError("Enter valid IP address");
-    } else {
+    if (ValidateIPaddress(e.target.value)) {
       setIpError("");
     }
   };
 
   const handleName = (e) => {
     setName(e.target.value);
-    if (!e.target.value) {
-      setNameError("Name is required.");
-    } else {
+    if (e.target.value) {
       setNameError("");
     }
   };
 
   const handleVerion = (e) => {
     setVersion(e.target.value);
-    if (!e.target.value) {
-      setVersionError("Software Version is required.");
-    } else {
+    if (e.target.value) {
       setVersionError("");
     }
   };
 
   const handleAsset = (e) => {
     setAsset(e.target.value);
-    if (!e.target.value) {
-      setAssetError("Asset number is required.");
-    } else {
+    if (e.target.value) {
       setAssetError("");
     }
   };
 
   const handleLocalAe = (e) => {
     setlocalAE(e.target.value);
-    if (!e.target.value) {
-      setLocalAeError("Local AE Title is required.");
-    } else {
+    if (e.target.value) {
       setLocalAeError("");
     }
   };
 
   const handleRisTitle = (e) => {
     setRisTitle(e.target.value);
-    if (!e.target.value) {
-      setRisTitleError("Title is required.");
-    } else {
+    if (e.target.value) {
       setRisTitleError("");
     }
   };
 
   const handleRisPort = (e) => {
     setRisPort(e.target.value);
-    if (!e.target.value) {
-      setRisPortError("Port is required.");
-    } else {
+    if (e.target.value) {
       setRisPortError("");
     }
   };
 
   const handleRisAeTitle = (e) => {
     setRisAE(e.target.value);
-    if (!e.target.value) {
-      setRisAeError("AE Title is required.");
-    } else {
+    if (e.target.value) {
       setRisAeError("");
     }
   };
 
   const handleDicTitle = (e) => {
     setDicTitle(e.target.value);
-    if (!e.target.value) {
-      setDicTitleError("AE Title is required.");
-    } else {
+    if (e.target.value) {
       setDicTitleError("");
     }
   };
 
   const handleDicPort = (e) => {
     setDicPort(e.target.value);
-    if (!e.target.value) {
-      setDicPortError("Port is required.");
-    } else {
+    if (e.target.value) {
       setDicPortError("");
     }
   };
 
   const handleDicAeTitle = (e) => {
     setDicAE(e.target.value);
-    if (!e.target.value) {
-      setDicAeError("AE Title is required.");
-    } else {
+    if (e.target.value) {
       setDicAeError("");
     }
   };
 
   const handleMriMagnet = (e) => {
     setMriMagnet(e.target.value);
-    if (!e.target.value) {
-      setMriMagnetError("Magnet pressure is required.");
-    } else {
+    if (e.target.value) {
       setMriMagnetError("");
     }
   };
 
   const handleMriHelium = (e) => {
     setMriHelium(e.target.value);
-    if (!e.target.value) {
-      setMriHeliumError("Magnet pressure is required.");
-    } else {
+    if (e.target.value) {
       setMriHeliumError("");
     }
   };
 
   const handleRisIpAddress = (e) => {
     setRisIp(e.target.value);
-    if (!ValidateIPaddress(e.target.value)) {
-      setRisIpError("Enter valid IP address");
-    } else {
+    if (ValidateIPaddress(e.target.value)) {
       setRisIpError("");
     }
   };
 
   const handleDicIpAddress = (e) => {
     setDicIP(e.target.value);
-    if (!ValidateIPaddress(e.target.value)) {
-      setDicIpError("Enter valid IP address");
-    } else {
+    if (ValidateIPaddress(e.target.value)) {
       setDicIpError("");
     }
   };
 
   const handleUrl = (e) => {
     setGrafanaLink(e.target.value);
-    if (!isValidURL(e.target.value)) {
-      setLinkError("Enter valid url");
-    } else {
+    if (isValidURL(e.target.value)) {
       setLinkError("");
     }
   };
@@ -479,6 +447,18 @@ export default function SystemModal(props: systemProps) {
     const data = requiredStates.map((item) => {
       if (!item.name) {
         item.setError(`${item.dName} is required`);
+        return false;
+      }
+      if (item.name && item.dName === "IP" && !ValidateIPaddress(item.name)) {
+        item.setError(`Invalid ip address`);
+        return false;
+      }
+      if (
+        item.name &&
+        item.dName === "Grafana link" &&
+        !isValidURL(item.name)
+      ) {
+        item.setError(`Invalid url`);
         return false;
       }
     });
@@ -520,7 +500,7 @@ export default function SystemModal(props: systemProps) {
       }
     }
     if (data?.non_field_errors) {
-      toast.error("Site with this name already exists.", {
+      toast.error("System with this name already exists.", {
         autoClose: 2000,
         pauseOnHover: false,
       });

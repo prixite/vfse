@@ -599,7 +599,7 @@ export type UserRequestAcessSeriazlizer = {
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
-  manager: number;
+  manager?: number;
   organization: number;
   sites?: number[];
   modalities?: number[];
@@ -656,6 +656,8 @@ export type Me = {
   last_name?: string;
   flags?: string;
   organization?: Organization;
+  role?: string;
+  is_superuser?: boolean;
 };
 export type Modality = {
   id?: number;
@@ -737,6 +739,10 @@ export type OrganizationSite = {
   id?: number;
   sites: SiteCreate[];
 };
+export type Manager = {
+  email: string;
+  name: string;
+};
 export type User = {
   id?: number;
   first_name?: string;
@@ -755,7 +761,7 @@ export type User = {
   is_one_time?: boolean;
   documentation_url?: boolean;
   role?: string[];
-  manager?: string;
+  manager?: Manager;
   image?: string;
   sites?: string[];
 };
@@ -776,7 +782,7 @@ export type UpsertUser = {
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
-  manager: number;
+  manager?: number;
   organization: number;
   sites?: number[];
   modalities?: number[];

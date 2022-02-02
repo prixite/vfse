@@ -144,13 +144,15 @@ const SystemCard = ({ system, handleEdit, refetch  }: SystemInterface) => {
                   {system.mri_embedded_parameters?.magnet_pressure}
                 </strong>
               </p>
-              <p className="option">
-                {latest_ping} <br />
-                <strong>
-                  {moment(system.last_successful_ping_at).format("l")}{" "}
-                  {moment(system.last_successful_ping_at).format("LT")}
-                </strong>
-              </p>
+              {system.last_successful_ping_at && (
+                <p className="option">
+                  {latest_ping} <br />
+                  <strong>
+                    {moment(system.last_successful_ping_at).format("l")}{" "}
+                    {moment(system.last_successful_ping_at).format("LT")}
+                  </strong>
+                </p>
+              )}
             </div>
           </div>
           <TextField

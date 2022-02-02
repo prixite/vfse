@@ -78,11 +78,11 @@ const SiteSection = () => {
                 sitesList?.results?.map((item, key) => (
                   <Grid key={key} item xs={3}>
                     <SiteCard
-                      siteId={item.id}
-                      name={item.name}
-                      machines={item.modalities}
-                      location={item.address}
-                      connections={6}
+                      siteId={item?.id}
+                      name={item?.name}
+                      machines={item?.modalities}
+                      location={item?.address}
+                      connections={item?.connections}
                       refetch={sitesRefetch}
                       sites={sitesData}
                     />
@@ -107,11 +107,11 @@ const SiteSection = () => {
               sitesData.map((item, key) => (
                 <Grid key={key} item xs={3}>
                   <SiteCard
-                    siteId={item.id}
-                    name={item.name}
-                    machines={item.modalities}
-                    location={item.address}
-                    connections={6}
+                    siteId={item?.id}
+                    name={item?.name}
+                    machines={item?.modalities}
+                    location={item?.address}
+                    connections={item?.connections}
                     refetch={sitesRefetch}
                     sites={sitesData}
                   />

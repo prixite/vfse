@@ -80,6 +80,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class CustomerViewSet(OrganizationViewSet):
     filterset_class = filters.OrganizationNameFilter
+    permission_classes = [permissions.OrganizationPermission]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -106,7 +107,11 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if self.action in ["update", "create"]:
             return self.get_user_organizations()
 
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.is_customer_admin(self.kwargs["pk"])
+        ):
             return models.Organization.objects.filter(
                 id__in=models.OrganizationHealthNetwork.objects.filter(
                     organization=self.kwargs["pk"]
@@ -248,7 +253,11 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
         )
 
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.is_customer_admin(self.kwargs["pk"])
+        ):
             queryset = models.System.objects.filter(
                 Q(site__organization_id=self.kwargs["pk"])
                 | Q(
@@ -261,19 +270,10 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
             )
 
         return (
-            queryset.select_related("image", "product_model")
+            queryset.select_related("site", "image", "product_model")
             if self.action != "partial_update"
             else queryset
         )
-
-    def perform_create(self, serializer):
-        seat = serializer.validated_data["connection_options"].pop("vfse")
-        system = serializer.save()
-        seat_serializer = serializers.OrganizationSeatSeriazlier(
-            data={"seats": [{"system": system.id}]}, context={"view": self}
-        )
-        if seat and seat_serializer.is_valid(raise_exception=True):
-            models.Seat.objects.create(system=system, organization_id=self.kwargs["pk"])
 
 
 class SystemViewSet(OrganizationSystemViewSet):
@@ -299,10 +299,11 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
+                username=serializer.validated_data["email"],
                 **{
                     key: serializer.validated_data[key]
                     for key in ["first_name", "last_name", "email"]
-                }
+                },
             )
 
             models.Membership.objects.filter(
@@ -466,10 +467,18 @@ class ModalityViewSet(ModelViewSet):
     serializer_class = serializers.ModalitySerializer
 
     def get_queryset(self):
+        # TODO: Namespace modality with organization
         if getattr(self, "swagger_fake_view", False):
             return models.Modality.objects.none()
 
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        role = self.request.user.get_organization_role(
+            self.request.user.get_default_organization()
+        )
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or role == models.Role.CUSTOMER_ADMIN
+        ):
             return models.Modality.objects.all()
 
         return models.Modality.objects.filter(

@@ -58,7 +58,10 @@ class User(AbstractUser):
 
     @property
     def manager(self):
-        return str(self.profile.manager.get_full_name())
+        return {
+            "name": str(self.profile.manager.get_full_name()),
+            "email": self.username,
+        }
 
     @property
     def sites(self):
@@ -78,7 +81,7 @@ class User(AbstractUser):
 
     def get_default_organization(self):
         if self.is_superuser or self.is_supermanager:
-            return Organization.objects.get(is_default=True)
+            return Organization.objects.filter(is_default=True).first()
 
         organizations = Organization.objects.filter(
             id__in=self.get_organizations(),
@@ -118,6 +121,15 @@ class User(AbstractUser):
             )
             | Q(site__organization=organization_pk),
         )
+
+    def get_organization_role(self, organization_pk):
+        if self.is_superuser or self.is_supermanager:
+            return ""
+
+        return Membership.objects.get(
+            user=self,
+            organization=organization_pk,
+        ).role
 
     def get_site_systems(self, site_pk):
         return System.objects.filter(
@@ -376,6 +388,10 @@ class System(models.Model):
     def image_url(self):
         return self.image.image
 
+    @property
+    def vfse(self):
+        return self.seats.filter(organization=self.site.organization).exists()
+
 
 class SystemImage(models.Model):
     image = models.URLField()
@@ -467,7 +483,7 @@ class Note(models.Model):
 
 
 class Seat(models.Model):
-    system = models.ForeignKey("System", on_delete=models.CASCADE)
+    system = models.ForeignKey("System", on_delete=models.CASCADE, related_name="seats")
     organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, related_name="seats"
     )

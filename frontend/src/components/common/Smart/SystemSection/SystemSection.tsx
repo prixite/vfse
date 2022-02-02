@@ -16,6 +16,7 @@ import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
   useModalitiesListQuery,
+  useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
 } from "@src/store/reducers/api";
 
@@ -47,6 +48,10 @@ const SystemSection = () => {
   const { searching } = localizedData().common;
   const { isLoading: isModalitiesLoading, data: modalitiesList } =
     useModalitiesListQuery();
+  const { data: organization, isFetching: fetching } =
+    useOrganizationsReadQuery({
+      id: networkId,
+    });
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
@@ -70,6 +75,18 @@ const SystemSection = () => {
   const handleEdit = (system) => {
     setOpen(true);
     setSystem(system);
+  };
+
+  const returnSiteName = () => {
+    if (
+      history.location.pathname.includes("networks") &&
+      history.location.pathname.includes("sites")
+    ) {
+      return returnSearchedOject(organization?.sites, siteId)[0]?.name;
+    } else if (history.location.pathname.includes("sites")) {
+      return returnSearchedOject(selectedOrganization?.sites, siteId)[0]?.name;
+    }
+    return selectedOrganization?.name;
   };
 
   const changeModality = (item) => {
@@ -194,104 +211,121 @@ const SystemSection = () => {
     refetch: systemsRefetch,
   } = useOrganizationsSystemsListQuery(apiArgData);
 
-  return (
-    <>
-      <BreadCrumb
-        breadCrumbList={
-          !history.location.pathname.includes("networks") &&
-          !history.location.pathname.includes("sites")
-            ? [
-                {
-                  name: selectedOrganization?.name,
-                  route: `/${organizationRoute}/${selectedOrganization?.id}`,
-                },
-                {
-                  name: "Systems",
-                },
-              ]
-            : [
-                {
-                  name: selectedOrganization?.name,
-                  route: `/${organizationRoute}/${selectedOrganization?.id}`,
-                },
-                {
-                  name: returnSearchedOject(
-                    selectedOrganization?.sites,
-                    siteId
-                  )[0]?.name,
-                  route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
-                },
-                {
-                  name: "Systems",
-                },
-              ]
-        }
-      />
-      <Box component="div" className="system-section">
-        <h2>{selectedOrganization?.name}</h2>
-        <div
-          style={{
-            width: "100%",
-          }}
-        >
-          {!isModalitiesLoading && index ? (
-            <>
-              <div className="modalities">
-                <Flicking
-                  defaultIndex={index - 1}
-                  deceleration={0.0075}
-                  horizontal
-                  bound
-                  gap={40}
-                  style={{ height: "33px" }}
+  const addBreadcrumbs = () => {
+    if (
+      history.location.pathname.includes("sites") &&
+      !fetching &&
+      history.location.pathname.includes("networks")
+    ) {
+      return (
+        <BreadCrumb
+          breadCrumbList={[
+            {
+              name: "Home",
+              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+            },
+            {
+              name: selectedOrganization?.name,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks`,
+            },
+            {
+              name: organization?.name,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/${networkId}/sites`,
+            },
+            {
+              name: returnSearchedOject(organization?.sites, siteId)[0]?.name,
+            },
+          ]}
+        />
+      );
+    } else if (history.location.pathname.includes("sites") && !fetching) {
+      return (
+        <BreadCrumb
+          breadCrumbList={[
+            {
+              name: "Home",
+              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+            },
+            {
+              name: selectedOrganization?.name,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/sites`,
+            },
+            {
+              name: returnSearchedOject(selectedOrganization?.sites, siteId)[0]
+                ?.name,
+            },
+          ]}
+        />
+      );
+    } else {
+      return "";
+    }
+  };
+
+  const createModalitySection = () => {
+    return (
+      <div style={{ width: "100%" }}>
+        {!isModalitiesLoading && index ? (
+          <>
+            <div className="modalities">
+              <Flicking
+                defaultIndex={index - 1}
+                deceleration={0.0075}
+                horizontal
+                bound
+                gap={40}
+                style={{ height: "33px" }}
+              >
+                <span
+                  className="modality"
+                  style={{
+                    color: `${modality === null ? buttonBackground : ""}`,
+                    borderBottom: `${
+                      modality === null ? `1px solid ${buttonBackground}` : ""
+                    }`,
+                  }}
+                  onClick={() => changeModality(null)}
                 >
+                  All
+                </span>
+                {modalitiesList.map((item, key) => (
                   <span
+                    key={key}
                     className="modality"
                     style={{
-                      color: `${modality === null ? buttonBackground : ""}`,
+                      color: `${
+                        modality === item?.id.toString() ? buttonBackground : ""
+                      }`,
                       borderBottom: `${
-                        modality === null ? `1px solid ${buttonBackground}` : ""
+                        modality === item?.id.toString()
+                          ? `1px solid ${buttonBackground}`
+                          : ""
                       }`,
                     }}
-                    onClick={() => changeModality(null)}
+                    onClick={() => changeModality(item)}
                   >
-                    All
+                    {item.name}
                   </span>
-                  {
-                    // eslint-disable-next-line
-                    modalitiesList?.length &&
-                      modalitiesList?.map((item, key) => (
-                        <span
-                          key={key}
-                          className="modality"
-                          style={{
-                            color: `${
-                              modality === item?.id.toString()
-                                ? buttonBackground
-                                : ""
-                            }`,
-                            borderBottom: `${
-                              modality === item?.id.toString()
-                                ? `1px solid ${buttonBackground}`
-                                : ""
-                            }`,
-                          }}
-                          onClick={() => changeModality(item)}
-                        >
-                          {item.name}
-                        </span>
-                      ))
-                  }
-                </Flicking>
-              </div>
-              <hr
-                style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
-              />
-            </>
-          ) : (
-            ""
-          )}
-        </div>
+                ))}
+              </Flicking>
+            </div>
+            <hr
+              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+            />
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <>
+      {addBreadcrumbs()}
+      <Box component="div" className="system-section">
+        <h2>{!fetching ? returnSiteName() : ""}</h2>
+        {createModalitySection()}
         {!isSystemDataLoading ? (
           <TopViewBtns
             setOpen={

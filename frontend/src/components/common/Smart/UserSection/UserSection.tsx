@@ -74,14 +74,14 @@ const columns = [
     disableColumnMenu: true,
     sortable: false,
   },
-  {
-    field: "manager",
-    headerName: "Manager",
-    width: 180,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
+  // {
+  //   field: "manager",
+  //   headerName: "Manager",
+  //   width: 180,
+  //   hide: false,
+  //   disableColumnMenu: true,
+  //   sortable: false,
+  // },
 ];
 
 const headers = [
@@ -134,12 +134,8 @@ const headers = [
     sortable: false,
   },
   {
-    field: "manager",
     headerName: "Manager",
-    width: 180,
     hide: false,
-    disableColumnMenu: true,
-    sortable: false,
   },
   {
     headerName: "Customer",
@@ -171,6 +167,7 @@ export default function UserSection() {
   const [searchText, setSearchText] = useState("");
   const openModal = Boolean(anchorEl);
   const [hasData, setHasData] = useState(false);
+  const [hideManager, setHideManager] = useState(false);
   const [hideCustomer, setHideCustomer] = useState(false);
   const [hideModality, setHideModality] = useState(false);
   const [hideNetwork, setHideNetwork] = useState(false);
@@ -222,6 +219,11 @@ export default function UserSection() {
   }, [searchText, userList, items]);
 
   useEffect(() => {
+    if (tableColumns[6]?.hide === true) {
+      setHideManager(true);
+    } else {
+      setHideManager(false);
+    }
     if (tableColumns[7]?.hide === true) {
       setHideCustomer(true);
     } else {
@@ -249,7 +251,6 @@ export default function UserSection() {
       tableColumns[3],
       tableColumns[4],
       tableColumns[5],
-      tableColumns[6],
     ];
     setColumnHeaders(header);
   }, [tableColumns]);
@@ -264,7 +265,10 @@ export default function UserSection() {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    handleActionClose();
+  };
 
   const handleModalClose = () => {
     setOpenListModal(false);
@@ -360,6 +364,16 @@ export default function UserSection() {
               autoHeight
               columns={[
                 ...columnHeaders,
+                {
+                  field: "Manager",
+                  hide: hideManager,
+                  disableColumnMenu: true,
+                  sortable: false,
+                  width: 180,
+                  renderCell: (cellValues) => (
+                    <div>{cellValues.row.manager?.name}</div>
+                  ),
+                },
                 {
                   field: "Customer",
                   hide: hideCustomer,
@@ -495,6 +509,16 @@ export default function UserSection() {
             autoHeight
             columns={[
               ...columnHeaders,
+              {
+                field: "Manager",
+                hide: hideManager,
+                disableColumnMenu: true,
+                sortable: false,
+                width: 180,
+                renderCell: (cellValues) => (
+                  <div>{cellValues.row.manager?.name}</div>
+                ),
+              },
               {
                 field: "Customer",
                 hide: hideCustomer,
