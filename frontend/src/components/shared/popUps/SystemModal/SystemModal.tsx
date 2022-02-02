@@ -681,7 +681,6 @@ export default function SystemModal(props: systemProps) {
                     <Select
                       value={site?.name}
                       displayEmpty
-                      disabled={sites?.length}
                       className="info-field"
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "48px", marginRight: "15px" }}
