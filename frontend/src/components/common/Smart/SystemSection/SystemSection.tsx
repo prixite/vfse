@@ -210,11 +210,13 @@ const SystemSection = () => {
     refetch: systemsRefetch,
   } = useOrganizationsSystemsListQuery(apiArgData);
 
-  return (
-    <>
-      {history.location.pathname.includes("sites") &&
+  const addBreadcrumbs = () => {
+    if (
+      history.location.pathname.includes("sites") &&
       !fetching &&
-      history.location.pathname.includes("networks") ? (
+      history.location.pathname.includes("networks")
+    ) {
+      return (
         <BreadCrumb
           breadCrumbList={[
             {
@@ -234,7 +236,9 @@ const SystemSection = () => {
             },
           ]}
         />
-      ) : history.location.pathname.includes("sites") && !fetching ? (
+      );
+    } else if (history.location.pathname.includes("sites") && !fetching) {
+      return (
         <BreadCrumb
           breadCrumbList={[
             {
@@ -251,9 +255,15 @@ const SystemSection = () => {
             },
           ]}
         />
-      ) : (
-        ""
-      )}
+      );
+    } else {
+      return "";
+    }
+  };
+
+  return (
+    <>
+      {addBreadcrumbs()}
       <Box component="div" className="system-section">
         <h2>{!fetching ? returnSiteName() : ""}</h2>
         <div
