@@ -16,7 +16,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
@@ -448,7 +447,7 @@ export default function SystemModal(props: systemProps) {
 
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
-      if (!item.name) {
+      if (!item.name && item.dName !== "Grafana link") {
         item.setError(`${item.dName} is required`);
         return false;
       }
@@ -707,7 +706,7 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={serialNumber}
+                    value={serialNumber || ''}
                     placeholder="9xuiua002"
                     onChange={(e) => {
                       setSerialNumber(e.target.value);
@@ -722,7 +721,7 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={buildingLocation}
+                    value={buildingLocation || ''}
                     placeholder="3161 Cunningham Avenue Suite 905"
                     onChange={(e) => {
                       setBuildingLocation(e.target.value);
@@ -867,7 +866,7 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     placeholder="971-091-9353x05482"
-                    value={systemContactInfo}
+                    value={systemContactInfo || ''}
                     onChange={(e) => {
                       setSystemContactInfo(e.target.value);
                     }}
@@ -885,7 +884,7 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     type="url"
                     placeholder="https://example.com"
-                    value={grafanaLink}
+                    value={grafanaLink  || ''}
                     onChange={handleUrl}
                   />
                   {linkError ? <p className="errorText">{linkError}</p> : ""}

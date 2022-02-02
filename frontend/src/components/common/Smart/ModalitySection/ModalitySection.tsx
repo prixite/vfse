@@ -66,7 +66,7 @@ const ModalitySection = () => {
             networksList?.results?.length &&
             networksList?.query === searchText ? (
               networksList?.results?.map((item, key) => (
-                <Grid key={key} item xs={3}>
+                <Grid key={key} item xs={6} xl={3}>
                   <NetworkCard
                     setAction={setAction}
                     setOpen={setOpen}
@@ -97,7 +97,7 @@ const ModalitySection = () => {
             )
           ) : networksData && networksData?.length ? (
             networksData.map((item, key) => (
-              <Grid key={key} item xs={3}>
+              <Grid key={key} item xs={6} xl={3}>
                 <NetworkCard
                   setAction={setAction}
                   setOpen={setOpen}

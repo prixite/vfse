@@ -156,7 +156,7 @@ const OrganizationSection = () => {
                 organizationsList?.results?.length &&
                 organizationsList?.query === searchText ? (
                   organizationsList?.results?.map((item, key) => (
-                    <Grid key={key} item xs={3}>
+                    <Grid key={key} item xs={8} md={8}>
                       <ClientCard
                         setAction={setAction}
                         setOrganization={setOrganization}
@@ -190,7 +190,7 @@ const OrganizationSection = () => {
                 )
               ) : organizationList && organizationList?.length ? (
                 organizationList.map((item, key) => (
-                  <Grid key={key} item xs={3}>
+                  <Grid key={key} item xs={6} xl={3}>
                     <ClientCard
                       setAction={setAction}
                       setOrganization={setOrganization}
