@@ -1,5 +1,3 @@
-import React from "react";
-
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -19,8 +17,9 @@ import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/C
 import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
+import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
@@ -33,6 +32,7 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
+  const dispatch = useAppDispatch();
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const open = Boolean(anchorEl);
   const {
@@ -73,6 +73,10 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
       deleteSystem,
       refetch
     );
+    handleClose();
+  };
+  const onComment = () => {
+    dispatch(openSystemDrawer(system?.id));
     handleClose();
   };
 
@@ -225,6 +229,11 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
         >
           <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
+          </MenuItem>
+          <MenuItem>
+            <span style={{ marginLeft: "12px" }} onClick={onComment}>
+              Comments
+            </span>
           </MenuItem>
           <MenuItem onClick={() => setModal(true)}>
             <span style={{ marginLeft: "12px" }}>Delete</span>

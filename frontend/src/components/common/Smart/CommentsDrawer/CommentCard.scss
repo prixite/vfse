@@ -1,0 +1,40 @@
+.CommentCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 197px;
+  width: 100%;
+  border-bottom: 1px solid #dce1e5;
+  padding-bottom: 30px;
+  margin-bottom: 10px;
+  .userInfo {
+    display: flex;
+    justify-content: flex-start;
+    .css-2s90m6-MuiAvatar-root {
+      margin-top: 8px;
+    }
+    .author {
+      margin-left: 20px;
+      &__name {
+        color: #151e29;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      &__date {
+        font-size: 11px;
+        color: #94989e;
+        font-weight: 400;
+      }
+    }
+  }
+  .note {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #94989e;
+    font-weight: normal;
+    .read-or-hide {
+      color: #773cbd;
+      cursor: pointer;
+    }
+  }
+}
