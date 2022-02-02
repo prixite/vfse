@@ -526,6 +526,14 @@ class SystemNoteViewSet(ModelViewSet):
         serializer.save(system_id=self.kwargs["pk"], author=self.request.user)
 
 
+class NoteViewSet(ModelViewSet):
+    serializer_class = serializers.NoteSerialier
+    permission_classes = [IsAuthenticated, permissions.SystemNotePermissions]
+
+    def get_queryset(self):
+        return models.Note.objects.all()
+
+
 class SystemImageViewSet(ModelViewSet):
     serializer_class = serializers.SystemImageSerializer
 

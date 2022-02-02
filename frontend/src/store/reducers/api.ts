@@ -67,6 +67,22 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/modalities/` }),
     }),
+    notesPartialUpdate: build.mutation<
+      NotesPartialUpdateApiResponse,
+      NotesPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/notes/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.noteSerialier,
+      }),
+    }),
+    notesDelete: build.mutation<NotesDeleteApiResponse, NotesDeleteApiArg>({
+      query: (queryArg) => ({
+        url: `/notes/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     organizationsList: build.query<
       OrganizationsListApiResponse,
       OrganizationsListApiArg
@@ -413,6 +429,15 @@ export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = void;
+export type NotesPartialUpdateApiResponse = /** status 200  */ NoteSerialier;
+export type NotesPartialUpdateApiArg = {
+  id: string;
+  noteSerialier: NoteSerialier;
+};
+export type NotesDeleteApiResponse = unknown;
+export type NotesDeleteApiArg = {
+  id: string;
+};
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
   name?: string;
@@ -652,6 +677,7 @@ export type Organization = {
   sites?: MetaSite[];
 };
 export type Me = {
+  id?: number;
   first_name?: string;
   last_name?: string;
   flags?: string;
@@ -662,6 +688,10 @@ export type Me = {
 export type Modality = {
   id?: number;
   name: string;
+};
+export type NoteSerialier = {
+  id?: number;
+  note: string;
 };
 export type HealthNetworkCreate = {
   id?: number | null;
@@ -831,10 +861,11 @@ export type SystemImage = {
   image: string;
 };
 export type SystemNotes = {
-  author?: string;
+  author: number;
   note: string;
   created_at?: string;
   author_image?: string;
+  author_full_name?: string;
 };
 export type UserEnableDisable = {
   users: number[];
@@ -849,6 +880,8 @@ export const {
   useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
+  useNotesPartialUpdateMutation,
+  useNotesDeleteMutation,
   useOrganizationsListQuery,
   useOrganizationsCreateMutation,
   useOrganizationsExistsReadQuery,

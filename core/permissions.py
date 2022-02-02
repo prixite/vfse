@@ -43,3 +43,14 @@ class OrganizationPermission(BasePermission):
             return False
 
         return True
+
+
+class SystemNotePermissions(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_superuser and request.method != "PATCH":
+            return True
+
+        elif request.user == obj.author:
+            return True
+
+        return False
