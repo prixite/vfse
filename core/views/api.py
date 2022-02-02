@@ -208,7 +208,6 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         return super().get_serializer_class(*args, **kwargs)
 
     def perform_create(self, serializer):
-        self.get_object()
         models.Site.objects.create(
             organization_id=self.kwargs["pk"], **serializer.validated_data
         )
