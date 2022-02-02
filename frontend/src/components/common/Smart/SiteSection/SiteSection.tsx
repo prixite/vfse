@@ -105,7 +105,7 @@ const SiteSection = () => {
               )
             ) : sitesData && sitesData?.length ? (
               sitesData.map((item, key) => (
-                <Grid key={key} item xs={3}>
+                <Grid key={key} item xs={6} xl={3}>
                   <SiteCard
                     siteId={item?.id}
                     name={item?.name}

@@ -101,16 +101,20 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
             >
               {connect}
             </Button>
-            <Button
-              variant="contained"
-              className="link-btn"
-              onClick={() => window?.open(system.grafana_link, "_blank")}
-            >
-              <div className="btn-content">
-                <img src={AttachmentIcon} className="icon" />
-                <span>{grafana_link_txt}</span>
-              </div>
-            </Button>
+            {system?.grafana_link ? (
+              <Button
+                variant="contained"
+                className="link-btn"
+                onClick={() => window?.open(system.grafana_link, "_blank")}
+              >
+                <div className="btn-content">
+                  <img src={AttachmentIcon} className="icon" />
+                  <span>{grafana_link_txt}</span>
+                </div>
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="features-section">

@@ -86,6 +86,7 @@ export default function DocumentationSection() {
   const { searching } = localizedData().common;
   const [open, setOpen] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
+  // eslint-disable-next-line
   const [currentProduct, setCurrentProduct] = useState(null);
   const [productName, setProductName] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -206,7 +207,6 @@ export default function DocumentationSection() {
     handleModalClose();
     await deleteProductModelService(
       currentDoc,
-      currentProduct,
       deleteProductModel,
       docsRefetch
     );
