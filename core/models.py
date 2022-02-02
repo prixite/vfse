@@ -58,6 +58,9 @@ class User(AbstractUser):
 
     @property
     def manager(self):
+        if not self.profile.manager:
+            return None
+
         return {
             "name": str(self.profile.manager.get_full_name()),
             "email": self.profile.manager.username,
