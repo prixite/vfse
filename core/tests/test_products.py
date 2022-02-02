@@ -80,7 +80,10 @@ class ProductTestCase(BaseTestCase):
 
         response = self.client.patch(
             f"/api/products/models/{self.product_model.id}/",
-            data={"model": "Updated model"},
+            data={
+                "model": "Updated model",
+                "documentation": {"url": "http://example.com/doc.pdf"},
+            },
         )
 
         self.assertEqual(response.status_code, 200)

@@ -621,3 +621,10 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
             **validated_data,
             documentation=models.Documentation.objects.create(**documentation_data),
         )
+
+    def update(self, instance, validated_data):
+        if "documentation" in validated_data:
+            documentation = validated_data.pop('documentation')
+            instance.documentation.url = documentation.get('url')
+            instance.save()
+        return super().update(instance,validated_data)
