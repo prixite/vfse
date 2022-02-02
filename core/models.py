@@ -265,6 +265,12 @@ class Organization(models.Model):
         ).user
         return Token.objects.get(user=user).key
 
+    @staticmethod
+    def get_organization_health_networks(organization_pk):
+        return OrganizationHealthNetwork.objects.filter(
+            organization=organization_pk,
+        ).values_list("health_network", flat=True)
+
 
 class Membership(models.Model):
     user = models.ForeignKey(
