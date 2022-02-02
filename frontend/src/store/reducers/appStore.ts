@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   openAddClientModal: false,
   openAddNetworkModal: false,
+  openSystemNotesDrawer: false,
+  systemID: undefined,
 };
 
 export const appSlice = createSlice({
@@ -21,6 +23,14 @@ export const appSlice = createSlice({
     closeNetworkModal: (state) => {
       state.openAddNetworkModal = false;
     },
+    openSystemDrawer: (state, action) => {
+      state.openSystemNotesDrawer = true;
+      state.systemID = action.payload;
+    },
+    closeSystemDrawer: (state) => {
+      state.openSystemNotesDrawer = false;
+      state.systemID = undefined;
+    },
   },
 });
 
@@ -29,5 +39,7 @@ export const {
   closeAddModal,
   openNetworkModal,
   closeNetworkModal,
+  openSystemDrawer,
+  closeSystemDrawer,
 } = appSlice.actions;
 export default appSlice.reducer;

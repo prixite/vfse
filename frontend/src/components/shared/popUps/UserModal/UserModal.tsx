@@ -81,7 +81,7 @@ export default function UserModal(props: Props) {
   const [oneTimeLinkCreation, setOneTimeLinkCreation] =
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const constantData: object = localizedData()?.users?.popUp;
+  const constantData = localizedData()?.users?.popUp;
   const {
     addNewUser,
     pageTrackerdesc1,
