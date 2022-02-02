@@ -134,7 +134,7 @@
     "organization_menu_options": {
         "switch_org": "Switch   >>",
         "edit": "Edit appearance",
-        "new_network": "Add new HealthNetwork",
+        "new_network": "Add new health network",
         "delete_org": "Delete"
     },
     "organization":{
