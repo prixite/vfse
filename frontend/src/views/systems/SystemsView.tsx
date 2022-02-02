@@ -20,10 +20,9 @@ const SystemsView = () => {
   if (networkId) {
     apiParams.health_network = networkId.toString();
   }
-
   const { isLoading } = useOrganizationsSystemsListQuery(apiParams);
 
-  return <>{!isLoading ? <SystemSection /> : <SectionSkeleton />}</>;
+  return !isLoading ? <SystemSection /> : <SectionSkeleton />;
 };
 
 export default SystemsView;
