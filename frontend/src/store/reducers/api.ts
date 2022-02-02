@@ -633,16 +633,16 @@ export type ManufacturerImage = {
   image?: string | null;
 };
 export type Appearance2 = {
-  sidebar_text: string;
-  button_text: string;
-  sidebar_color: string;
-  primary_color: string;
-  secondary_color: string;
-  font_one: string;
-  font_two: string;
-  logo: string;
-  banner: string;
-  icon: string;
+  sidebar_text?: string;
+  button_text?: string;
+  sidebar_color?: string;
+  primary_color?: string;
+  secondary_color?: string;
+  font_one?: string;
+  font_two?: string;
+  logo?: string;
+  banner?: string;
+  icon?: string;
 };
 export type Organization = {
   id?: number;
