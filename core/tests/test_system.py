@@ -237,7 +237,7 @@ class SystemTestCase(BaseTestCase):
 
         note.refresh_from_db()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.note.note, new_sentence)
+        self.assertEqual(note.note, new_sentence)
 
     def test_system_notes_delete(self):
         self.client.force_login(self.super_admin)
