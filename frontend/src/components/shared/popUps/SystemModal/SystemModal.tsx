@@ -623,7 +623,7 @@ export default function SystemModal(props: systemProps) {
         setModal(productData[0]);
       }
     }
-  }, [productData, props.open]);
+  }, [productData, props.open, isProductsModelsLoading]);
 
   const { networkId } = useParams();
 
@@ -679,7 +679,7 @@ export default function SystemModal(props: systemProps) {
                   <p className="info-label">{fieldSite}</p>
                   <FormControl sx={{ minWidth: "100%" }}>
                     <Select
-                      value={site?.name}
+                      value={site?.name || ""}
                       displayEmpty
                       className="info-field"
                       inputProps={{ "aria-label": "Without label" }}
@@ -732,12 +732,12 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  {!isProductsModelsLoading && (
+                  {!isProductsModelsLoading && productData.length ? (
                     <Autocomplete
                       id="country-select-demo"
                       sx={{ width: "100%" }}
                       style={{ height: "48px" }}
-                      value={modal}
+                      value={modal || ""}
                       onChange={(e, item: ProductModel) =>
                         handleProductModel(item)
                       } // eslint-disable-line
@@ -754,6 +754,8 @@ export default function SystemModal(props: systemProps) {
                         />
                       )}
                     />
+                  ) : (
+                    ""
                   )}
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>

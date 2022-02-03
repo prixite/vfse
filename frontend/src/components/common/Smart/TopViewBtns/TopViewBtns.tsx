@@ -43,6 +43,7 @@ interface Props {
   siteFilter: (arg: object) => void;
   setList: (arg: { query: string; results?: { name: string }[] }) => void;
   actualData?: HealthNetwork[];
+  handleSearchQuery?: (arg: string) => void;
   searchText: string;
   setSearchText: (arg: string) => void;
   tableColumns?: {
@@ -71,6 +72,7 @@ const TopViewBtns = ({
   setData,
   setList,
   actualData,
+  handleSearchQuery,
   searchText,
   setSearchText,
   networkFilter,
@@ -235,6 +237,9 @@ const TopViewBtns = ({
   const onEventSearch = useCallback(
     debounce((searchQuery: string) => {
       if (searchQuery?.length > 2) {
+        if (path === "users") {
+          handleSearchQuery(searchQuery);
+        }
         const newList = { query: searchQuery, results: [] };
         const result = actualData?.filter((data) => {
           return path === "users"
