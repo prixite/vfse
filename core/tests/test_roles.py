@@ -24,14 +24,14 @@ class PermissionTestCase(BaseTestCase):
 
         print("Checking POST requests,", end=" ")
         for url in paths:
-            url_path = re.sub("<([\w:]+)>", "1", str(url))
+            url_path = re.sub(r"<([\w:]+)>", "1", str(url))
             response = self.client.post(f"/{url_path}", data={})
             self.assertNotEqual(response.status_code, 403)
         print("completed successfully.")
 
         print("Checking PATCH requests,", end=" ")
         for url in paths:
-            url_path = re.sub("<([\w:]+)>", "1", str(url))
+            url_path = re.sub(r"<([\w:]+)>", "1", str(url))
             response = self.client.patch(
                 f"/{url_path}", data={"users": [], "health_networks": [], "email": ""}
             )
@@ -40,7 +40,7 @@ class PermissionTestCase(BaseTestCase):
 
         print("Checking PUT requests,", end=" ")
         for url in paths:
-            url_path = re.sub("<([\w:]+)>", "1", str(url))
+            url_path = re.sub(r"<([\w:]+)>", "1", str(url))
             response = self.client.put(
                 f"/{url_path}", data={"users": [], "health_networks": []}
             )
