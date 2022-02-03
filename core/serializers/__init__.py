@@ -528,7 +528,14 @@ class SystemNotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Note
-        fields = ["author", "note", "created_at", "author_image", "author_full_name"]
+        fields = [
+            "id",
+            "author",
+            "note",
+            "created_at",
+            "author_image",
+            "author_full_name",
+        ]
 
 
 class NoteSerialier(serializers.ModelSerializer):

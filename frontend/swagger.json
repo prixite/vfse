@@ -2533,6 +2533,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "author": {
                     "title": "Author",
                     "type": "integer"
