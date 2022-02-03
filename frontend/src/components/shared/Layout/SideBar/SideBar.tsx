@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import AddIcon from "@mui/icons-material/Add";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import SearchIcon from "@mui/icons-material/Search";
 // import SearchIcon from "@src/assets/images/searchIcon.png";
 import {
@@ -10,6 +11,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  Collapse,
 } from "@mui/material";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import { useHistory } from "react-router";
@@ -95,6 +97,7 @@ export default function SideBar() {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
+  const [openVfse, setOpenVfse] = React.useState(true);
   const [currentClient, setCurrentClient] =
     React.useState<Organization>(Object);
   const pathRoute = window.location.pathname;
@@ -137,12 +140,17 @@ export default function SideBar() {
     dispatch(updateButtonTextColor(item.appearance.button_text));
     history.replace(`/${organizationRoute}/${item.id}`);
   };
+
+  const handleVfseClick = () => {
+    setOpenVfse(!openVfse);
+  };
+
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
       .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
       .map((prop: routeItem) => {
-        return (
+        return prop.name !== "vFSE" ? (
           <ListItem
             button
             component={Link}
@@ -170,6 +178,84 @@ export default function SideBar() {
             </ListItemIcon>
             <ListItemText primary={prop.name} />
           </ListItem>
+        ) : (
+          <>
+            <ListItem
+              button
+              key={prop.path}
+              style={
+                currentRoute ===
+                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                  ? {
+                      borderRadius: "4px",
+                      backgroundColor: buttonBackground,
+                      opacity: 0.5,
+                    }
+                  : openVfse
+                  ? {
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    }
+                  : {}
+              }
+              onClick={handleVfseClick}
+            >
+              <ListItemIcon
+                style={{ color: sideBarTextColor, marginRight: "10px" }}
+              >
+                <prop.icon />
+              </ListItemIcon>
+              <ListItemText primary={prop.name} />
+              {openVfse ? (
+                <HorizontalRuleIcon style={{ color: sideBarTextColor }} />
+              ) : (
+                ""
+              )}
+            </ListItem>
+            <Collapse
+              in={openVfse}
+              timeout="auto"
+              unmountOnExit
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.04)",
+              }}
+            >
+              <List component="div" disablePadding>
+                <ListItem button sx={{ pl: 4 }} component={Link}>
+                  <ListItemText
+                    style={{ paddingLeft: "16px" }}
+                    primary="Knowledge Base"
+                  />
+                </ListItem>
+                <ListItem button sx={{ pl: 4 }} component={Link}>
+                  <ListItemText
+                    style={{ paddingLeft: "16px" }}
+                    primary="Forum"
+                  />
+                </ListItem>
+                <ListItem
+                  button
+                  sx={{ pl: 4 }}
+                  component={Link}
+                  to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
+                  style={
+                    currentRoute ===
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                      ? {
+                          backgroundColor: "rgba(255, 255, 255, 0.06)",
+                        }
+                      : {}
+                  }
+                  onClick={() =>
+                    setCurrentRoute(
+                      `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                    )
+                  }
+                >
+                  <ListItemText style={{ paddingLeft: "16px" }} primary="FAQ" />
+                </ListItem>
+              </List>
+            </Collapse>
+          </>
         );
       });
 
