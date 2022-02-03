@@ -102,9 +102,8 @@ export default function SideBar() {
   const { organizationRoute } = constants;
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery({ page: 1 });
-  const { sideBarBackground, sideBarTextColor } = useAppSelector(
-    (state) => state.myTheme
-  );
+  const { sideBarBackground, sideBarTextColor, buttonBackground } =
+    useAppSelector((state) => state.myTheme);
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -150,11 +149,15 @@ export default function SideBar() {
             component={Link}
             to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
             key={prop.path}
-            className={
+            style={
               currentRoute ===
               `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                ? "active-link"
-                : ""
+                ? {
+                    borderRadius: "4px",
+                    backgroundColor: buttonBackground,
+                    opacity: 0.5,
+                  }
+                : {}
             }
             onClick={() =>
               setCurrentRoute(
