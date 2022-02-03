@@ -153,7 +153,7 @@ export default function SideBar() {
               `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
                 ? {
                     borderRadius: "4px",
-                    backgroundColor: hexToRgb(buttonBackground),
+                    backgroundColor: hexToRgb(buttonBackground,0.5),
                   }
                 : {}
             }

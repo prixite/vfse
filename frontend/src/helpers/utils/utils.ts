@@ -21,11 +21,11 @@ const returnSearchedOject = (data, key) => {
   const list = data.filter((item) => item.id == key);
   return list;
 };
-const hexToRgb = (hex) => {
+const hexToRgb = (hex,opacity) => {
   const red = parseInt(hex[1] + hex[2], 16);
   const green = parseInt(hex[3] + hex[4], 16);
   const blue = parseInt(hex[5] + hex[6], 16);
 
-  return `rgba(${red},${green},${blue},0.5)`;
+  return `rgba(${red},${green},${blue},${opacity})`;
 };
 export { ValidateIPaddress, isValidURL, returnSearchedOject, hexToRgb };
