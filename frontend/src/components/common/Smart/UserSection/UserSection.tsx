@@ -335,7 +335,6 @@ export default function UserSection() {
   return (
     <Fragment>
       <h2>{userAdministration}</h2>
-      {/* {!isUserListFetching ? ( */}
       <TopViewBtns
         setOpen={setOpen}
         path="users"
@@ -348,9 +347,6 @@ export default function UserSection() {
         setSearchText={setSearchText}
         hasData={hasData}
       />
-      {/* ) : (
-        ""
-      )} */}
 
       {open && !isUsersLoading && (
         <UserModal
@@ -371,155 +367,6 @@ export default function UserSection() {
         style={{ marginTop: "32px", overflow: "hidden" }}
         className="user-section"
       >
-        {/* {searchText?.length > 2 ? (
-          userList &&
-          userList?.results?.length &&
-          userList?.query === searchText ? (
-            <DataGrid
-              rows={userList?.results}
-              autoHeight
-              columns={[
-                ...columnHeaders,
-                {
-                  field: "Manager",
-                  hide: hideManager,
-                  disableColumnMenu: true,
-                  sortable: false,
-                  width: 180,
-                  renderCell: (cellValues) => (
-                    <div>{cellValues.row.manager?.name}</div>
-                  ),
-                },
-                {
-                  field: "Customer",
-                  hide: hideCustomer,
-                  disableColumnMenu: true,
-                  sortable: false,
-                  width: 170,
-                  renderCell: (cellValues) => (
-                    <div
-                      onClick={
-                        cellValues?.row?.organizations?.length > 1
-                          ? () =>
-                              handleModalClick(
-                                "Customers",
-                                cellValues?.row?.organizations
-                              )
-                          : undefined
-                      }
-                      style={{
-                        cursor: `${
-                          cellValues?.row?.organizations?.length > 1
-                            ? "pointer"
-                            : ""
-                        }`,
-                      }}
-                    >
-                      {renderCustomers(cellValues?.row?.organizations)}
-                    </div>
-                  ),
-                },
-                {
-                  field: "Modalities",
-                  hide: hideModality,
-                  disableColumnMenu: true,
-                  sortable: false,
-                  width: 280,
-                  renderCell: (cellValues) =>
-                    renderModalities(cellValues.row.modalities),
-                },
-                {
-                  field: "Sites",
-                  hide: hideNetwork,
-                  disableColumnMenu: true,
-                  sortable: false,
-                  width: 190,
-                  renderCell: (cellValues) => (
-                    <div
-                      onClick={
-                        cellValues?.row?.sites?.length > 1
-                          ? () =>
-                              handleModalClick("Sites", cellValues?.row?.sites)
-                          : undefined
-                      }
-                      style={{
-                        cursor: `${
-                          cellValues?.row?.sites?.length > 1 ? "pointer" : ""
-                        }`,
-                      }}
-                    >
-                      {renderCustomers(cellValues?.row?.sites)}
-                    </div>
-                  ),
-                },
-                {
-                  field: "Status",
-                  hide: hideStatus,
-                  disableColumnMenu: true,
-                  sortable: false,
-                  width: 100,
-                  renderCell: (cellValues) => (
-                    <span
-                      style={{
-                        color: `${cellValues.row.is_active ? "" : "red"}`,
-                      }}
-                    >
-                      {cellValues.row.is_active ? "Active" : "Locked"}
-                    </span>
-                  ),
-                },
-                {
-                  field: "Actions",
-                  headerAlign: "center",
-                  align: "center",
-                  disableColumnMenu: true,
-                  width: 85,
-                  sortable: false,
-                  renderCell: (cellValues) => (
-                    <div
-                      onClick={(e) =>
-                        handleClick(
-                          e,
-                          cellValues.row.id,
-                          cellValues.row.is_active
-                        )
-                      }
-                      style={{
-                        cursor: "pointer",
-                        padding: "15px",
-                        marginLeft: "auto",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <img src={ThreeDots} />
-                    </div>
-                  ),
-                },
-              ]}
-              loading={isUsersLoading}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[14, 16, 18, 20]}
-            />
-          ) : userList?.query === searchText ? (
-            <NoDataFound
-              search
-              setQuery={setSearchText}
-              title={noDataTitle}
-              description={noDataDescription}
-            />
-          ) : (
-            <div
-              style={{
-                color: "gray",
-                marginLeft: "45%",
-                marginTop: "20%",
-              }}
-            >
-              <h2>{searching}</h2>
-            </div>
-          )
-        ) :  */}
         {itemsList && itemsList?.length ? (
           <DataGrid
             rows={itemsList}
