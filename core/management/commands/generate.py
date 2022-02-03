@@ -26,41 +26,40 @@ class Command(BaseCommand):
             username="super-manager@example.com",
             profile__manager=super_user,
         )
-
         factories.OrganizationFactory(
             is_default=True,
             name="626",
             number_of_seats=10,
         )
-        fse_admin = factories.UserWithPasswordFactory(
-            username="fse-admin@example.com", profile__manager=super_user
-        )
         customer_admin = factories.UserWithPasswordFactory(
-            username="customer-admin@example.com", profile__manager=super_user
+            username="customer-admin@example.com"
+        )
+        fse_admin = factories.UserWithPasswordFactory(
+            username="fse-admin@example.com", profile__manager=customer_admin
         )
         user_admin = factories.UserWithPasswordFactory(
-            username="user-admin@example.com", profile__manager=super_user
+            username="user-admin@example.com", profile__manager=customer_admin
         )
         fse_role = factories.UserWithPasswordFactory(
-            username="fse@example.com", profile__manager=super_user
+            username="fse@example.com", profile__manager=customer_admin
         )
         end_user_role = factories.UserWithPasswordFactory(
-            username="end-user@example.com", profile__manager=super_user
+            username="end-user@example.com", profile__manager=customer_admin
         )
         view_only = factories.UserWithPasswordFactory(
-            username="view-only@example.com", profile__manager=super_user
+            username="view-only@example.com", profile__manager=customer_admin
         )
         one_time_role = factories.UserWithPasswordFactory(
-            username="one-time@example.com", profile__manager=super_user
+            username="one-time@example.com", profile__manager=customer_admin
         )
         cryo = factories.UserWithPasswordFactory(
-            username="cryo@example.com", profile__manager=super_user
+            username="cryo@example.com", profile__manager=customer_admin
         )
         cryo_fse = factories.UserWithPasswordFactory(
-            username="cryo-fse@example.com", profile__manager=super_user
+            username="cryo-fse@example.com", profile__manager=customer_admin
         )
         cryo_admin = factories.UserWithPasswordFactory(
-            username="cryo-admin@example.com", profile__manager=super_user
+            username="cryo-admin@example.com", profile__manager=customer_admin
         )
         users = [
             one_time_role,
