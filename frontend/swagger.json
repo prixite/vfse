@@ -235,6 +235,54 @@
             },
             "parameters": []
         },
+        "/notes/{id}/": {
+            "patch": {
+                "operationId": "notes_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/NoteSerialier"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/NoteSerialier"
+                        }
+                    }
+                },
+                "tags": [
+                    "notes"
+                ]
+            },
+            "delete": {
+                "operationId": "notes_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "notes"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/": {
             "get": {
                 "operationId": "organizations_list",
@@ -1542,6 +1590,11 @@
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "first_name": {
                     "title": "First name",
                     "type": "string",
@@ -1586,6 +1639,25 @@
                 },
                 "name": {
                     "title": "Name",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
+        "NoteSerialier": {
+            "description": "Note(id, system, author, note, created_at, updated_at)",
+            "required": [
+                "note"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "note": {
+                    "title": "Note",
                     "type": "string",
                     "minLength": 1
                 }
@@ -2447,15 +2519,14 @@
         "SystemNotes": {
             "description": "Note(id, system, author, note, created_at, updated_at)",
             "required": [
+                "author",
                 "note"
             ],
             "type": "object",
             "properties": {
                 "author": {
                     "title": "Author",
-                    "type": "string",
-                    "readOnly": true,
-                    "minLength": 1
+                    "type": "integer"
                 },
                 "note": {
                     "title": "Note",
@@ -2472,6 +2543,12 @@
                     "title": "Author image",
                     "type": "string",
                     "format": "uri",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "author_full_name": {
+                    "title": "Author full name",
+                    "type": "string",
                     "readOnly": true,
                     "minLength": 1
                 }

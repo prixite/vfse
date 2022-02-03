@@ -97,6 +97,7 @@ class MeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = [
+            "id",
             "first_name",
             "last_name",
             "flags",
@@ -519,11 +520,19 @@ class SystemNotesSerializer(serializers.ModelSerializer):
     author_image = serializers.URLField(
         source="author.profile.meta.profile_picture", read_only=True
     )
-    author = serializers.CharField(source="author.get_full_name", read_only=True)
+    author_full_name = serializers.CharField(
+        source="author.get_full_name", read_only=True
+    )
 
     class Meta:
         model = models.Note
-        fields = ["author", "note", "created_at", "author_image"]
+        fields = ["author", "note", "created_at", "author_image", "author_full_name"]
+
+
+class NoteSerialier(serializers.ModelSerializer):
+    class Meta:
+        model = models.Note
+        fields = ["id", "note"]
 
 
 class ManufacturerImageSerializer(serializers.ModelSerializer):
@@ -621,3 +630,10 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
             **validated_data,
             documentation=models.Documentation.objects.create(**documentation_data),
         )
+
+    def update(self, instance, validated_data):
+        if "documentation" in validated_data:
+            documentation = validated_data.pop("documentation")
+            instance.documentation.url = documentation.get("url")
+            instance.save()
+        return super().update(instance, validated_data)

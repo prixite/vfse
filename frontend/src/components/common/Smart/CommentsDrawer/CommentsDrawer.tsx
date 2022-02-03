@@ -77,7 +77,6 @@ const CommentsDrawer = () => {
       }}
       open={openSystemNotesDrawer}
       onClose={() => dispatch(closeSystemDrawer())}
-      hideBackdrop={true}
     >
       <div className="DrawerHeader">
         <h3 className="title">Comments</h3>
@@ -103,12 +102,17 @@ const CommentsDrawer = () => {
                           backgroundColor: "lightgray",
                           color: buttonTextColor,
                         }
-                      : {
+                      : note
+                      ? {
                           backgroundColor: buttonBackground,
                           color: buttonTextColor,
                         }
+                      : {
+                          backgroundColor: "lightgray",
+                          color: buttonTextColor,
+                        }
                   }
-                  disabled={isLoading}
+                  disabled={isLoading ? true : !note}
                   className="AddCommentBtn"
                   onClick={addNewComment}
                 >
@@ -119,13 +123,13 @@ const CommentsDrawer = () => {
           }}
         />
       </div>
-      <div className="CommentsSection">
-        {systemNotesList && systemNotesList?.length ? (
-          generateComments()
-        ) : (
+      {systemNotesList && systemNotesList?.length ? (
+        <div className="CommentsSection">{generateComments()}</div>
+      ) : (
+        <div className="CommentsSection" style={{ margin: "auto" }}>
           <NoCommentsFound />
-        )}
-      </div>
+        </div>
+      )}
     </Drawer>
   );
 };
