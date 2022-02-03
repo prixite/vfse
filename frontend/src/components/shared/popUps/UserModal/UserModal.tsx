@@ -157,12 +157,9 @@ export default function UserModal(props: Props) {
       }
       if (editedUser?.manager) {
         setManager(
-          usersData?.filter((user) => {
-            return (
-              user?.manager?.email?.toString() ==
-              editedUser?.manager?.email?.toString()
-            );
-          })[0]?.id
+          usersData?.filter(
+            (user) => user?.email == editedUser?.manager?.email
+          )[0]?.id
         );
       } else {
         if (usersData?.length) {

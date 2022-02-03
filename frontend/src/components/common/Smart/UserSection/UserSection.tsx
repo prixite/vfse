@@ -19,6 +19,7 @@ import {
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsListQuery,
   useOrganizationsUsersListQuery,
+  User,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
@@ -207,12 +208,16 @@ export default function UserSection() {
   });
 
   const [userList, setUserList] = useState({});
+  const [itemsList, setItemsList] = useState<Array<User>>([]);
 
   useEffect(() => {
     if (searchText?.length > 2 && userList && userList?.results?.length) {
       setHasData(true);
+      setItemsList(itemsList);
+      handleSearchQuery(searchText);
     } else if (items?.length && searchText?.length <= 2) {
       setHasData(true);
+      setItemsList(items);
     } else {
       setHasData(false);
     }
@@ -258,6 +263,16 @@ export default function UserSection() {
   if (isUsersLoading) {
     return <p>Loading</p>;
   }
+
+  const handleSearchQuery = (searchQuery: string) => {
+    setItemsList(
+      items?.filter((user) => {
+        return (
+          user?.username?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+      })
+    );
+  };
 
   const handleClick = (event, id, active) => {
     setCurrentUser(id);
@@ -328,6 +343,7 @@ export default function UserSection() {
         setTableColumns={setTableColumns}
         setList={setUserList}
         actualData={items}
+        handleSearchQuery={handleSearchQuery}
         searchText={searchText}
         setSearchText={setSearchText}
         hasData={hasData}
@@ -355,7 +371,7 @@ export default function UserSection() {
         style={{ marginTop: "32px", overflow: "hidden" }}
         className="user-section"
       >
-        {searchText?.length > 2 ? (
+        {/* {searchText?.length > 2 ? (
           userList &&
           userList?.results?.length &&
           userList?.query === searchText ? (
@@ -503,9 +519,10 @@ export default function UserSection() {
               <h2>{searching}</h2>
             </div>
           )
-        ) : items && items?.length ? (
+        ) :  */}
+        {itemsList && itemsList?.length ? (
           <DataGrid
-            rows={items}
+            rows={itemsList}
             autoHeight
             columns={[
               ...columnHeaders,
@@ -630,8 +647,18 @@ export default function UserSection() {
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[14, 16, 18, 20]}
           />
-        ) : (
+        ) : userList?.query === searchText ? (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
+        ) : (
+          <div
+            style={{
+              color: "gray",
+              marginLeft: "45%",
+              marginTop: "20%",
+            }}
+          >
+            <h2>{searching}</h2>
+          </div>
         )}
       </div>
 
