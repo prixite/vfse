@@ -21,22 +21,37 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { addProductModelService } from "@src/services/DocumentationService";
+import {
+  addProductModelService,
+  updateProductModelService,
+} from "@src/services/DocumentationService";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/DocumentModal/DocumentModal.scss";
 import {
   useProductsListQuery,
   useModalitiesListQuery,
   useProductsModelsCreateMutation,
+  ProductModel,
+  useProductsModelsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
   refetch: () => void;
+  selectedDocId?: number;
+  selectedDoc?: ProductModel;
+  action: string;
 }
 
-export default function DocumentModal({ open, handleClose, refetch }: Props) {
+export default function DocumentModal({
+  open,
+  handleClose,
+  refetch,
+  selectedDocId,
+  selectedDoc,
+  action,
+}: Props) {
   const [docLink, setDocLink] = useState(null);
   const [modelName, setModelName] = useState("");
   const [modal, setModal] = useState(null);
@@ -45,6 +60,7 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
   const [modelNameError, setModelNameError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [addProductModel] = useProductsModelsCreateMutation();
+  const [updateProductModel] = useProductsModelsPartialUpdateMutation();
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -55,12 +71,14 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
     useModalitiesListQuery();
   const {
     title,
+    editTitle,
     link,
     upload_btn,
     model,
     product_model,
     modalities,
     btnSave,
+    btnEdit,
     btnCancel,
   } = localizedData().documentation.popUp;
 
@@ -109,6 +127,12 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
       setModality(modalitiesList[0]);
     }
   }, [modalitiesList]);
+
+  useEffect(() => {
+    if (selectedDoc && action == "edit") {
+      populateEditableData();
+    }
+  }, [selectedDoc]);
 
   const handleModelName = (e) => {
     if (e.target.value.length) {
@@ -162,6 +186,51 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
     }
   };
 
+  const handleEditDocument = async () => {
+    setIsLoading(true);
+    handleErrors();
+    if (verifyErrors()) {
+      const newProductModel = getNewProductModel();
+      if (newProductModel.documentation.url || newProductModel) {
+        await updateProductModelService(
+          selectedDocId,
+          newProductModel,
+          updateProductModel,
+          refetch
+        )
+          .then(() => {
+            setTimeout(() => {
+              resetModal();
+              setIsLoading(false);
+            }, 500);
+          })
+          .catch(() => {
+            toast.error(
+              "Model with given name already exists for selected product",
+              {
+                autoClose: 2000,
+                pauseOnHover: false,
+              }
+            );
+            setIsLoading(false);
+          });
+      }
+    } else {
+      setIsLoading(false);
+    }
+  };
+
+  const populateEditableData = () => {
+    setDocLink(selectedDoc.documentation);
+    setModelName(selectedDoc.model);
+    const product = productData?.find((prod) => prod.name === selectedDoc.name);
+    setModal(product);
+    const modalityValue = modalitiesList?.find(
+      (item) => item.name === selectedDoc.modality
+    );
+    setModality(modalityValue);
+  };
+
   const getNewProductModel = () => {
     const Documentation = {
       url: docLink,
@@ -188,7 +257,9 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
     <Dialog className="document-modal" open={open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section">
-          <span className="modal-header">{title}</span>
+          <span className="modal-header">
+            {action === "add" ? title : editTitle}
+          </span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
@@ -200,7 +271,7 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
             <p className="info-label">{link}</p>
             <TextField
               inputProps={{ readOnly: true }}
-              value={docLink}
+              value={docLink ? docLink : ""}
               className="info-field"
               variant="outlined"
               size="small"
@@ -334,9 +405,9 @@ export default function DocumentModal({ open, handleClose, refetch }: Props) {
                 }
           }
           disabled={isLoading}
-          onClick={handleAddDocument}
+          onClick={action === "add" ? handleAddDocument : handleEditDocument}
         >
-          {btnSave}
+          {action === "add" ? btnSave : btnEdit}
         </Button>
       </DialogActions>
     </Dialog>

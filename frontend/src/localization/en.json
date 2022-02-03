@@ -95,13 +95,15 @@
         "btnAsset": "Sort by Asset #",
         "btnAdd": "Add Document",
         "popUp":{
-            "title": "Add documentation",
+            "title": "Add Documentation",
+            "editTitle": "Edit Documentation",
             "link": "Documentation Link",
             "upload_btn": "Upload",
             "model": "Model",
             "product_model": "Product",
             "modalities": "Modalities",
             "btnSave": "Add",
+            "btnEdit": "Edit",
             "btnCancel": "Cancel"
         }
     },

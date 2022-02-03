@@ -86,8 +86,7 @@ export default function DocumentationSection() {
   const { searching } = localizedData().common;
   const [open, setOpen] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
-  // eslint-disable-next-line
-  const [currentProduct, setCurrentProduct] = useState(null);
+  const [currentProductModel, setCurrentProductModel] = useState(null);
   const [productName, setProductName] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const openModal = Boolean(anchorEl);
@@ -125,6 +124,7 @@ export default function DocumentationSection() {
         manufacturer: row.product.manufacturer.name,
         modality: row.modality.name,
         documentation: row.documentation.url,
+        model: row.model,
       };
       dataArray.push(obj);
     });
@@ -136,10 +136,12 @@ export default function DocumentationSection() {
     docList?.results?.map((row) => {
       const obj = {
         id: row.id,
+        product_id: row.product.id,
         name: row.product.name,
         manufacturer: row.product.manufacturer.name,
         modality: row.modality.name,
         documentation: row.documentation.url,
+        model: row.model,
       };
       dataArray.push(obj);
     });
@@ -192,15 +194,16 @@ export default function DocumentationSection() {
     );
   };
 
-  const handleClick = (event, id, prod_id, name) => {
+  const handleClick = (event, id, name) => {
     setCurrentDoc(id);
-    setCurrentProduct(prod_id);
     setProductName(name);
+    setCurrentProductModel(docData?.find((doc) => doc.id === id));
     setAnchorEl(event.currentTarget);
   };
 
   const handleActionClose = () => {
     setAnchorEl(null);
+    setCurrentProductModel(null);
   };
 
   const deleteDocument = async () => {
@@ -222,6 +225,11 @@ export default function DocumentationSection() {
   };
   const handleModalClose = () => {
     setOpenConfModal(false);
+  };
+
+  const editDocumentModal = async () => {
+    setOpen(true);
+    setAnchorEl(null);
   };
 
   return (
@@ -277,12 +285,7 @@ export default function DocumentationSection() {
                   renderCell: (cellValues) => (
                     <div
                       onClick={(e) =>
-                        handleClick(
-                          e,
-                          cellValues.row.id,
-                          cellValues.row.product_id,
-                          cellValues.row.name
-                        )
+                        handleClick(e, cellValues.row.id, cellValues.row.name)
                       }
                       style={{
                         cursor: "pointer",
@@ -353,12 +356,7 @@ export default function DocumentationSection() {
                 renderCell: (cellValues) => (
                   <div
                     onClick={(e) =>
-                      handleClick(
-                        e,
-                        cellValues.row.id,
-                        cellValues.row.product_id,
-                        cellValues.row.name
-                      )
+                      handleClick(e, cellValues.row.id, cellValues.row.name)
                     }
                     style={{
                       cursor: "pointer",
@@ -395,13 +393,16 @@ export default function DocumentationSection() {
         className="UserDropdownMenu"
         onClose={handleActionClose}
       >
-        <MenuItem>Edit</MenuItem>
+        <MenuItem onClick={() => editDocumentModal()}>Edit</MenuItem>
         <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
       </Menu>
       <DocumentModal
         open={open}
         handleClose={handleClose}
         refetch={docsRefetch}
+        selectedDocId={currentDoc}
+        selectedDoc={currentProductModel}
+        action={currentProductModel ? "edit" : "add"}
       />
     </div>
   );
