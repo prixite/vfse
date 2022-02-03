@@ -2,19 +2,22 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as CoreUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from core import models, forms
+from core import models
 from core.models import ManufacturerImage, SystemImage
 
 
 @admin.register(models.User)
 class UserAdmin(CoreUserAdmin):
     fieldset_opt = (
-        (None, {'fields': ('username', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
-        (_('Permissions'), {
-            'fields': ('is_active', 'is_staff', 'groups', 'user_permissions'),
-        }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
+        (
+            _("Permissions"),
+            {
+                "fields": ("is_active", "is_staff", "groups", "user_permissions"),
+            },
+        ),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
     list_display = (
         "username",
@@ -22,7 +25,7 @@ class UserAdmin(CoreUserAdmin):
     )
 
     def get_fieldsets(self, request, obj):
-        print(request.user.is_superuser,request.user)
+        print(request.user.is_superuser, request.user)
         if request.user.is_superuser:
             return super().get_fieldsets(request, obj)
         else:
