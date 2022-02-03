@@ -396,13 +396,17 @@ const SystemSection = () => {
             ))}
           </div>
         )}
-        <SystemModal
-          open={open}
-          handleClose={() => setOpen(false)}
-          refetch={systemsRefetch}
-          system={system}
-          setSystem={setSystem}
-        />
+        {open ? (
+          <SystemModal
+            open={open}
+            handleClose={() => setOpen(false)}
+            refetch={systemsRefetch}
+            system={system}
+            setSystem={setSystem}
+          />
+        ) : (
+          ""
+        )}
         <AddSiteFirstModal
           open={openConfirmModal}
           handleClose={() => setOpenConfirmModal(false)}
