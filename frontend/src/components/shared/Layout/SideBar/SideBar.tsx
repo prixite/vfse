@@ -21,6 +21,7 @@ import user from "@src/assets/images/user.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
+import { hexToRgb } from "@src/helpers/utils/utils";
 import { routes } from "@src/routes";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
@@ -36,7 +37,6 @@ import {
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
-
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 400;
@@ -137,7 +137,6 @@ export default function SideBar() {
     dispatch(updateButtonTextColor(item.appearance.button_text));
     history.replace(`/${organizationRoute}/${item.id}`);
   };
-
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
@@ -154,8 +153,7 @@ export default function SideBar() {
               `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
                 ? {
                     borderRadius: "4px",
-                    backgroundColor: buttonBackground,
-                    opacity: 0.5,
+                    backgroundColor: hexToRgb(buttonBackground,0.5),
                   }
                 : {}
             }
