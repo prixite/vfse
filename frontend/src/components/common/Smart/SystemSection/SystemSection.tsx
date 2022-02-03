@@ -396,8 +396,7 @@ const SystemSection = () => {
             ))}
           </div>
         )}
-        {
-          open ? 
+        {open ? (
           <SystemModal
             open={open}
             handleClose={() => setOpen(false)}
@@ -405,8 +404,9 @@ const SystemSection = () => {
             system={system}
             setSystem={setSystem}
           />
-          :''
-         }
+        ) : (
+          ""
+        )}
         <AddSiteFirstModal
           open={openConfirmModal}
           handleClose={() => setOpenConfirmModal(false)}
