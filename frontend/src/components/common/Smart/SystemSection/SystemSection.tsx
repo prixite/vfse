@@ -310,7 +310,12 @@ const SystemSection = () => {
               </Flicking>
             </div>
             <hr
-              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+              style={{
+                borderTop: "1px solid #D4D6DB",
+                marginBottom: "32px",
+                marginTop: "-3px",
+                zIndex: "-1",
+              }}
             />
           </>
         ) : (
