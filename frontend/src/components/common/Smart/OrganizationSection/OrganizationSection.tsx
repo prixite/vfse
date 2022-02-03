@@ -190,7 +190,7 @@ const OrganizationSection = () => {
                 )
               ) : organizationList && organizationList?.length ? (
                 organizationList.map((item, key) => (
-                  <Grid key={key} item xs={6} xl={3}>
+                  <Grid key={key} item xs={6} xl={3} md={4}>
                     <ClientCard
                       setAction={setAction}
                       setOrganization={setOrganization}
