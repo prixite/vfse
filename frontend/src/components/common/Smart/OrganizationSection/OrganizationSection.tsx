@@ -85,7 +85,7 @@ const OrganizationSection = () => {
           breadCrumbList={[
             {
               name: "Home",
-              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/`,
             },
             {
               name: selectedOrganization?.name,

@@ -223,15 +223,15 @@ const SystemSection = () => {
           breadCrumbList={[
             {
               name: "Home",
-              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/`,
             },
             {
               name: selectedOrganization?.name,
-              route: `/${organizationRoute}/${selectedOrganization?.id}/networks`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/`,
             },
             {
               name: organization?.name,
-              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/${networkId}/sites`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/${networkId}/sites/`,
             },
             {
               name: returnSearchedOject(organization?.sites, siteId)[0]?.name,
