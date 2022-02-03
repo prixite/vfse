@@ -296,7 +296,7 @@ export default function UserSection() {
   const renderModalities = (modalities) => {
     return (
       <div className="modality-section">
-        {modalities.map((modality, index) => (
+        {modalities?.map((modality, index) => (
           <div key={index} className="modality">
             {modality}
           </div>
