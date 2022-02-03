@@ -683,6 +683,7 @@ export type Me = {
   flags?: string;
   organization?: Organization;
   role?: string;
+  profile_picture: string;
   is_superuser?: boolean;
 };
 export type Modality = {

@@ -93,6 +93,7 @@ class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=defaults.DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
+    profile_picture = serializers.URLField(source="profile.meta.profile_picture")
 
     class Meta:
         model = models.User
@@ -103,6 +104,7 @@ class MeSerializer(serializers.ModelSerializer):
             "flags",
             "organization",
             "role",
+            "profile_picture",
             "is_superuser",
         ]
 
