@@ -36,6 +36,9 @@ class DistinctOrganizationViewSet(ModelViewSet):
             return Response({"ok": True})
         except models.Organization.DoesNotExist:
             return Response({"ok": False})
+        except models.Organization.MultipleObjectsReturned:
+            return Response({"ok": False})
+
 
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
