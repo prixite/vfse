@@ -40,7 +40,6 @@ class DistinctOrganizationViewSet(ModelViewSet):
             return Response({"ok": False})
 
 
-
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
     permission_classes = [IsAuthenticated, permissions.OrganizationDetailPermission]
