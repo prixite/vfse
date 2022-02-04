@@ -163,7 +163,10 @@ export default function DocumentationSection() {
     setColumnHeaders(headers);
   }, [tableColumns]);
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    handleActionClose();
+  };
 
   const renderModalities = (modalities) => {
     return (
