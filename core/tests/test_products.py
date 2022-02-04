@@ -82,11 +82,11 @@ class ProductTestCase(BaseTestCase):
             f"/api/products/models/{self.product_model.id}/",
             data={
                 "model": "Updated model",
-                "documentation": {"url": "http://example.com/doc.pdf"},
+                "documentation": {"url": "http://example.com/doc_new.pdf"},
             },
         )
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
-            models.ProductModel.objects.filter(model="Updated model").exists()
+            models.ProductModel.objects.filter(model="Updated model",documentation__url='http://example.com/doc_new.pdf').exists()
         )
