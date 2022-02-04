@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
+import { toast } from "react-toastify";
 
 import DeleteLogo from "@src/assets/svgs/Delete.svg";
 import EditLogo from "@src/assets/svgs/Edit.svg";
+<<<<<<< HEAD
 
 import "@src/components/common/Presentational/CommentCard/CommentCard.scss";
 import EditComment from "@src/components/common/Smart/CommentsDrawer/EditComment";
@@ -14,6 +16,13 @@ import { deleteSystemNoteService } from "@src/services/systemServices";
 import { toast } from "react-toastify";
 
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
+=======
+import EditComment from "@src/components/common/Smart/CommentsDrawer/EditComment";
+import DeleteNoteModal from "@src/components/shared/popUps/DeleteNoteModal/DeleteNoteModal";
+import { deleteSystemNoteService } from "@src/services/systemServices";
+import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
+import "@src/components/common/Presentational/CommentCard/CommentCard.scss";
+>>>>>>> d158395598a3dae137889ba64b7746bc64454877
 
 interface CommentProps {
   comment: SystemNotes;
@@ -21,7 +30,10 @@ interface CommentProps {
   refetchNotes: () => void;
 }
 const CommentCard = ({ comment, userId, refetchNotes }: CommentProps) => {
+<<<<<<< HEAD
   console.log(comment);
+=======
+>>>>>>> d158395598a3dae137889ba64b7746bc64454877
   const [readmore, setReadMore] = useState(true);
   const [isTextGreater, setIsTextGreater] = useState(false);
   const [openModal, setOpenModal] = useState(false);

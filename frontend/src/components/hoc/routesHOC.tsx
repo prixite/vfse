@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { Switch, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
-import { routes } from "@src/routes";
+import { routes, vfseRoutes } from "@src/routes";
 import HomeView from "@src/views/home/HomeView";
 import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import OrganizationView from "@src/views/organization/OrganizationView";
@@ -26,6 +26,14 @@ const RoutesHOC = ({ isLoading }: Props) => {
       {!isLoading ? (
         <Switch>
           {routes.map((route, key) => (
+            <Route
+              path={`/${organizationRoute}/:id${route.path}`}
+              component={route.component}
+              key={key}
+              exact
+            />
+          ))}
+          {vfseRoutes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
               component={route.component}
