@@ -74,7 +74,7 @@ const SystemSection = () => {
     setItemsList(
       systemsData?.filter((user) => {
         return (
-          user?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+          user?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !== -1
         );
       })
     );
