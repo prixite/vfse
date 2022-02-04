@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import AddIcon from "@mui/icons-material/Add";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
 // import SearchIcon from "@src/assets/images/searchIcon.png";
 import {
@@ -10,6 +12,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
+  Collapse,
 } from "@mui/material";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
 import { useHistory } from "react-router";
@@ -21,7 +24,8 @@ import user from "@src/assets/images/user.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
-import { routes } from "@src/routes";
+import { hexToRgb } from "@src/helpers/utils/utils";
+import { routes, vfseRoutes } from "@src/routes";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import {
   Organization,
@@ -36,7 +40,6 @@ import {
   updateButtonTextColor,
   updateSideBarTextColor,
 } from "@src/store/reducers/themeStore";
-
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 400;
@@ -95,6 +98,7 @@ export default function SideBar() {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
+  const [openVfse, setOpenVfse] = React.useState(false);
   const [currentClient, setCurrentClient] =
     React.useState<Organization>(Object);
   const pathRoute = window.location.pathname;
@@ -102,9 +106,8 @@ export default function SideBar() {
   const { organizationRoute } = constants;
   const { data: organizationsList, isLoading: isOrgListLoading } =
     useOrganizationsListQuery({ page: 1 });
-  const { sideBarBackground, sideBarTextColor } = useAppSelector(
-    (state) => state.myTheme
-  );
+  const { sideBarBackground, sideBarTextColor, buttonBackground } =
+    useAppSelector((state) => state.myTheme);
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
@@ -139,22 +142,40 @@ export default function SideBar() {
     history.replace(`/${organizationRoute}/${item.id}`);
   };
 
+  const handleVfseClick = () => {
+    setOpenVfse(!openVfse);
+  };
+
+  const checkVfseRoutes = () => {
+    if (
+      currentRoute?.includes("knowledge-base") ||
+      currentRoute?.includes("forum") ||
+      currentRoute?.includes("faq")
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () =>
     routes
       .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
       .map((prop: routeItem) => {
-        return (
+        return prop.name !== "vFSE" ? (
           <ListItem
             button
             component={Link}
             to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
             key={prop.path}
-            className={
+            style={
               currentRoute ===
               `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                ? "active-link"
-                : ""
+                ? {
+                    borderRadius: "4px",
+                    backgroundColor: hexToRgb(buttonBackground, 0.5),
+                  }
+                : {}
             }
             onClick={() =>
               setCurrentRoute(
@@ -169,6 +190,76 @@ export default function SideBar() {
             </ListItemIcon>
             <ListItemText primary={prop.name} />
           </ListItem>
+        ) : (
+          <>
+            <ListItem
+              button
+              key={prop.path}
+              style={
+                checkVfseRoutes()
+                  ? {
+                      borderRadius: "4px",
+                      backgroundColor: hexToRgb(buttonBackground, 0.5),
+                    }
+                  : openVfse
+                  ? {
+                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    }
+                  : {}
+              }
+              onClick={handleVfseClick}
+            >
+              <ListItemIcon
+                style={{ color: sideBarTextColor, marginRight: "10px" }}
+              >
+                <prop.icon />
+              </ListItemIcon>
+              <ListItemText primary={prop.name} />
+              {openVfse ? (
+                <ExpandLessIcon style={{ color: sideBarTextColor }} />
+              ) : (
+                <ExpandMoreIcon style={{ color: sideBarTextColor }} />
+              )}
+            </ListItem>
+            <Collapse
+              in={openVfse}
+              timeout="auto"
+              unmountOnExit
+              style={{
+                backgroundColor: "rgba(255, 255, 255, 0.04)",
+              }}
+            >
+              <List component="div" disablePadding>
+                {vfseRoutes?.map((route: routeItem) => (
+                  <ListItem
+                    button
+                    sx={{ pl: 4 }}
+                    component={Link}
+                    key={route.path}
+                    to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
+                    style={
+                      currentRoute ===
+                      `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                        ? {
+                            backgroundColor: "rgba(255, 255, 255, 0.06)",
+                          }
+                        : {}
+                    }
+                    onClick={() =>
+                      setCurrentRoute(
+                        `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                      )
+                    }
+                  >
+                    <ListItemText
+                      style={{ paddingLeft: "16px" }}
+                      primary={route.name}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </>
         );
       });
 

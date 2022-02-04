@@ -6,13 +6,22 @@ import HomeIcon from "@mui/icons-material/Home";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import Documentation from "@src/views/documentation/DocumentationView";
 // import ModalityView from "@src/views/modality/ModalityView";
+import FaqView from "@src/views/faq/FaqView";
+import ForumView from "@src/views/forum/ForumView";
+import KnowledgeBaseView from "@src/views/knowledgeBase/KnowledgeBaseView";
 import OrganizationView from "@src/views/organization/OrganizationView";
 import UserView from "@src/views/user/UserView";
-import VfseView from "@src/views/vfse/VfseView";
 
 import AppearanceView from "./views/appearance/AppearanceView";
 import SystemsView from "./views/systems/SystemsView";
 export const routes: routeItem[] = [
+  {
+    name: "vFSE",
+    path: "/faq/",
+    component: FaqView,
+    flag: "vfse",
+    icon: HomeIcon,
+  },
   {
     name: "Appearance",
     path: "/appearance/",
@@ -48,11 +57,28 @@ export const routes: routeItem[] = [
     flag: "documentation",
     icon: ArticleIcon,
   },
+];
+
+export const vfseRoutes: routeItem[] = [
   {
-    name: "vFSE",
-    path: "/vfse/",
-    component: VfseView,
-    flag: "vfse",
+    name: "Knowledge Base",
+    path: "/knowledge-base/",
+    component: KnowledgeBaseView,
+    flag: "knowledge",
+    icon: HomeIcon,
+  },
+  {
+    name: "Forum",
+    path: "/forum/",
+    component: ForumView,
+    flag: "forum",
+    icon: HomeIcon,
+  },
+  {
+    name: "FAQ",
+    path: "/faq/",
+    component: FaqView,
+    flag: "faq",
     icon: HomeIcon,
   },
 ];

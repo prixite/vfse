@@ -1,0 +1,25 @@
+.EditComment {
+  width: 100%;
+  .AddComment {
+    margin-top: 5px;
+    padding: 0px;
+    width: 100%;
+    .css-ao4qq6-MuiInputBase-root-MuiOutlinedInput-root {
+      padding: 8px 12px;
+      flex-direction: column;
+    }
+    .css-1laqsz7-MuiInputAdornment-root {
+      height: unset;
+      max-height: unset;
+      align-self: flex-end;
+    }
+    .AddCommentBtn {
+      width: 78px;
+      padding: 6px 14px 6px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 16px;
+      max-width: 200px;
+    }
+  }
+}

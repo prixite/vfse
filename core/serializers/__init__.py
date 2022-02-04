@@ -93,6 +93,7 @@ class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=defaults.DefaultOrganizationDefault())
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
+    profile_picture = serializers.URLField(source="profile.meta.profile_picture")
 
     class Meta:
         model = models.User
@@ -103,6 +104,7 @@ class MeSerializer(serializers.ModelSerializer):
             "flags",
             "organization",
             "role",
+            "profile_picture",
             "is_superuser",
         ]
 
@@ -526,7 +528,14 @@ class SystemNotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Note
-        fields = ["author", "note", "created_at", "author_image", "author_full_name"]
+        fields = [
+            "id",
+            "author",
+            "note",
+            "created_at",
+            "author_image",
+            "author_full_name",
+        ]
 
 
 class NoteSerialier(serializers.ModelSerializer):
@@ -631,9 +640,10 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
             documentation=models.Documentation.objects.create(**documentation_data),
         )
 
+    @transaction.atomic
     def update(self, instance, validated_data):
         if "documentation" in validated_data:
             documentation = validated_data.pop("documentation")
             instance.documentation.url = documentation.get("url")
-            instance.save()
+            instance.documentation.save()
         return super().update(instance, validated_data)
