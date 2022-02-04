@@ -122,14 +122,18 @@ const SiteSection = () => {
             )}
           </Grid>
         )}
-        <SiteModal
-          open={open}
-          action={"add"}
-          selectionID={selectionID}
-          handleClose={handleClose}
-          refetch={sitesRefetch}
-          orgNetworkRefetch={orgNetworkRefetch}
-        />
+        {open ? (
+          <SiteModal
+            open={open}
+            action={"add"}
+            selectionID={selectionID}
+            handleClose={handleClose}
+            refetch={sitesRefetch}
+            orgNetworkRefetch={orgNetworkRefetch}
+          />
+        ) : (
+          ""
+        )}
       </Box>
     </>
   );
