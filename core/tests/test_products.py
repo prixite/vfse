@@ -88,5 +88,8 @@ class ProductTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
-            models.ProductModel.objects.filter(model="Updated model",documentation__url='http://example.com/doc_new.pdf').exists()
+            models.ProductModel.objects.filter(
+                model="Updated model",
+                documentation__url="http://example.com/doc_new.pdf",
+            ).exists()
         )
