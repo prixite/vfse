@@ -18,6 +18,8 @@ import {
   useModalitiesListQuery,
   useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
+  System,
+  Modality,
 } from "@src/store/reducers/api";
 
 import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
@@ -35,11 +37,14 @@ const SystemSection = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
+  const [hasData, setHasData] = useState(false);
+  const [firstRender, setFirstRender] = useState(true);
   // eslint-disable-next-line
   const [system, setSystem] = useState(null);
   const [index, setIndex] = useState(null);
   // eslint-disable-next-line
   const [systemList, setSystemList] = useState({});
+  const [itemsList, setItemsList] = useState<Array<Modality>>([]);
   const [searchText, setSearchText] = useState("");
   const [modality, setModality] = useState();
   const { organizationRoute } = constants;
@@ -60,6 +65,21 @@ const SystemSection = () => {
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });
+  const {
+    data: systemsData,
+    isLoading: isSystemDataLoading,
+    refetch: systemsRefetch,
+  } = useOrganizationsSystemsListQuery(apiArgData);
+
+  const handleSearchQuery = (searchQuery: string) => {
+    setItemsList(
+      systemsData?.filter((user) => {
+        return (
+          user?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+      })
+    );
+  };
 
   useEffect(() => {
     modalitiesList?.length &&
@@ -114,6 +134,24 @@ const SystemSection = () => {
     }
     systemsRefetch();
   };
+
+  useEffect(() => {
+    if (searchText?.length > 2 && systemList && systemList?.results?.length) {
+      setFirstRender(false)
+      setItemsList(itemsList);
+      handleSearchQuery(searchText);
+      setHasData(true);
+    } else if (systemsData?.length && searchText?.length <= 2) {
+      setItemsList(systemsData);
+      setHasData(true);
+      setFirstRender(false)
+    } 
+    else{
+      setHasData(false);
+      setFirstRender(false)
+    }
+  }, [searchText, systemsData, systemList]);
+
   useEffect(() => {
     if (networkId) {
       setApiArgData((prevState) => {
@@ -206,11 +244,6 @@ const SystemSection = () => {
     }
   }, [modality]);
 
-  const {
-    data: systemsData,
-    isLoading: isSystemDataLoading,
-    refetch: systemsRefetch,
-  } = useOrganizationsSystemsListQuery(apiArgData);
 
   const addBreadcrumbs = () => {
     if (
@@ -281,7 +314,7 @@ const SystemSection = () => {
                   style={{
                     color: `${modality === null ? buttonBackground : ""}`,
                     borderBottom: `${
-                      modality === null ? `3px solid ${buttonBackground}` : ""
+                      modality === null ? `2px solid ${buttonBackground}` : ""
                     }`,
                   }}
                   onClick={() => changeModality(null)}
@@ -298,7 +331,7 @@ const SystemSection = () => {
                       }`,
                       borderBottom: `${
                         modality === item?.id.toString()
-                          ? `3px solid ${buttonBackground}`
+                          ? `2px solid ${buttonBackground}`
                           : ""
                       }`,
                     }}
@@ -354,16 +387,14 @@ const SystemSection = () => {
             actualData={systemsData}
             searchText={searchText}
             setSearchText={setSearchText}
+            hasData={hasData}
           />
         ) : (
           ""
         )}
-        {searchText?.length > 2 ? (
-          !isSystemDataLoading &&
-          systemList &&
-          systemList?.results?.length &&
-          systemList?.query === searchText ? (
-            systemList?.results?.map((item, key) => (
+        {
+          !isSystemDataLoading && itemsList && itemsList?.length ? (
+          itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "32px" }}>
                 <SystemCard
                   system={item}
@@ -372,7 +403,8 @@ const SystemSection = () => {
                 />
               </div>
             ))
-          ) : systemList?.query === searchText ? (
+          ) : (
+             !isSystemDataLoading && !firstRender?
             <>
               <NoDataFound
                 search
@@ -382,25 +414,20 @@ const SystemSection = () => {
                 description={noDataDescription}
               />
             </>
-          ) : (
-            <div style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}>
+            :
+            (
+              <div
+              style={{
+                color: "gray",
+                marginLeft: "45%",
+                marginTop: "20%",
+              }}
+            >
               <h2>{searching}</h2>
             </div>
-          )
-        ) : !isSystemDataLoading && !systemsData?.length ? (
-          <NoDataFound title={noDataTitle} description={noDataDescription} />
-        ) : (
-          <div style={{ marginTop: "32px" }}>
-            {systemsData?.map((item, key) => (
-              <SystemCard
-                key={key}
-                system={item}
-                handleEdit={() => handleEdit(item)}
-                refetch={systemsRefetch}
-              />
-            ))}
-          </div>
-        )}
+            )
+          ) 
+        }
         {open ? (
           <SystemModal
             open={open}

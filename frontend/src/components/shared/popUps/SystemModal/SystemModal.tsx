@@ -247,21 +247,21 @@ export default function SystemModal(props: systemProps) {
     setRisIp(props?.system?.his_ris_info?.ip);
     setRisTitle(props.system.his_ris_info?.title);
     setRisPort(props?.system?.his_ris_info?.port.toString());
-    setRisAE(props.system.his_ris_info.ae_title);
-    setDicIP(props.system.dicom_info.ip);
-    setDicTitle(props.system.dicom_info.title);
-    setDicPort(props.system.dicom_info.port.toString());
-    setDicAE(props.system.dicom_info.ae_title);
-    setMriHelium(props.system.mri_embedded_parameters.helium);
-    setMriMagnet(props.system.mri_embedded_parameters.magnet_pressure);
+    setRisAE(props?.system?.his_ris_info?.ae_title);
+    setDicIP(props?.system?.dicom_info?.ip);
+    setDicTitle(props?.system?.dicom_info?.title);
+    setDicPort(props?.system?.dicom_info?.port.toString());
+    setDicAE(props?.system?.dicom_info?.ae_title);
+    setMriHelium(props?.system?.mri_embedded_parameters?.helium);
+    setMriMagnet(props?.system?.mri_embedded_parameters?.magnet_pressure);
     setVfse(
       props?.system?.connection_options?.vfse
-        ? props.system.connection_options.vfse
+        ? props?.system?.connection_options?.vfse
         : false
     );
     setSsh(
       props?.system?.connection_options?.ssh
-        ? props.system.connection_options.ssh
+        ? props?.system?.connection_options?.ssh
         : false
     );
     setServiceWeb(
@@ -737,13 +737,13 @@ export default function SystemModal(props: systemProps) {
                       id="country-select-demo"
                       sx={{ width: "100%" }}
                       style={{ height: "48px" }}
-                      value={modal || ""}
+                      value={modal || {}}
                       onChange={(e, item: ProductModel) =>
                         handleProductModel(item)
                       } // eslint-disable-line
                       options={productData}
                       autoHighlight
-                      getOptionLabel={(option) => option?.name}
+                      getOptionLabel={(option) => option?.name || ""}
                       renderInput={(params) => (
                         <TextField
                           {...params}
