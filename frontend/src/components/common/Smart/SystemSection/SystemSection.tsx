@@ -18,7 +18,6 @@ import {
   useModalitiesListQuery,
   useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
-  System,
   Modality,
 } from "@src/store/reducers/api";
 
@@ -137,18 +136,17 @@ const SystemSection = () => {
 
   useEffect(() => {
     if (searchText?.length > 2 && systemList && systemList?.results?.length) {
-      setFirstRender(false)
+      setFirstRender(false);
       setItemsList(itemsList);
       handleSearchQuery(searchText);
       setHasData(true);
     } else if (systemsData?.length && searchText?.length <= 2) {
       setItemsList(systemsData);
       setHasData(true);
-      setFirstRender(false)
-    } 
-    else{
+      setFirstRender(false);
+    } else {
       setHasData(false);
-      setFirstRender(false)
+      setFirstRender(false);
     }
   }, [searchText, systemsData, systemList]);
 
@@ -243,7 +241,6 @@ const SystemSection = () => {
       setApiArgData({ ...apiArgData, modality });
     }
   }, [modality]);
-
 
   const addBreadcrumbs = () => {
     if (
@@ -392,42 +389,37 @@ const SystemSection = () => {
         ) : (
           ""
         )}
-        {
-          !isSystemDataLoading && itemsList && itemsList?.length ? (
+        {!isSystemDataLoading && itemsList && itemsList?.length ? (
           itemsList.map((item, key) => (
-              <div key={key} style={{ marginTop: "32px" }}>
-                <SystemCard
-                  system={item}
-                  handleEdit={() => handleEdit(item)}
-                  refetch={systemsRefetch}
-                />
-              </div>
-            ))
-          ) : (
-             !isSystemDataLoading && !firstRender?
-            <>
-              <NoDataFound
-                search
-                setQuery={setSearchText}
-                queryText={searchText}
-                title={noDataTitle}
-                description={noDataDescription}
+            <div key={key} style={{ marginTop: "32px" }}>
+              <SystemCard
+                system={item}
+                handleEdit={() => handleEdit(item)}
+                refetch={systemsRefetch}
               />
-            </>
-            :
-            (
-              <div
-              style={{
-                color: "gray",
-                marginLeft: "45%",
-                marginTop: "20%",
-              }}
-            >
-              <h2>{searching}</h2>
             </div>
-            )
-          ) 
-        }
+          ))
+        ) : !isSystemDataLoading && !firstRender ? (
+          <>
+            <NoDataFound
+              search
+              setQuery={setSearchText}
+              queryText={searchText}
+              title={noDataTitle}
+              description={noDataDescription}
+            />
+          </>
+        ) : (
+          <div
+            style={{
+              color: "gray",
+              marginLeft: "45%",
+              marginTop: "20%",
+            }}
+          >
+            <h2>{searching}</h2>
+          </div>
+        )}
         {open ? (
           <SystemModal
             open={open}
