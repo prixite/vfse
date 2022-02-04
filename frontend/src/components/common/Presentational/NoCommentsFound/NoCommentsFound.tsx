@@ -1,5 +1,5 @@
 import noCommentsLogo from "@src/assets/images/no-messages.png";
-import "@src/components/common/Smart/CommentsDrawer/NoCommentsFound.scss";
+import "@src/components/common/Presentational/NoCommentsFound/NoCommentsFound.scss";
 const NoCommentsFound = () => {
   return (
     <div className="NoCommentsFound">

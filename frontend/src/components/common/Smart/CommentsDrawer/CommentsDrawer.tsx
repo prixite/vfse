@@ -4,17 +4,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
 import { toast } from "react-toastify";
 
+import CommentCard from "@src/components/common/Presentational/CommentCard/CommentCard";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import "@src/components/common/Smart/CommentsDrawer/CommentsDrawer.scss";
 import {
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
+  useMeReadQuery,
 } from "@src/store/reducers/api";
 import { closeSystemDrawer } from "@src/store/reducers/appStore";
 
-import CommentCard from "./CommentCard";
-import NoCommentsFound from "./NoCommentsFound";
+import NoCommentsFound from "../../Presentational/NoCommentsFound/NoCommentsFound";
 
 const CommentsDrawer = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +35,7 @@ const CommentsDrawer = () => {
       skip: !systemID,
     }
   );
+  const { data: me } = useMeReadQuery();
   const [addNewNote] = useSystemsNotesCreateMutation();
   useEffect(() => {
     if (openSystemNotesDrawer) {
@@ -49,12 +51,17 @@ const CommentsDrawer = () => {
   const addNewComment = async () => {
     setIsLoading(true);
     if (note) {
-      await addNewSystemNoteService(systemID, note, addNewNote, refetch).catch(
-        () =>
-          toast.error("Note not added", {
-            autoClose: 1000,
-            pauseOnHover: false,
-          })
+      await addNewSystemNoteService(
+        me?.id,
+        systemID,
+        note,
+        addNewNote,
+        refetch
+      ).catch(() =>
+        toast.error("Note not added", {
+          autoClose: 1000,
+          pauseOnHover: false,
+        })
       );
     }
     resetNoteHandler();
@@ -62,7 +69,12 @@ const CommentsDrawer = () => {
   };
   const generateComments = () =>
     systemNotesList.map((systemNote, index) => (
-      <CommentCard key={index} comment={systemNote} />
+      <CommentCard
+        key={index}
+        comment={systemNote}
+        userId={me?.id}
+        refetchNotes={refetch}
+      />
     ));
   return (
     <Drawer
