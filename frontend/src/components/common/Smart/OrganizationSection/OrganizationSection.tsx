@@ -210,13 +210,17 @@ const OrganizationSection = () => {
                 />
               )}
             </Grid>
-            <OrganizationModal
-              action={action}
-              organization={organization}
-              open={openAddClientModal}
-              handleClose={handleClose}
-              refetch={refetch}
-            />
+            {openAddClientModal ? (
+              <OrganizationModal
+                action={action}
+                organization={organization}
+                open={openAddClientModal}
+                handleClose={handleClose}
+                refetch={refetch}
+              />
+            ) : (
+              ""
+            )}
           </>
         ) : (
           <>{tabValue == 0 ? <ModalitySection /> : <SiteSection />}</>

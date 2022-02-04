@@ -115,14 +115,17 @@ const ModalitySection = () => {
             ""
           )}
         </Grid>
-        {/* Umair: Disable this button because it is crashing. */}
-        <NetworkModal
-          organization={network}
-          open={openAddNetworkModal}
-          action={action}
-          handleClose={handleClose}
-          refetch={orgNetworkRefetch}
-        />
+        {openAddNetworkModal ? (
+          <NetworkModal
+            organization={network}
+            open={openAddNetworkModal}
+            action={action}
+            handleClose={handleClose}
+            refetch={orgNetworkRefetch}
+          />
+        ) : (
+          ""
+        )}
       </Box>
       {!isNetworkDataLoading && !networksData?.length ? (
         <NoDataFound title={noDataTitle} description={noDataDescription} />
