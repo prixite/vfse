@@ -3,9 +3,9 @@ import TableSkeleton from "@src/components/common/Presentational/TableSkeleton/T
 import CountingInfoSection from "@src/components/common/Smart/CountingInfoSection/CountingInfoSection";
 import { useAppSelector } from "@src/store/hooks";
 import { useOrganizationsSeatsListQuery } from "@src/store/reducers/api";
-import "@src/components/common/Smart/VfseDashboardSection/VfseDashboardSection.scss";
+import "@src/components/common/Smart/FaqSection/FaqSection.scss";
 
-export default function VfseDashboardSection() {
+export default function FaqSection() {
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization
   );
