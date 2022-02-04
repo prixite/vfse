@@ -135,7 +135,7 @@ const SystemSection = () => {
   };
 
   useEffect(() => {
-    if (searchText?.length > 2 && systemList && systemList?.results?.length) {
+    if (searchText?.length > 2 && systemList && systemList.results?.length) {
       setFirstRender(false);
       setItemsList(itemsList);
       handleSearchQuery(searchText);
