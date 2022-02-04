@@ -67,14 +67,50 @@ const DeleteOrganizationSystemService = async (
   }).unwrap();
   refetch(); // TODO: invalidate cache instead of this.
 };
-const addNewSystemNoteService = async (systemID, note, addNewNote, refetch) => {
+const addNewSystemNoteService = async (
+  authorID,
+  systemID,
+  note,
+  addNewNote,
+  refetch
+) => {
   await addNewNote({
     id: systemID,
-    systemNotes: { note },
+    systemNotes: { author: authorID, note },
   })
     .unwrap()
     .then(() => {
       refetch();
+    });
+};
+const deleteSystemNoteService = async (NoteId, deleteNote, refetchNote) => {
+  await deleteNote({
+    id: NoteId,
+  }).then(() => {
+    toast.success("Comment Deleted Successfully", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
+    refetchNote();
+  });
+};
+const updateSystemNoteService = async (
+  NoteId,
+  note,
+  updateNote,
+  refetchNote
+) => {
+  await updateNote({
+    id: NoteId,
+    noteSerialier: { note },
+  })
+    .unwrap()
+    .then(() => {
+      toast.success("Comment Updated Successfully", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+      refetchNote();
     });
 };
 export {
@@ -82,4 +118,6 @@ export {
   updateOrdanizationSystem,
   DeleteOrganizationSystemService,
   addNewSystemNoteService,
+  deleteSystemNoteService,
+  updateSystemNoteService,
 };
