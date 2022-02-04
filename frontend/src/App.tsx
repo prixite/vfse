@@ -24,6 +24,7 @@ import {
   updateSideBarTextColor,
   updateFontOne,
   updateFontTwo,
+  updateSecondaryColor,
 } from "./store/reducers/themeStore";
 
 const App = () => {
@@ -73,6 +74,11 @@ const App = () => {
         );
         dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
         dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
+        dispatch(
+          updateSecondaryColor(
+            selectedOrganizationData?.appearance?.secondary_color
+          )
+        );
       } else {
         dispatch(
           setSelectedOrganization({ selectedOrganization: organizationData })
@@ -87,6 +93,9 @@ const App = () => {
         );
         dispatch(updateFontOne(organizationData.appearance.font_one));
         dispatch(updateFontTwo(organizationData.appearance.font_two));
+        dispatch(
+          updateSecondaryColor(organizationData?.appearance?.secondary_color)
+        );
       }
       setIsLoading(false);
     }

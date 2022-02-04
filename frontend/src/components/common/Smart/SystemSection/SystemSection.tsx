@@ -223,15 +223,15 @@ const SystemSection = () => {
           breadCrumbList={[
             {
               name: "Home",
-              route: `/${organizationRoute}/${selectedOrganization?.id}`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/`,
             },
             {
               name: selectedOrganization?.name,
-              route: `/${organizationRoute}/${selectedOrganization?.id}/networks`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/`,
             },
             {
               name: organization?.name,
-              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/${networkId}/sites`,
+              route: `/${organizationRoute}/${selectedOrganization?.id}/networks/${networkId}/sites/`,
             },
             {
               name: returnSearchedOject(organization?.sites, siteId)[0]?.name,
@@ -281,14 +281,14 @@ const SystemSection = () => {
                   style={{
                     color: `${modality === null ? buttonBackground : ""}`,
                     borderBottom: `${
-                      modality === null ? `1px solid ${buttonBackground}` : ""
+                      modality === null ? `3px solid ${buttonBackground}` : ""
                     }`,
                   }}
                   onClick={() => changeModality(null)}
                 >
                   All
                 </span>
-                {modalitiesList.map((item, key) => (
+                {modalitiesList?.map((item, key) => (
                   <span
                     key={key}
                     className="modality"
@@ -298,7 +298,7 @@ const SystemSection = () => {
                       }`,
                       borderBottom: `${
                         modality === item?.id.toString()
-                          ? `1px solid ${buttonBackground}`
+                          ? `3px solid ${buttonBackground}`
                           : ""
                       }`,
                     }}
@@ -310,7 +310,12 @@ const SystemSection = () => {
               </Flicking>
             </div>
             <hr
-              style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }}
+              style={{
+                borderTop: "1px solid #D4D6DB",
+                marginBottom: "32px",
+                marginTop: "-3px",
+                zIndex: "-1",
+              }}
             />
           </>
         ) : (
@@ -396,13 +401,17 @@ const SystemSection = () => {
             ))}
           </div>
         )}
-        <SystemModal
-          open={open}
-          handleClose={() => setOpen(false)}
-          refetch={systemsRefetch}
-          system={system}
-          setSystem={setSystem}
-        />
+        {open ? (
+          <SystemModal
+            open={open}
+            handleClose={() => setOpen(false)}
+            refetch={systemsRefetch}
+            system={system}
+            setSystem={setSystem}
+          />
+        ) : (
+          ""
+        )}
         <AddSiteFirstModal
           open={openConfirmModal}
           handleClose={() => setOpenConfirmModal(false)}

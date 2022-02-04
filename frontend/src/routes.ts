@@ -14,6 +14,13 @@ import AppearanceView from "./views/appearance/AppearanceView";
 import SystemsView from "./views/systems/SystemsView";
 export const routes: routeItem[] = [
   {
+    name: "vFSE",
+    path: "/vfse/",
+    component: VfseView,
+    flag: "vfse",
+    icon: HomeIcon,
+  },
+  {
     name: "Appearance",
     path: "/appearance/",
     component: AppearanceView,
@@ -47,12 +54,5 @@ export const routes: routeItem[] = [
     component: Documentation,
     flag: "documentation",
     icon: ArticleIcon,
-  },
-  {
-    name: "vFSE",
-    path: "/vfse/",
-    component: VfseView,
-    flag: "vfse",
-    icon: HomeIcon,
   },
 ];
