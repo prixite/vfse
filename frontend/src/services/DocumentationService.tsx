@@ -23,4 +23,28 @@ const deleteProductModelService = async (id, deleteProductModel, refetch) => {
   refetch();
 };
 
-export { addProductModelService, deleteProductModelService };
+const updateProductModelService = async (
+  id,
+  ProductModelCreate,
+  updateProductModel,
+  refetch
+) => {
+  await updateProductModel({
+    id: id.toString(),
+    productModelCreate: ProductModelCreate,
+  })
+    .unwrap()
+    .then(async () => {
+      toast.success("Documentation updated successfully.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+        onClose: refetch,
+      });
+    });
+};
+
+export {
+  addProductModelService,
+  deleteProductModelService,
+  updateProductModelService,
+};
