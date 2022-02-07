@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
-import { User } from "@src/store/reducers/api";
+import { Me } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateButtonColor,
@@ -16,7 +16,7 @@ import {
 import "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver.scss";
 
 interface Props {
-  user: User;
+  user: Me;
   className: string;
 }
 
@@ -62,7 +62,7 @@ const ProfilePopOver = ({ user, className }: Props) => {
 
   return (
     <div>
-      <img src={user} className={className} onClick={handleClick} />
+      <img src={user?.profile_picture} className={className} onClick={handleClick} />
       <Popover
         id={id}
         open={open}

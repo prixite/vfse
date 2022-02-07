@@ -347,7 +347,7 @@ export default function SideBar() {
           </ListItem>
           <ListItem button className="user-image">
             <ListItemIcon>
-              <ProfilePopOver user={user} className="image" />
+              <ProfilePopOver user={me} className="image" />
             </ListItemIcon>
           </ListItem>
         </List>
