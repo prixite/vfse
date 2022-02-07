@@ -67,6 +67,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/modalities/` }),
     }),
+    modalitiesManufacturersList: build.query<
+      ModalitiesManufacturersListApiResponse,
+      ModalitiesManufacturersListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/modalities/${queryArg.id}/manufacturers/`,
+      }),
+    }),
     notesPartialUpdate: build.mutation<
       NotesPartialUpdateApiResponse,
       NotesPartialUpdateApiArg
@@ -262,7 +270,13 @@ const injectedRtkApi = api.injectEndpoints({
       }),
     }),
     productsList: build.query<ProductsListApiResponse, ProductsListApiArg>({
-      query: () => ({ url: `/products/` }),
+      query: (queryArg) => ({
+        url: `/products/`,
+        params: {
+          manufacturer: queryArg.manufacturer,
+          modality: queryArg.modality,
+        },
+      }),
     }),
     productsCreate: build.mutation<
       ProductsCreateApiResponse,
@@ -429,6 +443,11 @@ export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = void;
+export type ModalitiesManufacturersListApiResponse =
+  /** status 200  */ Manufacturer[];
+export type ModalitiesManufacturersListApiArg = {
+  id: string;
+};
 export type NotesPartialUpdateApiResponse = /** status 200  */ NoteSerialier;
 export type NotesPartialUpdateApiArg = {
   id: string;
@@ -540,7 +559,10 @@ export type OrganizationsUsersCreateApiArg = {
   organizationUpsertUser: OrganizationUpsertUser;
 };
 export type ProductsListApiResponse = /** status 200  */ Product[];
-export type ProductsListApiArg = void;
+export type ProductsListApiArg = {
+  manufacturer?: number;
+  modality?: number;
+};
 export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
@@ -651,6 +673,7 @@ export type HealthNetwork = {
   sites?: MetaSite[];
 };
 export type Manufacturer = {
+  id?: number;
   name: string;
   image?: number | null;
 };
@@ -882,6 +905,7 @@ export const {
   useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
+  useModalitiesManufacturersListQuery,
   useNotesPartialUpdateMutation,
   useNotesDeleteMutation,
   useOrganizationsListQuery,

@@ -509,7 +509,9 @@ class Seat(models.Model):
 
 
 class ProductModel(models.Model):
-    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        "Product", on_delete=models.CASCADE, related_name="product_models"
+    )
     model = models.CharField(max_length=50)
     modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     documentation = models.ForeignKey(
