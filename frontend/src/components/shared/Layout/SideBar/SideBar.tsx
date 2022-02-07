@@ -20,7 +20,6 @@ import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
-import user from "@src/assets/images/user.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";

@@ -62,7 +62,11 @@ const ProfilePopOver = ({ user, className }: Props) => {
 
   return (
     <div>
-      <img src={user?.profile_picture} className={className} onClick={handleClick} />
+      <img
+        src={user?.profile_picture}
+        className={className}
+        onClick={handleClick}
+      />
       <Popover
         id={id}
         open={open}
