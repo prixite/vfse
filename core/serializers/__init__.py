@@ -400,6 +400,7 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     manufacturer = ManufacturerSerializer()
+
     class Meta:
         model = models.Product
         fields = ["id", "name", "manufacturer"]

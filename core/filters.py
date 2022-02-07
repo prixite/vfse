@@ -19,8 +19,10 @@ class OrganizationNameFilter(filters.FilterSet):
         model = models.Organization
         fields = ["name"]
 
+
 class ProductFilter(filters.FilterSet):
-    modality = filters.NumberFilter(field_name='product_models__modality')
+    modality = filters.NumberFilter(field_name="product_models__modality")
+
     class Meta:
         model = models.Product
-        fields = ['manufacturer']
+        fields = ["manufacturer"]
