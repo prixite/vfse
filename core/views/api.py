@@ -598,6 +598,7 @@ class HealthNetworkViewSet(OrganizationViewSet):
 
 class ProductViewSet(ModelViewSet):
     serializer_class = serializers.ProductSerializer
+    filterset_class = filters.ProductFilter
 
     def get_queryset(self):
         queryset = models.Product.objects.all()

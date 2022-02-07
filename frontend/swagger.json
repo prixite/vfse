@@ -850,7 +850,22 @@
             "get": {
                 "operationId": "products_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "manufacturer",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "modality",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",

@@ -270,7 +270,13 @@ const injectedRtkApi = api.injectEndpoints({
       }),
     }),
     productsList: build.query<ProductsListApiResponse, ProductsListApiArg>({
-      query: () => ({ url: `/products/` }),
+      query: (queryArg) => ({
+        url: `/products/`,
+        params: {
+          manufacturer: queryArg.manufacturer,
+          modality: queryArg.modality,
+        },
+      }),
     }),
     productsCreate: build.mutation<
       ProductsCreateApiResponse,
@@ -553,7 +559,10 @@ export type OrganizationsUsersCreateApiArg = {
   organizationUpsertUser: OrganizationUpsertUser;
 };
 export type ProductsListApiResponse = /** status 200  */ Product[];
-export type ProductsListApiArg = void;
+export type ProductsListApiArg = {
+  manufacturer?: number;
+  modality?: number;
+};
 export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
