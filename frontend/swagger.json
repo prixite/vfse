@@ -856,7 +856,7 @@
                         "in": "query",
                         "description": "",
                         "required": false,
-                        "type": "string"
+                        "type": "number"
                     },
                     {
                         "name": "modality",

@@ -1,3 +1,4 @@
+from django.db import models as django_models
 from django_filters import rest_framework as filters
 
 from core import models
@@ -26,3 +27,7 @@ class ProductFilter(filters.FilterSet):
     class Meta:
         model = models.Product
         fields = ["manufacturer"]
+
+        filter_overrides = {
+            django_models.ForeignKey: {"filter_class": filters.NumberFilter}
+        }

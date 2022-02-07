@@ -560,7 +560,7 @@ export type OrganizationsUsersCreateApiArg = {
 };
 export type ProductsListApiResponse = /** status 200  */ Product[];
 export type ProductsListApiArg = {
-  manufacturer?: string;
+  manufacturer?: number;
   modality?: number;
 };
 export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
