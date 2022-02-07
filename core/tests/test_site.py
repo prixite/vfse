@@ -20,9 +20,3 @@ class DataAttribtueTestCase(BaseTestCase):
 
         response = self.client.get("/clients/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            self.extract_data_attributes(response.content.decode()),
-            {
-                "data-flags": "appearance,documentation,modality,organization,user,vfse",  # noqa
-            },
-        )
