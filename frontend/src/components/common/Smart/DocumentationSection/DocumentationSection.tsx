@@ -20,6 +20,14 @@ import {
 
 const columns = [
   {
+    field: "model",
+    headerName: "MODEL NAME",
+    width: 200,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
     field: "name",
     headerName: "SYSTEM NAME",
     width: 230,
@@ -46,7 +54,7 @@ const columns = [
   {
     field: "documentation",
     headerName: "DOCUMENTATION LINK",
-    width: 450,
+    width: 500,
     hide: false,
     disableColumnMenu: true,
     sortable: false,
@@ -54,6 +62,14 @@ const columns = [
 ];
 
 const headers = [
+  {
+    field: "model",
+    headerName: "MODEL NAME",
+    width: 200,
+    hide: false,
+    disableColumnMenu: true,
+    sortable: false,
+  },
   {
     field: "name",
     headerName: "SYSTEM NAME",
@@ -82,12 +98,14 @@ export default function DocumentationSection() {
   const [hideModality, setHideModality] = useState(false);
   const [hideLink, setHideLink] = useState(false);
   const [hasData, setHasData] = useState(false);
+  // eslint-disable-next-line
   const [searchedData, setSearchedData] = useState(null);
   const { searching } = localizedData().common;
   const [open, setOpen] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
   const [currentProductModel, setCurrentProductModel] = useState(null);
   const [productName, setProductName] = useState("");
+  const [action, setAction] = useState("add");
   const [anchorEl, setAnchorEl] = useState(null);
   const openModal = Boolean(anchorEl);
   const [openConfModal, setOpenConfModal] = useState(false);
@@ -102,17 +120,25 @@ export default function DocumentationSection() {
     refetch: docsRefetch,
   } = useProductsModelsListQuery();
 
-  const [docList, setDocList] = useState({});
+  const [searchedList, setSearchedList] = useState({});
+  const [docList, setDocList] = useState(null);
 
   useEffect(() => {
-    if (searchText?.length > 2 && docList && docList?.results?.length) {
+    if (
+      searchText?.length > 2 &&
+      searchedList &&
+      searchedList?.results?.length
+    ) {
       setHasData(true);
+      setDocList(docList);
+      handleSearchQuery(searchText);
     } else if (docData?.length && searchText?.length <= 2) {
       setHasData(true);
+      setDocList(docData);
     } else {
       setHasData(false);
     }
-  }, [searchText, docList, docData]);
+  }, [searchText, searchedList, docData]);
 
   useEffect(() => {
     const dataArray = [];
@@ -133,7 +159,7 @@ export default function DocumentationSection() {
 
   useEffect(() => {
     const dataArray = [];
-    docList?.results?.map((row) => {
+    searchedList?.results?.map((row) => {
       const obj = {
         id: row.id,
         product_id: row.product.id,
@@ -146,22 +172,32 @@ export default function DocumentationSection() {
       dataArray.push(obj);
     });
     setSearchedData([...dataArray]);
-  }, [docList]);
+  }, [searchedList]);
 
   useEffect(() => {
-    if (tableColumns[2]?.hide === true) {
+    if (tableColumns[3]?.hide === true) {
       setHideModality(true);
     } else {
       setHideModality(false);
     }
-    if (tableColumns[3]?.hide === true) {
+    if (tableColumns[4]?.hide === true) {
       setHideLink(true);
     } else {
       setHideLink(false);
     }
-    const headers = [tableColumns[0], tableColumns[1]];
+    const headers = [tableColumns[0], tableColumns[1], tableColumns[2]];
     setColumnHeaders(headers);
   }, [tableColumns]);
+
+  const handleSearchQuery = (searchQuery: string) => {
+    setDocList(
+      docData?.filter((doc) => {
+        return (
+          doc?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+      })
+    );
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -183,7 +219,17 @@ export default function DocumentationSection() {
   const documentationLink = (link) => {
     return (
       <div className="documentaion-link">
-        <img className="img" src={LinkLogo} />
+        <img
+          className="img"
+          src={LinkLogo}
+          onClick={() => {
+            navigator?.clipboard?.writeText(link);
+            toast.success("Link Copied.", {
+              autoClose: 1000,
+              pauseOnHover: false,
+            });
+          }}
+        />
         <span className="text">{link}</span>
       </div>
     );
@@ -206,11 +252,13 @@ export default function DocumentationSection() {
 
   const handleActionClose = () => {
     setAnchorEl(null);
+    setAction("add");
     setCurrentProductModel(null);
   };
 
   const deleteDocument = async () => {
     handleModalClose();
+    handleActionClose();
     await deleteProductModelService(
       currentDoc,
       deleteProductModel,
@@ -231,6 +279,7 @@ export default function DocumentationSection() {
   };
 
   const editDocumentModal = async () => {
+    setAction("edit");
     setOpen(true);
     setAnchorEl(null);
   };
@@ -243,91 +292,16 @@ export default function DocumentationSection() {
         path="documentation"
         tableColumns={tableColumns}
         setTableColumns={setTableColumns}
-        setList={setDocList}
+        setList={setSearchedList}
         actualData={rows}
         searchText={searchText}
         setSearchText={setSearchText}
         hasData={hasData}
       />
       <div style={{ marginTop: "30px" }}>
-        {searchText?.length > 2 ? (
-          docList &&
-          searchedData?.length &&
-          docList?.results?.length &&
-          docList?.query === searchText ? (
-            <DataGrid
-              rows={searchedData}
-              autoHeight
-              columns={[
-                ...columnHeaders,
-                {
-                  field: "MODALITY",
-                  disableColumnMenu: true,
-                  width: 250,
-                  hide: hideModality,
-                  sortable: false,
-                  renderCell: (cellValues) =>
-                    renderModalities([cellValues.row.modality]),
-                },
-                {
-                  field: "DOCUMENTATION LINK",
-                  disableColumnMenu: true,
-                  width: 450,
-                  hide: hideLink,
-                  sortable: false,
-                  renderCell: (cellValues) =>
-                    documentationLink(cellValues.row.documentation),
-                },
-                {
-                  field: "Actions",
-                  headerAlign: "center",
-                  align: "center",
-                  disableColumnMenu: true,
-                  width: 85,
-                  sortable: false,
-                  renderCell: (cellValues) => (
-                    <div
-                      onClick={(e) =>
-                        handleClick(e, cellValues.row.id, cellValues.row.name)
-                      }
-                      style={{
-                        cursor: "pointer",
-                        padding: "15px",
-                        marginLeft: "auto",
-                        marginTop: "10px",
-                      }}
-                    >
-                      {actionLink()}
-                    </div>
-                  ),
-                },
-              ]}
-              loading={isLoading}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[14, 16, 18, 20]}
-            />
-          ) : docList?.query === searchText ? (
-            <NoDataFound
-              search
-              setQuery={setSearchText}
-              title={noDataTitle}
-              description={noDataDescription}
-            />
-          ) : (
-            <div
-              style={{
-                color: "gray",
-                marginLeft: "45%",
-                marginTop: "20%",
-              }}
-            >
-              <h2>{searching}</h2>
-            </div>
-          )
-        ) : docData && docData?.length ? (
+        {docList && docList?.length ? (
           <DataGrid
-            rows={docData}
+            rows={docList}
             autoHeight
             columns={[
               ...columnHeaders,
@@ -343,7 +317,7 @@ export default function DocumentationSection() {
               {
                 field: "DOCUMENTATION LINK",
                 disableColumnMenu: true,
-                width: 450,
+                width: 500,
                 hide: hideLink,
                 sortable: false,
                 renderCell: (cellValues) =>
@@ -354,7 +328,7 @@ export default function DocumentationSection() {
                 headerAlign: "center",
                 align: "center",
                 disableColumnMenu: true,
-                width: 85,
+                width: 95,
                 sortable: false,
                 renderCell: (cellValues) => (
                   <div
@@ -378,8 +352,18 @@ export default function DocumentationSection() {
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[14, 16, 18, 20]}
           />
-        ) : (
+        ) : searchedList?.query === searchText ? (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
+        ) : (
+          <div
+            style={{
+              color: "gray",
+              marginLeft: "45%",
+              marginTop: "20%",
+            }}
+          >
+            <h2>{searching}</h2>
+          </div>
         )}
       </div>
       <ConfirmationModal
@@ -405,7 +389,7 @@ export default function DocumentationSection() {
         refetch={docsRefetch}
         selectedDocId={currentDoc}
         selectedDoc={currentProductModel}
-        action={currentProductModel ? "edit" : "add"}
+        action={action}
       />
     </div>
   );

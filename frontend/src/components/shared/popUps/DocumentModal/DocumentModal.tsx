@@ -66,7 +66,7 @@ export default function DocumentModal({
     (state) => state.myTheme
   );
   const { data: productData, isLoading: isProductsModelsLoading } =
-    useProductsListQuery();
+    useProductsListQuery({});
   const { data: modalitiesList, isLoading: isModalitiesLoading } =
     useModalitiesListQuery();
   const {
@@ -129,10 +129,10 @@ export default function DocumentModal({
   }, [modalitiesList]);
 
   useEffect(() => {
-    if (selectedDoc && action == "edit") {
+    if (selectedDoc && action === "edit") {
       populateEditableData();
     }
-  }, [selectedDoc]);
+  }, [selectedDoc, action]);
 
   const handleModelName = (e) => {
     if (e.target.value.length) {
@@ -223,7 +223,9 @@ export default function DocumentModal({
   const populateEditableData = () => {
     setDocLink(selectedDoc.documentation);
     setModelName(selectedDoc.model);
-    const product = productData?.find((prod) => prod.name === selectedDoc.name);
+    const product = productData?.find(
+      (prod) => prod?.name === selectedDoc.name
+    );
     setModal(product);
     const modalityValue = modalitiesList?.find(
       (item) => item.name === selectedDoc.modality
@@ -320,7 +322,7 @@ export default function DocumentModal({
                     style={{ height: "48px" }}
                     value={modal}
                     onChange={(e, item) => setModal(item)} // eslint-disable-line
-                    options={productData}
+                    options={productData ? productData : []}
                     autoHighlight
                     getOptionLabel={(option) => option?.name}
                     renderInput={(params) => (
