@@ -67,6 +67,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/modalities/` }),
     }),
+    modalitiesManufacturersList: build.query<
+      ModalitiesManufacturersListApiResponse,
+      ModalitiesManufacturersListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/modalities/${queryArg.id}/manufacturers/`,
+      }),
+    }),
     notesPartialUpdate: build.mutation<
       NotesPartialUpdateApiResponse,
       NotesPartialUpdateApiArg
@@ -435,6 +443,11 @@ export type MeReadApiResponse = /** status 200  */ Me;
 export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = void;
+export type ModalitiesManufacturersListApiResponse =
+  /** status 200  */ Manufacturer[];
+export type ModalitiesManufacturersListApiArg = {
+  id: string;
+};
 export type NotesPartialUpdateApiResponse = /** status 200  */ NoteSerialier;
 export type NotesPartialUpdateApiArg = {
   id: string;
@@ -660,6 +673,7 @@ export type HealthNetwork = {
   sites?: MetaSite[];
 };
 export type Manufacturer = {
+  id?: number;
   name: string;
   image?: number | null;
 };
@@ -891,6 +905,7 @@ export const {
   useManufacturersImagesCreateMutation,
   useMeReadQuery,
   useModalitiesListQuery,
+  useModalitiesManufacturersListQuery,
   useNotesPartialUpdateMutation,
   useNotesDeleteMutation,
   useOrganizationsListQuery,

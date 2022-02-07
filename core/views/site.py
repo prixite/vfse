@@ -13,20 +13,6 @@ from core import forms, models, serializers
 class HomeView(TemplateView):
     template_name = "index.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        if self.request.user.is_authenticated:
-            context["user_data"] = serializers.MeSerializer(
-                self.request.user,
-                context={
-                    "request": self.request,
-                    "view": self,
-                },
-            ).data
-
-        return context
-
 
 class LoginView(auth_views.LoginView):
     template_name = "core/registration/login.html"

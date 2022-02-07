@@ -235,6 +235,35 @@
             },
             "parameters": []
         },
+        "/modalities/{id}/manufacturers/": {
+            "get": {
+                "operationId": "modalities_manufacturers_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Manufacturer"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "modalities"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/notes/{id}/": {
             "patch": {
                 "operationId": "notes_partial_update",
@@ -1454,6 +1483,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "name": {
                     "title": "Name",
                     "type": "string",
