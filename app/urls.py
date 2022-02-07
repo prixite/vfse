@@ -159,10 +159,13 @@ api_urlpatterns = [
             }
         ),
     ),
-    path("api/modalities/<int:pk>/manufacturers/",
-        api.ModalityManufacturerViewSet.as_view({
-            'get':'list',
-        })    
+    path(
+        "api/modalities/<int:pk>/manufacturers/",
+        api.ModalityManufacturerViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
     ),
     path(
         "api/products/",

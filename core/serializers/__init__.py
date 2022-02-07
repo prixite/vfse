@@ -395,7 +395,7 @@ class UserEnableDisableSerializer(serializers.Serializer):
 class ManufacturerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Manufacturer
-        fields = ["id","name", "image"]
+        fields = ["id", "name", "image"]
 
 
 class ProductSerializer(serializers.ModelSerializer):

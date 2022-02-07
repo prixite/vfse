@@ -485,11 +485,18 @@ class ModalityViewSet(ModelViewSet):
             ).values_list("modality")
         )
 
+
 class ModalityManufacturerViewSet(ModelViewSet):
     serializer_class = serializers.ManufacturerSerializer
 
     def get_queryset(self):
-        return models.Manufacturer.objects.filter(id__in=models.ProductModel.objects.filter(modality=self.kwargs['pk']).values_list('product__manufacturer'))
+        return models.Manufacturer.objects.filter(
+            id__in=models.ProductModel.objects.filter(
+                modality=self.kwargs["pk"]
+            ).values_list("product__manufacturer")
+        )
+
+
 class ProductModelViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = models.ProductModel.objects.all()
