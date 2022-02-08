@@ -8,7 +8,7 @@ import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppSelector } from "@src/store/hooks";
+import { useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsSitesListQuery,
   useOrganizationsHealthNetworksListQuery,
@@ -26,9 +26,7 @@ const SiteSection = () => {
   const [itemsList, setItemsList] = useState<Array<Site>>([]);
 
   const { id, networkId } = useParams();
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const selectionID =
     networkId == undefined ? id?.toString() : networkId?.toString();
 

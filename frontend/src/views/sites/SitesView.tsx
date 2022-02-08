@@ -4,7 +4,7 @@ import BreadCrumb from "@src/components/common/Presentational/BreadCrumb/BreadCr
 import SectionSkeleton from "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton";
 import SiteSection from "@src/components/common/Smart/SiteSection/SiteSection";
 import { constants } from "@src/helpers/utils/constants";
-import { useAppSelector } from "@src/store/hooks";
+import { useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsListQuery,
   useOrganizationsReadQuery,
@@ -13,9 +13,7 @@ import {
 const SitesView = () => {
   const { networkId } = useParams();
   const { isLoading } = useOrganizationsListQuery({ page: 1 });
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const { organizationRoute, networkRoute } = constants;
   const { data: organization } = useOrganizationsReadQuery({
     id: networkId,

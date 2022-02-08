@@ -19,7 +19,7 @@ import {
   updateHealthNetworkService,
   //addNewOrganizationService,
 } from "@src/services/organizationService";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   Organization,
   //useOrganizationsCreateMutation,
@@ -42,9 +42,7 @@ interface Props {
 }
 
 export default function NetworkModal(props: Props) {
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const { refetch: sitesRefetch } = useOrganizationsSitesListQuery(
     {
       id: props?.organization?.id.toString(),

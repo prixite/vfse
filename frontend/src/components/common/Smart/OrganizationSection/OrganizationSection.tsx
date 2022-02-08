@@ -16,7 +16,11 @@ import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/O
 import { constants, organizationTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   Organization,
   useOrganizationsListQuery,
@@ -43,9 +47,7 @@ const OrganizationSection = () => {
   } = useOrganizationsListQuery({
     page: 1,
   });
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;

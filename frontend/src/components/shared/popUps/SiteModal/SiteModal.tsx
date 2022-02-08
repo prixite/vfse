@@ -15,7 +15,11 @@ import {
   addNewSiteService,
   updateSitesService,
 } from "@src/services/sitesService";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
@@ -61,9 +65,7 @@ export default function SiteModal(props: siteProps) {
     useOrganizationsListQuery({
       page: 1,
     });
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   useEffect(() => {
     if (props?.name && props?.address) {

@@ -10,7 +10,11 @@ import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   HealthNetwork,
   useOrganizationsHealthNetworksListQuery,
@@ -33,9 +37,7 @@ const ModalitySection = () => {
   const [searchText, setSearchText] = useState("");
   const { title, noDataTitle, noDataDescription } = localizedData().modalities;
   const { searching } = localizedData().common;
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const {
     data: networksData,
