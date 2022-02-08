@@ -7,13 +7,17 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0064_alter_seat_system'),
+        ("core", "0064_alter_seat_system"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='productmodel',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='product_models', to='core.product'),
+            model_name="productmodel",
+            name="product",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="product_models",
+                to="core.product",
+            ),
         ),
     ]
