@@ -601,8 +601,8 @@ export default function SystemModal(props: systemProps) {
   useEffect(() => {
     if (sites) {
       if (props.system) {
-        const data = returnSearchedOject(sites, props.system.site);
-        setSite(data.length ? data[0] : sites[0]);
+        const data = returnSearchedOject(sites, props?.system?.site);
+        setSite(data?.length ? data[0] : sites[0]);
       } else {
         setSite(sites[0]);
       }
@@ -610,13 +610,13 @@ export default function SystemModal(props: systemProps) {
   }, [sites, props.system]);
 
   useEffect(() => {
-    if (productData?.length && !isProductsModelsLoading && props.open) {
+    if (productData?.length && !isProductsModelsLoading && props?.open) {
       if (props.system) {
         const data = returnSearchedOject(
           productData,
           props.system.product_model
         );
-        if (data.length) {
+        if (data?.length) {
           setModal(data[0]);
         }
       } else {
@@ -732,7 +732,7 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  {!isProductsModelsLoading && productData.length ? (
+                  {!isProductsModelsLoading && productData?.length ? (
                     <Autocomplete
                       id="country-select-demo"
                       sx={{ width: "100%" }}
