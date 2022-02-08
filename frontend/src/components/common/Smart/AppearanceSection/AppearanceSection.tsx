@@ -18,7 +18,11 @@ import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateOrganizationColor } from "@src/services/organizationService";
-import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import {
+  useAppSelector,
+  useAppDispatch,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   Organization,
   useOrganizationsListQuery,
@@ -53,9 +57,7 @@ const AppearanceSection = () => {
   const { newOrganizationFont1, newOrganizationFont2 } =
     localizedData().organization.popUp;
   const dispatch = useAppDispatch();
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const {
     sideBarBackground,
     buttonBackground,

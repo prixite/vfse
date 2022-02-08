@@ -98,8 +98,6 @@ export default function DocumentationSection() {
   const [hideModality, setHideModality] = useState(false);
   const [hideLink, setHideLink] = useState(false);
   const [hasData, setHasData] = useState(false);
-  // eslint-disable-next-line
-  const [searchedData, setSearchedData] = useState(null);
   const { searching } = localizedData().common;
   const [open, setOpen] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
@@ -118,7 +116,7 @@ export default function DocumentationSection() {
     data: rows,
     isLoading,
     refetch: docsRefetch,
-  } = useProductsModelsListQuery();
+  } = useProductsModelsListQuery({});
 
   const [searchedList, setSearchedList] = useState({});
   const [docList, setDocList] = useState(null);
@@ -144,35 +142,18 @@ export default function DocumentationSection() {
     const dataArray = [];
     rows?.map((row) => {
       const obj = {
-        id: row.id,
-        product_id: row.product.id,
-        name: row.product.name,
-        manufacturer: row.product.manufacturer.name,
-        modality: row.modality.name,
-        documentation: row.documentation.url,
-        model: row.model,
+        id: row?.id,
+        product_id: row?.product?.id,
+        name: row?.product?.name,
+        manufacturer: row?.product?.manufacturer?.name,
+        modality: row?.modality?.name,
+        documentation: row?.documentation?.url,
+        model: row?.model,
       };
       dataArray.push(obj);
     });
     setDocData([...dataArray]);
   }, [rows]);
-
-  useEffect(() => {
-    const dataArray = [];
-    searchedList?.results?.map((row) => {
-      const obj = {
-        id: row.id,
-        product_id: row.product.id,
-        name: row.product.name,
-        manufacturer: row.product.manufacturer.name,
-        modality: row.modality.name,
-        documentation: row.documentation.url,
-        model: row.model,
-      };
-      dataArray.push(obj);
-    });
-    setSearchedData([...dataArray]);
-  }, [searchedList]);
 
   useEffect(() => {
     if (tableColumns[3]?.hide === true) {
@@ -312,7 +293,7 @@ export default function DocumentationSection() {
                 hide: hideModality,
                 sortable: false,
                 renderCell: (cellValues) =>
-                  renderModalities([cellValues.row.modality]),
+                  renderModalities([cellValues?.row?.modality]),
               },
               {
                 field: "DOCUMENTATION LINK",
@@ -321,7 +302,7 @@ export default function DocumentationSection() {
                 hide: hideLink,
                 sortable: false,
                 renderCell: (cellValues) =>
-                  documentationLink(cellValues.row.documentation),
+                  documentationLink(cellValues?.row?.documentation),
               },
               {
                 field: "Actions",
@@ -333,7 +314,7 @@ export default function DocumentationSection() {
                 renderCell: (cellValues) => (
                   <div
                     onClick={(e) =>
-                      handleClick(e, cellValues.row.id, cellValues.row.name)
+                      handleClick(e, cellValues?.row?.id, cellValues?.row?.name)
                     }
                     style={{
                       cursor: "pointer",

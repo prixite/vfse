@@ -102,7 +102,7 @@ const HealthNetwork = ({
   return (
     <div className="health-section">
       <CloseIcon className="close-icon" onClick={networkCloseHandler} />
-      <p className="info-label">{name}</p>
+      <p className="info-label required">{name}</p>
       <TextField
         className="info-field"
         variant="outlined"
@@ -115,7 +115,7 @@ const HealthNetwork = ({
       </p>
       <div className="health-info">
         <div style={{ width: "100%", marginTop: "25px" }}>
-          <p className="dropzone-title">{logo}</p>
+          <p className="dropzone-title required">{logo}</p>
           <DropzoneBox
             imgSrc={network?.appearance?.logo}
             setSelectedImage={setSelectedImage}

@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
@@ -11,16 +11,13 @@ import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateSitesService } from "@src/services/sitesService";
 import {
-  Organization,
   useOrganizationsSitesUpdateMutation,
+  useOrganizationsReadQuery,
 } from "@src/store/reducers/api";
 
 import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 
 interface SiteCardProps {
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  setOrganization: Dispatch<Organization>;
-  row: object;
   refetch: () => void;
   siteId: number;
   name: string;
@@ -28,6 +25,7 @@ interface SiteCardProps {
   location: string;
   connections: number;
   sites: Array<object>;
+  orgNetworkRefetch: () => void;
 }
 const SiteCard = ({
   siteId,
@@ -36,6 +34,7 @@ const SiteCard = ({
   location,
   connections,
   refetch,
+  orgNetworkRefetch,
   sites,
 }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -46,7 +45,9 @@ const SiteCard = ({
   const { cardPopUp } = localizedData().sites;
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const { id, networkId } = useParams();
-
+  const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
+    id: networkId ? networkId : id,
+  });
   const selectionID =
     networkId == undefined ? id?.toString() : networkId?.toString();
 
@@ -75,13 +76,27 @@ const SiteCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     const updatedSites = sites.filter((site) => site?.id !== siteId);
-    await updateSitesService(
-      selectionID,
-      updatedSites,
-      updateSite,
-      refetch,
-      "delete"
-    );
+    if (networkId) {
+      await updateSitesService(
+        selectionID,
+        updatedSites,
+        updateSite,
+        refetch,
+        "delete",
+        refetchOrgorHealth,
+        orgNetworkRefetch
+      );
+    } else {
+      await updateSitesService(
+        selectionID,
+        updatedSites,
+        updateSite,
+        refetch,
+        "delete",
+        refetchOrgorHealth,
+        orgNetworkRefetch
+      );
+    }
   };
   return (
     <div className="SiteCard">
@@ -164,6 +179,7 @@ const SiteCard = ({
         action={"edit"}
         selectionID={selectionID}
         handleClose={handleEditModalClose}
+        refetchHealthorOrgNetwork={refetchOrgorHealth}
         refetch={refetch}
       />
     </div>

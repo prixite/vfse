@@ -19,7 +19,7 @@ import {
   updateHealthNetworkService,
   //addNewOrganizationService,
 } from "@src/services/organizationService";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   Organization,
   //useOrganizationsCreateMutation,
@@ -42,9 +42,7 @@ interface Props {
 }
 
 export default function NetworkModal(props: Props) {
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const { refetch: sitesRefetch } = useOrganizationsSitesListQuery(
     {
       id: props?.organization?.id.toString(),
@@ -288,7 +286,7 @@ export default function NetworkModal(props: Props) {
       <DialogContent>
         <div className="modal-content">
           <div>
-            <p className="dropzone-title">{newNetworkLogo}</p>
+            <p className="dropzone-title required">{newNetworkLogo}</p>
             <DropzoneBox
               setSelectedImage={setSelectedImage}
               imgSrc={networkLogo}
@@ -301,7 +299,7 @@ export default function NetworkModal(props: Props) {
             )}
           </div>
           <div className="network-info">
-            <p className="info-label">{newNetworkName}</p>
+            <p className="info-label required">{newNetworkName}</p>
             <TextField
               className="info-field"
               variant="outlined"
