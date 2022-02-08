@@ -864,13 +864,6 @@
                         "description": "",
                         "required": false,
                         "type": "number"
-                    },
-                    {
-                        "name": "modality",
-                        "in": "query",
-                        "description": "",
-                        "required": false,
-                        "type": "number"
                     }
                 ],
                 "responses": {
@@ -919,7 +912,22 @@
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "modality",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "product",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",

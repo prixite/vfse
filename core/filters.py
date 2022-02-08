@@ -22,11 +22,19 @@ class OrganizationNameFilter(filters.FilterSet):
 
 
 class ProductFilter(filters.FilterSet):
-    modality = filters.NumberFilter(field_name="product_models__modality")
-
     class Meta:
         model = models.Product
         fields = ["manufacturer"]
+
+        filter_overrides = {
+            django_models.ForeignKey: {"filter_class": filters.NumberFilter}
+        }
+
+
+class ProductModelFilter(filters.FilterSet):
+    class Meta:
+        model = models.ProductModel
+        fields = ["modality", "product"]
 
         filter_overrides = {
             django_models.ForeignKey: {"filter_class": filters.NumberFilter}
