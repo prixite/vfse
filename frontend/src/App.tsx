@@ -34,7 +34,9 @@ const App = () => {
   const params: match<{ id: string }> = matchPath(pathname, {
     path: "/clients/:id",
   });
-  const { data, isFetching } = useOrganizationsMeReadQuery({id: params.params.id});
+  const { data, isFetching } = useOrganizationsMeReadQuery({
+    id: params.params.id,
+  });
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
       id: params.params.id,
