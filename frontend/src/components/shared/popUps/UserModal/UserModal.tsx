@@ -30,7 +30,7 @@ import {
   addNewUserService,
   updateUserService,
 } from "@src/services/userService";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import {
   HealthNetwork,
@@ -108,9 +108,7 @@ export default function UserModal(props: Props) {
   const [createUser] = useOrganizationsUsersCreateMutation();
   const [updateUser] = useUsersPartialUpdateMutation();
 
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const usersData = Array.from(props?.usersData);
   usersData?.unshift({ id: -1, username: "Select Manager" });

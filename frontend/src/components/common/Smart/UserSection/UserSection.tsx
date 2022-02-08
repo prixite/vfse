@@ -13,7 +13,7 @@ import {
   deactivateUserService,
   activateUserService,
 } from "@src/services/userService";
-import { useAppSelector } from "@src/store/hooks";
+import { useSelectedOrganization } from "@src/store/hooks";
 import {
   useModalitiesListQuery,
   useOrganizationsHealthNetworksListQuery,
@@ -186,9 +186,7 @@ export default function UserSection() {
 
   const { lock, unlock, edit } = localizedData().user_menu_options;
 
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const {
     data: items,
     isLoading: isUsersLoading,

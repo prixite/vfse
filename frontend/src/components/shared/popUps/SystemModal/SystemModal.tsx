@@ -29,7 +29,7 @@ import {
   addNewOrdanizationSystem,
   updateOrdanizationSystem,
 } from "@src/services/systemServices";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
   useProductsModelsListQuery,
@@ -108,9 +108,7 @@ export default function SystemModal(props: systemProps) {
   const { data: productData, isLoading: isProductsModelsLoading } =
     useProductsModelsListQuery({});
 
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const {
     fieldName,

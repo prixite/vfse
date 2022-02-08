@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/AddSiteFirstModal/AddSiteFirstModal.scss";
 
@@ -25,9 +25,7 @@ const AddSiteFirstModal = ({ open, handleClose }: Props) => {
   const { dialogMessage, noButton, yesButton } =
     localizedData().confirmSiteDialog;
 
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const navigateToSite = () => {
     history.push(`/${organizationRoute}/${selectedOrganization?.id}/sites`);
   };

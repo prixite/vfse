@@ -25,7 +25,11 @@ import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
 import { routes, vfseRoutes } from "@src/routes";
-import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import {
+  useAppSelector,
+  useAppDispatch,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   Organization,
   useMeReadQuery,
@@ -107,9 +111,7 @@ export default function SideBar() {
     useOrganizationsListQuery({ page: 1 });
   const { sideBarBackground, sideBarTextColor, buttonBackground } =
     useAppSelector((state) => state.myTheme);
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const { data: me } = useMeReadQuery();
   const toggleDrawer = () => {
