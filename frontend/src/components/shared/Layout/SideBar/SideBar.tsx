@@ -115,7 +115,6 @@ export default function SideBar() {
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
-  const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
 
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
@@ -269,7 +268,7 @@ export default function SideBar() {
             <ListItem
               button
               key={item.id}
-              style={collapsedLeftPadding}
+              style={{ paddingLeft: "20px", paddingRight: "20px" }}
               onClick={() => handleUpdateSelectedOrganization(item)}
             >
               <ListItemIcon
