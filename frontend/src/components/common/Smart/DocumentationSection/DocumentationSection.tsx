@@ -116,7 +116,7 @@ export default function DocumentationSection() {
     data: rows,
     isLoading,
     refetch: docsRefetch,
-  } = useProductsModelsListQuery();
+  } = useProductsModelsListQuery({});
 
   const [searchedList, setSearchedList] = useState({});
   const [docList, setDocList] = useState(null);
