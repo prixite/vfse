@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Box, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -12,6 +12,8 @@ import { useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsSitesListQuery,
   useOrganizationsHealthNetworksListQuery,
+  Site,
+  useOrganizationsReadQuery,
 } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
@@ -21,6 +23,7 @@ const SiteSection = () => {
   const [sitesList, setSitesList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [open, setOpen] = useState(false);
+  const [itemsList, setItemsList] = useState<Array<Site>>([]);
 
   const { id, networkId } = useParams();
   const selectedOrganization = useAppSelector(
@@ -42,13 +45,33 @@ const SiteSection = () => {
         id: selectedOrganization?.id.toString(),
       },
       {
-        skip: false,
+        skip: !networkId,
       }
     );
+
+  const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
+    id: networkId ? networkId : id,
+  });
 
   const { title, noDataTitle, noDataDescription } = localizedData().sites;
   const { searching } = localizedData().common;
   const handleClose = () => setOpen(false);
+  const handleSearchQuery = (searchQuery: string) => {
+    setItemsList(
+      sitesData?.filter((site) => {
+        return (
+          site?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+      })
+    );
+  };
+  useEffect(() => {
+    if (searchText?.length > 2 && sitesData && sitesData?.length) {
+      handleSearchQuery(searchText);
+    } else if (sitesData?.length && searchText?.length <= 2) {
+      setItemsList(sitesData);
+    }
+  }, [searchText, sitesData]);
 
   return (
     <>
@@ -60,6 +83,7 @@ const SiteSection = () => {
             path="sites"
             setData={setSite}
             setList={setSitesList}
+            handleSearchQuery={handleSearchQuery}
             actualData={sitesData}
             searchText={searchText}
             setSearchText={setSearchText}
@@ -72,10 +96,8 @@ const SiteSection = () => {
         ) : (
           <Grid container spacing={2} className="SiteSection__AllClients">
             {searchText?.length > 2 ? (
-              sitesList &&
-              sitesList?.results?.length &&
-              sitesList?.query === searchText ? (
-                sitesList?.results?.map((item, key) => (
+              itemsList && itemsList.length ? (
+                itemsList.map((item, key) => (
                   <Grid key={key} item xs={3}>
                     <SiteCard
                       siteId={item?.id}
@@ -85,6 +107,7 @@ const SiteSection = () => {
                       connections={item?.connections}
                       refetch={sitesRefetch}
                       sites={sitesData}
+                      orgNetworkRefetch={orgNetworkRefetch}
                     />
                   </Grid>
                 ))
@@ -129,6 +152,7 @@ const SiteSection = () => {
             selectionID={selectionID}
             handleClose={handleClose}
             refetch={sitesRefetch}
+            refetchHealthorOrgNetwork={refetchOrgorHealth}
             orgNetworkRefetch={orgNetworkRefetch}
           />
         ) : (

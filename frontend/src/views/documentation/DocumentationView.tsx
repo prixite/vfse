@@ -3,7 +3,7 @@ import DocumentationSection from "@src/components/common/Smart/DocumentationSect
 import { useProductsModelsListQuery } from "@src/store/reducers/api";
 
 export default function DocumentationView() {
-  const { isLoading } = useProductsModelsListQuery();
+  const { isLoading } = useProductsModelsListQuery({});
 
   return <>{!isLoading ? <DocumentationSection /> : <TableSkeleton />}</>;
 }

@@ -1,3 +1,4 @@
+@import "../../../../styles/shared/variables";
 .AppearanceSection {
   &__clientCard {
     margin-top: 32px;
@@ -87,6 +88,14 @@
       color: rgba(0, 0, 0, 0.26) !important;
       box-shadow: none !important;
       background-color: rgba(0, 0, 0, 0.12) !important;
+    }
+  }
+}
+
+@media only screen and (min-device-width: $ipad) and (max-device-width: $ipad-pro) {
+  .AppearanceSection {
+    &__clientCard {
+      overflow-x: auto;
     }
   }
 }

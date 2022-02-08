@@ -9,6 +9,12 @@
     right: 10px;
     cursor: pointer;
   }
+  .required {
+    &:after {
+      content: " *";
+      color: red;
+    }
+  }
   .info-label {
     font-weight: 600;
     margin-bottom: 6px;
