@@ -288,7 +288,7 @@ export default function NetworkModal(props: Props) {
       <DialogContent>
         <div className="modal-content">
           <div>
-            <p className="dropzone-title">{newNetworkLogo}</p>
+            <p className="dropzone-title required">{newNetworkLogo}</p>
             <DropzoneBox
               setSelectedImage={setSelectedImage}
               imgSrc={networkLogo}
@@ -301,7 +301,7 @@ export default function NetworkModal(props: Props) {
             )}
           </div>
           <div className="network-info">
-            <p className="info-label">{newNetworkName}</p>
+            <p className="info-label required">{newNetworkName}</p>
             <TextField
               className="info-field"
               variant="outlined"
