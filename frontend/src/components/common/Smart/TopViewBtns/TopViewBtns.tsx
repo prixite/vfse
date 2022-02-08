@@ -39,9 +39,9 @@ interface Props {
   path: string;
   setOpen?: (arg: boolean) => void;
   setData: (arg: object) => void;
-  networkFilter: (arg: object) => void;
-  siteFilter: (arg: object) => void;
-  setList: (arg: { query: string; results?: { name: string }[] }) => void;
+  networkFilter?: (arg: object) => void;
+  siteFilter?: (arg: object) => void;
+  setList?: (arg: { query: string; results?: { name: string }[] }) => void;
   actualData?: HealthNetwork[];
   handleSearchQuery?: (arg: string) => void;
   searchText: string;
@@ -63,7 +63,7 @@ interface Props {
     }[]
   ) => void;
   setAction?: Dispatch<SetStateAction<string>>;
-  hasData: boolean;
+  hasData?: boolean;
 }
 
 const TopViewBtns = ({
@@ -237,7 +237,11 @@ const TopViewBtns = ({
   const onEventSearch = useCallback(
     debounce((searchQuery: string) => {
       if (searchQuery?.length > 2) {
-        if (path === "users") {
+        if (
+          path === "users" ||
+          path === "organizations" ||
+          path === "modality"
+        ) {
           handleSearchQuery(searchQuery);
         }
         const newList = { query: searchQuery, results: [] };
