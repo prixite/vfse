@@ -116,7 +116,7 @@ export default function DocumentationSection() {
     data: rows,
     isLoading,
     refetch: docsRefetch,
-  } = useProductsModelsListQuery({});
+  } = useProductsModelsListQuery();
 
   const [searchedList, setSearchedList] = useState({});
   const [docList, setDocList] = useState(null);
@@ -142,13 +142,13 @@ export default function DocumentationSection() {
     const dataArray = [];
     rows?.map((row) => {
       const obj = {
-        id: row.id,
-        product_id: row.product.id,
-        name: row.product.name,
-        manufacturer: row.product.manufacturer.name,
-        modality: row.modality.name,
-        documentation: row.documentation.url,
-        model: row.model,
+        id: row?.id,
+        product_id: row?.product?.id,
+        name: row?.product?.name,
+        manufacturer: row?.product?.manufacturer?.name,
+        modality: row?.modality?.name,
+        documentation: row?.documentation?.url,
+        model: row?.model,
       };
       dataArray.push(obj);
     });
@@ -293,7 +293,7 @@ export default function DocumentationSection() {
                 hide: hideModality,
                 sortable: false,
                 renderCell: (cellValues) =>
-                  renderModalities([cellValues.row.modality]),
+                  renderModalities([cellValues?.row?.modality]),
               },
               {
                 field: "DOCUMENTATION LINK",
@@ -302,7 +302,7 @@ export default function DocumentationSection() {
                 hide: hideLink,
                 sortable: false,
                 renderCell: (cellValues) =>
-                  documentationLink(cellValues.row.documentation),
+                  documentationLink(cellValues?.row?.documentation),
               },
               {
                 field: "Actions",
@@ -314,7 +314,7 @@ export default function DocumentationSection() {
                 renderCell: (cellValues) => (
                   <div
                     onClick={(e) =>
-                      handleClick(e, cellValues.row.id, cellValues.row.name)
+                      handleClick(e, cellValues?.row?.id, cellValues?.row?.name)
                     }
                     style={{
                       cursor: "pointer",

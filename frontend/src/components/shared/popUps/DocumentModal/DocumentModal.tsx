@@ -228,7 +228,7 @@ export default function DocumentModal({
     );
     setModal(product);
     const modalityValue = modalitiesList?.find(
-      (item) => item.name === selectedDoc.modality
+      (item) => item.name === selectedDoc?.modality
     );
     setModality(modalityValue);
   };
@@ -240,8 +240,8 @@ export default function DocumentModal({
     return {
       model: modelName,
       documentation: Documentation,
-      modality: modality.id,
-      product: modal.id,
+      modality: modality?.id,
+      product: modal?.id,
     };
   };
 
