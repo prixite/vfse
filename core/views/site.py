@@ -76,6 +76,7 @@ class WelcomeView(TemplateView):
         "user": "/users/",
         "documentation": "/documentation/",
         "vfse": "/vfse/",
+        "appearance":'/appearance/',
     }
 
     def get_context_data(self, **kwargs):
