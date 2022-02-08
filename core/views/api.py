@@ -498,6 +498,8 @@ class ModalityManufacturerViewSet(ModelViewSet):
 
 
 class ProductModelViewSet(ModelViewSet):
+    filterset_class = filters.ProductModelFilter
+
     def get_queryset(self):
         queryset = models.ProductModel.objects.all()
         if self.action == "list":
