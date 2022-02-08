@@ -73,6 +73,10 @@
         .info-label {
           font-weight: 600;
           margin-bottom: 6px;
+          &:after {
+            content: " *";
+            color: red;
+          }
         }
         .info-field {
           width: 100%;

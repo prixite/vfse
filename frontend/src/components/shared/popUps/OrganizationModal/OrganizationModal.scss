@@ -42,6 +42,12 @@
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    .required {
+      &:after {
+        content: " *";
+        color: red;
+      }
+    }
     .dropzone-title {
       font-weight: 600;
       margin-bottom: 8px;
