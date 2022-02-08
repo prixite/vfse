@@ -106,7 +106,7 @@ export default function SystemModal(props: systemProps) {
   const [sites, setSites] = useState([]);
 
   const { data: productData, isLoading: isProductsModelsLoading } =
-    useProductsModelsListQuery();
+    useProductsModelsListQuery({});
 
   const selectedOrganization = useAppSelector(
     (state) => state.organization.selectedOrganization

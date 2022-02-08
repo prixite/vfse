@@ -240,7 +240,8 @@ const TopViewBtns = ({
         if (
           path === "users" ||
           path === "organizations" ||
-          path === "modality"
+          path === "modality" ||
+          path === "sites"
         ) {
           handleSearchQuery(searchQuery);
         }
