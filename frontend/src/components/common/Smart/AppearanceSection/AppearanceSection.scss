@@ -92,7 +92,7 @@
   }
 }
 
-@media only screen and (min-device-width: $ipad) and (max-device-width: $ipad-pro) {
+@media only screen and (min-width: $ipad) and (max-width: $ipad-pro) {
   .AppearanceSection {
     &__clientCard {
       overflow-x: auto;

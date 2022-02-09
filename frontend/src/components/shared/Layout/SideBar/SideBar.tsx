@@ -294,6 +294,7 @@ export default function SideBar() {
   };
   return (
     <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
+      {open ? <div className="overlay" onClick={toggleDrawer} /> : ""}
       <Drawer
         variant="permanent"
         open={open}
