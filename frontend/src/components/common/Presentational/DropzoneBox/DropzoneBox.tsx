@@ -67,7 +67,7 @@ const DropzoneBox = ({
       ) : (
         ""
       )}
-      <div style={{ zIndex: "1000" }} className={dropzoneOptions}>
+      <div style={{ zIndex: "550" }} className={dropzoneOptions}>
         <img src={UploadBtn} className="" />
         <p>
           <b>{heading}</b>

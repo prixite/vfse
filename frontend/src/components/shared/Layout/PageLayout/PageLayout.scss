@@ -1,3 +1,12 @@
+@import "../../../../styles/shared/variables";
 .Layout {
   display: flex;
+}
+@media only screen and (min-width: $ipad) and (max-width: $ipad-pro) {
+  .Layout {
+    .main-content {
+      height: 100vh;
+      margin-left: 80px;
+    }
+  }
 }
