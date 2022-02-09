@@ -1,3 +1,4 @@
+@import "../../../../styles/shared/variables";
 .SideBar {
   height: 100vh;
   background-color: #2a3242;
@@ -88,5 +89,12 @@
       width: 38px;
       border-radius: 50%;
     }
+  }
+}
+
+@media only screen and (min-device-width: $ipad) and (max-device-width: $ipad-pro) {
+  .SideBar {
+    position: fixed;
+    z-index: 600;
   }
 }
