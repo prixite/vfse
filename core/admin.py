@@ -25,7 +25,6 @@ class UserAdmin(CoreUserAdmin):
     )
 
     def get_fieldsets(self, request, obj):
-        print(request.user.is_superuser, request.user)
         if request.user.is_superuser:
             return super().get_fieldsets(request, obj)
         else:
