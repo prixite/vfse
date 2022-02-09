@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
-import { User } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
   updateButtonColor,
@@ -16,11 +15,11 @@ import {
 import "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver.scss";
 
 interface Props {
-  user: User;
+  profilePicture: string;
   className: string;
 }
 
-const ProfilePopOver = ({ user, className }: Props) => {
+const ProfilePopOver = ({ profilePicture, className }: Props) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,7 +61,7 @@ const ProfilePopOver = ({ user, className }: Props) => {
 
   return (
     <div>
-      <img src={user} className={className} onClick={handleClick} />
+      <img src={profilePicture} className={className} onClick={handleClick} />
       <Popover
         id={id}
         open={open}

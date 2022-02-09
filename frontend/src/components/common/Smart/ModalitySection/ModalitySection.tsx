@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Box, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -10,12 +10,20 @@ import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import NetworkModal from "@src/components/shared/popUps/NetworkModal/NetworkModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
-import { useOrganizationsHealthNetworksListQuery } from "@src/store/reducers/api";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
+import {
+  HealthNetwork,
+  useOrganizationsHealthNetworksListQuery,
+} from "@src/store/reducers/api";
 import { closeNetworkModal } from "@src/store/reducers/appStore";
 
 const ModalitySection = () => {
   const [network, setNetwork] = useState(null);
+  const [itemsList, setItemsList] = useState<Array<HealthNetwork>>([]);
   const { openAddNetworkModal } = useAppSelector((state) => state.app);
   const dispatch = useAppDispatch();
   // Just suppressing eslint error; TODO: Use network.
@@ -29,9 +37,7 @@ const ModalitySection = () => {
   const [searchText, setSearchText] = useState("");
   const { title, noDataTitle, noDataDescription } = localizedData().modalities;
   const { searching } = localizedData().common;
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const {
     data: networksData,
@@ -42,7 +48,22 @@ const ModalitySection = () => {
   });
 
   const handleClose = () => dispatch(closeNetworkModal());
-
+  const handleSearchQuery = (searchQuery: string) => {
+    setItemsList(
+      networksData?.filter((network) => {
+        return (
+          network?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+        );
+      })
+    );
+  };
+  useEffect(() => {
+    if (searchText?.length > 2 && networksData && networksData?.length) {
+      handleSearchQuery(searchText);
+    } else if (networksData?.length && searchText?.length <= 2) {
+      setItemsList(networksData);
+    }
+  }, [searchText, networksData]);
   return (
     <>
       <Box component="div" className="ModalitySection">
@@ -54,6 +75,7 @@ const ModalitySection = () => {
             setList={setNetworksList}
             setAction={setAction}
             actualData={networksData}
+            handleSearchQuery={handleSearchQuery}
             searchText={searchText}
             setSearchText={setSearchText}
           />
@@ -62,11 +84,9 @@ const ModalitySection = () => {
         )}
         <Grid container spacing={2} className="ModalitySection__AllNetworks">
           {searchText?.length > 2 ? (
-            networksList &&
-            networksList?.results?.length &&
-            networksList?.query === searchText ? (
-              networksList?.results?.map((item, key) => (
-                <Grid key={key} xs={6} xl={3} md={4}>
+            itemsList && itemsList.length ? (
+              itemsList.map((item, key) => (
+                <Grid key={key} item xs={6} xl={3} md={4}>
                   <NetworkCard
                     setAction={setAction}
                     setOpen={setOpen}
@@ -115,14 +135,17 @@ const ModalitySection = () => {
             ""
           )}
         </Grid>
-        {/* Umair: Disable this button because it is crashing. */}
-        <NetworkModal
-          organization={network}
-          open={openAddNetworkModal}
-          action={action}
-          handleClose={handleClose}
-          refetch={orgNetworkRefetch}
-        />
+        {openAddNetworkModal ? (
+          <NetworkModal
+            organization={network}
+            open={openAddNetworkModal}
+            action={action}
+            handleClose={handleClose}
+            refetch={orgNetworkRefetch}
+          />
+        ) : (
+          ""
+        )}
       </Box>
       {!isNetworkDataLoading && !networksData?.length ? (
         <NoDataFound title={noDataTitle} description={noDataDescription} />

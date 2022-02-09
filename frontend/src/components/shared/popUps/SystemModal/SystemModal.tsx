@@ -29,7 +29,7 @@ import {
   addNewOrdanizationSystem,
   updateOrdanizationSystem,
 } from "@src/services/systemServices";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
   useProductsModelsListQuery,
@@ -106,11 +106,9 @@ export default function SystemModal(props: systemProps) {
   const [sites, setSites] = useState([]);
 
   const { data: productData, isLoading: isProductsModelsLoading } =
-    useProductsModelsListQuery();
+    useProductsModelsListQuery({});
 
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const {
     fieldName,
@@ -247,21 +245,21 @@ export default function SystemModal(props: systemProps) {
     setRisIp(props?.system?.his_ris_info?.ip);
     setRisTitle(props.system.his_ris_info?.title);
     setRisPort(props?.system?.his_ris_info?.port.toString());
-    setRisAE(props.system.his_ris_info.ae_title);
-    setDicIP(props.system.dicom_info.ip);
-    setDicTitle(props.system.dicom_info.title);
-    setDicPort(props.system.dicom_info.port.toString());
-    setDicAE(props.system.dicom_info.ae_title);
-    setMriHelium(props.system.mri_embedded_parameters.helium);
-    setMriMagnet(props.system.mri_embedded_parameters.magnet_pressure);
+    setRisAE(props?.system?.his_ris_info?.ae_title);
+    setDicIP(props?.system?.dicom_info?.ip);
+    setDicTitle(props?.system?.dicom_info?.title);
+    setDicPort(props?.system?.dicom_info?.port.toString());
+    setDicAE(props?.system?.dicom_info?.ae_title);
+    setMriHelium(props?.system?.mri_embedded_parameters?.helium);
+    setMriMagnet(props?.system?.mri_embedded_parameters?.magnet_pressure);
     setVfse(
       props?.system?.connection_options?.vfse
-        ? props.system.connection_options.vfse
+        ? props?.system?.connection_options?.vfse
         : false
     );
     setSsh(
       props?.system?.connection_options?.ssh
-        ? props.system.connection_options.ssh
+        ? props?.system?.connection_options?.ssh
         : false
     );
     setServiceWeb(
@@ -601,8 +599,8 @@ export default function SystemModal(props: systemProps) {
   useEffect(() => {
     if (sites) {
       if (props.system) {
-        const data = returnSearchedOject(sites, props.system.site);
-        setSite(data.length ? data[0] : sites[0]);
+        const data = returnSearchedOject(sites, props?.system?.site);
+        setSite(data?.length ? data[0] : sites[0]);
       } else {
         setSite(sites[0]);
       }
@@ -610,13 +608,13 @@ export default function SystemModal(props: systemProps) {
   }, [sites, props.system]);
 
   useEffect(() => {
-    if (productData?.length && !isProductsModelsLoading && props.open) {
+    if (productData?.length && !isProductsModelsLoading && props?.open) {
       if (props.system) {
         const data = returnSearchedOject(
           productData,
           props.system.product_model
         );
-        if (data.length) {
+        if (data?.length) {
           setModal(data[0]);
         }
       } else {
@@ -732,18 +730,18 @@ export default function SystemModal(props: systemProps) {
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                  {!isProductsModelsLoading && productData.length ? (
+                  {!isProductsModelsLoading && productData?.length ? (
                     <Autocomplete
                       id="country-select-demo"
                       sx={{ width: "100%" }}
                       style={{ height: "48px" }}
-                      value={modal || ""}
+                      value={modal || {}}
                       onChange={(e, item: ProductModel) =>
                         handleProductModel(item)
                       } // eslint-disable-line
                       options={productData}
                       autoHighlight
-                      getOptionLabel={(option) => option?.name}
+                      getOptionLabel={(option) => option?.name || ""}
                       renderInput={(params) => (
                         <TextField
                           {...params}

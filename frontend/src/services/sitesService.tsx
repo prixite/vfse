@@ -6,8 +6,8 @@ const updateSitesService = async (
   updateSites,
   refetch,
   type,
-  refetchOrganization,
-  refetchNetworks
+  refetchOrgorNetwork,
+  orgNetworkRefetch
 ) => {
   await updateSites({
     id: id?.toString(),
@@ -26,8 +26,8 @@ const updateSitesService = async (
           pauseOnHover: false,
           onClose: () => {
             refetch();
-            refetchOrganization();
-            refetchNetworks();
+            refetchOrgorNetwork();
+            orgNetworkRefetch();
           },
         }
       );
@@ -39,8 +39,8 @@ const addNewSiteService = async (
   siteObject,
   addNewSite,
   refetch,
-  refetchOrganization,
-  refetchNetwork
+  refetchOrgorNetwork,
+  orgNetworkRefetch
 ) => {
   await addNewSite({
     id: selectionID?.toString(),
@@ -53,8 +53,8 @@ const addNewSiteService = async (
         pauseOnHover: false,
         onClose: () => {
           refetch();
-          refetchOrganization();
-          refetchNetwork();
+          refetchOrgorNetwork();
+          orgNetworkRefetch();
         },
       });
     });

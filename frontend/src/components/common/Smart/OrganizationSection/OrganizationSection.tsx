@@ -16,8 +16,15 @@ import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/O
 import { constants, organizationTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
-import { useOrganizationsListQuery } from "@src/store/reducers/api";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
+import {
+  Organization,
+  useOrganizationsListQuery,
+} from "@src/store/reducers/api";
 import { closeAddModal } from "@src/store/reducers/appStore";
 
 import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
@@ -31,6 +38,8 @@ const OrganizationSection = () => {
   const [organizationsList, setOrganizationsList] = useState({});
   const [searchText, setSearchText] = useState("");
   const [action, setAction] = useState("");
+  const [itemsList, setItemsList] = useState<Array<Organization>>([]);
+
   const {
     data: organizationList,
     refetch,
@@ -38,9 +47,7 @@ const OrganizationSection = () => {
   } = useOrganizationsListQuery({
     page: 1,
   });
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;
@@ -70,12 +77,33 @@ const OrganizationSection = () => {
       (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) == "sites"
     );
   };
-
+  const handleSearchQuery = (searchQuery: string) => {
+    setItemsList(
+      organizationList?.filter((organization) => {
+        return (
+          organization?.name
+            ?.toLowerCase()
+            .search(searchQuery?.toLowerCase()) != -1
+        );
+      })
+    );
+  };
   useEffect(() => {
     if (history.location.pathname.includes("sites")) {
       setTabValue(1);
     }
   }, []);
+  useEffect(() => {
+    if (
+      searchText?.length > 2 &&
+      organizationList &&
+      organizationList?.length
+    ) {
+      handleSearchQuery(searchText);
+    } else if (organizationList?.length && searchText?.length <= 2) {
+      setItemsList(organizationList);
+    }
+  }, [searchText, organizationList]);
 
   return (
     <>
@@ -140,6 +168,7 @@ const OrganizationSection = () => {
                 setData={setOrganization}
                 setList={setOrganizationsList}
                 actualData={organizationList}
+                handleSearchQuery={handleSearchQuery}
                 searchText={searchText}
                 setSearchText={setSearchText}
               />
@@ -152,11 +181,9 @@ const OrganizationSection = () => {
               className="OrganizationSection__AllClients"
             >
               {searchText?.length > 2 ? (
-                organizationsList &&
-                organizationsList?.results?.length &&
-                organizationsList?.query === searchText ? (
-                  organizationsList?.results?.map((item, key) => (
-                    <Grid key={key} item xs={8} md={8}>
+                itemsList && itemsList.length ? (
+                  itemsList.map((item, key) => (
+                    <Grid key={key} item xs={6} xl={3} md={4}>
                       <ClientCard
                         setAction={setAction}
                         setOrganization={setOrganization}
@@ -210,13 +237,17 @@ const OrganizationSection = () => {
                 />
               )}
             </Grid>
-            <OrganizationModal
-              action={action}
-              organization={organization}
-              open={openAddClientModal}
-              handleClose={handleClose}
-              refetch={refetch}
-            />
+            {openAddClientModal ? (
+              <OrganizationModal
+                action={action}
+                organization={organization}
+                open={openAddClientModal}
+                handleClose={handleClose}
+                refetch={refetch}
+              />
+            ) : (
+              ""
+            )}
           </>
         ) : (
           <>{tabValue == 0 ? <ModalitySection /> : <SiteSection />}</>

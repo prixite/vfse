@@ -431,7 +431,7 @@ export default function OrganizationModal({
           {page === "1" ? (
             <>
               <div>
-                <p className="dropzone-title">{newOrganizationLogo}</p>
+                <p className="dropzone-title required">{newOrganizationLogo}</p>
                 <DropzoneBox
                   imgSrc={organizationLogo}
                   setSelectedImage={setSelectedImage}
@@ -450,7 +450,7 @@ export default function OrganizationModal({
                 }
               >
                 <div className="info-section">
-                  <p className="info-label">{newOrganizationName}</p>
+                  <p className="info-label required">{newOrganizationName}</p>
                   <TextField
                     value={organizationName}
                     className="info-field"
