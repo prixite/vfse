@@ -1,5 +1,4 @@
 from core import models
-from core.tests import factories
 from core.tests.base import BaseTestCase
 
 
@@ -18,7 +17,7 @@ class UnrestrictedURLsTestCase(BaseTestCase):
             for user in models.User.objects.filter(is_lambda_user=False):
                 with self.subTest(user=user, url=url):
                     self.client.force_login(user)
-                    assert self.client.get(url).status_code == 200
+                    self.assertEqual(self.client.get(url).status_code, 200)
 
 
 class OrganizationTestCase(BaseTestCase):
@@ -27,5 +26,5 @@ class OrganizationTestCase(BaseTestCase):
             with self.subTest(user=user):
                 self.client.force_login(user)
                 response = self.client.get("/api/organizations/")
-                assert response.status_code == 200
-                assert len(response.json()) == 3
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(len(response.json()), 3)
