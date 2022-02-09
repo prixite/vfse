@@ -30,7 +30,7 @@ import {
   addNewUserService,
   updateUserService,
 } from "@src/services/userService";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import {
   HealthNetwork,
@@ -108,9 +108,7 @@ export default function UserModal(props: Props) {
   const [createUser] = useOrganizationsUsersCreateMutation();
   const [updateUser] = useUsersPartialUpdateMutation();
 
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const usersData = Array.from(props?.usersData);
   usersData?.unshift({ id: -1, username: "Select Manager" });
@@ -548,7 +546,7 @@ export default function UserModal(props: Props) {
           {page === "1" ? (
             <>
               <div>
-                <p className="info-label">Profile Image</p>
+                <p className="info-label required">Profile Image</p>
                 <DropzoneBox
                   imgSrc={userProfileImage}
                   setSelectedImage={setSelectedImage}
@@ -563,7 +561,7 @@ export default function UserModal(props: Props) {
                 )}
               </div>
               <div>
-                <p className="info-label">{userFirstName}</p>
+                <p className="info-label required">{userFirstName}</p>
                 <TextField
                   className="full-field"
                   value={firstname}
@@ -577,7 +575,7 @@ export default function UserModal(props: Props) {
                 </p>
               </div>
               <div>
-                <p className="info-label">{userLastName}</p>
+                <p className="info-label required">{userLastName}</p>
                 <TextField
                   className="full-field"
                   type="text"
@@ -592,7 +590,7 @@ export default function UserModal(props: Props) {
               </div>
               <div className="divided-div">
                 <div>
-                  <p className="info-label">{userEmail}</p>
+                  <p className="info-label required">{userEmail}</p>
                   <TextField
                     className="info-field"
                     type="email"
@@ -606,7 +604,7 @@ export default function UserModal(props: Props) {
                   </p>
                 </div>
                 <div>
-                  <p className="info-label">{userPhoneNumber}</p>
+                  <p className="info-label required">{userPhoneNumber}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -629,7 +627,7 @@ export default function UserModal(props: Props) {
               </div>
               <div className="divided-div">
                 <div>
-                  <p className="info-label">{userRole}</p>
+                  <p className="info-label required">{userRole}</p>
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
                       value={role}
@@ -676,7 +674,7 @@ export default function UserModal(props: Props) {
                 </div>
               </div>
               <div>
-                <p className="info-label">{userCustomer}</p>
+                <p className="info-label required">{userCustomer}</p>
                 <FormControl sx={{ width: "100%" }}>
                   <Select
                     value={customer}

@@ -488,7 +488,20 @@ class ModalityViewSet(ModelViewSet):
         )
 
 
+class ModalityManufacturerViewSet(ModelViewSet):
+    serializer_class = serializers.ManufacturerSerializer
+
+    def get_queryset(self):
+        return models.Manufacturer.objects.filter(
+            id__in=models.ProductModel.objects.filter(
+                modality=self.kwargs["pk"]
+            ).values_list("product__manufacturer")
+        )
+
+
 class ProductModelViewSet(ModelViewSet):
+    filterset_class = filters.ProductModelFilter
+
     def get_queryset(self):
         queryset = models.ProductModel.objects.all()
         if self.action == "list":
@@ -589,6 +602,7 @@ class HealthNetworkViewSet(OrganizationViewSet):
 
 class ProductViewSet(ModelViewSet):
     serializer_class = serializers.ProductSerializer
+    filterset_class = filters.ProductFilter
 
     def get_queryset(self):
         queryset = models.Product.objects.all()

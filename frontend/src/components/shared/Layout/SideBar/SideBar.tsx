@@ -20,13 +20,16 @@ import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
-import user from "@src/assets/images/user.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
 import { routes, vfseRoutes } from "@src/routes";
-import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import {
+  useAppSelector,
+  useAppDispatch,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   Organization,
   useMeReadQuery,
@@ -108,15 +111,12 @@ export default function SideBar() {
     useOrganizationsListQuery({ page: 1 });
   const { sideBarBackground, sideBarTextColor, buttonBackground } =
     useAppSelector((state) => state.myTheme);
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
 
   const { data: me } = useMeReadQuery();
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
-  const collapsedLeftPadding = !open ? { paddingLeft: "22px" } : {};
 
   React.useEffect(() => {
     setCurrentClient(selectedOrganization);
@@ -270,7 +270,7 @@ export default function SideBar() {
             <ListItem
               button
               key={item.id}
-              style={collapsedLeftPadding}
+              style={{ paddingLeft: "20px", paddingRight: "20px" }}
               onClick={() => handleUpdateSelectedOrganization(item)}
             >
               <ListItemIcon
@@ -294,6 +294,7 @@ export default function SideBar() {
   };
   return (
     <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
+      {open ? <div className="overlay" onClick={toggleDrawer} /> : ""}
       <Drawer
         variant="permanent"
         open={open}
@@ -347,7 +348,10 @@ export default function SideBar() {
           </ListItem>
           <ListItem button className="user-image">
             <ListItemIcon>
-              <ProfilePopOver user={user} className="image" />
+              <ProfilePopOver
+                profilePicture={me?.profile_picture}
+                className="image"
+              />
             </ListItemIcon>
           </ListItem>
         </List>

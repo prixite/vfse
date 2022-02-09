@@ -235,6 +235,35 @@
             },
             "parameters": []
         },
+        "/modalities/{id}/manufacturers/": {
+            "get": {
+                "operationId": "modalities_manufacturers_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Manufacturer"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "modalities"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/notes/{id}/": {
             "patch": {
                 "operationId": "notes_partial_update",
@@ -821,7 +850,15 @@
             "get": {
                 "operationId": "products_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "manufacturer",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -868,7 +905,22 @@
             "get": {
                 "operationId": "products_models_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "modality",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "product",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -1439,6 +1491,11 @@
             ],
             "type": "object",
             "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
                 "name": {
                     "title": "Name",
                     "type": "string",

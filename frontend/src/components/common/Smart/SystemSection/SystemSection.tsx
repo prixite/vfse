@@ -12,7 +12,7 @@ import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject } from "@src/helpers/utils/utils";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
   useModalitiesListQuery,
@@ -58,9 +58,7 @@ const SystemSection = () => {
       id: networkId,
     });
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const selectedOrganization = useSelectedOrganization();
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });

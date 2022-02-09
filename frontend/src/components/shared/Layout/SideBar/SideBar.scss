@@ -1,6 +1,16 @@
+@import "../../../../styles/shared/variables";
 .SideBar {
   height: 100vh;
   background-color: #2a3242;
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    z-index: 560;
+  }
   .MuiDrawer-paper {
     background-color: #2a3242;
     .css-10hburv-MuiTypography-root {
@@ -87,6 +97,16 @@
       height: 38px;
       width: 38px;
       border-radius: 50%;
+    }
+  }
+}
+
+@media only screen and (min-width: $ipad) and (max-width: $ipad-pro) {
+  .SideBar {
+    position: fixed;
+    z-index: 600;
+    .overlay {
+      display: block;
     }
   }
 }

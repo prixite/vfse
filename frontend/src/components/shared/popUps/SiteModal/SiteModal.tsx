@@ -15,7 +15,11 @@ import {
   addNewSiteService,
   updateSitesService,
 } from "@src/services/sitesService";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
@@ -34,7 +38,8 @@ interface siteProps {
   selectionID: string;
   sites?: any; // eslint-disable-line
   refetch: () => void;
-  orgNetworkRefetch: () => void;
+  refetchHealthorOrgNetwork: () => void;
+  orgNetworkRefetch?: () => void;
   action: string;
 }
 
@@ -56,17 +61,11 @@ export default function SiteModal(props: siteProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-
-  const {
-    data: organizationList,
-    refetch,
-    isFetching: isOrgListFetching,
-  } = useOrganizationsListQuery({
-    page: 1,
-  });
-  const selectedOrganization = useAppSelector(
-    (state) => state.organization.selectedOrganization
-  );
+  const { data: organizationList, isFetching: isOrgListFetching } =
+    useOrganizationsListQuery({
+      page: 1,
+    });
+  const selectedOrganization = useSelectedOrganization();
 
   useEffect(() => {
     if (props?.name && props?.address) {
@@ -103,7 +102,7 @@ export default function SiteModal(props: siteProps) {
         siteObject,
         addNewSite,
         props.refetch,
-        refetch,
+        props?.refetchHealthorOrgNetwork,
         props?.orgNetworkRefetch
       )
         .then(() => {
@@ -169,7 +168,8 @@ export default function SiteModal(props: siteProps) {
         updateSite,
         props?.refetch,
         "edit",
-        refetch.props?.orgNetworkRefetch
+        props?.refetchHealthorOrgNetwork,
+        props?.orgNetworkRefetch
       )
         .then(() => {
           setTimeout(() => {

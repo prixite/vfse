@@ -22,6 +22,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
         backgroundColor: "#F5F6F7",
         overflowX: "hidden",
       }}
+      className="main-content"
     >
       {!isLoading ? (
         <Switch>

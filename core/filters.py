@@ -1,3 +1,4 @@
+from django.db import models as django_models
 from django_filters import rest_framework as filters
 
 from core import models
@@ -18,3 +19,23 @@ class OrganizationNameFilter(filters.FilterSet):
     class Meta:
         model = models.Organization
         fields = ["name"]
+
+
+class ProductFilter(filters.FilterSet):
+    class Meta:
+        model = models.Product
+        fields = ["manufacturer"]
+
+        filter_overrides = {
+            django_models.ForeignKey: {"filter_class": filters.NumberFilter}
+        }
+
+
+class ProductModelFilter(filters.FilterSet):
+    class Meta:
+        model = models.ProductModel
+        fields = ["modality", "product"]
+
+        filter_overrides = {
+            django_models.ForeignKey: {"filter_class": filters.NumberFilter}
+        }
