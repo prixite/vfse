@@ -63,7 +63,7 @@ class OrganizationPermissionTestCase(BaseTestCase):
             self.client.force_login(user)
             response = self.client.get("/api/organizations/")
             self.assertEqual(response.status_code, response_status)
-            # How to test the format of response, it's a list of dictionaries, what one should be looking for?  #noqa
+            # How to test the format of response, it's a list of dictionaries, what one should be looking for?  # noqa
 
     def test_organization_create_permission(self):
         for user, response_status in [
