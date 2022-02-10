@@ -73,8 +73,21 @@ class OrganizationTestCase(BaseTestCase):
 
 
 class OrganizationDetailTestCase(BaseTestCase):
-    def test_get_super(self):
-        for user in [self.super_admin, self.super_manager]:
+    def test_get_super_or_member(self):
+        for user in [
+            self.super_admin,
+            self.super_manager,
+            self.customer_admin,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
             self.client.force_login(user)
             for organization in models.Organization.objects.all():
                 with self.subTest(user=user, organization=organization):
@@ -82,3 +95,24 @@ class OrganizationDetailTestCase(BaseTestCase):
                         f"/api/organizations/{self.organization.id}/"
                     )
                     self.assertEqual(response.status_code, 200)
+
+    def test_get_outside_user(self):
+        for user in [
+            self.customer_admin,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            self.client.force_login(user)
+            for organization in models.Organization.objects.all():
+                with self.subTest(user=user, organization=organization):
+                    response = self.client.get(
+                        f"/api/organizations/{self.other_organization.id}/"
+                    )
+                    self.assertEqual(response.status_code, 404)
