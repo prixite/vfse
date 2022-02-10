@@ -21,20 +21,47 @@ class UnrestrictedURLsTestCase(BaseTestCase):
 
 
 class OrganizationTestCase(BaseTestCase):
-    def test_get_super(self):
-        for user in [self.super_admin, self.super_manager]:
+    def test_get(self):
+        for user in [
+            self.test_post_super_admin,
+            self.super_manager,
+            self.customer_admin,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
             with self.subTest(user=user):
                 self.client.force_login(user)
                 response = self.client.get("/api/organizations/")
                 self.assertEqual(response.status_code, 200)
 
-    def test_post_super_manager(self):
-        self.client.force_login(self.super_manager)
-        response = self.client.post(
-            "/api/organizations/",
-            data={"name": "Test Organization"},
-        )
-        self.assertEqual(response.status_code, 403)
+    def test_post(self):
+        for user in [
+            self.super_manager,
+            self.customer_admin,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            with self.subTest(user=user):
+                self.client.force_login(user)
+                response = self.client.post(
+                    "/api/organizations/",
+                    data={"name": "Test Organization"},
+                )
+                self.assertEqual(response.status_code, 403)
 
     def test_post_super_admin(self):
         self.client.force_login(self.super_admin)
