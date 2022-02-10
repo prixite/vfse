@@ -367,13 +367,14 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         for data in serializer.validated_data["memberships"]:
             user = models.User.objects.create_user(
                 username=data["email"],
+                password = models.User.objects.make_random_password(),
                 **{key: data[key] for key in ["email", "first_name", "last_name"]},
             )
             self.create_membership(data, user.id)
             self.update_profile(data, user.id)
             self.add_sites(data, user.id)
             self.add_modalities(data, user.id)
-
+        serializer.save()
 
 class OrganizationSeatViewSet(ModelViewSet):
     def get_serializer_class(self):
