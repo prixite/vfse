@@ -116,3 +116,58 @@ class OrganizationDetailTestCase(BaseTestCase):
                         f"/api/organizations/{self.other_organization.id}/"
                     )
                     self.assertEqual(response.status_code, 404)
+
+    def test_patch_super_admin_or_customer_admin(self):
+        for user in [
+            self.super_admin,
+            self.customer_admin,
+        ]:
+            self.client.force_login(user)
+            response = self.client.patch(
+                f"/api/organizations/{self.organization.id}/",
+                data={"name": "Test Organization"},
+            )
+            self.assertEqual(response.status_code, 200)
+
+    def test_patch_other_users(self):
+        for user in [
+            self.super_manager,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            self.client.force_login(user)
+            response = self.client.patch(
+                f"/api/organizations/{self.organization.id}/",
+                data={"name": "Test Organization"},
+            )
+            self.assertEqual(response.status_code, 403)
+
+    def test_delete_super_admin(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.delete(f"/api/organizations/{self.organization.id}/")
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_other_users(self):
+        for user in [
+            self.super_manager,
+            self.customer_admin,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            self.client.force_login(user)
+            response = self.client.delete(f"/api/organizations/{self.organization.id}/")
+            self.assertEqual(response.status_code, 403)
