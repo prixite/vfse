@@ -26,11 +26,15 @@ import ColumnSelector from "@src/components/common/Presentational/ColumnSelector
 import "@src/components/common/Smart/OrganizationSection/OrganizationSection.scss";
 import "@src/components/common/Smart/TopViewBtns/TopViewBtns.scss";
 import { localizedData } from "@src/helpers/utils/language";
-import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   HealthNetwork,
-  useMeReadQuery,
   useOrganizationsHealthNetworksListQuery,
+  useOrganizationsMeReadQuery,
   useOrganizationsSitesListQuery,
 } from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
@@ -82,7 +86,9 @@ const TopViewBtns = ({
   setAction,
   hasData,
 }: Props) => {
-  const { data: currentUser } = useMeReadQuery();
+  const { data: currentUser } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
 
   const history = useHistory();
   const queryParams = new URLSearchParams(location?.search);

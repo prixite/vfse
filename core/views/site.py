@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
 
-from core import forms, models, serializers
+from core import forms, models
 
 
 class HomeView(TemplateView):
@@ -82,19 +82,17 @@ class WelcomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        if self.request.user.is_authenticated:
-            context["user_data"] = serializers.MeSerializer(
-                self.request.user,
-                context={
-                    "request": self.request,
-                    "view": self,
-                },
-            ).data
-
         try:
             client_id = self.request.user.get_default_organization().id
         except AttributeError:
-            client_id = "none"
+            context["url_map"] = {}
+            context["user_data"] = {"flags": []}
+            return context
+
+        if self.request.user.is_authenticated:
+            context["user_data"] = dict(
+                flags=self.request.user.get_organization_flags(client_id)
+            )
 
         context["url_map"] = {
             key: f"{self.prefix}/{client_id}{path}"
