@@ -171,3 +171,56 @@ class OrganizationDetailTestCase(BaseTestCase):
             self.client.force_login(user)
             response = self.client.delete(f"/api/organizations/{self.organization.id}/")
             self.assertEqual(response.status_code, 403)
+
+
+class OrganizationHealthNetworkTest(BaseTestCase):
+    def test_get(self):
+        for user in [
+            self.super_admin,
+            self.super_manager,
+            self.customer_admin,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            with self.subTest(user=user):
+                self.client.force_login(user)
+                response = self.client.get(
+                    f"/api/organizations/{self.organization.id}/health_networks/"
+                )
+                self.assertEqual(response.status_code, 200)
+
+    def test_put(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.put(
+            f"/api/organizations/{self.organization.id}/health_networks/",
+            data={"health_networks": []},
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_put_other_users(self):
+        for user in [
+            self.super_manager,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            with self.subTest(user=user):
+                self.client.force_login(user)
+                response = self.client.put(
+                    f"/api/organizations/{self.organization.id}/health_networks/",
+                    data={"health_networks": []},
+                )
+                self.assertEqual(response.status_code, 403)

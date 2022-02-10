@@ -94,7 +94,10 @@ class CustomerViewSet(OrganizationViewSet):
 
 
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    permission_classes = [IsAuthenticated, permissions.OrganizationReadOnlyPermissions]
+    permission_classes = [
+        IsAuthenticated,
+        permissions.OrganizationHealthNetworksPermission,
+    ]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):

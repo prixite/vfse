@@ -19,6 +19,22 @@ class OrganizationDetailPermission(BasePermission):
         return False
 
 
+class OrganizationHealthNetworksPermission(BasePermission):
+    def has_object_permission(self, request, view, organization):
+        if request.method in SAFE_METHODS or request.user.is_superuser:
+            return True
+
+        if request.method.lower() in ["patch", "put"]:
+            return models.Organization.objects.filter(
+                id__in=request.user.get_organizations(
+                    roles=[models.Role.CUSTOMER_ADMIN]
+                ),
+                id=organization.id,
+            ).exists()
+
+        return False
+
+
 class OrganizationReadOnlyPermissions(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_superuser:
