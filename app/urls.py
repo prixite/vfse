@@ -25,7 +25,7 @@ schema_view = get_schema_view(
 
 api_urlpatterns = [
     path(
-        "api/me/",
+        "api/organizations/<int:pk>/me/",
         api.MeViewSet.as_view(
             {
                 "get": "retrieve",

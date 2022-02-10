@@ -58,9 +58,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.manufacturerImage,
       }),
     }),
-    meRead: build.query<MeReadApiResponse, MeReadApiArg>({
-      query: () => ({ url: `/me/` }),
-    }),
     modalitiesList: build.query<
       ModalitiesListApiResponse,
       ModalitiesListApiArg
@@ -168,6 +165,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: "PUT",
         body: queryArg.organizationHealthNetwork,
       }),
+    }),
+    organizationsMeRead: build.query<
+      OrganizationsMeReadApiResponse,
+      OrganizationsMeReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/organizations/${queryArg.id}/me/` }),
     }),
     organizationsSeatsList: build.query<
       OrganizationsSeatsListApiResponse,
@@ -439,8 +442,6 @@ export type ManufacturersImagesCreateApiResponse =
 export type ManufacturersImagesCreateApiArg = {
   manufacturerImage: ManufacturerImage;
 };
-export type MeReadApiResponse = /** status 200  */ Me;
-export type MeReadApiArg = void;
 export type ModalitiesListApiResponse = /** status 200  */ Modality[];
 export type ModalitiesListApiArg = void;
 export type ModalitiesManufacturersListApiResponse =
@@ -498,6 +499,10 @@ export type OrganizationsHealthNetworksUpdateApiResponse =
 export type OrganizationsHealthNetworksUpdateApiArg = {
   id: string;
   organizationHealthNetwork: OrganizationHealthNetwork;
+};
+export type OrganizationsMeReadApiResponse = /** status 200  */ Me;
+export type OrganizationsMeReadApiArg = {
+  id: string;
 };
 export type OrganizationsSeatsListApiResponse = /** status 200  */ SeatList[];
 export type OrganizationsSeatsListApiArg = {
@@ -682,6 +687,14 @@ export type Manufacturer = {
 export type ManufacturerImage = {
   image?: string | null;
 };
+export type Modality = {
+  id?: number;
+  name: string;
+};
+export type NoteSerialier = {
+  id?: number;
+  note: string;
+};
 export type Appearance2 = {
   sidebar_text?: string;
   button_text?: string;
@@ -701,24 +714,6 @@ export type Organization = {
   appearance?: Appearance2;
   sites?: MetaSite[];
 };
-export type Me = {
-  id?: number;
-  first_name?: string;
-  last_name?: string;
-  flags?: string;
-  organization?: Organization;
-  role?: string;
-  profile_picture: string;
-  is_superuser?: boolean;
-};
-export type Modality = {
-  id?: number;
-  name: string;
-};
-export type NoteSerialier = {
-  id?: number;
-  note: string;
-};
 export type HealthNetworkCreate = {
   id?: number | null;
   name: string;
@@ -728,6 +723,16 @@ export type HealthNetworkCreate = {
 export type OrganizationHealthNetwork = {
   id?: number;
   health_networks: HealthNetworkCreate[];
+};
+export type Me = {
+  id?: number;
+  first_name?: string;
+  last_name?: string;
+  flags?: string;
+  organization?: Organization;
+  role?: string;
+  profile_picture: string;
+  is_superuser?: boolean;
 };
 export type HisRisInfo = {
   ip: string;
@@ -905,7 +910,6 @@ export const {
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,
   useManufacturersImagesCreateMutation,
-  useMeReadQuery,
   useModalitiesListQuery,
   useModalitiesManufacturersListQuery,
   useNotesPartialUpdateMutation,
@@ -919,6 +923,7 @@ export const {
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
+  useOrganizationsMeReadQuery,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,

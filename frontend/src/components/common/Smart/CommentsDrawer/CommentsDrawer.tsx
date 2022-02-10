@@ -6,12 +6,16 @@ import { toast } from "react-toastify";
 
 import CommentCard from "@src/components/common/Presentational/CommentCard/CommentCard";
 import { addNewSystemNoteService } from "@src/services/systemServices";
-import { useAppSelector, useAppDispatch } from "@src/store/hooks";
+import {
+  useAppSelector,
+  useAppDispatch,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import "@src/components/common/Smart/CommentsDrawer/CommentsDrawer.scss";
 import {
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
-  useMeReadQuery,
+  useOrganizationsMeReadQuery,
 } from "@src/store/reducers/api";
 import { closeSystemDrawer } from "@src/store/reducers/appStore";
 
@@ -35,7 +39,9 @@ const CommentsDrawer = () => {
       skip: !systemID,
     }
   );
-  const { data: me } = useMeReadQuery();
+  const { data: me } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
   const [addNewNote] = useSystemsNotesCreateMutation();
   useEffect(() => {
     if (openSystemNotesDrawer) {

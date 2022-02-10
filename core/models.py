@@ -134,6 +134,50 @@ class User(AbstractUser):
             organization=organization_pk,
         ).role
 
+    def get_organization_flags(self, organization_pk):
+        organization_flag = "organization"
+        modality_flag = "modality"
+        user_flag = "user"
+        documentation_flag = "documentation"
+        vfse_flag = "vfse"
+        appearance_flag = "appearance"
+
+        if self.is_superuser:
+            return sorted(
+                {
+                    organization_flag,
+                    modality_flag,
+                    user_flag,
+                    documentation_flag,
+                    vfse_flag,
+                    appearance_flag,
+                }
+            )
+
+        if self.is_supermanager:
+            return {modality_flag}
+
+        to_modules = {
+            Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag, appearance_flag},
+            Role.FSE_ADMIN: {vfse_flag, modality_flag},
+            Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
+            Role.USER_ADMIN: {user_flag},
+            Role.FSE: {vfse_flag},
+            Role.END_USER: {modality_flag},
+            Role.VIEW_ONLY: {modality_flag},
+            Role.ONE_TIME: {vfse_flag},
+        }
+
+        flags = set()
+        for membership in Membership.objects.filter(
+            user=self,
+            organization=organization_pk,
+        ):
+            flags |= to_modules[membership.role]
+
+        return sorted(flags)
+
     def get_site_systems(self, site_pk):
         return System.objects.filter(
             id__in=self.get_systems(),

@@ -32,8 +32,8 @@ import {
 } from "@src/store/hooks";
 import {
   Organization,
-  useMeReadQuery,
   useOrganizationsListQuery,
+  useOrganizationsMeReadQuery,
 } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
@@ -113,7 +113,14 @@ export default function SideBar() {
     useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
 
-  const { data: me } = useMeReadQuery();
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
