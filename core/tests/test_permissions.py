@@ -27,7 +27,22 @@ class OrganizationTestCase(BaseTestCase):
                 self.client.force_login(user)
                 response = self.client.get("/api/organizations/")
                 self.assertEqual(response.status_code, 200)
-                self.assertEqual(len(response.json()), 3)
+
+    def test_post_super_manager(self):
+        self.client.force_login(self.super_manager)
+        response = self.client.post(
+            "/api/organizations/",
+            data={"name": "Test Organization"},
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_super_admin(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.post(
+            "/api/organizations/",
+            data={"name": "Test Organization"},
+        )
+        self.assertEqual(response.status_code, 201)
 
 
 class OrganizationDetailTestCase(BaseTestCase):
