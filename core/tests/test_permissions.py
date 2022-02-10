@@ -23,7 +23,7 @@ class UnrestrictedURLsTestCase(BaseTestCase):
 class OrganizationTestCase(BaseTestCase):
     def test_get(self):
         for user in [
-            self.test_post_super_admin,
+            self.super_admin,
             self.super_manager,
             self.customer_admin,
             self.fse_admin,
