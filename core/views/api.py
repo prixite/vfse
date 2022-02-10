@@ -586,14 +586,6 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
         )
 
 
-class HealthNetworkViewSet(OrganizationViewSet):
-    serializer_class = serializers.HealthNetworkSerializer
-    filterset_class = filters.OrganizationNameFilter
-
-    def get_queryset(self):
-        return super().get_queryset().prefetch_related("sites")
-
-
 class ProductViewSet(ModelViewSet):
     serializer_class = serializers.ProductSerializer
     filterset_class = filters.ProductFilter

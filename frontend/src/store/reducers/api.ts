@@ -11,15 +11,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userRequestAcessSeriazlizer,
       }),
     }),
-    healthNetworksList: build.query<
-      HealthNetworksListApiResponse,
-      HealthNetworksListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/health_networks/`,
-        params: { name: queryArg.name },
-      }),
-    }),
     lambdaPartialUpdate: build.mutation<
       LambdaPartialUpdateApiResponse,
       LambdaPartialUpdateApiArg
@@ -422,10 +413,6 @@ export type AccountsRequestsCreateApiResponse =
 export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
-export type HealthNetworksListApiResponse = /** status 200  */ HealthNetwork[];
-export type HealthNetworksListApiArg = {
-  name?: string;
-};
 export type LambdaPartialUpdateApiResponse = unknown;
 export type LambdaPartialUpdateApiArg = void;
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
@@ -665,20 +652,6 @@ export type UserRequestAcessSeriazlizer = {
   documentation_url: boolean;
   health_networks: number[];
 };
-export type Appearance = {
-  logo: string;
-};
-export type MetaSite = {
-  id?: number;
-  name: string;
-  address: string;
-};
-export type HealthNetwork = {
-  id?: number;
-  name: string;
-  appearance?: Appearance;
-  sites?: MetaSite[];
-};
 export type Manufacturer = {
   id?: number;
   name: string;
@@ -695,7 +668,7 @@ export type NoteSerialier = {
   id?: number;
   note: string;
 };
-export type Appearance2 = {
+export type Appearance = {
   sidebar_text?: string;
   button_text?: string;
   sidebar_color?: string;
@@ -707,17 +680,31 @@ export type Appearance2 = {
   banner?: string;
   icon?: string;
 };
+export type MetaSite = {
+  id?: number;
+  name: string;
+  address: string;
+};
 export type Organization = {
   id?: number;
   name: string;
   number_of_seats?: number | null;
+  appearance?: Appearance;
+  sites?: MetaSite[];
+};
+export type Appearance2 = {
+  logo: string;
+};
+export type HealthNetwork = {
+  id?: number;
+  name: string;
   appearance?: Appearance2;
   sites?: MetaSite[];
 };
 export type HealthNetworkCreate = {
   id?: number | null;
   name: string;
-  appearance?: Appearance;
+  appearance?: Appearance2;
   sites?: MetaSite[];
 };
 export type OrganizationHealthNetwork = {
@@ -904,7 +891,6 @@ export type UserEnableDisable = {
 };
 export const {
   useAccountsRequestsCreateMutation,
-  useHealthNetworksListQuery,
   useLambdaPartialUpdateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
