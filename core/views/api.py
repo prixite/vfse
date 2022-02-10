@@ -31,13 +31,7 @@ class DistinctOrganizationViewSet(ModelViewSet):
         return models.Organization.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
-        try:
-            self.filter_queryset(self.get_queryset()).get()
-            return Response({"ok": True})
-        except models.Organization.DoesNotExist:
-            return Response({"ok": False})
-        except models.Organization.MultipleObjectsReturned:
-            return Response({"ok": False})
+        return Response({"ok": self.filter_queryset(self.get_queryset()).exists()})
 
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
