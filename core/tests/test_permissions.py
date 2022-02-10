@@ -229,3 +229,37 @@ class OrganizationHealthNetworkTest(BaseTestCase):
                     data={"health_networks": []},
                 )
                 self.assertEqual(response.status_code, 403)
+
+    def test_post(self):
+        for user in [
+            self.super_admin,
+            self.customer_admin,
+        ]:
+            with self.subTest(user=user):
+                self.client.force_login(user)
+                response = self.client.post(
+                    f"/api/organizations/{self.organization.id}/health_networks/",
+                    data={"name": user.email},
+                )
+                self.assertEqual(response.status_code, 201)
+
+    def test_post_other_users(self):
+        for user in [
+            self.super_manager,
+            self.fse_admin,
+            self.user_admin,
+            self.fse,
+            self.end_user,
+            self.view_only,
+            self.one_time,
+            self.cryo,
+            self.cryo_fse,
+            self.cryo_admin,
+        ]:
+            with self.subTest(user=user):
+                self.client.force_login(user)
+                response = self.client.patch(
+                    f"/api/organizations/{self.organization.id}/health_networks/",
+                    data={"name": user.email},
+                )
+                self.assertEqual(response.status_code, 403)
