@@ -28,3 +28,15 @@ class OrganizationTestCase(BaseTestCase):
                 response = self.client.get("/api/organizations/")
                 self.assertEqual(response.status_code, 200)
                 self.assertEqual(len(response.json()), 3)
+
+
+class OrganizationDetailTestCase(BaseTestCase):
+    def test_get_super(self):
+        for user in [self.super_admin, self.super_manager]:
+            self.client.force_login(user)
+            for organization in models.Organization.objects.all():
+                with self.subTest(user=user, organization=organization):
+                    response = self.client.get(
+                        f"/api/organizations/{self.organization.id}/"
+                    )
+                    self.assertEqual(response.status_code, 200)
