@@ -197,12 +197,17 @@ class OrganizationHealthNetworkTest(BaseTestCase):
                 self.assertEqual(response.status_code, 200)
 
     def test_put(self):
-        self.client.force_login(self.super_admin)
-        response = self.client.put(
-            f"/api/organizations/{self.organization.id}/health_networks/",
-            data={"health_networks": []},
-        )
-        self.assertEqual(response.status_code, 200)
+        for user in [
+            self.super_admin,
+            self.customer_admin,
+        ]:
+            with self.subTest(user=user):
+                self.client.force_login(self.super_admin)
+                response = self.client.put(
+                    f"/api/organizations/{self.organization.id}/health_networks/",
+                    data={"health_networks": []},
+                )
+                self.assertEqual(response.status_code, 200)
 
     def test_put_other_users(self):
         for user in [
