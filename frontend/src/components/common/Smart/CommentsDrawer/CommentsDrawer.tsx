@@ -42,7 +42,6 @@ const CommentsDrawer = () => {
   const { data: me } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
-  console.log(me);
   const [addNewNote] = useSystemsNotesCreateMutation();
   useEffect(() => {
     if (openSystemNotesDrawer) {

@@ -113,9 +113,14 @@ export default function SideBar() {
     useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
 
-  const { data: me } = useOrganizationsMeReadQuery({
-    id: selectedOrganization.id.toString(),
-  });
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
   };
