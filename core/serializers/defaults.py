@@ -1,3 +1,6 @@
+from core import models
+
+
 class OrganizationAppearanceDefault:
     def __call__(self):
         return {
@@ -19,6 +22,15 @@ class DefaultOrganizationDefault:
 
     def __call__(self, serializer_field):
         return serializer_field.context["request"].user.get_default_organization()
+
+
+class URLOrganizationDefault:
+    requires_context = True
+
+    def __call__(self, serializer_field):
+        return models.Organization.objects.get(
+            id=serializer_field.context["view"].kwargs["pk"]
+        )
 
 
 class HisInfoDefault:

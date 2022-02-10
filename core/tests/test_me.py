@@ -19,7 +19,7 @@ class MeTestCase(BaseTestCase):
             (self.customer_admin, ["modality", "organization"], self.organization.id),
         ]:
             self.client.force_login(user)
-            response = self.client.get("/api/me/")
+            response = self.client.get(f"/api/organizations/{self.organization.id}/me/")
 
             data = response.json()
             self.assertDictEqual(

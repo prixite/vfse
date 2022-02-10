@@ -90,7 +90,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
 
 class MeSerializer(serializers.ModelSerializer):
-    organization = OrganizationSerializer(default=defaults.DefaultOrganizationDefault())
+    organization = OrganizationSerializer(default=defaults.URLOrganizationDefault())
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
@@ -110,54 +110,11 @@ class MeSerializer(serializers.ModelSerializer):
 
     def get_role(self, obj):
         user = self.context["view"].request.user
-        return user.get_organization_role(user.get_default_organization())
+        return user.get_organization_role(self.context["view"].kwargs["pk"])
 
     def get_flags(self, user):
-        organization_flag = "organization"
-        modality_flag = "modality"
-        user_flag = "user"
-        documentation_flag = "documentation"
-        vfse_flag = "vfse"
-        appearance_flag = "appearance"
-
-        if user.is_superuser:
-            return sorted(
-                {
-                    organization_flag,
-                    modality_flag,
-                    user_flag,
-                    documentation_flag,
-                    vfse_flag,
-                    appearance_flag,
-                }
-            )
-
-        if user.is_supermanager:
-            return {modality_flag}
-
-        to_modules = {
-            models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            models.Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag, appearance_flag},
-            models.Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            models.Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
-            models.Role.USER_ADMIN: {user_flag},
-            models.Role.FSE: {vfse_flag},
-            models.Role.END_USER: {modality_flag},
-            models.Role.VIEW_ONLY: {modality_flag},
-            models.Role.ONE_TIME: {vfse_flag},
-            models.Role.CRYO: {modality_flag},
-            models.Role.CRYO_FSE: {modality_flag},
-            models.Role.CRYO_ADMIN: {modality_flag},
-        }
-
-        flags = set()
-        for membership in models.Membership.objects.filter(
-            user=user,
-            organization=user.get_default_organization(),
-        ):
-            flags |= to_modules[membership.role]
-
-        return sorted(flags)
+        user = self.context["view"].request.user
+        return user.get_organization_flags(self.context["view"].kwargs["pk"])
 
 
 class HealthNetworkAppearanceSerializer(serializers.Serializer):

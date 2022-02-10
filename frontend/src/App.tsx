@@ -8,7 +8,7 @@ import RoutesHOC from "@src/components/hoc/routesHOC";
 import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
-  useMeReadQuery,
+  useOrganizationsMeReadQuery,
   useOrganizationsReadQuery,
 } from "@src/store/reducers/api";
 import {
@@ -34,16 +34,15 @@ const App = () => {
   const params: match<{ id: string }> = matchPath(pathname, {
     path: "/clients/:id",
   });
-  const [idParam, setIDParam] = useState(params);
-  const { data, isFetching } = useMeReadQuery();
+  const { data, isFetching } = useOrganizationsMeReadQuery({
+    id: params.params.id,
+  });
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: idParam?.params.id,
+      id: params.params.id,
     });
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    setIDParam(params);
-  }, []);
+
   useEffect(() => {
     setIsLoading(true);
     if (!isFetching && !FetchingList) {
