@@ -1,5 +1,6 @@
 import ArticleIcon from "@mui/icons-material/Article";
 import CategoryIcon from "@mui/icons-material/Category";
+import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -34,7 +35,7 @@ export const routes: routeItem[] = [
     path: "/systems/",
     component: SystemsView,
     flag: "modality",
-    icon: HomeIcon,
+    icon: FolderOpenOutlinedIcon,
   },
   {
     name: "Organization Administration",
