@@ -15,12 +15,14 @@ import {
   Collapse,
 } from "@mui/material";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
+import { isMobile } from "react-device-detect";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
+import MobileNavbar from "@src/components/shared/Layout/MobileNavbar/MobileNavbar";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
@@ -300,72 +302,81 @@ export default function SideBar() {
     }, 0);
   };
   return (
-    <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
-      {open ? <div className="overlay" onClick={toggleDrawer} /> : ""}
-      <Drawer
-        variant="permanent"
-        open={open}
-        bgcolor={sideBarBackground}
-        textcolor={sideBarTextColor}
-      >
-        <List className="leftLists">
-          <ListItem button style={{ marginBottom: "0px", cursor: "initial" }}>
-            <ListItemIcon
-              className="client-image"
-              style={{ marginBottom: "0px", cursor: "initial" }}
-            >
-              <img
-                src={selectedOrganization?.appearance?.logo}
-                className="img"
-              />
-            </ListItemIcon>
-          </ListItem>
-          <ListItem button component="a" className="item-margin">
-            <ListItemIcon style={{ color: sideBarTextColor }}>
-              <AddIcon
-                onClick={() => {
-                  history.push(
-                    `/${organizationRoute}/${selectedOrganization?.id}/`
-                  );
-                  setCurrentRoute("/");
-                  dispatch(openAddModal());
-                }}
-              />
-            </ListItemIcon>
-          </ListItem>
-          <ListItem
-            button
-            component="a"
-            className="item-margin"
-            style={{ marginBottom: "10px" }}
+    <>
+      {!isMobile ? (
+        <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
+          {open ? <div className="overlay" onClick={toggleDrawer} /> : ""}
+          <Drawer
+            variant="permanent"
+            open={open}
+            bgcolor={sideBarBackground}
+            textcolor={sideBarTextColor}
           >
-            <ListItemIcon style={{ color: sideBarTextColor }}>
-              <SearchIcon onClick={onSearchClick} />
-            </ListItemIcon>
-          </ListItem>
-          {!isOrgListLoading && createClients()}
-          <ListItem
-            button
-            className="drawer-btn open-btn"
-            onClick={toggleDrawer}
-          >
-            <ListItemIcon>
-              {open ? <img src={CloseBtn} /> : <img src={OpenBtn} />}
-            </ListItemIcon>
-          </ListItem>
-          <ListItem button className="user-image">
-            <ListItemIcon>
-              <ProfilePopOver
-                profilePicture={me?.profile_picture}
-                className="image"
-              />
-            </ListItemIcon>
-          </ListItem>
-        </List>
-        <List style={{ position: "relative" }} className="right-content">
-          {createLinks()}
-        </List>
-      </Drawer>
-    </Box>
+            <List className="leftLists">
+              <ListItem
+                button
+                style={{ marginBottom: "0px", cursor: "initial" }}
+              >
+                <ListItemIcon
+                  className="client-image"
+                  style={{ marginBottom: "0px", cursor: "initial" }}
+                >
+                  <img
+                    src={selectedOrganization?.appearance?.logo}
+                    className="img"
+                  />
+                </ListItemIcon>
+              </ListItem>
+              <ListItem button component="a" className="item-margin">
+                <ListItemIcon style={{ color: sideBarTextColor }}>
+                  <AddIcon
+                    onClick={() => {
+                      history.push(
+                        `/${organizationRoute}/${selectedOrganization?.id}/`
+                      );
+                      setCurrentRoute("/");
+                      dispatch(openAddModal());
+                    }}
+                  />
+                </ListItemIcon>
+              </ListItem>
+              <ListItem
+                button
+                component="a"
+                className="item-margin"
+                style={{ marginBottom: "10px" }}
+              >
+                <ListItemIcon style={{ color: sideBarTextColor }}>
+                  <SearchIcon onClick={onSearchClick} />
+                </ListItemIcon>
+              </ListItem>
+              {!isOrgListLoading && createClients()}
+              <ListItem
+                button
+                className="drawer-btn open-btn"
+                onClick={toggleDrawer}
+              >
+                <ListItemIcon>
+                  {open ? <img src={CloseBtn} /> : <img src={OpenBtn} />}
+                </ListItemIcon>
+              </ListItem>
+              <ListItem button className="user-image">
+                <ListItemIcon>
+                  <ProfilePopOver
+                    profilePicture={me?.profile_picture}
+                    className="image"
+                  />
+                </ListItemIcon>
+              </ListItem>
+            </List>
+            <List style={{ position: "relative" }} className="right-content">
+              {createLinks()}
+            </List>
+          </Drawer>
+        </Box>
+      ) : (
+        <MobileNavbar />
+      )}
+    </>
   );
 }

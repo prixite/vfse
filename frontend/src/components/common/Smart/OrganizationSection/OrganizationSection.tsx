@@ -183,7 +183,7 @@ const OrganizationSection = () => {
               {searchText?.length > 2 ? (
                 itemsList && itemsList.length ? (
                   itemsList.map((item, key) => (
-                    <Grid key={key} item xs={6} xl={3} md={4}>
+                    <Grid key={key} item xs={12} xl={3} md={4}>
                       <ClientCard
                         setAction={setAction}
                         setOrganization={setOrganization}
@@ -217,7 +217,7 @@ const OrganizationSection = () => {
                 )
               ) : organizationList && organizationList?.length ? (
                 organizationList.map((item, key) => (
-                  <Grid key={key} item xs={6} xl={3} md={4}>
+                  <Grid key={key} item xs={12} sm={6} xl={3} md={4}>
                     <ClientCard
                       setAction={setAction}
                       setOrganization={setOrganization}
