@@ -1,32 +1,32 @@
 .MobileNavbar {
-    height: 110px;
-    background-color: #142139 !important;
-    z-index: 2000 !important;
-    overflow-x: auto;
-    .mobile-content {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        overflow-y: hidden;
-        .ListIcon {
-            padding : 5px;
-            justify-content: center;
-            align-items: center;
-            width: 40px;
-            height: 40px;
-        }
-        .MobileDrawerList {
-            display: flex;
-            flex-direction: column;
-            width: fit-content;
-            height: fit-content;
-            font-size: 14px;
-            padding: 6px;
-            .css-10hburv-MuiTypography-root  {
-                font-size: 14px;
-                font-family: unset;
-                font-weight: 600;
-            }
-        }
+  height: 110px;
+  background-color: #142139 !important;
+  z-index: 2000 !important;
+  overflow-x: auto;
+  .mobile-content {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    .ListIcon {
+      padding: 5px;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
     }
+    .MobileDrawerList {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      height: fit-content;
+      font-size: 14px;
+      padding: 6px;
+      .css-10hburv-MuiTypography-root {
+        font-size: 14px;
+        font-family: unset;
+        font-weight: 600;
+      }
+    }
+  }
 }
