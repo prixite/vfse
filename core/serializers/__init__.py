@@ -1,5 +1,7 @@
 import re
 
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
@@ -333,6 +335,23 @@ class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
         fields = ["id", "memberships"]
+
+    def create(self, validated_data):
+        usernames = [item["email"] for item in validated_data["memberships"]]
+        opts = {
+            "use_https": self.context["request"].is_secure(),
+            "token_generator": default_token_generator,
+            "from_email": self.context["request"].user.username,
+            "email_template_name": "core/emails/password_reset_email.html",
+            "subject_template_name": "registration/password_reset_subject.txt",
+            "request": self.context["request"],
+            "html_email_template_name": None,
+        }
+        for email in usernames:
+            form = PasswordResetForm(data={"email": email})
+            form.is_valid()
+            form.save(**opts)
+        return usernames
 
 
 class UserEnableDisableSerializer(serializers.Serializer):
