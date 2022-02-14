@@ -152,7 +152,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/modalities/",
+        "api/organizations/<int:pk>/modalities/",
         api.ModalityViewSet.as_view(
             {
                 "get": "list",

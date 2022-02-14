@@ -466,23 +466,20 @@ class ModalityViewSet(ModelViewSet):
     serializer_class = serializers.ModalitySerializer
 
     def get_queryset(self):
-        # TODO: Namespace modality with organization
         if getattr(self, "swagger_fake_view", False):
             return models.Modality.objects.none()
 
-        role = self.request.user.get_organization_role(
-            self.request.user.get_default_organization()
-        )
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
-            or role == models.Role.CUSTOMER_ADMIN
+            or self.request.user.get_organization_role(self.request.kwargs["pk"])
+            == models.Role.CUSTOMER_ADMIN
         ):
             return models.Modality.objects.all()
 
         return models.Modality.objects.filter(
             id__in=models.UserModality.objects.filter(
-                user=self.request.user
+                organization_id=self.kwargs["pk"], user=self.request.user
             ).values_list("modality")
         )
 
@@ -493,7 +490,7 @@ class ModalityManufacturerViewSet(ModelViewSet):
     def get_queryset(self):
         return models.Manufacturer.objects.filter(
             id__in=models.ProductModel.objects.filter(
-                modality=self.kwargs["pk"]
+                modality_id=self.kwargs["pk"],
             ).values_list("product__manufacturer")
         )
 
