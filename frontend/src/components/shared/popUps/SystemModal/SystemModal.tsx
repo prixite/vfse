@@ -886,7 +886,7 @@ export default function SystemModal(props: systemProps) {
                     } // eslint-disable-line
                     options={modalList || []}
                     autoHighlight
-                    getOptionLabel={(option) => option?.name || ""}
+                    getOptionLabel={(option) => option?.model || ""}
                     renderInput={(params) => (
                       <TextField
                         {...params}
