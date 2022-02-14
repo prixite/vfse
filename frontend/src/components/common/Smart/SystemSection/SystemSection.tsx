@@ -121,19 +121,18 @@ const SystemSection = () => {
     systemsRefetch();
   };
 
-  useEffect(()=>{
-   if(!isSystemDataLoading && systemsData?.length){
-     setFirstRender(false);
-   }
-  },[itemsList])
+  useEffect(() => {
+    if (!isSystemDataLoading && systemsData?.length) {
+      setFirstRender(false);
+    }
+  }, [itemsList]);
 
   useEffect(() => {
     if (searchText?.length > 2 && systemList?.results) {
-      setItemsList(systemList?.results)
+      setItemsList(systemList?.results);
     } else if (systemsData?.length && searchText?.length <= 2) {
       setItemsList(systemsData);
-    }
-    else if(!isSystemDataLoading){
+    } else if (!isSystemDataLoading) {
       setFirstRender(false);
     }
   }, [searchText, systemsData, systemList]);
@@ -376,8 +375,7 @@ const SystemSection = () => {
         ) : (
           ""
         )}
-        {
-         !isSystemDataLoading && itemsList && itemsList?.length ? (
+        {!isSystemDataLoading && itemsList && itemsList?.length ? (
           itemsList.map((item, key) => (
             <div key={key} style={{ marginTop: "32px" }}>
               <SystemCard
@@ -387,7 +385,7 @@ const SystemSection = () => {
               />
             </div>
           ))
-        ) : !itemsList?.length && !isSystemDataLoading && !firstRender? (
+        ) : !itemsList?.length && !isSystemDataLoading && !firstRender ? (
           <>
             <NoDataFound
               search
@@ -405,10 +403,9 @@ const SystemSection = () => {
               marginTop: "20%",
             }}
           >
-            <h2>{ searchText.length > 2 ?   searching : 'Loading....'}</h2>
+            <h2>{searchText.length > 2 ? searching : "Loading...."}</h2>
           </div>
-        )
-          }
+        )}
         {open ? (
           <SystemModal
             open={open}

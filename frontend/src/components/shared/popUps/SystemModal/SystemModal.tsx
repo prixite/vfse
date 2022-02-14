@@ -16,6 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
 import { localizedData } from "@src/helpers/utils/language";
@@ -57,13 +58,13 @@ interface siteProps {
   id?: number;
 }
 
-const Loader = ()=>{
-  return(
-    <div style={{width: '100%', textAlign: 'center'}}>
+const Loader = () => {
+  return (
+    <div style={{ width: "100%", textAlign: "center" }}>
       <p>Loading...</p>
     </div>
-  )
-}
+  );
+};
 
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
@@ -117,7 +118,7 @@ export default function SystemModal(props: systemProps) {
   const [virtualMedia, setVirtualMedia] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
   const [modality, setModality] = useState(siteData);
-  const [modalityError, setModalityError] = useState('');
+  const [modalityError, setModalityError] = useState("");
   const [manufacturer, setManufacturer] = useState(manufacturerData);
   const [manufacturerError, setManufacturerError] = useState("");
   const [product, setProduct] = useState(productProps);
@@ -130,37 +131,39 @@ export default function SystemModal(props: systemProps) {
   const [productList, setProductList] = useState([]);
   const [modalList, setModalList] = useState([]);
 
-  
-    const { data: ModalitiesData, isLoading: isModalityLoading } =
+  const { data: ModalitiesData, isLoading: isModalityLoading } =
     useModalitiesListQuery();
 
-    const { data: ManufacturerData, isFetching: isManufacturerLoading } =
-     useModalitiesManufacturersListQuery({
-       id: modality?.id?.toString()
-     },
-     {
-      skip : !modality?.id
-     }
-     );
+  const { data: ManufacturerData, isFetching: isManufacturerLoading } =
+    useModalitiesManufacturersListQuery(
+      {
+        id: modality?.id?.toString(),
+      },
+      {
+        skip: !modality?.id,
+      }
+    );
 
-     const { data: ProductData, isFetching: isProductLoading } =
-     useProductsListQuery({
-       manufacturer: manufacturer?.id
-     },
-     {
-      skip : !manufacturer?.id
-     }
-     );
+  const { data: ProductData, isFetching: isProductLoading } =
+    useProductsListQuery(
+      {
+        manufacturer: manufacturer?.id,
+      },
+      {
+        skip: !manufacturer?.id,
+      }
+    );
 
-const { data: productData, isLoading: isProductsModelsLoading } =
-useProductsModelsListQuery({
-  modality: modality?.id,
-  product: product?.id
-},
-{
-  skip: !product?.id
-}
-);
+  const { data: productData, isLoading: isProductsModelsLoading } =
+    useProductsModelsListQuery(
+      {
+        modality: modality?.id,
+        product: product?.id,
+      },
+      {
+        skip: !product?.id,
+      }
+    );
   const selectedOrganization = useSelectedOrganization();
 
   const {
@@ -695,7 +698,7 @@ useProductsModelsListQuery({
   }, [ProductData]);
 
   useEffect(() => {
-    setModalList(productData)
+    setModalList(productData);
   }, [productData]);
 
   useEffect(() => {
@@ -729,7 +732,7 @@ useProductsModelsListQuery({
           // setModality(data[0]?.modality);
           setModalError("");
         }
-      } 
+      }
     }
   }, [productData, props.open, isProductsModelsLoading]);
 
@@ -774,124 +777,132 @@ useProductsModelsListQuery({
           />
           <div className="client-info">
             <Grid container spacing={2}>
-            <Grid item xs={6}>
+              <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModality}</p>
-                    <Autocomplete
-                      loading={isModalityLoading}
-                      loadingText={<Loader/>}
-                      id="country-select-demo"
-                      sx={{ width: "100%" }}
-                      style={{ height: "48px" }}
-                      value={modality || {}}
-                      options={modalityList || []}
-                      autoHighlight
-                      getOptionLabel={(option) => option?.name || ""}
-                      onChange={(e, item: Modality) =>
-                        handleModality(item)
-                      } 
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password",// disable autocomplete and autofill
-                            placeholder: "Select Modality"
-                          }}
-                        />
-                      )}
-                    />
-                  {modalityError ? <p className="errorText">{modalityError}</p> : ""}
+                  <Autocomplete
+                    loading={isModalityLoading}
+                    loadingText={<Loader />}
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    value={modality || {}}
+                    options={modalityList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    onChange={(e, item: Modality) => handleModality(item)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Modality",
+                        }}
+                      />
+                    )}
+                  />
+                  {modalityError ? (
+                    <p className="errorText">{modalityError}</p>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldManufacturer}</p>
-                    <Autocomplete
-                      id="country-select-demo"
-                      sx={{ width: "100%" }}
-                      style={{ height: "48px" }}
-                      loading={isManufacturerLoading}
-                      value={manufacturer || {}}
-                      loadingText={<Loader/>}
-                      options={manufacturerList || []}
-                      autoHighlight
-                      getOptionLabel={(option) => option?.name || ""}
-                      onChange={(e, item: Manufacturer) =>
-                        handleManufacturer(item)
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                            placeholder: "Select Manufacturer"
-                          }}
-                        />
-                      )}
-                    />
-                  
-                  {manufacturerError ? <p className="errorText">{manufacturerError}</p> : ""}
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    loading={isManufacturerLoading}
+                    value={manufacturer || {}}
+                    loadingText={<Loader />}
+                    options={manufacturerList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    onChange={(e, item: Manufacturer) =>
+                      handleManufacturer(item)
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Manufacturer",
+                        }}
+                      />
+                    )}
+                  />
+
+                  {manufacturerError ? (
+                    <p className="errorText">{manufacturerError}</p>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldProduct}</p>
-                    <Autocomplete
-                      id="country-select-demo"
-                      sx={{ width: "100%" }}
-                      style={{ height: "48px" }}
-                      loading={isProductLoading}
-                      value={product || {}}
-                      loadingText={<Loader/>}
-                      options={productList || []}
-                      autoHighlight
-                      getOptionLabel={(option) => option?.name || ""}
-                      onChange={(e, item: Product) =>
-                        handleProduct(item)
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                            placeholder: "Select Product"
-                          }}
-                        />
-                      )}
-                    />     
-                  {productError ? <p className="errorText">{productError}</p> : ""}
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    loading={isProductLoading}
+                    value={product || {}}
+                    loadingText={<Loader />}
+                    options={productList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    onChange={(e, item: Product) => handleProduct(item)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Product",
+                        }}
+                      />
+                    )}
+                  />
+                  {productError ? (
+                    <p className="errorText">{productError}</p>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldModal}</p>
-                    <Autocomplete
-                      id="country-select-demo"
-                      sx={{ width: "100%" }}
-                      style={{ height: "48px" }}
-                      value={modal || {}}
-                      loading={isProductsModelsLoading}
-                      loadingText={<Loader/>}
-                      onChange={(e, item: ProductModel) =>
-                        handleProductModel(item)
-                      } // eslint-disable-line
-                      options={modalList || []}
-                      autoHighlight
-                      getOptionLabel={(option) => option?.name || ""}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                            placeholder: "Select Product Model"
-                          }}
-                        />
-                      )}
-                    />
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    value={modal || {}}
+                    loading={isProductsModelsLoading}
+                    loadingText={<Loader />}
+                    onChange={(e, item: ProductModel) =>
+                      handleProductModel(item)
+                    } // eslint-disable-line
+                    options={modalList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Product Model",
+                        }}
+                      />
+                    )}
+                  />
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
