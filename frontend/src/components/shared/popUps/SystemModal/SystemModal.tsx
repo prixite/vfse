@@ -731,7 +731,6 @@ export default function SystemModal(props: systemProps) {
     }
   }, [sites, props.system]);
 
-
   const { networkId } = useParams();
 
   const { data: healthNetwork } = useOrganizationsReadQuery({
