@@ -422,10 +422,11 @@ class SystemConnectionOptions(serializers.Serializer):
     )
     ssh = serializers.BooleanField(source="connection_options.ssh")
 
+
 class ProductModelDetailSerializer(serializers.Serializer):
-    product = serializers.IntegerField(source='product_id')
-    manufacturer = serializers.IntegerField(source='product.manufacturer_id')
-    modality = serializers.IntegerField(source='modality_id')
+    product = serializers.IntegerField(source="product_id")
+    manufacturer = serializers.IntegerField(source="product.manufacturer_id")
+    modality = serializers.IntegerField(source="modality_id")
 
 
 class SystemSerializer(serializers.ModelSerializer):
@@ -439,7 +440,10 @@ class SystemSerializer(serializers.ModelSerializer):
 
     image_url = serializers.ReadOnlyField()
     documentation = serializers.ReadOnlyField()
-    product_model_details = ProductModelDetailSerializer(read_only=True,source='product_model')
+    product_model_details = ProductModelDetailSerializer(
+        read_only=True, source="product_model"
+    )
+
     class Meta:
         model = models.System
         fields = [
@@ -464,7 +468,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
             "is_online",
             "last_successful_ping_at",
-            'product_model_details',
+            "product_model_details",
         ]
         validators = [
             UniqueTogetherValidator(

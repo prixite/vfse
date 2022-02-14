@@ -737,6 +737,11 @@ export type ConnectionOptions = {
   service_web_browser: boolean;
   ssh: boolean;
 };
+export type ProductModelDetails = {
+  product: number;
+  manufacturer: number;
+  modality: number;
+};
 export type System = {
   id?: number;
   name: string;
@@ -759,6 +764,7 @@ export type System = {
   documentation?: string;
   is_online?: boolean;
   last_successful_ping_at?: string | null;
+  product_model_details?: ProductModelDetails;
 };
 export type SeatList = {
   system: System;
