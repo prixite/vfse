@@ -33,9 +33,9 @@ import {
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/UserModal/UserModal.scss";
 import {
-  HealthNetwork,
   Modality,
   Organization,
+  useOrganizationsHealthNetworksListQuery,
   useOrganizationsUsersCreateMutation,
   User,
   useUsersPartialUpdateMutation,
@@ -47,7 +47,6 @@ interface Props {
   selectedUser?: number;
   usersData?: Array<User>;
   roles: unknown;
-  networksData?: Array<HealthNetwork>;
   organizationData?: Array<Organization>;
   modalitiesList?: Array<Modality>;
   refetch: () => void;
@@ -82,6 +81,14 @@ export default function UserModal(props: Props) {
     useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const constantData = localizedData()?.users?.popUp;
+  const { data: networksData } = useOrganizationsHealthNetworksListQuery(
+    {
+      id: customer?.toString(),
+    },
+    {
+      skip: !customer,
+    }
+  );
   const {
     addNewUser,
     pageTrackerdesc1,
@@ -175,7 +182,7 @@ export default function UserModal(props: Props) {
       }
       if (editedUser?.sites) {
         const sites_ids: Array<number> = [];
-        props?.networksData?.forEach((item) => {
+        networksData?.forEach((item) => {
           item?.sites?.length &&
             item?.sites?.forEach((site) => {
               editedUser?.sites?.forEach((newSite) => {
@@ -283,7 +290,7 @@ export default function UserModal(props: Props) {
 
   const sitesLength = () => {
     let count = 0;
-    props?.networksData?.forEach((item) => {
+    networksData?.forEach((item) => {
       if (item?.sites?.length) {
         count += item?.sites?.length;
       }
@@ -704,7 +711,7 @@ export default function UserModal(props: Props) {
                     }/${sitesLength()}`}</span>
                   </p>
                 )}
-                {props?.networksData?.map((item, key) =>
+                {networksData?.map((item, key) =>
                   item?.sites?.length ? (
                     <div key={key}>
                       <details className="network-details">

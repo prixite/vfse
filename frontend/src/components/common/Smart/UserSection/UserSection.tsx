@@ -16,7 +16,6 @@ import {
 import { useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsModalitiesListQuery,
-  useOrganizationsHealthNetworksListQuery,
   useOrganizationsListQuery,
   useOrganizationsUsersListQuery,
   User,
@@ -204,9 +203,9 @@ export default function UserSection() {
 
   const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
 
-  const { data: networksData } = useOrganizationsHealthNetworksListQuery({
-    id: selectedOrganization?.id.toString(),
-  });
+  // const { data: networksData } = useOrganizationsHealthNetworksListQuery({
+  //   id: selectedOrganization?.id.toString(),
+  // });
 
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
@@ -357,7 +356,6 @@ export default function UserSection() {
           usersData={items}
           roles={usersRoles}
           action={currentUser ? "edit" : "add"}
-          networksData={networksData}
           organizationData={organizationData}
           modalitiesList={modalitiesList}
           refetch={usersRefetch}
