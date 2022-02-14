@@ -426,8 +426,12 @@ class SystemSerializer(serializers.ModelSerializer):
         source="*",
         default=defaults.ConnectionOptionDefault(),
     )
+
     image_url = serializers.ReadOnlyField()
     documentation = serializers.ReadOnlyField()
+    product_model_detail = ProductModelSerializer(
+        source="product_model", read_only=True
+    )
 
     class Meta:
         model = models.System
@@ -440,6 +444,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "system_contact_info",
             "grafana_link",
             "product_model",
+            "product_model_detail",
             "image",
             "software_version",
             "asset_number",

@@ -2,6 +2,9 @@ import { System } from "@src/store/reducers/api";
 
 export interface SystemModal {
   fieldName: string;
+  fieldManufacturer: string;
+  fieldModality: string;
+  fieldProduct: string;
   fieldLocation: string;
   fieldLink: string;
   fieldNumber: string;

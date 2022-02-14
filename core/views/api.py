@@ -345,7 +345,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         membership = models.Membership.objects.filter(
             organization=self.kwargs["pk"],
             organization__in=self.request.user.get_organizations(
-                role=[models.Role.USER_ADMIN]
+                roles=[models.Role.USER_ADMIN]
             ),
         )
 
@@ -469,19 +469,13 @@ class ModalityViewSet(ModelViewSet):
         if getattr(self, "swagger_fake_view", False):
             return models.Modality.objects.none()
 
-        role = self.request.user.get_organization_role(
-            self.request.user.get_default_organization()
-        )
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
-            or role == models.Role.CUSTOMER_ADMIN
+            or self.request.user.get_organization_role(self.kwargs["pk"])
+            == models.Role.CUSTOMER_ADMIN
         ):
-            return models.Modality.objects.filter(
-                id__in=models.System.objects.filter(
-                    site__organization_id=self.kwargs["pk"]
-                ).values_list("product_model__modality")
-            )
+            return models.Modality.objects.all()
 
         return models.Modality.objects.filter(
             id__in=models.UserModality.objects.filter(

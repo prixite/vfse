@@ -15,7 +15,7 @@ import {
 } from "@src/services/userService";
 import { useSelectedOrganization } from "@src/store/hooks";
 import {
-  useModalitiesListQuery,
+  useOrganizationsModalitiesListQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsListQuery,
   useOrganizationsUsersListQuery,
@@ -197,7 +197,10 @@ export default function UserSection() {
 
   const { data: usersRoles } = useUsersRolesListQuery();
 
-  const { data: modalitiesList } = useModalitiesListQuery();
+  const { data: modalitiesList } = useOrganizationsModalitiesListQuery(
+    { id: selectedOrganization.id.toString() },
+    { skip: !selectedOrganization }
+  );
 
   const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
 

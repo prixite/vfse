@@ -563,7 +563,8 @@ export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
 };
-export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
+export type ProductsModelsListApiResponse =
+  /** status 200  */ ProductModelDetail[];
 export type ProductsModelsListApiArg = {
   modality?: number;
   product?: number;
@@ -726,6 +727,23 @@ export type Modality = {
   id?: number;
   name: string;
 };
+export type Product = {
+  id?: number;
+  name: string;
+  manufacturer: Manufacturer;
+};
+export type Documentation = {
+  id?: number;
+  url: string;
+};
+export type ProductModelDetail = {
+  id?: number;
+  product: Product;
+  model: string;
+  modality: Modality;
+  documentation: Documentation;
+  name?: string;
+};
 export type HisRisInfo = {
   ip: string;
   title: string;
@@ -751,6 +769,7 @@ export type System = {
   system_contact_info?: string | null;
   grafana_link?: string | null;
   product_model: number;
+  product_model_detail?: ProductModelDetail;
   image?: number | null;
   software_version: string;
   asset_number: string;
@@ -850,27 +869,10 @@ export type OrganizationUpsertUser = {
   id?: number;
   memberships: UpsertUser[];
 };
-export type Product = {
-  id?: number;
-  name: string;
-  manufacturer: Manufacturer;
-};
 export type ProductCreate = {
   id?: number;
   name: string;
   manufacturer: number;
-};
-export type Documentation = {
-  id?: number;
-  url: string;
-};
-export type ProductModel = {
-  id?: number;
-  product: Product;
-  model: string;
-  modality: Modality;
-  documentation: Documentation;
-  name?: string;
 };
 export type ProductModelCreate = {
   id?: number;

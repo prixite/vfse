@@ -32,11 +32,17 @@ import {
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
+  Manufacturer,
   useProductsModelsListQuery,
   ProductModel,
+  Modality,
   useOrganizationsSystemsCreateMutation,
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsReadQuery,
+  useModalitiesListQuery,
+  useModalitiesManufacturersListQuery,
+  useProductsListQuery,
+  Product,
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
@@ -52,15 +58,25 @@ interface siteProps {
   id?: number;
 }
 
+const Loader = () => {
+  return (
+    <div style={{ width: "100%", textAlign: "center" }}>
+      <p>Loading...</p>
+    </div>
+  );
+};
+
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
-  let product: ProductModel; // eslint-disable-line
+  let manufacturerData: Manufacturer;
+  let productModel: ProductModel; // eslint-disable-line
+  let productProps: Product;
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const [site, setSite] = useState(siteData);
   const [siteError, setSiteError] = useState("");
-  const [modal, setModal] = useState(product);
+  const [modal, setModal] = useState(productModel);
   const [modalError, setModalError] = useState("");
   const [version, setVersion] = useState("");
   const [versionError, setVersionError] = useState("");
@@ -101,17 +117,60 @@ export default function SystemModal(props: systemProps) {
   const [serviceWeb, setServiceWeb] = useState(false);
   const [virtualMedia, setVirtualMedia] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
+  const [modality, setModality] = useState(siteData);
+  const [modalityError, setModalityError] = useState("");
+  const [manufacturer, setManufacturer] = useState(manufacturerData);
+  const [manufacturerError, setManufacturerError] = useState("");
+  const [product, setProduct] = useState(productProps);
+  const [productError, setProductError] = useState("");
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
   const [sites, setSites] = useState([]);
+  const [manufacturerList, setManufacturerList] = useState([]);
+  const [modalityList, setModalityList] = useState([]);
+  const [productList, setProductList] = useState([]);
+  const [modalList, setModalList] = useState([]);
+
+  const { data: ModalitiesData, isLoading: isModalityLoading } =
+    useModalitiesListQuery();
+
+  const { data: ManufacturerData, isFetching: isManufacturerLoading } =
+    useModalitiesManufacturersListQuery(
+      {
+        id: modality?.id?.toString(),
+      },
+      {
+        skip: !modality?.id,
+      }
+    );
+
+  const { data: ProductData, isFetching: isProductLoading } =
+    useProductsListQuery(
+      {
+        manufacturer: manufacturer?.id,
+      },
+      {
+        skip: !manufacturer?.id,
+      }
+    );
 
   const { data: productData, isLoading: isProductsModelsLoading } =
-    useProductsModelsListQuery({});
-
+    useProductsModelsListQuery(
+      {
+        modality: modality?.id,
+        product: product?.id,
+      },
+      {
+        skip: !product?.id,
+      }
+    );
   const selectedOrganization = useSelectedOrganization();
 
   const {
     fieldName,
+    fieldManufacturer,
+    fieldModality,
+    fieldProduct,
     fieldLocation,
     fieldLink,
     fieldNumber,
@@ -146,12 +205,27 @@ export default function SystemModal(props: systemProps) {
       dName: fieldName,
     },
     {
+      name: modality?.name,
+      setError: setModalityError,
+      dName: fieldModality,
+    },
+    {
+      name: manufacturer?.name,
+      setError: setManufacturerError,
+      dName: fieldManufacturer,
+    },
+    {
+      name: product?.name,
+      setError: setProductError,
+      dName: fieldProduct,
+    },
+    {
       name: grafanaLink,
       setError: setLinkError,
       dName: fieldLink,
     },
     {
-      name: modal,
+      name: modal?.name,
       setError: setModalError,
       dName: fieldModal,
     },
@@ -233,6 +307,10 @@ export default function SystemModal(props: systemProps) {
 
   const editModal = () => {
     setName(props?.system?.name);
+    setModal(props?.system?.product_model_detail);
+    setModality(props?.system?.product_model_detail?.modality);
+    setManufacturer(props?.system?.product_model_detail?.product?.manufacturer);
+    setProduct(props?.system?.product_model_detail?.product);
     setVersion(props?.system?.software_version);
     setIP(props?.system?.ip_address);
     setAsset(props?.system?.asset_number);
@@ -444,6 +522,30 @@ export default function SystemModal(props: systemProps) {
     }
   };
 
+  const handleModality = (item) => {
+    if (item) {
+      setModality(item);
+      setModalityError("");
+      setProduct({});
+      setManufacturer({});
+      setModal({});
+    }
+  };
+
+  const handleManufacturer = (item) => {
+    if (item) {
+      setManufacturer(item);
+      setManufacturerError("");
+    }
+  };
+
+  const handleProduct = (item) => {
+    if (item) {
+      setProduct(item);
+      setProductError("");
+    }
+  };
+
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
       if (!item.name && item.dName !== "Grafana link") {
@@ -591,6 +693,28 @@ export default function SystemModal(props: systemProps) {
   };
 
   useEffect(() => {
+    setModalityList(ModalitiesData);
+  }, [ModalitiesData]);
+
+  useEffect(() => {
+    setManufacturerList(ManufacturerData);
+  }, [ManufacturerData]);
+
+  useEffect(() => {
+    setProductList(ProductData);
+  }, [ProductData]);
+
+  useEffect(() => {
+    setModalList(productData);
+  }, [productData]);
+
+  // useEffect(() => {
+  //   setProduct({});
+  //   setManufacturer({});
+  //   setModal({});
+  // }, [modality]);
+
+  useEffect(() => {
     if (props.system) {
       editModal();
     }
@@ -606,22 +730,6 @@ export default function SystemModal(props: systemProps) {
       }
     }
   }, [sites, props.system]);
-
-  useEffect(() => {
-    if (productData?.length && !isProductsModelsLoading && props?.open) {
-      if (props.system) {
-        const data = returnSearchedOject(
-          productData,
-          props.system.product_model
-        );
-        if (data?.length) {
-          setModal(data[0]);
-        }
-      } else {
-        setModal(productData[0]);
-      }
-    }
-  }, [productData, props.open, isProductsModelsLoading]);
 
   const { networkId } = useParams();
 
@@ -658,6 +766,135 @@ export default function SystemModal(props: systemProps) {
           />
           <div className="client-info">
             <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldModality}</p>
+                  <Autocomplete
+                    loading={isModalityLoading}
+                    loadingText={<Loader />}
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    value={modality || {}}
+                    options={modalityList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    onChange={(e, item: Modality) => handleModality(item)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Modality",
+                        }}
+                      />
+                    )}
+                  />
+                  {modalityError ? (
+                    <p className="errorText">{modalityError}</p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldManufacturer}</p>
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    loading={isManufacturerLoading}
+                    value={manufacturer || {}}
+                    loadingText={<Loader />}
+                    options={manufacturerList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    onChange={(e, item: Manufacturer) =>
+                      handleManufacturer(item)
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Manufacturer",
+                        }}
+                      />
+                    )}
+                  />
+
+                  {manufacturerError ? (
+                    <p className="errorText">{manufacturerError}</p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldProduct}</p>
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    loading={isProductLoading}
+                    value={product || {}}
+                    loadingText={<Loader />}
+                    options={productList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    onChange={(e, item: Product) => handleProduct(item)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Product",
+                        }}
+                      />
+                    )}
+                  />
+                  {productError ? (
+                    <p className="errorText">{productError}</p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">{fieldModal}</p>
+                  <Autocomplete
+                    id="country-select-demo"
+                    sx={{ width: "100%" }}
+                    style={{ height: "48px" }}
+                    value={modal || {}}
+                    loading={isProductsModelsLoading}
+                    loadingText={<Loader />}
+                    onChange={(e, item: ProductModel) =>
+                      handleProductModel(item)
+                    } // eslint-disable-line
+                    options={modalList || []}
+                    autoHighlight
+                    getOptionLabel={(option) => option?.name || ""}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        inputProps={{
+                          ...params.inputProps,
+                          autoComplete: "new-password", // disable autocomplete and autofill
+                          placeholder: "Select Product Model",
+                        }}
+                      />
+                    )}
+                  />
+                  {modalError ? <p className="errorText">{modalError}</p> : ""}
+                </div>
+              </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldName}</p>
@@ -725,37 +962,6 @@ export default function SystemModal(props: systemProps) {
                       setBuildingLocation(e.target.value);
                     }}
                   />
-                </div>
-              </Grid>
-              <Grid item xs={6}>
-                <div className="info-section">
-                  <p className="info-label">{fieldModal}</p>
-                  {!isProductsModelsLoading && productData?.length ? (
-                    <Autocomplete
-                      id="country-select-demo"
-                      sx={{ width: "100%" }}
-                      style={{ height: "48px" }}
-                      value={modal || {}}
-                      onChange={(e, item: ProductModel) =>
-                        handleProductModel(item)
-                      } // eslint-disable-line
-                      options={productData}
-                      autoHighlight
-                      getOptionLabel={(option) => option?.name || ""}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          inputProps={{
-                            ...params.inputProps,
-                            autoComplete: "new-password", // disable autocomplete and autofill
-                          }}
-                        />
-                      )}
-                    />
-                  ) : (
-                    ""
-                  )}
-                  {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
               <Grid item xs={6}>
