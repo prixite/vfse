@@ -401,6 +401,7 @@ class ProductModelSerializer(serializers.ModelSerializer):
         fields = ["id", "product", "model", "modality", "documentation"]
         read_only_fields = ["product"]
 
+
 class SystemImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SystemImage

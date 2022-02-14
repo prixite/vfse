@@ -742,7 +742,6 @@ export type ProductModelDetail = {
   model: string;
   modality: Modality;
   documentation: Documentation;
-  name?: string;
 };
 export type HisRisInfo = {
   ip: string;

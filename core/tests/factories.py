@@ -300,6 +300,7 @@ class ProductFactory(factory.django.DjangoModelFactory):
 class ProductModelFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ProductModel
+
     model = fake.unique.name()
     product = factory.SubFactory(ProductFactory)
     modality = factory.SubFactory(ModalityFactory)
