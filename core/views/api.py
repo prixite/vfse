@@ -478,13 +478,14 @@ class ModalityViewSet(ModelViewSet):
             or role == models.Role.CUSTOMER_ADMIN
         ):
             return models.Modality.objects.filter(
-                id__in = models.System.objects.filter(site__organization_id=self.kwargs['pk']).values_list('product_model__modality')
+                id__in=models.System.objects.filter(
+                    site__organization_id=self.kwargs["pk"]
+                ).values_list("product_model__modality")
             )
 
         return models.Modality.objects.filter(
             id__in=models.UserModality.objects.filter(
-                organization_id = self.kwargs['pk'],
-                user=self.request.user
+                organization_id=self.kwargs["pk"], user=self.request.user
             ).values_list("modality")
         )
 
