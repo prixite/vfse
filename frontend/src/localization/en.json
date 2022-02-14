@@ -212,6 +212,9 @@
     },
     "systemModal" : {
         "fieldName": "Name",
+        "fieldManufacturer": "Manufacturer",
+        "fieldModality": "Modality",
+        "fieldProduct": "Product",
         "fieldLocation": "Location in the building",
         "fieldLink": "Grafana link",
         "fieldNumber": "Serial Number",

@@ -36,8 +36,6 @@ const SystemSection = () => {
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
-  const [hasData, setHasData] = useState(false);
-  const [firstRender, setFirstRender] = useState(true);
   // eslint-disable-next-line
   const [system, setSystem] = useState(null);
   const [index, setIndex] = useState(null);
@@ -45,6 +43,7 @@ const SystemSection = () => {
   const [systemList, setSystemList] = useState({});
   const [itemsList, setItemsList] = useState<Array<Modality>>([]);
   const [searchText, setSearchText] = useState("");
+  const [firstRender, setFirstRender] = useState(true);
   const [modality, setModality] = useState();
   const { organizationRoute } = constants;
   const { siteId, networkId } =
@@ -67,16 +66,6 @@ const SystemSection = () => {
     isLoading: isSystemDataLoading,
     refetch: systemsRefetch,
   } = useOrganizationsSystemsListQuery(apiArgData);
-
-  const handleSearchQuery = (searchQuery: string) => {
-    setItemsList(
-      systemsData?.filter((user) => {
-        return (
-          user?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !== -1
-        );
-      })
-    );
-  };
 
   useEffect(() => {
     modalitiesList?.length &&
@@ -133,17 +122,17 @@ const SystemSection = () => {
   };
 
   useEffect(() => {
-    if (searchText?.length > 2 && systemList && systemList.results?.length) {
+    if (!isSystemDataLoading && systemsData?.length) {
       setFirstRender(false);
-      setItemsList(itemsList);
-      handleSearchQuery(searchText);
-      setHasData(true);
+    }
+  }, [itemsList]);
+
+  useEffect(() => {
+    if (searchText?.length > 2 && systemList?.results) {
+      setItemsList(systemList?.results);
     } else if (systemsData?.length && searchText?.length <= 2) {
       setItemsList(systemsData);
-      setHasData(true);
-      setFirstRender(false);
-    } else {
-      setHasData(false);
+    } else if (!isSystemDataLoading) {
       setFirstRender(false);
     }
   }, [searchText, systemsData, systemList]);
@@ -382,7 +371,6 @@ const SystemSection = () => {
             actualData={systemsData}
             searchText={searchText}
             setSearchText={setSearchText}
-            hasData={hasData}
           />
         ) : (
           ""
@@ -397,7 +385,7 @@ const SystemSection = () => {
               />
             </div>
           ))
-        ) : !isSystemDataLoading && !firstRender ? (
+        ) : !itemsList?.length && !isSystemDataLoading && !firstRender ? (
           <>
             <NoDataFound
               search
@@ -415,7 +403,7 @@ const SystemSection = () => {
               marginTop: "20%",
             }}
           >
-            <h2>{searching}</h2>
+            <h2>{searchText.length > 2 ? searching : "Loading...."}</h2>
           </div>
         )}
         {open ? (
