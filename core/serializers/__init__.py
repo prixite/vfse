@@ -395,16 +395,11 @@ class ProductModelSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
     modality = ModalitySerializer()
     documentation = DocumentationSerializer()
-    name = serializers.SerializerMethodField()
 
     class Meta:
         model = models.ProductModel
-        fields = ["id", "product", "model", "modality", "documentation", "name"]
+        fields = ["id", "product", "model", "modality", "documentation"]
         read_only_fields = ["product"]
-
-    def get_name(self, obj):
-        return f"{obj.product.manufacturer.name} - {obj.product.name} - {obj.model}"
-
 
 class SystemImageSerializer(serializers.ModelSerializer):
     class Meta:
