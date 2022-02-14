@@ -1757,6 +1757,91 @@
                 }
             }
         },
+        "Product": {
+            "title": "Product",
+            "description": "Product(id, name, manufacturer, created_at, updated_at)",
+            "required": [
+                "name",
+                "manufacturer"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
+                },
+                "manufacturer": {
+                    "$ref": "#/definitions/Manufacturer"
+                }
+            }
+        },
+        "Documentation": {
+            "title": "Documentation",
+            "description": "Documentation(id, url, created_at, updated_at)",
+            "required": [
+                "url"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "url": {
+                    "title": "Url",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1
+                }
+            }
+        },
+        "ProductModel": {
+            "title": "Product model detail",
+            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
+            "required": [
+                "product",
+                "model",
+                "modality",
+                "documentation"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "product": {
+                    "$ref": "#/definitions/Product"
+                },
+                "model": {
+                    "title": "Model",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "modality": {
+                    "$ref": "#/definitions/Modality"
+                },
+                "documentation": {
+                    "$ref": "#/definitions/Documentation"
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
         "SystemInfo": {
             "title": "His ris info",
             "description": "",
@@ -1849,30 +1934,6 @@
                 }
             }
         },
-        "ProductModelDetail": {
-            "title": "Product model details",
-            "description": "",
-            "required": [
-                "product",
-                "manufacturer",
-                "modality"
-            ],
-            "type": "object",
-            "properties": {
-                "product": {
-                    "title": "Product",
-                    "type": "integer"
-                },
-                "manufacturer": {
-                    "title": "Manufacturer",
-                    "type": "integer"
-                },
-                "modality": {
-                    "title": "Modality",
-                    "type": "integer"
-                }
-            }
-        },
         "System": {
             "title": "System",
             "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, last_successful_ping_at, created_at, updated_at)",
@@ -1930,6 +1991,9 @@
                 "product_model": {
                     "title": "Product model",
                     "type": "integer"
+                },
+                "product_model_detail": {
+                    "$ref": "#/definitions/ProductModel"
                 },
                 "image": {
                     "title": "Image",
@@ -1990,9 +2054,6 @@
                     "type": "string",
                     "format": "date-time",
                     "x-nullable": true
-                },
-                "product_model_details": {
-                    "$ref": "#/definitions/ProductModelDetail"
                 }
             }
         },
@@ -2422,30 +2483,6 @@
                 }
             }
         },
-        "Product": {
-            "description": "Product(id, name, manufacturer, created_at, updated_at)",
-            "required": [
-                "name",
-                "manufacturer"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 32,
-                    "minLength": 1
-                },
-                "manufacturer": {
-                    "$ref": "#/definitions/Manufacturer"
-                }
-            }
-        },
         "ProductCreate": {
             "description": "Product(id, name, manufacturer, created_at, updated_at)",
             "required": [
@@ -2468,65 +2505,6 @@
                 "manufacturer": {
                     "title": "Manufacturer",
                     "type": "integer"
-                }
-            }
-        },
-        "Documentation": {
-            "title": "Documentation",
-            "description": "Documentation(id, url, created_at, updated_at)",
-            "required": [
-                "url"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "url": {
-                    "title": "Url",
-                    "type": "string",
-                    "format": "uri",
-                    "maxLength": 200,
-                    "minLength": 1
-                }
-            }
-        },
-        "ProductModel": {
-            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
-            "required": [
-                "product",
-                "model",
-                "modality",
-                "documentation"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "product": {
-                    "$ref": "#/definitions/Product"
-                },
-                "model": {
-                    "title": "Model",
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 1
-                },
-                "modality": {
-                    "$ref": "#/definitions/Modality"
-                },
-                "documentation": {
-                    "$ref": "#/definitions/Documentation"
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "readOnly": true
                 }
             }
         },

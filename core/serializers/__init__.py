@@ -423,12 +423,6 @@ class SystemConnectionOptions(serializers.Serializer):
     ssh = serializers.BooleanField(source="connection_options.ssh")
 
 
-class ProductModelDetailSerializer(serializers.Serializer):
-    product = serializers.IntegerField(source="product_id")
-    manufacturer = serializers.IntegerField(source="product.manufacturer_id")
-    modality = serializers.IntegerField(source="modality_id")
-
-
 class SystemSerializer(serializers.ModelSerializer):
     his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
     dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
@@ -440,8 +434,8 @@ class SystemSerializer(serializers.ModelSerializer):
 
     image_url = serializers.ReadOnlyField()
     documentation = serializers.ReadOnlyField()
-    product_model_details = ProductModelDetailSerializer(
-        read_only=True, source="product_model"
+    product_model_detail = ProductModelSerializer(
+        source="product_model", read_only=True
     )
 
     class Meta:
@@ -455,6 +449,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "system_contact_info",
             "grafana_link",
             "product_model",
+            "product_model_detail",
             "image",
             "software_version",
             "asset_number",
@@ -468,7 +463,6 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
             "is_online",
             "last_successful_ping_at",
-            "product_model_details",
         ]
         validators = [
             UniqueTogetherValidator(
