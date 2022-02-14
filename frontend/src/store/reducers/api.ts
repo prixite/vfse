@@ -49,6 +49,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.manufacturerImage,
       }),
     }),
+    modalitiesList: build.query<
+      ModalitiesListApiResponse,
+      ModalitiesListApiArg
+    >({
+      query: () => ({ url: `/modalities/` }),
+    }),
     modalitiesManufacturersList: build.query<
       ModalitiesManufacturersListApiResponse,
       ModalitiesManufacturersListApiArg
@@ -156,14 +162,6 @@ const injectedRtkApi = api.injectEndpoints({
       OrganizationsMeReadApiArg
     >({
       query: (queryArg) => ({ url: `/organizations/${queryArg.id}/me/` }),
-    }),
-    organizationsModalitiesList: build.query<
-      OrganizationsModalitiesListApiResponse,
-      OrganizationsModalitiesListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/modalities/`,
-      }),
     }),
     organizationsSeatsList: build.query<
       OrganizationsSeatsListApiResponse,
@@ -431,6 +429,8 @@ export type ManufacturersImagesCreateApiResponse =
 export type ManufacturersImagesCreateApiArg = {
   manufacturerImage: ManufacturerImage;
 };
+export type ModalitiesListApiResponse = /** status 200  */ Modality[];
+export type ModalitiesListApiArg = void;
 export type ModalitiesManufacturersListApiResponse =
   /** status 200  */ Manufacturer[];
 export type ModalitiesManufacturersListApiArg = {
@@ -489,11 +489,6 @@ export type OrganizationsHealthNetworksUpdateApiArg = {
 };
 export type OrganizationsMeReadApiResponse = /** status 200  */ Me;
 export type OrganizationsMeReadApiArg = {
-  id: string;
-};
-export type OrganizationsModalitiesListApiResponse =
-  /** status 200  */ Modality[];
-export type OrganizationsModalitiesListApiArg = {
   id: string;
 };
 export type OrganizationsSeatsListApiResponse = /** status 200  */ SeatList[];
@@ -563,7 +558,8 @@ export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
 };
-export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
+export type ProductsModelsListApiResponse =
+  /** status 200  */ ProductModelDetail[];
 export type ProductsModelsListApiArg = {
   modality?: number;
   product?: number;
@@ -665,6 +661,10 @@ export type Manufacturer = {
 export type ManufacturerImage = {
   image?: string | null;
 };
+export type Modality = {
+  id?: number;
+  name: string;
+};
 export type NoteSerialier = {
   id?: number;
   note: string;
@@ -722,9 +722,22 @@ export type Me = {
   profile_picture: string;
   is_superuser?: boolean;
 };
-export type Modality = {
+export type Product = {
   id?: number;
   name: string;
+  manufacturer: Manufacturer;
+};
+export type Documentation = {
+  id?: number;
+  url: string;
+};
+export type ProductModelDetail = {
+  id?: number;
+  product: Product;
+  model: string;
+  modality: Modality;
+  documentation: Documentation;
+  name?: string;
 };
 export type HisRisInfo = {
   ip: string;
@@ -751,6 +764,7 @@ export type System = {
   system_contact_info?: string | null;
   grafana_link?: string | null;
   product_model: number;
+  product_model_detail?: ProductModelDetail;
   image?: number | null;
   software_version: string;
   asset_number: string;
@@ -850,27 +864,10 @@ export type OrganizationUpsertUser = {
   id?: number;
   memberships: UpsertUser[];
 };
-export type Product = {
-  id?: number;
-  name: string;
-  manufacturer: Manufacturer;
-};
 export type ProductCreate = {
   id?: number;
   name: string;
   manufacturer: number;
-};
-export type Documentation = {
-  id?: number;
-  url: string;
-};
-export type ProductModel = {
-  id?: number;
-  product: Product;
-  model: string;
-  modality: Modality;
-  documentation: Documentation;
-  name?: string;
 };
 export type ProductModelCreate = {
   id?: number;
@@ -901,6 +898,7 @@ export const {
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,
   useManufacturersImagesCreateMutation,
+  useModalitiesListQuery,
   useModalitiesManufacturersListQuery,
   useNotesPartialUpdateMutation,
   useNotesDeleteMutation,
@@ -914,7 +912,6 @@ export const {
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
   useOrganizationsMeReadQuery,
-  useOrganizationsModalitiesListQuery,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
   useOrganizationsSitesListQuery,
