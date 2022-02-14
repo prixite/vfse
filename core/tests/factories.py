@@ -301,6 +301,7 @@ class ProductModelFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.ProductModel
 
+    model = factory.Sequence(lambda x: f"Model-{x}")
     product = factory.SubFactory(ProductFactory)
     modality = factory.SubFactory(ModalityFactory)
     documentation = factory.SubFactory(DocumentationFactory)
