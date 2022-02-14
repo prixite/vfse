@@ -472,7 +472,7 @@ class ModalityViewSet(ModelViewSet):
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
-            or self.request.user.get_organization_role(self.request.kwargs["pk"])
+            or self.request.user.get_organization_role(self.kwargs["pk"])
             == models.Role.CUSTOMER_ADMIN
         ):
             return models.Modality.objects.all()
