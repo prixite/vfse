@@ -15,7 +15,7 @@ import { returnSearchedOject } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
-  useModalitiesListQuery,
+  useOrganizationsModalitiesListQuery,
   useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
   Modality,
@@ -51,14 +51,19 @@ const SystemSection = () => {
     useParams<{ siteId: string; networkId: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
-  const { isLoading: isModalitiesLoading, data: modalitiesList } =
-    useModalitiesListQuery();
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery({
       id: networkId,
     });
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
+
+  const { isLoading: isModalitiesLoading, data: modalitiesList } =
+    useOrganizationsModalitiesListQuery(
+      { id: selectedOrganization.id.toString() },
+      { skip: !selectedOrganization }
+    );
+
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });

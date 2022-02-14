@@ -29,9 +29,9 @@ import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/DocumentModal/DocumentModal.scss";
 import {
   useProductsListQuery,
-  useModalitiesListQuery,
+  useOrganizationsModalitiesListQuery,
   useProductsModelsCreateMutation,
-  ProductModel,
+  ProductModelDetail,
   useProductsModelsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 
@@ -40,7 +40,7 @@ interface Props {
   handleClose: () => void;
   refetch: () => void;
   selectedDocId?: number;
-  selectedDoc?: ProductModel;
+  selectedDoc?: ProductModelDetail;
   action: string;
 }
 
@@ -67,8 +67,14 @@ export default function DocumentModal({
   );
   const { data: productData, isLoading: isProductsModelsLoading } =
     useProductsListQuery({});
-  const { data: modalitiesList, isLoading: isModalitiesLoading } =
-    useModalitiesListQuery();
+
+  const selectedOrganization = useSelectedOrganization();
+
+  const { isLoading: isModalitiesLoading, data: modalitiesList } =
+    useOrganizationsModalitiesListQuery(
+      { id: selectedOrganization.id.toString() },
+      { skip: !selectedOrganization }
+    );
   const {
     title,
     editTitle,
