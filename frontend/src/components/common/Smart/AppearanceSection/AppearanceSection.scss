@@ -99,3 +99,60 @@
     }
   }
 }
+@media only screen and (max-width: 480px) {
+  .AppearanceSection {
+    margin-bottom: 110px;
+    &__clientCard {
+      padding: 25px;
+    }
+    &__clientSection {
+      width: unset;
+      .clientFonts {
+        align-items: flex-start;
+        margin-bottom: 0px;
+        flex-direction: column;
+        .font-demo {
+          margin-right: 0;
+          margin-top: 5px;
+          margin-bottom: 26px;
+        }
+        .font-section {
+          margin-right: 0px;
+          width: 100%;
+          .css-1ceyddh-MuiFormControl-root {
+            width: 100%;
+          }
+        }
+      }
+      .clientName {
+        width: 100%;
+      }
+      .clientTheming {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 0px;
+        .clientLogo {
+          width: 100%;
+        }
+        .colorSection {
+          flex-direction: column;
+          width: 100%;
+          margin-top: 26px;
+          .container {
+            flex-direction: column;
+          }
+          .appearanceColorSection {
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-bottom: 26px;
+          }
+        }
+      }
+      .SaveAppearanceBtn {
+        margin-top: 0px;
+        max-width: unset;
+        width: 100%;
+      }
+    }
+  }
+}
