@@ -25,7 +25,7 @@ import {
   addProductModelService,
   updateProductModelService,
 } from "@src/services/DocumentationService";
-import { useAppSelector } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/DocumentModal/DocumentModal.scss";
 import {
   useProductsListQuery,
