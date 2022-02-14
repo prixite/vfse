@@ -73,7 +73,11 @@ class OrganizationTestCase(BaseTestCase):
             self.assertEqual(len(response.json()), 1)
 
     def test_user_list(self):
-        for user,count in [(self.super_admin,12), (self.super_manager,12),(self.user_admin,10)]:
+        for user, count in [
+            (self.super_admin, 12),
+            (self.super_manager, 12),
+            (self.user_admin, 10),
+        ]:
             self.client.force_login(user)
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
