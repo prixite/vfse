@@ -307,6 +307,10 @@ export default function SystemModal(props: systemProps) {
 
   const editModal = () => {
     setName(props?.system?.name);
+    setModal(props?.system?.product_model_detail);
+    setModality(props?.system?.product_model_detail?.modality);
+    setManufacturer(props?.system?.product_model_detail?.product?.manufacturer);
+    setProduct(props?.system?.product_model_detail?.product);
     setVersion(props?.system?.software_version);
     setIP(props?.system?.ip_address);
     setAsset(props?.system?.asset_number);
@@ -522,6 +526,9 @@ export default function SystemModal(props: systemProps) {
     if (item) {
       setModality(item);
       setModalityError("");
+      setProduct({});
+      setManufacturer({});
+      setModal({});
     }
   };
 
@@ -701,6 +708,12 @@ export default function SystemModal(props: systemProps) {
     setModalList(productData);
   }, [productData]);
 
+  // useEffect(() => {
+  //   setProduct({});
+  //   setManufacturer({});
+  //   setModal({});
+  // }, [modality]);
+
   useEffect(() => {
     if (props.system) {
       editModal();
@@ -718,23 +731,6 @@ export default function SystemModal(props: systemProps) {
     }
   }, [sites, props.system]);
 
-  useEffect(() => {
-    if (productData?.length && !isProductsModelsLoading && props?.open) {
-      if (props.system) {
-        const data = returnSearchedOject(
-          productData,
-          props.system.product_model
-        );
-        if (data?.length) {
-          setModal(data[0]);
-          // setManufacturer(data[0]?.product?.manufacturer);
-          // setProduct(data[0]?.product);
-          // setModality(data[0]?.modality);
-          setModalError("");
-        }
-      }
-    }
-  }, [productData, props.open, isProductsModelsLoading]);
 
   const { networkId } = useParams();
 
@@ -749,12 +745,6 @@ export default function SystemModal(props: systemProps) {
       setSites(selectedOrganization.sites);
     }
   }, [healthNetwork, selectedOrganization]);
-
-  useEffect(() => {
-    setProduct({});
-    setManufacturer({});
-    setModal({});
-  }, [modality]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
