@@ -209,7 +209,7 @@ const AppearanceSection = () => {
               </Box>
             </Box>
             <Box component="div" className="colorSection">
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex" }} className="container">
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar:"
@@ -225,7 +225,7 @@ const AppearanceSection = () => {
                   />
                 </div>
               </div>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex" }} className="container">
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar Text:"
@@ -241,7 +241,7 @@ const AppearanceSection = () => {
                   />
                 </div>
               </div>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex" }} className="container">
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Secondary Color:"
