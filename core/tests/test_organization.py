@@ -73,12 +73,12 @@ class OrganizationTestCase(BaseTestCase):
             self.assertEqual(len(response.json()), 1)
 
     def test_user_list(self):
-        for user in [self.super_admin, self.super_manager]:
+        for user,count in [(self.super_admin,12), (self.super_manager,12),(self.user_admin,10)]:
             self.client.force_login(user)
             response = self.client.get(
                 f"/api/organizations/{self.organization.id}/users/"
             )
-            self.assertEqual(len(response.json()), 12)
+            self.assertEqual(len(response.json()), count)
 
     def test_organization_prevent_delete_is_default(self):
         self.client.force_login(self.super_admin)
