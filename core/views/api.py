@@ -345,7 +345,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         membership = models.Membership.objects.filter(
             organization=self.kwargs["pk"],
             organization__in=self.request.user.get_organizations(
-                role=[models.Role.USER_ADMIN]
+                roles=[models.Role.USER_ADMIN]
             ),
         )
 
