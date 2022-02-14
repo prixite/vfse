@@ -34,12 +34,12 @@ import {
   System,
   Manufacturer,
   useProductsModelsListQuery,
-  ProductModel,
+  ProductModelDetail,
   Modality,
   useOrganizationsSystemsCreateMutation,
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsReadQuery,
-  useModalitiesListQuery,
+  useOrganizationsModalitiesListQuery,
   useModalitiesManufacturersListQuery,
   useProductsListQuery,
   Product,
@@ -70,7 +70,7 @@ export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
   let manufacturerData: Manufacturer;
-  let productModel: ProductModel; // eslint-disable-line
+  let productModel: ProductModelDetail; // eslint-disable-line
   let productProps: Product;
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -131,8 +131,15 @@ export default function SystemModal(props: systemProps) {
   const [productList, setProductList] = useState([]);
   const [modalList, setModalList] = useState([]);
 
+  const selectedOrganization = useSelectedOrganization();
+
   const { data: ModalitiesData, isLoading: isModalityLoading } =
-    useModalitiesListQuery();
+    useOrganizationsModalitiesListQuery(
+      {
+        id: selectedOrganization.id.toString(),
+      },
+      { skip: !selectedOrganization }
+    );
 
   const { data: ManufacturerData, isFetching: isManufacturerLoading } =
     useModalitiesManufacturersListQuery(
@@ -164,7 +171,6 @@ export default function SystemModal(props: systemProps) {
         skip: !product?.id,
       }
     );
-  const selectedOrganization = useSelectedOrganization();
 
   const {
     fieldName,
@@ -875,7 +881,7 @@ export default function SystemModal(props: systemProps) {
                     value={modal || {}}
                     loading={isProductsModelsLoading}
                     loadingText={<Loader />}
-                    onChange={(e, item: ProductModel) =>
+                    onChange={(e, item: ProductModelDetail) =>
                       handleProductModel(item)
                     } // eslint-disable-line
                     options={modalList || []}
