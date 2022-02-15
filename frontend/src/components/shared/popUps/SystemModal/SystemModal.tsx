@@ -231,7 +231,7 @@ export default function SystemModal(props: systemProps) {
       dName: fieldLink,
     },
     {
-      name: modal?.name,
+      name: modal?.model,
       setError: setModalError,
       dName: fieldModal,
     },
