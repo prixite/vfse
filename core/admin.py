@@ -11,6 +11,13 @@ class UserAdmin(CoreUserAdmin):
         "username",
         "email",
     )
+    list_filter = (
+        "is_staff",
+        "is_superuser",
+        "is_active",
+        "is_supermanager",
+        "is_lambda_user",
+    )
 
 
 @admin.register(models.UserModality)
