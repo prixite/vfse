@@ -722,7 +722,9 @@ export default function UserModal(props: Props) {
                       selectedSites?.length
                     }/${sitesLength()}`}</span>
                   </p>
-                ) : ''}
+                ) : (
+                  ""
+                )}
                 {networksData?.map((item, key) =>
                   item?.sites?.length ? (
                     <div key={key}>
@@ -792,7 +794,9 @@ export default function UserModal(props: Props) {
                     <span className="info-label">Access to modalities</span>
                     <span className="checked-ratio">{`${selectedModalities?.length}/${props?.modalitiesList?.length}`}</span>
                   </p>
-                ) : ''}
+                ) : (
+                  ""
+                )}
                 <ToggleButtonGroup
                   value={selectedModalities}
                   color="primary"
