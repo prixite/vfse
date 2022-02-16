@@ -69,8 +69,7 @@ class Command(BaseCommand):
             cryo_admin,
             cryo_fse,
         ]
-        
-        
+
         orgnization = factories.OrganizationFactory(
             is_default=True,
             name="626",
@@ -107,7 +106,7 @@ class Command(BaseCommand):
             cryo_admin_roles=[cryo_admin],
             sites=True,
         )
-        
+
         health_network = factories.HealthNetworkFactory(
             name="Health Network with Sites",
             organizations=[organization],
