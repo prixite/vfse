@@ -33,19 +33,8 @@ import {
   useAppDispatch,
   useSelectedOrganization,
 } from "@src/store/hooks";
-import {
-  Organization,
-  useOrganizationsListQuery,
-  useOrganizationsMeReadQuery,
-} from "@src/store/reducers/api";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
-import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
-import {
-  updateButtonColor,
-  updateSideBarColor,
-  updateButtonTextColor,
-  updateSideBarTextColor,
-} from "@src/store/reducers/themeStore";
 import "@src/components/shared/Layout/SideBar/SideBar.scss";
 
 const drawerWidth = 400;
@@ -106,13 +95,9 @@ export default function SideBar() {
   const [open, setOpen] = React.useState(true);
   const [openVfse, setOpenVfse] = React.useState(false);
   const [browserWidth] = useWindowSize();
-  const [currentClient, setCurrentClient] =
-    React.useState<Organization>(Object);
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { organizationRoute } = constants;
-  const { data: organizationsList, isLoading: isOrgListLoading } =
-    useOrganizationsListQuery({ page: 1 });
   const { sideBarBackground, sideBarTextColor, buttonBackground } =
     useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
@@ -144,14 +129,6 @@ export default function SideBar() {
       setCurrentRoute(pathRoute);
     }
   }, [selectedOrganization, pathRoute]);
-  const handleUpdateSelectedOrganization = (item) => {
-    dispatch(setSelectedOrganization({ selectedOrganization: item }));
-    dispatch(updateSideBarColor(item.appearance.sidebar_color));
-    dispatch(updateButtonColor(item.appearance.primary_color));
-    dispatch(updateSideBarTextColor(item.appearance.sidebar_text));
-    dispatch(updateButtonTextColor(item.appearance.button_text));
-    history.replace(`/${organizationRoute}/${item.id}`);
-  };
 
   const handleVfseClick = () => {
     setOpenVfse(!openVfse);
@@ -169,56 +146,31 @@ export default function SideBar() {
   };
 
   // this function creates the links and collapses that appear in the sidebar (left menu)
-  const createLinks = () =>
-    routes
-      .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
-      .map((prop: routeItem) => {
-        return prop.name !== "vFSE" ? (
-          <ListItem
-            button
-            component={Link}
-            to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
-            key={prop.path}
-            style={
-              currentRoute ===
-              `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                ? {
-                    borderRadius: "4px",
-                    backgroundColor: hexToRgb(buttonBackground, 0.5),
-                  }
-                : {}
-            }
-            onClick={() =>
-              setCurrentRoute(
-                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-              )
-            }
-          >
-            <ListItemIcon
-              style={{ color: sideBarTextColor, marginRight: "10px" }}
-            >
-              <prop.icon />
-            </ListItemIcon>
-            <ListItemText primary={prop.name} />
-          </ListItem>
-        ) : (
-          <>
+  const createLinks = () => {
+    if (me?.flags) {
+      return routes
+        .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
+        .map((prop: routeItem) => {
+          return prop.name !== "vFSE" ? (
             <ListItem
               button
+              component={Link}
+              to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
               key={prop.path}
               style={
-                checkVfseRoutes()
+                currentRoute ===
+                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
                   ? {
                       borderRadius: "4px",
                       backgroundColor: hexToRgb(buttonBackground, 0.5),
                     }
-                  : openVfse
-                  ? {
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    }
                   : {}
               }
-              onClick={handleVfseClick}
+              onClick={() =>
+                setCurrentRoute(
+                  `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                )
+              }
             >
               <ListItemIcon
                 style={{ color: sideBarTextColor, marginRight: "10px" }}
@@ -226,75 +178,81 @@ export default function SideBar() {
                 <prop.icon />
               </ListItemIcon>
               <ListItemText primary={prop.name} />
-              {openVfse ? (
-                <ExpandLessIcon style={{ color: sideBarTextColor }} />
-              ) : (
-                <ExpandMoreIcon style={{ color: sideBarTextColor }} />
-              )}
             </ListItem>
-            <Collapse
-              in={openVfse}
-              timeout="auto"
-              unmountOnExit
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.04)",
-              }}
-            >
-              <List component="div" disablePadding>
-                {vfseRoutes?.map((route: routeItem) => (
-                  <ListItem
-                    button
-                    sx={{ pl: 4 }}
-                    component={Link}
-                    key={route.path}
-                    to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
-                    style={
-                      currentRoute ===
-                      `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
-                        ? {
-                            backgroundColor: "rgba(255, 255, 255, 0.06)",
-                          }
-                        : {}
-                    }
-                    onClick={() =>
-                      setCurrentRoute(
-                        `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
-                      )
-                    }
-                  >
-                    <ListItemText
-                      style={{ paddingLeft: "16px" }}
-                      primary={route.name}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </Collapse>
-          </>
-        );
-      });
-
-  const createClients = () =>
-    !isOrgListLoading && organizationsList
-      ? organizationsList?.slice(0, 5).map((item: Organization) => {
-          return (
-            <ListItem
-              button
-              key={item.id}
-              style={{ paddingLeft: "20px", paddingRight: "20px" }}
-              onClick={() => handleUpdateSelectedOrganization(item)}
-            >
-              <ListItemIcon
-                className={`client-image ${
-                  currentClient?.name === item?.name ? "active" : ""
-                }`}
+          ) : (
+            <>
+              <ListItem
+                button
+                key={prop.path}
+                style={
+                  checkVfseRoutes()
+                    ? {
+                        borderRadius: "4px",
+                        backgroundColor: hexToRgb(buttonBackground, 0.5),
+                      }
+                    : openVfse
+                    ? {
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      }
+                    : {}
+                }
+                onClick={handleVfseClick}
               >
-                <img src={item.appearance.logo} className={`img`} />
-              </ListItemIcon>
-            </ListItem>
+                <ListItemIcon
+                  style={{ color: sideBarTextColor, marginRight: "10px" }}
+                >
+                  <prop.icon />
+                </ListItemIcon>
+                <ListItemText primary={prop.name} />
+                {openVfse ? (
+                  <ExpandLessIcon style={{ color: sideBarTextColor }} />
+                ) : (
+                  <ExpandMoreIcon style={{ color: sideBarTextColor }} />
+                )}
+              </ListItem>
+              <Collapse
+                in={openVfse}
+                timeout="auto"
+                unmountOnExit
+                style={{
+                  backgroundColor: "rgba(255, 255, 255, 0.04)",
+                }}
+              >
+                <List component="div" disablePadding>
+                  {vfseRoutes?.map((route: routeItem) => (
+                    <ListItem
+                      button
+                      sx={{ pl: 4 }}
+                      component={Link}
+                      key={route.path}
+                      to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
+                      style={
+                        currentRoute ===
+                        `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                          ? {
+                              backgroundColor: "rgba(255, 255, 255, 0.06)",
+                            }
+                          : {}
+                      }
+                      onClick={() =>
+                        setCurrentRoute(
+                          `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                        )
+                      }
+                    >
+                      <ListItemText
+                        style={{ paddingLeft: "16px" }}
+                        primary={route.name}
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Collapse>
+            </>
           );
-        })
-      : null;
+        });
+    }
+  };
 
   const onSearchClick = () => {
     history.push(`/${organizationRoute}/${selectedOrganization?.id}/`);
@@ -329,19 +287,23 @@ export default function SideBar() {
                   />
                 </ListItemIcon>
               </ListItem>
-              <ListItem button component="a" className="item-margin">
-                <ListItemIcon style={{ color: sideBarTextColor }}>
-                  <AddIcon
-                    onClick={() => {
-                      history.push(
-                        `/${organizationRoute}/${selectedOrganization?.id}/`
-                      );
-                      setCurrentRoute("/");
-                      dispatch(openAddModal());
-                    }}
-                  />
-                </ListItemIcon>
-              </ListItem>
+              {me?.is_superuser ? (
+                <ListItem button component="a" className="item-margin">
+                  <ListItemIcon style={{ color: sideBarTextColor }}>
+                    <AddIcon
+                      onClick={() => {
+                        history.push(
+                          `/${organizationRoute}/${selectedOrganization?.id}/`
+                        );
+                        setCurrentRoute("/");
+                        dispatch(openAddModal());
+                      }}
+                    />
+                  </ListItemIcon>
+                </ListItem>
+              ) : (
+                ""
+              )}
               <ListItem
                 button
                 component="a"
@@ -352,7 +314,6 @@ export default function SideBar() {
                   <SearchIcon onClick={onSearchClick} />
                 </ListItemIcon>
               </ListItem>
-              {!isOrgListLoading && createClients()}
               <ListItem
                 button
                 className="drawer-btn open-btn"
