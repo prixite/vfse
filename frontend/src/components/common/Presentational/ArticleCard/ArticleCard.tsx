@@ -9,7 +9,7 @@ interface props {
   color: string;
 }
 
-const ArticleCard = ({ color}: props) => {
+const ArticleCard = ({ color }: props) => {
   return (
     <div className="Article-card">
       <Box component="div" className="card">

@@ -41,7 +41,7 @@ const KnowledgeSection = () => {
       <Grid container spacing={2}>
         {topData.map((item, index) => (
           <Grid item={true} xs={3} key={index} style={{ marginTop: "12px" }}>
-            <ArticleCard color={item?.color}  />
+            <ArticleCard color={item?.color} />
           </Grid>
         ))}
       </Grid>
