@@ -6,3 +6,4 @@ export const constants = {
 };
 
 export const organizationTabs = ["Networks", "Sites"];
+export const superAdmin = "super_admin";

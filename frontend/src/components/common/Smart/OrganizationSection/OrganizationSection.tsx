@@ -24,6 +24,7 @@ import {
 import {
   Organization,
   useOrganizationsListQuery,
+  useOrganizationsMeReadQuery,
 } from "@src/store/reducers/api";
 import { closeAddModal } from "@src/store/reducers/appStore";
 
@@ -39,7 +40,7 @@ const OrganizationSection = () => {
   const [searchText, setSearchText] = useState("");
   const [action, setAction] = useState("");
   const [itemsList, setItemsList] = useState<Array<Organization>>([]);
-
+  const selectedOrganization = useSelectedOrganization();
   const {
     data: organizationList,
     refetch,
@@ -47,7 +48,16 @@ const OrganizationSection = () => {
   } = useOrganizationsListQuery({
     page: 1,
   });
-  const selectedOrganization = useSelectedOrganization();
+
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
+
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;
@@ -193,6 +203,7 @@ const OrganizationSection = () => {
                         name={item.name}
                         logo={item.appearance.logo}
                         selected={+id === item?.id ? true : false}
+                        superuser={me?.is_superuser}
                       />
                     </Grid>
                   ))
@@ -227,6 +238,7 @@ const OrganizationSection = () => {
                       name={item.name}
                       logo={item.appearance.logo}
                       selected={+id === item?.id ? true : false}
+                      superuser={me?.is_superuser}
                     />
                   </Grid>
                 ))
