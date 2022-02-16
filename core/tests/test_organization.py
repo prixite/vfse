@@ -725,6 +725,7 @@ class OrganizationTestCase(BaseTestCase):
     def test_organization_health_sites_list(self):
         self.client.force_login()
 
+
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):
         for user in [self.super_admin, self.super_manager]:

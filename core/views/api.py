@@ -240,8 +240,8 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class OrganizatoinAllSitesViewSet(ModelViewSet):
     serializer_class = serializers.SiteSerializer
-    permission_classes = [IsAuthenticated,permissions.OrganizationSitesPermission]
-    
+    permission_classes = [IsAuthenticated, permissions.OrganizationSitesPermission]
+
     def get_queryset(self):
         return models.Site.objects.filter(
             Q(organization_id=self.kwargs["pk"])
@@ -251,6 +251,8 @@ class OrganizatoinAllSitesViewSet(ModelViewSet):
                 ).values_list("health_network", flat=True)
             ),
         ).prefetch_related("systems")
+
+
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters

@@ -59,12 +59,21 @@ class OrganizationPermission(BasePermission):
 
         return True
 
+
 class OrganizationSitesPermission(BasePermission):
     def has_permission(self, request, view):
-        membership_role = models.Membership.objects.get(user=request.user,organization_id=self.kwargs['pk']).role
-        if request.user.is_superuser or request.user.is_supermanager or membership_role in [models.Role.CUSTOMER_ADMIN,models.Role.FSE_ADMIN]:
+        membership_role = models.Membership.objects.get(
+            user=request.user, organization_id=self.kwargs["pk"]
+        ).role
+        if (
+            request.user.is_superuser
+            or request.user.is_supermanager
+            or membership_role in [models.Role.CUSTOMER_ADMIN, models.Role.FSE_ADMIN]
+        ):
             return True
         return False
+
+
 class SystemNotePermissions(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user.is_superuser and request.method != "PATCH":
