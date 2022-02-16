@@ -2,8 +2,8 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Box } from "@mui/material";
 import "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard.scss";
 interface props {
- color: string,
- number: number
+  color: string;
+  number: number;
 }
 
 const KnowledgeTopCard = ({ color, number }: props) => {
