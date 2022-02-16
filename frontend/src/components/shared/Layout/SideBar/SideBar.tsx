@@ -115,7 +115,6 @@ export default function SideBar() {
   };
 
   React.useEffect(() => {
-    setCurrentClient(selectedOrganization);
     if (
       pathRoute.includes(
         `/${organizationRoute}/${selectedOrganization?.id}/networks/`
