@@ -186,7 +186,7 @@ class ModalitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Modality
-        fields = ["id", "name"]
+        fields = ["id", "name", "group"]
 
 
 class ManagerMetaSerializer(serializers.Serializer):
