@@ -18,6 +18,21 @@ class Role(models.TextChoices):
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
 
 
+class ModalityType(models.TextChoices):
+    MRI = "mri", "Magnetic resonance imaging"
+    PET = "pet", "Positron emission tomography"
+    RF = "rf", "Radio Frequency"
+    BMD = "bmd", "Bone Densitometry"
+    CR = "cr", "Computed Radiography"
+    DX = "dx", "Digital Radiography"
+    IVUS = "ivus", "Intravascular Ultrasound "
+    MG = "mg", "Mammography"
+    US = "us", "Ultrasound"
+    MI = "mi", "Medical Imaging"
+    MR = "mr", "Magnetic Resonance"
+    CT = "ct", "Computed Tomography"
+
+
 class User(AbstractUser):
     # username is an email field. Use this instead of email attribute of user
     # for email address.
@@ -387,6 +402,12 @@ class Site(models.Model):
 
 class Modality(models.Model):
     name = models.CharField(max_length=32)
+    group = models.CharField(
+        max_length=5,
+        choices=ModalityType.choices,
+        unique=True,
+        null=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

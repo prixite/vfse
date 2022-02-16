@@ -114,6 +114,34 @@ class SystemTestCase(BaseTestCase):
             models.System.objects.filter(name="Post System", site=self.site.id).exists()
         )
 
+    def test_post_system_partial(self):
+        self.client.force_login(self.super_admin)
+        connection_options = {
+            "vfse": True,
+            "virtual_media_control": False,
+            "service_web_browser": False,
+            "ssh": False,
+        }
+        product_model = factories.ProductModelFactory(model="Last model")
+        response = self.client.post(
+            f"/api/organizations/{self.organization.id}/systems/",
+            data={
+                "name": "Post System",
+                "site": self.site.id,
+                "product_model": product_model.id,
+                "software_version": "v2",
+                "grafana_link": "http://example.com/newsystemimage.jpeg",
+                "asset_number": "12452",
+                "ip_address": "192.168.23.25",
+                "local_ae_title": "new title",
+                "connection_options": connection_options,
+            },
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.System.objects.filter(name="Post System", site=self.site.id).exists()
+        )
+
     def test_post_duplicate_system(self):
         self.client.force_login(self.super_admin)
 

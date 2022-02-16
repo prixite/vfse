@@ -726,6 +726,22 @@ export type Me = {
 export type Modality = {
   id?: number;
   name: string;
+  group?:
+    | (
+        | "mri"
+        | "pet"
+        | "rf"
+        | "bmd"
+        | "cr"
+        | "dx"
+        | "ivus"
+        | "mg"
+        | "us"
+        | "mi"
+        | "mr"
+        | "ct"
+      )
+    | null;
 };
 export type Product = {
   id?: number;
@@ -744,14 +760,14 @@ export type ProductModelDetail = {
   documentation: Documentation;
 };
 export type HisRisInfo = {
-  ip: string;
-  title: string;
-  port: number;
-  ae_title: string;
+  ip?: string;
+  title?: string;
+  port?: number;
+  ae_title?: string;
 };
 export type MriEmbeddedParameters = {
-  helium: string;
-  magnet_pressure: string;
+  helium?: string;
+  magnet_pressure?: string;
 };
 export type ConnectionOptions = {
   vfse: boolean;
