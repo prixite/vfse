@@ -1761,6 +1761,25 @@
                     "title": "Name",
                     "type": "string",
                     "minLength": 1
+                },
+                "group": {
+                    "title": "Group",
+                    "type": "string",
+                    "enum": [
+                        "mri",
+                        "pet",
+                        "rf",
+                        "bmd",
+                        "cr",
+                        "dx",
+                        "ivus",
+                        "mg",
+                        "us",
+                        "mi",
+                        "mr",
+                        "ct"
+                    ],
+                    "x-nullable": true
                 }
             }
         },

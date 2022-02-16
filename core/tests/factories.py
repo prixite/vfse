@@ -252,7 +252,8 @@ class ModalityFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Modality
 
-    name = factory.Sequence(lambda x: f"modality-{x}")
+    name = factory.Iterator([x[1] for x in models.ModalityType.choices])
+    group = factory.Iterator([x[0] for x in models.ModalityType.choices])
 
     @factory.post_generation
     def users(obj, create, extracted, **kwargs):
@@ -303,7 +304,7 @@ class ProductModelFactory(factory.django.DjangoModelFactory):
 
     model = factory.Sequence(lambda x: f"Model-{x}")
     product = factory.SubFactory(ProductFactory)
-    modality = factory.Iterator(models.Modality.objects.all())
+    modality = factory.SubFactory(ModalityFactory)
     documentation = factory.SubFactory(DocumentationFactory)
 
 

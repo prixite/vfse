@@ -403,7 +403,11 @@ class Site(models.Model):
 class Modality(models.Model):
     name = models.CharField(max_length=32)
     group = models.CharField(
-        max_length=5, choices=ModalityType.choices, default=ModalityType.US
+        max_length=5,
+        choices=ModalityType.choices,
+        default=ModalityType.US,
+        unique=True,
+        null=True,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

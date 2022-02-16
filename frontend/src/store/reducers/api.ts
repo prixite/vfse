@@ -726,6 +726,22 @@ export type Me = {
 export type Modality = {
   id?: number;
   name: string;
+  group?:
+    | (
+        | "mri"
+        | "pet"
+        | "rf"
+        | "bmd"
+        | "cr"
+        | "dx"
+        | "ivus"
+        | "mg"
+        | "us"
+        | "mi"
+        | "mr"
+        | "ct"
+      )
+    | null;
 };
 export type Product = {
   id?: number;
