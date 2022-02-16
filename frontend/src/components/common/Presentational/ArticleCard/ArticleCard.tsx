@@ -1,10 +1,10 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+
+import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box } from "@mui/material";
-import InsertDriveFileOutlinedIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { hexToRgb } from "@src/helpers/utils/utils";
-import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
 import "@src/components/common/Presentational/ArticleCard/ArticleCard.scss";
-import { textChangeRangeIsUnchanged } from "typescript";
 interface props {
   color: string;
   number: number;
@@ -14,16 +14,24 @@ const ArticleCard = ({ color, number }: props) => {
   return (
     <div className="Article-card">
       <Box component="div" className="card">
-        <div className="circle" style={{ background: `${hexToRgb(color, 0.3)}` }}>
-          <InsertDriveFileOutlinedIcon style={{ color: color }}/>
+        <div
+          className="circle"
+          style={{ background: `${hexToRgb(color, 0.3)}` }}
+        >
+          <InsertDriveFileOutlinedIcon style={{ color: color }} />
         </div>
         <div className="heading">
-          <h2 className="title" style={{ color: color }}> Getting started</h2>
+          <h2 className="title" style={{ color: color }}>
+            {" "}
+            Getting started
+          </h2>
         </div>
         <div className="article-no">
-         <TextsmsOutlinedIcon style={{color: '#696F77', fontSize: '1em', marginRight: '10px'}}/> 
+          <TextsmsOutlinedIcon
+            style={{ color: "#696F77", fontSize: "1em", marginRight: "10px" }}
+          />
           <p>8 articles</p>
-          </div>
+        </div>
         <div className="explore">
           <p className="text" style={{ color: color }}>
             Explore

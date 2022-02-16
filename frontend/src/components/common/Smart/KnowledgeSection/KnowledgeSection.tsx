@@ -2,6 +2,7 @@ import { Grid, Box } from "@mui/material";
 
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+
 import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
 import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 
@@ -39,7 +40,7 @@ const KnowledgeSection = () => {
       </Grid>
       <Grid container spacing={2}>
         {topData.map((item, index) => (
-          <Grid item={true} xs={3} key={index} style={{marginTop: '12px'}}>
+          <Grid item={true} xs={3} key={index} style={{ marginTop: "12px" }}>
             <ArticleCard color={item?.color} number={item?.number} />
           </Grid>
         ))}
