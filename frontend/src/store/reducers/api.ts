@@ -123,6 +123,14 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    organizationsAllSitesList: build.query<
+      OrganizationsAllSitesListApiResponse,
+      OrganizationsAllSitesListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/all_sites/`,
+      }),
+    }),
     organizationsHealthNetworksList: build.query<
       OrganizationsHealthNetworksListApiResponse,
       OrganizationsHealthNetworksListApiArg
@@ -470,6 +478,10 @@ export type OrganizationsDeleteApiResponse = unknown;
 export type OrganizationsDeleteApiArg = {
   id: string;
 };
+export type OrganizationsAllSitesListApiResponse = /** status 200  */ Site[];
+export type OrganizationsAllSitesListApiArg = {
+  id: string;
+};
 export type OrganizationsHealthNetworksListApiResponse =
   /** status 200  */ HealthNetwork[];
 export type OrganizationsHealthNetworksListApiArg = {
@@ -694,6 +706,13 @@ export type Organization = {
   appearance?: Appearance;
   sites?: MetaSite[];
 };
+export type Site = {
+  id?: number;
+  name: string;
+  address: string;
+  modalities?: string[];
+  connections?: number;
+};
 export type Appearance2 = {
   logo: string;
 };
@@ -791,13 +810,6 @@ export type Seat = {
 };
 export type OrganizationSeatSeriazlier = {
   seats: Seat[];
-};
-export type Site = {
-  id?: number;
-  name: string;
-  address: string;
-  modalities?: string[];
-  connections?: number;
 };
 export type SiteCreate = {
   id?: number | null;
@@ -911,6 +923,7 @@ export const {
   useOrganizationsReadQuery,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
+  useOrganizationsAllSitesListQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,

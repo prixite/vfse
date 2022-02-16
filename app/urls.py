@@ -110,6 +110,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/<int:pk>/all_sites/",
+        api.OrganizatoinAllSitesViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<int:pk>/systems/",
         api.OrganizationSystemViewSet.as_view(
             {
