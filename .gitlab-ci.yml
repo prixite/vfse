@@ -44,6 +44,7 @@ test:
   script:
     - pre-commit run --all
     - ./manage.py test
+    - ./manage.py generate
   artifacts:
     paths:
       - node_modules/
