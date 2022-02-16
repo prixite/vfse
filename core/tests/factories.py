@@ -251,6 +251,7 @@ class SiteFactory(factory.django.DjangoModelFactory):
 class ModalityFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Modality
+        django_get_or_create = ["group"]
 
     name = factory.Iterator([x[1] for x in models.ModalityType.choices])
     group = factory.Iterator([x[0] for x in models.ModalityType.choices])
