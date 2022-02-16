@@ -163,15 +163,15 @@ class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
 
 
 class SystemInfoSerializer(serializers.Serializer):
-    ip = serializers.IPAddressField()
-    title = serializers.CharField()
-    port = serializers.IntegerField()
-    ae_title = serializers.CharField()
+    ip = serializers.IPAddressField(required=False)
+    title = serializers.CharField(required=False)
+    port = serializers.IntegerField(required=False)
+    ae_title = serializers.CharField(required=False)
 
 
 class MriInfoSerializer(serializers.Serializer):
-    helium = serializers.CharField()
-    magnet_pressure = serializers.CharField()
+    helium = serializers.CharField(required=False)
+    magnet_pressure = serializers.CharField(required=False)
 
 
 class ModalitySerializer(serializers.ModelSerializer):

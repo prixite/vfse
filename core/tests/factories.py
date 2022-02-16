@@ -303,7 +303,7 @@ class ProductModelFactory(factory.django.DjangoModelFactory):
 
     model = factory.Sequence(lambda x: f"Model-{x}")
     product = factory.SubFactory(ProductFactory)
-    modality = factory.SubFactory(ModalityFactory)
+    modality = factory.Iterator(models.Modality.objects.all())
     documentation = factory.SubFactory(DocumentationFactory)
 
 
