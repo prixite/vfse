@@ -3,7 +3,7 @@ import KnowledgeSection from "@src/components/common/Smart/KnowledgeSection/Know
 export default function KnowledgeBaseView() {
   return (
     <>
-     <KnowledgeSection/>
+      <KnowledgeSection />
     </>
   );
 }
