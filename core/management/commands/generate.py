@@ -26,11 +26,7 @@ class Command(BaseCommand):
             username="super-manager@example.com",
             profile__manager=super_user,
         )
-        factories.OrganizationFactory(
-            is_default=True,
-            name="626",
-            number_of_seats=10,
-        )
+
         customer_admin = factories.UserWithPasswordFactory(
             username="customer-admin@example.com"
         )
@@ -73,6 +69,25 @@ class Command(BaseCommand):
             cryo_admin,
             cryo_fse,
         ]
+        
+        
+        orgnization = factories.OrganizationFactory(
+            is_default=True,
+            name="626",
+            number_of_seats=10,
+        )
+        product_model = factories.ProductModelFactory(
+            modality__users=users,
+            modality__users__organization=orgnization,
+        )
+        factories.HealthNetworkFactory(
+            name="626 Health Network",
+            organizations=[orgnization],
+            users=users,
+            site__users=users,
+            site__system__users=users,
+            site__system__product_model=product_model,
+        )
         organization = factories.OrganizationFactory(
             name="All Data",
             is_customer=True,
@@ -92,10 +107,7 @@ class Command(BaseCommand):
             cryo_admin_roles=[cryo_admin],
             sites=True,
         )
-        product_model = factories.ProductModelFactory(
-            modality__users=users,
-            modality__users__organization=organization,
-        )
+        
         health_network = factories.HealthNetworkFactory(
             name="Health Network with Sites",
             organizations=[organization],

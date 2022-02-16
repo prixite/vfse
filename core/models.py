@@ -99,7 +99,7 @@ class User(AbstractUser):
         return OrganizationHealthNetwork.objects.filter(
             organization=organization_pk,
             organization__in=self.get_organizations().filter(
-                organization__is_customer=True
+                Q(organization__is_customer=True) | Q(organization__is_default=True)
             ),
             id__in=UserHealthNetwork.objects.filter(user=self).values_list(
                 "organization_health_network", flat=True
