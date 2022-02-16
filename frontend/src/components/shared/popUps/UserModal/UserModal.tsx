@@ -37,6 +37,7 @@ import {
   Organization,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsUsersCreateMutation,
+  useOrganizationsSitesListQuery,
   User,
   useUsersPartialUpdateMutation,
 } from "@src/store/reducers/api";
@@ -82,6 +83,14 @@ export default function UserModal(props: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const constantData = localizedData()?.users?.popUp;
   const { data: networksData } = useOrganizationsHealthNetworksListQuery(
+    {
+      id: customer?.toString(),
+    },
+    {
+      skip: !customer,
+    }
+  );
+  const { data: organizationSitesData } = useOrganizationsSitesListQuery(
     {
       id: customer?.toString(),
     },
@@ -295,6 +304,9 @@ export default function UserModal(props: Props) {
         count += item?.sites?.length;
       }
     });
+    if (organizationSitesData && organizationSitesData?.length) {
+      count += organizationSitesData?.length;
+    }
     return count;
   };
 
@@ -746,6 +758,32 @@ export default function UserModal(props: Props) {
                   ) : (
                     ""
                   )
+                )}
+                {organizationSitesData && organizationSitesData?.length ? (
+                  <div className="network-details">
+                    {organizationSitesData?.map((site, key) => (
+                      <FormGroup
+                        key={key}
+                        style={{ marginLeft: "20px" }}
+                        className="options"
+                      >
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              onChange={handleSitesSelection}
+                              checked={selectedSites.includes(site?.id)}
+                              value={site?.id}
+                              name={site?.address}
+                              color="primary"
+                            />
+                          }
+                          label={site?.address}
+                        />
+                      </FormGroup>
+                    ))}
+                  </div>
+                ) : (
+                  ""
                 )}
               </div>
               <div>
