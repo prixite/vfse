@@ -715,14 +715,14 @@ export default function UserModal(props: Props) {
           ) : (
             <>
               <div>
-                {sitesLength() > 0 && (
+                {sitesLength() > 0 ? (
                   <p className="modalities-header">
                     <span className="info-label">Health Network Access</span>
                     <span className="checked-ratio">{`${
                       selectedSites?.length
                     }/${sitesLength()}`}</span>
                   </p>
-                )}
+                ) : ''}
                 {networksData?.map((item, key) =>
                   item?.sites?.length ? (
                     <div key={key}>
@@ -787,12 +787,12 @@ export default function UserModal(props: Props) {
                 )}
               </div>
               <div>
-                {props?.modalitiesList?.length && (
+                {props?.modalitiesList?.length ? (
                   <p className="modalities-header">
                     <span className="info-label">Access to modalities</span>
                     <span className="checked-ratio">{`${selectedModalities?.length}/${props?.modalitiesList?.length}`}</span>
                   </p>
-                )}
+                ) : ''}
                 <ToggleButtonGroup
                   value={selectedModalities}
                   color="primary"
