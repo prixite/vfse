@@ -170,7 +170,7 @@ class User(AbstractUser):
             )
 
         if self.is_supermanager:
-            return {modality_flag}
+            return {modality_flag, organization_flag}
 
         to_modules = {
             Role.FSE_ADMIN: {vfse_flag, modality_flag},
