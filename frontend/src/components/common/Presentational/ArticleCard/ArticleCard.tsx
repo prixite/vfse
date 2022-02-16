@@ -1,16 +1,15 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
-
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box } from "@mui/material";
+
 import { hexToRgb } from "@src/helpers/utils/utils";
 import "@src/components/common/Presentational/ArticleCard/ArticleCard.scss";
 interface props {
   color: string;
-  number: number;
 }
 
-const ArticleCard = ({ color, number }: props) => {
+const ArticleCard = ({ color}: props) => {
   return (
     <div className="Article-card">
       <Box component="div" className="card">
