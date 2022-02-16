@@ -28,7 +28,6 @@ class Migration(migrations.Migration):
                     ("mr", "Magnetic Resonance"),
                     ("ct", "Computed Tomography"),
                 ],
-                default="us",
                 max_length=5,
                 null=True,
                 unique=True,

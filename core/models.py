@@ -405,7 +405,6 @@ class Modality(models.Model):
     group = models.CharField(
         max_length=5,
         choices=ModalityType.choices,
-        default=ModalityType.US,
         unique=True,
         null=True,
     )
