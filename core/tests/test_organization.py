@@ -722,6 +722,8 @@ class OrganizationTestCase(BaseTestCase):
             models.Profile.objects.get(user=self.customer_admin).manager, self.fse_admin
         )
 
+    def test_organization_health_sites_list(self):
+        self.client.force_login()
 
 class VfseTestCase(BaseTestCase):
     def test_list_vfse_systems(self):
