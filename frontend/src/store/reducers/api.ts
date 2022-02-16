@@ -744,14 +744,14 @@ export type ProductModelDetail = {
   documentation: Documentation;
 };
 export type HisRisInfo = {
-  ip: string;
-  title: string;
-  port: number;
-  ae_title: string;
+  ip?: string;
+  title?: string;
+  port?: number;
+  ae_title?: string;
 };
 export type MriEmbeddedParameters = {
-  helium: string;
-  magnet_pressure: string;
+  helium?: string;
+  magnet_pressure?: string;
 };
 export type ConnectionOptions = {
   vfse: boolean;

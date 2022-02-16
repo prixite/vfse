@@ -6,13 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0065_alter_productmodel_product'),
+        ("core", "0065_alter_productmodel_product"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='modality',
-            name='group',
-            field=models.CharField(choices=[('mri', 'Magnetic resonance imaging'), ('pet', 'Positron emission tomography'), ('rf', 'Radio Frequency'), ('bmd', 'Bone Densitometry'), ('cr', 'Computed Radiography'), ('dx', 'Digital Radiography'), ('ivus', 'Intravascular Ultrasound '), ('mg', 'Mammography'), ('us', 'Ultrasound'), ('mi', 'Medical Imaging'), ('mr', 'Magnetic Resonance'), ('ct', 'Computed Tomography')], default='us', max_length=5),
+            model_name="modality",
+            name="group",
+            field=models.CharField(
+                choices=[
+                    ("mri", "Magnetic resonance imaging"),
+                    ("pet", "Positron emission tomography"),
+                    ("rf", "Radio Frequency"),
+                    ("bmd", "Bone Densitometry"),
+                    ("cr", "Computed Radiography"),
+                    ("dx", "Digital Radiography"),
+                    ("ivus", "Intravascular Ultrasound "),
+                    ("mg", "Mammography"),
+                    ("us", "Ultrasound"),
+                    ("mi", "Medical Imaging"),
+                    ("mr", "Magnetic Resonance"),
+                    ("ct", "Computed Tomography"),
+                ],
+                default="us",
+                max_length=5,
+            ),
         ),
     ]

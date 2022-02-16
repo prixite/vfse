@@ -15,15 +15,16 @@ import {
   Collapse,
 } from "@mui/material";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
-import { isMobile } from "react-device-detect";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
 import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import MobileNavbar from "@src/components/shared/Layout/MobileNavbar/MobileNavbar";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
 import { routes, vfseRoutes } from "@src/routes";
@@ -104,6 +105,7 @@ export default function SideBar() {
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
   const [openVfse, setOpenVfse] = React.useState(false);
+  const [browserWidth] = useWindowSize();
   const [currentClient, setCurrentClient] =
     React.useState<Organization>(Object);
   const pathRoute = window.location.pathname;
@@ -303,7 +305,7 @@ export default function SideBar() {
   };
   return (
     <>
-      {!isMobile ? (
+      {browserWidth > mobileWidth ? (
         <Box className="SideBar" id="SideBarcontainer" sx={{ display: "flex" }}>
           {open ? <div className="overlay" onClick={toggleDrawer} /> : ""}
           <Drawer

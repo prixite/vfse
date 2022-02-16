@@ -1746,7 +1746,7 @@
             }
         },
         "Modality": {
-            "description": "Modality(id, name, created_at, updated_at)",
+            "description": "Modality(id, name, group, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -1847,12 +1847,6 @@
         "SystemInfo": {
             "title": "His ris info",
             "description": "",
-            "required": [
-                "ip",
-                "title",
-                "port",
-                "ae_title"
-            ],
             "type": "object",
             "properties": {
                 "ip": {
@@ -1885,10 +1879,6 @@
         "MriInfo": {
             "title": "Mri embedded parameters",
             "description": "",
-            "required": [
-                "helium",
-                "magnet_pressure"
-            ],
             "type": "object",
             "properties": {
                 "helium": {
