@@ -461,7 +461,7 @@ const TopViewBtns = ({
             }}
           />
         </Box>
-        {currentUser.is_superuser &&
+        {currentUser?.is_superuser &&
           path === "organizations" &&
           createAddButton()}
         {path !== "organizations" && createAddButton()}
