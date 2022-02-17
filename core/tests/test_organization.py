@@ -722,8 +722,16 @@ class OrganizationTestCase(BaseTestCase):
             models.Profile.objects.get(user=self.customer_admin).manager, self.fse_admin
         )
 
-    def test_organization_health_sites_list(self):
-        self.client.force_login()
+    def test_admin_can_list_organization_associated_sites(self):
+        self.client.force_login(self.super_admin)
+        factories.HealthNetworkFactory(
+            organizations=[self.organization],
+            sites=True,
+        )
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/associated_sites/"
+        )
+        self.assertEqual(len(response.json()), 2)
 
 
 class VfseTestCase(BaseTestCase):
