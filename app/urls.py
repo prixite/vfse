@@ -111,7 +111,7 @@ api_urlpatterns = [
     ),
     path(
         "api/organizations/<int:pk>/associated_sites/",
-        api.OrganizatoinAllSitesViewSet.as_view(),
+        api.OrganizationAllSitesViewSet.as_view(),
     ),
     path(
         "api/organizations/<int:pk>/systems/",

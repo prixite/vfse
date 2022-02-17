@@ -239,7 +239,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         removed_sites.delete()
 
 
-class OrganizatoinAllSitesViewSet(ListAPIView):
+class OrganizationAllSitesViewSet(ListAPIView):
     serializer_class = serializers.SiteSerializer
 
     def get_queryset(self):
