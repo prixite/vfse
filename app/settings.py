@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     # apps
     "core",
     "emailbackend",
+    "vfse",
 ]
 
 MIDDLEWARE = [
