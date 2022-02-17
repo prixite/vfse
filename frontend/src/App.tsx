@@ -42,61 +42,72 @@ const App = () => {
       id: params.params.id,
     });
   const [isLoading, setIsLoading] = useState(true);
-
+  const [isFirstTimeRendered, setIsFirstTimeRendered] = useState(false);
   useEffect(() => {
-    setIsLoading(true);
-    if (!isFetching && !FetchingList) {
-      const organizationData = data?.organization;
-      dispatch(
-        setCurrentOrganization({ currentOrganization: organizationData })
-      );
-      if (organizationList) {
-        const selectedOrganizationData = organizationList;
+    if (!isFirstTimeRendered) {
+      setIsLoading(true);
+      if (!isFetching && !FetchingList) {
+        const organizationData = data?.organization;
         dispatch(
-          setSelectedOrganization({
-            selectedOrganization: selectedOrganizationData,
-          })
+          setCurrentOrganization({ currentOrganization: organizationData })
         );
-        dispatch(
-          updateSideBarColor(selectedOrganizationData.appearance.sidebar_color)
-        );
-        dispatch(
-          updateButtonColor(selectedOrganizationData.appearance.primary_color)
-        );
-        dispatch(
-          updateSideBarTextColor(
-            selectedOrganizationData.appearance.sidebar_text
-          )
-        );
-        dispatch(
-          updateButtonTextColor(selectedOrganizationData.appearance.button_text)
-        );
-        dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
-        dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
-        dispatch(
-          updateSecondaryColor(
-            selectedOrganizationData?.appearance?.secondary_color
-          )
-        );
-      } else {
-        dispatch(
-          setSelectedOrganization({ selectedOrganization: organizationData })
-        );
-        dispatch(updateSideBarColor(organizationData.appearance.sidebar_color));
-        dispatch(updateButtonColor(organizationData.appearance.primary_color));
-        dispatch(
-          updateSideBarTextColor(organizationData.appearance.sidebar_text)
-        );
-        dispatch(
-          updateButtonTextColor(organizationData.appearance.button_text)
-        );
-        dispatch(updateFontOne(organizationData.appearance.font_one));
-        dispatch(updateFontTwo(organizationData.appearance.font_two));
-        dispatch(
-          updateSecondaryColor(organizationData?.appearance?.secondary_color)
-        );
+        if (organizationList) {
+          const selectedOrganizationData = organizationList;
+          dispatch(
+            setSelectedOrganization({
+              selectedOrganization: selectedOrganizationData,
+            })
+          );
+          dispatch(
+            updateSideBarColor(
+              selectedOrganizationData.appearance.sidebar_color
+            )
+          );
+          dispatch(
+            updateButtonColor(selectedOrganizationData.appearance.primary_color)
+          );
+          dispatch(
+            updateSideBarTextColor(
+              selectedOrganizationData.appearance.sidebar_text
+            )
+          );
+          dispatch(
+            updateButtonTextColor(
+              selectedOrganizationData.appearance.button_text
+            )
+          );
+          dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
+          dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
+          dispatch(
+            updateSecondaryColor(
+              selectedOrganizationData?.appearance?.secondary_color
+            )
+          );
+        } else {
+          dispatch(
+            setSelectedOrganization({ selectedOrganization: organizationData })
+          );
+          dispatch(
+            updateSideBarColor(organizationData.appearance.sidebar_color)
+          );
+          dispatch(
+            updateButtonColor(organizationData.appearance.primary_color)
+          );
+          dispatch(
+            updateSideBarTextColor(organizationData.appearance.sidebar_text)
+          );
+          dispatch(
+            updateButtonTextColor(organizationData.appearance.button_text)
+          );
+          dispatch(updateFontOne(organizationData.appearance.font_one));
+          dispatch(updateFontTwo(organizationData.appearance.font_two));
+          dispatch(
+            updateSecondaryColor(organizationData?.appearance?.secondary_color)
+          );
+        }
+        setIsFirstTimeRendered(true);
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
   }, [isFetching, FetchingList]);
 
