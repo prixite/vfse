@@ -191,21 +191,17 @@ export default function UserSection() {
     isLoading: isUsersLoading,
     refetch: usersRefetch,
   } = useOrganizationsUsersListQuery({
-    id: selectedOrganization.id.toString(),
+    id: selectedOrganization?.id?.toString(),
   });
 
   const { data: usersRoles } = useUsersRolesListQuery();
 
   const { data: modalitiesList } = useOrganizationsModalitiesListQuery(
-    { id: selectedOrganization.id.toString() },
+    { id: selectedOrganization?.id?.toString() },
     { skip: !selectedOrganization }
   );
 
   const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
-
-  // const { data: networksData } = useOrganizationsHealthNetworksListQuery({
-  //   id: selectedOrganization?.id.toString(),
-  // });
 
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
@@ -493,9 +489,10 @@ export default function UserSection() {
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             rowsPerPageOptions={[14, 16, 18, 20]}
           />
-        ) : userList?.query === searchText ? (
-          <NoDataFound title={noDataTitle} description={noDataDescription} />
         ) : (
+          <NoDataFound title={noDataTitle} description={noDataDescription} />
+        )}
+        {isUsersLoading ? (
           <div
             style={{
               color: "gray",
@@ -503,8 +500,10 @@ export default function UserSection() {
               marginTop: "20%",
             }}
           >
-            <h2>{searching}</h2>
+            <h2>{searchText?.length > 2 ? searching : "Loading..."}</h2>
           </div>
+        ) : (
+          ""
         )}
       </div>
 
