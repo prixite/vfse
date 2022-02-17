@@ -36,6 +36,7 @@ interface ClientCardProps {
   name: string;
   setAction: Dispatch<SetStateAction<string>>;
   selected: boolean;
+  superuser: boolean;
 }
 const ClientCard = ({
   id,
@@ -46,6 +47,7 @@ const ClientCard = ({
   setOrganization,
   setAction,
   selected,
+  superuser,
 }: ClientCardProps) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -99,15 +101,17 @@ const ClientCard = ({
     });
   };
   const handleUpdateSelectedOrganization = () => {
-    dispatch(setSelectedOrganization({ selectedOrganization: row }));
-    dispatch(updateSideBarColor(row.appearance.sidebar_color));
-    dispatch(updateButtonColor(row.appearance.primary_color));
-    dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
-    dispatch(updateButtonTextColor(row.appearance.button_text));
-    dispatch(updateSecondaryColor(row.appearance.secondary_color));
-    dispatch(updateFontOne(row.appearance.font_one));
-    dispatch(updateFontTwo(row.appearance.font_two));
-    history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
+    if (superuser) {
+      dispatch(setSelectedOrganization({ selectedOrganization: row }));
+      dispatch(updateSideBarColor(row.appearance.sidebar_color));
+      dispatch(updateButtonColor(row.appearance.primary_color));
+      dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
+      dispatch(updateButtonTextColor(row.appearance.button_text));
+      dispatch(updateSecondaryColor(row.appearance.secondary_color));
+      dispatch(updateFontOne(row.appearance.font_one));
+      dispatch(updateFontTwo(row.appearance.font_two));
+      history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
+    }
   };
   const switchOrganization = () => {
     dispatch(setSelectedOrganization({ selectedOrganization: row }));
@@ -157,35 +161,39 @@ const ClientCard = ({
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteOrganization}
       />
-      <div className="dropdownIcon">
-        <MoreVertIcon
-          id="client-options-button"
-          className="dropdown"
-          onClick={handleClick}
-        />
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="client-options-button"
-          anchorEl={anchorEl}
-          open={open}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          className="dropdownMenu"
-          onClose={handleClose}
-        >
-          <MenuItem onClick={handleEditAppearance}>{edit}</MenuItem>
-          <MenuItem onClick={handleNetworkModal}>{new_network}</MenuItem>
-          <MenuItem onClick={handleModalOpen} style={{ marginBottom: "0px" }}>
-            {delete_org}
-          </MenuItem>
-        </Menu>
-      </div>
+      {superuser ? (
+        <div className="dropdownIcon">
+          <MoreVertIcon
+            id="client-options-button"
+            className="dropdown"
+            onClick={handleClick}
+          />
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="client-options-button"
+            anchorEl={anchorEl}
+            open={open}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            className="dropdownMenu"
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleEditAppearance}>{edit}</MenuItem>
+            <MenuItem onClick={handleNetworkModal}>{new_network}</MenuItem>
+            <MenuItem onClick={handleModalOpen} style={{ marginBottom: "0px" }}>
+              {delete_org}
+            </MenuItem>
+          </Menu>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

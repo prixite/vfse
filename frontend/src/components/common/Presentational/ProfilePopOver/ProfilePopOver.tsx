@@ -78,6 +78,12 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
         }}
       >
         <div
+          className="header"
+          style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
+        >
+          <p>{defaultOrganizationData?.name}</p>
+        </div>
+        <div
           className="profile-item"
           style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
         >

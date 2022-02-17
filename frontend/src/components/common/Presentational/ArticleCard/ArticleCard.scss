@@ -1,0 +1,71 @@
+.Article-card {
+  .card {
+    height: 208px;
+    border-radius: 8px;
+    position: relative;
+    padding-top: 16px;
+    background: white;
+    box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+    margin-right: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .circle {
+      height: 56px;
+      width: 56px;
+      border-radius: 50%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .article-no {
+      display: flex;
+      flex-direction: row;
+      font-family: "ProximaNova-Regular";
+      color: #696f77;
+      align-items: center;
+      margin: 16px 0;
+      font-size: 16px;
+    }
+    .heading {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin-top: 14px;
+      .title {
+        font-family: "ProximaNova-Regular";
+        font-size: 15px;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        margin-left: 14px;
+      }
+    }
+    .imgStyling {
+      height: 48px;
+      width: 48px;
+      margin-top: 7px;
+      margin-right: 7px;
+    }
+    .info {
+      font-family: "ProximaNova-Regular";
+      font-size: 16px;
+      color: #696f77;
+      width: 250px;
+    }
+    .explore {
+      display: flex;
+      flex-direction: row;
+      .text {
+        margin-right: 7px;
+        font-family: "ProximaNova-Regular";
+        font-size: 16px;
+        color: #773cbd;
+        font-weight: 600;
+      }
+    }
+  }
+}

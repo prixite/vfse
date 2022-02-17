@@ -51,9 +51,14 @@ const SystemSection = () => {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const { data: organization, isFetching: fetching } =
-    useOrganizationsReadQuery({
-      id: networkId,
-    });
+    useOrganizationsReadQuery(
+      {
+        id: networkId,
+      },
+      {
+        skip: !networkId,
+      }
+    );
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
 
@@ -347,9 +352,14 @@ const SystemSection = () => {
     );
   };
 
-  const { data: healthNetwork } = useOrganizationsReadQuery({
-    id: networkId,
-  });
+  const { data: healthNetwork } = useOrganizationsReadQuery(
+    {
+      id: networkId,
+    },
+    {
+      skip: !networkId,
+    }
+  );
 
   useEffect(() => {
     if (healthNetwork) {
