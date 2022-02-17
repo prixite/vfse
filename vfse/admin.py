@@ -11,3 +11,8 @@ class FolerAdmin(admin.ModelAdmin):
 @admin.register(models.Category)
 class CategoryAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.Document)
+class DocumentAdmin(admin.ModelAdmin):
+    pass
