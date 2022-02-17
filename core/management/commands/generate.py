@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand
 from django.core.management import call_command
+from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from core.tests import factories
@@ -291,5 +291,5 @@ class Command(BaseCommand):
             ip_address="10.21.16.70", site=site, connection_monitoring=True
         )
 
-        call_command('populate')
+        call_command("populate")
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))

@@ -7,25 +7,45 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0066_modality_group'),
-        ('vfse', '0001_initial'),
+        ("core", "0066_modality_group"),
+        ("vfse", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='folder',
-            old_name='catergory',
-            new_name='category',
+            model_name="folder",
+            old_name="catergory",
+            new_name="category",
         ),
         migrations.CreateModel(
-            name='Document',
+            name="Document",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='core.user')),
-                ('folder', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='vfse.folder')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("text", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="core.user",
+                    ),
+                ),
+                (
+                    "folder",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to="vfse.folder"
+                    ),
+                ),
             ],
         ),
     ]
