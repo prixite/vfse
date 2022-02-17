@@ -14,7 +14,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -43,6 +43,7 @@ import {
   useModalitiesManufacturersListQuery,
   useProductsListQuery,
   Product,
+  useOrganizationsAssociatedSitesListQuery
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
@@ -69,6 +70,7 @@ const Loader = () => {
 export default function SystemModal(props: systemProps) {
   // const [newFields, setNewFields] = useState([1]);
   const siteData: siteProps = {};
+  const modalityData: Modality = {};
   let manufacturerData: Manufacturer;
   let productModel: ProductModelDetail; // eslint-disable-line
   let productProps: Product;
@@ -117,7 +119,7 @@ export default function SystemModal(props: systemProps) {
   const [serviceWeb, setServiceWeb] = useState(false);
   const [virtualMedia, setVirtualMedia] = useState(false);
   const [disableButton, setDisableButton] = useState(false);
-  const [modality, setModality] = useState(siteData);
+  const [modality, setModality] = useState(modalityData);
   const [modalityError, setModalityError] = useState("");
   const [manufacturer, setManufacturer] = useState(manufacturerData);
   const [manufacturerError, setManufacturerError] = useState("");
@@ -130,11 +132,20 @@ export default function SystemModal(props: systemProps) {
   const [modalityList, setModalityList] = useState([]);
   const [productList, setProductList] = useState([]);
   const [modalList, setModalList] = useState([]);
-
+  const history = useHistory();
+  const isOrganizationModality = !history?.location?.pathname?.includes("sites") && !history?.location?.pathname?.includes("networks");
   const selectedOrganization = useSelectedOrganization();
 
   const { data: ModalitiesData, isLoading: isModalityLoading } =
     useOrganizationsModalitiesListQuery(
+      {
+        id: selectedOrganization.id.toString(),
+      },
+      { skip: !selectedOrganization }
+    );
+
+    const { data: allSites, isLoading: isAllSitesLoading } =
+    useOrganizationsAssociatedSitesListQuery(
       {
         id: selectedOrganization.id.toString(),
       },
@@ -256,55 +267,15 @@ export default function SystemModal(props: systemProps) {
       dName: fieldLocalAE,
     },
     {
-      name: risAE,
-      setError: setRisAeError,
-      dName: fieldRisAE,
-    },
-    {
       name: risIp,
       setError: setRisIpError,
-      dName: fieldRisIp,
-    },
-    {
-      name: risPort,
-      setError: setRisPortError,
-      dName: fieldRisPort,
-    },
-    {
-      name: risTitle,
-      setError: setRisTitleError,
-      dName: fieldRisTitle,
-    },
-    {
-      name: dicAE,
-      setError: setDicAeError,
-      dName: fieldDicomAE,
+      dName: "optionalIp",
     },
     {
       name: dicIP,
       setError: setDicIpError,
-      dName: fieldDicomIp,
-    },
-    {
-      name: dicPort,
-      setError: setDicPortError,
-      dName: fieldDicomPort,
-    },
-    {
-      name: dicTitle,
-      setError: setDicTitleError,
-      dName: fieldDicomTitle,
-    },
-    {
-      name: mriHelium,
-      setError: setMriHeliumError,
-      dName: fieldMRIHelium,
-    },
-    {
-      name: mriMagnet,
-      setError: setMriMagnetError,
-      dName: fieldMRIMagnet,
-    },
+      dName: "optionalIp",
+    }
   ];
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
@@ -554,11 +525,11 @@ export default function SystemModal(props: systemProps) {
 
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
-      if (!item.name && item.dName !== "Grafana link") {
+      if (!item.name && item.dName !== "Grafana link" && item?.dName !== "optionalIp") {
         item.setError(`${item.dName} is required`);
         return false;
       }
-      if (item.name && item.dName === "IP" && !ValidateIPaddress(item.name)) {
+      if (item.name && (item.dName === "IP" || item?.dName === "optionalIp") && !ValidateIPaddress(item.name)) {
         item.setError(`Invalid ip address`);
         return false;
       }
@@ -647,10 +618,10 @@ export default function SystemModal(props: systemProps) {
         port: dicPort,
         ae_title: dicAE,
       },
-      mri_embedded_parameters: {
+      mri_embedded_parameters: modality.group === 'mri' ? {
         helium: mriHelium,
         magnet_pressure: mriMagnet,
-      },
+      }: undefined,
       connection_options: {
         vfse: vfse,
         virtual_media_control: virtualMedia,
@@ -665,6 +636,7 @@ export default function SystemModal(props: systemProps) {
     if (isValidPostRequest()) {
       setDisableButton(true);
       const obj = returnObj();
+      console.log(returnObj())
       if (!props.system) {
         await addNewOrdanizationSystem(
           selectedOrganization.id,
@@ -714,11 +686,6 @@ export default function SystemModal(props: systemProps) {
     setModalList(productData);
   }, [productData]);
 
-  // useEffect(() => {
-  //   setProduct({});
-  //   setManufacturer({});
-  //   setModal({});
-  // }, [modality]);
 
   useEffect(() => {
     if (props.system) {
@@ -746,10 +713,13 @@ export default function SystemModal(props: systemProps) {
   useEffect(() => {
     if (healthNetwork) {
       setSites(healthNetwork.sites);
-    } else {
+    } else if(isOrganizationModality && !isAllSitesLoading)
+    {
+      setSites(allSites);
+    } else{
       setSites(selectedOrganization.sites);
     }
-  }, [healthNetwork, selectedOrganization]);
+  }, [healthNetwork, selectedOrganization, isAllSitesLoading]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
@@ -765,7 +735,7 @@ export default function SystemModal(props: systemProps) {
       </DialogTitle>
       <DialogContent>
         <div className="modal-content">
-          <p className="gallery-title">Select Image</p>
+          <p className="gallery-title required">Select Image</p>
           <SystemImageGallery
             setSystemImage={setSystemImage}
             systemImage={systemImage}
@@ -774,7 +744,7 @@ export default function SystemModal(props: systemProps) {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldModality}</p>
+                  <p className="info-label required">{fieldModality}</p>
                   <Autocomplete
                     loading={isModalityLoading}
                     loadingText={<Loader />}
@@ -806,7 +776,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldManufacturer}</p>
+                  <p className="info-label required">{fieldManufacturer}</p>
                   <Autocomplete
                     id="country-select-demo"
                     sx={{ width: "100%" }}
@@ -841,7 +811,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldProduct}</p>
+                  <p className="info-label required">{fieldProduct}</p>
                   <Autocomplete
                     id="country-select-demo"
                     sx={{ width: "100%" }}
@@ -873,7 +843,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldModal}</p>
+                  <p className="info-label required">{fieldModal}</p>
                   <Autocomplete
                     id="country-select-demo"
                     sx={{ width: "100%" }}
@@ -903,7 +873,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldName}</p>
+                  <p className="info-label required">{fieldName}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -917,7 +887,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldSite}</p>
+                  <p className="info-label required">{fieldSite}</p>
                   <FormControl sx={{ minWidth: "100%" }}>
                     <Select
                       value={site?.name || ""}
@@ -972,7 +942,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldVersion}</p>
+                  <p className="info-label required">{fieldVersion}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -990,7 +960,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldIp}</p>
+                  <p className="info-label required">{fieldIp}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -1004,7 +974,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldAsset}</p>
+                  <p className="info-label required">{fieldAsset}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -1018,7 +988,7 @@ export default function SystemModal(props: systemProps) {
               </Grid>
               <Grid item xs={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldLocalAE}</p>
+                  <p className="info-label required">{fieldLocalAE}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -1246,6 +1216,8 @@ export default function SystemModal(props: systemProps) {
                   </Grid>
                 </div>
               </div>
+              {
+                modality.group === 'mri' ?
               <div className="box-heading">
                 <p className="heading">{fieldMRIname}</p>
                 <div className="box">
@@ -1285,6 +1257,8 @@ export default function SystemModal(props: systemProps) {
                   </Grid>
                 </div>
               </div>
+              :''
+              }
             </div>
           </div>
         </div>
