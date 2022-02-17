@@ -7,6 +7,7 @@ from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
@@ -236,6 +237,18 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
         models.System.objects.filter(site__in=removed_sites).delete()
         removed_sites.delete()
+
+
+class OrganizationAllSitesViewSet(ListAPIView):
+    serializer_class = serializers.SiteSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.Organization.get_organization_sites(self.kwargs["pk"])
+
+        return self.request.user.get_organization_sites(
+            self.kwargs["pk"]
+        ).select_related("systems")
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):

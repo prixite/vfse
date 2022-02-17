@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.db.models import Q
+from django.db.models import Count, Q
+from django.db.models.query import Prefetch
 from rest_framework.authtoken.models import Token
 
 
@@ -138,6 +139,12 @@ class User(AbstractUser):
                 )
             )
             | Q(site__organization=organization_pk),
+        )
+
+    def get_organization_sites(self, organization_pk):
+        return Site.objects.filter(id__in=self.get_sites(),).filter(
+            Q(organization__in=self.get_organization_health_networks(organization_pk))
+            | Q(organization=organization_pk),
         )
 
     def get_organization_role(self, organization_pk):
@@ -332,6 +339,28 @@ class Organization(models.Model):
         return OrganizationHealthNetwork.objects.filter(
             organization=organization_pk,
         ).values_list("health_network", flat=True)
+
+    @classmethod
+    def get_organization_sites(cls, organization_pk):
+        return (
+            Site.objects.filter(
+                Q(
+                    organization__in=cls.get_organization_health_networks(
+                        organization_pk
+                    )
+                )
+                | Q(organization=organization_pk),
+            )
+            .prefetch_related(
+                Prefetch(
+                    "systems",
+                    queryset=System.objects.all().select_related(
+                        "product_model__modality"
+                    ),
+                ),
+            )
+            .annotate(connections=Count("systems"))
+        )
 
 
 class Membership(models.Model):
