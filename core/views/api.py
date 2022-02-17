@@ -246,7 +246,7 @@ class OrganizatoinAllSitesViewSet(ListAPIView):
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.Organization.get_organization_sites(self.kwargs["pk"])
 
-        return self.request.user.get_organization_sites(self.kwargs["pk"])
+        return self.request.user.get_organization_sites(self.kwargs["pk"]).select_related("systems")
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
