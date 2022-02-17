@@ -6,17 +6,17 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vfse', '0002_rename_catergory_folder_category_document'),
+        ("vfse", "0002_rename_catergory_folder_category_document"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='category',
-            options={'verbose_name_plural': 'Categories'},
+            name="category",
+            options={"verbose_name_plural": "Categories"},
         ),
         migrations.RenameField(
-            model_name='folder',
-            old_name='category',
-            new_name='categories',
+            model_name="folder",
+            old_name="category",
+            new_name="categories",
         ),
     ]
