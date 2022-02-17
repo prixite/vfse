@@ -13,7 +13,7 @@ class FolderFactory(factory.django.DjangoModelFactory):
     def category(self, created, extracted, **kwargs):
         if not created:
             return
-        self.category.add(extracted)
+        self.categories.add(extracted)
 
     class Meta:
         model = models.Folder
