@@ -379,9 +379,9 @@
                 }
             ]
         },
-        "/organizations/{id}/all_sites/": {
+        "/organizations/{id}/associated_sites/": {
             "get": {
-                "operationId": "organizations_all_sites_list",
+                "operationId": "organizations_associated_sites_list",
                 "description": "",
                 "parameters": [],
                 "responses": {

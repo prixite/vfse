@@ -123,12 +123,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    organizationsAllSitesList: build.query<
-      OrganizationsAllSitesListApiResponse,
-      OrganizationsAllSitesListApiArg
+    organizationsAssociatedSitesList: build.query<
+      OrganizationsAssociatedSitesListApiResponse,
+      OrganizationsAssociatedSitesListApiArg
     >({
       query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/all_sites/`,
+        url: `/organizations/${queryArg.id}/associated_sites/`,
       }),
     }),
     organizationsHealthNetworksList: build.query<
@@ -478,8 +478,9 @@ export type OrganizationsDeleteApiResponse = unknown;
 export type OrganizationsDeleteApiArg = {
   id: string;
 };
-export type OrganizationsAllSitesListApiResponse = /** status 200  */ Site[];
-export type OrganizationsAllSitesListApiArg = {
+export type OrganizationsAssociatedSitesListApiResponse =
+  /** status 200  */ Site[];
+export type OrganizationsAssociatedSitesListApiArg = {
   id: string;
 };
 export type OrganizationsHealthNetworksListApiResponse =
@@ -939,7 +940,7 @@ export const {
   useOrganizationsReadQuery,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsDeleteMutation,
-  useOrganizationsAllSitesListQuery,
+  useOrganizationsAssociatedSitesListQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,

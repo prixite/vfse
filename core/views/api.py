@@ -7,6 +7,7 @@ from django.db.models.query import Prefetch
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
@@ -238,19 +239,14 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
         removed_sites.delete()
 
 
-class OrganizatoinAllSitesViewSet(ModelViewSet):
+class OrganizatoinAllSitesViewSet(ListAPIView):
     serializer_class = serializers.SiteSerializer
-    permission_classes = [IsAuthenticated, permissions.OrganizationSitesPermission]
 
     def get_queryset(self):
-        return models.Site.objects.filter(
-            Q(organization_id=self.kwargs["pk"])
-            | Q(
-                organization__in=models.OrganizationHealthNetwork.objects.filter(
-                    organization_id=self.kwargs["pk"]
-                ).values_list("health_network", flat=True)
-            ),
-        ).prefetch_related("systems")
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.Organization.get_organization_sites(self.kwargs["pk"])
+
+        return self.request.user.get_organization_sites(self.kwargs["pk"])
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
