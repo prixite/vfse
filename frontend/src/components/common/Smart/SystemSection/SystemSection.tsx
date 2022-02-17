@@ -19,7 +19,7 @@ import {
   useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
   Modality,
-  useOrganizationsAssociatedSitesListQuery
+  useOrganizationsAssociatedSitesListQuery,
 } from "@src/store/reducers/api";
 
 import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
@@ -51,7 +51,9 @@ const SystemSection = () => {
     useParams<{ siteId: string; networkId: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
-  const isOrganizationModality = !history?.location?.pathname.includes("sites") && !history?.location?.pathname.includes("networks");
+  const isOrganizationModality =
+    !history?.location?.pathname.includes("sites") &&
+    !history?.location?.pathname.includes("networks");
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
       {
@@ -65,12 +67,12 @@ const SystemSection = () => {
   const selectedOrganization = useSelectedOrganization();
 
   const { data: allSites, isLoading: isAllSitesLoading } =
-  useOrganizationsAssociatedSitesListQuery(
-    {
-      id: selectedOrganization.id.toString(),
-    },
-    { skip: !selectedOrganization }
-  );
+    useOrganizationsAssociatedSitesListQuery(
+      {
+        id: selectedOrganization.id.toString(),
+      },
+      { skip: !selectedOrganization }
+    );
 
   const { isLoading: isModalitiesLoading, data: modalitiesList } =
     useOrganizationsModalitiesListQuery(
@@ -374,11 +376,9 @@ const SystemSection = () => {
   useEffect(() => {
     if (healthNetwork) {
       setSites(healthNetwork.sites);
-    } else if(isOrganizationModality && !isAllSitesLoading)
-    {
-      console.log(isOrganizationModality, allSites)
+    } else if (isOrganizationModality && !isAllSitesLoading) {
       setSites(allSites);
-    } else{
+    } else {
       setSites(selectedOrganization.sites);
     }
   }, [healthNetwork, selectedOrganization, isAllSitesLoading]);

@@ -43,7 +43,7 @@ import {
   useModalitiesManufacturersListQuery,
   useProductsListQuery,
   Product,
-  useOrganizationsAssociatedSitesListQuery
+  useOrganizationsAssociatedSitesListQuery,
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
@@ -133,7 +133,9 @@ export default function SystemModal(props: systemProps) {
   const [productList, setProductList] = useState([]);
   const [modalList, setModalList] = useState([]);
   const history = useHistory();
-  const isOrganizationModality = !history?.location?.pathname?.includes("sites") && !history?.location?.pathname?.includes("networks");
+  const isOrganizationModality =
+    !history?.location?.pathname?.includes("sites") &&
+    !history?.location?.pathname?.includes("networks");
   const selectedOrganization = useSelectedOrganization();
 
   const { data: ModalitiesData, isLoading: isModalityLoading } =
@@ -144,7 +146,7 @@ export default function SystemModal(props: systemProps) {
       { skip: !selectedOrganization }
     );
 
-    const { data: allSites, isLoading: isAllSitesLoading } =
+  const { data: allSites, isLoading: isAllSitesLoading } =
     useOrganizationsAssociatedSitesListQuery(
       {
         id: selectedOrganization.id.toString(),
@@ -275,7 +277,7 @@ export default function SystemModal(props: systemProps) {
       name: dicIP,
       setError: setDicIpError,
       dName: "optionalIp",
-    }
+    },
   ];
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
@@ -525,11 +527,19 @@ export default function SystemModal(props: systemProps) {
 
   const isValidPostRequest = () => {
     const data = requiredStates.map((item) => {
-      if (!item.name && item.dName !== "Grafana link" && item?.dName !== "optionalIp") {
+      if (
+        !item.name &&
+        item.dName !== "Grafana link" &&
+        item?.dName !== "optionalIp"
+      ) {
         item.setError(`${item.dName} is required`);
         return false;
       }
-      if (item.name && (item.dName === "IP" || item?.dName === "optionalIp") && !ValidateIPaddress(item.name)) {
+      if (
+        item.name &&
+        (item.dName === "IP" || item?.dName === "optionalIp") &&
+        !ValidateIPaddress(item.name)
+      ) {
         item.setError(`Invalid ip address`);
         return false;
       }
@@ -618,10 +628,13 @@ export default function SystemModal(props: systemProps) {
         port: dicPort,
         ae_title: dicAE,
       },
-      mri_embedded_parameters: modality.group === 'mri' ? {
-        helium: mriHelium,
-        magnet_pressure: mriMagnet,
-      }: undefined,
+      mri_embedded_parameters:
+        modality.group === "mri"
+          ? {
+              helium: mriHelium,
+              magnet_pressure: mriMagnet,
+            }
+          : undefined,
       connection_options: {
         vfse: vfse,
         virtual_media_control: virtualMedia,
@@ -636,7 +649,6 @@ export default function SystemModal(props: systemProps) {
     if (isValidPostRequest()) {
       setDisableButton(true);
       const obj = returnObj();
-      console.log(returnObj())
       if (!props.system) {
         await addNewOrdanizationSystem(
           selectedOrganization.id,
@@ -686,7 +698,6 @@ export default function SystemModal(props: systemProps) {
     setModalList(productData);
   }, [productData]);
 
-
   useEffect(() => {
     if (props.system) {
       editModal();
@@ -713,10 +724,9 @@ export default function SystemModal(props: systemProps) {
   useEffect(() => {
     if (healthNetwork) {
       setSites(healthNetwork.sites);
-    } else if(isOrganizationModality && !isAllSitesLoading)
-    {
+    } else if (isOrganizationModality && !isAllSitesLoading) {
       setSites(allSites);
-    } else{
+    } else {
       setSites(selectedOrganization.sites);
     }
   }, [healthNetwork, selectedOrganization, isAllSitesLoading]);
@@ -1216,49 +1226,49 @@ export default function SystemModal(props: systemProps) {
                   </Grid>
                 </div>
               </div>
-              {
-                modality.group === 'mri' ?
-              <div className="box-heading">
-                <p className="heading">{fieldMRIname}</p>
-                <div className="box">
-                  <Grid container spacing={2} style={{ marginBottom: "5px" }}>
-                    <Grid item xs={6}>
-                      <p className="info-label">{fieldMRIHelium}</p>
-                      <TextField
-                        className="info-field"
-                        variant="outlined"
-                        size="small"
-                        placeholder="strong"
-                        value={mriHelium}
-                        onChange={handleMriHelium}
-                      />
-                      {mriHeliumError ? (
-                        <p className="errorText">{mriHeliumError}</p>
-                      ) : (
-                        ""
-                      )}
+              {modality.group === "mri" ? (
+                <div className="box-heading">
+                  <p className="heading">{fieldMRIname}</p>
+                  <div className="box">
+                    <Grid container spacing={2} style={{ marginBottom: "5px" }}>
+                      <Grid item xs={6}>
+                        <p className="info-label">{fieldMRIHelium}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="strong"
+                          value={mriHelium}
+                          onChange={handleMriHelium}
+                        />
+                        {mriHeliumError ? (
+                          <p className="errorText">{mriHeliumError}</p>
+                        ) : (
+                          ""
+                        )}
+                      </Grid>
+                      <Grid item xs={6}>
+                        <p className="info-label">{fieldMRIMagnet}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="low"
+                          value={mriMagnet}
+                          onChange={handleMriMagnet}
+                        />
+                        {mriMagnetError ? (
+                          <p className="errorText">{mriMagnetError}</p>
+                        ) : (
+                          ""
+                        )}
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <p className="info-label">{fieldMRIMagnet}</p>
-                      <TextField
-                        className="info-field"
-                        variant="outlined"
-                        size="small"
-                        placeholder="low"
-                        value={mriMagnet}
-                        onChange={handleMriMagnet}
-                      />
-                      {mriMagnetError ? (
-                        <p className="errorText">{mriMagnetError}</p>
-                      ) : (
-                        ""
-                      )}
-                    </Grid>
-                  </Grid>
+                  </div>
                 </div>
-              </div>
-              :''
-              }
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
