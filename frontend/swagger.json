@@ -1279,6 +1279,196 @@
                     "type": "string"
                 }
             ]
+        },
+        "/vfse/document/": {
+            "get": {
+                "operationId": "vfse_document_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Document"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_document_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
+        "/vfse/document/{id}/": {
+            "patch": {
+                "operationId": "vfse_document_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "delete": {
+                "operationId": "vfse_document_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/vfse/folders/": {
+            "get": {
+                "operationId": "vfse_folders_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Folder"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_folders_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Folder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Folder"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
+        "/vfse/folders/{id}/": {
+            "patch": {
+                "operationId": "vfse_folders_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Folder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Folder"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "delete": {
+                "operationId": "vfse_folders_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         }
     },
     "definitions": {
@@ -2654,6 +2844,58 @@
             "type": "object",
             "properties": {
                 "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
+        "Document": {
+            "description": "Document(id, folder, text, created_by, created_at, updated_at)",
+            "required": [
+                "text"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "text": {
+                    "title": "Text",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "created_by": {
+                    "title": "Created by",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
+        "Folder": {
+            "description": "Folder(id, name, created_at, updated_at)",
+            "required": [
+                "name",
+                "categories"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                },
+                "categories": {
                     "type": "array",
                     "items": {
                         "type": "integer"
