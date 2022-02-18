@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vfse', '0003_alter_category_options_and_more'),
+        ("vfse", "0003_alter_category_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='folder',
-            name='categories',
-            field=models.ManyToManyField(related_name='categories', to='vfse.Category'),
+            model_name="folder",
+            name="categories",
+            field=models.ManyToManyField(related_name="categories", to="vfse.Category"),
         ),
     ]
