@@ -1,11 +1,6 @@
-from faker import Faker
-
 from vfse import models
 from vfse.tests import factories
 from vfse.tests.base import BaseTestCase
-
-fake = Faker()
-fake.seed_instance(1234)
 
 
 class VfseTestCase(BaseTestCase):
@@ -61,7 +56,7 @@ class VfseTestCase(BaseTestCase):
 
     def test_document_post(self):
         self.client.force_login(self.user)
-        text = fake.text()
+        text = factories.fake.text()
         response = self.client.post(
             "/api/vfse/documents/",
             data={
@@ -82,7 +77,7 @@ class VfseTestCase(BaseTestCase):
 
     def test_document_patch(self):
         self.client.force_login(self.user)
-        new_text = fake.text()
+        new_text = factories.fake.text()
         response = self.client.patch(
             f"/api/vfse/documents/{self.document.id}/", data={"text": new_text}
         )
