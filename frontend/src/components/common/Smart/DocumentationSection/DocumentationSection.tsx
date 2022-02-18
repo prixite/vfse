@@ -21,7 +21,6 @@ import {
   useProductsModelsDeleteMutation,
 } from "@src/store/reducers/api";
 
-
 const columns = [
   {
     field: "model",
