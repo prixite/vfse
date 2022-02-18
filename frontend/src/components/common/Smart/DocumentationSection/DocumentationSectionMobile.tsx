@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import "@src/components/common/Smart/DocumentationSection/DocumentationSectionMobile.scss";
 import { Box } from "@mui/material";
@@ -16,8 +16,8 @@ interface DocumentationSectionMobileProps {
     documentation: string;
     model: string;
   }[];
-  documentationLink: (link: any) => JSX.Element;
-  openDropDown: (event: any, id: any, name: any) => void;
+  documentationLink: (link: string) => JSX.Element;
+  openDropDown: (event: unknown, id: number, name: string) => void;
 }
 const DocumentationSectionMobile = ({
   docList,
