@@ -1,33 +1,22 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Box } from "@mui/material";
+import fileImage from '@src/assets/svgs/fileImage.svg';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard.scss";
 interface props {
-  color: string;
-  number: number;
+  title: string
 }
 
-const KnowledgeTopCard = ({ color, number }: props) => {
+const KnowledgeTopCard = ({ title}: props) => {
   return (
     <div className="knowledge-top-card">
       <Box component="div" className="card">
-        <div className="circle" style={{ backgroundColor: color }}></div>
-        <div className="heading">
-          <h1 className="number" style={{ color: color }}>
-            {number}
-          </h1>
-          <h2 className="title"> Getting started</h2>
-        </div>
+          <img  src={fileImage}/>
+          <h2 className="title"> {title}</h2>
         <div className="info">
           <p className="category">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lacus
-            tempor.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...
           </p>
-        </div>
-        <div className="explore">
-          <p className="text" style={{ color: color }}>
-            Explore
-          </p>
-          <ArrowRightAltIcon style={{ color: color }} />
         </div>
       </Box>
     </div>

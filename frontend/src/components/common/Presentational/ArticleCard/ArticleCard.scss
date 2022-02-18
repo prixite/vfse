@@ -1,25 +1,18 @@
 .Article-card {
   .card {
-    height: 208px;
+    height: 168px;
     border-radius: 8px;
     position: relative;
-    padding-top: 16px;
+    padding-top: 24px;
+    padding-left: 24px;
+    padding-right: 24px;
     background: white;
     box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
     margin-right: 16px;
     margin-bottom: 16px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    .circle {
-      height: 56px;
-      width: 56px;
-      border-radius: 50%;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    justify-content: space-between;
     .article-no {
       display: flex;
       flex-direction: row;
@@ -30,26 +23,21 @@
       font-size: 16px;
     }
     .heading {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
       margin-top: 14px;
       .title {
         font-family: "ProximaNova-Regular";
-        font-size: 15px;
+        font-size: 20px;
         font-weight: 600;
         font-size: 20px;
         line-height: 24px;
-        margin-left: 14px;
       }
     }
-    .imgStyling {
-      height: 48px;
-      width: 48px;
-      margin-top: 7px;
-      margin-right: 7px;
-    }
+    .article-info
+    {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     .info {
       font-family: "ProximaNova-Regular";
       font-size: 16px;
@@ -68,4 +56,5 @@
       }
     }
   }
+}
 }

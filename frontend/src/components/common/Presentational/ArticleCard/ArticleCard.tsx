@@ -1,5 +1,5 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
+import FolderRoundedIcon from '@mui/icons-material/FolderRounded';
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box } from "@mui/material";
 
@@ -13,18 +13,14 @@ const ArticleCard = ({ color }: props) => {
   return (
     <div className="Article-card">
       <Box component="div" className="card">
-        <div
-          className="circle"
-          style={{ background: `${hexToRgb(color, 0.3)}` }}
-        >
-          <InsertDriveFileOutlinedIcon style={{ color: color }} />
-        </div>
+          <FolderRoundedIcon style={{ color: color, fontSize: '2.2em' }} />
         <div className="heading">
-          <h2 className="title" style={{ color: color }}>
+          <h2 className="title">
             {" "}
             Getting started
           </h2>
         </div>
+        <div className="article-info">
         <div className="article-no">
           <TextsmsOutlinedIcon
             style={{ color: "#696F77", fontSize: "1em", marginRight: "10px" }}
@@ -32,10 +28,11 @@ const ArticleCard = ({ color }: props) => {
           <p>8 articles</p>
         </div>
         <div className="explore">
-          <p className="text" style={{ color: color }}>
+          <p className="text" style={{ color: "#696F77" }}>
             Explore
           </p>
-          <ArrowRightAltIcon style={{ color: color }} />
+          <ArrowRightAltIcon style={{ color: "#696F77" }} />
+        </div>
         </div>
       </Box>
     </div>
