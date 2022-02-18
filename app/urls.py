@@ -260,6 +260,10 @@ api_urlpatterns = [
             }
         ),
     ),
+    path(
+        "api/vfse/",
+        include("vfse.urls"),
+    ),
 ]
 
 urlpatterns = (

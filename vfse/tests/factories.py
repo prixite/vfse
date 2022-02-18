@@ -1,9 +1,13 @@
 import random
 
 import factory
+from faker import Faker
 
 from core.models import User
 from vfse import models
+
+fake = Faker()
+fake.seed_instance(1234)
 
 
 class FolderFactory(factory.django.DjangoModelFactory):

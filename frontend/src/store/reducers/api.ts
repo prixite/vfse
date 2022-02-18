@@ -414,6 +414,76 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.upsertUser,
       }),
     }),
+    vfseDocumentsList: build.query<
+      VfseDocumentsListApiResponse,
+      VfseDocumentsListApiArg
+    >({
+      query: () => ({ url: `/vfse/documents/` }),
+    }),
+    vfseDocumentsCreate: build.mutation<
+      VfseDocumentsCreateApiResponse,
+      VfseDocumentsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/documents/`,
+        method: "POST",
+        body: queryArg.document,
+      }),
+    }),
+    vfseDocumentsPartialUpdate: build.mutation<
+      VfseDocumentsPartialUpdateApiResponse,
+      VfseDocumentsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/documents/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.document,
+      }),
+    }),
+    vfseDocumentsDelete: build.mutation<
+      VfseDocumentsDeleteApiResponse,
+      VfseDocumentsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/documents/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
+    vfseFoldersList: build.query<
+      VfseFoldersListApiResponse,
+      VfseFoldersListApiArg
+    >({
+      query: () => ({ url: `/vfse/folders/` }),
+    }),
+    vfseFoldersCreate: build.mutation<
+      VfseFoldersCreateApiResponse,
+      VfseFoldersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/folders/`,
+        method: "POST",
+        body: queryArg.folder,
+      }),
+    }),
+    vfseFoldersPartialUpdate: build.mutation<
+      VfseFoldersPartialUpdateApiResponse,
+      VfseFoldersPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/folders/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.folder,
+      }),
+    }),
+    vfseFoldersDelete: build.mutation<
+      VfseFoldersDeleteApiResponse,
+      VfseFoldersDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/folders/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -637,6 +707,36 @@ export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
   id: string;
   upsertUser: UpsertUser;
+};
+export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
+export type VfseDocumentsListApiArg = void;
+export type VfseDocumentsCreateApiResponse = /** status 201  */ Document;
+export type VfseDocumentsCreateApiArg = {
+  document: Document;
+};
+export type VfseDocumentsPartialUpdateApiResponse = /** status 200  */ Document;
+export type VfseDocumentsPartialUpdateApiArg = {
+  id: string;
+  document: Document;
+};
+export type VfseDocumentsDeleteApiResponse = unknown;
+export type VfseDocumentsDeleteApiArg = {
+  id: string;
+};
+export type VfseFoldersListApiResponse = /** status 200  */ Folder[];
+export type VfseFoldersListApiArg = void;
+export type VfseFoldersCreateApiResponse = /** status 201  */ Folder;
+export type VfseFoldersCreateApiArg = {
+  folder: Folder;
+};
+export type VfseFoldersPartialUpdateApiResponse = /** status 200  */ Folder;
+export type VfseFoldersPartialUpdateApiArg = {
+  id: string;
+  folder: Folder;
+};
+export type VfseFoldersDeleteApiResponse = unknown;
+export type VfseFoldersDeleteApiArg = {
+  id: string;
 };
 export type Meta = {
   profile_picture: string;
@@ -924,6 +1024,17 @@ export type SystemNotes = {
 export type UserEnableDisable = {
   users: number[];
 };
+export type Document = {
+  id?: number;
+  text: string;
+  folder: number;
+  created_by?: number | null;
+};
+export type Folder = {
+  id?: number;
+  name: string;
+  categories: number[];
+};
 export const {
   useAccountsRequestsCreateMutation,
   useLambdaPartialUpdateMutation,
@@ -973,4 +1084,12 @@ export const {
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
+  useVfseDocumentsListQuery,
+  useVfseDocumentsCreateMutation,
+  useVfseDocumentsPartialUpdateMutation,
+  useVfseDocumentsDeleteMutation,
+  useVfseFoldersListQuery,
+  useVfseFoldersCreateMutation,
+  useVfseFoldersPartialUpdateMutation,
+  useVfseFoldersDeleteMutation,
 } = injectedRtkApi;
