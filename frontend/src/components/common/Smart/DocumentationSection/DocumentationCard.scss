@@ -1,0 +1,54 @@
+
+
+.DocumentationCard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 172px;
+    box-shadow: 0px 0.849607px 1.69921px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    &:nth-of-type(odd) {
+        background-color: #fff;
+    }
+    &:nth-of-type(even) {
+        background-color: #F9FAFB;
+    }
+    .system {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        .name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+    }
+    .manufacturer {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 12px;
+        .name {
+            color: #696F77;
+            font-weight: 500;
+            font-size: 12px;
+        }
+    }
+    .modality {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 12px;
+         &__item {
+            background: rgba(146, 213, 9, 0.16);
+            border-radius: 4px;
+            padding: 2px 10px;
+            font-weight: 500;
+            font-size: 12px;
+         }
+    }
+    .documentation {
+        width: 100%;
+        margin-top: 12px;
+    }
+}

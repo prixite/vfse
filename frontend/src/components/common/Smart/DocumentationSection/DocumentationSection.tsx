@@ -7,16 +7,20 @@ import { toast } from "react-toastify";
 import EditLogo from "@src/assets/svgs/Edit.svg";
 import LinkLogo from "@src/assets/svgs/Link.svg";
 import "@src/components/common/Smart/DocumentationSection/DocumentationSection.scss";
+import DocumentationSectionMobile from "@src/components/common/Smart/DocumentationSection/DocumentationSectionMobile";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/DocumentModal/DocumentModal";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 import { deleteProductModelService } from "@src/services/DocumentationService";
 import {
   useProductsModelsListQuery,
   useProductsModelsDeleteMutation,
 } from "@src/store/reducers/api";
+
 
 const columns = [
   {
@@ -107,6 +111,7 @@ export default function DocumentationSection() {
   const [anchorEl, setAnchorEl] = useState(null);
   const openModal = Boolean(anchorEl);
   const [openConfModal, setOpenConfModal] = useState(false);
+  const [browserWidth] = useWindowSize();
 
   const [deleteProductModel] = useProductsModelsDeleteMutation();
 
@@ -117,10 +122,8 @@ export default function DocumentationSection() {
     isLoading,
     refetch: docsRefetch,
   } = useProductsModelsListQuery({});
-
   const [searchedList, setSearchedList] = useState({});
   const [docList, setDocList] = useState(null);
-
   useEffect(() => {
     if (
       searchText?.length > 2 &&
@@ -281,58 +284,72 @@ export default function DocumentationSection() {
       />
       <div style={{ marginTop: "30px" }}>
         {docList && docList?.length ? (
-          <DataGrid
-            rows={docList}
-            autoHeight
-            columns={[
-              ...columnHeaders,
-              {
-                field: "MODALITY",
-                disableColumnMenu: true,
-                width: 250,
-                hide: hideModality,
-                sortable: false,
-                renderCell: (cellValues) =>
-                  renderModalities([cellValues?.row?.modality]),
-              },
-              {
-                field: "DOCUMENTATION LINK",
-                disableColumnMenu: true,
-                width: 500,
-                hide: hideLink,
-                sortable: false,
-                renderCell: (cellValues) =>
-                  documentationLink(cellValues?.row?.documentation),
-              },
-              {
-                field: "Actions",
-                headerAlign: "center",
-                align: "center",
-                disableColumnMenu: true,
-                width: 95,
-                sortable: false,
-                renderCell: (cellValues) => (
-                  <div
-                    onClick={(e) =>
-                      handleClick(e, cellValues?.row?.id, cellValues?.row?.name)
-                    }
-                    style={{
-                      cursor: "pointer",
-                      padding: "15px",
-                      marginLeft: "auto",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {actionLink()}
-                  </div>
-                ),
-              },
-            ]}
-            loading={isLoading}
-            pageSize={pageSize}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[14, 16, 18, 20]}
-          />
+          <>
+            {browserWidth > mobileWidth ? (
+              <DataGrid
+                rows={docList}
+                autoHeight
+                columns={[
+                  ...columnHeaders,
+                  {
+                    field: "MODALITY",
+                    disableColumnMenu: true,
+                    width: 250,
+                    hide: hideModality,
+                    sortable: false,
+                    renderCell: (cellValues) =>
+                      renderModalities([cellValues?.row?.modality]),
+                  },
+                  {
+                    field: "DOCUMENTATION LINK",
+                    disableColumnMenu: true,
+                    width: 500,
+                    hide: hideLink,
+                    sortable: false,
+                    renderCell: (cellValues) =>
+                      documentationLink(cellValues?.row?.documentation),
+                  },
+                  {
+                    field: "Actions",
+                    headerAlign: "center",
+                    align: "center",
+                    disableColumnMenu: true,
+                    width: 95,
+                    sortable: false,
+                    renderCell: (cellValues) => (
+                      <div
+                        onClick={(e) =>
+                          handleClick(
+                            e,
+                            cellValues?.row?.id,
+                            cellValues?.row?.name
+                          )
+                        }
+                        style={{
+                          cursor: "pointer",
+                          padding: "15px",
+                          marginLeft: "auto",
+                          marginTop: "10px",
+                        }}
+                      >
+                        {actionLink()}
+                      </div>
+                    ),
+                  },
+                ]}
+                loading={isLoading}
+                pageSize={pageSize}
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[14, 16, 18, 20]}
+              />
+            ) : (
+              <DocumentationSectionMobile
+                docList={docList}
+                documentationLink={documentationLink}
+                openDropDown={handleClick}
+              />
+            )}
+          </>
         ) : searchedList?.query === searchText ? (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         ) : (
