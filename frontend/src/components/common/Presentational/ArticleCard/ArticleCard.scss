@@ -32,29 +32,28 @@
         line-height: 24px;
       }
     }
-    .article-info
-    {
+    .article-info {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-    .info {
-      font-family: "ProximaNova-Regular";
-      font-size: 16px;
-      color: #696f77;
-      width: 250px;
-    }
-    .explore {
-      display: flex;
-      flex-direction: row;
-      .text {
-        margin-right: 7px;
+      .info {
         font-family: "ProximaNova-Regular";
         font-size: 16px;
-        color: #773cbd;
-        font-weight: 600;
+        color: #696f77;
+        width: 250px;
+      }
+      .explore {
+        display: flex;
+        flex-direction: row;
+        .text {
+          margin-right: 7px;
+          font-family: "ProximaNova-Regular";
+          font-size: 16px;
+          color: #773cbd;
+          font-weight: 600;
+        }
       }
     }
   }
-}
 }

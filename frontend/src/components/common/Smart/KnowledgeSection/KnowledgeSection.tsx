@@ -27,22 +27,22 @@ const topData = [
 
 const articleData = [
   {
-    title: "Get started"
+    title: "Get started",
   },
   {
-    title: "Get started"
+    title: "Get started",
   },
   {
-    title: "Get started"
+    title: "Get started",
   },
   {
-    title: "Get started"
+    title: "Get started",
   },
   {
-    title: "Get started"
+    title: "Get started",
   },
   {
-    title: "Get started"
+    title: "Get started",
   },
 ];
 
