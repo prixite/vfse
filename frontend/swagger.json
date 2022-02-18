@@ -1280,9 +1280,9 @@
                 }
             ]
         },
-        "/vfse/document/": {
+        "/vfse/documents/": {
             "get": {
-                "operationId": "vfse_document_list",
+                "operationId": "vfse_documents_list",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -1301,7 +1301,7 @@
                 ]
             },
             "post": {
-                "operationId": "vfse_document_create",
+                "operationId": "vfse_documents_create",
                 "description": "",
                 "parameters": [
                     {
@@ -1327,9 +1327,9 @@
             },
             "parameters": []
         },
-        "/vfse/document/{id}/": {
+        "/vfse/documents/{id}/": {
             "patch": {
-                "operationId": "vfse_document_partial_update",
+                "operationId": "vfse_documents_partial_update",
                 "description": "",
                 "parameters": [
                     {
@@ -1354,7 +1354,7 @@
                 ]
             },
             "delete": {
-                "operationId": "vfse_document_delete",
+                "operationId": "vfse_documents_delete",
                 "description": "",
                 "parameters": [],
                 "responses": {
@@ -2855,7 +2855,8 @@
         "Document": {
             "description": "Document(id, folder, text, created_by, created_at, updated_at)",
             "required": [
-                "text"
+                "text",
+                "folder"
             ],
             "type": "object",
             "properties": {
@@ -2868,6 +2869,10 @@
                     "title": "Text",
                     "type": "string",
                     "minLength": 1
+                },
+                "folder": {
+                    "title": "Folder",
+                    "type": "integer"
                 },
                 "created_by": {
                     "title": "Created by",

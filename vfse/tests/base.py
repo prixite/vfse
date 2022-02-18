@@ -13,4 +13,4 @@ class BaseTestCase(TestCase):
         self.category = factories.CategoryFactory()
         self.folder = self.category.categories.first()
         self.document = factories.DocumentFactory(folder=self.folder)
-        factories.DocumentFactory.create_batch(5,folder=self.folder)
+        factories.DocumentFactory.create_batch(5, folder=self.folder)

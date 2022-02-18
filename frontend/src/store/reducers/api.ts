@@ -414,38 +414,38 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.upsertUser,
       }),
     }),
-    vfseDocumentList: build.query<
-      VfseDocumentListApiResponse,
-      VfseDocumentListApiArg
+    vfseDocumentsList: build.query<
+      VfseDocumentsListApiResponse,
+      VfseDocumentsListApiArg
     >({
-      query: () => ({ url: `/vfse/document/` }),
+      query: () => ({ url: `/vfse/documents/` }),
     }),
-    vfseDocumentCreate: build.mutation<
-      VfseDocumentCreateApiResponse,
-      VfseDocumentCreateApiArg
+    vfseDocumentsCreate: build.mutation<
+      VfseDocumentsCreateApiResponse,
+      VfseDocumentsCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/vfse/document/`,
+        url: `/vfse/documents/`,
         method: "POST",
         body: queryArg.document,
       }),
     }),
-    vfseDocumentPartialUpdate: build.mutation<
-      VfseDocumentPartialUpdateApiResponse,
-      VfseDocumentPartialUpdateApiArg
+    vfseDocumentsPartialUpdate: build.mutation<
+      VfseDocumentsPartialUpdateApiResponse,
+      VfseDocumentsPartialUpdateApiArg
     >({
       query: (queryArg) => ({
-        url: `/vfse/document/${queryArg.id}/`,
+        url: `/vfse/documents/${queryArg.id}/`,
         method: "PATCH",
         body: queryArg.document,
       }),
     }),
-    vfseDocumentDelete: build.mutation<
-      VfseDocumentDeleteApiResponse,
-      VfseDocumentDeleteApiArg
+    vfseDocumentsDelete: build.mutation<
+      VfseDocumentsDeleteApiResponse,
+      VfseDocumentsDeleteApiArg
     >({
       query: (queryArg) => ({
-        url: `/vfse/document/${queryArg.id}/`,
+        url: `/vfse/documents/${queryArg.id}/`,
         method: "DELETE",
       }),
     }),
@@ -708,19 +708,19 @@ export type UsersPartialUpdateApiArg = {
   id: string;
   upsertUser: UpsertUser;
 };
-export type VfseDocumentListApiResponse = /** status 200  */ Document[];
-export type VfseDocumentListApiArg = void;
-export type VfseDocumentCreateApiResponse = /** status 201  */ Document;
-export type VfseDocumentCreateApiArg = {
+export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
+export type VfseDocumentsListApiArg = void;
+export type VfseDocumentsCreateApiResponse = /** status 201  */ Document;
+export type VfseDocumentsCreateApiArg = {
   document: Document;
 };
-export type VfseDocumentPartialUpdateApiResponse = /** status 200  */ Document;
-export type VfseDocumentPartialUpdateApiArg = {
+export type VfseDocumentsPartialUpdateApiResponse = /** status 200  */ Document;
+export type VfseDocumentsPartialUpdateApiArg = {
   id: string;
   document: Document;
 };
-export type VfseDocumentDeleteApiResponse = unknown;
-export type VfseDocumentDeleteApiArg = {
+export type VfseDocumentsDeleteApiResponse = unknown;
+export type VfseDocumentsDeleteApiArg = {
   id: string;
 };
 export type VfseFoldersListApiResponse = /** status 200  */ Folder[];
@@ -1027,6 +1027,7 @@ export type UserEnableDisable = {
 export type Document = {
   id?: number;
   text: string;
+  folder: number;
   created_by?: number | null;
 };
 export type Folder = {
@@ -1083,10 +1084,10 @@ export const {
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
-  useVfseDocumentListQuery,
-  useVfseDocumentCreateMutation,
-  useVfseDocumentPartialUpdateMutation,
-  useVfseDocumentDeleteMutation,
+  useVfseDocumentsListQuery,
+  useVfseDocumentsCreateMutation,
+  useVfseDocumentsPartialUpdateMutation,
+  useVfseDocumentsDeleteMutation,
   useVfseFoldersListQuery,
   useVfseFoldersCreateMutation,
   useVfseFoldersPartialUpdateMutation,
