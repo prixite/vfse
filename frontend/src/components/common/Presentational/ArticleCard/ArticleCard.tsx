@@ -2,14 +2,18 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box } from "@mui/material";
+import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { localizedData } from "@src/helpers/utils/language";
 import "@src/components/common/Presentational/ArticleCard/ArticleCard.scss";
 interface props {
   color: string;
   title: string;
-  folderNo: number;
+  articleNo: number;
 }
 
-const ArticleCard = ({ color, title, folderNo }: props) => {
+const ArticleCard = ({ color, title, articleNo }: props) => {
+  const constantData: LocalizationInterface = localizedData();
+  const { explore, numberTitle } = constantData?.articleCard;
   return (
     <div className="Article-card">
       <Box component="div" className="card">
@@ -24,11 +28,11 @@ const ArticleCard = ({ color, title, folderNo }: props) => {
             <TextsmsOutlinedIcon
               style={{ color: "#696F77", fontSize: "1em", marginRight: "10px" }}
             />
-            <p>{`${folderNo} articles`}</p>
+            <p>{`${articleNo} ${numberTitle}`}</p>
           </div>
           <div className="explore">
             <p className="text" style={{ color: "#696F77" }}>
-              Explore
+              {explore}
             </p>
             <ArrowRightAltIcon style={{ color: "#696F77" }} />
           </div>
