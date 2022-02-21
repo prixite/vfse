@@ -15,6 +15,7 @@ class SystemFilters(filters.FilterSet):
 
 class OrganizationNameFilter(filters.FilterSet):
     name = filters.CharFilter(field_name="name", lookup_expr="iexact")
+    name_contains = filters.CharFilter(field_name="name", lookup_expr="icontains")
 
     class Meta:
         model = models.Organization

@@ -627,3 +627,9 @@ class ProductModelCreateSerializer(serializers.ModelSerializer):
             instance.documentation.url = documentation.get("url")
             instance.documentation.save()
         return super().update(instance, validated_data)
+
+
+class HealthNetworkListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Organization
+        fields = ["id", "name"]

@@ -94,6 +94,18 @@ class CustomerViewSet(OrganizationViewSet):
         serializer.save(is_customer=True)
 
 
+class HealthNetworkViewSet(ListAPIView):
+    serializer_class = serializers.HealthNetworkListSerializer
+    filterset_class = filters.OrganizationNameFilter
+
+    def get_queryset(self):
+        if not self.request.query_params.get("name_contains"):
+            return models.Organization.objects.none()
+        return models.Organization.objects.filter(
+            Q(is_customer=False) | Q(is_default=False)
+        )
+
+
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [
         IsAuthenticated,
