@@ -4,47 +4,90 @@ import { isMobileOnly } from "react-device-detect";
 
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { localizedData } from "@src/helpers/utils/language";
 
 import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
+
 import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 
 const topData = [
   {
-    color: "#28D4AB",
-    number: 1,
+    title: "Get started",
   },
   {
-    color: "#28D4AB",
-    number: 2,
+    title: "Get started",
   },
   {
-    color: "#28D4AB",
-    number: 3,
-  },
-  {
-    color: "#28D4AB",
-    number: 4,
+    title: "Get started",
   },
 ];
 
 const articleData = [
   {
-    title: "Get started",
+    title: "Category 1",
+    categories: [
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+    ],
   },
   {
     title: "Get started",
+    categories: [
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+    ],
   },
   {
     title: "Get started",
-  },
-  {
-    title: "Get started",
-  },
-  {
-    title: "Get started",
-  },
-  {
-    title: "Get started",
+    categories: [
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+    ],
   },
 ];
 
@@ -61,36 +104,46 @@ const renderMobileCarousel = () => {
 };
 
 const KnowledgeSection = () => {
+  const constantData: LocalizationInterface = localizedData();
+  const { title, subTitle } = constantData.knowledgeBase;
   return (
     <Box component="div" className="knowledgeSection">
-      <h1 className="main-heading">Knowledge base</h1>
+      <h1 className="main-heading">{title}</h1>
       <TopViewBtns path="documentation" />
-      <h2 className="sub-heading">Top Help Articles</h2>
+      <h2 className="sub-heading">{subTitle}</h2>
       {isMobileOnly ? (
         renderMobileCarousel()
       ) : (
         <Grid container spacing={1}>
-          {articleData.map((item, index) => (
+          {topData.map((item, index) => (
             <Grid item={true} xs={6} xl={2} md={3} key={index}>
               <KnowledgeTopCard title={item?.title} />
             </Grid>
           ))}
         </Grid>
       )}
-      <h2 className="sub-heading">Category one</h2>
-      <Grid container spacing={2}>
-        {topData.map((item, index) => (
-          <Grid
-            item={true}
-            xs={isMobileOnly ? 12 : 6}
-            xl={3}
-            md={4}
-            key={index}
-          >
-            <ArticleCard color={item?.color} />
+      {articleData?.map((item, index) => (
+        <div key={index}>
+          <h2 className="sub-heading">{item?.title}</h2>
+          <Grid container spacing={2}>
+            {item?.categories?.map((item, index) => (
+              <Grid
+                item={true}
+                xs={isMobileOnly ? 12 : 6}
+                xl={3}
+                md={4}
+                key={index}
+              >
+                <ArticleCard
+                  color={item?.color}
+                  title={item?.title}
+                  articleNo={item?.number}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </div>
+      ))}
     </Box>
   );
 };

@@ -246,6 +246,13 @@
         "dialogMessage" : "Sites do not exist for this organization, you have to create site first to create system.",
         "noButton" : "Cancel",
         "yesButton" : "Add Site"
+    },
+    "knowledgeBase" : {
+       "title" : "Knowledge base",
+       "subTitle" : "Top Help Articles"
+    },
+    "articleCard" : {
+        "numberTitle": "articles",
+        "explore": "Explore"
     }
-
 }

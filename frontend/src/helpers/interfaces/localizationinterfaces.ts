@@ -210,6 +210,16 @@ export interface SiteSectionInterface {
   site: string;
 }
 
+export interface knowledgeBase {
+  title: string;
+  subTitle: string;
+}
+
+export interface articleCard {
+  numberTitle: string;
+  explore: string;
+}
+
 export interface ConfirmSiteModal {
   dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
   noButton: "Cancel";
@@ -230,4 +240,6 @@ export interface LocalizationInterface {
   siteSection: SiteSectionInterface;
   systemModal: SystemModal;
   confirmSiteDialog: ConfirmSiteModal;
+  knowledgeBase: knowledgeBase;
+  articleCard: articleCard;
 }
