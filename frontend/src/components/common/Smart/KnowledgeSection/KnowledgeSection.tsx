@@ -4,10 +4,10 @@ import { isMobileOnly } from "react-device-detect";
 
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
-
-import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
+
+import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
 
 import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 
@@ -105,7 +105,7 @@ const renderMobileCarousel = () => {
 
 const KnowledgeSection = () => {
   const constantData: LocalizationInterface = localizedData();
-  const { title, subTitle } = constantData?.knowledgeBase;
+  const { title, subTitle } = constantData.knowledgeBase;
   return (
     <Box component="div" className="knowledgeSection">
       <h1 className="main-heading">{title}</h1>
