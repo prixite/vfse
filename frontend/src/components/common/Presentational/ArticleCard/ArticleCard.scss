@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .general-info{
+    .general-info {
       display: flex;
       flex-direction: column;
       .heading {
@@ -63,19 +63,18 @@
   }
 }
 
-@media only screen and (max-width: 480px)
-{
+@media only screen and (max-width: 480px) {
   .Article-card {
     margin-top: 0;
     .card {
       margin-right: 0;
       height: 112px;
       margin-bottom: 10px;
-      .general-info{
+      .general-info {
         display: flex;
         flex-direction: row;
         align-items: center;
-        .heading{
+        .heading {
           margin-top: 0;
           margin-left: 16px;
         }
