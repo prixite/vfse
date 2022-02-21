@@ -1,4 +1,5 @@
 .Article-card {
+  margin-top: 12px;
   .card {
     height: 168px;
     border-radius: 8px;
@@ -13,6 +14,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    .general-info{
+      display: flex;
+      flex-direction: column;
+      .heading {
+        margin-top: 14px;
+        .title {
+          font-family: "ProximaNova-Regular";
+          font-size: 20px;
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 24px;
+        }
+      }
+    }
     .article-no {
       display: flex;
       flex-direction: row;
@@ -21,16 +36,6 @@
       align-items: center;
       margin: 16px 0;
       font-size: 16px;
-    }
-    .heading {
-      margin-top: 14px;
-      .title {
-        font-family: "ProximaNova-Regular";
-        font-size: 20px;
-        font-weight: 600;
-        font-size: 20px;
-        line-height: 24px;
-      }
     }
     .article-info {
       display: flex;
@@ -52,6 +57,27 @@
           font-size: 16px;
           color: #773cbd;
           font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 480px)
+{
+  .Article-card {
+    margin-top: 0;
+    .card {
+      margin-right: 0;
+      height: 112px;
+      margin-bottom: 10px;
+      .general-info{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .heading{
+          margin-top: 0;
+          margin-left: 16px;
         }
       }
     }

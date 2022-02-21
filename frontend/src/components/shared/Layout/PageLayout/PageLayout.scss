@@ -10,3 +10,11 @@
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .Layout {
+    .main-content {
+      margin-bottom: 110px;
+    }
+  }
+}

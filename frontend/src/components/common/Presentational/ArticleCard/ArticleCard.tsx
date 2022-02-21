@@ -11,9 +11,11 @@ const ArticleCard = ({ color }: props) => {
   return (
     <div className="Article-card">
       <Box component="div" className="card">
-        <FolderRoundedIcon style={{ color: color, fontSize: "2.2em" }} />
-        <div className="heading">
-          <h2 className="title"> Getting started</h2>
+        <div className="general-info">
+          <FolderRoundedIcon style={{ color: color, fontSize: "2.2em" }} />
+          <div className="heading">
+            <h2 className="title"> Getting started</h2>
+          </div>
         </div>
         <div className="article-info">
           <div className="article-no">
