@@ -10,42 +10,83 @@ import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 
 const topData = [
   {
-    color: "#28D4AB",
-    number: 1,
+    title: "Get started",
   },
   {
-    color: "#28D4AB",
-    number: 2,
+    title: "Get started",
   },
   {
-    color: "#28D4AB",
-    number: 3,
-  },
-  {
-    color: "#28D4AB",
-    number: 4,
-  },
+    title: "Get started",
+  }
 ];
 
 const articleData = [
   {
-    title: "Get started",
+    title: "Category 1",
+    categories: [
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      }
+    ]
   },
   {
     title: "Get started",
+    categories: [
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      }
+    ]
   },
   {
     title: "Get started",
+    categories: [
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        title: 'Get Started',
+        color: "#28D4AB",
+        number: 4,
+      }
+    ]
   },
-  {
-    title: "Get started",
-  },
-  {
-    title: "Get started",
-  },
-  {
-    title: "Get started",
-  },
+  
 ];
 
 const renderMobileCarousel = () => {
@@ -70,27 +111,33 @@ const KnowledgeSection = () => {
         renderMobileCarousel()
       ) : (
         <Grid container spacing={1}>
-          {articleData.map((item, index) => (
+          {topData.map((item, index) => (
             <Grid item={true} xs={6} xl={2} md={3} key={index}>
               <KnowledgeTopCard title={item?.title} />
             </Grid>
           ))}
         </Grid>
       )}
-      <h2 className="sub-heading">Category one</h2>
-      <Grid container spacing={2}>
-        {topData.map((item, index) => (
-          <Grid
-            item={true}
-            xs={isMobileOnly ? 12 : 6}
-            xl={3}
-            md={4}
-            key={index}
-          >
-            <ArticleCard color={item?.color} />
-          </Grid>
-        ))}
-      </Grid>
+      {
+        articleData?.map((item, index) => (
+      <div key={index}>
+        <h2 className="sub-heading">{item?.title}</h2>
+        <Grid container spacing={2}>
+          {item?.categories?.map((item, index) => (
+            <Grid
+              item={true}
+              xs={isMobileOnly ? 12 : 6}
+              xl={3}
+              md={4}
+              key={index}
+            >
+              <ArticleCard color={item?.color} title={item?.title} folderNo={item?.number}/>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+        ))
+     }
     </Box>
   );
 };
