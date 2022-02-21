@@ -4,6 +4,7 @@ import * as React from "react";
 import { Box, Grid } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { useHistory, useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -40,6 +41,11 @@ const OrganizationSection = () => {
   const [searchText, setSearchText] = useState("");
   const [action, setAction] = useState("");
   const [itemsList, setItemsList] = useState<Array<Organization>>([]);
+  const [slicePointer, setSlicePointer] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [paginatedOrganizationList, setPaginatedOrganizationList] = useState<
+    Array<Organization>
+  >([]);
   const selectedOrganization = useSelectedOrganization();
   const {
     data: organizationList,
@@ -78,6 +84,19 @@ const OrganizationSection = () => {
       history.replace(`/${organizationRoute}/${id}/${sitesRoute}/`);
     }
   };
+  const fetchMoreSection = () => {
+    setSlicePointer((prevState) => prevState + 22);
+    if (slicePointer + 22 >= organizationList?.length) {
+      setHasMore(false);
+    }
+    setTimeout(() => {
+      setPaginatedOrganizationList((prevState) => [
+        ...prevState.concat([
+          ...organizationList.slice(slicePointer, slicePointer + 22),
+        ]),
+      ]);
+    }, 500);
+  };
 
   const showTabs = () => {
     const pathUrl = history.location.pathname.split("/");
@@ -114,6 +133,14 @@ const OrganizationSection = () => {
       setItemsList(organizationList);
     }
   }, [searchText, organizationList]);
+  useEffect(() => {
+    if (organizationList && organizationList?.length) {
+      setPaginatedOrganizationList([
+        ...organizationList.slice(slicePointer, slicePointer + 22),
+      ]);
+      setSlicePointer((prevState) => prevState + 22);
+    }
+  }, [organizationList]);
 
   return (
     <>
@@ -226,22 +253,38 @@ const OrganizationSection = () => {
                     <h2>{searching}</h2>
                   </div>
                 )
-              ) : organizationList && organizationList?.length ? (
-                organizationList.map((item, key) => (
-                  <Grid key={key} item xs={12} sm={6} xl={3} md={4}>
-                    <ClientCard
-                      setAction={setAction}
-                      setOrganization={setOrganization}
-                      row={item}
-                      refetch={refetch}
-                      id={item.id}
-                      name={item.name}
-                      logo={item.appearance.logo}
-                      selected={+id === item?.id ? true : false}
-                      superuser={me?.is_superuser}
-                    />
+              ) : paginatedOrganizationList &&
+                paginatedOrganizationList.length ? (
+                <InfiniteScroll
+                  dataLength={paginatedOrganizationList.length}
+                  next={fetchMoreSection}
+                  hasMore={hasMore}
+                  loader={<h4>Loading...</h4>}
+                >
+                  <Grid
+                    container
+                    xs={12}
+                    item
+                    spacing={2}
+                    style={{ marginTop: "0px" }}
+                  >
+                    {paginatedOrganizationList.map((item, key) => (
+                      <Grid key={key} item xs={12} sm={6} xl={3} md={4}>
+                        <ClientCard
+                          setAction={setAction}
+                          setOrganization={setOrganization}
+                          row={item}
+                          refetch={refetch}
+                          id={item.id}
+                          name={item.name}
+                          logo={item.appearance.logo}
+                          selected={+id === item?.id ? true : false}
+                          superuser={me?.is_superuser}
+                        />
+                      </Grid>
+                    ))}
                   </Grid>
-                ))
+                </InfiniteScroll>
               ) : (
                 <NoDataFound
                   title={noDataTitle}
