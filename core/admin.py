@@ -1,8 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as CoreUserAdmin
 
-from core import models
-from core.models import ManufacturerImage, SystemImage
+from core import forms, models
 
 
 @admin.register(models.User)
@@ -144,8 +143,18 @@ class SeatAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(SystemImage)
-admin.site.register(ManufacturerImage)
+@admin.register(models.SystemImage)
+class SystemImageAdmin(admin.ModelAdmin):
+    list_display = ["image"]
+    form = forms.ImageForm
+
+
+@admin.register(models.ManufacturerImage)
+class ManufacturerImageAdmin(admin.ModelAdmin):
+    list_display = ["image"]
+    form = forms.ImageForm
+
+
 admin.site.register(models.OrganizationHealthNetwork)
 admin.site.register(models.Documentation)
 admin.site.register(models.UserSystem)
