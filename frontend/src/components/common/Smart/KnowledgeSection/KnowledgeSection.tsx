@@ -17,7 +17,7 @@ const topData = [
   },
   {
     title: "Get started",
-  }
+  },
 ];
 
 const articleData = [
@@ -25,68 +25,67 @@ const articleData = [
     title: "Category 1",
     categories: [
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
-      }
-    ]
+      },
+    ],
   },
   {
     title: "Get started",
     categories: [
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
-      }
-    ]
+      },
+    ],
   },
   {
     title: "Get started",
     categories: [
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: 'Get Started',
+        title: "Get Started",
         color: "#28D4AB",
         number: 4,
-      }
-    ]
+      },
+    ],
   },
-  
 ];
 
 const renderMobileCarousel = () => {
@@ -118,26 +117,28 @@ const KnowledgeSection = () => {
           ))}
         </Grid>
       )}
-      {
-        articleData?.map((item, index) => (
-      <div key={index}>
-        <h2 className="sub-heading">{item?.title}</h2>
-        <Grid container spacing={2}>
-          {item?.categories?.map((item, index) => (
-            <Grid
-              item={true}
-              xs={isMobileOnly ? 12 : 6}
-              xl={3}
-              md={4}
-              key={index}
-            >
-              <ArticleCard color={item?.color} title={item?.title} folderNo={item?.number}/>
-            </Grid>
-          ))}
-        </Grid>
-      </div>
-        ))
-     }
+      {articleData?.map((item, index) => (
+        <div key={index}>
+          <h2 className="sub-heading">{item?.title}</h2>
+          <Grid container spacing={2}>
+            {item?.categories?.map((item, index) => (
+              <Grid
+                item={true}
+                xs={isMobileOnly ? 12 : 6}
+                xl={3}
+                md={4}
+                key={index}
+              >
+                <ArticleCard
+                  color={item?.color}
+                  title={item?.title}
+                  folderNo={item?.number}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </div>
+      ))}
     </Box>
   );
 };
