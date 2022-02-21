@@ -10,14 +10,19 @@ def upload_to_s3(file):
     BUCKET_REGION = client.get_bucket_location(Bucket=settings.AWS_IMAGE_BUCKET)[
         "LocationConstraint"
     ]
-    response = client.put_object(
-        Body=file,
-        Bucket=settings.AWS_IMAGE_BUCKET,
-        Key=file.name,
-    )
+    response = None
+    try:
+        response = client.put_object(
+            ACL='public-read',
+            Body=file,
+            Bucket=settings.AWS_IMAGE_BUCKET,
+            Key=file.name,
+        )
+    except Exception as e:
+        print(e)
     if response["ResponseMetadata"].get("HTTPStatusCode") == 200:
         uploaded = True
-        link = f"https://s3-{BUCKET_REGION}.amazonaws.com/{settings.AWS_IMAGE_BUCKET}/{file.name}"  # noqa
+        link = f"https://{settings.AWS_IMAGE_BUCKET}.s3-{BUCKET_REGION}.amazonaws.com/{file.name}"  # noqa
     return uploaded, link
 
 
