@@ -2,6 +2,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box } from "@mui/material";
+
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import "@src/components/common/Presentational/ArticleCard/ArticleCard.scss";
@@ -13,7 +14,7 @@ interface props {
 
 const ArticleCard = ({ color, title, articleNo }: props) => {
   const constantData: LocalizationInterface = localizedData();
-  const { explore, numberTitle } = constantData?.articleCard;
+  const { explore, numberTitle } = constantData.articleCard;
   return (
     <div className="Article-card">
       <Box component="div" className="card">

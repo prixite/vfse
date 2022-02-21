@@ -211,13 +211,13 @@ export interface SiteSectionInterface {
 }
 
 export interface knowledgeBase {
-  title : string,
-  subTitle : string
+  title: string;
+  subTitle: string;
 }
 
 export interface articleCard {
-  numberTitle : string,
-  explore : string
+  numberTitle: string;
+  explore: string;
 }
 
 export interface ConfirmSiteModal {

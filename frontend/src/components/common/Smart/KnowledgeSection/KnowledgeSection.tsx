@@ -1,12 +1,15 @@
 import Flicking from "@egjs/react-flicking";
 import { Grid, Box } from "@mui/material";
 import { isMobileOnly } from "react-device-detect";
+
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+
 import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
-import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
+
+import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 
 const topData = [
   {
