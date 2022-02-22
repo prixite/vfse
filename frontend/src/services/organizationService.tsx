@@ -41,8 +41,7 @@ const updateOrganizationService = async (
 const addNewOrganizationService = async (
   organization,
   addNewOrganization,
-  setOrganizationID,
-  refetch
+  setOrganizationID
 ) => {
   await addNewOrganization({
     organization: organization,
@@ -55,7 +54,6 @@ const addNewOrganizationService = async (
       });
       setOrganizationID(response?.id);
     });
-  refetch(); // TODO: invalidate cache instead of this.
 };
 
 const updateHealthNetworkService = async (

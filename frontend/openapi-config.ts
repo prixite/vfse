@@ -4,8 +4,8 @@ const config: ConfigFile = {
   schemaFile: "swagger.json",
   apiFile: "@src/store/emptyApi.ts",
   apiImport: "emptySplitApi",
-  outputFile: "./src/store/reducers/api.ts",
-  exportName: "api",
+  outputFile: "./src/store/reducers/generated.ts",
+  exportName: "rtk",
   hooks: true,
 };
 
