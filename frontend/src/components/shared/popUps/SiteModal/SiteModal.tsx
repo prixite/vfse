@@ -24,6 +24,7 @@ import {
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsListQuery,
+  useOrganizationsAssociatedSitesListQuery
 } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 
@@ -40,6 +41,7 @@ interface siteProps {
   refetch: () => void;
   refetchHealthorOrgNetwork: () => void;
   orgNetworkRefetch?: () => void;
+  refetchAssociatedSites?: ()=> void;
   action: string;
 }
 
@@ -66,6 +68,15 @@ export default function SiteModal(props: siteProps) {
       page: 1,
     });
   const selectedOrganization = useSelectedOrganization();
+  console.log(selectedOrganization)
+
+  const { refetch: refetchAllSites  } =
+    useOrganizationsAssociatedSitesListQuery(
+      {
+        id: selectedOrganization.id.toString(),
+      },
+      { skip: !selectedOrganization }
+    );
 
   useEffect(() => {
     if (props?.name && props?.address) {
@@ -103,7 +114,8 @@ export default function SiteModal(props: siteProps) {
         addNewSite,
         props.refetch,
         props?.refetchHealthorOrgNetwork,
-        props?.orgNetworkRefetch
+        props.refetchAssociatedSites,
+        props?.orgNetworkRefetch,
       )
         .then(() => {
           setTimeout(() => {
@@ -169,6 +181,7 @@ export default function SiteModal(props: siteProps) {
         props?.refetch,
         "edit",
         props?.refetchHealthorOrgNetwork,
+        props?.refetchAssociatedSites,
         props?.orgNetworkRefetch
       )
         .then(() => {

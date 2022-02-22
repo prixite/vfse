@@ -14,6 +14,7 @@ import {
   useOrganizationsHealthNetworksListQuery,
   Site,
   useOrganizationsReadQuery,
+  useOrganizationsAssociatedSitesListQuery,
 } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
@@ -47,6 +48,13 @@ const SiteSection = () => {
       }
     );
 
+    const { refetch: refetchAllSites  } =
+    useOrganizationsAssociatedSitesListQuery(
+      {
+        id: selectedOrganization.id.toString(),
+      },
+      { skip: !selectedOrganization }
+    );
   const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
     id: networkId ? networkId : id,
   });
@@ -106,6 +114,7 @@ const SiteSection = () => {
                       refetch={sitesRefetch}
                       sites={sitesData}
                       orgNetworkRefetch={orgNetworkRefetch}
+                      refetchAssociatedSites={refetchAllSites}
                     />
                   </Grid>
                 ))
@@ -134,6 +143,7 @@ const SiteSection = () => {
                     location={item?.address}
                     connections={item?.connections}
                     refetch={sitesRefetch}
+                    refetchAssociatedSites={refetchAllSites}
                     sites={sitesData}
                   />
                 </Grid>
@@ -151,6 +161,7 @@ const SiteSection = () => {
             handleClose={handleClose}
             refetch={sitesRefetch}
             refetchHealthorOrgNetwork={refetchOrgorHealth}
+            refetchAssociatedSites={refetchAllSites}
             orgNetworkRefetch={orgNetworkRefetch}
           />
         ) : (

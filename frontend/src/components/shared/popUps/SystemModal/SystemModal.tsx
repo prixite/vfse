@@ -269,14 +269,44 @@ export default function SystemModal(props: systemProps) {
       dName: fieldLocalAE,
     },
     {
+      name: risAE,
+      setError: setRisAeError,
+      dName: fieldRisAE,
+    },
+    {
       name: risIp,
       setError: setRisIpError,
-      dName: "optionalIp",
+      dName: fieldRisIp,
+    },
+    {
+      name: risPort,
+      setError: setRisPortError,
+      dName: fieldRisPort,
+    },
+    {
+      name: risTitle,
+      setError: setRisTitleError,
+      dName: fieldRisTitle,
+    },
+    {
+      name: dicAE,
+      setError: setDicAeError,
+      dName: fieldDicomAE,
     },
     {
       name: dicIP,
       setError: setDicIpError,
-      dName: "optionalIp",
+      dName: fieldDicomIp,
+    },
+    {
+      name: dicPort,
+      setError: setDicPortError,
+      dName: fieldDicomPort,
+    },
+    {
+      name: dicTitle,
+      setError: setDicTitleError,
+      dName: fieldDicomTitle,
     },
   ];
 
@@ -1088,7 +1118,7 @@ export default function SystemModal(props: systemProps) {
               <div className="box">
                 <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                   <Grid item xs={6}>
-                    <p className="info-label">{fieldRisIp}</p>
+                    <p className="info-label required">{fieldRisIp}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
@@ -1104,7 +1134,7 @@ export default function SystemModal(props: systemProps) {
                     )}
                   </Grid>
                   <Grid item xs={6}>
-                    <p className="info-label">{fieldRisTitle}</p>
+                    <p className="info-label required">{fieldRisTitle}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
@@ -1120,7 +1150,7 @@ export default function SystemModal(props: systemProps) {
                     )}
                   </Grid>
                   <Grid item xs={6}>
-                    <p className="info-label">{fieldRisPort}</p>
+                    <p className="info-label required">{fieldRisPort}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
@@ -1137,7 +1167,7 @@ export default function SystemModal(props: systemProps) {
                     )}
                   </Grid>
                   <Grid item xs={6}>
-                    <p className="info-label">{fieldRisAE}</p>
+                    <p className="info-label required">{fieldRisAE}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
@@ -1159,7 +1189,7 @@ export default function SystemModal(props: systemProps) {
                 <div className="box">
                   <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                     <Grid item xs={6}>
-                      <p className="info-label">{fieldDicomIp}</p>
+                      <p className="info-label required">{fieldDicomIp}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
@@ -1175,7 +1205,7 @@ export default function SystemModal(props: systemProps) {
                       )}
                     </Grid>
                     <Grid item xs={6}>
-                      <p className="info-label">{fieldDicomTitle}</p>
+                      <p className="info-label required">{fieldDicomTitle}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
@@ -1191,7 +1221,7 @@ export default function SystemModal(props: systemProps) {
                       )}
                     </Grid>
                     <Grid item xs={6}>
-                      <p className="info-label">{fieldDicomPort}</p>
+                      <p className="info-label required">{fieldDicomPort}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
@@ -1208,7 +1238,7 @@ export default function SystemModal(props: systemProps) {
                       )}
                     </Grid>
                     <Grid item xs={6}>
-                      <p className="info-label">{fieldDicomAE}</p>
+                      <p className="info-label required">{fieldDicomAE}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
