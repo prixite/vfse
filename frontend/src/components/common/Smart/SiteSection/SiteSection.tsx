@@ -48,13 +48,12 @@ const SiteSection = () => {
       }
     );
 
-    const { refetch: refetchAllSites  } =
-    useOrganizationsAssociatedSitesListQuery(
-      {
-        id: selectedOrganization.id.toString(),
-      },
-      { skip: !selectedOrganization }
-    );
+  const { refetch: refetchAllSites } = useOrganizationsAssociatedSitesListQuery(
+    {
+      id: selectedOrganization.id.toString(),
+    },
+    { skip: !selectedOrganization }
+  );
   const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
     id: networkId ? networkId : id,
   });
@@ -144,6 +143,7 @@ const SiteSection = () => {
                     connections={item?.connections}
                     refetch={sitesRefetch}
                     refetchAssociatedSites={refetchAllSites}
+                    orgNetworkRefetch={orgNetworkRefetch}
                     sites={sitesData}
                   />
                 </Grid>

@@ -55,7 +55,6 @@ const addNewSiteService = async (
         autoClose: 1000,
         pauseOnHover: false,
         onClose: () => {
-          console.log(refetchAllSites);
           refetchAllSites();
           refetch();
           refetchOrgorNetwork();

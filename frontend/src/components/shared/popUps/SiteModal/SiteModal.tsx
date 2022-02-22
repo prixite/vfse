@@ -40,7 +40,7 @@ interface siteProps {
   refetch: () => void;
   refetchHealthorOrgNetwork: () => void;
   orgNetworkRefetch?: () => void;
-  refetchAssociatedSites?: ()=> void;
+  refetchAssociatedSites?: () => void;
   action: string;
 }
 
@@ -105,7 +105,7 @@ export default function SiteModal(props: siteProps) {
         props.refetch,
         props?.refetchHealthorOrgNetwork,
         props.refetchAssociatedSites,
-        props?.orgNetworkRefetch,
+        props?.orgNetworkRefetch
       )
         .then(() => {
           setTimeout(() => {

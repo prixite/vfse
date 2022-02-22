@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
-import { useSelectedOrganization } from "@src/store/hooks";
+
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
 import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
@@ -25,7 +25,7 @@ interface SiteCardProps {
   location: string;
   connections: number;
   sites: Array<object>;
-  refetchAssociatedSites?: ()=> void;
+  refetchAssociatedSites?: () => void;
   orgNetworkRefetch: () => void;
 }
 const SiteCard = ({
@@ -37,7 +37,7 @@ const SiteCard = ({
   refetch,
   orgNetworkRefetch,
   sites,
-  refetchAssociatedSites
+  refetchAssociatedSites,
 }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -47,7 +47,6 @@ const SiteCard = ({
   const { cardPopUp } = localizedData().sites;
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const { id, networkId } = useParams();
-  const selectedOrganization = useSelectedOrganization();
   const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
     id: networkId ? networkId : id,
   });
