@@ -3,6 +3,7 @@ import re
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
@@ -567,9 +568,20 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         occupied_seats = models.Seat.objects.filter(
             organization_id=organization_pk
         ).count()
-        if models.Organization.objects.get(
-            id=organization_pk
-        ).number_of_seats - occupied_seats < len(attrs["seats"]):
+        try:
+            current_organization = models.Organization.objects.get(
+                Q(is_customer=True) | Q(is_default=True),
+                id=organization_pk,
+            )
+        except models.Organization.DoesNotExist:
+            raise serializers.ValidationError(
+                "Invalid selection, select customer organization, not health network"
+            )
+        if (
+            current_organization.number_of_seats
+            and current_organization.number_of_seats - occupied_seats
+            < len(attrs["seats"])
+        ):
             raise serializers.ValidationError("Seats not available")
         return attrs
 

@@ -25,3 +25,11 @@
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .knowledge-top-card {
+    .card {
+      width: 184px;
+    }
+  }
+}
