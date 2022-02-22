@@ -1,17 +1,57 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
-import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
 import "@src/components/common/Smart/CountingInfoSection/CountingInfoSection.scss";
+import allIcon from "@src/assets/svgs/all_dev.svg";
+import FlowerIcon from "@src/assets/svgs/flower.svg";
+import offlineIcon from "@src/assets/svgs/offline_dev.svg";
+import onlineIcon from "@src/assets/svgs/online_dev.svg";
+import usersIcon from "@src/assets/svgs/users_dev.svg";
+import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
+
+const device_info = [
+  {
+    device_status: "all Devices",
+    device_number: "2,120",
+    device_image: allIcon,
+  },
+  {
+    device_status: "Devices online",
+    device_number: "2,220",
+    device_image: onlineIcon,
+  },
+  {
+    device_status: "Devices offline",
+    device_number: "2,320",
+    device_image: offlineIcon,
+  },
+  {
+    device_status: "Users online",
+    device_number: "2,420",
+    device_image: usersIcon,
+  },
+  {
+    device_status: "Work orders",
+    device_number: "2,520",
+    device_image: FlowerIcon,
+  },
+];
 
 const CountingInfoSection = () => {
   return (
     <Box component="div" className="CountingInfoSection">
       <div className="cardsSection">
-        <CountingInfoCards />
-        <CountingInfoCards />
-        <CountingInfoCards />
-        <CountingInfoCards />
-        <CountingInfoCards />
+        <Grid container spacing={3}>
+          {device_info.map((item, key) => (
+            <Grid key={key} item xl={2.4} md={4} xs={12}>
+              <CountingInfoCards
+                key={item.device_number}
+                deviceNo={item.device_number}
+                deviceStatus={item.device_status}
+                deviceImage={item.device_image}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </div>
     </Box>
   );
