@@ -54,6 +54,43 @@
             },
             "parameters": []
         },
+        "/health_networks/": {
+            "get": {
+                "operationId": "health_networks_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/HealthNetworkList"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "health_networks"
+                ]
+            },
+            "parameters": []
+        },
         "/lambda/": {
             "patch": {
                 "operationId": "lambda_partial_update",
@@ -248,6 +285,13 @@
                 "parameters": [
                     {
                         "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "search",
                         "in": "query",
                         "description": "",
                         "required": false,
@@ -1608,6 +1652,26 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                }
+            }
+        },
+        "HealthNetworkList": {
+            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
                 }
             }
         },

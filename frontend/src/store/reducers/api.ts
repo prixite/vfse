@@ -11,6 +11,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userRequestAcessSeriazlizer,
       }),
     }),
+    healthNetworksList: build.query<
+      HealthNetworksListApiResponse,
+      HealthNetworksListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/health_networks/`,
+        params: { name: queryArg.name, search: queryArg.search },
+      }),
+    }),
     lambdaPartialUpdate: build.mutation<
       LambdaPartialUpdateApiResponse,
       LambdaPartialUpdateApiArg
@@ -79,7 +88,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/organizations/`,
-        params: { name: queryArg.name },
+        params: { name: queryArg.name, search: queryArg.search },
       }),
     }),
     organizationsCreate: build.mutation<
@@ -493,6 +502,12 @@ export type AccountsRequestsCreateApiResponse =
 export type AccountsRequestsCreateApiArg = {
   userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
 };
+export type HealthNetworksListApiResponse =
+  /** status 200  */ HealthNetworkList[];
+export type HealthNetworksListApiArg = {
+  name?: string;
+  search?: string;
+};
 export type LambdaPartialUpdateApiResponse = unknown;
 export type LambdaPartialUpdateApiArg = void;
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
@@ -526,6 +541,7 @@ export type NotesDeleteApiArg = {
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
   name?: string;
+  search?: string;
 };
 export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type OrganizationsCreateApiArg = {
@@ -770,6 +786,10 @@ export type UserRequestAcessSeriazlizer = {
   is_one_time: boolean;
   documentation_url: boolean;
   health_networks: number[];
+};
+export type HealthNetworkList = {
+  id?: number;
+  name: string;
 };
 export type Manufacturer = {
   id?: number;
@@ -1037,6 +1057,7 @@ export type Folder = {
 };
 export const {
   useAccountsRequestsCreateMutation,
+  useHealthNetworksListQuery,
   useLambdaPartialUpdateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,

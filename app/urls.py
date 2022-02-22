@@ -132,6 +132,10 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/health_networks/",
+        api.HealthNetworkViewSet.as_view(),
+    ),
+    path(
         "api/users/deactivate/",
         api.UserDeactivateViewSet.as_view(
             {
