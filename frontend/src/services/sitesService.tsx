@@ -7,6 +7,7 @@ const updateSitesService = async (
   refetch,
   type,
   refetchOrgorNetwork,
+  refetchAssociatedSites,
   orgNetworkRefetch
 ) => {
   await updateSites({
@@ -25,6 +26,7 @@ const updateSitesService = async (
           autoClose: 1000,
           pauseOnHover: false,
           onClose: () => {
+            refetchAssociatedSites();
             refetch();
             refetchOrgorNetwork();
             orgNetworkRefetch();
@@ -40,6 +42,7 @@ const addNewSiteService = async (
   addNewSite,
   refetch,
   refetchOrgorNetwork,
+  refetchAllSites,
   orgNetworkRefetch
 ) => {
   await addNewSite({
@@ -52,6 +55,7 @@ const addNewSiteService = async (
         autoClose: 1000,
         pauseOnHover: false,
         onClose: () => {
+          refetchAllSites();
           refetch();
           refetchOrgorNetwork();
           orgNetworkRefetch();

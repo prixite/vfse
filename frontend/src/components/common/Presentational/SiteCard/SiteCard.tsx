@@ -25,6 +25,7 @@ interface SiteCardProps {
   location: string;
   connections: number;
   sites: Array<object>;
+  refetchAssociatedSites?: () => void;
   orgNetworkRefetch: () => void;
 }
 const SiteCard = ({
@@ -36,6 +37,7 @@ const SiteCard = ({
   refetch,
   orgNetworkRefetch,
   sites,
+  refetchAssociatedSites,
 }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -84,6 +86,7 @@ const SiteCard = ({
         refetch,
         "delete",
         refetchOrgorHealth,
+        refetchAssociatedSites,
         orgNetworkRefetch
       );
     } else {
@@ -94,6 +97,7 @@ const SiteCard = ({
         refetch,
         "delete",
         refetchOrgorHealth,
+        refetchAssociatedSites,
         orgNetworkRefetch
       );
     }
@@ -180,6 +184,7 @@ const SiteCard = ({
         selectionID={selectionID}
         handleClose={handleEditModalClose}
         refetchHealthorOrgNetwork={refetchOrgorHealth}
+        refetchAssociatedSites={refetchAssociatedSites}
         refetch={refetch}
       />
     </div>

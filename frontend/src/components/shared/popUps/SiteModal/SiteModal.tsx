@@ -40,6 +40,7 @@ interface siteProps {
   refetch: () => void;
   refetchHealthorOrgNetwork: () => void;
   orgNetworkRefetch?: () => void;
+  refetchAssociatedSites?: () => void;
   action: string;
 }
 
@@ -103,6 +104,7 @@ export default function SiteModal(props: siteProps) {
         addNewSite,
         props.refetch,
         props?.refetchHealthorOrgNetwork,
+        props.refetchAssociatedSites,
         props?.orgNetworkRefetch
       )
         .then(() => {
@@ -169,6 +171,7 @@ export default function SiteModal(props: siteProps) {
         props?.refetch,
         "edit",
         props?.refetchHealthorOrgNetwork,
+        props?.refetchAssociatedSites,
         props?.orgNetworkRefetch
       )
         .then(() => {
