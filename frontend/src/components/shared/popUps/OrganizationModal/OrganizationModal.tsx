@@ -193,8 +193,7 @@ export default function OrganizationModal({
             await addNewOrganizationService(
               organizationObject,
               addNewOrganization,
-              setOrganizationID,
-              refetch
+              setOrganizationID
             )
               .then(() => setPage("2"))
               .catch(() =>
