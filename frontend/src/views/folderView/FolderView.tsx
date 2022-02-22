@@ -3,7 +3,7 @@ import FolderSection from "@src/components/common/Smart/FolderSection/FolderSect
 export default function FolderView() {
   return (
     <>
-      <FolderSection/>
+      <FolderSection />
     </>
   );
 }
