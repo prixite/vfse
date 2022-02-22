@@ -86,6 +86,7 @@ const SiteCard = ({
         refetch,
         "delete",
         refetchOrgorHealth,
+        refetchAssociatedSites,
         orgNetworkRefetch
       );
     } else {
@@ -96,6 +97,7 @@ const SiteCard = ({
         refetch,
         "delete",
         refetchOrgorHealth,
+        refetchAssociatedSites,
         orgNetworkRefetch
       );
     }
