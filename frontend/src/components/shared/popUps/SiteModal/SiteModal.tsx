@@ -24,7 +24,6 @@ import {
   useOrganizationsSitesCreateMutation,
   useOrganizationsSitesUpdateMutation,
   useOrganizationsListQuery,
-  useOrganizationsAssociatedSitesListQuery
 } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 
@@ -68,15 +67,6 @@ export default function SiteModal(props: siteProps) {
       page: 1,
     });
   const selectedOrganization = useSelectedOrganization();
-  console.log(selectedOrganization)
-
-  const { refetch: refetchAllSites  } =
-    useOrganizationsAssociatedSitesListQuery(
-      {
-        id: selectedOrganization.id.toString(),
-      },
-      { skip: !selectedOrganization }
-    );
 
   useEffect(() => {
     if (props?.name && props?.address) {
