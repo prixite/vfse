@@ -37,10 +37,11 @@ const DocumentationSectionMobile = ({
       setPaginatedDocs((prevState) => [
         ...prevState.concat([...docList.slice(slicePointer, slicePointer + 2)]),
       ]);
-    }, 500);
+    }, 0);
   };
   useEffect(() => {
-    setPaginatedDocs([...docList.slice(slicePointer, slicePointer + 4)]);
+    setPaginatedDocs([...docList.slice(0, slicePointer + 4)]);
+    setSlicePointer((prevState) => prevState + 4);
   }, [docList]);
   return (
     <Box className="DocumentationSectionMobile">
@@ -48,7 +49,11 @@ const DocumentationSectionMobile = ({
         dataLength={paginatedDocs.length}
         next={fetchMoreSection}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={
+          <h4 style={{ width: "100%", textAlign: "center", color: "#696f77" }}>
+            Loading...
+          </h4>
+        }
       >
         {paginatedDocs?.map((doc, i) => (
           <DocumentationCard

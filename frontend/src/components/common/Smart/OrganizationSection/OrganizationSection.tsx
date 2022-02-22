@@ -54,7 +54,6 @@ const OrganizationSection = () => {
   } = useOrganizationsListQuery({
     page: 1,
   });
-
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -95,7 +94,7 @@ const OrganizationSection = () => {
           ...organizationList.slice(slicePointer, slicePointer + 22),
         ]),
       ]);
-    }, 500);
+    }, 0);
   };
 
   const showTabs = () => {
@@ -136,7 +135,7 @@ const OrganizationSection = () => {
   useEffect(() => {
     if (organizationList && organizationList?.length) {
       setPaginatedOrganizationList([
-        ...organizationList.slice(slicePointer, slicePointer + 22),
+        ...organizationList.slice(0, slicePointer + 22),
       ]);
       setSlicePointer((prevState) => prevState + 22);
     }
@@ -259,7 +258,17 @@ const OrganizationSection = () => {
                   dataLength={paginatedOrganizationList.length}
                   next={fetchMoreSection}
                   hasMore={hasMore}
-                  loader={<h4>Loading...</h4>}
+                  loader={
+                    <h4
+                      style={{
+                        width: "100%",
+                        textAlign: "center",
+                        color: "#696f77",
+                      }}
+                    >
+                      Loading...
+                    </h4>
+                  }
                 >
                   <Grid
                     container

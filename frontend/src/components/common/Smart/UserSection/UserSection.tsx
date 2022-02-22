@@ -5,9 +5,11 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import ListModal from "@src/components/shared/popUps/ListModal/ListModal";
 import UserModal from "@src/components/shared/popUps/UserModal/UserModal";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   deactivateUserService,
@@ -23,7 +25,9 @@ import {
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
 } from "@src/store/reducers/api";
+
 import "@src/views/user/UserView.scss";
+import UserSectionMobile from "./UserSectionMobile";
 
 const columns = [
   {
@@ -177,6 +181,7 @@ export default function UserSection() {
   const [modalList, setModalList] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [status, setStatus] = useState(null);
+  const [browserWidth] = useWindowSize();
   const { searching } = localizedData().common;
   const [userDeactivateMutation] = useUsersDeactivatePartialUpdateMutation();
   const [userActivateMutation] = useUsersActivatePartialUpdateMutation();
@@ -205,7 +210,6 @@ export default function UserSection() {
 
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
-
   useEffect(() => {
     if (searchText?.length > 2 && userList && userList?.results?.length) {
       setHasData(true);
@@ -363,132 +367,144 @@ export default function UserSection() {
         className="user-section"
       >
         {itemsList && itemsList?.length ? (
-          <DataGrid
-            rows={itemsList}
-            autoHeight
-            columns={[
-              ...columnHeaders,
-              {
-                field: "Manager",
-                hide: hideManager,
-                disableColumnMenu: true,
-                sortable: false,
-                width: 180,
-                renderCell: (cellValues) => (
-                  <div>{cellValues.row.manager?.name}</div>
-                ),
-              },
-              {
-                field: "Customer",
-                hide: hideCustomer,
-                disableColumnMenu: true,
-                sortable: false,
-                width: 170,
-                renderCell: (cellValues) => (
-                  <div
-                    onClick={
-                      cellValues?.row?.organizations?.length > 1
-                        ? () =>
-                            handleModalClick(
-                              "Customers",
-                              cellValues?.row?.organizations
-                            )
-                        : undefined
-                    }
-                    style={{
-                      cursor: `${
-                        cellValues?.row?.organizations?.length > 1
-                          ? "pointer"
-                          : ""
-                      }`,
-                    }}
-                  >
-                    {renderCustomers(cellValues?.row?.organizations)}
-                  </div>
-                ),
-              },
-              {
-                field: "Modalities",
-                hide: hideModality,
-                disableColumnMenu: true,
-                sortable: false,
-                width: 280,
-                renderCell: (cellValues) =>
-                  renderModalities(cellValues.row.modalities),
-              },
-              {
-                field: "Sites",
-                hide: hideNetwork,
-                disableColumnMenu: true,
-                sortable: false,
-                width: 190,
-                renderCell: (cellValues) => (
-                  <div
-                    onClick={
-                      cellValues?.row?.sites?.length > 1
-                        ? () =>
-                            handleModalClick("Sites", cellValues?.row?.sites)
-                        : undefined
-                    }
-                    style={{
-                      cursor: `${
-                        cellValues?.row?.sites?.length > 1 ? "pointer" : ""
-                      }`,
-                    }}
-                  >
-                    {renderCustomers(cellValues?.row?.sites)}
-                  </div>
-                ),
-              },
-              {
-                field: "Status",
-                hide: hideStatus,
-                disableColumnMenu: true,
-                sortable: false,
-                width: 100,
-                renderCell: (cellValues) => (
-                  <span
-                    style={{
-                      color: `${cellValues.row.is_active ? "" : "red"}`,
-                    }}
-                  >
-                    {cellValues.row.is_active ? "Active" : "Locked"}
-                  </span>
-                ),
-              },
-              {
-                field: "Actions",
-                headerAlign: "center",
-                align: "center",
-                disableColumnMenu: true,
-                width: 85,
-                sortable: false,
-                renderCell: (cellValues) => (
-                  <div
-                    onClick={(e) =>
-                      handleClick(
-                        e,
-                        cellValues.row.id,
-                        cellValues.row.is_active
-                      )
-                    }
-                    style={{
-                      cursor: "pointer",
-                      padding: "15px",
-                      marginLeft: "auto",
-                      marginTop: "10px",
-                    }}
-                  >
-                    <img src={ThreeDots} />
-                  </div>
-                ),
-              },
-            ]}
-            loading={isUsersLoading}
-            pageSize={pageSize}
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[14, 16, 18, 20]}
-          />
+          <>
+            {browserWidth > mobileWidth ? (
+              <DataGrid
+                rows={itemsList}
+                autoHeight
+                columns={[
+                  ...columnHeaders,
+                  {
+                    field: "Manager",
+                    hide: hideManager,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 180,
+                    renderCell: (cellValues) => (
+                      <div>{cellValues.row.manager?.name}</div>
+                    ),
+                  },
+                  {
+                    field: "Customer",
+                    hide: hideCustomer,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 170,
+                    renderCell: (cellValues) => (
+                      <div
+                        onClick={
+                          cellValues?.row?.organizations?.length > 1
+                            ? () =>
+                                handleModalClick(
+                                  "Customers",
+                                  cellValues?.row?.organizations
+                                )
+                            : undefined
+                        }
+                        style={{
+                          cursor: `${
+                            cellValues?.row?.organizations?.length > 1
+                              ? "pointer"
+                              : ""
+                          }`,
+                        }}
+                      >
+                        {renderCustomers(cellValues?.row?.organizations)}
+                      </div>
+                    ),
+                  },
+                  {
+                    field: "Modalities",
+                    hide: hideModality,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 280,
+                    renderCell: (cellValues) =>
+                      renderModalities(cellValues.row.modalities),
+                  },
+                  {
+                    field: "Sites",
+                    hide: hideNetwork,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 190,
+                    renderCell: (cellValues) => (
+                      <div
+                        onClick={
+                          cellValues?.row?.sites?.length > 1
+                            ? () =>
+                                handleModalClick(
+                                  "Sites",
+                                  cellValues?.row?.sites
+                                )
+                            : undefined
+                        }
+                        style={{
+                          cursor: `${
+                            cellValues?.row?.sites?.length > 1 ? "pointer" : ""
+                          }`,
+                        }}
+                      >
+                        {renderCustomers(cellValues?.row?.sites)}
+                      </div>
+                    ),
+                  },
+                  {
+                    field: "Status",
+                    hide: hideStatus,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 100,
+                    renderCell: (cellValues) => (
+                      <span
+                        style={{
+                          color: `${cellValues.row.is_active ? "" : "red"}`,
+                        }}
+                      >
+                        {cellValues.row.is_active ? "Active" : "Locked"}
+                      </span>
+                    ),
+                  },
+                  {
+                    field: "Actions",
+                    headerAlign: "center",
+                    align: "center",
+                    disableColumnMenu: true,
+                    width: 85,
+                    sortable: false,
+                    renderCell: (cellValues) => (
+                      <div
+                        onClick={(e) =>
+                          handleClick(
+                            e,
+                            cellValues.row.id,
+                            cellValues.row.is_active
+                          )
+                        }
+                        style={{
+                          cursor: "pointer",
+                          padding: "15px",
+                          marginLeft: "auto",
+                          marginTop: "10px",
+                        }}
+                      >
+                        <img src={ThreeDots} />
+                      </div>
+                    ),
+                  },
+                ]}
+                loading={isUsersLoading}
+                pageSize={pageSize}
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[14, 16, 18, 20]}
+              />
+            ) : (
+              <UserSectionMobile
+                userList={itemsList}
+                handleClick={handleClick}
+              />
+            )}
+          </>
         ) : (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         )}
