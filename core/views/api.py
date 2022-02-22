@@ -99,8 +99,6 @@ class HealthNetworkViewSet(ListAPIView):
     filterset_class = filters.OrganizationNameFilter
 
     def get_queryset(self):
-        if not self.request.query_params.get("name_contains"):
-            return models.Organization.objects.none()
         return models.Organization.objects.filter(
             Q(is_customer=False) | Q(is_default=False)
         )

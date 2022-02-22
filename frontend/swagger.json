@@ -67,7 +67,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "name_contains",
+                        "name": "search",
                         "in": "query",
                         "description": "",
                         "required": false,
@@ -291,7 +291,7 @@
                         "type": "string"
                     },
                     {
-                        "name": "name_contains",
+                        "name": "search",
                         "in": "query",
                         "description": "",
                         "required": false,

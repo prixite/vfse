@@ -17,7 +17,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/health_networks/`,
-        params: { name: queryArg.name, name_contains: queryArg.nameContains },
+        params: { name: queryArg.name, search: queryArg.search },
       }),
     }),
     lambdaPartialUpdate: build.mutation<
@@ -88,7 +88,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/organizations/`,
-        params: { name: queryArg.name, name_contains: queryArg.nameContains },
+        params: { name: queryArg.name, search: queryArg.search },
       }),
     }),
     organizationsCreate: build.mutation<
@@ -506,7 +506,7 @@ export type HealthNetworksListApiResponse =
   /** status 200  */ HealthNetworkList[];
 export type HealthNetworksListApiArg = {
   name?: string;
-  nameContains?: string;
+  search?: string;
 };
 export type LambdaPartialUpdateApiResponse = unknown;
 export type LambdaPartialUpdateApiArg = void;
@@ -541,7 +541,7 @@ export type NotesDeleteApiArg = {
 export type OrganizationsListApiResponse = /** status 200  */ Organization[];
 export type OrganizationsListApiArg = {
   name?: string;
-  nameContains?: string;
+  search?: string;
 };
 export type OrganizationsCreateApiResponse = /** status 201  */ Organization;
 export type OrganizationsCreateApiArg = {
