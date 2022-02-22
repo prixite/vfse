@@ -2,7 +2,8 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box } from "@mui/material";
-
+import { Link, useParams } from "react-router-dom";
+import { constants } from "@src/helpers/utils/constants";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import "@src/components/common/Presentational/ArticleCard/ArticleCard.scss";
@@ -10,13 +11,24 @@ interface props {
   color: string;
   title: string;
   articleNo: number;
+  id: number
 }
 
-const ArticleCard = ({ color, title, articleNo }: props) => {
+const ArticleCard = ({ color, title, articleNo, id : folderId }: props) => {
   const constantData: LocalizationInterface = localizedData();
   const { explore, numberTitle } = constantData.articleCard;
+  const { organizationRoute } = constants;
+  const { id } = useParams();
   return (
     <div className="Article-card">
+      <Link
+        to={
+          `/${organizationRoute}/${id}/knowledge-base/folder/${folderId}`
+        }
+        key={id}
+        className="Article-card"
+        style={{ textDecoration: "none", height: "100%" }}
+      >
       <Box component="div" className="card">
         <div className="general-info">
           <FolderRoundedIcon style={{ color: color, fontSize: "2.2em" }} />
@@ -39,6 +51,7 @@ const ArticleCard = ({ color, title, articleNo }: props) => {
           </div>
         </div>
       </Box>
+      </Link>
     </div>
   );
 };

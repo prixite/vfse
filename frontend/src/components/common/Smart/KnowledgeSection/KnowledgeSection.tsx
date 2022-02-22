@@ -28,41 +28,25 @@ const articleData = [
     title: "Category 1",
     categories: [
       {
+        id: 1,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
+        id: 2,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
+        id: 3,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
-        title: "Get Started",
-        color: "#28D4AB",
-        number: 4,
-      },
-    ],
-  },
-  {
-    title: "Get started",
-    categories: [
-      {
-        title: "Get Started",
-        color: "#28D4AB",
-        number: 4,
-      },
-      {
-        title: "Get Started",
-        color: "#28D4AB",
-        number: 4,
-      },
-      {
+        id: 4,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
@@ -73,16 +57,42 @@ const articleData = [
     title: "Get started",
     categories: [
       {
+        id: 5,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
+        id: 6,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
       },
       {
+        id: 7,
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+    ],
+  },
+  {
+    title: "Get started",
+    categories: [
+      {
+        id: 8,
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        id: 9,
+        title: "Get Started",
+        color: "#28D4AB",
+        number: 4,
+      },
+      {
+        id: 10,
         title: "Get Started",
         color: "#28D4AB",
         number: 4,
@@ -138,6 +148,7 @@ const KnowledgeSection = () => {
                   color={item?.color}
                   title={item?.title}
                   articleNo={item?.number}
+                  id={item.id}
                 />
               </Grid>
             ))}
