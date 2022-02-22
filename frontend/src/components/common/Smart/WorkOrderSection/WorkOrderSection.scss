@@ -1,0 +1,25 @@
+.WorkOrderSection {
+  .heading_section {
+    display: flex;
+    justify-content: space-between;
+    font-family: "ProximaNova-Regular";
+    .heading {
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 24px;
+      font-style: normal;
+    }
+    .subheading {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 600;
+      color: #94989e;
+      font-style: normal;
+    }
+  }
+  .WorkOrderSectionBottom {
+    height: 457px;
+    background-color: white;
+    border-radius: 10px;
+  }
+}
