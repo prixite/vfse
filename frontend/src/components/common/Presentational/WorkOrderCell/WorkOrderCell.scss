@@ -1,0 +1,43 @@
+.upper_class {
+  .root_section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    overflow-y: auto;
+    .btn_section {
+      .connect_btn {
+        width: 143px;
+        height: 36px;
+        border: 1px solid #92d509;
+        box-sizing: border-box;
+        border-radius: 6px;
+        background: #92d509;
+        color: white;
+        text-transform: capitalize;
+      }
+    }
+  }
+  .img_section {
+    display: flex;
+    flex-direction: row;
+  }
+  .detail_section {
+    display: flex;
+    flex-direction: column;
+    font-family: "ProximaNova-Regular";
+    margin-left: 16px;
+    .title {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      font-style: normal;
+    }
+    .subtitle {
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 16px;
+      font-style: normal;
+    }
+  }
+}

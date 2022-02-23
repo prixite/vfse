@@ -1,16 +1,24 @@
 import { Box } from "@mui/material";
-
-import FlowerIcon from "@src/assets/svgs/flower.svg";
 import "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards.scss";
 
-const CountingInfoCards = () => {
+interface CountingInfoCards {
+  deviceNo: string;
+  deviceStatus: string;
+  deviceImage: string;
+}
+
+const CountingInfoCards = ({
+  deviceNo,
+  deviceStatus,
+  deviceImage,
+}: CountingInfoCards) => {
   return (
     <div className="countingInfo">
       <Box component="div" className="card">
-        <img src={FlowerIcon} className="imgStyling" />
+        <img src={deviceImage} className="imgStyling" />
         <div className="info">
-          <p className="number">2120</p>
-          <p className="category">All devices</p>
+          <p className="number">{deviceNo}</p>
+          <p className="category">{deviceStatus}</p>
         </div>
       </Box>
     </div>
