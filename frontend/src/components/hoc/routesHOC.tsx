@@ -9,6 +9,7 @@ import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import OrganizationView from "@src/views/organization/OrganizationView";
 import SitesView from "@src/views/sites/SitesView";
 import SystemsView from "@src/views/systems/SystemsView";
+import ArticleDocumentation from "@src/views/ArticleDocumentation/ArticleDocumentation";
 
 interface Props {
   isLoading: boolean;
@@ -73,7 +74,16 @@ const RoutesHOC = ({ isLoading }: Props) => {
             component={FolderView}
             exact
           />
-
+          <Route
+            path={`/${organizationRoute}/:id/knowledge-base/folder/:folderId/documentation/:docId`}
+            component={ArticleDocumentation}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/knowledge-base/documentation/:docId`}
+            component={ArticleDocumentation}
+            exact
+          />
           <Route path="/" component={HomeView} exact />
           <Route path="*" component={NotFoundPage} />
         </Switch>

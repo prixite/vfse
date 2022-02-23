@@ -136,7 +136,7 @@ const KnowledgeSection = () => {
         <Grid container spacing={1}>
           {topData.map((item, index) => (
             <Grid item={true} xs={6} xl={2} md={3} key={index}>
-              <KnowledgeTopCard title={item?.title} />
+              <KnowledgeTopCard title={item?.title} description={item?.description}/>
             </Grid>
           ))}
         </Grid>

@@ -3,3 +3,9 @@ export interface S3Interface {
   key: string;
   location: string;
 }
+
+export interface RouteParam { 
+  id?: string;
+  folderId?: string;
+  docId?: string;
+}
