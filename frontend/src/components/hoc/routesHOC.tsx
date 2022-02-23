@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
+import FolderView from "@src/views/folderView/FolderView";
 import HomeView from "@src/views/home/HomeView";
 import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import OrganizationView from "@src/views/organization/OrganizationView";
@@ -65,6 +66,11 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/:siteId/systems`}
             component={SystemsView}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/knowledge-base/folder/:folderId`}
+            component={FolderView}
             exact
           />
 
