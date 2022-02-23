@@ -298,6 +298,16 @@ export interface ArticleCard {
   explore: string;
 }
 
+export interface folderSection {
+  backBtn: string;
+}
+
+export interface ConfirmSiteModal {
+  dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
+  noButton: "Cancel";
+  yesButton: "Add Site";
+}
+
 export interface LocalizationInterface {
   common: Common;
   users: Users;

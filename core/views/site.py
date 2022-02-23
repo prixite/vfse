@@ -108,3 +108,7 @@ class WelcomeView(TemplateView):
             return super().get(request, *args, **kwargs)
 
         return redirect(context["url_map"][flags[0]])
+
+
+class RequestView(TemplateView):
+    template_name = "request.html"
