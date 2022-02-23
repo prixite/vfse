@@ -109,5 +109,6 @@ class WelcomeView(TemplateView):
 
         return redirect(context["url_map"][flags[0]])
 
+
 class RequestView(TemplateView):
-    template_name='request.html'
+    template_name = "request.html"
