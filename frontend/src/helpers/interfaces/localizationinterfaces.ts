@@ -220,6 +220,10 @@ export interface articleCard {
   explore: string;
 }
 
+export interface folderSection {
+  backBtn: string;
+}
+
 export interface ConfirmSiteModal {
   dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
   noButton: "Cancel";
@@ -242,4 +246,5 @@ export interface LocalizationInterface {
   confirmSiteDialog: ConfirmSiteModal;
   knowledgeBase: knowledgeBase;
   articleCard: articleCard;
+  folderSection: folderSection;
 }

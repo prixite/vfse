@@ -14,12 +14,15 @@ import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
 const topData = [
   {
     title: "Get started",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt..."
   },
   {
     title: "Get started",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt..."
   },
   {
     title: "Get started",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt..."
   },
 ];
 
@@ -106,7 +109,7 @@ const renderMobileCarousel = () => {
     <Flicking defaultIndex={0} deceleration={0.0075} horizontal bound gap={40}>
       {articleData.map((item, index) => (
         <span key={index}>
-          <KnowledgeTopCard title={item?.title} />
+          <KnowledgeTopCard title={item?.title} description={item?.description}/>
         </span>
       ))}
     </Flicking>

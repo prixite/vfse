@@ -4,9 +4,10 @@ import fileImage from "@src/assets/svgs/fileImage.svg";
 import "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard.scss";
 interface props {
   title: string;
+  description: string;
 }
 
-const KnowledgeTopCard = ({ title }: props) => {
+const KnowledgeTopCard = ({ title, description }: props) => {
   return (
     <div className="knowledge-top-card">
       <Box component="div" className="card">
@@ -14,8 +15,7 @@ const KnowledgeTopCard = ({ title }: props) => {
         <h2 className="title"> {title}</h2>
         <div className="info">
           <p className="category">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt...
+            {description}
           </p>
         </div>
       </Box>
