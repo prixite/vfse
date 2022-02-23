@@ -3,13 +3,13 @@ import { Switch, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
+import ArticleDocumentation from "@src/views/ArticleDocumentation/ArticleDocumentation";
 import FolderView from "@src/views/folderView/FolderView";
 import HomeView from "@src/views/home/HomeView";
 import NotFoundPage from "@src/views/NotFoundPage/NotFoundPage";
 import OrganizationView from "@src/views/organization/OrganizationView";
 import SitesView from "@src/views/sites/SitesView";
 import SystemsView from "@src/views/systems/SystemsView";
-import ArticleDocumentation from "@src/views/ArticleDocumentation/ArticleDocumentation";
 
 interface Props {
   isLoading: boolean;

@@ -1,8 +1,9 @@
 import { Box } from "@mui/material";
 import { Link, useParams, useHistory } from "react-router-dom";
+
 import fileImage from "@src/assets/svgs/fileImage.svg";
-import { constants } from "@src/helpers/utils/constants";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
+import { constants } from "@src/helpers/utils/constants";
 import "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard.scss";
 interface props {
   title: string;
@@ -13,7 +14,9 @@ const KnowledgeTopCard = ({ title, description }: props) => {
   const param: RouteParam = useParams();
   const { organizationRoute } = constants;
   const history = useHistory();
-  const route = history?.location?.pathname?.includes('folder') ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/3` :  `/${organizationRoute}/${param?.id}/knowledge-base/documentation/3`;
+  const route = history?.location?.pathname?.includes("folder")
+    ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/3`
+    : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/3`;
   return (
     <div className="knowledge-top-card">
       <Link
