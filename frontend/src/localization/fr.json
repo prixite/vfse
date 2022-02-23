@@ -1,4 +1,7 @@
 {
+    "common":{
+        "searching": "Searching ..."
+    },
     "users":{
             "addUser": "Add User",
             "userAdministration": "User Administration",
@@ -10,8 +13,9 @@
                 "btnAdd": "Add",
                 "btnCancel": "Cancel",
                 "btnNext": "Next",
-                "btnClient": "Add Client",
-                "addNewUser": "Add user",
+                "btnAddUser": "Add User",
+                "btnEditUser": "Edit User",
+                "addNewUser": "Add User",
                 "pageTrackerdesc1": "Step",
                 "pageTrackerdesc2": "of 2",
                 "userFirstName": "First Name",
@@ -24,11 +28,17 @@
                 "newUser": "New User"
             }
     },
+    "user_menu_options": {
+        "lock": "Lock",
+        "unlock": "Unlock",
+        "edit": "Edit",
+        "delete_user": "Delete"
+    },
     "modalities":{
         "title": "All Networks",
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
-        "noDataTitle": "No Data Found",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
         "cardPopUp":
         {
@@ -44,7 +54,7 @@
             "newNetworkBtnCancel": "Cancel"
         },
         "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete",
+            "dialogMessage" : "Are you sure you want to delete?",
             "noButton" : "No",
             "yesButton" : "Yes"
         }
@@ -54,8 +64,9 @@
         "title": "All Sites",
         "btnFilter": "Filter",
         "btnAdd": "Add Site",
+        "btnEdit": "Edit Site",
         "noResultMsg": "no results found",
-        "noDataTitle": "No Data Found",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
         "popUp":{
             "popUpNewNetwork": "Add Network",
@@ -71,7 +82,7 @@
              "deleteSite": "Delete"
         },
         "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete",
+            "dialogMessage" : "Are you sure you want to delete?",
             "noButton" : "No",
             "yesButton" : "Yes"
         }
@@ -81,13 +92,58 @@
         "title": "Documentation database",
         "btnFilter": "Filter",
         "btnCol": "Columns",
-        "btnAsset": "Sort by Asset #"
+        "btnAsset": "Sort by Asset #",
+        "btnAdd": "Add Document",
+        "popUp":{
+            "title": "Add Documentation",
+            "editTitle": "Edit Documentation",
+            "link": "Documentation Link",
+            "upload_btn": "Upload",
+            "model": "Model",
+            "product_model": "Product",
+            "modalities": "Modalities",
+            "btnSave": "Add",
+            "btnEdit": "Edit",
+            "btnCancel": "Cancel"
+        }
+    },
+    "systems": {
+        "title": "Documentation database",
+        "btnFilter": "Filter",
+        "btnCol": "Columns",
+        "btnAsset": "Sort by Asset #",
+        "noDataTitle": "Sorry! no results found :(",
+        "noDataDescription": "Try Again",
+        "btnAdd": "Add System"
+    },
+    "systems_card": {
+        "his_ris_info_txt": "HIS/RIS info",
+        "dicom_info_txt": "Dicom info",
+        "serial_txt": "Serial",
+        "is_online": "Is Online",
+        "latest_ping": "Latest Ping",
+        "asset_txt": "Asset",
+        "helium_level": "Helium level",
+        "mpc_status": "MPC Status",
+        "copy_btn": "Copy",
+        "ip_address_txt": "IP address",
+        "local_ae_title_txt": "Local AE title",
+        "software_version_txt": "Software Version",
+        "location": "Location",
+        "connect": "Connect",
+        "grafana_link_txt": "Grafana Link"
+    },
+    "organization_menu_options": {
+        "switch_org": "Switch   >>",
+        "edit": "Edit appearance",
+        "new_network": "Add new health network",
+        "delete_org": "Delete"
     },
     "organization":{
-        "title": "All Clients",
+        "title": "Organization Administration",
         "btnFilter": "Filter",
-        "btnAdd": "Add Clients",
-        "noDataTitle": "No Data Found",
+        "btnAdd": "Add Client",
+        "noDataTitle": "Sorry! no results found :(",
         "noDataDescription": "Try Again",
         "newHealthNetwork": " New Health Network",
         "popUp":{
@@ -96,20 +152,21 @@
             "newOrganizationPageTrackerdesc2": "of 2",
             "newOrganizationName": "Client Name",
             "newOrganizationSeats": "Number of Seats",
+            "newOrganizationBtnNext" : "Next",
             "newOrganizationBtnSave": "Add",
             "newOrganizationBtnCancel": "Cancel",
             "newOrganizationLogo": "Logo",
-            "newOrganizationColor1": "Color #1",
-            "newOrganizationColor2": "Color #2",
-            "newOrganizationColor3": "Color #3",
-            "newOrganizationColor4": "Color #4",
-            "newOrganizationFont1": "Font #1",
-            "newOrganizationFont2": "Font #2",
+            "newOrganizationColor1": "Sidebar:",
+            "newOrganizationColor2": "Buttons:",
+            "newOrganizationColor3": "Sidebar Text:",
+            "newOrganizationColor4": "Buttons Text:",
+            "newOrganizationFont1": "Main content:",
+            "newOrganizationFont2": "Sidebar content:",
             "newOrganizationHealthNetworks": "Health networks",
             "newOrganizationAddNetwork": "Add Network"
         },
         "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete",
+            "dialogMessage" : "Are you sure you want to delete?",
             "noButton" : "No",
             "yesButton" : "Yes"
         }
@@ -121,7 +178,7 @@
         "backbtn" : "GO BACK"
     },
     "dataNotFound" : {
-        "title" : "No Data Found!",
+        "title" : "Sorry! no results found :(",
         "description" : "Try Again",
         "backbtn" : "GO BACK"
     },
@@ -145,6 +202,57 @@
     },
     "siteSection" : {
         "site": "Site Name #"
+    },
+    "siteModal" : {
+        "fieldName": "Name",
+        "fieldAddress": "Address",
+        "btnAdd": "Add",
+        "btnEdit": "Edit",
+        "btnCancel": "Cancel"
+    },
+    "systemModal" : {
+        "fieldName": "Name",
+        "fieldManufacturer": "Manufacturer",
+        "fieldModality": "Modality",
+        "fieldProduct": "Product",
+        "fieldLocation": "Location in the building",
+        "fieldLink": "Grafana link",
+        "fieldNumber": "Serial Number",
+        "fieldSite": "Site",
+        "fieldModal": "Product Model",
+        "fieldVersion": "Software Version",
+        "fieldAsset": "Asset Number",
+        "fieldIp": "IP",
+        "fieldLocalAE": "Local AE Title",
+        "fieldRisName": "HIS/RIS Info",
+        "fieldRisIp": "IP",
+        "fieldRisTitle": "Title",
+        "fieldRisPort": "Port",
+        "fieldRisAE": "AE Title",
+        "fieldDicomName": "Dicom info",
+        "fieldDicomIp": "IP",
+        "fieldDicomTitle": "Title",
+        "fieldDicomPort": "Port",
+        "fieldDicomAE": "AE Title",
+        "fieldMRIname": "MRI embedded parmeters",
+        "fieldMRIHelium": "Helium",
+        "fieldMRIMagnet": "Magnet pressure",
+        "headdingAddInfo": "Add Info",
+        "btnAdd": "Add",
+        "btnEdit": "Edit",
+        "btnCancel": "Cancel"
+    },
+    "confirmSiteDialog" : {
+        "dialogMessage" : "Sites do not exist for this organization, you have to create site first to create system.",
+        "noButton" : "Cancel",
+        "yesButton" : "Add Site"
+    },
+    "knowledgeBase" : {
+       "title" : "Knowledge base",
+       "subTitle" : "Top Help Articles"
+    },
+    "articleCard" : {
+        "numberTitle": "articles",
+        "explore": "Explore"
     }
-
 }
