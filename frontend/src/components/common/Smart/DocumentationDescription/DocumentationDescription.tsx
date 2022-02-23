@@ -1,4 +1,4 @@
-import { Box , Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
 import ArticleDescriptionCard from "../../Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
 import "@src/components/common/Smart/DocumentationDescription/DocumentationDescription.scss";
