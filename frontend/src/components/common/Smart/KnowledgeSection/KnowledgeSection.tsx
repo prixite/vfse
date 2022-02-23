@@ -1,12 +1,12 @@
 import Flicking from "@egjs/react-flicking";
 import { Grid, Box } from "@mui/material";
 import { isMobileOnly } from "react-device-detect";
-
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
-
+import { mobileWidth } from "@src/helpers/utils/config";
 import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
 
 import "@src/components/common/Smart/KnowledgeSection/KnowledgeSection.scss";
@@ -110,7 +110,7 @@ const articleData = [
 const renderMobileCarousel = () => {
   return (
     <Flicking defaultIndex={0} deceleration={0.0075} horizontal bound gap={40}>
-      {articleData.map((item, index) => (
+      {topData.map((item, index) => (
         <span key={index}>
           <KnowledgeTopCard
             title={item?.title}
@@ -123,6 +123,7 @@ const renderMobileCarousel = () => {
 };
 
 const KnowledgeSection = () => {
+  const [browserWidth] = useWindowSize();
   const constantData: LocalizationInterface = localizedData();
   const { title, subTitle } = constantData.knowledgeBase;
   return (
@@ -130,12 +131,12 @@ const KnowledgeSection = () => {
       <h1 className="main-heading">{title}</h1>
       <TopViewBtns path="documentation" />
       <h2 className="sub-heading">{subTitle}</h2>
-      {isMobileOnly ? (
+      {browserWidth <= mobileWidth? (
         renderMobileCarousel()
       ) : (
         <Grid container spacing={1}>
           {topData.map((item, index) => (
-            <Grid item={true} xs={6} xl={2} md={3} key={index}>
+            <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
               <KnowledgeTopCard
                 title={item?.title}
                 description={item?.description}
