@@ -14,9 +14,7 @@ const KnowledgeTopCard = ({ title, description }: props) => {
         <img src={fileImage} />
         <h2 className="title"> {title}</h2>
         <div className="info">
-          <p className="category">
-            {description}
-          </p>
+          <p className="category">{description}</p>
         </div>
       </Box>
     </div>
