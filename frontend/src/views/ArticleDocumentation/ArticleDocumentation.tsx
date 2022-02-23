@@ -2,7 +2,7 @@ import DocumentationDescription from "@src/components/common/Smart/Documentation
 export default function ArticleDocumentation() {
   return (
     <>
-      <DocumentationDescription/>
+      <DocumentationDescription />
     </>
   );
 }
