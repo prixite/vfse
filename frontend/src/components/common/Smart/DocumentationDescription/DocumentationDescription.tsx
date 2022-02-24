@@ -1,6 +1,13 @@
-import { Box, Grid } from "@mui/material";
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import { Box, Grid, Button } from "@mui/material";
+import { Link, useParams } from "react-router-dom";
 
-import ArticleDescriptionCard from "../../Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
+import ArticleDescriptionCard from "@src/components/common/Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
+import ArticleOverviewCard from "@src/components/common/Presentational/ArticleOverviewCard/ArticleOverviewCard";
+import { constants } from "@src/helpers/utils/constants";
+import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/DocumentationDescription/DocumentationDescription.scss";
 const obj = {
   overview:
@@ -12,15 +19,67 @@ const obj = {
 };
 
 const DocumentationDescription = () => {
+  const { id } = useParams();
+  const { organizationRoute } = constants;
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   return (
     <Box component="div" className="documentation-section">
-      <Grid container spacing={2}>
-        <Grid item={true} xs={8}>
+      <div>
+        <Link
+          to={`/${organizationRoute}/${id}/knowledge-base`}
+          key={id}
+          className="back-btn"
+          style={{ textDecoration: "none", height: "100%" }}
+        >
+          <div className="back-btn">
+            <ArrowRightAltIcon
+              style={{ transform: "rotate(180deg)", color: "rgb(0, 0, 0)" }}
+            />
+            <p className="back-text">Back</p>
+          </div>
+        </Link>
+      </div>
+      <Grid container spacing={5} style={{ marginTop: "20px" }}>
+        <Grid item={true} xs={9} style={{ paddingTop: "8px" }}>
+          <h1 className="title">Getting started</h1>
           <ArticleDescriptionCard
             overview={obj.overview}
             description={obj.description}
             startGuide={obj.startGuide}
           />
+        </Grid>
+        <Grid item={true} xs={3}>
+          <Grid container spacing={2} style={{ marginBottom: "20px" }}>
+            <Grid item={true} xs={6}>
+              <Button
+                className="btn"
+                style={{
+                  backgroundColor: secondaryColor,
+                  color: buttonTextColor,
+                }}
+              >
+                <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
+                <span>Edit</span>
+              </Button>
+            </Grid>
+            <Grid item={true} xs={6}>
+              <Button
+                className="btn"
+                style={{
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }}
+              >
+                <InsertLinkOutlinedIcon
+                  style={{ transform: "rotate(120deg)", marginRight: "10px" }}
+                />
+                <span> Copy link </span>
+              </Button>
+            </Grid>
+          </Grid>
+          <ArticleOverviewCard />
         </Grid>
       </Grid>
     </Box>
