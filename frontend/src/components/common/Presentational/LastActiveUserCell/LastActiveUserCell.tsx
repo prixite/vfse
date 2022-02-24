@@ -70,9 +70,9 @@ const rows = [
   createData("Eclair", "Ova", "Active"),
   createData("Cupcake", "Fova", "Locked"),
   createData("Gingerbread", "Poa", "Active"),
-  createData("Eclair", "Joa", "Locked"),
-  createData("Cupcake", "Loa", "Active"),
-  createData("Gingerbread", "Koa", "Locked"),
+  createData("EclairP", "Joa", "Locked"),
+  createData("Ccake", "Loa", "Active"),
+  createData("Fbread", "Koa", "Locked"),
 ];
 
 export default function LastActiveUserCell() {
