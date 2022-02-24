@@ -1,0 +1,18 @@
+.overview {
+    height: fit-content;
+    .card{
+        padding: 20px 25px;
+        background: #ffff;
+        height: 185px;
+        .heading {
+        color: #773cbd;
+        font-family: "ProximaNova-Bold";
+        font-size: 16px;
+        }
+        .description {
+        margin-top: 16px;
+        font-size: 16px;
+        font-family: "ProximaNova-Regular";
+        }
+   }
+}

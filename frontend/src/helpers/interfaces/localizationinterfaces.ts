@@ -330,4 +330,5 @@ export interface LocalizationInterface {
   confirmSiteDialog: ConfirmSiteDialog;
   knowledgeBase: KnowledgeBase;
   articleCard: ArticleCard;
+  folderSection: folderSection;
 }
