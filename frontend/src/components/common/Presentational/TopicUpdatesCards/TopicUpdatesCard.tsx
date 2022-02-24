@@ -30,11 +30,11 @@ const TopicUpdatesCards = ({
         <div className="topicInfo">
           <Box component="div" className="card">
             <div className="card_header">
-            <div className="topic_updates_imags">
-              <img src={ultraImage} className="imgStyling" />
+              <div className="topic_updates_imags">
+                <img src={ultraImage} className="imgStyling" />
               </div>
               <div className="topic_updates_imags">
-              <img src={followerImage} className="imgStyling" />
+                <img src={followerImage} className="imgStyling" />
               </div>
             </div>
             <div className="card_detail">{cardText}</div>
@@ -59,10 +59,10 @@ const TopicUpdatesCards = ({
           <Box component="div" className="card">
             <div className="card_header">
               <div className="topic_updates_imags">
-              <img src={ultraImage} className="imgStyling" />
+                <img src={ultraImage} className="imgStyling" />
               </div>
               <div className="topic_updates_imags">
-              <img src={followerImage} className="imgStyling" />
+                <img src={followerImage} className="imgStyling" />
               </div>
             </div>
             <div className="card_detail">{cardText}</div>
