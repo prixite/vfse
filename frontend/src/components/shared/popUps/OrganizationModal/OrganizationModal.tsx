@@ -213,7 +213,11 @@ export default function OrganizationModal({
     if (page === "1") {
       handleSetNewOrganization();
     } else if (page === "2") {
-      handleUpdateNetworks();
+      if (!validateEmptyNetwork()) {
+        handleUpdateNetworks();
+      } else {
+        resetModal();
+      }
     }
   };
   const handleUpdateOrganization = async () => {
@@ -283,6 +287,17 @@ export default function OrganizationModal({
     });
     return valid;
   };
+  const validateEmptyNetwork = () => {
+    if (
+      networks?.length === 1 &&
+      networks[0]?.name === "" &&
+      networks[0]?.appearance?.logo === ""
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   const handleUpdateNetworks = async () => {
     if (validateForm()) {
       setIsLoading(true);
@@ -314,7 +329,11 @@ export default function OrganizationModal({
     if (page === "1") {
       handleUpdateOrganization();
     } else if (page === "2") {
-      handleUpdateNetworks();
+      if (!validateEmptyNetwork()) {
+        handleUpdateNetworks();
+      } else {
+        resetModal();
+      }
     }
   };
 

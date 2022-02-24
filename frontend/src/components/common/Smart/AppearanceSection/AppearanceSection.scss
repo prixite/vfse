@@ -6,7 +6,7 @@
     padding: 42px;
   }
   &__clientSection {
-    width: fit-content;
+    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -55,6 +55,9 @@
         flex-direction: column;
         margin-top: -100px;
         width: 60%;
+        .container {
+          display: flex;
+        }
         .appearanceColorSection {
           margin-left: 28px;
           margin-right: 5px;
@@ -69,10 +72,18 @@
       margin-bottom: 24px;
       .font-demo {
         margin-right: 25px;
+        margin-top: 32px;
         font-size: 32px;
+      }
+      .font-wrapper {
+        display: flex;
+        align-items: center;
       }
       .font-section {
         margin-right: 15px;
+        .css-1ceyddh-MuiFormControl-root {
+          min-width: 145px;
+        }
       }
     }
     .SaveAppearanceBtn {
@@ -94,8 +105,43 @@
 
 @media only screen and (min-width: $ipad) and (max-width: $ipad-pro) {
   .AppearanceSection {
+    &__clientSection {
+      width: 100%;
+    }
+  }
+}
+@media only screen and (min-width: $ipad) and (max-width: 1023px) {
+  .AppearanceSection {
     &__clientCard {
       overflow-x: auto;
+    }
+    &__clientSection {
+      .clientName {
+        width: 55%;
+      }
+      .clientFonts {
+        flex-direction: column;
+        margin-top: -160px;
+        align-items: flex-start;
+        .font-wrapper {
+          margin-bottom: 10px;
+        }
+        .font-demo {
+          font-size: 26px;
+        }
+      }
+      .clientTheming {
+        justify-content: space-between;
+        .clientLogo {
+          width: 55%;
+        }
+        .colorSection {
+          width: 45%;
+          .container {
+            flex-direction: column;
+          }
+        }
+      }
     }
   }
 }

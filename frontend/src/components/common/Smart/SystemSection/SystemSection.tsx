@@ -5,10 +5,13 @@ import { Box } from "@mui/material";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 
 import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
+import SystemCardMobile from "@src/components/common/Presentational/SystemCard/SystemCardMobile";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import AddSiteFirstModal from "@src/components/shared/popUps/AddSiteFirstModal/AddSiteFirstModal";
 import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject } from "@src/helpers/utils/utils";
@@ -24,6 +27,7 @@ import {
 
 import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
 import CommentsDrawer from "../CommentsDrawer/CommentsDrawer";
+
 import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 
 const SystemSection = () => {
@@ -46,6 +50,7 @@ const SystemSection = () => {
   const [searchText, setSearchText] = useState("");
   const [firstRender, setFirstRender] = useState(true);
   const [modality, setModality] = useState();
+  const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
   const { siteId, networkId } =
     useParams<{ siteId: string; networkId: string }>();
@@ -405,15 +410,27 @@ const SystemSection = () => {
           ""
         )}
         {!isSystemDataLoading && itemsList && itemsList?.length ? (
-          itemsList.map((item, key) => (
-            <div key={key} style={{ marginTop: "32px" }}>
-              <SystemCard
-                system={item}
-                handleEdit={() => handleEdit(item)}
-                refetch={systemsRefetch}
-              />
-            </div>
-          ))
+          browserWidth > mobileWidth ? (
+            itemsList.map((item, key) => (
+              <div key={key} style={{ marginTop: "16px" }}>
+                <SystemCard
+                  system={item}
+                  handleEdit={() => handleEdit(item)}
+                  refetch={systemsRefetch}
+                />
+              </div>
+            ))
+          ) : (
+            itemsList.map((item, key) => (
+              <div key={key} style={{ marginTop: "16px" }}>
+                <SystemCardMobile
+                  system={item}
+                  handleEdit={() => handleEdit(item)}
+                  refetch={systemsRefetch}
+                />
+              </div>
+            ))
+          )
         ) : !itemsList?.length && !isSystemDataLoading && !firstRender ? (
           <>
             <NoDataFound

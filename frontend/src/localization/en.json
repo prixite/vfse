@@ -251,8 +251,22 @@
        "title" : "Knowledge base",
        "subTitle" : "Top Help Articles"
     },
+    "Faq": {
+       "dashboard" : "Dashboard",
+       "workOrders" : "Work Orders",
+       "seeAll" : "See All",
+       "lastActiveUser" : "Last active users",
+       "topicUpdates" : "Topic Updates",
+       "name" : "NAME",
+       "healthNetwork" : "HEALTH NETWORK",
+       "status" : "STATUS"
+    },
     "articleCard" : {
         "numberTitle": "articles",
         "explore": "Explore"
+    },
+    "folderSection": {
+        "backBtn": "Back to all"
     }
+
 }
