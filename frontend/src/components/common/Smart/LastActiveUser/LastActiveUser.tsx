@@ -9,7 +9,14 @@ import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 const { lastActiveUser, seeAll } = localizedData().Faq;
 
-const last_active_info = [
+interface LastActiveMobileCards {
+  user_name: string;
+  unionImage: string;
+  health_network: string;
+  status: string;
+}
+
+const last_active_info: LastActiveMobileCards[] = [
   {
     user_name: "Abdullah Jane",
     health_network: "Advent Health",

@@ -84,22 +84,17 @@ TabPanel.propTypes = {
 };
 
 export default function WorkOrderCell() {
-<<<<<<< HEAD
   const { buttonTextColor, buttonBackground } = useAppSelector(
     (state) => state.myTheme
   );
   const [value, setValue] = React.useState(0);
   const [browserWidth] = useWindowSize();
-=======
-  const [value, setValue] = React.useState(0);
->>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-<<<<<<< HEAD
     <>
       {browserWidth > mobileWidth ? (
         <Box className="upper_class" sx={{ width: "100%" }}>
@@ -184,59 +179,5 @@ export default function WorkOrderCell() {
         </Box>
       )}
     </>
-=======
-    <Box className="upper_class" sx={{ width: "100%" }}>
-      <Box>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          {workOrderTabs.map((tab: string, index: number) => {
-            return (
-              <Tab
-                key={index}
-                label={tab}
-                sx={{
-                  "&.Mui-selected": {
-                    color: "#0000FF",
-                  },
-                }}
-                className="tab-style"
-              />
-            );
-          })}
-        </Tabs>
-      </Box>
-      <TabPanel
-        value={value}
-        index={0}
-        style={{ maxHeight: 457, overflow: "auto" }}
-      >
-        {work_data.All.systems.map((item) => (
-          <div className="root_section" key={item.system_title}>
-            <div className="img_section">
-              <div className="img_div">
-                <img src={item.system_image} className="imgStyling" />
-              </div>
-              <div className="detail_section">
-                <div className="title">{item.system_title}</div>
-                <div className="subtitle">{item.system_subtiltle}</div>
-              </div>
-            </div>
-            <div className="btn_section">
-              <Button className="connect_btn">{connect}</Button>
-            </div>
-          </div>
-        ))}
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-    </Box>
->>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
   );
 }

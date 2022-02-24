@@ -6,14 +6,11 @@ import buttonsIcon from "@src/assets/svgs/Buttons.svg";
 import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import TopicUpdatesCards from "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard";
-<<<<<<< HEAD
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 
 const { topicUpdates, seeAll } = localizedData().Faq;
-=======
->>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
 
 const topic_info = [
   {
@@ -68,7 +65,7 @@ const TopicUpdatesSection = () => {
           <div className="cardsSection">
             <Grid container spacing={3}>
               {topic_info.map((item, key) => (
-                <Grid key={key} item xl={3} md={4} sm={6} xs={12}>
+                <Grid key={key} item lg={6} xl={3} md={4} sm={6} xs={12}>
                   <TopicUpdatesCards
                     key={item.message_text}
                     cardText={item.card_text}

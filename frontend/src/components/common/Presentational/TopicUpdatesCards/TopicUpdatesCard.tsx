@@ -1,12 +1,8 @@
 import { Box } from "@mui/material";
-<<<<<<< HEAD
 
 import "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard.scss";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
-=======
-import "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard.scss";
->>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
 
 interface TopicUpdatesCards {
   cardText: string;
@@ -34,8 +30,12 @@ const TopicUpdatesCards = ({
         <div className="topicInfo">
           <Box component="div" className="card">
             <div className="card_header">
+            <div className="topic_updates_imags">
               <img src={ultraImage} className="imgStyling" />
+              </div>
+              <div className="topic_updates_imags">
               <img src={followerImage} className="imgStyling" />
+              </div>
             </div>
             <div className="card_detail">{cardText}</div>
             <div className="card_footer">
@@ -58,8 +58,12 @@ const TopicUpdatesCards = ({
         <div className="mobiletopicInfo">
           <Box component="div" className="card">
             <div className="card_header">
+              <div className="topic_updates_imags">
               <img src={ultraImage} className="imgStyling" />
+              </div>
+              <div className="topic_updates_imags">
               <img src={followerImage} className="imgStyling" />
+              </div>
             </div>
             <div className="card_detail">{cardText}</div>
             <div className="card_footer">

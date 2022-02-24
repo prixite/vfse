@@ -6,19 +6,11 @@
     box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
     display: flex;
     flex-direction: column;
-<<<<<<< HEAD
     justify-content: space-between;
-=======
-    margin-bottom: 16px;
->>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
     padding: 24px;
     .imgStyling {
       height: 32px;
       width: 105px;
-<<<<<<< HEAD
-=======
-      margin-bottom: 24px;
->>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
       display: flex;
     }
     .card_detail {
@@ -81,6 +73,15 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      .topic_updates_imags {
+        height: 32px;
+        width: "48%";
+       .imgStyling {
+         height: inherit;
+         width: inherit;
+         object-fit: cover;
+       }
+      }
     }
     .info {
       display: flex;
