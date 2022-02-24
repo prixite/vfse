@@ -1,12 +1,13 @@
+import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { Box, Grid, Button } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useAppSelector } from "@src/store/hooks";
-import { constants } from "@src/helpers/utils/constants";
-import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+
 import ArticleDescriptionCard from "@src/components/common/Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/Presentational/ArticleOverviewCard/ArticleOverviewCard";
+import { constants } from "@src/helpers/utils/constants";
+import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/DocumentationDescription/DocumentationDescription.scss";
 const obj = {
   overview:
@@ -40,8 +41,8 @@ const DocumentationDescription = () => {
           </div>
         </Link>
       </div>
-      <Grid container spacing={5} style={{marginTop: '20px'}}>
-        <Grid item={true} xs={9} style={{paddingTop: '8px'}}>
+      <Grid container spacing={5} style={{ marginTop: "20px" }}>
+        <Grid item={true} xs={9} style={{ paddingTop: "8px" }}>
           <h1 className="title">Getting started</h1>
           <ArticleDescriptionCard
             overview={obj.overview}
@@ -50,23 +51,35 @@ const DocumentationDescription = () => {
           />
         </Grid>
         <Grid item={true} xs={3}>
-        <Grid container spacing={2} style={{marginBottom: '20px'}}>
-        <Grid item={true} xs={6}>
-          <Button className="btn" style={{backgroundColor: secondaryColor, color: buttonTextColor}}>
-            <ModeEditOutlineOutlinedIcon style={{ marginRight: '10px'}}/>
-            <span>
-              Edit
-            </span>
-          </Button>
-        </Grid>
-        <Grid item={true} xs={6}>
-          <Button className="btn" style={{backgroundColor: buttonBackground, color: buttonTextColor}}>
-          <InsertLinkOutlinedIcon style={{transform: "rotate(120deg)", marginRight: '10px'}}/>
-           <span> Copy link </span>
-            </Button>
-        </Grid>
-        </Grid>
-          <ArticleOverviewCard/>
+          <Grid container spacing={2} style={{ marginBottom: "20px" }}>
+            <Grid item={true} xs={6}>
+              <Button
+                className="btn"
+                style={{
+                  backgroundColor: secondaryColor,
+                  color: buttonTextColor,
+                }}
+              >
+                <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
+                <span>Edit</span>
+              </Button>
+            </Grid>
+            <Grid item={true} xs={6}>
+              <Button
+                className="btn"
+                style={{
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                }}
+              >
+                <InsertLinkOutlinedIcon
+                  style={{ transform: "rotate(120deg)", marginRight: "10px" }}
+                />
+                <span> Copy link </span>
+              </Button>
+            </Grid>
+          </Grid>
+          <ArticleOverviewCard />
         </Grid>
       </Grid>
     </Box>
