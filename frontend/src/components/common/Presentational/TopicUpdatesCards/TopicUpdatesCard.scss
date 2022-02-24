@@ -6,12 +6,11 @@
     box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
     display: flex;
     flex-direction: column;
-    margin-bottom: 16px;
+    justify-content: space-between;
     padding: 24px;
     .imgStyling {
       height: 32px;
       width: 105px;
-      margin-bottom: 24px;
       display: flex;
     }
     .card_detail {
@@ -25,7 +24,101 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-top: 16px;
+      .profile_side {
+        display: flex;
+        flex-direction: row;
+        .follower_img_container {
+          display: flex;
+          align-items: center;
+        }
+        .followerText {
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 18px;
+          font-style: normal;
+          margin-left: 4px;
+          display: flex;
+          align-items: center;
+          color: #696f77;
+        }
+        .imgStylingProfiles {
+          width: 72px;
+          height: 32px;
+        }
+      }
+      .message_side {
+        display: flex;
+        flex-direction: row;
+        .message_text_container {
+          display: flex;
+          align-items: center;
+        }
+        .messageText {
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 18px;
+          font-style: normal;
+          display: flex;
+          align-items: center;
+          color: #696f77;
+        }
+        .imgStylingMessage {
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
+      }
+    }
+    .card_header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      font-family: "ProximaNova-Regular";
+      .number {
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+      }
+      .category {
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+  }
+}
+.mobiletopicInfo {
+  margin-right: 16px;
+  .card {
+    height: 166px;
+    width: 284px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    .imgStyling {
+      height: 32px;
+      width: 105px;
+      display: flex;
+    }
+    .card_detail {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 24px;
+      font-family: "ProximaNova-Regular";
+      color: #151e29;
+    }
+    .card_footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       .profile_side {
         display: flex;
         flex-direction: row;

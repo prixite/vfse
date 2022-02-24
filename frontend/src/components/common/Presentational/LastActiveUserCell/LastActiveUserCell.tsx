@@ -7,8 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import theme from "@src/theme";
+import { localizedData } from "@src/helpers/utils/language";
+
 import "@src/components/common/Presentational/LastActiveUserCell/LastActiveUserCell.scss";
+
+const { name, healthNetwork, status } = localizedData().Faq;
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -18,6 +21,34 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
+  borderBottom: "none",
+}));
+
+const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.action.hover,
+    color: "#6B7280",
+    fontFamily: "Inter",
+    fontSize: "12px",
+    lineHeight: "16px",
+    fontStyle: "normal",
+    fontWeight: "500",
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+  borderBottom: "none",
+}));
+const StyledTableFirstCell = styled(TableCell)(() => ({
+  fontFamily: "ProximaNova-Regular",
+  fontSize: "14px",
+  lineHeight: "20px",
+  fontStyle: "normal",
+  fontWeight: "600",
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+  borderBottom: "none",
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -29,7 +60,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
 function createData(name, network, status) {
   return { name, network, status };
 }
@@ -47,29 +77,32 @@ const rows = [
 
 export default function LastActiveUserCell() {
   return (
-    <TableContainer component={Paper} sx={{ maxHeight: 457 }}>
+    <TableContainer component={Paper}>
       <Table stickyHeader aria-label="sticky table">
-        <TableHead
-          className="cell_class"
-          style={{
-            color: "black",
-            backgroundColor: theme.palette.common.black,
-          }}
-        >
+        <TableHead className="cell_class">
           <TableRow>
-            <TableCell>NAME</TableCell>
-            <TableCell align="center">HEALTH NETWORK</TableCell>
-            <TableCell align="right">STATUS</TableCell>
+            <StyledTableHeadCell>{name}</StyledTableHeadCell>
+            <StyledTableHeadCell align="center">
+              {healthNetwork}
+            </StyledTableHeadCell>
+            <StyledTableHeadCell align="right">{status}</StyledTableHeadCell>
           </TableRow>
         </TableHead>
-        <TableBody style={{ overflow: "auto" }}>
+        <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
+              <StyledTableFirstCell scope="row">
                 {row.name}
-              </StyledTableCell>
+              </StyledTableFirstCell>
               <StyledTableCell align="center">{row.network}</StyledTableCell>
-              <StyledTableCell align="right">{row.status}</StyledTableCell>
+              <StyledTableCell
+                align="right"
+                className={
+                  row.status === "Locked" ? "text-success" : "text-warning"
+                }
+              >
+                {row.status}
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

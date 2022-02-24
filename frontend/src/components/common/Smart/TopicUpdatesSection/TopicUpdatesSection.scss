@@ -18,4 +18,11 @@
       font-style: normal;
     }
   }
+  .mobilecardsSection {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    justify-content: space-between;
+    width: 100%;
+  }
 }

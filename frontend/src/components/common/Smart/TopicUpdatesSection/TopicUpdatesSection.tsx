@@ -6,6 +6,11 @@ import buttonsIcon from "@src/assets/svgs/Buttons.svg";
 import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import TopicUpdatesCards from "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard";
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import { mobileWidth } from "@src/helpers/utils/config";
+import { localizedData } from "@src/helpers/utils/language";
+
+const { topicUpdates, seeAll } = localizedData().Faq;
 
 const topic_info = [
   {
@@ -48,31 +53,59 @@ const topic_info = [
 ];
 
 const TopicUpdatesSection = () => {
+  const [browserWidth] = useWindowSize();
   return (
-    <Box component="div" className="topic_updates_section">
-      <div className="heading_section">
-        <h2 className="heading">Topic Updates</h2>
-        <h3 className="subheading">See All</h3>
-      </div>
-      <div className="cardsSection">
-        <Grid container spacing={3}>
-          {topic_info.map((item, key) => (
-            <Grid key={key} item xl={3} md={4} xs={12}>
-              <TopicUpdatesCards
-                key={item.message_text}
-                cardText={item.card_text}
-                messageText={item.message_text}
-                followerText={item.followers_text}
-                ultraImage={item.ultra_image}
-                followerImage={item.follower_btn}
-                messageImage={item.message_icon}
-                followerProfiles={item.followers_icon}
-              />
+    <>
+      {browserWidth > mobileWidth ? (
+        <Box component="div" className="topic_updates_section">
+          <div className="heading_section">
+            <h2 className="heading">{topicUpdates}</h2>
+            <h3 className="subheading">{seeAll}</h3>
+          </div>
+          <div className="cardsSection">
+            <Grid container spacing={3}>
+              {topic_info.map((item, key) => (
+                <Grid key={key} item xl={3} md={4} sm={6} xs={12}>
+                  <TopicUpdatesCards
+                    key={item.message_text}
+                    cardText={item.card_text}
+                    messageText={item.message_text}
+                    followerText={item.followers_text}
+                    ultraImage={item.ultra_image}
+                    followerImage={item.follower_btn}
+                    messageImage={item.message_icon}
+                    followerProfiles={item.followers_icon}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </div>
-    </Box>
+          </div>
+        </Box>
+      ) : (
+        <Box component="div" className="topic_updates_section">
+          <div className="heading_section">
+            <h2 className="heading">{topicUpdates}</h2>
+            <h3 className="subheading">{seeAll}</h3>
+          </div>
+          <div className="mobilecardsSection">
+            {topic_info.map((item, key) => (
+              <div key={key}>
+                <TopicUpdatesCards
+                  key={item.message_text}
+                  cardText={item.card_text}
+                  messageText={item.message_text}
+                  followerText={item.followers_text}
+                  ultraImage={item.ultra_image}
+                  followerImage={item.follower_btn}
+                  messageImage={item.message_icon}
+                  followerProfiles={item.followers_icon}
+                />
+              </div>
+            ))}
+          </div>
+        </Box>
+      )}
+    </>
   );
 };
 
