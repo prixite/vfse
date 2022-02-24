@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
-import Typography from "@mui/material/Typography";
 import PropTypes from "prop-types";
 
 import ConnectIcon from "@src/assets/svgs/Green_Btn.svg";
@@ -40,13 +39,13 @@ const work_data = {
         connect_image: ConnectIcon,
       },
       {
-        system_title: "Ge Signa Excite",
+        system_title: "Signa Excite",
         system_subtiltle: "GE Healthcare",
         system_image: SystemIcon,
         connect_image: ConnectIcon,
       },
       {
-        system_title: "Ge Signa Excite",
+        system_title: "Et Signa Excite",
         system_subtiltle: "GE Healthcare",
         system_image: SystemIcon,
         connect_image: ConnectIcon,
@@ -70,7 +69,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
