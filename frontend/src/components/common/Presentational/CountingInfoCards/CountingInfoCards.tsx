@@ -1,5 +1,8 @@
 import { Box } from "@mui/material";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
 import "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards.scss";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";

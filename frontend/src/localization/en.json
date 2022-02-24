@@ -264,5 +264,9 @@
     "articleCard" : {
         "numberTitle": "articles",
         "explore": "Explore"
+    },
+    "folderSection": {
+        "backBtn": "Back to all"
     }
+
 }

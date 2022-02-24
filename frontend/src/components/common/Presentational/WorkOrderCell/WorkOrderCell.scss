@@ -1,4 +1,5 @@
 .upper_class {
+<<<<<<< HEAD
   .tab-style {
     font-family: "ProximaNova-Regular";
     font-style: normal;
@@ -7,16 +8,30 @@
     line-height: 22px;
     color: #bfc1c5;
   }
+=======
+>>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
   .root_section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     margin-bottom: 28px;
+<<<<<<< HEAD
+=======
+    overflow-y: auto;
+>>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
     .btn_section {
       .connect_btn {
         width: 143px;
         height: 36px;
+<<<<<<< HEAD
         border-radius: 6px;
+=======
+        border: 1px solid #92d509;
+        box-sizing: border-box;
+        border-radius: 6px;
+        background: #92d509;
+        color: white;
+>>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
         text-transform: capitalize;
       }
     }

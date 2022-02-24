@@ -1,8 +1,12 @@
 import { Box } from "@mui/material";
+<<<<<<< HEAD
 
 import "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard.scss";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
+=======
+import "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard.scss";
+>>>>>>> 612f4ed1b03e2524a949f9e6c84f170b170866d1
 
 interface TopicUpdatesCards {
   cardText: string;
