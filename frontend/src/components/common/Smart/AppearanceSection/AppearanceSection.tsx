@@ -209,7 +209,7 @@ const AppearanceSection = () => {
               </Box>
             </Box>
             <Box component="div" className="colorSection">
-              <div style={{ display: "flex" }} className="container">
+              <div className="container">
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar:"
@@ -225,7 +225,7 @@ const AppearanceSection = () => {
                   />
                 </div>
               </div>
-              <div style={{ display: "flex" }} className="container">
+              <div className="container">
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar Text:"
@@ -241,7 +241,7 @@ const AppearanceSection = () => {
                   />
                 </div>
               </div>
-              <div style={{ display: "flex" }} className="container">
+              <div className="container">
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Secondary Color:"
@@ -253,45 +253,56 @@ const AppearanceSection = () => {
             </Box>
           </Box>
           <Box component="div" className="clientFonts">
-            <Box component="div" className="font-section">
-              <h4 className="labels">{newOrganizationFont1}</h4>
-              <FormControl sx={{ minWidth: 195 }}>
-                <Select
-                  value={mainContentFont}
-                  displayEmpty
-                  onChange={onChangeFont}
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                  <MenuItem value={"calibri"}>Calibiri</MenuItem>
-                  <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <h2
-              className="font-demo"
-              style={{ fontFamily: `${mainContentFont}` }}
-            >
-              AaBbCcDd
-            </h2>
-            <Box component="div" className="font-section">
-              <h4 className="labels">{newOrganizationFont2}</h4>
-              <FormControl sx={{ minWidth: 195 }}>
-                <Select
-                  value={sideBarFont}
-                  displayEmpty
-                  onChange={onChangeFontTwo}
-                  inputProps={{ "aria-label": "Without label" }}
-                >
-                  <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                  <MenuItem value={"calibri"}>Calibri</MenuItem>
-                  <MenuItem value={"ProximaNova-Regular"}>ProximaNova</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-            <h2 className="font-demo" style={{ fontFamily: `${sideBarFont}` }}>
-              AaBbCcDd
-            </h2>
+            <div className="font-wrapper">
+              <Box component="div" className="font-section">
+                <h4 className="labels">{newOrganizationFont1}</h4>
+                <FormControl sx={{ minWidth: 195 }}>
+                  <Select
+                    value={mainContentFont}
+                    displayEmpty
+                    onChange={onChangeFont}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                    <MenuItem value={"calibri"}>Calibiri</MenuItem>
+                    <MenuItem value={"ProximaNova-Regular"}>
+                      ProximaNova
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <h2
+                className="font-demo"
+                style={{ fontFamily: `${mainContentFont}` }}
+              >
+                AaBbCcDd
+              </h2>
+            </div>
+            <div className="font-wrapper">
+              <Box component="div" className="font-section">
+                <h4 className="labels">{newOrganizationFont2}</h4>
+                <FormControl sx={{ minWidth: 195 }}>
+                  <Select
+                    value={sideBarFont}
+                    displayEmpty
+                    onChange={onChangeFontTwo}
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                    <MenuItem value={"calibri"}>Calibri</MenuItem>
+                    <MenuItem value={"ProximaNova-Regular"}>
+                      ProximaNova
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
+              <h2
+                className="font-demo"
+                style={{ fontFamily: `${sideBarFont}` }}
+              >
+                AaBbCcDd
+              </h2>
+            </div>
           </Box>
           <Button
             onClick={updateAppearance}

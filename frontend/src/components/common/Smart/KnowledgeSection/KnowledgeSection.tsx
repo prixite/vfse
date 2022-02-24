@@ -133,7 +133,7 @@ const KnowledgeSection = () => {
       <h1 className="main-heading">{title}</h1>
       <TopViewBtns path="documentation" />
       <h2 className="sub-heading">{subTitle}</h2>
-      {browserWidth <= mobileWidth ? (
+      {browserWidth < mobileWidth && browserWidth !== 0 ? (
         renderMobileCarousel()
       ) : (
         <Grid container spacing={1}>
