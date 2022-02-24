@@ -6,3 +6,11 @@
     flex-wrap: wrap;
   }
 }
+.mobileCountingInfoSection {
+  .mobilecardsSection {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    justify-content: space-between;
+  }
+}

@@ -6,10 +6,12 @@ import CountingInfoSection from "@src/components/common/Smart/CountingInfoSectio
 import LastActiveUsers from "@src/components/common/Smart/LastActiveUser/LastActiveUser";
 import TopicUpdatesSection from "@src/components/common/Smart/TopicUpdatesSection/TopicUpdatesSection";
 import WorkOrderSection from "@src/components/common/Smart/WorkOrderSection/WorkOrderSection";
+import { localizedData } from "@src/helpers/utils/language";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsSeatsListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/FaqSection/FaqSection.scss";
 
+const { dashboard } = localizedData().Faq;
 export default function FaqSection() {
   const selectedOrganization = useSelectedOrganization();
 
@@ -23,14 +25,14 @@ export default function FaqSection() {
 
   return (
     <div className="VfseDashboardSection">
-      <h2 className="heading">Dashboard</h2>
+      <h2 className="heading">{dashboard}</h2>
       <CountingInfoSection />
       <Box className="WorkOrderSection">
         <Grid container spacing={3}>
-          <Grid item xs={7}>
+          <Grid item xs={12} sm={12} md={7}>
             <WorkOrderSection />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={12} md={5}>
             <LastActiveUsers />
           </Grid>
         </Grid>

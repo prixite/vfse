@@ -30,3 +30,37 @@
     }
   }
 }
+.mobilecountingInfo {
+  margin-right: 16px;
+  .card {
+    height: 168px;
+    width: 136px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    padding: 15px;
+    align-items: flex-start;
+    .imgStyling {
+      height: 56px;
+      margin-bottom: 24px;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      font-family: "ProximaNova-Regular";
+      .number {
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+      }
+      .category {
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+      }
+    }
+  }
+}

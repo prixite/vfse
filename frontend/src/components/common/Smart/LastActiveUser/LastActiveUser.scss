@@ -19,7 +19,35 @@
   }
   .last_active_user_table {
     height: 457px;
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     // border-radius: 10px;
     // background-color: white;
+  }
+}
+.last_active_users_mobile {
+  .heading_section {
+    display: flex;
+    justify-content: space-between;
+    font-family: "ProximaNova-Regular";
+    .heading {
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 24px;
+      font-style: normal;
+    }
+    .subheading {
+      font-size: 16px;
+      line-height: 24px;
+      font-weight: 600;
+      color: #94989e;
+      font-style: normal;
+    }
+  }
+  .last_active_user_table_mobile {
+    height: 540px;
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
 }

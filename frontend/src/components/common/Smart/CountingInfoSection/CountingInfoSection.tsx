@@ -7,6 +7,8 @@ import offlineIcon from "@src/assets/svgs/offline_dev.svg";
 import onlineIcon from "@src/assets/svgs/online_dev.svg";
 import usersIcon from "@src/assets/svgs/users_dev.svg";
 import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import { mobileWidth } from "@src/helpers/utils/config";
 
 const device_info = [
   {
@@ -37,23 +39,43 @@ const device_info = [
 ];
 
 const CountingInfoSection = () => {
+  const [browserWidth] = useWindowSize();
   return (
-    <Box component="div" className="CountingInfoSection">
-      <div className="cardsSection">
-        <Grid container spacing={3}>
-          {device_info.map((item, key) => (
-            <Grid key={key} item xl={2.4} md={4} xs={12}>
-              <CountingInfoCards
-                key={item.device_number}
-                deviceNo={item.device_number}
-                deviceStatus={item.device_status}
-                deviceImage={item.device_image}
-              />
+    <>
+      {browserWidth > mobileWidth ? (
+        <Box component="div" className="CountingInfoSection">
+          <div className="cardsSection">
+            <Grid container spacing={3}>
+              {device_info.map((item, key) => (
+                <Grid key={key} item xl={2.4} md={4} xs={6}>
+                  <CountingInfoCards
+                    key={item.device_number}
+                    deviceNo={item.device_number}
+                    deviceStatus={item.device_status}
+                    deviceImage={item.device_image}
+                  />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </div>
-    </Box>
+          </div>
+        </Box>
+      ) : (
+        <Box component="div" className="mobileCountingInfoSection">
+          <div className="mobilecardsSection">
+            {device_info.map((item, key) => (
+              <div key={key}>
+                <CountingInfoCards
+                  key={item.device_number}
+                  deviceNo={item.device_number}
+                  deviceStatus={item.device_status}
+                  deviceImage={item.device_image}
+                />
+              </div>
+            ))}
+          </div>
+        </Box>
+      )}
+    </>
   );
 };
 
