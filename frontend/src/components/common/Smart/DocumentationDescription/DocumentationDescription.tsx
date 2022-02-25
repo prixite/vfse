@@ -3,11 +3,12 @@ import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { Box, Grid, Button } from "@mui/material";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
+
 import ArticleDescriptionCard from "@src/components/common/Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/Presentational/ArticleOverviewCard/ArticleOverviewCard";
-import { constants } from "@src/helpers/utils/constants";
+import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/common/Smart/DocumentationDescription/DocumentationDescription.scss";
@@ -21,15 +22,17 @@ const obj = {
 };
 
 const DocumentationDescription = () => {
-  const param : RouteParam = useParams();
-  const localization : LocalizationInterface = localizedData();
-  const {backBtn, btnEdit, btnCopy, title} = localization.document;
+  const param: RouteParam = useParams();
+  const localization: LocalizationInterface = localizedData();
+  const { backBtn, btnEdit, btnCopy, title } = localization.document;
   const history = useHistory();
   const { organizationRoute } = constants;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const route = history?.location?.pathname?.includes("folder") ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}` : `/${organizationRoute}/${param?.id}/knowledge-base`;
+  const route = history?.location?.pathname?.includes("folder")
+    ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}`
+    : `/${organizationRoute}/${param?.id}/knowledge-base`;
   return (
     <Box component="div" className="documentation-section">
       <div>

@@ -1,5 +1,5 @@
-import { localizedData } from "@src/helpers/utils/language";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { localizedData } from "@src/helpers/utils/language";
 import "@src/components/common/Presentational/ArticleDescriptionCard/ArticleDescriptionCard.scss";
 
 interface ArticleDescription {
@@ -13,7 +13,7 @@ const ArticleDescriptionCard = ({
   description,
   startGuide,
 }: ArticleDescription) => {
-  const localization : LocalizationInterface = localizedData();
+  const localization: LocalizationInterface = localizedData();
   const { title1, title2, title3 } = localization.articleDescription;
   return (
     <div className="article-description">

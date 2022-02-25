@@ -309,17 +309,17 @@ export interface ConfirmSiteModal {
 }
 
 export interface document {
-  backBtn: string,
-  title: string,
-  btnEdit: string,
-  btnCopy: string
+  backBtn: string;
+  title: string;
+  btnEdit: string;
+  btnCopy: string;
 }
 
 export interface articleDescription {
-  backBtn: string,
-  title1: string,
-  title2: string,
-  title3: string
+  backBtn: string;
+  title1: string;
+  title2: string;
+  title3: string;
 }
 
 export interface LocalizationInterface {
@@ -346,5 +346,5 @@ export interface LocalizationInterface {
   articleCard: ArticleCard;
   folderSection: folderSection;
   document: document;
-  articleDescription: articleDescription
+  articleDescription: articleDescription;
 }
