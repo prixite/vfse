@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import "@src/components/common/Smart/LastActiveUser/LastActiveUser.scss";
 import { DataGrid } from "@mui/x-data-grid";
 
-import unionIcon from "@src/assets/svgs/Union.svg";
+import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import LastActiveMobile from "@src/components/common/Smart/LastActiveUser/LastActiveMobile";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
@@ -23,49 +23,49 @@ const last_active_info: LastActiveMobileCards[] = [
     id: 1,
     user_name: "Abdullah Jane",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: false,
   },
   {
     id: 2,
     user_name: "Ali Coady",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: true,
   },
   {
     id: 3,
     user_name: "Asad Coady",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: false,
   },
   {
     id: 4,
     user_name: "Fared Jane",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: true,
   },
   {
     id: 5,
     user_name: "Isra Jane",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: false,
   },
   {
     id: 6,
     user_name: "Asad Coady",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: false,
   },
   {
     id: 7,
     user_name: "Fared Jane",
     health_network: "Advent Health",
-    unionImage: unionIcon,
+    unionImage: ThreeDots,
     status: true,
   },
 ];
@@ -132,18 +132,33 @@ const LastActiveUser = () => {
                   field: "STATUS",
                   disableColumnMenu: true,
                   sortable: false,
-                  width: 100,
+                  width: 120,
                   renderCell: (cellValues) => (
-                    <span
+                    <div
                       style={{
-                        color: `${cellValues.row.status ? "#6B7280" : "red"}`,
-                        fontWeight: "normal",
-                        fontStyle: "normal",
-                        fontSize: "14px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        width: "66px",
                       }}
                     >
-                      {cellValues.row.status ? "Active" : "Locked"}
-                    </span>
+                      <div
+                        style={{
+                          color: `${cellValues.row.status ? "#6B7280" : "red"}`,
+                          fontWeight: "normal",
+                          fontStyle: "normal",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {cellValues.row.status ? "Active" : "Locked"}
+                      </div>
+                      <div
+                        style={{
+                          cursor: "pointer",
+                        }}
+                      >
+                        <img src={ThreeDots} />
+                      </div>
+                    </div>
                   ),
                 },
               ]}
