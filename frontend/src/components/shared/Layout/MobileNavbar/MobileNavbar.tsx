@@ -5,6 +5,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Link } from "react-router-dom";
 
+import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
+import VfsePopOver from "@src/components/common/Presentational/VfsePopOver/VfsePopOver";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
@@ -12,12 +14,12 @@ import { routes } from "@src/routes";
 import "@src/components/shared/Layout/MobileNavbar/MobileNavbar.scss";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
-
 const MobileNavbar = () => {
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = useState(pathRoute);
   const { organizationRoute } = constants;
   const selectedOrganization = useSelectedOrganization();
+  const [vfseAnchorEl, setVfseAnchorEl] = useState(null);
   const { sideBarTextColor, buttonBackground, fontTwo } = useAppSelector(
     (state) => state.myTheme
   );
@@ -32,53 +34,109 @@ const MobileNavbar = () => {
   const createLinks = () =>
     routes
       .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
-      .map((prop: routeItem) => {
+      .map((prop: routeItem, key) => {
         const splittedName = prop?.name.split(" ");
         return (
-          <ListItem
-            button
-            component={Link}
-            to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
-            key={prop.path}
-            className="MobileDrawerList"
-            onClick={() =>
-              setCurrentRoute(
-                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-              )
-            }
-          >
-            <ListItemIcon
-              className="ListIcon"
-              style={
-                currentRoute ===
-                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                  ? {
-                      color: "#fff",
-                      borderRadius: "4px",
-                      backgroundColor: hexToRgb(buttonBackground, 0.5),
-                    }
-                  : {
-                      color: sideBarTextColor,
-                      justifyContent: "center",
-                    }
-              }
-            >
-              <prop.icon />
-            </ListItemIcon>
-            <ListItemText
-              primary={splittedName[0]}
-              style={
-                currentRoute ===
-                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                  ? { color: "#fff", textAlign: "center", fontFamily: fontTwo }
-                  : {
-                      color: sideBarTextColor,
-                      textAlign: "center",
-                      fontFamily: fontTwo,
-                    }
-              }
-            />
-          </ListItem>
+          <>
+            {prop?.name !== "vFSE" ? (
+              <ListItem
+                button
+                component={Link}
+                to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
+                key={key}
+                className="MobileDrawerList"
+                onClick={() =>
+                  setCurrentRoute(
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                  )
+                }
+              >
+                <ListItemIcon
+                  className="ListIcon"
+                  style={
+                    currentRoute ===
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                      ? {
+                          color: "#fff",
+                          borderRadius: "4px",
+                          backgroundColor: hexToRgb(buttonBackground, 0.5),
+                        }
+                      : {
+                          color: sideBarTextColor,
+                          justifyContent: "center",
+                        }
+                  }
+                >
+                  <prop.icon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={splittedName[0]}
+                  style={
+                    currentRoute ===
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                      ? {
+                          color: "#fff",
+                          textAlign: "center",
+                          fontFamily: fontTwo,
+                        }
+                      : {
+                          color: sideBarTextColor,
+                          textAlign: "center",
+                          fontFamily: fontTwo,
+                        }
+                  }
+                />
+              </ListItem>
+            ) : (
+              <ListItem
+                button
+                key={key}
+                className="MobileDrawerList"
+                onClick={(e) => {
+                  setCurrentRoute(
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                  );
+                  setVfseAnchorEl(e.currentTarget);
+                }}
+              >
+                <ListItemIcon
+                  className="ListIcon"
+                  style={
+                    currentRoute ===
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                      ? {
+                          color: "#fff",
+                          borderRadius: "4px",
+                          backgroundColor: hexToRgb(buttonBackground, 0.5),
+                        }
+                      : {
+                          color: sideBarTextColor,
+                          justifyContent: "center",
+                        }
+                  }
+                >
+                  <prop.icon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={splittedName[0]}
+                  style={
+                    currentRoute ===
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                      ? {
+                          color: "#fff",
+                          textAlign: "center",
+                          fontFamily: fontTwo,
+                        }
+                      : {
+                          color: sideBarTextColor,
+                          textAlign: "center",
+                          fontFamily: fontTwo,
+                        }
+                  }
+                />
+              </ListItem>
+            )}
+          </>
         );
       });
 
@@ -92,6 +150,14 @@ const MobileNavbar = () => {
         <Toolbar>
           <List style={{ position: "relative" }} className="mobile-content">
             {createLinks()}
+            <ProfilePopOver
+              profilePicture={me?.profile_picture}
+              className="image"
+            />
+            <VfsePopOver
+              anchorEl={vfseAnchorEl}
+              setAnchorEl={setVfseAnchorEl}
+            />
           </List>
         </Toolbar>
       </AppBar>

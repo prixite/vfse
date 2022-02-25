@@ -156,7 +156,8 @@ const KnowledgeSection = () => {
                 item={true}
                 xs={isMobileOnly ? 12 : 6}
                 xl={3}
-                md={4}
+                md={6}
+                lg={4}
                 key={index}
               >
                 <ArticleCard

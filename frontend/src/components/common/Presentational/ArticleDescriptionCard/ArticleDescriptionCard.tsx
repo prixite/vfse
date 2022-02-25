@@ -6,12 +6,14 @@ interface ArticleDescription {
   overview: string;
   description: string;
   startGuide: string;
+  img: string;
 }
 
 const ArticleDescriptionCard = ({
   overview,
   description,
   startGuide,
+  img,
 }: ArticleDescription) => {
   const localization: LocalizationInterface = localizedData();
   const { title1, title2, title3 } = localization.articleDescription;
@@ -21,6 +23,15 @@ const ArticleDescriptionCard = ({
         {title1}
       </h1>
       <p className="description">{overview}</p>
+      <h1
+        className="heading"
+        style={{ marginBottom: "18px", marginTop: "18px" }}
+      >
+        {title2}
+      </h1>
+      <div className="img-container">
+        <img src={img} className="img" />
+      </div>
       <h1 className="heading" style={{ margin: "18px 0" }}>
         {title2}
       </h1>
