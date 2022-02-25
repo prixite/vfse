@@ -46,3 +46,12 @@
     background: #d9dbdd;
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .documentation-section {
+    margin-right: 0;
+    .title {
+      margin-top: 20px;
+    }
+  }
+}

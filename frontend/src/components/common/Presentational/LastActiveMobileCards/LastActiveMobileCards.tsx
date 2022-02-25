@@ -15,7 +15,7 @@ interface LastActiveMobileCards {
 }
 const LastActiveMobileCards = ({ doc }: LastActiveMobileCards) => {
   return (
-    <Box component="div" className="card">
+    <Box component="div" className="card-faq">
       <div className="userInfo">
         <div className="userTitle">{doc?.user_name}</div>
         <div className="meuniImage">
