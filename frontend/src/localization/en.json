@@ -267,6 +267,17 @@
     },
     "folderSection": {
         "backBtn": "Back to all"
+    },
+    "document": {
+        "backBtn": "Back to all",
+        "title": "Getting started",
+        "btnEdit": "Edit",
+        "btnCopy": "Copy link"
+    },
+    "articleDescription": {
+        "backBtn": "Back to all",
+        "title1": "Overview",
+        "title2": "Getting started",
+        "title3": "Start guide"
     }
-
 }
