@@ -1,10 +1,17 @@
 .MobileNavbar {
   height: 110px;
   background-color: #142139 !important;
-  z-index: 2000 !important;
+  z-index: 1000 !important;
   overflow-x: auto;
+  .image {
+    height: 42px;
+    width: 42px;
+    border-radius: 50%;
+    margin-left: 5px;
+  }
   .mobile-content {
     display: flex;
+    align-items: center;
     width: 100%;
     height: 100%;
     overflow-y: hidden;
