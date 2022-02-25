@@ -308,6 +308,20 @@ export interface ConfirmSiteModal {
   yesButton: "Add Site";
 }
 
+export interface document {
+  backBtn: string;
+  title: string;
+  btnEdit: string;
+  btnCopy: string;
+}
+
+export interface articleDescription {
+  backBtn: string;
+  title1: string;
+  title2: string;
+  title3: string;
+}
+
 export interface LocalizationInterface {
   common: Common;
   users: Users;
@@ -331,4 +345,6 @@ export interface LocalizationInterface {
   knowledgeBase: KnowledgeBase;
   articleCard: ArticleCard;
   folderSection: folderSection;
+  document: document;
+  articleDescription: articleDescription;
 }
