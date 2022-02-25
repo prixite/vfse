@@ -6,8 +6,6 @@ import { LocalizationInterface } from "@src/helpers/interfaces/localizationinter
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 
-
-
 const DocumentationBtnSection = () => {
   const localization: LocalizationInterface = localizedData();
   const { btnEdit, btnCopy } = localization.document;
