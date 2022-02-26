@@ -9,7 +9,13 @@ import { BrowserRouter } from "react-router-dom";
 import App from "@src/App";
 import { store } from "@src/store/store";
 import theme from "@src/theme";
+
+import { makeServer } from "./miragejs/server";
 import "@src/index.scss";
+
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "development" });
+}
 
 ReactDOM.render(
   <Provider store={store}>
