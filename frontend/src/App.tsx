@@ -109,7 +109,14 @@ const App = () => {
         setIsLoading(false);
       }
     }
-  }, [isFetching, FetchingList, organizationList, data, setIsLoading, setIsFirstTimeRendered]);
+  }, [
+    isFetching,
+    FetchingList,
+    organizationList,
+    data,
+    setIsLoading,
+    setIsFirstTimeRendered,
+  ]);
 
   useEffect(() => {
     if (fontOne && document?.getElementById("container")) {
