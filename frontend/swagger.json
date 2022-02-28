@@ -1344,7 +1344,15 @@
             "get": {
                 "operationId": "vfse_documents_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "folder",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
