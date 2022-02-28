@@ -4,6 +4,7 @@ import boto3
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
+from influxdb_client import InfluxDBClient
 from rest_framework import exceptions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -12,7 +13,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from app.settings import AWS_THUMBNAIL_LAMBDA_ARN
+from app.settings import (
+    AWS_THUMBNAIL_LAMBDA_ARN,
+    INFLUX_BUCKET,
+    INFLUX_DB_URL,
+    INFLUX_ORG,
+    INFLUX_TOKEN,
+)
 from core import filters, models, permissions, serializers
 from core.views import mixins
 
@@ -298,6 +305,31 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class SystemViewSet(OrganizationSystemViewSet):
     lookup_url_kwarg = "system_pk"
+
+    def retrieve(self, request, *args, **kwargs):
+        self.retrieve_from_influx(request, *args, **kwargs)
+        return super().retrieve(request, *args, **kwargs)
+
+    def retrieve_from_influx(self, request, *args, **kwargs):
+        ip_address = "192.168.1.1"
+        city_name = "Plantation"
+        with InfluxDBClient(
+            url=INFLUX_DB_URL,
+            token=INFLUX_TOKEN,
+            org=INFLUX_ORG,
+        ) as client:
+            query = f"""from(bucket: "{INFLUX_BUCKET}")
+            |> range(start: -1h)
+            |> filter(fn:(r) => r._measurement=="HeLevel" and r._field=="value")
+    |> filter(fn:(r) => r["IPAddress"]=="{ip_address}" and r["CityName"]=="{city_name}")
+            |> mean()
+            """
+            tables = client.query_api().query(query, org=INFLUX_ORG)
+            system = models.System.objects.get(id=kwargs["system_pk"])
+            system.mri_embedded_parameters["helium"] = tables[0].records[0]["_value"]
+            system.save()
+
+            client.close()
 
 
 class UserViewSet(ModelViewSet, mixins.UserMixin):
