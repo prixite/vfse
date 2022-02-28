@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from vfse import models, serializers
+from vfse import filters, models, serializers
 
 
 class FolderViewset(ModelViewSet):
@@ -14,6 +14,7 @@ class FolderViewset(ModelViewSet):
 
 class DocumentViewSet(ModelViewSet):
     serializer_class = serializers.DocumentSerializer
+    filterset_class = filters.DocumentFilter
 
     def get_queryset(self):
         return models.Document.objects.all()
