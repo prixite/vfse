@@ -439,7 +439,7 @@ const TopViewBtns = ({
               ""
             )}
 
-            {path == "users" || (path == "documentation" && hasData) ? (
+            {path === "users" || (path === "documentation" && hasData) ? (
               <ColumnSelector
                 className="columnSelector"
                 tableColumns={tableColumns}
