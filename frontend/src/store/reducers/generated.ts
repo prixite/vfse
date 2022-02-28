@@ -427,7 +427,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseDocumentsListApiResponse,
       VfseDocumentsListApiArg
     >({
-      query: () => ({ url: `/vfse/documents/` }),
+      query: (queryArg) => ({
+        url: `/vfse/documents/`,
+        params: { folder: queryArg.folder },
+      }),
     }),
     vfseDocumentsCreate: build.mutation<
       VfseDocumentsCreateApiResponse,
@@ -725,7 +728,9 @@ export type UsersPartialUpdateApiArg = {
   upsertUser: UpsertUser;
 };
 export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
-export type VfseDocumentsListApiArg = void;
+export type VfseDocumentsListApiArg = {
+  folder?: string;
+};
 export type VfseDocumentsCreateApiResponse = /** status 201  */ Document;
 export type VfseDocumentsCreateApiArg = {
   document: Document;
