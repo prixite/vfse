@@ -38,6 +38,10 @@ env = environ.Env(
     DUO_CLIENT_SECRET=(str, None),
     DUO_API_HOSTNAME=(str, None),
     DUO_REDIRECT_URI=(str, None),
+    INFLUX_TOKEN=(str, None),
+    INFLUX_ORG=(str, None),
+    INFLUX_BUCKET=(str, None),
+    INFLUX_DB_URL=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -216,3 +220,7 @@ AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
 AWS_DEFAULT_REGION = env("AWS_DEFAULT_REGION")
 AWS_THUMBNAIL_LAMBDA_ARN = env("AWS_THUMBNAIL_LAMBDA_ARN")
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+INFLUX_TOKEN = env("INFLUX_TOKEN")
+INFLUX_ORG = env("INFLUX_ORG")
+INFLUX_BUCKET = env("INFLUX_BUCKET")
+INFLUX_DB_URL = env("INFLUX_DB_URL")

@@ -126,6 +126,7 @@ api_urlpatterns = [
         "api/organizations/<int:pk>/systems/<int:system_pk>/",
         api.SystemViewSet.as_view(
             {
+                "get": "retrieve",
                 "delete": "destroy",
                 "patch": "partial_update",
             }
