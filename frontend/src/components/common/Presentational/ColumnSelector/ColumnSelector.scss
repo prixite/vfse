@@ -1,0 +1,15 @@
+@media only screen and (max-width: 480px) {
+  .columnSelectorControl {
+    width: 28% !important;
+    .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+      text-overflow: unset;
+    }
+    .css-daxcbt-MuiInputBase-root-MuiOutlinedInput-root {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .columnName {
+    display: none;
+  }
+}

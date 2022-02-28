@@ -15,7 +15,8 @@
     width: 100%;
     .InputSection {
       display: flex;
-      width: 78%;
+      justify-content: space-between;
+      width: 100%;
       .Filterbtn {
         border: 1px solid #d4d6db;
         background-color: #fff;
@@ -39,7 +40,6 @@
       .Search-input {
         background-color: #fff;
         border-radius: 8px;
-        max-width: 37%;
         min-width: 30%;
         height: 100%;
         .MuiOutlinedInput-root {
@@ -72,6 +72,42 @@
       color: "gray";
       margin-left: "50%";
       margin-top: "30%";
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .OrganizationSection {
+    &__Header {
+      .InputSection {
+        .Search-input {
+          background-color: #fff;
+          border-radius: 8px;
+          max-width: 65%;
+          min-width: 30%;
+          height: 100%;
+          .MuiOutlinedInput-root {
+            height: 100%;
+          }
+          input {
+            padding: 10px 16px 6px 9px;
+          }
+        }
+      }
+      .AddClientsbtn {
+        width: unset;
+        text-align: center;
+        min-width: unset;
+        padding: 4px 12px;
+        .btn-content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          span {
+            display: none !important;
+          }
+        }
+      }
     }
   }
 }

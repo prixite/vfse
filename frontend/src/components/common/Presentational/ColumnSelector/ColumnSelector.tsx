@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import DoneIcon from "@mui/icons-material/Done";
 import { OutlinedInput, MenuItem, FormControl, Select } from "@mui/material";
+import "@src/components/common/Presentational/ColumnSelector/ColumnSelector.scss";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,7 +62,8 @@ const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
 
   return (
     <FormControl
-      sx={{ width: 300, minHeight: 47, margin: "1px", marginRight: "8px" }}
+      sx={{ width: 200, minHeight: 47, margin: "1px", marginRight: "8px" }}
+      className="columnSelectorControl"
     >
       <Select
         multiple
@@ -73,7 +75,8 @@ const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
         renderValue={(selected) => {
           return (
             <span style={{ display: "inline-block", paddingTop: "3px" }}>
-              columns {`${selected.length}/${tableColumns.length}`}{" "}
+              <span className="columnName">columns</span>{" "}
+              {`${selected.length}/${tableColumns.length}`}{" "}
             </span>
           );
         }}
