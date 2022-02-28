@@ -796,6 +796,22 @@
             ]
         },
         "/organizations/{id}/systems/{system_pk}/": {
+            "get": {
+                "operationId": "organizations_systems_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/System"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "patch": {
                 "operationId": "organizations_systems_partial_update",
                 "description": "",

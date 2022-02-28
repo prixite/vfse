@@ -247,6 +247,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.system,
       }),
     }),
+    organizationsSystemsRead: build.query<
+      OrganizationsSystemsReadApiResponse,
+      OrganizationsSystemsReadApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/`,
+      }),
+    }),
     organizationsSystemsPartialUpdate: build.mutation<
       OrganizationsSystemsPartialUpdateApiResponse,
       OrganizationsSystemsPartialUpdateApiArg
@@ -634,6 +642,11 @@ export type OrganizationsSystemsCreateApiResponse = /** status 201  */ System;
 export type OrganizationsSystemsCreateApiArg = {
   id: string;
   system: System;
+};
+export type OrganizationsSystemsReadApiResponse = /** status 200  */ System;
+export type OrganizationsSystemsReadApiArg = {
+  id: string;
+  systemPk: string;
 };
 export type OrganizationsSystemsPartialUpdateApiResponse =
   /** status 200  */ System;
@@ -1090,6 +1103,7 @@ export const {
   useOrganizationsSitesUpdateMutation,
   useOrganizationsSystemsListQuery,
   useOrganizationsSystemsCreateMutation,
+  useOrganizationsSystemsReadQuery,
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsSystemsDeleteMutation,
   useOrganizationsUsersListQuery,
