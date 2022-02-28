@@ -5,7 +5,10 @@ const path = require("path");
 const { EnvironmentPlugin } = require("webpack");
 
 module.exports = {
-  entry: ["./frontend/src/index.tsx"],
+  entry: {
+    main: "./frontend/src/index.tsx",
+    requests: "./requests/src/index.js",
+  },
   optimization: {
     splitChunks: {
       chunks: "all",
