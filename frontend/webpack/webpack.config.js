@@ -2,6 +2,8 @@
 
 const path = require("path");
 
+const { EnvironmentPlugin } = require("webpack");
+
 module.exports = {
   entry: ["./frontend/src/index.tsx"],
   optimization: {
@@ -27,6 +29,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new EnvironmentPlugin({
+      NODE_ENV: "development",
+    }),
+  ],
   resolve: {
     alias: {
       "@src": path.resolve("frontend/src/"),
@@ -39,4 +46,5 @@ module.exports = {
     filename: "[name].bundle.js",
     clean: true,
   },
+  devtool: "source-map",
 };

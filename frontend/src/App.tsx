@@ -46,7 +46,7 @@ const App = () => {
   useEffect(() => {
     if (!isFirstTimeRendered) {
       setIsLoading(true);
-      if (!isFetching && !FetchingList) {
+      if (!isFetching && !FetchingList && data) {
         const organizationData = data?.organization;
         dispatch(
           setCurrentOrganization({ currentOrganization: organizationData })
@@ -109,7 +109,14 @@ const App = () => {
         setIsLoading(false);
       }
     }
-  }, [isFetching, FetchingList]);
+  }, [
+    isFetching,
+    FetchingList,
+    organizationList,
+    data,
+    setIsLoading,
+    setIsFirstTimeRendered,
+  ]);
 
   useEffect(() => {
     if (fontOne && document?.getElementById("container")) {
