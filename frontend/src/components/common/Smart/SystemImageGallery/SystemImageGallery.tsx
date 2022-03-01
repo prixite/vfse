@@ -3,11 +3,12 @@ import { SetStateAction, useState, Dispatch, useEffect } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
+import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { useAppSelector } from "@src/store/hooks";
 import { useSystemsImagesListQuery } from "@src/store/reducers/api";
 
 import CardSkeleton from "../../Presentational/CardSkeleton/CardSkeleton";
-
 import "@src/components/common/Smart/SystemImageGallery/SystemImageGallery.scss";
 
 interface galleryProps {
@@ -24,6 +25,7 @@ interface imgProps {
 const RenderImage = ({ src, imgIndex, index }: imgProps) => {
   const [loaded, setIsLoaded] = useState(false);
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
+  const [browserWidth] = useWindowSize();
   return (
     <>
       <img
@@ -40,7 +42,9 @@ const RenderImage = ({ src, imgIndex, index }: imgProps) => {
           width: "164px",
           height: "164px",
           cursor: "pointer",
-          marginBottom: "4px",
+          marginBottom: `${
+            browserWidth !== 0 && browserWidth > mobileWidth ? "4px" : "0px"
+          }`,
           opacity: loaded ? 1 : 0,
         }}
       />
@@ -71,7 +75,12 @@ const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
   return (
     <div className="systemGallery">
       {!isFetching && data?.length ? (
-        <ImageList sx={{ width: "100%", height: 300 }} cols={4} rowHeight={150}>
+        <ImageList
+          sx={{ width: "100%", height: 300 }}
+          cols={4}
+          rowHeight={150}
+          className="SystemImageList"
+        >
           {data.map((item) => (
             <ImageListItem
               key={item.id}
