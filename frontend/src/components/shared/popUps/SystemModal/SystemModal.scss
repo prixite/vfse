@@ -207,3 +207,12 @@
     border-radius: 8px;
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .system-modal {
+    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+      width: 100%;
+      margin: 5px;
+    }
+  }
+}

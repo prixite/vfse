@@ -32,3 +32,12 @@
     height: 100%;
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .systemGallery {
+    .SystemImageList {
+      display: flex;
+      height: auto;
+    }
+  }
+}
