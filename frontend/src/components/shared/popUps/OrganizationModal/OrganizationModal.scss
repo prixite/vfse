@@ -150,3 +150,81 @@
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .organization-modal {
+    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+      width: 100%;
+      margin: 5px;
+    }
+    .modal-content {
+      margin-top: 0px;
+      .health-header {
+        margin-top: 0px;
+        .heading-btn {
+          font-size: 14px;
+          .add-btn {
+            margin-right: 7px;
+          }
+        }
+      }
+      .client-info {
+        .info-section {
+          width: 100%;
+          .font-options {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            .font-demo {
+              width: 100%;
+              text-align: center;
+            }
+            .font-section {
+              width: 100%;
+              .css-1ceyddh-MuiFormControl-root {
+                width: 100%;
+                margin-bottom: 5px;
+              }
+            }
+          }
+          .info-field {
+            width: 100%;
+          }
+          .color-section {
+            .color-pickers {
+              flex-direction: column;
+              width: 100%;
+              justify-content: center;
+              div {
+                margin-right: 0px !important;
+              }
+            }
+          }
+        }
+      }
+    }
+    .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+      .title-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .modal-header {
+          font-weight: 600;
+          width: 35%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .dialog-page {
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          .pg-number {
+            padding: 0px;
+          }
+        }
+      }
+    }
+  }
+}
