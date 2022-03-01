@@ -782,7 +782,7 @@ export default function SystemModal(props: systemProps) {
           />
           <div className="client-info">
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldModality}</p>
                   <Autocomplete
@@ -814,7 +814,7 @@ export default function SystemModal(props: systemProps) {
                   )}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldManufacturer}</p>
                   <Autocomplete
@@ -849,7 +849,7 @@ export default function SystemModal(props: systemProps) {
                   )}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldProduct}</p>
                   <Autocomplete
@@ -881,7 +881,7 @@ export default function SystemModal(props: systemProps) {
                   )}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldModal}</p>
                   <Autocomplete
@@ -911,7 +911,7 @@ export default function SystemModal(props: systemProps) {
                   {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldName}</p>
                   <TextField
@@ -925,7 +925,7 @@ export default function SystemModal(props: systemProps) {
                   {nameError ? <p className="errorText">{nameError}</p> : ""}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldSite}</p>
                   <FormControl sx={{ minWidth: "100%" }}>
@@ -950,7 +950,7 @@ export default function SystemModal(props: systemProps) {
                   {siteError ? <p className="errorText">{siteError}</p> : ""}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldNumber}</p>
                   <TextField
@@ -965,7 +965,7 @@ export default function SystemModal(props: systemProps) {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label">{fieldLocation}</p>
                   <TextField
@@ -980,7 +980,7 @@ export default function SystemModal(props: systemProps) {
                   />
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldVersion}</p>
                   <TextField
@@ -998,7 +998,7 @@ export default function SystemModal(props: systemProps) {
                   )}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldIp}</p>
                   <TextField
@@ -1012,7 +1012,7 @@ export default function SystemModal(props: systemProps) {
                   {ipError ? <p className="errorText">{ipError}</p> : ""}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldAsset}</p>
                   <TextField
@@ -1026,7 +1026,7 @@ export default function SystemModal(props: systemProps) {
                   {assetError ? <p className="errorText">{assetError}</p> : ""}
                 </div>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldLocalAE}</p>
                   <TextField
@@ -1052,7 +1052,7 @@ export default function SystemModal(props: systemProps) {
                   style={{ color: vfse ? buttonBackground : "" }}
                   checked={vfse}
                 />
-                <span className="text">vFSE[VNC OR OTHER]</span>
+                <span className="text">vFSE [VNC OR OTHER]</span>
               </div>
               <div className="checkBox">
                 <Checkbox
@@ -1117,7 +1117,7 @@ export default function SystemModal(props: systemProps) {
               <p className="heading">{fieldRisName}</p>
               <div className="box">
                 <Grid container spacing={2} style={{ marginBottom: "5px" }}>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <p className="info-label required">{fieldRisIp}</p>
                     <TextField
                       className="info-field"
@@ -1133,7 +1133,7 @@ export default function SystemModal(props: systemProps) {
                       ""
                     )}
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <p className="info-label required">{fieldRisTitle}</p>
                     <TextField
                       className="info-field"
@@ -1149,7 +1149,7 @@ export default function SystemModal(props: systemProps) {
                       ""
                     )}
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <p className="info-label required">{fieldRisPort}</p>
                     <TextField
                       className="info-field"
@@ -1166,7 +1166,7 @@ export default function SystemModal(props: systemProps) {
                       ""
                     )}
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={12} sm={6}>
                     <p className="info-label required">{fieldRisAE}</p>
                     <TextField
                       className="info-field"
@@ -1188,7 +1188,7 @@ export default function SystemModal(props: systemProps) {
                 <p className="heading">{fieldDicomName}</p>
                 <div className="box">
                   <Grid container spacing={2} style={{ marginBottom: "5px" }}>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <p className="info-label required">{fieldDicomIp}</p>
                       <TextField
                         className="info-field"
@@ -1204,7 +1204,7 @@ export default function SystemModal(props: systemProps) {
                         ""
                       )}
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <p className="info-label required">{fieldDicomTitle}</p>
                       <TextField
                         className="info-field"
@@ -1220,7 +1220,7 @@ export default function SystemModal(props: systemProps) {
                         ""
                       )}
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <p className="info-label required">{fieldDicomPort}</p>
                       <TextField
                         className="info-field"
@@ -1237,7 +1237,7 @@ export default function SystemModal(props: systemProps) {
                         ""
                       )}
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                       <p className="info-label required">{fieldDicomAE}</p>
                       <TextField
                         className="info-field"
@@ -1277,7 +1277,7 @@ export default function SystemModal(props: systemProps) {
                           ""
                         )}
                       </Grid>
-                      <Grid item xs={6}>
+                      <Grid item xs={12} sm={6}>
                         <p className="info-label">{fieldMRIMagnet}</p>
                         <TextField
                           className="info-field"
