@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+
 import Flicking from "@egjs/react-flicking";
 import { Grid, Box } from "@mui/material";
 import { isMobileOnly } from "react-device-detect";
-import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
@@ -127,36 +129,44 @@ const renderMobileCarousel = () => {
 
 const KnowledgeSection = () => {
   const [browserWidth] = useWindowSize();
-  const [folderList , setFolderList] = useState([]);
-  const [query , setQuery] = useState('');
+  const [folderList, setFolderList] = useState([]);
+  const [query, setQuery] = useState("");
   const constantData: LocalizationInterface = localizedData();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { title, subTitle } = constantData.knowledgeBase;
 
   const handleSearchQuery = (searchQuery: string) => {
-    const actualData =  articleData.map(item => {
+    const actualData = articleData
+      .map((item) => {
         return {
-            title: item?.title,
-            categories: item?.categories?.filter(subItem => subItem?.title?.toLocaleLowerCase()?.search(searchQuery) != -1)
+          title: item?.title,
+          categories: item?.categories?.filter(
+            (subItem) =>
+              subItem?.title?.toLocaleLowerCase()?.search(searchQuery) != -1
+          ),
         };
-    }).filter(item => item?.categories?.length);
+      })
+      .filter((item) => item?.categories?.length);
     setFolderList(actualData);
   };
 
-  useEffect(()=>{
-    if(query.length > 2)
-    {
+  useEffect(() => {
+    if (query.length > 2) {
       handleSearchQuery(query);
-    }
-    else
-    {
+    } else {
       setFolderList(articleData);
     }
-  }, [query])
+  }, [query]);
   return (
     <Box component="div" className="knowledgeSection">
       <h1 className="main-heading">{title}</h1>
-      <TopViewBtns path="documentation" setSearchText={setQuery} searchText={query} setData={setFolderList} actualData={articleData}/>
+      <TopViewBtns
+        path="documentation"
+        setSearchText={setQuery}
+        searchText={query}
+        setData={setFolderList}
+        actualData={articleData}
+      />
       <h2 className="sub-heading">{subTitle}</h2>
       {browserWidth < mobileWidth && browserWidth !== 0 ? (
         renderMobileCarousel()
@@ -196,8 +206,7 @@ const KnowledgeSection = () => {
           </Grid>
         </div>
       ))}
-      {
-        !folderList.length && query?.length ? 
+      {!folderList.length && query?.length ? (
         <NoDataFound
           search
           setQuery={setQuery}
@@ -205,8 +214,9 @@ const KnowledgeSection = () => {
           title={noDataTitle}
           description={noDataDescription}
         />
-        :''
-      }
+      ) : (
+        ""
+      )}
     </Box>
   );
 };
