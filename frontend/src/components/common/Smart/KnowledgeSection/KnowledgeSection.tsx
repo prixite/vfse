@@ -206,7 +206,7 @@ const KnowledgeSection = () => {
           </Grid>
         </div>
       ))}
-      {!folderList.length && query?.length ? (
+      {!folderList.length && query?.length > 2 ? (
         <NoDataFound
           search
           setQuery={setQuery}
