@@ -310,103 +310,108 @@ const TopViewBtns = ({
               <span>{btnFilter}</span>
             </div>
           </Button> */}
-
-          {path === "systems" ? (
-            <>
-              {!isNetworkDataLoading && !networkId && networksData?.length ? (
-                <FormControl
-                  sx={{
-                    m: 0,
-                    mr: 1,
-                    maxWidth: "30%",
-                    minWidth: "26%",
-                    background: "#ffffff",
-                  }}
-                >
-                  <InputLabel
-                    id="networkInputLabel"
-                    style={{ marginTop: "-3px" }}
+          <Box component="div" style={{ display: "flex" }}>
+            {path === "systems" ? (
+              <>
+                {!isNetworkDataLoading && !networkId && networksData?.length ? (
+                  <FormControl
+                    sx={{
+                      m: 0,
+                      mr: 1,
+                      maxWidth: "30%",
+                      minWidth: "26%",
+                      background: "#ffffff",
+                    }}
                   >
-                    Filter by network
-                  </InputLabel>
-                  <Select
-                    labelId="networks-dropdown"
-                    id="network-dropdown"
-                    defaultValue={[]}
-                    value={network}
-                    onClick={handleClickNetwork}
-                    style={{ width: "100%", height: "100%" }}
-                    input={<OutlinedInput label="Filter by network" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={dropdownStyles}
-                  >
-                    <MenuItem
-                      style={{ marginLeft: "-15px", display: "none" }}
-                      value=""
+                    <InputLabel
+                      id="networkInputLabel"
+                      style={{ marginTop: "-3px" }}
                     >
-                      <ListItemText primary={``} />
-                    </MenuItem>
-                    {networksData?.map((item, index) => (
-                      <MenuItem
-                        style={{ marginLeft: "-15px" }}
-                        key={index}
-                        value={item.name}
-                      >
-                        <Checkbox checked={network?.indexOf(item.name) > -1} />
-                        <ListItemText primary={item.name} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              ) : (
-                ""
-              )}
-              {!isSitesFetching && !siteId && sitesData.length ? (
-                <FormControl
-                  sx={{
-                    m: 0,
-                    mr: 1,
-                    maxWidth: "30%",
-                    minWidth: "26%",
-                    background: "#ffffff",
-                  }}
-                >
-                  <InputLabel id="siteInputlabel" style={{ marginTop: "-3px" }}>
-                    Filter by site
-                  </InputLabel>
-                  <Select
-                    labelId="site-dropdown"
-                    id="site-dropdown"
-                    value={site}
-                    onClick={handleClickSite}
-                    style={{ width: "100%", height: "100%" }}
-                    input={<OutlinedInput label="Filter by site" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={dropdownStyles}
-                  >
-                    <MenuItem
-                      style={{ marginLeft: "-15px", display: "none" }}
-                      value=""
+                      Filter by network
+                    </InputLabel>
+                    <Select
+                      labelId="networks-dropdown"
+                      id="network-dropdown"
+                      defaultValue={[]}
+                      value={network}
+                      onClick={handleClickNetwork}
+                      style={{ width: "100%", height: "100%" }}
+                      input={<OutlinedInput label="Filter by network" />}
+                      renderValue={(selected) => selected}
+                      MenuProps={dropdownStyles}
                     >
-                      <ListItemText primary={``} />
-                    </MenuItem>
-                    {sitesData?.map((item, index) => (
                       <MenuItem
-                        style={{ marginLeft: "-15px" }}
-                        key={index}
-                        value={item.name}
+                        style={{ marginLeft: "-15px", display: "none" }}
+                        value=""
                       >
-                        <Checkbox checked={site?.indexOf(item.name) > -1} />
-                        <ListItemText primary={item.name} />
+                        <ListItemText primary={``} />
                       </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              ) : (
-                ""
-              )}
-              {/* SORT BY ASSET BUTTON.............. */}
-              {/* <Button
+                      {networksData?.map((item, index) => (
+                        <MenuItem
+                          style={{ marginLeft: "-15px" }}
+                          key={index}
+                          value={item.name}
+                        >
+                          <Checkbox
+                            checked={network?.indexOf(item.name) > -1}
+                          />
+                          <ListItemText primary={item.name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ) : (
+                  ""
+                )}
+                {!isSitesFetching && !siteId && sitesData.length ? (
+                  <FormControl
+                    sx={{
+                      m: 0,
+                      mr: 1,
+                      maxWidth: "30%",
+                      minWidth: "26%",
+                      background: "#ffffff",
+                    }}
+                  >
+                    <InputLabel
+                      id="siteInputlabel"
+                      style={{ marginTop: "-3px" }}
+                    >
+                      Filter by site
+                    </InputLabel>
+                    <Select
+                      labelId="site-dropdown"
+                      id="site-dropdown"
+                      value={site}
+                      onClick={handleClickSite}
+                      style={{ width: "100%", height: "100%" }}
+                      input={<OutlinedInput label="Filter by site" />}
+                      renderValue={(selected) => selected}
+                      MenuProps={dropdownStyles}
+                    >
+                      <MenuItem
+                        style={{ marginLeft: "-15px", display: "none" }}
+                        value=""
+                      >
+                        <ListItemText primary={``} />
+                      </MenuItem>
+                      {sitesData?.map((item, index) => (
+                        <MenuItem
+                          style={{ marginLeft: "-15px" }}
+                          key={index}
+                          value={item.name}
+                        >
+                          <Checkbox checked={site?.indexOf(item.name) > -1} />
+                          <ListItemText primary={item.name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ) : (
+                  ""
+                )}
+                {/* SORT BY ASSET BUTTON.............. */}
+                {/* <Button
                 variant="contained"
                 className="Filterbtn"
                 onClick={handleSort}
@@ -426,45 +431,47 @@ const TopViewBtns = ({
                   <span>{btnAsset}</span>
                   <span className="coloumns-icon">
                     {/* <img className="asset-image" src={ArrowUpIcon} /> */}
-              {/* </span>
+                {/* </span>
                 </div>
               </Button> */}
-            </>
-          ) : (
-            ""
-          )}
+              </>
+            ) : (
+              ""
+            )}
 
-          {path == "users" || (path == "documentation" && hasData) ? (
-            <ColumnSelector
-              tableColumns={tableColumns}
-              setTableColumns={setTableColumns}
+            {path === "users" || (path === "documentation" && hasData) ? (
+              <ColumnSelector
+                className="columnSelector"
+                tableColumns={tableColumns}
+                setTableColumns={setTableColumns}
+              />
+            ) : (
+              ""
+            )}
+
+            <TextField
+              id="search-clients"
+              className="Search-input"
+              variant="outlined"
+              value={searchText}
+              // autoFocus={path === "organizations" ? true : false}
+              onChange={handleInput}
+              disabled={!actualData?.length}
+              placeholder="Search"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
             />
-          ) : (
-            ""
-          )}
-
-          <TextField
-            id="search-clients"
-            className="Search-input"
-            variant="outlined"
-            value={searchText}
-            // autoFocus={path === "organizations" ? true : false}
-            onChange={handleInput}
-            disabled={!actualData?.length}
-            placeholder="Search"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
+          </Box>
+          {currentUser?.is_superuser &&
+            path === "organizations" &&
+            createAddButton()}
+          {path !== "organizations" && createAddButton()}
         </Box>
-        {currentUser?.is_superuser &&
-          path === "organizations" &&
-          createAddButton()}
-        {path !== "organizations" && createAddButton()}
       </Box>
     </>
   );
