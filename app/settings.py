@@ -34,6 +34,10 @@ env = environ.Env(
     AWS_THUMBNAIL_LAMBDA_ARN=(str, None),
     ALLOWED_HOSTS=(list, []),
     EMAIL_BACKEND=(str, None),
+    EMAIL_HOST=(str, None),
+    EMAIL_PORT=(str, None),
+    EMAIL_HOST_USER=(str, None),
+    EMAIL_HOST_PASSWORD=(str, None),
     DUO_CLIENT_ID=(str, None),
     DUO_CLIENT_SECRET=(str, None),
     DUO_API_HOSTNAME=(str, None),
@@ -201,6 +205,10 @@ EMAIL_BACKEND = (
     if DEBUG and not env("EMAIL_BACKEND")
     else env("EMAIL_BACKEND")
 )
+EMAIL_HOST = env("EMAIL_HOST")
+EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 DUO_CLIENT_ID = env("DUO_CLIENT_ID")
 DUO_CLIENT_SECRET = env("DUO_CLIENT_SECRET")
