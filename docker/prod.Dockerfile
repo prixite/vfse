@@ -40,7 +40,3 @@ COPY requirements-prod.txt requirements-prod.txt
 RUN pip install -r requirements-prod.txt
 
 COPY . ./
-
-RUN npm run build
-
-RUN ./manage.py collectstatic --no-input
