@@ -102,8 +102,6 @@ STATIC_ROOT = BASE_DIR / "static"
 STATICFILES_DIRS = [
     BASE_DIR / "frontend/dist/",
     BASE_DIR / "frontend/src/",
-    BASE_DIR / "requests/dist/",
-    BASE_DIR / "requests/src/",
 ]
 
 ROOT_URLCONF = "app.urls"
