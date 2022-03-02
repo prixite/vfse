@@ -68,6 +68,9 @@
     margin-top: 9px !important;
     margin-left: 0px !important;
     width: 100% !important;
+    .infinite-scroll-component__outerdiv {
+      width: 100%;
+    }
     &__LoadingText {
       color: "gray";
       margin-left: "50%";
