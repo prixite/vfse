@@ -138,6 +138,9 @@ const OrganizationSection = () => {
         ...organizationList.slice(0, slicePointer + 22),
       ]);
       setSlicePointer((prevState) => prevState + 22);
+      if (organizationList?.length < slicePointer + 22) {
+        setHasMore(false);
+      }
     }
   }, [organizationList]);
 
