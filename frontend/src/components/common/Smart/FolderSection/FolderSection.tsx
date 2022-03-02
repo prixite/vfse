@@ -1,7 +1,8 @@
+import { useState, useEffect } from "react";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Grid, Box } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
-
+import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
@@ -13,43 +14,63 @@ const topData = {
   folderName: "Folder name",
   results: [
     {
-      title: "Get started",
+      name: "Get started",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
     },
     {
-      title: "Get started",
+      name: "Get started",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
     },
     {
-      title: "Get started",
+      name: "Get started",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
     },
     {
-      title: "Get started",
+      name: "desc",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
     },
     {
-      title: "Get started",
+      name: "folder",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
     },
     {
-      title: "Get started",
+      name: "Get started",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt...",
     },
   ],
 };
 
+interface document {
+   query: string; 
+   results?: { name: string }[] 
+}
+
 const FolderSection = () => {
   const { id } = useParams();
+  const doc : document = {results : [], query: ''};
+  const [documentList, setDocumentList] = useState(doc);
+  const [list, setList] = useState([]);
+  const [query, setQuery] = useState('');
+  const { noDataTitle, noDataDescription } = localizedData().systems;
   const localization: LocalizationInterface = localizedData();
   const { backBtn } = localization.folderSection;
   const { organizationRoute } = constants;
+
+  useEffect(()=>{
+      if(query?.length > 2){
+        setList(documentList?.results);
+      }
+      else{
+        setList(topData?.results);
+      }
+  },[topData, documentList, query, setList])
+
   return (
     <Box component="div" className="folder-heading">
       <Link
@@ -65,17 +86,55 @@ const FolderSection = () => {
         </div>
       </Link>
       <h2 className="main-heading">{topData?.folderName}</h2>
-      <TopViewBtns path="documentation" />
+      <TopViewBtns path="description" actualData={topData?.results} searchText={query} setSearchText={setQuery} setList={setDocumentList}/>
       <Grid container spacing={1} style={{ marginTop: "30px" }}>
-        {topData?.results?.map((item, index) => (
-          <Grid item={true} xs={6} xl={2} md={3} key={index}>
-            <KnowledgeTopCard
-              title={item?.title}
-              description={item?.description}
-            />
-          </Grid>
-        ))}
+        {
+          query?.length > 2 && documentList.query === query ? 
+            list.map((item, index) => (
+              <Grid item={true} xs={6} xl={2} md={3} key={index}>
+                <KnowledgeTopCard
+                  title={item?.name}
+                  description={item?.description}
+                />
+              </Grid>
+            ))
+          :
+          query?.length < 2 || !query?.length ?
+            list.map((item, index) => (
+              <Grid item={true} xs={6} xl={2} md={3} key={index}>
+                <KnowledgeTopCard
+                  title={item?.name}
+                  description={item?.description}
+                />
+              </Grid>
+            ))
+            :''
+      }
       </Grid>
+      {
+        query?.length > 2 && documentList.query !== query? 
+        <div
+        style={{
+          color: "gray",
+          marginLeft: "45%",
+          marginTop: "20%",
+        }}
+      >
+        <h2>{ "Loading...."}</h2>
+      </div>
+          : ''
+      }
+      {
+        query?.length > 2 && !list?.length && documentList.query === query? 
+        <NoDataFound
+              search
+              setQuery={setQuery}
+              queryText={query}
+              title={noDataTitle}
+              description={noDataDescription}
+          />
+          : ''
+      }
     </Box>
   );
 };
