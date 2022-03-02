@@ -156,7 +156,8 @@ const KnowledgeSection = () => {
     } else {
       setFolderList(articleData);
     }
-  }, [query]);
+  }, [query, articleData]);
+
   return (
     <Box component="div" className="knowledgeSection">
       <h1 className="main-heading">{title}</h1>
