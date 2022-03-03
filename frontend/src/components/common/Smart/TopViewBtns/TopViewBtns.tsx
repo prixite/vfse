@@ -42,7 +42,7 @@ import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
 interface Props {
   path: string;
   setOpen?: (arg: boolean) => void;
-  setData: (arg: object) => void;
+  setData?: (arg: object) => void;
   networkFilter?: (arg: object) => void;
   siteFilter?: (arg: object) => void;
   setList?: (arg: { query: string; results?: { name: string }[] }) => void;
@@ -107,6 +107,8 @@ const TopViewBtns = ({
   } else if (path == "systems") {
     constantData = localizedData()?.systems;
   } else if (path == "documentation") {
+    constantData = localizedData()?.documentation;
+  } else if (path == "description") {
     constantData = localizedData()?.documentation;
   }
   const { btnAdd } = constantData;
