@@ -3030,8 +3030,7 @@
             "description": "Folder(id, name, created_at, updated_at)",
             "required": [
                 "name",
-                "categories",
-                "no_of_documents"
+                "categories"
             ],
             "type": "object",
             "properties": {
@@ -3055,7 +3054,8 @@
                 },
                 "no_of_documents": {
                     "title": "No of documents",
-                    "type": "integer"
+                    "type": "integer",
+                    "readOnly": true
                 }
             }
         }

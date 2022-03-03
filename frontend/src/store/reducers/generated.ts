@@ -1090,7 +1090,7 @@ export type Folder = {
   id?: number;
   name: string;
   categories: number[];
-  no_of_documents: number;
+  no_of_documents?: number;
 };
 export const {
   useAccountsRequestsCreateMutation,
