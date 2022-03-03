@@ -28,7 +28,12 @@ const LastActiveMobileCards = ({ doc }: LastActiveMobileCards) => {
       </div>
       <div className="userStatus">
         <div className="statusTitle">{status}</div>
-        <div className="statusValue">{doc?.status}</div>
+        <div
+          className="statusValue"
+          style={{ color: `${doc?.status ? "#6B7280" : "red"}` }}
+        >
+          {doc?.status ? "Active" : "Locked"}
+        </div>
       </div>
     </Box>
   );
