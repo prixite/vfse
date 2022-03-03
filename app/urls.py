@@ -123,10 +123,17 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/<int:pk>/systems/<int:system_pk>/influxdb/",
+        api.SystemViewSet.as_view(
+            {
+                "patch": "update_from_influx",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<int:pk>/systems/<int:system_pk>/",
         api.SystemViewSet.as_view(
             {
-                "get": "retrieve",
                 "delete": "destroy",
                 "patch": "partial_update",
             }

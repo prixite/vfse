@@ -247,14 +247,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.system,
       }),
     }),
-    organizationsSystemsRead: build.query<
-      OrganizationsSystemsReadApiResponse,
-      OrganizationsSystemsReadApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/`,
-      }),
-    }),
     organizationsSystemsPartialUpdate: build.mutation<
       OrganizationsSystemsPartialUpdateApiResponse,
       OrganizationsSystemsPartialUpdateApiArg
@@ -272,6 +264,16 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/`,
         method: "DELETE",
+      }),
+    }),
+    organizationsSystemsUpdateFromInflux: build.mutation<
+      OrganizationsSystemsUpdateFromInfluxApiResponse,
+      OrganizationsSystemsUpdateFromInfluxApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/influxdb/`,
+        method: "PATCH",
+        body: queryArg.system,
       }),
     }),
     organizationsUsersList: build.query<
@@ -652,11 +654,6 @@ export type OrganizationsSystemsCreateApiArg = {
   id: string;
   system: System;
 };
-export type OrganizationsSystemsReadApiResponse = /** status 200  */ System;
-export type OrganizationsSystemsReadApiArg = {
-  id: string;
-  systemPk: string;
-};
 export type OrganizationsSystemsPartialUpdateApiResponse =
   /** status 200  */ System;
 export type OrganizationsSystemsPartialUpdateApiArg = {
@@ -668,6 +665,13 @@ export type OrganizationsSystemsDeleteApiResponse = unknown;
 export type OrganizationsSystemsDeleteApiArg = {
   id: string;
   systemPk: string;
+};
+export type OrganizationsSystemsUpdateFromInfluxApiResponse =
+  /** status 200  */ System;
+export type OrganizationsSystemsUpdateFromInfluxApiArg = {
+  id: string;
+  systemPk: string;
+  system: System;
 };
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
@@ -1122,9 +1126,9 @@ export const {
   useOrganizationsSitesUpdateMutation,
   useOrganizationsSystemsListQuery,
   useOrganizationsSystemsCreateMutation,
-  useOrganizationsSystemsReadQuery,
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsSystemsDeleteMutation,
+  useOrganizationsSystemsUpdateFromInfluxMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,
