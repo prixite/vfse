@@ -4,9 +4,11 @@ from vfse import models
 
 
 class FolderSerializer(serializers.ModelSerializer):
+    no_of_documents = serializers.IntegerField()
+
     class Meta:
         model = models.Folder
-        fields = ["id", "name", "categories"]
+        fields = ["id", "name", "categories", "no_of_documents"]
 
 
 class CategorySerializer(serializers.ModelSerializer):

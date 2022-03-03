@@ -431,13 +431,19 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.upsertUser,
       }),
     }),
+    vfseCategoriesList: build.query<
+      VfseCategoriesListApiResponse,
+      VfseCategoriesListApiArg
+    >({
+      query: () => ({ url: `/vfse/categories/` }),
+    }),
     vfseDocumentsList: build.query<
       VfseDocumentsListApiResponse,
       VfseDocumentsListApiArg
     >({
       query: (queryArg) => ({
         url: `/vfse/documents/`,
-        params: { folder: queryArg.folder },
+        params: { folder: queryArg.folder, favorite: queryArg.favorite },
       }),
     }),
     vfseDocumentsCreate: build.mutation<
@@ -473,7 +479,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseFoldersListApiResponse,
       VfseFoldersListApiArg
     >({
-      query: () => ({ url: `/vfse/folders/` }),
+      query: (queryArg) => ({
+        url: `/vfse/folders/`,
+        params: { categories: queryArg.categories },
+      }),
     }),
     vfseFoldersCreate: build.mutation<
       VfseFoldersCreateApiResponse,
@@ -740,9 +749,12 @@ export type UsersPartialUpdateApiArg = {
   id: string;
   upsertUser: UpsertUser;
 };
+export type VfseCategoriesListApiResponse = /** status 200  */ Category[];
+export type VfseCategoriesListApiArg = void;
 export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
 export type VfseDocumentsListApiArg = {
   folder?: string;
+  favorite?: string;
 };
 export type VfseDocumentsCreateApiResponse = /** status 201  */ Document;
 export type VfseDocumentsCreateApiArg = {
@@ -758,7 +770,9 @@ export type VfseDocumentsDeleteApiArg = {
   id: string;
 };
 export type VfseFoldersListApiResponse = /** status 200  */ Folder[];
-export type VfseFoldersListApiArg = void;
+export type VfseFoldersListApiArg = {
+  categories?: string;
+};
 export type VfseFoldersCreateApiResponse = /** status 201  */ Folder;
 export type VfseFoldersCreateApiArg = {
   folder: Folder;
@@ -1062,6 +1076,10 @@ export type SystemNotes = {
 export type UserEnableDisable = {
   users: number[];
 };
+export type Category = {
+  id?: number;
+  name: string;
+};
 export type Document = {
   id?: number;
   text: string;
@@ -1072,6 +1090,7 @@ export type Folder = {
   id?: number;
   name: string;
   categories: number[];
+  no_of_documents: number;
 };
 export const {
   useAccountsRequestsCreateMutation,
@@ -1124,6 +1143,7 @@ export const {
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
+  useVfseCategoriesListQuery,
   useVfseDocumentsListQuery,
   useVfseDocumentsCreateMutation,
   useVfseDocumentsPartialUpdateMutation,

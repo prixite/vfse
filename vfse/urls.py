@@ -4,6 +4,14 @@ from vfse.views import api
 
 urlpatterns = [
     path(
+        "categories/",
+        api.CategoryViewSet.as_view(
+            {
+                "get": "list",
+            }
+        ),
+    ),
+    path(
         "folders/",
         api.FolderViewset.as_view(
             {

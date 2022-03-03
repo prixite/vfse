@@ -17,10 +17,13 @@ class Category(models.Model):
 
 
 class Document(models.Model):
-    folder = models.ForeignKey("Folder", on_delete=models.PROTECT)
+    folder = models.ForeignKey(
+        "Folder", on_delete=models.PROTECT, related_name="documents"
+    )
     text = models.TextField()
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
+    favorite = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
