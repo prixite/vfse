@@ -4,7 +4,7 @@ from vfse import models
 
 
 class FolderSerializer(serializers.ModelSerializer):
-    no_of_documents = serializers.IntegerField()
+    no_of_documents = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = models.Folder
