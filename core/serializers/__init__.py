@@ -342,10 +342,10 @@ class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
         opts = {
             "use_https": self.context["request"].is_secure(),
             "token_generator": default_token_generator,
-            "email_template_name": "core/emails/password_reset_email.html",
+            "email_template_name": "core/emails/password_reset_email.txt",
+            "html_email_template_name": "core/emails/password_reset_email.html",
             "subject_template_name": "registration/password_reset_subject.txt",
             "request": self.context["request"],
-            "html_email_template_name": None,
         }
         for email in usernames:
             form = PasswordResetForm(data={"email": email})
