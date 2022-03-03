@@ -306,11 +306,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 class SystemViewSet(OrganizationSystemViewSet):
     lookup_url_kwarg = "system_pk"
 
-    def retrieve(self, request, *args, **kwargs):
-        self.retrieve_from_influx(request, *args, **kwargs)
-        return super().retrieve(request, *args, **kwargs)
-
-    def retrieve_from_influx(self, request, *args, **kwargs):
+    def update_from_influx(self, request, *args, **kwargs):
         city_name = "Plantation"
         system = models.System.objects.get(id=kwargs["system_pk"])
         with InfluxDBClient(
@@ -330,6 +326,8 @@ class SystemViewSet(OrganizationSystemViewSet):
             system.mri_embedded_parameters["helium"] = tables[0].records[0]["_value"]
             system.save()
             client.close()
+            serializer = self.get_serializer(system)
+            return Response(serializer.data)
 
 
 class UserViewSet(ModelViewSet, mixins.UserMixin):
