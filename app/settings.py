@@ -35,9 +35,11 @@ env = environ.Env(
     ALLOWED_HOSTS=(list, []),
     EMAIL_BACKEND=(str, None),
     EMAIL_HOST=(str, None),
-    EMAIL_PORT=(str, None),
+    EMAIL_PORT=(int, 587),
+    EMAIL_USE_TLS=(bool, True),
     EMAIL_HOST_USER=(str, None),
     EMAIL_HOST_PASSWORD=(str, None),
+    DEFAULT_FROM_EMAIL=(str, "noreply@626.healthcare"),
     DUO_CLIENT_ID=(str, None),
     DUO_CLIENT_SECRET=(str, None),
     DUO_API_HOSTNAME=(str, None),
@@ -207,8 +209,10 @@ EMAIL_BACKEND = (
 )
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_PORT = env("EMAIL_PORT")
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
 EMAIL_HOST_USER = env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL")
 
 DUO_CLIENT_ID = env("DUO_CLIENT_ID")
 DUO_CLIENT_SECRET = env("DUO_CLIENT_SECRET")
