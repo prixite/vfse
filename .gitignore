@@ -2,7 +2,7 @@
 venv
 __pycache__
 db.sqlite3
-.env
+.env*
 .idea/
 media/
 node_modules/
