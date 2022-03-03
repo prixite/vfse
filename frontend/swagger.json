@@ -1340,6 +1340,28 @@
                 }
             ]
         },
+        "/vfse/categories/": {
+            "get": {
+                "operationId": "vfse_categories_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Category"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
         "/vfse/documents/": {
             "get": {
                 "operationId": "vfse_documents_list",
@@ -1347,6 +1369,13 @@
                 "parameters": [
                     {
                         "name": "folder",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "favorite",
                         "in": "query",
                         "description": "",
                         "required": false,
@@ -1447,7 +1476,15 @@
             "get": {
                 "operationId": "vfse_folders_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "categories",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2940,8 +2977,28 @@
                 }
             }
         },
+        "Category": {
+            "description": "Category(id, name)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 1
+                }
+            }
+        },
         "Document": {
-            "description": "Document(id, folder, text, created_by, created_at, updated_at)",
+            "description": "Document(id, folder, text, created_by, favorite, created_at, updated_at)",
             "required": [
                 "text",
                 "folder"
@@ -2973,7 +3030,8 @@
             "description": "Folder(id, name, created_at, updated_at)",
             "required": [
                 "name",
-                "categories"
+                "categories",
+                "no_of_documents"
             ],
             "type": "object",
             "properties": {
@@ -2994,6 +3052,10 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                },
+                "no_of_documents": {
+                    "title": "No of documents",
+                    "type": "integer"
                 }
             }
         }

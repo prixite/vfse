@@ -37,6 +37,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 
 class DocumentFactory(factory.django.DjangoModelFactory):
     folder = factory.Iterator(models.Folder.objects.all())
+    favorite = factory.Faker("boolean")
     text = factory.Faker("text")
     created_by = factory.Iterator(User.objects.filter(is_lambda_user=False))
 
