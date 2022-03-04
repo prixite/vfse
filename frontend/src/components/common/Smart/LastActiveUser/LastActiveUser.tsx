@@ -69,7 +69,7 @@ const LastActiveUser = () => {
                             fontSize: "14px",
                           }}
                         >
-                          {cellValues.row.user_name}
+                          {cellValues.row.health_network}
                         </span>
                       ),
                     },
@@ -77,36 +77,38 @@ const LastActiveUser = () => {
                       field: "STATUS",
                       disableColumnMenu: true,
                       sortable: false,
-                      width: 120,
+                      width: 100,
                       renderCell: (cellValues) => (
                         <div
                           style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            width: "66px",
+                            color: `${
+                              cellValues.row.status ? "#6B7280" : "red"
+                            }`,
+                            fontWeight: "normal",
+                            fontStyle: "normal",
+                            fontSize: "14px",
                           }}
                         >
-                          <div
-                            style={{
-                              color: `${
-                                cellValues.row.status ? "#6B7280" : "red"
-                              }`,
-                              fontWeight: "normal",
-                              fontStyle: "normal",
-                              fontSize: "14px",
-                            }}
-                          >
-                            {cellValues.row.status ? "Active" : "Locked"}
-                          </div>
-                          <div
-                            style={{
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                          >
-                            <img src={ThreeDots} />
-                          </div>
+                          {cellValues.row.status ? "Active" : "Locked"}
+                        </div>
+                      ),
+                    },
+                    {
+                      field: "Actions",
+                      disableColumnMenu: true,
+                      headerAlign: "center",
+                      align: "center",
+                      sortable: false,
+                      width: 85,
+                      renderCell: () => (
+                        <div
+                          style={{
+                            cursor: "pointer",
+                            padding: "10px",
+                            marginLeft: "auto",
+                          }}
+                        >
+                          <img src={ThreeDots} />
                         </div>
                       ),
                     },
@@ -115,7 +117,7 @@ const LastActiveUser = () => {
               </div>
             </Box>
           ) : (
-            <p> no users</p>
+            <p> Loading ...</p>
           )}
         </>
       ) : (

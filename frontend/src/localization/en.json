@@ -261,6 +261,9 @@
        "healthNetwork" : "HEALTH NETWORK",
        "status" : "STATUS"
     },
+    "Forum": {
+        "forum" : "Forum"
+     },
     "articleCard" : {
         "numberTitle": "articles",
         "explore": "Explore"
