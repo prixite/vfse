@@ -105,14 +105,14 @@ export function makeServer({ environment }) {
       user: Model,
     },
     routes() {
-      this.logging = true;
-      this.namespace = "api";
-      this.get("/mockusers", () => {
+      this.namespace = "/";
+      this.get("/api/mockusers", () => {
         return users;
       });
-      this.get("/mockorders", () => {
+      this.get("/api/mockorders", () => {
         return work_data;
       });
+      this.passthrough("https://vfse.s3-us-east-2.amazonaws.com");
       this.passthrough();
     },
   });
