@@ -15,7 +15,11 @@ import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject } from "@src/helpers/utils/utils";
-import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSelectedOrganization,
+} from "@src/store/hooks";
 import {
   useOrganizationsSystemsListQuery,
   useOrganizationsModalitiesListQuery,
@@ -23,6 +27,8 @@ import {
   OrganizationsSystemsListApiArg,
   Modality,
   useOrganizationsAssociatedSitesListQuery,
+  useOrganizationsSystemsUpdateFromInfluxMutation,
+  api,
 } from "@src/store/reducers/api";
 
 import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
@@ -33,6 +39,7 @@ import "@src/components/common/Smart/SystemSection/SystemSection.scss";
 const SystemSection = () => {
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const queryParams = new URLSearchParams(location?.search);
   const paramModality = queryParams?.get("modality");
   const [sites, setSites] = useState([]);
@@ -93,6 +100,7 @@ const SystemSection = () => {
     isLoading: isSystemDataLoading,
     refetch: systemsRefetch,
   } = useOrganizationsSystemsListQuery(apiArgData);
+  const [updateFromInflux] = useOrganizationsSystemsUpdateFromInfluxMutation();
 
   useEffect(() => {
     modalitiesList?.length &&
@@ -147,6 +155,41 @@ const SystemSection = () => {
     }
     systemsRefetch();
   };
+
+  useEffect(() => {
+    if (firstRender && systemsData && selectedOrganization) {
+      Promise.all(
+        systemsData.map(async (system) => {
+          if (system.product_model_detail.modality.group !== "mri") {
+            return system;
+          }
+
+          const data = await updateFromInflux({
+            id: selectedOrganization.id.toString(),
+            systemPk: system.id.toString(),
+            system: system,
+          }).unwrap();
+          return {
+            ...system,
+            ...{ mri_embedded_parameters: data.mri_embedded_parameters },
+          };
+        })
+      ).then((systems) => {
+        // Update cache data so that frontend is updated and we don't have to
+        // send request to backend.
+        dispatch(
+          api.util.updateQueryData(
+            "organizationsSystemsList",
+            { id: selectedOrganization.id.toString() },
+            (draftSystems) => {
+              Object.assign(draftSystems, systems);
+            }
+          )
+        );
+        setSystemList(systems);
+      });
+    }
+  }, [selectedOrganization, systemsData, firstRender]);
 
   useEffect(() => {
     if (!isSystemDataLoading && systemsData?.length) {
