@@ -323,9 +323,17 @@ class SystemViewSet(OrganizationSystemViewSet):
             |> last()
             """  # noqa
             tables = client.query_api().query(query, org=INFLUX_ORG)
-            system.mri_embedded_parameters["helium"] = tables[0].records[0]["_value"]
-            system.save()
-            client.close()
+
+            try:
+                system.mri_embedded_parameters["helium"] = tables[0].records[0][
+                    "_value"
+                ]
+                system.save()
+            except IndexError:
+                pass
+            finally:
+                client.close()
+
             serializer = self.get_serializer(system)
             return Response(serializer.data)
 
