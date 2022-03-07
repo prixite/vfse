@@ -1,0 +1,42 @@
+.Permission-details {
+  background: #fcfcfd;
+  border: 1px solid #d9dbdd;
+  margin-bottom: 8px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  .services {
+    display: flex;
+    flex-direction: column;
+
+    .service-options {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+    .css-ahj2mt-MuiTypography-root {
+      color: #494949;
+    }
+  }
+  .header {
+    width: 100%;
+    .title {
+      width: 45%;
+      display: inline-block;
+      font-size: 14px;
+      margin-bottom: 0px;
+    }
+    .checked-ratio {
+      color: #85878f;
+      display: inline-block;
+      text-align: right;
+      width: 52%;
+    }
+  }
+  .options {
+    font-size: 14px;
+    font-weight: 400;
+    color: #85878f;
+  }
+}

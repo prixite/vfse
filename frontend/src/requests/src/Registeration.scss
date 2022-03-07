@@ -1,0 +1,128 @@
+@import "../../styles/shared/typogrophy.scss";
+.Registeration {
+  background-color: #fff;
+  height: 100vh;
+  font-family: "ProximaNova-Regular";
+  display: flex;
+  justify-content: space-between;
+  &__Section {
+    width: 45%;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 20px;
+    .vfseLogo {
+      width: 80px;
+      img {
+        width: 100%;
+      }
+    }
+    .Form {
+      margin-top: 5%;
+      .errorText {
+        color: #ff1744;
+        font-size: 0.8rem;
+        margin-top: -2px;
+      }
+      .title {
+        margin-bottom: 0.5rem;
+        font-size: 32px;
+      }
+      .info-section {
+        display: flex;
+        flex-direction: column;
+        .required {
+          &:after {
+            content: " *";
+            color: red;
+          }
+        }
+        .dropzone-title {
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+        .dropzone-style {
+          border: 1px dashed #a7aeb2;
+          height: 200px;
+          width: 60%;
+          margin-bottom: 10px;
+        }
+        .info-label {
+          font-weight: 600;
+          margin-bottom: 6px;
+        }
+        .info-field {
+          width: 100%;
+          margin-bottom: 6px;
+          .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+            border: 1px solid #d4d6db;
+            border-radius: 8px;
+          }
+          input {
+            border: 1px solid #d4d6db;
+            border-radius: 8px;
+            padding: 10px 13px;
+          }
+        }
+        .divided-div {
+          display: flex;
+          justify-content: space-between;
+          .group {
+            width: 48%;
+          }
+          .info-field {
+            width: 100%;
+            input {
+              border: unset;
+            }
+          }
+        }
+      }
+      .register-btn {
+        margin-top: 12px;
+
+        background: #773cbd;
+        color: #efe1ff;
+        width: 100%;
+        padding: 13px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        text-transform: capitalize;
+        &:hover {
+          background: #773cbd;
+          color: #efe1ff;
+        }
+      }
+      .btn-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .register-btn {
+          margin-top: 12px;
+
+          background: #773cbd;
+          color: #efe1ff;
+          width: 48%;
+          padding: 13px 20px;
+          font-size: 16px;
+          font-weight: 600;
+          border-radius: 8px;
+          text-transform: capitalize;
+          &:hover {
+            background: #773cbd;
+            color: #efe1ff;
+          }
+        }
+      }
+    }
+  }
+  .CoverSection {
+    height: 100%;
+    width: 50%;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
