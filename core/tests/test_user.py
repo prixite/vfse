@@ -67,6 +67,10 @@ class UserTestCase(BaseTestCase):
             "documentation_url": "true",
             "health_networks": [self.health_network.id],
         }
+        user = factories.UserWithPasswordFactory(is_request_user=True)
+        models.Token.objects.create(user=user)
+
+        self.client.force_token_login(user)
         response = self.client.post("/api/accounts/requests/", data=user_data)
 
         self.assertEqual(response.status_code, 201)

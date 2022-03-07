@@ -1,4 +1,7 @@
+from rest_framework.authtoken.models import Token
+
 from core import models
+from core.tests import factories
 from core.tests.base import BaseTestCase
 
 
@@ -18,6 +21,23 @@ class UnrestrictedURLsTestCase(BaseTestCase):
                 with self.subTest(user=user, url=url):
                     self.client.force_login(user)
                     self.assertEqual(self.client.get(url).status_code, 200)
+
+
+class TokenAuthUrls(BaseTestCase):
+    def test_authenticate(self):
+        urls = [
+            "/api/users/roles/",
+            "/api/organizations/",
+            f"/api/organizations/{self.organization.id}/sites/",
+            f"/api/organizations/{self.organization.id}/modalities/",
+            f"/api/organizations/{self.organization.id}/health_networks/",
+        ]
+        user = factories.UserWithPasswordFactory(is_request_user=True)
+        Token.objects.create(user=user)
+        self.client.force_token_login(user)
+        for url in urls:
+            with self.subTest(url):
+                self.assertEqual(self.client.get(url).status_code, 200)
 
 
 class OrganizationTestCase(BaseTestCase):
