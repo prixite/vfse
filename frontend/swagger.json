@@ -2107,7 +2107,7 @@
             }
         },
         "Me": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user)",
             "required": [
                 "profile_picture"
             ],
@@ -2602,7 +2602,7 @@
             }
         },
         "User": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user)",
             "required": [
                 "username"
             ],

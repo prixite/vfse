@@ -6,10 +6,13 @@ from django.db.models import Count, Q
 from django.db.models.query import Prefetch
 from influxdb_client import InfluxDBClient
 from rest_framework import exceptions
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.authentication import (
+    SessionAuthentication,
+    TokenAuthentication,
+)
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
@@ -84,6 +87,7 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class CustomerViewSet(OrganizationViewSet):
     filterset_class = filters.OrganizationNameFilter
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
     permission_classes = [permissions.OrganizationPermission]
 
     def get_queryset(self):
@@ -116,6 +120,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         IsAuthenticated,
         permissions.OrganizationHealthNetworksPermission,
     ]
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -127,6 +132,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
+            or self.request.user.is_request_user
             or self.is_customer_admin(self.kwargs["pk"])
         ):
             return models.Organization.objects.filter(
@@ -193,6 +199,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
+    permission_classes = [permissions.OrganizationSitesPermission]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -258,9 +265,14 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 class OrganizationAllSitesViewSet(ListAPIView):
     serializer_class = serializers.SiteSerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
 
     def get_queryset(self):
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.request.user.is_request_user
+        ):
             return models.Organization.get_organization_sites(self.kwargs["pk"])
 
         return self.request.user.get_organization_sites(
@@ -525,6 +537,7 @@ class UserActivateViewSet(ModelViewSet):
 class ModalityViewSet(ModelViewSet):
 
     serializer_class = serializers.ModalitySerializer
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -533,6 +546,7 @@ class ModalityViewSet(ModelViewSet):
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
+            or self.request.user.is_request_user
             or self.request.user.get_organization_role(self.kwargs["pk"])
             == models.Role.CUSTOMER_ADMIN
         ):
@@ -622,7 +636,7 @@ class ManufacturerImagesViewSet(ModelViewSet):
 
 class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
     serializer_class = serializers.UserRequestAcessSeriazlizer
-    permission_classes = [AllowAny]
+    authentication_classes = [TokenAuthentication]
 
     @transaction.atomic
     def perform_create(self, serializer):
@@ -696,6 +710,8 @@ class LambdaView(ViewSet):
 
 
 class UserRolesView(ViewSet):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+
     def list(self, request, *args, **kwargs):
         return Response(
             [{"value": item, "title": value} for item, value in models.Role.choices]

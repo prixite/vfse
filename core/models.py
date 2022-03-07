@@ -47,6 +47,7 @@ class User(AbstractUser):
 
     is_supermanager = models.BooleanField(default=False)
     is_lambda_user = models.BooleanField(default=False)
+    is_request_user = models.BooleanField(default=False)
 
     @property
     def modalities(self):
