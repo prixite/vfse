@@ -72,7 +72,6 @@ const OrganizationSection = () => {
     localizedData().organization;
 
   const handleClose = () => dispatch(closeAddModal());
-
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
     if (

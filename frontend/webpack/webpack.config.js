@@ -7,7 +7,7 @@ const { EnvironmentPlugin } = require("webpack");
 module.exports = {
   entry: {
     main: "./frontend/src/index.tsx",
-    requests: "./requests/src/index.js",
+    requests: "./frontend/src/requests/src/index.js",
   },
   optimization: {
     splitChunks: {
