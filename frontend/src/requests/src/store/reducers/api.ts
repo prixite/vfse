@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+import { Organization } from "@src/store/reducers/generated";
+
 const token = process.env.REQUEST_TOKEN;
 
 const api = createApi({
@@ -13,8 +15,12 @@ const api = createApi({
   }),
   tagTypes: ["Organization", "Role", "Me"],
   endpoints: (builder) => ({
-    getMe: builder.query<Me, void>({
-      query: () => ({ url: "/api/me/", method: "get" }),
+    getOrganizations: builder.query<Organization[], void>({
+      query: () => ({ url: "/api/organizations/", method: "get" }),
+      providesTags: ["Organization"],
+    }),
+    getRoles: builder.query<void, void>({
+      query: () => ({ url: "/api/users/roles/", method: "get" }),
       providesTags: ["Role"],
     }),
     deleteAccount: builder.mutation<void, void>({

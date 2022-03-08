@@ -30,6 +30,9 @@ from core.views import mixins
 class MeViewSet(ModelViewSet):
     serializer_class = serializers.MeSerializer
 
+    def get_queryset(self):
+        return models.User.objects.none()
+
     def get_object(self):
         return self.request.user
 
@@ -268,6 +271,9 @@ class OrganizationAllSitesViewSet(ListAPIView):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Organization.objects.none()
+
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
@@ -355,6 +361,9 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         return serializers.UpsertUserSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.User.objects.none()
+
         if self.request.user.is_superuser or self.request.user.is_supermanager:
             return models.User.objects.all()
 
@@ -563,6 +572,9 @@ class ModalityManufacturerViewSet(ModelViewSet):
     serializer_class = serializers.ManufacturerSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Manufacturer.objects.none()
+
         return models.Manufacturer.objects.filter(
             id__in=models.ProductModel.objects.filter(
                 modality_id=self.kwargs["pk"],
@@ -711,6 +723,7 @@ class LambdaView(ViewSet):
 
 class UserRolesView(ViewSet):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
+    serializer_class = serializers.RoleSerializer
 
     def list(self, request, *args, **kwargs):
         return Response(

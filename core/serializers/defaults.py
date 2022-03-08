@@ -65,7 +65,12 @@ class HealthNetworkAppearanceDefault:
 
 
 class ConnectionOptionDefault:
-    def __call__(self, *args, **kwds):
+    requires_context = True
+
+    def __call__(self, serializer_field, **kwds):
+        if serializer_field.instance is None:
+            return None
+
         return {
             "vfse": False,
             "virtual_media_control": False,

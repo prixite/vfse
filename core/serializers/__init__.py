@@ -644,3 +644,8 @@ class HealthNetworkListSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
         fields = ["id", "name"]
+
+
+class RoleSerializer(serializers.Serializer):
+    value = serializers.CharField()
+    title = serializers.CharField()
