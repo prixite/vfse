@@ -1,0 +1,105 @@
+.timeline_section {
+  display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  .timelineLeft {
+    .allTopics {
+      .card {
+        height: 184px;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 24px;
+        font-family: "ProximaNova-Regular";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #696f77;
+        .allTopicsSelect {
+          display: flex;
+          justify-content: space-between;
+          .topicHeading {
+            margin-left: 8px;
+            color: #773cbd;
+          }
+          .allTopicsHeading {
+            display: flex;
+          }
+        }
+        .followedTopics {
+          display: flex;
+          .followeddHeading {
+            margin-left: 8px;
+          }
+        }
+        .createTopics {
+          display: flex;
+          .createTopicHading {
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+  }
+  .recentActivity {
+    margin-top: 16px;
+    .card {
+      height: auto;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      .recentActivityTitle {
+        display: flex;
+        .topicHeading {
+          margin-left: 8px;
+        }
+      }
+      .userStatus {
+        display: flex;
+        margin-top: 16px;
+        .statusDetail {
+          margin-left: 8px;
+          font-family: "ProximaNova-Regular";
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 20px;
+          color: #696f77;
+          .username {
+            color: #773cbd;
+            font-weight: 600;
+          }
+          .postTime {
+            font-family: "ProximaNova-Regular";
+            font-style: normal;
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 18px;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+      .createTopics {
+        display: flex;
+        .createTopicHading {
+          margin-left: 8px;
+        }
+      }
+      .pagtiondot {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.rootSection {
+  display: flex;
+  align-items: center;
+  // justify-content: space-between;
+  .create-topic-btn {
+    .AddTopicsbtn {
+      .btn-content {
+        display: flex;
+        height: 27px;
+      }
+    }
+  }
+}

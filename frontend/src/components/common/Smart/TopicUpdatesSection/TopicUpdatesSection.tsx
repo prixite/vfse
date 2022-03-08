@@ -8,10 +8,11 @@ import messageIcon from "@src/assets/svgs/message.svg";
 import TopicUpdatesCards from "@src/components/common/Presentational/TopicUpdatesCards/TopicUpdatesCard";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { localizedData } from "@src/helpers/utils/language";
 
-const { topicUpdates, seeAll } = localizedData().Faq;
-
+interface TopicUpdatesSection {
+  title: string;
+  seeAll: string;
+}
 const topic_info = [
   {
     card_text: "Clinical Specialist for MedTronics error in database...",
@@ -52,14 +53,14 @@ const topic_info = [
   },
 ];
 
-const TopicUpdatesSection = () => {
+const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
   const [browserWidth] = useWindowSize();
   return (
     <>
       {browserWidth > mobileWidth ? (
         <Box component="div" className="topic_updates_section">
           <div className="heading_section">
-            <h2 className="heading">{topicUpdates}</h2>
+            <h2 className="heading">{title}</h2>
             <h3 className="subheading">{seeAll}</h3>
           </div>
           <div className="cardsSection">
@@ -84,7 +85,7 @@ const TopicUpdatesSection = () => {
       ) : (
         <Box component="div" className="topic_updates_section">
           <div className="heading_section">
-            <h2 className="heading">{topicUpdates}</h2>
+            <h2 className="heading">{title}</h2>
             <h3 className="subheading">{seeAll}</h3>
           </div>
           <div className="mobilecardsSection">

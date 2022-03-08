@@ -262,7 +262,9 @@
        "status" : "STATUS"
     },
     "Forum": {
-        "forum" : "Forum"
+        "forum" : "Forum",
+        "btnCreateTopic": "Create a topic",
+        "title": "Popular topics"
      },
     "articleCard" : {
         "numberTitle": "articles",
