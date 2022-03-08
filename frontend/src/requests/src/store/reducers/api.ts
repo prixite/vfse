@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Organization, Role, User } from "@src/store/reducers/generated";
+import {
+  Organization,
+  Role,
+  User,
+  UserRequestAccess,
+} from "@src/store/reducers/generated";
 
 const token = process.env.REQUEST_TOKEN;
 
@@ -32,12 +37,15 @@ const api = createApi({
         { type: "Organization", id: `User-${organizationId}` },
       ],
     }),
-    deleteAccount: builder.mutation<void, void>({
-      query: () => ({
-        url: "/api/me/",
-        method: "delete",
+    sendAccessRequest: builder.mutation<
+      UserRequestAccess,
+      { data: UserRequestAccess }
+    >({
+      query: ({ data }) => ({
+        url: `/accounts/requests/`,
+        method: "POST",
+        body: data,
       }),
-      invalidatesTags: ["Organization"],
     }),
   }),
 });

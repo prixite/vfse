@@ -36,7 +36,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/UserRequestAcessSeriazlizer"
+                            "$ref": "#/definitions/UserRequestAccess"
                         }
                     }
                 ],
@@ -44,7 +44,7 @@
                     "201": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/UserRequestAcessSeriazlizer"
+                            "$ref": "#/definitions/UserRequestAccess"
                         }
                     }
                 },
@@ -1633,7 +1633,7 @@
                 "title": ""
             }
         },
-        "UserRequestAcessSeriazlizer": {
+        "UserRequestAccess": {
             "description": "",
             "required": [
                 "first_name",

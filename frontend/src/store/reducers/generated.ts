@@ -8,7 +8,7 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/accounts/requests/`,
         method: "POST",
-        body: queryArg.userRequestAcessSeriazlizer,
+        body: queryArg.userRequestAccess,
       }),
     }),
     healthNetworksList: build.query<
@@ -520,9 +520,9 @@ const injectedRtkApi = api.injectEndpoints({
 });
 export { injectedRtkApi as rtk };
 export type AccountsRequestsCreateApiResponse =
-  /** status 201  */ UserRequestAcessSeriazlizer;
+  /** status 201  */ UserRequestAccess;
 export type AccountsRequestsCreateApiArg = {
-  userRequestAcessSeriazlizer: UserRequestAcessSeriazlizer;
+  userRequestAccess: UserRequestAccess;
 };
 export type HealthNetworksListApiResponse =
   /** status 200  */ HealthNetworkList[];
@@ -794,7 +794,7 @@ export type Meta = {
   profile_picture: string;
   title?: string;
 };
-export type UserRequestAcessSeriazlizer = {
+export type UserRequestAccess = {
   meta?: Meta;
   first_name: string;
   last_name: string;

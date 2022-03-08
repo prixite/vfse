@@ -585,7 +585,7 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         return attrs
 
 
-class UserRequestAcessSeriazlizer(UpsertUserSerializer):
+class UserRequestAccessSerializer(UpsertUserSerializer):
     health_networks = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all(), many=True
     )

@@ -647,7 +647,7 @@ class ManufacturerImagesViewSet(ModelViewSet):
 
 
 class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
-    serializer_class = serializers.UserRequestAcessSeriazlizer
+    serializer_class = serializers.UserRequestAccessSerializer
     authentication_classes = [TokenAuthentication]
 
     @transaction.atomic
