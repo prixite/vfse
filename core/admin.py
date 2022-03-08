@@ -1,7 +1,17 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as CoreUserAdmin
+from rest_framework.authtoken.admin import TokenAdmin
 
 from core import forms, models
+
+TokenAdmin.list_filter = (
+    "user__is_request_user",
+    "user__is_staff",
+    "user__is_superuser",
+    "user__is_active",
+    "user__is_supermanager",
+    "user__is_lambda_user",
+)
 
 
 @admin.register(models.User)
@@ -16,6 +26,7 @@ class UserAdmin(CoreUserAdmin):
         "is_active",
         "is_supermanager",
         "is_lambda_user",
+        "is_request_user",
     )
 
 
