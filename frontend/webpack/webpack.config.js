@@ -37,6 +37,7 @@ module.exports = {
   plugins: [
     new EnvironmentPlugin({
       NODE_ENV: "development",
+      REQUEST_TOKEN: "fake",
     }),
   ],
   resolve: {

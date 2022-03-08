@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import {
   Box,
   TextField,
+  MenuItem,
   Select,
   Button,
   FormControl,
@@ -13,8 +14,9 @@ import LoginImage from "@src/assets/images/loginImage.png";
 import vfseLogo from "@src/assets/svgs/logo.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
-import "@src/requests/src/Registeration.scss";
 import SectionTwo from "@src/requests/src/components/Smart/SectionTwo/SectionTwo";
+import api from "@src/requests/src/store/reducers/api";
+import "@src/requests/src/Registeration.scss";
 
 const emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
 
@@ -38,6 +40,18 @@ const Registeration = () => {
   const [auditEnable, setAuditEnable] = useState<boolean>(false);
   const [oneTimeLinkCreation, setOneTimeLinkCreation] =
     useState<boolean>(false);
+
+  const [organizationId, setOrganizationId] = useState<string>("");
+
+  const { data: userRoles = [] } = api.useGetRolesQuery();
+  const { data: organizations = [] } = api.useGetOrganizationsQuery();
+  const { data: managers = [] } = api.useGetManagersQuery(
+    { organizationId },
+    {
+      skip: !organizationId,
+    }
+  );
+
   useEffect(() => {
     if (selectedImage?.length) {
       setImageError("");
@@ -172,10 +186,14 @@ const Registeration = () => {
                     <Select
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
-                      defaultValue="none"
+                      defaultValue=""
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
-                      {/* Enter Data here */}
+                      {userRoles.map((item, key) => (
+                        <MenuItem key={key} value={item.value}>
+                          {item.title}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -185,11 +203,15 @@ const Registeration = () => {
                     <Select
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
-                      defaultValue="none"
+                      defaultValue=""
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       className="info-field"
                     >
-                      {/* Enter Data here */}
+                      {managers.map((item, key) => (
+                        <MenuItem key={key} value={item.id}>
+                          {`${item.first_name} ${item.last_name}`}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </div>
@@ -199,10 +221,16 @@ const Registeration = () => {
                 <Select
                   inputProps={{ "aria-label": "Without label" }}
                   style={{ height: "43px", borderRadius: "8px" }}
-                  defaultValue="none"
+                  defaultValue=""
+                  value={organizationId}
+                  onChange={(event) => setOrganizationId(event.target.value)}
                   MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                 >
-                  {/* Enter Data here */}
+                  {organizations.map((item, key) => (
+                    <MenuItem key={key} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </div>

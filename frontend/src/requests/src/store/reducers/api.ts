@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Organization } from "@src/store/reducers/generated";
+import { Organization, Role, User } from "@src/store/reducers/generated";
 
 const token = process.env.REQUEST_TOKEN;
 
@@ -13,22 +13,31 @@ const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Organization", "Role", "Me"],
+  tagTypes: ["Organization", "Role"],
   endpoints: (builder) => ({
     getOrganizations: builder.query<Organization[], void>({
-      query: () => ({ url: "/api/organizations/", method: "get" }),
+      query: () => ({ url: "/organizations/", method: "get" }),
       providesTags: ["Organization"],
     }),
-    getRoles: builder.query<void, void>({
-      query: () => ({ url: "/api/users/roles/", method: "get" }),
+    getRoles: builder.query<Role[], void>({
+      query: () => ({ url: "/users/roles/", method: "get" }),
       providesTags: ["Role"],
+    }),
+    getManagers: builder.query<User[], { organizationId: string }>({
+      query: ({ organizationId }) => ({
+        url: `/organizations/${organizationId}/users/`,
+        method: "get",
+      }),
+      providesTags: (result, error, { organizationId }) => [
+        { type: "Organization", id: `User-${organizationId}` },
+      ],
     }),
     deleteAccount: builder.mutation<void, void>({
       query: () => ({
         url: "/api/me/",
         method: "delete",
       }),
-      invalidatesTags: ["Me"],
+      invalidatesTags: ["Organization"],
     }),
   }),
 });
