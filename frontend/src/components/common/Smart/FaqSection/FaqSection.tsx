@@ -11,7 +11,7 @@ import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsSeatsListQuery } from "@src/store/reducers/api";
 import "@src/components/common/Smart/FaqSection/FaqSection.scss";
 
-const { dashboard } = localizedData().Faq;
+const { dashboard, topicUpdates, seeAll } = localizedData().Faq;
 export default function FaqSection() {
   const selectedOrganization = useSelectedOrganization();
 
@@ -25,7 +25,7 @@ export default function FaqSection() {
 
   return (
     <div className="VfseDashboardSection">
-      <h2 className="heading">{dashboard}</h2>
+      <h2 className="faqHeading">{dashboard}</h2>
       <CountingInfoSection />
       <Box className="WorkOrderSection">
         <Grid container spacing={3}>
@@ -37,7 +37,7 @@ export default function FaqSection() {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <TopicUpdatesSection />
+          <TopicUpdatesSection title={topicUpdates} seeAll={seeAll} />
         </Grid>
       </Box>
     </div>

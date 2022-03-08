@@ -1,0 +1,181 @@
+.timelineInfo {
+  display: flex;
+  flex-direction: column;
+  .timelineCards {
+    .card {
+      height: 616px;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      margin-bottom: 16px;
+      .imgStyling {
+        height: 32px;
+        width: 105px;
+        display: flex;
+      }
+      .card_title {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 24px;
+        color: #151e29;
+      }
+      .card_detail {
+        font-family: "ProximaNova-Regular";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #3d4651;
+      }
+      .postImage {
+        height: 316px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card_footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .profile_side {
+          display: flex;
+          flex-direction: row;
+          .follower_img_container {
+            display: flex;
+            align-items: center;
+          }
+          .followerText {
+            font-weight: normal;
+            font-size: 12px;
+            line-height: 18px;
+            font-style: normal;
+            margin-left: 4px;
+            display: flex;
+            align-items: center;
+            color: #696f77;
+          }
+          .imgStylingProfiles {
+            width: 72px;
+            height: 32px;
+          }
+        }
+        .message_side {
+          display: flex;
+          flex-direction: row;
+          .message_text_container {
+            display: flex;
+            align-items: center;
+          }
+          .messageText {
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 18px;
+            font-style: normal;
+            display: flex;
+            align-items: center;
+            color: #696f77;
+          }
+          .imgStylingMessage {
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+          }
+        }
+      }
+      .card_header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .userInfoWrapper {
+          display: flex;
+          .user_info {
+            margin-left: 8px;
+            .userName {
+              font-family: "ProximaNova-Regular";
+              font-style: normal;
+              font-weight: 600;
+              font-size: 16px;
+              line-height: 20px;
+              display: flex;
+              align-items: center;
+              color: #151e29;
+            }
+            .postTime {
+              font-family: "ProximaNova-Regular";
+              font-style: normal;
+              font-weight: normal;
+              font-size: 14px;
+              line-height: 18px;
+              display: flex;
+              align-items: center;
+              color: #696f77;
+            }
+          }
+        }
+        .topic_updates_imags {
+          height: 32px;
+          width: "48%";
+          .imgStyling {
+            height: inherit;
+            width: inherit;
+            object-fit: cover;
+          }
+        }
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        .number {
+          font-weight: bold;
+          font-size: 24px;
+          line-height: 28px;
+        }
+        .category {
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 24px;
+        }
+      }
+      .userUltraStatus {
+        display: flex;
+        .ultraSec {
+          margin-left: 8px;
+        }
+        .ultraThr {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+  .timelineLeft {
+    .allTopics {
+      .card {
+        height: 184px;
+        border-radius: 8px;
+        background: white;
+        box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 24px;
+      }
+    }
+  }
+  .recentActivity {
+    .card {
+      height: 184px;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+    }
+  }
+}
