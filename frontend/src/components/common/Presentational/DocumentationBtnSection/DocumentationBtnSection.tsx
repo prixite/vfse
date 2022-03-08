@@ -6,7 +6,12 @@ import { LocalizationInterface } from "@src/helpers/interfaces/localizationinter
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 
-const DocumentationBtnSection = () => {
+interface btnProps {
+  handleEditText: (val: boolean) => void;
+  editText: boolean;
+}
+
+const DocumentationBtnSection = ({ editText, handleEditText }: btnProps) => {
   const localization: LocalizationInterface = localizedData();
   const { btnEdit, btnCopy } = localization.document;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
@@ -15,30 +20,56 @@ const DocumentationBtnSection = () => {
   return (
     <Grid container spacing={2} style={{ marginBottom: "20px" }}>
       <Grid item={true} xs={6}>
-        <Button
-          className="btn"
-          style={{
-            backgroundColor: secondaryColor,
-            color: buttonTextColor,
-          }}
-        >
-          <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
-          <span>{btnEdit}</span>
-        </Button>
+        {!editText ? (
+          <Button
+            className="btn"
+            style={{
+              backgroundColor: secondaryColor,
+              color: buttonTextColor,
+            }}
+            onClick={() => handleEditText(true)}
+          >
+            <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
+            <span>{btnEdit}</span>
+          </Button>
+        ) : (
+          <Button
+            className="btn"
+            style={{
+              backgroundColor: secondaryColor,
+              color: buttonTextColor,
+            }}
+            onClick={() => handleEditText(false)}
+          >
+            <span>Cancel</span>
+          </Button>
+        )}
       </Grid>
       <Grid item={true} xs={6}>
-        <Button
-          className="btn"
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
-        >
-          <InsertLinkOutlinedIcon
-            style={{ transform: "rotate(120deg)", marginRight: "10px" }}
-          />
-          <span> {btnCopy} </span>
-        </Button>
+        {!editText ? (
+          <Button
+            className="btn"
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
+          >
+            <InsertLinkOutlinedIcon
+              style={{ transform: "rotate(120deg)", marginRight: "10px" }}
+            />
+            <span> {btnCopy} </span>
+          </Button>
+        ) : (
+          <Button
+            className="btn"
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
+          >
+            <span> Update </span>
+          </Button>
+        )}
       </Grid>
     </Grid>
   );
