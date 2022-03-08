@@ -746,7 +746,7 @@ export type UsersDeactivatePartialUpdateApiResponse =
 export type UsersDeactivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
 };
-export type UsersRolesListApiResponse = unknown;
+export type UsersRolesListApiResponse = /** status 200  */ Role[];
 export type UsersRolesListApiArg = void;
 export type UsersPartialUpdateApiResponse = /** status 200  */ UpsertUser;
 export type UsersPartialUpdateApiArg = {
@@ -1079,6 +1079,10 @@ export type SystemNotes = {
 };
 export type UserEnableDisable = {
   users: number[];
+};
+export type Role = {
+  value: string;
+  title: string;
 };
 export type Category = {
   id?: number;

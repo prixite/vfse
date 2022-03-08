@@ -1321,7 +1321,13 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": ""
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Role"
+                            }
+                        }
                     }
                 },
                 "tags": [
@@ -2999,6 +3005,26 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                }
+            }
+        },
+        "Role": {
+            "description": "",
+            "required": [
+                "value",
+                "title"
+            ],
+            "type": "object",
+            "properties": {
+                "value": {
+                    "title": "Value",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "minLength": 1
                 }
             }
         },
