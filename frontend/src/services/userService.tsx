@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-const addNewUserService = async (id, userObject, addNewUser, refetch) => {
+const addNewUserService = async (id, userObject, addNewUser) => {
   await addNewUser({
     id: id?.toString(),
     organizationUpsertUser: userObject,
@@ -10,7 +10,6 @@ const addNewUserService = async (id, userObject, addNewUser, refetch) => {
       toast.success("New User Added.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: refetch,
       });
     });
 };

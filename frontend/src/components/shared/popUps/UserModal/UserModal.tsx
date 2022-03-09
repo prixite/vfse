@@ -325,7 +325,6 @@ export default function UserModal(props: Props) {
             selectedOrganization.id,
             userObject,
             createUser,
-            props?.refetch
           )
             .then(() => {
               setTimeout(() => {
