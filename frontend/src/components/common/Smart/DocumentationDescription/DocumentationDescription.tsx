@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Box, Grid } from "@mui/material";
+import { EditorState, convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 import { Link, useParams, useHistory } from "react-router-dom";
 
 import ArticleDescriptionCard from "@src/components/common/Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
@@ -30,14 +32,16 @@ const obj = {
 };
 
 const text = `
-<h2><br>    <span style="font-size: 24px; color:#773cbd">OverView</span><br></h2>
-<p> <span style=font-size: 18px; > Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span></p>
+<h2 style="margin-bottom: 20px"><br>    <span style="font-size: 24px; color:#773cbd">OverView</span><br></h2>
+<p> <span style=font-size: 18px> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span></p>
 `;
 
 const DocumentationDescription = () => {
   const param: RouteParam = useParams();
   const [browserWidth] = useWindowSize();
   const [editText, setEditText] = useState(false);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [htmlText, setHtmlText] = useState("");
   const localization: LocalizationInterface = localizedData();
   const { backBtn, title } = localization.document;
   const history = useHistory();
@@ -47,6 +51,18 @@ const DocumentationDescription = () => {
     : `/${organizationRoute}/${param?.id}/knowledge-base`;
 
   const handleEditText = (val) => setEditText(val);
+  const saveText = () => {
+    const htmlString = draftToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+    setHtmlText(htmlString);
+    setEditText(false);
+  };
+
+  useEffect(() => {
+    setHtmlText(text);
+  }, []);
+
   return (
     <Box component="div" className="documentation-section">
       <Link
@@ -74,9 +90,13 @@ const DocumentationDescription = () => {
             style={{ paddingTop: "8px" }}
           >
             {editText ? (
-              <TextEditor htmlText={text} />
+              <TextEditor
+                htmlText={htmlText}
+                editorState={editorState}
+                setEditorState={setEditorState}
+              />
             ) : (
-              <ArticleDescriptionCard overview={obj.overview} />
+              <ArticleDescriptionCard overview={htmlText} />
             )}
           </Grid>
           <Grid
@@ -90,6 +110,7 @@ const DocumentationDescription = () => {
             <DocumentationBtnSection
               handleEditText={handleEditText}
               editText={editText}
+              saveText={saveText}
             />
             <ArticleOverviewCard />
           </Grid>
