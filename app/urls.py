@@ -91,6 +91,15 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/scope/<int:pk>/users/",
+        api.ScopedUserViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<int:pk>/seats/",
         api.OrganizationSeatViewSet.as_view(
             {

@@ -1157,6 +1157,60 @@
                 }
             ]
         },
+        "/scope/{id}/users/": {
+            "get": {
+                "operationId": "scope_users_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "scope"
+                ]
+            },
+            "post": {
+                "operationId": "scope_users_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationUpsertUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/OrganizationUpsertUser"
+                        }
+                    }
+                },
+                "tags": [
+                    "scope"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/systems/images/": {
             "get": {
                 "operationId": "systems_images_list",

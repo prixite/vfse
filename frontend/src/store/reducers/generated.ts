@@ -365,6 +365,22 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    scopeUsersList: build.query<
+      ScopeUsersListApiResponse,
+      ScopeUsersListApiArg
+    >({
+      query: (queryArg) => ({ url: `/scope/${queryArg.id}/users/` }),
+    }),
+    scopeUsersCreate: build.mutation<
+      ScopeUsersCreateApiResponse,
+      ScopeUsersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/scope/${queryArg.id}/users/`,
+        method: "POST",
+        body: queryArg.organizationUpsertUser,
+      }),
+    }),
     systemsImagesList: build.query<
       SystemsImagesListApiResponse,
       SystemsImagesListApiArg
@@ -720,6 +736,16 @@ export type ProductsPartialUpdateApiArg = {
 export type ProductsDeleteApiResponse = unknown;
 export type ProductsDeleteApiArg = {
   id: string;
+};
+export type ScopeUsersListApiResponse = /** status 200  */ User[];
+export type ScopeUsersListApiArg = {
+  id: string;
+};
+export type ScopeUsersCreateApiResponse =
+  /** status 201  */ OrganizationUpsertUser;
+export type ScopeUsersCreateApiArg = {
+  id: string;
+  organizationUpsertUser: OrganizationUpsertUser;
 };
 export type SystemsImagesListApiResponse = /** status 200  */ SystemImage[];
 export type SystemsImagesListApiArg = void;
@@ -1143,6 +1169,8 @@ export const {
   useProductsModelsDeleteMutation,
   useProductsPartialUpdateMutation,
   useProductsDeleteMutation,
+  useScopeUsersListQuery,
+  useScopeUsersCreateMutation,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,

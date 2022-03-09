@@ -403,7 +403,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         return Response(serializer.errors)
 
 
-class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
+class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
 
     def get_serializer_class(self):
@@ -421,7 +421,6 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
                 is_superuser=False,
                 is_supermanager=False,
                 is_request_user=False,
-                memberships__organization=self.kwargs["pk"],
             )
             .prefetch_related("memberships")
             .select_related("profile")
@@ -457,6 +456,14 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
             self.add_sites(data, user.id)
             self.add_modalities(data, user.id)
         serializer.save()
+
+
+class OrganizationUserViewSet(ScopedUserViewSet):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(
+            memberships__organization=self.kwargs["pk"],
+        )
 
 
 class OrganizationSeatViewSet(ModelViewSet):
