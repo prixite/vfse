@@ -2,9 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import {
   Organization,
+  HealthNetwork,
   Role,
   User,
   UserRequestAccess,
+  Site,
 } from "@src/store/reducers/generated";
 
 const token = process.env.REQUEST_TOKEN;
@@ -37,6 +39,19 @@ const api = createApi({
         { type: "Organization", id: `User-${organizationId}` },
       ],
     }),
+    organizationsHealthNetworksList: builder.query<
+      HealthNetwork[],
+      { organizationId: string }
+    >({
+      query: ({ organizationId }) => ({
+        url: `/organizations/${organizationId}/health_networks/`,
+      }),
+    }),
+    organizationsSitesList: builder.query<Site[], { organizationId: string }>({
+      query: ({ organizationId }) => ({
+        url: `/organizations/${organizationId}/sites/`,
+      }),
+    }),
     sendAccessRequest: builder.mutation<
       UserRequestAccess,
       { data: UserRequestAccess }
@@ -53,5 +68,7 @@ export const {
   useGetOrganizationsQuery,
   useGetRolesQuery,
   useGetManagersQuery,
+  useOrganizationsHealthNetworksListQuery,
+  useOrganizationsSitesListQuery,
 } = api;
 export default api;

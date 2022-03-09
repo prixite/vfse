@@ -20,6 +20,8 @@ import {
   useGetOrganizationsQuery,
   useGetRolesQuery,
   useGetManagersQuery,
+  useOrganizationsHealthNetworksListQuery,
+  useOrganizationsSitesListQuery,
 } from "@src/requests/src/store/reducers/api";
 
 const emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
@@ -56,6 +58,19 @@ const Registeration = () => {
       skip: !organizationId,
     }
   );
+  const { data: HealthNetworks = [] } = useOrganizationsHealthNetworksListQuery(
+    { organizationId },
+    {
+      skip: !organizationId,
+    }
+  );
+  const { data: organizationSites = [] } = useOrganizationsSitesListQuery(
+    { organizationId },
+    {
+      skip: !organizationId,
+    }
+  );
+
   useEffect(() => {
     if (selectedImage?.length) {
       setImageError("");
@@ -277,6 +292,8 @@ const Registeration = () => {
               setAuditEnable={setAuditEnable}
               oneTimeLinkCreation={oneTimeLinkCreation}
               setOneTimeLinkCreation={setOneTimeLinkCreation}
+              organizationSites={organizationSites}
+              HealthNetworks={HealthNetworks}
             />
           )}
           <>
