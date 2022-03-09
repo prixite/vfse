@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 
 import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "@src/components/common/Smart/TextEditor/TextEditor.scss";
 
 interface text {
   htmlText: string;
+  setEditorState: Dispatch<SetStateAction<EditorState>>;
+  editorState: EditorState;
 }
 
-const TextEditor = ({ htmlText }: text) => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
+const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
   const onTextChange = (editState) => {
     setEditorState(editState);
   };
@@ -26,13 +27,29 @@ const TextEditor = ({ htmlText }: text) => {
       setEditorState(editorState);
     }
   }, []);
+
   return (
     <Editor
       editorState={editorState}
-      toolbarClassName="toolbarClassName"
-      wrapperClassName="wrapperClassName"
-      editorClassName="editorClassName"
+      editorClassName="editor"
       onEditorStateChange={onTextChange}
+      toolbar={{
+        options: [
+          "inline",
+          "blockType",
+          "fontSize",
+          "list",
+          "colorPicker",
+          "link",
+          "image",
+        ],
+        inline: { options: ["bold", "italic", "underline", "strikethrough"] },
+        list: { options: ["unordered", "ordered"] },
+        link: { options: ["link"] },
+        fontFamily: {
+          options: ["Proxima Nova", "Calibri"],
+        },
+      }}
     />
   );
 };
