@@ -88,6 +88,16 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         { type: "User", id: `Users-${id}` },
       ],
     },
+    scopeUsersList: {
+      providesTags: (result, error, { id }) => [
+        { type: "User", id: `Users-${id}` },
+      ],
+    },
+    scopeUsersCreate: {
+      invalidatesTags: (result, error, { id }) => [
+        { type: "User", id: `Users-${id}` },
+      ],
+    },
     productsList: {
       providesTags: ["Product"],
     },

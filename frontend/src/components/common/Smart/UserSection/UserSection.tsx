@@ -19,7 +19,7 @@ import { useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsModalitiesListQuery,
   useOrganizationsListQuery,
-  useOrganizationsUsersListQuery,
+  useScopeUsersListQuery,
   User,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
@@ -195,7 +195,7 @@ export default function UserSection() {
     data: items,
     isLoading: isUsersLoading,
     refetch: usersRefetch,
-  } = useOrganizationsUsersListQuery({
+  } = useScopeUsersListQuery({
     id: selectedOrganization?.id?.toString(),
   });
 

@@ -36,10 +36,10 @@ import {
   Modality,
   Organization,
   useOrganizationsHealthNetworksListQuery,
-  useOrganizationsUsersCreateMutation,
   useOrganizationsSitesListQuery,
   User,
   useUsersPartialUpdateMutation,
+  useScopeUsersCreateMutation,
 } from "@src/store/reducers/api";
 
 interface Props {
@@ -121,7 +121,7 @@ export default function UserModal(props: Props) {
   const emailReg =
     /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
 
-  const [createUser] = useOrganizationsUsersCreateMutation();
+  const [createUser] = useScopeUsersCreateMutation();
   const [updateUser] = useUsersPartialUpdateMutation();
 
   const selectedOrganization = useSelectedOrganization();
