@@ -404,6 +404,8 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationUpsertUserSerializer
@@ -413,7 +415,11 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.User.objects.none()
 
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.request.user.is_request_user
+        ):
             return (
                 models.User.objects.filter(
                     is_lambda_user=False,
