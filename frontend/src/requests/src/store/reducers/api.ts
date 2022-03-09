@@ -49,5 +49,9 @@ const api = createApi({
     }),
   }),
 });
-
+export const {
+  useGetOrganizationsQuery,
+  useGetRolesQuery,
+  useGetManagersQuery,
+} = api;
 export default api;

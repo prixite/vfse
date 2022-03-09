@@ -425,6 +425,7 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
                     is_lambda_user=False,
                     is_superuser=False,
                     is_supermanager=False,
+                    memberships__organization=self.kwargs["pk"],
                 )
                 .prefetch_related("memberships")
                 .select_related("profile")

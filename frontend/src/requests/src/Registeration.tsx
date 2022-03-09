@@ -15,8 +15,12 @@ import vfseLogo from "@src/assets/svgs/logo.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import SectionTwo from "@src/requests/src/components/Smart/SectionTwo/SectionTwo";
-import api from "@src/requests/src/store/reducers/api";
 import "@src/requests/src/Registeration.scss";
+import {
+  useGetOrganizationsQuery,
+  useGetRolesQuery,
+  useGetManagersQuery,
+} from "@src/requests/src/store/reducers/api";
 
 const emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
 
@@ -42,21 +46,36 @@ const Registeration = () => {
     useState<boolean>(false);
 
   const [organizationId, setOrganizationId] = useState<string>("");
-
-  const { data: userRoles = [] } = api.useGetRolesQuery();
-  const { data: organizations = [] } = api.useGetOrganizationsQuery();
-  const { data: managers = [] } = api.useGetManagersQuery(
+  const [role, setRole] = useState("");
+  const [manager, setManager] = useState<string>("");
+  const { data: userRoles = [] } = useGetRolesQuery();
+  const { data: organizations = [] } = useGetOrganizationsQuery();
+  const { data: managers = [] } = useGetManagersQuery(
     { organizationId },
     {
       skip: !organizationId,
     }
   );
-
   useEffect(() => {
     if (selectedImage?.length) {
       setImageError("");
     }
   }, [selectedImage]);
+  useEffect(() => {
+    if (organizations && organizations.length) {
+      setOrganizationId(organizations[0]?.id.toString());
+    }
+  }, [organizations]);
+  useEffect(() => {
+    if (userRoles && userRoles.length) {
+      setRole(userRoles[0]?.value);
+    }
+  }, [userRoles]);
+  useEffect(() => {
+    if (managers && managers.length) {
+      setManager(managers[1].id.toString());
+    }
+  }, [managers]);
   const handleFirstName = (e) => {
     setFirstNameError("");
     setFirstName(e.target.value);
@@ -107,7 +126,9 @@ const Registeration = () => {
       email?.length &&
       emailReg.test(email) == true &&
       phone?.length &&
-      phone?.length == 10
+      phone?.length == 10 &&
+      role &&
+      organizationId
     ) {
       setPage(2);
     }
@@ -186,7 +207,11 @@ const Registeration = () => {
                     <Select
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
+                      disabled={!userRoles.length}
                       defaultValue=""
+                      value={role}
+                      onChange={(event) => setRole(event.target.value)}
+                      className="info-field"
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
                       {userRoles.map((item, key) => (
@@ -204,8 +229,11 @@ const Registeration = () => {
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
                       defaultValue=""
+                      value={manager}
+                      disabled={!managers.length}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       className="info-field"
+                      onChange={(event) => setManager(event.target.value)}
                     >
                       {managers.map((item, key) => (
                         <MenuItem key={key} value={item.id}>
@@ -222,6 +250,7 @@ const Registeration = () => {
                   inputProps={{ "aria-label": "Without label" }}
                   style={{ height: "43px", borderRadius: "8px" }}
                   defaultValue=""
+                  disabled={!organizations.length}
                   value={organizationId}
                   onChange={(event) => setOrganizationId(event.target.value)}
                   MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
