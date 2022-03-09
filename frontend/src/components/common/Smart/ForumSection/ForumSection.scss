@@ -1,0 +1,11 @@
+.mobileForumSection {
+  .forumHeader {
+    display: flex;
+    justify-content: space-between;
+    .create-topic-btn {
+      .btn-content {
+        height: 28px;
+      }
+    }
+  }
+}
