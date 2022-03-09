@@ -178,3 +178,48 @@
 .my-checkbox-wrapper .MuiCheckbox-colorPrimary {
   color: "green" !important;
 }
+
+@media only screen and (max-width: 480px) {
+  .users-modal {
+    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+      width: 100%;
+      margin: 5px;
+    }
+    .css-d3d7qy-MuiFormControl-root {
+      min-width: unset;
+      width: 100%;
+    }
+    .modal-content {
+      .divided-div {
+        flex-direction: column;
+        .info-field {
+          width: 100%;
+        }
+      }
+    }
+
+    .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+      .title-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .modal-header {
+          font-weight: 600;
+          width: 35%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .dialog-page {
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          .pg-number {
+            padding: 0px;
+          }
+        }
+      }
+    }
+  }
+}
