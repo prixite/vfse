@@ -40,6 +40,7 @@ import {
   User,
   useUsersPartialUpdateMutation,
   useScopeUsersCreateMutation,
+  useOrganizationsUsersListQuery,
 } from "@src/store/reducers/api";
 
 interface Props {
@@ -98,6 +99,16 @@ export default function UserModal(props: Props) {
       skip: !customer,
     }
   );
+
+  const { data: managers = [] } = useOrganizationsUsersListQuery(
+    {
+      id: customer?.toString(),
+    },
+    {
+      skip: !customer,
+    }
+  );
+
   const {
     addNewUser,
     pageTrackerdesc1,
@@ -673,7 +684,7 @@ export default function UserModal(props: Props) {
                       onChange={handleManagerChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                     >
-                      {usersData?.map((item, key) => (
+                      {managers.map((item, key) => (
                         <MenuItem
                           key={key}
                           value={item?.id}
