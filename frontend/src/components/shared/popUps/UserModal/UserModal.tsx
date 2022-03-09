@@ -324,7 +324,7 @@ export default function UserModal(props: Props) {
           await addNewUserService(
             selectedOrganization.id,
             userObject,
-            createUser,
+            createUser
           )
             .then(() => {
               setTimeout(() => {
@@ -366,12 +366,7 @@ export default function UserModal(props: Props) {
 
   const performEditUser = async (data: string) => {
     const userObject = constructObject(data);
-    await updateUserService(
-      props?.selectedUser,
-      userObject,
-      updateUser,
-      props?.refetch
-    )
+    await updateUserService(props?.selectedUser, userObject, updateUser)
       .then(() => {
         setTimeout(() => {
           resetModal();

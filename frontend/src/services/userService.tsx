@@ -14,7 +14,7 @@ const addNewUserService = async (id, userObject, addNewUser) => {
     });
 };
 
-const updateUserService = async (id, userObject, updateUser, refetch) => {
+const updateUserService = async (id, userObject, updateUser) => {
   await updateUser({
     id: id?.toString(),
     upsertUser: userObject,
@@ -24,7 +24,6 @@ const updateUserService = async (id, userObject, updateUser, refetch) => {
       toast.success("User updated successfully.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: refetch,
       });
     });
 };
