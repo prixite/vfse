@@ -415,38 +415,32 @@ class OrganizationUserViewSet(ModelViewSet, mixins.UserMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.User.objects.none()
 
+        all_org_users = (
+            models.User.objects.filter(
+                is_lambda_user=False,
+                is_superuser=False,
+                is_supermanager=False,
+                is_request_user=False,
+                memberships__organization=self.kwargs["pk"],
+            )
+            .prefetch_related("memberships")
+            .select_related("profile")
+        )
+
         if (
             self.request.user.is_superuser
             or self.request.user.is_supermanager
             or self.request.user.is_request_user
         ):
-            return (
-                models.User.objects.filter(
-                    is_lambda_user=False,
-                    is_superuser=False,
-                    is_supermanager=False,
-                    memberships__organization=self.kwargs["pk"],
-                )
-                .prefetch_related("memberships")
-                .select_related("profile")
-            )
+            return all_org_users
 
-        membership = models.Membership.objects.filter(
-            organization=self.kwargs["pk"],
-            organization__in=self.request.user.get_organizations(
-                roles=[models.Role.USER_ADMIN]
-            ),
-        )
-
-        return (
-            models.User.objects.filter(
-                id__in=membership.values_list("user"),
-                is_lambda_user=False,
-                is_superuser=False,
-                is_supermanager=False,
-            )
-            .prefetch_related("memberships")
-            .select_related("profile")
+        return all_org_users.filter(
+            id__in=models.Membership.objects.filter(
+                organization=self.kwargs["pk"],
+                organization__in=self.request.user.get_organizations(
+                    roles=[models.Role.USER_ADMIN]
+                ),
+            ).values_list("user")
         )
 
     @transaction.atomic

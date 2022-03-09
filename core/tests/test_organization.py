@@ -74,8 +74,8 @@ class OrganizationTestCase(BaseTestCase):
 
     def test_user_list(self):
         for user, count in [
-            (self.super_admin, 12),
-            (self.super_manager, 12),
+            (self.super_admin, 10),
+            (self.super_manager, 10),
             (self.user_admin, 10),
         ]:
             self.client.force_login(user)
