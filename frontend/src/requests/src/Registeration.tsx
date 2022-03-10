@@ -109,13 +109,12 @@ const Registeration = () => {
       obj["meta"] = {
         profile_picture: imageUrl,
         title: "User Profile Image",
-      }
+      };
     }
-      if (manager !== "") {
-        obj["manager"] = parseInt(manager);
-      }
-      return obj;
-    
+    if (manager !== "") {
+      obj["manager"] = parseInt(manager);
+    }
+    return obj;
   };
   const onSubmit = useCallback(async () => {
     const imageURL = await uploadImageToS3(selectedImage[0])
