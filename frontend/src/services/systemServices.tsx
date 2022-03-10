@@ -71,19 +71,14 @@ const addNewSystemNoteService = async (
   authorID,
   systemID,
   note,
-  addNewNote,
-  refetch
+  addNewNote
 ) => {
   await addNewNote({
     id: systemID,
     systemNotes: { author: authorID, note },
-  })
-    .unwrap()
-    .then(() => {
-      refetch();
-    });
+  }).unwrap();
 };
-const deleteSystemNoteService = async (NoteId, deleteNote, refetchNote) => {
+const deleteSystemNoteService = async (NoteId, deleteNote) => {
   await deleteNote({
     id: NoteId,
   }).then(() => {
@@ -91,15 +86,9 @@ const deleteSystemNoteService = async (NoteId, deleteNote, refetchNote) => {
       autoClose: 1000,
       pauseOnHover: false,
     });
-    refetchNote();
   });
 };
-const updateSystemNoteService = async (
-  NoteId,
-  note,
-  updateNote,
-  refetchNote
-) => {
+const updateSystemNoteService = async (NoteId, note, updateNote) => {
   await updateNote({
     id: NoteId,
     noteSerialier: { note },
@@ -110,7 +99,6 @@ const updateSystemNoteService = async (
         autoClose: 1000,
         pauseOnHover: false,
       });
-      refetchNote();
     });
 };
 export {

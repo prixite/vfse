@@ -31,7 +31,7 @@ const CommentsDrawer = () => {
     (state) => state.app
   );
   const dispatch = useAppDispatch();
-  const { data: systemNotesList, refetch } = useSystemsNotesListQuery(
+  const { data: systemNotesList } = useSystemsNotesListQuery(
     {
       id: systemID,
     },
@@ -57,17 +57,12 @@ const CommentsDrawer = () => {
   const addNewComment = async () => {
     setIsLoading(true);
     if (note) {
-      await addNewSystemNoteService(
-        me?.id,
-        systemID,
-        note,
-        addNewNote,
-        refetch
-      ).catch(() =>
-        toast.error("Note not added", {
-          autoClose: 1000,
-          pauseOnHover: false,
-        })
+      await addNewSystemNoteService(me?.id, systemID, note, addNewNote).catch(
+        () =>
+          toast.error("Note not added", {
+            autoClose: 1000,
+            pauseOnHover: false,
+          })
       );
     }
     resetNoteHandler();
@@ -75,12 +70,7 @@ const CommentsDrawer = () => {
   };
   const generateComments = () =>
     systemNotesList.map((systemNote, index) => (
-      <CommentCard
-        key={index}
-        comment={systemNote}
-        userId={me?.id}
-        refetchNotes={refetch}
-      />
+      <CommentCard key={index} comment={systemNote} userId={me?.id} />
     ));
   return (
     <Drawer

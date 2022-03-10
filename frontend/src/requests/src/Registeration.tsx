@@ -9,11 +9,14 @@ import {
   FormControl,
   InputAdornment,
 } from "@mui/material";
+import { Buffer } from "buffer";
 
 import LoginImage from "@src/assets/images/loginImage.png";
 import vfseLogo from "@src/assets/svgs/logo.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import SectionTwo from "@src/requests/src/components/Smart/SectionTwo/SectionTwo";
 import "@src/requests/src/Registeration.scss";
 import api, {
@@ -22,8 +25,10 @@ import api, {
   useGetManagersQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
+  useOrganizationsModalitiesListQuery,
 } from "@src/requests/src/store/reducers/api";
 import { UserRequestAccess } from "@src/store/reducers/generated";
+window.Buffer = window.Buffer || Buffer;
 
 const emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
 
@@ -49,8 +54,10 @@ const Registeration = () => {
     useState<boolean>(false);
 
   const [organizationId, setOrganizationId] = useState<string>("");
-  const [role, setRole] = useState<UserRequestAccess["role"]>("fse");
+  const [role, setRole] = useState<string>("");
   const [manager, setManager] = useState<string>("");
+  const [selectedSites, setSelectedSites] = useState([]);
+  const [selectedModalities, setSelectedModalities] = useState([]);
   const { data: userRoles = [] } = useGetRolesQuery();
   const { data: organizations = [] } = useGetOrganizationsQuery();
   const { data: managers = [] } = useGetManagersQuery(
@@ -71,27 +78,57 @@ const Registeration = () => {
       skip: !organizationId,
     }
   );
+  const { data: modalitiesList = [] } = useOrganizationsModalitiesListQuery(
+    { organizationId },
+    {
+      skip: !organizationId,
+    }
+  );
 
   const [register] = api.useSendAccessRequestMutation();
 
-  const onSubmit = useCallback(async () => {
-    await register({
+  const constructObject = (imageUrl: string) => {
+    const obj = {
       first_name: firstName,
       last_name: lastName,
-      email,
-      phone: `+1${phone}`, // TODO: Remove duplication in +1. Use single variable in both html and this function.
-      role: role,
-      manager: parseInt(manager),
+      email: email,
+      phone: "+1" + phone,
+      role: role as UserRequestAccess["role"],
       organization: parseInt(organizationId),
+      sites: selectedSites,
+      modalities: selectedModalities,
       fse_accessible: accessToFSEFunctions,
       audit_enabled: auditEnable,
       can_leave_notes: possibilitytoLeave,
       view_only: viewOnly,
+      health_networks: [],
       is_one_time: oneTimeLinkCreation,
       documentation_url: docLink,
-      health_networks: [], // TODO: Link with state.
-      sites: [], // TODO: Link with state
-      modalities: [], // TODO: Link with state
+    };
+    if (imageUrl) {
+      obj["meta"] = {
+        profile_picture: imageUrl,
+        title: "User Profile Image",
+      }
+    }
+      if (manager !== "") {
+        obj["manager"] = parseInt(manager);
+      }
+      return obj;
+    
+  };
+  const onSubmit = useCallback(async () => {
+    const imageURL = await uploadImageToS3(selectedImage[0])
+      .then((data: S3Interface) => {
+        return data?.location;
+      })
+      .catch(() => {
+        return "";
+      });
+
+    const UserObject = constructObject(imageURL);
+    await register({
+      ...UserObject,
     }).unwrap();
   }, [
     firstName,
@@ -107,6 +144,8 @@ const Registeration = () => {
     viewOnly,
     oneTimeLinkCreation,
     docLink,
+    selectedModalities,
+    selectedSites,
   ]);
 
   useEffect(() => {
@@ -332,6 +371,11 @@ const Registeration = () => {
               setOneTimeLinkCreation={setOneTimeLinkCreation}
               organizationSites={organizationSites}
               HealthNetworks={HealthNetworks}
+              modalitiesList={modalitiesList}
+              selectedSites={selectedSites}
+              setSelectedSites={setSelectedSites}
+              selectedModalities={selectedModalities}
+              setSelectedModalities={setSelectedModalities}
             />
           )}
           <>

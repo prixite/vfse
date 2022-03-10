@@ -6,10 +6,23 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    .info-label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 25px;
+    }
     .checked-ratio {
       color: #85878f;
       margin-top: 25px;
     }
+  }
+  .toggle-btn {
+    min-width: 65px;
+    margin-right: 12px !important;
+    border: 1px solid #d4d6db !important;
+    border-radius: 8px !important;
+    margin-bottom: 18px;
+    padding: 8px 24px;
   }
   .network-details {
     background: #fcfcfd;

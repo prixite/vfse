@@ -10,15 +10,9 @@ import { useNotesPartialUpdateMutation } from "@src/store/reducers/api";
 interface EditCommentProps {
   noteId: number;
   note: string;
-  refetchNotes: () => void;
   setEditMode: Dispatch<SetStateAction<boolean>>;
 }
-const EditComment = ({
-  note,
-  noteId,
-  refetchNotes,
-  setEditMode,
-}: EditCommentProps) => {
+const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
   const [editNote, setEditNote] = useState(note);
   const [isLoading, setIsLoading] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -30,12 +24,7 @@ const EditComment = ({
   };
   const editCommentHandler = async () => {
     setIsLoading(true);
-    await updateSystemNoteService(
-      noteId,
-      editNote,
-      updateNote,
-      refetchNotes
-    ).catch(() => {
+    await updateSystemNoteService(noteId, editNote, updateNote).catch(() => {
       toast.error("Failed to update comment", {
         autoClose: 1000,
         pauseOnHover: true,
