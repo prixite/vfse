@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import {
   Box,
@@ -16,13 +16,14 @@ import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
 import SectionTwo from "@src/requests/src/components/Smart/SectionTwo/SectionTwo";
 import "@src/requests/src/Registeration.scss";
-import {
+import api, {
   useGetOrganizationsQuery,
   useGetRolesQuery,
   useGetManagersQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
 } from "@src/requests/src/store/reducers/api";
+import { UserRequestAccess } from "@src/store/reducers/generated";
 
 const emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
 
@@ -48,7 +49,7 @@ const Registeration = () => {
     useState<boolean>(false);
 
   const [organizationId, setOrganizationId] = useState<string>("");
-  const [role, setRole] = useState("");
+  const [role, setRole] = useState<UserRequestAccess["role"]>("fse");
   const [manager, setManager] = useState<string>("");
   const { data: userRoles = [] } = useGetRolesQuery();
   const { data: organizations = [] } = useGetOrganizationsQuery();
@@ -70,6 +71,43 @@ const Registeration = () => {
       skip: !organizationId,
     }
   );
+
+  const [register] = api.useSendAccessRequestMutation();
+
+  const onSubmit = useCallback(async () => {
+    await register({
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      phone: `+1${phone}`, // TODO: Remove duplication in +1. Use single variable in both html and this function.
+      role: role,
+      manager: parseInt(manager),
+      organization: parseInt(organizationId),
+      fse_accessible: accessToFSEFunctions,
+      audit_enabled: auditEnable,
+      can_leave_notes: possibilitytoLeave,
+      view_only: viewOnly,
+      is_one_time: oneTimeLinkCreation,
+      documentation_url: docLink,
+      health_networks: [], // TODO: Link with state.
+      sites: [], // TODO: Link with state
+      modalities: [], // TODO: Link with state
+    }).unwrap();
+  }, [
+    firstName,
+    lastName,
+    email,
+    phone,
+    role,
+    manager,
+    organizationId,
+    accessToFSEFunctions,
+    auditEnable,
+    possibilitytoLeave,
+    viewOnly,
+    oneTimeLinkCreation,
+    docLink,
+  ]);
 
   useEffect(() => {
     if (selectedImage?.length) {
@@ -306,7 +344,9 @@ const Registeration = () => {
                 <Button className="register-btn" onClick={() => setPage(1)}>
                   Back
                 </Button>
-                <Button className="register-btn">Register</Button>
+                <Button className="register-btn" onClick={() => onSubmit()}>
+                  Register
+                </Button>
               </Box>
             )}
           </>

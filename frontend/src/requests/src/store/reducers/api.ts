@@ -52,11 +52,8 @@ const api = createApi({
         url: `/organizations/${organizationId}/sites/`,
       }),
     }),
-    sendAccessRequest: builder.mutation<
-      UserRequestAccess,
-      { data: UserRequestAccess }
-    >({
-      query: ({ data }) => ({
+    sendAccessRequest: builder.mutation<UserRequestAccess, UserRequestAccess>({
+      query: (data) => ({
         url: `/accounts/requests/`,
         method: "POST",
         body: data,
