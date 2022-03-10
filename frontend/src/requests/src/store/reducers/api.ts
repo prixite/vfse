@@ -7,6 +7,7 @@ import {
   User,
   UserRequestAccess,
   Site,
+  Modality,
 } from "@src/store/reducers/generated";
 
 const token = process.env.REQUEST_TOKEN;
@@ -52,6 +53,14 @@ const api = createApi({
         url: `/organizations/${organizationId}/sites/`,
       }),
     }),
+    organizationsModalitiesList: builder.query<
+      Modality[],
+      { organizationId: string }
+    >({
+      query: ({ organizationId }) => ({
+        url: `/organizations/${organizationId}/modalities/`,
+      }),
+    }),
     sendAccessRequest: builder.mutation<UserRequestAccess, UserRequestAccess>({
       query: (data) => ({
         url: `/accounts/requests/`,
@@ -67,5 +76,6 @@ export const {
   useGetManagersQuery,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
+  useOrganizationsModalitiesListQuery,
 } = api;
 export default api;

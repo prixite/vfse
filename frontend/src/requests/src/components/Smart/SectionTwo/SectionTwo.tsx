@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Box, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
+import {
+  Box,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 
 import "@src/requests/src/components/Smart/SectionTwo/SectionTwo.scss";
 import Permissions from "@src/requests/src/components/Presentational/Permissions/Permissions";
-import { HealthNetwork, Site } from "@src/store/reducers/generated";
+import { HealthNetwork, Modality, Site } from "@src/store/reducers/generated";
 interface SectionTwoProps {
   docLink: boolean;
   setDocLink: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,6 +27,11 @@ interface SectionTwoProps {
   setOneTimeLinkCreation: React.Dispatch<React.SetStateAction<boolean>>;
   organizationSites: Site[];
   HealthNetworks: HealthNetwork[];
+  modalitiesList: Modality[];
+  selectedSites: unknown[];
+  setSelectedSites: React.Dispatch<React.SetStateAction<unknown[]>>;
+  selectedModalities: unknown[];
+  setSelectedModalities: React.Dispatch<React.SetStateAction<unknown[]>>;
 }
 const SectionTwo = ({
   docLink,
@@ -36,8 +48,12 @@ const SectionTwo = ({
   setOneTimeLinkCreation,
   organizationSites,
   HealthNetworks,
+  modalitiesList,
+  selectedSites,
+  setSelectedSites,
+  selectedModalities,
+  setSelectedModalities,
 }: SectionTwoProps) => {
-  const [selectedSites, setSelectedSites] = useState([]);
   const handleSitesSelection = (e) => {
     const val = parseInt(e.target.value);
     if (selectedSites.indexOf(val) > -1) {
@@ -46,6 +62,10 @@ const SectionTwo = ({
     } else {
       setSelectedSites([...selectedSites, parseInt(e.target.value)]);
     }
+  };
+
+  const handleSelectedModalities = (event, newFormats) => {
+    setSelectedModalities(newFormats);
   };
   const sitesLength = () => {
     let count = 0;
@@ -131,6 +151,30 @@ const SectionTwo = ({
       ) : (
         ""
       )}
+      <div>
+        {modalitiesList?.length ? (
+          <p className="modalities-header">
+            <span className="info-label">Access to modalities</span>
+            <span className="checked-ratio">{`${selectedModalities?.length}/${modalitiesList?.length}`}</span>
+          </p>
+        ) : (
+          ""
+        )}
+        <ToggleButtonGroup
+          value={selectedModalities}
+          color="primary"
+          onChange={handleSelectedModalities}
+          aria-label="text formatting"
+          style={{ flexWrap: "wrap", justifyContent: "center" }}
+        >
+          {modalitiesList?.length &&
+            modalitiesList?.map((item, key) => (
+              <ToggleButton key={key} value={item?.id} className="toggle-btn">
+                {item?.name}
+              </ToggleButton>
+            ))}
+        </ToggleButtonGroup>
+      </div>
       <Permissions
         docLink={docLink}
         setDocLink={setDocLink}

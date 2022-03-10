@@ -141,11 +141,25 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       invalidatesTags: ["SystemImage"],
     },
     systemsNotesList: {
-      providesTags: (result, error, { id }) => [
+      providesTags: (result = [], error, { id }) => [
+        ...result.map(({ id }) => ({
+          type: "Note" as const,
+          id: `Notes-${id}`,
+        })),
         { type: "Note", id: `Notes-${id}` },
       ],
     },
     systemsNotesCreate: {
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Note", id: `Notes-${id}` },
+      ],
+    },
+    notesDelete: {
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Note", id: `Notes-${id}` },
+      ],
+    },
+    notesPartialUpdate: {
       invalidatesTags: (result, error, { id }) => [
         { type: "Note", id: `Notes-${id}` },
       ],

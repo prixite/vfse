@@ -15,9 +15,8 @@ import "@src/components/common/Presentational/CommentCard/CommentCard.scss";
 interface CommentProps {
   comment: SystemNotes;
   userId: number;
-  refetchNotes: () => void;
 }
-const CommentCard = ({ comment, userId, refetchNotes }: CommentProps) => {
+const CommentCard = ({ comment, userId }: CommentProps) => {
   const [readmore, setReadMore] = useState(true);
   const [isTextGreater, setIsTextGreater] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -33,14 +32,12 @@ const CommentCard = ({ comment, userId, refetchNotes }: CommentProps) => {
   }, [comment?.note]);
 
   const handleNoteDelete = async () => {
-    await deleteSystemNoteService(comment?.id, deleteNote, refetchNotes).catch(
-      () => {
-        toast.error("Comment Failed to Delete", {
-          autoClose: 1000,
-          pauseOnHover: true,
-        });
-      }
-    );
+    await deleteSystemNoteService(comment?.id, deleteNote).catch(() => {
+      toast.error("Comment Failed to Delete", {
+        autoClose: 1000,
+        pauseOnHover: true,
+      });
+    });
     handleClose();
   };
   return (
@@ -104,7 +101,6 @@ const CommentCard = ({ comment, userId, refetchNotes }: CommentProps) => {
           <EditComment
             note={comment?.note}
             noteId={comment?.id}
-            refetchNotes={refetchNotes}
             setEditMode={setEditMode}
           />
         )}
