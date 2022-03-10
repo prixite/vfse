@@ -2,9 +2,16 @@
   .forumHeader {
     display: flex;
     justify-content: space-between;
-    .create-topic-btn {
+    height: 47px;
+    .AddTopicsbtn {
+      width: unset;
+      text-align: center;
+      min-width: unset;
+      padding: 4px 12px;
       .btn-content {
-        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }
