@@ -1,8 +1,15 @@
 import { createServer, Model } from "miragejs";
 
+import badgeIcon from "@src/assets/svgs/Badge.svg";
+import buttonsIcon from "@src/assets/svgs/Buttons.svg";
+import followersIcon from "@src/assets/svgs/followers.svg";
 import ConnectIcon from "@src/assets/svgs/Green_Btn.svg";
+import messageIcon from "@src/assets/svgs/message.svg";
+import profileIcon from "@src/assets/svgs/profilepic.svg";
+import sampleIcon from "@src/assets/svgs/sampleimg.svg";
 import SystemIcon from "@src/assets/svgs/system.svg";
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
+
 export function makeServer({ environment }) {
   const work_data = {
     All: {
@@ -99,6 +106,69 @@ export function makeServer({ environment }) {
       status: false,
     },
   ];
+  const timeline_info = [
+    {
+      card_text:
+        "I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a lifestyle in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and...",
+      card_text_title: "Clinical Specialist for MedTronics",
+      followers_text: "24 followers",
+      message_text: "142",
+      ultra_image: badgeIcon,
+      follower_btn: buttonsIcon,
+      message_icon: messageIcon,
+      followers_icon: followersIcon,
+      profile_icon: profileIcon,
+      user_name: "Alex Jacobs",
+      post_time: "3 hours ago",
+      sample_icon: sampleIcon,
+    },
+    {
+      card_text:
+        "I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a lifestyle in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and...",
+      card_text_title: "Clinical Specialist for MedTronics",
+      followers_text: "24 followers",
+      message_text: "142",
+      device_number: "2,220",
+      ultra_image: badgeIcon,
+      follower_btn: buttonsIcon,
+      message_icon: messageIcon,
+      followers_icon: followersIcon,
+      profile_icon: profileIcon,
+      user_name: "Alex Jacobs",
+      post_time: "3 hours ago",
+      sample_icon: sampleIcon,
+    },
+    {
+      card_text:
+        "I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a lifestyle in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and...",
+      card_text_title: "Clinical Specialist for MedTronics",
+      followers_text: "24 followers",
+      message_text: "142",
+      ultra_image: badgeIcon,
+      follower_btn: buttonsIcon,
+      message_icon: messageIcon,
+      followers_icon: followersIcon,
+      profile_icon: profileIcon,
+      user_name: "Alex Jacobs",
+      post_time: "3 hours ago",
+      sample_icon: sampleIcon,
+    },
+    {
+      card_text:
+        "I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a lifestyle in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and...",
+      card_text_title: "Clinical Specialist for MedTronics",
+      followers_text: "24 followers",
+      message_text: "142",
+      ultra_image: badgeIcon,
+      follower_btn: buttonsIcon,
+      message_icon: messageIcon,
+      followers_icon: followersIcon,
+      profile_icon: profileIcon,
+      user_name: "Alex Jacobs",
+      post_time: "3 hours ago",
+      sample_icon: sampleIcon,
+    },
+  ];
   return createServer({
     environment,
     models: {
@@ -111,6 +181,9 @@ export function makeServer({ environment }) {
       });
       this.get("/api/mockorders", () => {
         return work_data;
+      });
+      this.get("/api/mockuserposts", () => {
+        return timeline_info;
       });
       this.passthrough("https://vfse.s3-us-east-2.amazonaws.com");
       this.passthrough();

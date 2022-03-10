@@ -30,23 +30,19 @@ export default function ForumSection() {
       ) : (
         <div className="mobileForumSection">
           <div className="forumHeader">
-            <h2 className="heading" style={{ marginBottom: "32px" }}>
-              {forum}
-            </h2>
-            <div className="create-topic-btn">
-              <Button
-                style={{
-                  backgroundColor: buttonBackground,
-                  color: buttonTextColor,
-                }}
-                variant="contained"
-                className="AddTopicsbtn"
-              >
-                <div className="btn-content">
-                  <AddIcon />
-                </div>
-              </Button>
-            </div>
+            <h2 className="heading">{forum}</h2>
+            <Button
+              style={{
+                backgroundColor: buttonBackground,
+                color: buttonTextColor,
+              }}
+              variant="contained"
+              className="AddTopicsbtn"
+            >
+              <div className="btn-content">
+                <AddIcon />
+              </div>
+            </Button>
           </div>
           <VfseTopSection />
           <ProfileTimeline />
