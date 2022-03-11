@@ -157,13 +157,12 @@ export default function VfseTopSection() {
           </div>
         </Box>
       ) : (
-        <Box className="rootSection">
+        <Box className="mobilerootSection">
           <Box
             component="form"
             sx={{
               "& .MuiTextField-root": {
                 m: 0,
-                mr: 1,
                 width: "25ch",
                 backgroundColor: "white",
               },
@@ -192,7 +191,7 @@ export default function VfseTopSection() {
           </Box>
           <div>
             <FormControl
-              sx={{ m: 0, mr: 1, minWidth: 55, backgroundColor: "white" }}
+              sx={{ m: 0, minWidth: 55, backgroundColor: "white" }}
               size="small"
             >
               <InputLabel id="sort-by-categoty">Sort by:</InputLabel>
@@ -217,7 +216,7 @@ export default function VfseTopSection() {
           </div>
           <div>
             <FormControl
-              sx={{ m: 0, mr: 1, minWidth: 55, backgroundColor: "white" }}
+              sx={{ m: 0, minWidth: 55, backgroundColor: "white" }}
               size="small"
             >
               <InputLabel id="filter-dropdown">Filter:</InputLabel>
