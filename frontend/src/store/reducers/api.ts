@@ -21,6 +21,9 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     organizationsCreate: {
       invalidatesTags: ["Organization"],
     },
+    organizationsDelete: {
+      invalidatesTags: ["Organization"],
+    },
     healthNetworksList: {
       providesTags: ["HealthNetwork"],
     },
