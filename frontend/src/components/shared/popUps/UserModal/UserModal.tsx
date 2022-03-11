@@ -683,6 +683,7 @@ export default function UserModal(props: Props) {
                       }}
                       onChange={handleManagerChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
+                      disabled={!managers.length}
                     >
                       {managers.map((item, key) => (
                         <MenuItem
