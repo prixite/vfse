@@ -30,7 +30,6 @@ import {
 interface ClientCardProps {
   setOrganization: Dispatch<SetStateAction<Organization>>;
   row: Organization;
-  refetch: () => void;
   id: number;
   logo: string;
   name: string;
@@ -42,7 +41,6 @@ const ClientCard = ({
   id,
   logo,
   name,
-  refetch,
   row,
   setOrganization,
   setAction,
@@ -94,7 +92,7 @@ const ClientCard = ({
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    await DeleteOrganizationService(id, deleteOrganization, refetch);
+    await DeleteOrganizationService(id, deleteOrganization);
     toast.success("Organization successfully deleted", {
       autoClose: 1000,
       pauseOnHover: false,
