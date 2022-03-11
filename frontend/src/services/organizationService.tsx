@@ -15,11 +15,10 @@ const updateOrganizationColor = async (
     onClose: refetchOrgList,
   });
 };
-const DeleteOrganizationService = async (id, deleteOrganization, refetch) => {
+const DeleteOrganizationService = async (id, deleteOrganization) => {
   await deleteOrganization({
     id: id.toString(),
   }).unwrap();
-  refetch(); // TODO: invalidate cache instead of this.
 };
 const updateOrganizationService = async (
   id,

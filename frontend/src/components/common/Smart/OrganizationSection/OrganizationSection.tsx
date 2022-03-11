@@ -226,7 +226,6 @@ const OrganizationSection = () => {
                         setAction={setAction}
                         setOrganization={setOrganization}
                         row={item}
-                        refetch={refetch}
                         id={item.id}
                         name={item.name}
                         logo={item.appearance.logo}
@@ -285,7 +284,6 @@ const OrganizationSection = () => {
                           setAction={setAction}
                           setOrganization={setOrganization}
                           row={item}
-                          refetch={refetch}
                           id={item.id}
                           name={item.name}
                           logo={item.appearance.logo}
