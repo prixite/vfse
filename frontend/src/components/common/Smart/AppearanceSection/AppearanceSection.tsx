@@ -25,7 +25,6 @@ import {
 } from "@src/store/hooks";
 import {
   Organization,
-  useOrganizationsListQuery,
   useOrganizationsPartialUpdateMutation,
 } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
@@ -49,9 +48,6 @@ const AppearanceSection = () => {
   const [secondColor, setSecondColor] = useState("");
   const [sideBarFont, setSideBarFont] = useState("");
   const [mainContentFont, setMainContentFont] = useState("");
-  const { refetch: refetchOrgList } = useOrganizationsListQuery({
-    page: 1,
-  });
   const [isLoading, setIsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState([]);
   const { newOrganizationFont1, newOrganizationFont2 } =
@@ -158,8 +154,7 @@ const AppearanceSection = () => {
     }
     await updateOrganizationColor(
       organizationsPartialUpdate,
-      currentOrganiationDummyData,
-      refetchOrgList
+      currentOrganiationDummyData
     );
     setIsLoading(false);
   };
