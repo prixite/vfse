@@ -140,15 +140,18 @@ const AppearanceSection = () => {
     if (selectedImage && selectedImage.length) {
       currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
         .then((data: S3Interface) => {
-          currentOrganiationDummyData.appearance.banner = data?.location;
-          currentOrganiationDummyData.appearance.logo = data?.location;
-          currentOrganiationDummyData.appearance.icon = data?.location;
+          const tempData = JSON.parse(
+            JSON.stringify(currentOrganiationDummyData)
+          );
+          tempData.appearance["banner"] = data?.location;
+          tempData.appearance["logo"] = data?.location;
+          tempData.appearance["icon"] = data?.location;
           dispatch(
             setSelectedOrganization({
               selectedOrganization: currentOrganiationDummyData,
             })
           );
-          return currentOrganiationDummyData;
+          return tempData;
         })
         .catch(() => currentOrganiationDummyData); // eslint-disable-line no-unused-vars
     }
