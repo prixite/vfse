@@ -92,7 +92,6 @@ const ModalitySection = () => {
                     setOpen={setOpen}
                     setOrganization={setNetwork}
                     row={item}
-                    refetch={orgNetworkRefetch}
                     networkId={item.id}
                     name={item.name}
                     logo={item?.appearance?.logo}
@@ -123,7 +122,6 @@ const ModalitySection = () => {
                   setOpen={setOpen}
                   setOrganization={setNetwork}
                   row={item}
-                  refetch={orgNetworkRefetch}
                   networkId={item.id}
                   name={item.name}
                   logo={item?.appearance?.logo}

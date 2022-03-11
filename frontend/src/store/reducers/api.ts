@@ -22,7 +22,12 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       invalidatesTags: ["Organization"],
     },
     organizationsDelete: {
-      invalidatesTags: ["Organization"],
+      invalidatesTags: (_, error, { id }) => {
+        return [
+          { type: "HealthNetwork" as const, id: `HealthNetworks-${id}` },
+          "Organization",
+        ];
+      },
     },
     organizationsPartialUpdate: {
       invalidatesTags: ["Organization"],
@@ -31,9 +36,15 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       providesTags: ["HealthNetwork"],
     },
     organizationsHealthNetworksList: {
-      providesTags: (result, error, { id }) => [
-        { type: "HealthNetwork", id: `HealthNetworks-${id}` },
-      ],
+      providesTags: (result = [], error, { id }) => {
+        return [
+          ...result.map(({ id }) => ({
+            type: "HealthNetwork" as const,
+            id: `HealthNetworks-${id}`,
+          })),
+          { type: "HealthNetwork", id: `HealthNetworks-${id}` },
+        ];
+      },
     },
     organizationsHealthNetworksCreate: {
       invalidatesTags: (result, error, { id }) => [
