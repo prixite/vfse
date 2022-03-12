@@ -1,10 +1,10 @@
 import json
 
 import boto3
+from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
-from influxdb_client import InfluxDBClient
 from rest_framework import exceptions
 from rest_framework.authentication import (
     SessionAuthentication,
@@ -16,14 +16,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from app.settings import (
-    AWS_THUMBNAIL_LAMBDA_ARN,
-    INFLUX_BUCKET,
-    INFLUX_DB_URL,
-    INFLUX_ORG,
-    INFLUX_TOKEN,
-)
-from core import filters, models, permissions, serializers
+from core import filters, models, permissions, serializers, utils
 from core.views import mixins
 
 
@@ -70,11 +63,11 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
             "logo" in serializer.validated_data.get("appearance", [])
             and serializer.instance.appearance.get("logo")
             != serializer.validated_data["appearance"]["logo"]
-            and AWS_THUMBNAIL_LAMBDA_ARN is not None
+            and settings.AWS_THUMBNAIL_LAMBDA_ARN is not None
         ):
             client = boto3.client("lambda")
             client.invoke(
-                FunctionName=AWS_THUMBNAIL_LAMBDA_ARN,
+                FunctionName=settings.AWS_THUMBNAIL_LAMBDA_ARN,
                 Payload=json.dumps(
                     {
                         "appearance": serializer.validated_data["appearance"],
@@ -290,6 +283,21 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters
 
+    def get_serializer_class(self, *args, **kwargs):
+        if self.action == "update_from_influxdb":
+            return serializers.InfluxSystemsSerializer
+        return super().get_serializer_class(*args, **kwargs)
+
+    def update_from_influxdb(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        response_list = []
+        for system in serializer.validated_data["systems"]:
+            response = utils.fetch_from_influxdb(system.id)
+            serialized_system = serializers.SystemSerializer(instance=response)
+            response_list.append(serialized_system.data)
+        return Response(response_list)
+
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
@@ -325,35 +333,9 @@ class SystemViewSet(OrganizationSystemViewSet):
     lookup_url_kwarg = "system_pk"
 
     def update_from_influx(self, request, *args, **kwargs):
-        city_name = "Plantation"
-        system = models.System.objects.get(id=kwargs["system_pk"])
-        with InfluxDBClient(
-            url=INFLUX_DB_URL,
-            token=INFLUX_TOKEN,
-            org=INFLUX_ORG,
-        ) as client:
-            query = f"""
-            from(bucket: "{INFLUX_BUCKET}")
-            |> range(start: -7d)
-            |> filter(fn:(r) => r._measurement=="HeLevel" and r._field=="value")
-            |> filter(fn:(r) => r["IPAddress"]=="{system.ip_address}" and r["CityName"]=="{city_name}")
-            |> sort(columns: ["_time"], desc: false)
-            |> last()
-            """  # noqa
-            tables = client.query_api().query(query, org=INFLUX_ORG)
-
-            try:
-                system.mri_embedded_parameters["helium"] = tables[0].records[0][
-                    "_value"
-                ]
-                system.save()
-            except IndexError:
-                pass
-            finally:
-                client.close()
-
-            serializer = self.get_serializer(system)
-            return Response(serializer.data)
+        response = utils.fetch_from_influxdb(self.kwargs["system_pk"])
+        serializer = self.get_serializer(response)
+        return Response(serializer.data)
 
 
 class UserViewSet(ModelViewSet, mixins.UserMixin):

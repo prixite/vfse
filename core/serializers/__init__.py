@@ -649,3 +649,9 @@ class HealthNetworkListSerializer(serializers.ModelSerializer):
 class RoleSerializer(serializers.Serializer):
     value = serializers.CharField()
     title = serializers.CharField()
+
+
+class InfluxSystemsSerializer(serializers.Serializer):
+    systems = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=models.System.objects.all()
+    )

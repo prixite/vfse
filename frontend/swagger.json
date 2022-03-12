@@ -786,6 +786,31 @@
                     "organizations"
                 ]
             },
+            "put": {
+                "operationId": "organizations_systems_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/InfluxSystems"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/InfluxSystems"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
             "parameters": [
                 {
                     "name": "id",
@@ -2636,6 +2661,22 @@
                     "items": {
                         "$ref": "#/definitions/SiteCreate"
                     }
+                }
+            }
+        },
+        "InfluxSystems": {
+            "description": "",
+            "required": [
+                "systems"
+            ],
+            "type": "object",
+            "properties": {
+                "systems": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
                 }
             }
         },
