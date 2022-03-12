@@ -47,13 +47,10 @@ const OrganizationSection = () => {
     Array<Organization>
   >([]);
   const selectedOrganization = useSelectedOrganization();
-  const {
-    data: organizationList,
-    refetch,
-    isFetching: isOrgListFetching,
-  } = useOrganizationsListQuery({
-    page: 1,
-  });
+  const { data: organizationList, isFetching: isOrgListFetching } =
+    useOrganizationsListQuery({
+      page: 1,
+    });
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -307,7 +304,6 @@ const OrganizationSection = () => {
                 organization={organization}
                 open={openAddClientModal}
                 handleClose={handleClose}
-                refetch={refetch}
               />
             ) : (
               ""
