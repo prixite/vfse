@@ -247,6 +247,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.system,
       }),
     }),
+    organizationsSystemsUpdate: build.mutation<
+      OrganizationsSystemsUpdateApiResponse,
+      OrganizationsSystemsUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/`,
+        method: "PUT",
+        body: queryArg.influxSystems,
+      }),
+    }),
     organizationsSystemsPartialUpdate: build.mutation<
       OrganizationsSystemsPartialUpdateApiResponse,
       OrganizationsSystemsPartialUpdateApiArg
@@ -670,6 +680,12 @@ export type OrganizationsSystemsCreateApiArg = {
   id: string;
   system: System;
 };
+export type OrganizationsSystemsUpdateApiResponse =
+  /** status 200  */ InfluxSystems;
+export type OrganizationsSystemsUpdateApiArg = {
+  id: string;
+  influxSystems: InfluxSystems;
+};
 export type OrganizationsSystemsPartialUpdateApiResponse =
   /** status 200  */ System;
 export type OrganizationsSystemsPartialUpdateApiArg = {
@@ -1021,6 +1037,9 @@ export type OrganizationSite = {
   id?: number;
   sites: SiteCreate[];
 };
+export type InfluxSystems = {
+  systems: number[];
+};
 export type Manager = {
   email: string;
   name: string;
@@ -1156,6 +1175,7 @@ export const {
   useOrganizationsSitesUpdateMutation,
   useOrganizationsSystemsListQuery,
   useOrganizationsSystemsCreateMutation,
+  useOrganizationsSystemsUpdateMutation,
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsSystemsDeleteMutation,
   useOrganizationsSystemsUpdateFromInfluxMutation,

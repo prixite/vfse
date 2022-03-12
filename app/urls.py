@@ -128,6 +128,7 @@ api_urlpatterns = [
             {
                 "get": "list",
                 "post": "create",
+                "put": "update_from_influxdb",
             }
         ),
     ),
