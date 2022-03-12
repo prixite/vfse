@@ -23,7 +23,6 @@ interface NetworkCardProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setOrganization: Dispatch<SetStateAction<Organization>>;
   row: HealthNetwork;
-  refetch: () => void;
   networkId: number;
   logo: string;
   name: string;
@@ -35,7 +34,6 @@ const NetworkCard = ({
   logo,
   name,
   sitesCount,
-  refetch,
   row,
   setOrganization,
   setAction,
@@ -65,7 +63,7 @@ const NetworkCard = ({
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
-    await DeleteOrganizationService(networkId, deleteOrganization, refetch);
+    await DeleteOrganizationService(networkId, deleteOrganization);
     toast.success("Network successfully deleted", {
       autoClose: 1000,
       pauseOnHover: false,
