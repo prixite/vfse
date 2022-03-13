@@ -41,7 +41,6 @@ export default function OrganizationModal({
   organization,
   open,
   handleClose,
-  refetch,
 }) {
   const [page, setPage] = useState("");
   const [organizationName, setOrganizationName] = useState("");
@@ -71,7 +70,6 @@ export default function OrganizationModal({
     data: networksData,
     error,
     isLoading: isNetworkDataLoading,
-    refetch: refetchNetworksList,
   } = useOrganizationsHealthNetworksListQuery(
     {
       id: organizationID,
@@ -239,8 +237,7 @@ export default function OrganizationModal({
             await updateOrganizationService(
               organizationID,
               organizationObject,
-              updateOrganization,
-              refetch
+              updateOrganization
             )
               .then(() => setPage("2"))
               .catch(() =>
@@ -258,8 +255,7 @@ export default function OrganizationModal({
         await updateOrganizationService(
           organizationID,
           organizationObject,
-          updateOrganization,
-          refetch
+          updateOrganization
         )
           .then(() => setPage("2"))
           .catch(() =>
@@ -313,8 +309,7 @@ export default function OrganizationModal({
         await addNewHealthNetworksService(
           organizationID,
           addNewNetworks,
-          TempNetworks,
-          refetchNetworksList
+          TempNetworks
         ).then(() => {
           resetModal();
         });
@@ -668,7 +663,6 @@ export default function OrganizationModal({
 
 OrganizationModal.propTypes = {
   organization: PropTypes.object,
-  refetch: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   action: PropTypes.string.isRequired,

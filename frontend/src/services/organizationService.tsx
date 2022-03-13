@@ -21,8 +21,7 @@ const DeleteOrganizationService = async (id, deleteOrganization) => {
 const updateOrganizationService = async (
   id,
   organization,
-  updateOrganization,
-  refetch
+  updateOrganization
 ) => {
   await updateOrganization({ id, organization })
     .unwrap()
@@ -30,7 +29,6 @@ const updateOrganizationService = async (
       toast.success("Organization Updated.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: refetch,
       });
     });
 };
@@ -105,8 +103,7 @@ const addNewHealthNetworkService = async (
 const addNewHealthNetworksService = async (
   organizationId,
   addNewNetworks,
-  networks,
-  refetchNetworksList
+  networks
 ) => {
   await addNewNetworks({
     id: organizationId,
@@ -114,7 +111,6 @@ const addNewHealthNetworksService = async (
   })
     .unwrap()
     .then(() => {
-      refetchNetworksList();
       toast.success("HealthNetwork Successfully Added", {
         autoClose: 1000,
         pauseOnHover: false,
