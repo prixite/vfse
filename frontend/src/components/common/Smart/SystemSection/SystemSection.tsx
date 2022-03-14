@@ -57,6 +57,7 @@ const SystemSection = () => {
   const [searchText, setSearchText] = useState("");
   const [firstRender, setFirstRender] = useState(true);
   const [modality, setModality] = useState();
+  const [callSystemsApi, setCallSystemsApi] = useState(false);
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
   const { siteId, networkId } =
@@ -97,7 +98,9 @@ const SystemSection = () => {
   });
 
   const { data: systemsData, isLoading: isSystemDataLoading } =
-    useOrganizationsSystemsListQuery(apiArgData);
+    useOrganizationsSystemsListQuery(apiArgData, {
+      skip: !(apiArgData && callSystemsApi),
+    });
 
   const [updateFromInflux] = useOrganizationsSystemsUpdateFromInfluxMutation();
 
@@ -198,7 +201,7 @@ const SystemSection = () => {
   useEffect(() => {
     if (searchText?.length > 2 && systemList?.results) {
       setItemsList(systemList?.results);
-    } else if (systemsData?.length && searchText?.length <= 2) {
+    } else if (systemsData && searchText?.length <= 2 && !isSystemDataLoading) {
       setItemsList(systemsData);
     } else if (!isSystemDataLoading) {
       setFirstRender(false);
@@ -295,6 +298,7 @@ const SystemSection = () => {
     if (modality) {
       setApiArgData({ ...apiArgData, modality });
     }
+    setCallSystemsApi(true);
   }, [modality]);
 
   const addBreadcrumbs = () => {
