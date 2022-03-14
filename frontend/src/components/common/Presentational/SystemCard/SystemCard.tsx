@@ -123,15 +123,15 @@ const SystemCard = ({ system, handleEdit }: SystemInterface) => {
             <div style={{ marginRight: "32px" }}>
               <p className="option">
                 {his_ris_info_txt} <br />
-                <strong>{system.his_ris_info?.title}</strong>
+                <strong>{system.his_ris_info?.title || "-"}</strong>
               </p>
               <p className="option">
                 {dicom_info_txt} <br />
-                <strong>{system.dicom_info?.title}</strong>
+                <strong>{system.dicom_info?.title || "-"}</strong>
               </p>
               <p className="option">
                 {serial_txt} <br />
-                <strong>{system.serial_number}</strong>
+                <strong>{system.serial_number || "-"}</strong>
               </p>
               <p className="option">
                 {is_online} <br />
@@ -141,16 +141,16 @@ const SystemCard = ({ system, handleEdit }: SystemInterface) => {
             <div>
               <p className="option">
                 {asset_txt} <br />
-                <strong>{system.asset_number}</strong>
+                <strong>{system.asset_number || "-"}</strong>
               </p>
               <p className="option">
                 {helium_level} <br />
-                <strong>{system.mri_embedded_parameters?.helium}</strong>
+                <strong>{system.mri_embedded_parameters?.helium || "-"}</strong>
               </p>
               <p className="option">
                 {mpc_status} <br />
                 <strong>
-                  {system.mri_embedded_parameters?.magnet_pressure}
+                  {system.mri_embedded_parameters?.magnet_pressure || "-"}
                 </strong>
               </p>
               {system.last_successful_ping_at && (
@@ -196,19 +196,19 @@ const SystemCard = ({ system, handleEdit }: SystemInterface) => {
         <div className="info-section">
           <p className="option">
             {ip_address_txt} <br />
-            <strong>{system.ip_address}</strong>
+            <strong>{system.ip_address || "-"}</strong>
           </p>
           <p className="option">
             {local_ae_title_txt} <br />
-            <strong>{system.local_ae_title}</strong>
+            <strong>{system.local_ae_title || "-"}</strong>
           </p>
           <p className="option">
             {software_version_txt} <br />
-            <strong>{system.software_version}</strong>
+            <strong>{system.software_version || "-"}</strong>
           </p>
           <p className="option">
             {location} <br />
-            <strong>{system.location_in_building}</strong>
+            <strong>{system.location_in_building || "-"}</strong>
           </p>
         </div>
       </Box>

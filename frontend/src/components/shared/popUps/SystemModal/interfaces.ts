@@ -1,0 +1,39 @@
+export interface FormState {
+  systemImage: number;
+  modality: string;
+  manufacturer: string;
+  product: string;
+  model: string;
+  name: string;
+  site: string;
+  serialNumber: string;
+  buildingLocation: string;
+  version: string;
+  ip: string;
+  asset: string;
+  localAE: string;
+  connection: {
+    vfse: boolean;
+    ssh: boolean;
+    web: boolean;
+    virtual: boolean;
+  };
+  contactInfo: string;
+  grafana: string;
+  ris: {
+    ip: string;
+    title: string;
+    port?: number;
+    ae: string;
+  };
+  dicom: {
+    ip: string;
+    title: string;
+    port?: number;
+    ae: string;
+  };
+  mri: {
+    helium: string;
+    magnet: string;
+  };
+}

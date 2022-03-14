@@ -980,7 +980,7 @@ export type ProductModelDetail = {
 export type HisRisInfo = {
   ip?: string;
   title?: string;
-  port?: number;
+  port?: number | null;
   ae_title?: string;
 };
 export type MriEmbeddedParameters = {
@@ -1004,10 +1004,10 @@ export type System = {
   product_model: number;
   product_model_detail?: ProductModelDetail;
   image?: number | null;
-  software_version: string;
-  asset_number: string;
-  ip_address: string;
-  local_ae_title: string;
+  software_version?: string | null;
+  asset_number?: string | null;
+  ip_address?: string;
+  local_ae_title?: string | null;
   his_ris_info?: HisRisInfo;
   dicom_info?: HisRisInfo;
   mri_embedded_parameters?: MriEmbeddedParameters;
