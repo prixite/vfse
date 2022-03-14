@@ -74,9 +74,9 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       ],
     },
     organizationsSystemsList: {
-      providesTags: (result, error, { id }) => [
-        { type: "System", id: `Systems-${id}` },
-      ],
+      providesTags: (_, _, { id }) => {
+        return [{ type: "System", id: `Systems-${id}` }];
+      },
     },
     organizationsSystemsCreate: {
       invalidatesTags: (result, error, { id }) => [
@@ -90,10 +90,12 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       ],
     },
     organizationsSystemsDelete: {
-      invalidatesTags: (result, error, { id, systemPk }) => [
-        { type: "System", id: `Systems-${id}` },
-        { type: "System", id: `Systems-${id}-${systemPk}` },
-      ],
+      invalidatesTags: (result, error, { id, systemPk }) => {
+        return [
+          { type: "System", id: `Systems-${id}` },
+          { type: "System", id: `Systems-${id}-${systemPk}` },
+        ];
+      },
     },
     organizationsUsersList: {
       providesTags: (result, error, { id }) => [

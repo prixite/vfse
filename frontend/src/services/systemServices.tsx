@@ -4,7 +4,6 @@ const addNewOrdanizationSystem = async (
   organizationId,
   systemObject,
   addOrganizationSystem,
-  refetch,
   handleClear,
   setDisableButton
 ) => {
@@ -20,7 +19,6 @@ const addNewOrdanizationSystem = async (
         onClose: () => {
           handleClear();
           setDisableButton(false);
-          refetch();
         },
       });
     });
@@ -31,7 +29,6 @@ const updateOrdanizationSystem = async (
   id,
   system,
   updateSystem,
-  refetch,
   handleClear,
   setDisableButton
 ) => {
@@ -49,7 +46,6 @@ const updateOrdanizationSystem = async (
         onClose: () => {
           handleClear();
           setDisableButton(false);
-          refetch();
         },
       });
     });
@@ -58,14 +54,12 @@ const updateOrdanizationSystem = async (
 const DeleteOrganizationSystemService = async (
   organizationId,
   systemId,
-  deleteSystemsOrganization,
-  refetch
+  deleteSystemsOrganization
 ) => {
   await deleteSystemsOrganization({
     id: organizationId,
     systemPk: systemId,
   }).unwrap();
-  refetch(); // TODO: invalidate cache instead of this.
 };
 const addNewSystemNoteService = async (
   authorID,
