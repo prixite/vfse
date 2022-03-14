@@ -74,7 +74,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       ],
     },
     organizationsSystemsList: {
-      providesTags: (_, _, { id }) => {
+      providesTags: (result, error, { id }) => {
         return [{ type: "System", id: `Systems-${id}` }];
       },
     },
