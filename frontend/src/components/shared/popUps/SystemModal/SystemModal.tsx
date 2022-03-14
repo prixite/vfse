@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import {
   TextField,
@@ -6,7 +6,7 @@ import {
   MenuItem,
   FormControl,
   Select,
-  Autocomplete,
+  FormHelperText,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -14,130 +14,192 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useParams, useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
+import { FormState } from "@src/components/shared/popUps/SystemModal/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
-import {
-  returnSearchedOject,
-  ValidateIPaddress,
-  isValidURL,
-} from "@src/helpers/utils/utils";
-import {
-  addNewOrdanizationSystem,
-  updateOrdanizationSystem,
-} from "@src/services/systemServices";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
-  Manufacturer,
   useProductsModelsListQuery,
-  ProductModelDetail,
-  Modality,
   useOrganizationsSystemsCreateMutation,
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsReadQuery,
   useOrganizationsModalitiesListQuery,
   useModalitiesManufacturersListQuery,
   useProductsListQuery,
-  Product,
   useOrganizationsAssociatedSitesListQuery,
 } from "@src/store/reducers/api";
-import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 
-interface systemProps {
+import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
+import FormikAutoComplete from "./FormikAutoComplete";
+
+interface SystemProps {
   open: boolean;
   handleClose: () => void;
   system?: System;
   setSystem?: (arg: object) => void;
 }
-interface siteProps {
-  name?: string;
-  id?: number;
-}
 
-const Loader = () => {
-  return (
-    <div style={{ width: "100%", textAlign: "center" }}>
-      <p>Loading...</p>
-    </div>
-  );
+const initialState: FormState = {
+  systemImage: 0,
+  modality: "",
+  manufacturer: "",
+  product: "",
+  model: "",
+  site: "",
+  name: "",
+  serialNumber: "",
+  buildingLocation: "",
+  version: "",
+  ip: "",
+  asset: "",
+  localAE: "",
+  connection: {
+    vfse: false,
+    ssh: false,
+    web: false,
+    virtual: false,
+  },
+  contactInfo: "",
+  grafana: "",
+  ris: {
+    ip: "",
+    title: "",
+    port: null,
+    ae: "",
+  },
+  dicom: {
+    ip: "",
+    title: "",
+    port: null,
+    ae: "",
+  },
+  mri: {
+    helium: "",
+    magnet: "",
+  },
 };
 
-export default function SystemModal(props: systemProps) {
-  // const [newFields, setNewFields] = useState([1]);
-  const siteData: siteProps = {};
-  const modalityData: Modality = {};
-  let manufacturerData: Manufacturer;
-  let productModel: ProductModelDetail; // eslint-disable-line
-  let productProps: Product;
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [site, setSite] = useState(siteData);
-  const [siteError, setSiteError] = useState("");
-  const [modal, setModal] = useState(productModel);
-  const [modalError, setModalError] = useState("");
-  const [version, setVersion] = useState("");
-  const [versionError, setVersionError] = useState("");
-  const [ip, setIP] = useState("");
-  const [ipError, setIpError] = useState("");
-  const [asset, setAsset] = useState("");
-  const [assetError, setAssetError] = useState("");
-  const [localAE, setlocalAE] = useState("");
-  const [localAeError, setLocalAeError] = useState("");
-  const [buildingLocation, setBuildingLocation] = useState("");
-  const [grafanaLink, setGrafanaLink] = useState("");
-  const [linkError, setLinkError] = useState("");
-  const [systemContactInfo, setSystemContactInfo] = useState("");
-  const [systemImage, setSystemImage] = useState(0);
-  const [serialNumber, setSerialNumber] = useState("");
-  const [risIp, setRisIp] = useState("");
-  const [risIpError, setRisIpError] = useState("");
-  const [risTitle, setRisTitle] = useState("");
-  const [risTitleError, setRisTitleError] = useState("");
-  const [risPort, setRisPort] = useState("");
-  const [risPortError, setRisPortError] = useState("");
-  const [risAE, setRisAE] = useState("");
-  const [risAeError, setRisAeError] = useState("");
-  const [dicIP, setDicIP] = useState("");
-  const [dicIpError, setDicIpError] = useState("");
-  const [dicTitle, setDicTitle] = useState("");
-  const [dicTitleError, setDicTitleError] = useState("");
-  const [dicPort, setDicPort] = useState("");
-  const [dicPortError, setDicPortError] = useState("");
-  const [dicAE, setDicAE] = useState("");
-  const [dicAeError, setDicAeError] = useState("");
-  const [mriHelium, setMriHelium] = useState("");
-  const [mriHeliumError, setMriHeliumError] = useState("");
-  const [mriMagnet, setMriMagnet] = useState("");
-  const [mriMagnetError, setMriMagnetError] = useState("");
-  const [vfse, setVfse] = useState(false);
-  const [ssh, setSsh] = useState(false);
-  const [serviceWeb, setServiceWeb] = useState(false);
-  const [virtualMedia, setVirtualMedia] = useState(false);
+const validationSchema = yup.object({
+  systemImage: yup.string().required("Image is a required field"),
+  modality: yup.string().required("Modality is a required field"),
+  manufacturer: yup.string().required("Manufacturer is a required field"),
+  product: yup.string().required("Product is a required field"),
+  model: yup.string().required("Model is a required field"),
+  name: yup.string().required("Name is a required field"),
+  site: yup.string().required("Site is a required field"),
+  grafana: yup.string().url(),
+});
+
+const getPayload = (values: FormState): System => {
+  const {
+    systemImage: image,
+    model,
+    name,
+    site,
+    serialNumber: serial_number,
+    buildingLocation: location_in_building,
+    version: software_version,
+    ip: ip_address,
+    asset: asset_number,
+    localAE: local_ae_title,
+    connection,
+    contactInfo: system_contact_info,
+    grafana: grafana_link,
+    ris,
+    dicom,
+    mri,
+  } = values;
+  return {
+    image,
+    product_model: parseInt(model),
+    name,
+    site: parseInt(site),
+    serial_number,
+    location_in_building,
+    software_version,
+    ip_address,
+    asset_number,
+    local_ae_title,
+    connection_options: {
+      vfse: connection.vfse,
+      virtual_media_control: connection.virtual,
+      service_web_browser: connection.web,
+      ssh: connection.ssh,
+    },
+    system_contact_info,
+    grafana_link,
+    his_ris_info: {
+      ip: ris.ip,
+      title: ris.title,
+      port: ris.port,
+      ae_title: ris.ae,
+    },
+    dicom_info: {
+      ip: dicom.ip,
+      title: dicom.title,
+      port: dicom.port,
+      ae_title: dicom.ae,
+    },
+    mri_embedded_parameters: {
+      helium: mri.helium,
+      magnet_pressure: mri.magnet,
+    },
+  };
+};
+
+const setErrors = (data: unknown) => {
+  if (data.non_field_errors) {
+    toast.error(data.non_field_errors[0]);
+  }
+  toast.error("Error occurred while saving system");
+};
+
+export default function SystemModal(props: SystemProps) {
   const [disableButton, setDisableButton] = useState(false);
-  const [modality, setModality] = useState(modalityData);
-  const [modalityError, setModalityError] = useState("");
-  const [manufacturer, setManufacturer] = useState(manufacturerData);
-  const [manufacturerError, setManufacturerError] = useState("");
-  const [product, setProduct] = useState(productProps);
-  const [productError, setProductError] = useState("");
+  const [sites, setSites] = useState([]);
+
+  const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
-  const [sites, setSites] = useState([]);
-  const [manufacturerList, setManufacturerList] = useState([]);
-  const [modalityList, setModalityList] = useState([]);
-  const [productList, setProductList] = useState([]);
-  const [modalList, setModalList] = useState([]);
-  const history = useHistory();
-  const isOrganizationModality =
-    !history?.location?.pathname?.includes("sites") &&
-    !history?.location?.pathname?.includes("networks");
-  const selectedOrganization = useSelectedOrganization();
 
-  const { data: ModalitiesData, isLoading: isModalityLoading } =
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      setDisableButton(true);
+
+      const upsert = props.system?.id
+        ? ({ id, system }) =>
+            updateSystem({ id, system, systemPk: props.system.id.toString() })
+        : addSystem;
+
+      try {
+        await upsert({
+          id: selectedOrganization.id.toString(),
+          system: getPayload(values),
+        }).unwrap();
+        toast.success("System successfully saved");
+      } catch (error) {
+        setDisableButton(false);
+        if (error?.status === 400) {
+          setErrors(error.data, formik);
+        } else {
+          toast.error("Error occurred while saving system");
+        }
+      } finally {
+        handleClear();
+      }
+    },
+  });
+
+  const { data: modalityData = [], isLoading: isModalityLoading } =
     useOrganizationsModalitiesListQuery(
       {
         id: selectedOrganization.id.toString(),
@@ -145,7 +207,7 @@ export default function SystemModal(props: systemProps) {
       { skip: !selectedOrganization }
     );
 
-  const { data: allSites, isLoading: isAllSitesLoading } =
+  const { data: allSites = [], isLoading: isAllSitesLoading } =
     useOrganizationsAssociatedSitesListQuery(
       {
         id: selectedOrganization.id.toString(),
@@ -153,36 +215,55 @@ export default function SystemModal(props: systemProps) {
       { skip: !selectedOrganization }
     );
 
-  const { data: ManufacturerData, isFetching: isManufacturerLoading } =
+  const { data: manufacturerData = [], isFetching: isManufacturerLoading } =
     useModalitiesManufacturersListQuery(
       {
-        id: modality?.id?.toString(),
+        id: formik.values.modality,
       },
       {
-        skip: !modality?.id,
+        skip: !formik.values.modality,
       }
     );
 
-  const { data: ProductData, isFetching: isProductLoading } =
+  const { data: productData = [], isFetching: isProductLoading } =
     useProductsListQuery(
       {
-        manufacturer: manufacturer?.id,
+        manufacturer: parseInt(formik.values.manufacturer),
       },
       {
-        skip: !manufacturer?.id,
+        skip: !formik.values.manufacturer,
       }
     );
 
-  const { data: productData, isLoading: isProductsModelsLoading } =
+  const { data: productModelData = [], isLoading: isProductsModelsLoading } =
     useProductsModelsListQuery(
       {
-        modality: modality?.id,
-        product: product?.id,
+        modality: parseInt(formik.values.modality),
+        product: parseInt(formik.values.product),
       },
       {
-        skip: !product?.id,
+        skip: !formik.values.product || !formik.values.modality,
       }
     );
+
+  const { siteId, networkId } =
+    useParams<{ siteId: string; networkId: string }>();
+
+  const { data: healthNetwork } = useOrganizationsReadQuery({
+    id: networkId,
+  });
+
+  const isMri = useMemo(
+    () =>
+      Boolean(
+        modalityData.find(
+          (value) =>
+            value.group === "mri" &&
+            value.id === parseInt(formik.values.modality)
+        )
+      ),
+    [modalityData.length, formik.values.modality]
+  );
 
   const {
     fieldName,
@@ -216,547 +297,105 @@ export default function SystemModal(props: systemProps) {
     btnEdit,
   } = localizedData().systemModal;
 
-  const requiredStates = [
-    {
-      name: name,
-      setError: setNameError,
-      dName: fieldName,
-    },
-    {
-      name: modality?.name,
-      setError: setModalityError,
-      dName: fieldModality,
-    },
-    {
-      name: manufacturer?.name,
-      setError: setManufacturerError,
-      dName: fieldManufacturer,
-    },
-    {
-      name: product?.name,
-      setError: setProductError,
-      dName: fieldProduct,
-    },
-    {
-      name: grafanaLink,
-      setError: setLinkError,
-      dName: fieldLink,
-    },
-    {
-      name: modal?.model,
-      setError: setModalError,
-      dName: fieldModal,
-    },
-    {
-      name: version,
-      setError: setVersionError,
-      dName: fieldVersion,
-    },
-    {
-      name: asset,
-      setError: setAssetError,
-      dName: fieldAsset,
-    },
-    {
-      name: ip,
-      setError: setIpError,
-      dName: fieldIp,
-    },
-    {
-      name: localAE,
-      setError: setLocalAeError,
-      dName: fieldLocalAE,
-    },
-    {
-      name: risAE,
-      setError: setRisAeError,
-      dName: fieldRisAE,
-    },
-    {
-      name: risIp,
-      setError: setRisIpError,
-      dName: fieldRisIp,
-    },
-    {
-      name: risPort,
-      setError: setRisPortError,
-      dName: fieldRisPort,
-    },
-    {
-      name: risTitle,
-      setError: setRisTitleError,
-      dName: fieldRisTitle,
-    },
-    {
-      name: dicAE,
-      setError: setDicAeError,
-      dName: fieldDicomAE,
-    },
-    {
-      name: dicIP,
-      setError: setDicIpError,
-      dName: fieldDicomIp,
-    },
-    {
-      name: dicPort,
-      setError: setDicPortError,
-      dName: fieldDicomPort,
-    },
-    {
-      name: dicTitle,
-      setError: setDicTitleError,
-      dName: fieldDicomTitle,
-    },
-  ];
-
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
 
-  const editModal = () => {
-    setName(props?.system?.name);
-    setModal(props?.system?.product_model_detail);
-    setModality(props?.system?.product_model_detail?.modality);
-    setManufacturer(props?.system?.product_model_detail?.product?.manufacturer);
-    setProduct(props?.system?.product_model_detail?.product);
-    setVersion(props?.system?.software_version);
-    setIP(props?.system?.ip_address);
-    setAsset(props?.system?.asset_number);
-    setlocalAE(props?.system?.local_ae_title);
-    setBuildingLocation(props?.system?.location_in_building);
-    setGrafanaLink(props?.system?.grafana_link);
-    setSystemContactInfo(props?.system?.system_contact_info);
-    setSystemImage(props?.system?.image);
-    setSerialNumber(props?.system?.serial_number);
-    setRisIp(props?.system?.his_ris_info?.ip);
-    setRisTitle(props.system.his_ris_info?.title);
-    setRisPort(props?.system?.his_ris_info?.port.toString());
-    setRisAE(props?.system?.his_ris_info?.ae_title);
-    setDicIP(props?.system?.dicom_info?.ip);
-    setDicTitle(props?.system?.dicom_info?.title);
-    setDicPort(props?.system?.dicom_info?.port.toString());
-    setDicAE(props?.system?.dicom_info?.ae_title);
-    setMriHelium(props?.system?.mri_embedded_parameters?.helium);
-    setMriMagnet(props?.system?.mri_embedded_parameters?.magnet_pressure);
-    setVfse(
-      props?.system?.connection_options?.vfse
-        ? props?.system?.connection_options?.vfse
-        : false
-    );
-    setSsh(
-      props?.system?.connection_options?.ssh
-        ? props?.system?.connection_options?.ssh
-        : false
-    );
-    setServiceWeb(
-      props?.system?.connection_options?.service_web_browser
-        ? props?.system?.connection_options?.service_web_browser
-        : false
-    );
-    setVirtualMedia(
-      props?.system?.connection_options?.virtual_media_control
-        ? props?.system?.connection_options?.virtual_media_control
-        : false
-    );
-  };
-
-  const resetModal = () => {
-    setName("");
-    setNameError("");
-    setSiteError("");
-    setModalError("");
-    setVersion("");
-    setVersionError("");
-    setIP("");
-    setIpError("");
-    setAsset("");
-    setAssetError("");
-    setlocalAE("");
-    setLocalAeError("");
-    setBuildingLocation("");
-    setGrafanaLink("");
-    setLinkError("");
-    setSystemContactInfo("");
-    setSystemImage(0);
-    setSerialNumber("");
-    setRisIp("");
-    setRisIpError("");
-    setRisTitle("");
-    setRisTitleError("");
-    setRisPort("");
-    setRisPortError("");
-    setRisAE("");
-    setRisAeError("");
-    setDicIP("");
-    setDicIpError("");
-    setDicTitle("");
-    setDicTitleError("");
-    setDicPort("");
-    setDicPortError("");
-    setDicAE("");
-    setDicAeError("");
-    setMriHelium("");
-    setMriHeliumError("");
-    setMriMagnet("");
-    setMriMagnetError("");
-    setVfse(false);
-    setSsh(false);
-    setServiceWeb(false);
-    setVirtualMedia(false);
-  };
-
   const handleClear = () => {
-    resetModal();
+    //resetModal();
     props.handleClose();
     props.setSystem(null);
+    formik.resetForm();
   };
-
-  const handleIpAddress = (e) => {
-    setIP(e.target.value);
-    if (ValidateIPaddress(e.target.value)) {
-      setIpError("");
-    }
-  };
-
-  const handleName = (e) => {
-    setName(e.target.value);
-    if (e.target.value) {
-      setNameError("");
-    }
-  };
-
-  const handleVerion = (e) => {
-    setVersion(e.target.value);
-    if (e.target.value) {
-      setVersionError("");
-    }
-  };
-
-  const handleAsset = (e) => {
-    setAsset(e.target.value);
-    if (e.target.value) {
-      setAssetError("");
-    }
-  };
-
-  const handleLocalAe = (e) => {
-    setlocalAE(e.target.value);
-    if (e.target.value) {
-      setLocalAeError("");
-    }
-  };
-
-  const handleRisTitle = (e) => {
-    setRisTitle(e.target.value);
-    if (e.target.value) {
-      setRisTitleError("");
-    }
-  };
-
-  const handleRisPort = (e) => {
-    setRisPort(e.target.value);
-    if (e.target.value) {
-      setRisPortError("");
-    }
-  };
-
-  const handleRisAeTitle = (e) => {
-    setRisAE(e.target.value);
-    if (e.target.value) {
-      setRisAeError("");
-    }
-  };
-
-  const handleDicTitle = (e) => {
-    setDicTitle(e.target.value);
-    if (e.target.value) {
-      setDicTitleError("");
-    }
-  };
-
-  const handleDicPort = (e) => {
-    setDicPort(e.target.value);
-    if (e.target.value) {
-      setDicPortError("");
-    }
-  };
-
-  const handleDicAeTitle = (e) => {
-    setDicAE(e.target.value);
-    if (e.target.value) {
-      setDicAeError("");
-    }
-  };
-
-  const handleMriMagnet = (e) => {
-    setMriMagnet(e.target.value);
-    if (e.target.value) {
-      setMriMagnetError("");
-    }
-  };
-
-  const handleMriHelium = (e) => {
-    setMriHelium(e.target.value);
-    if (e.target.value) {
-      setMriHeliumError("");
-    }
-  };
-
-  const handleRisIpAddress = (e) => {
-    setRisIp(e.target.value);
-    if (ValidateIPaddress(e.target.value)) {
-      setRisIpError("");
-    }
-  };
-
-  const handleDicIpAddress = (e) => {
-    setDicIP(e.target.value);
-    if (ValidateIPaddress(e.target.value)) {
-      setDicIpError("");
-    }
-  };
-
-  const handleUrl = (e) => {
-    setGrafanaLink(e.target.value);
-    if (isValidURL(e.target.value)) {
-      setLinkError("");
-    }
-  };
-
-  const handleProductModel = (item) => {
-    if (item) {
-      setModal(item);
-      setModalError("");
-    }
-  };
-
-  const handleModality = (item) => {
-    if (item) {
-      setModality(item);
-      setModalityError("");
-      setProduct({});
-      setManufacturer({});
-      setModal({});
-    }
-  };
-
-  const handleManufacturer = (item) => {
-    if (item) {
-      setManufacturer(item);
-      setManufacturerError("");
-    }
-  };
-
-  const handleProduct = (item) => {
-    if (item) {
-      setProduct(item);
-      setProductError("");
-    }
-  };
-
-  const isValidPostRequest = () => {
-    const data = requiredStates.map((item) => {
-      if (
-        !item.name &&
-        item.dName !== "Grafana link" &&
-        item?.dName !== "optionalIp"
-      ) {
-        item.setError(`${item.dName} is required`);
-        return false;
-      }
-      if (
-        item.name &&
-        (item.dName === "IP" || item?.dName === "optionalIp") &&
-        !ValidateIPaddress(item.name)
-      ) {
-        item.setError(`Invalid ip address`);
-        return false;
-      }
-      if (
-        item.name &&
-        item.dName === "Grafana link" &&
-        !isValidURL(item.name)
-      ) {
-        item.setError(`Invalid url`);
-        return false;
-      }
-    });
-    if (data.includes(false)) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  const setErrors = (data) => {
-    if (data?.name) {
-      setNameError(data?.name[0]);
-    }
-    if (data?.site) {
-      setSiteError(data.site[0]);
-    }
-    if (data?.grafana_link) {
-      setLinkError(data.grafana_link[0]);
-    }
-    if (data?.product_model) {
-      setModalError(data?.product_model[0]);
-    }
-    if (data?.software_version) {
-      setVersionError(data?.software_version[0]);
-    }
-    if (data?.asset_number) {
-      setAssetError(data.asset_number[0]);
-    }
-    if (data?.ip_address) {
-      setIpError(data.ip_address[0]);
-    }
-    if (data?.local_ae_title) {
-      setLocalAeError(data?.local_ae_title[0]);
-    }
-    if (data?.his_ris_info) {
-      if (data?.his_ris_info?.ip) {
-        setRisIpError(data?.his_ris_info?.ip[0]);
-      }
-    }
-    if (data?.non_field_errors) {
-      toast.error("System with this name already exists.", {
-        autoClose: 2000,
-        pauseOnHover: false,
-      });
-    }
-    if (data.dicom_info) {
-      if (data?.dicom_info?.ip) {
-        setDicIpError(data?.dicom_info?.ip[0]);
-      }
-    }
-  };
-
-  const returnObj = () => {
-    const systemObj = {
-      name: name,
-      site: site?.id,
-      serial_number: serialNumber,
-      location_in_building: buildingLocation,
-      system_contact_info: systemContactInfo,
-      grafana_link: grafanaLink,
-      product_model: modal?.id,
-      image: systemImage,
-      software_version: version,
-      asset_number: asset,
-      ip_address: ip,
-      local_ae_title: localAE,
-      his_ris_info: {
-        ip: risIp,
-        title: risTitle,
-        port: risPort,
-        ae_title: risAE,
-      },
-      dicom_info: {
-        ip: dicIP,
-        title: dicTitle,
-        port: dicPort,
-        ae_title: dicAE,
-      },
-      mri_embedded_parameters:
-        modality.group === "mri"
-          ? {
-              helium: mriHelium,
-              magnet_pressure: mriMagnet,
-            }
-          : undefined,
-      connection_options: {
-        vfse: vfse,
-        virtual_media_control: virtualMedia,
-        service_web_browser: serviceWeb,
-        ssh: ssh,
-      },
-    };
-    return systemObj;
-  };
-
-  const handleAdd = async () => {
-    if (isValidPostRequest()) {
-      setDisableButton(true);
-      const obj = returnObj();
-      if (!props.system) {
-        await addNewOrdanizationSystem(
-          selectedOrganization.id,
-          obj,
-          addSystem,
-          handleClear,
-          setDisableButton
-        ).catch((err) => {
-          setDisableButton(false);
-          if (err?.status === 400) {
-            setErrors(err.data);
-          }
-        });
-      } else {
-        await updateOrdanizationSystem(
-          selectedOrganization.id,
-          props.system.id,
-          obj,
-          updateSystem,
-          handleClear,
-          setDisableButton
-        ).catch((err) => {
-          setDisableButton(false);
-          if (err?.status === 400) {
-            setErrors(err.data);
-          }
-        });
-      }
-    }
-  };
-
-  useEffect(() => {
-    setModalityList(ModalitiesData);
-  }, [ModalitiesData]);
-
-  useEffect(() => {
-    setManufacturerList(ManufacturerData);
-  }, [ManufacturerData]);
-
-  useEffect(() => {
-    setProductList(ProductData);
-  }, [ProductData]);
-
-  useEffect(() => {
-    setModalList(productData);
-  }, [productData]);
 
   useEffect(() => {
     if (props.system) {
-      editModal();
+      formik.setFieldValue("systemImage", props.system.image);
+      formik.setFieldValue(
+        "modality",
+        props.system.product_model_detail.modality.id
+      );
+      formik.setFieldValue(
+        "manufacturer",
+        props.system.product_model_detail.product.manufacturer.id
+      );
+      formik.setFieldValue(
+        "product",
+        props.system.product_model_detail.product.id
+      );
+      formik.setFieldValue("model", props.system.product_model_detail.id);
+      formik.setFieldValue("name", props.system.name);
+      formik.setFieldValue("site", props.system.site);
+      formik.setFieldValue("serialNumber", props.system.serial_number);
+      formik.setFieldValue(
+        "buildingLocation",
+        props.system.location_in_building
+      );
+      formik.setFieldValue("version", props.system.software_version);
+      formik.setFieldValue("ip", props.system.ip_address);
+      formik.setFieldValue("asset", props.system.asset_number);
+      formik.setFieldValue("localAE", props.system.local_ae_title);
+      formik.setFieldValue(
+        "connection.vfse",
+        props.system.connection_options.vfse
+      );
+      formik.setFieldValue(
+        "connection.virtual",
+        props.system.connection_options.virtual_media_control
+      );
+      formik.setFieldValue(
+        "connection.web",
+        props.system.connection_options.service_web_browser
+      );
+      formik.setFieldValue(
+        "connection.ssh",
+        props.system.connection_options.ssh
+      );
+      formik.setFieldValue("contactInfo", props.system.system_contact_info);
+      formik.setFieldValue("grafana", props.system.grafana_link);
+      formik.setFieldValue("ris.ip", props.system.his_ris_info.ip);
+      formik.setFieldValue("ris.title", props.system.his_ris_info.title);
+      formik.setFieldValue("ris.port", props.system.his_ris_info.port);
+      formik.setFieldValue("ris.ae", props.system.his_ris_info.ae_title);
+      formik.setFieldValue("dicom.ip", props.system.dicom_info.ip);
+      formik.setFieldValue("dicom.title", props.system.dicom_info.title);
+      formik.setFieldValue("dicom.port", props.system.dicom_info.port);
+      formik.setFieldValue("dicom.ae", props.system.dicom_info.ae_title);
+      formik.setFieldValue(
+        "mri.helium",
+        props.system.mri_embedded_parameters.helium
+      );
+      formik.setFieldValue(
+        "mri.magnet",
+        props.system.mri_embedded_parameters.magnet_pressure
+      );
     }
-  }, [props.system]);
+  }, [Boolean(props.system)]);
 
   useEffect(() => {
-    if (sites) {
-      if (props.system) {
-        const data = returnSearchedOject(sites, props?.system?.site);
-        setSite(data?.length ? data[0] : sites[0]);
-      } else {
-        setSite(sites[0]);
-      }
-    }
-  }, [sites, props.system]);
-
-  const { networkId } = useParams();
-
-  const { data: healthNetwork } = useOrganizationsReadQuery({
-    id: networkId,
-  });
-
-  useEffect(() => {
-    if (healthNetwork) {
-      setSites(healthNetwork.sites);
-    } else if (isOrganizationModality && !isAllSitesLoading) {
-      setSites(allSites);
+    if (siteId && healthNetwork) {
+      // Coming through health network
+      setSites(
+        healthNetwork.sites.filter((value) => value.id === parseInt(siteId))
+      );
+    } else if (siteId) {
+      // Coming through direct site
+      setSites(
+        selectedOrganization.sites.filter(
+          (value) => value.id === parseInt(siteId)
+        )
+      );
     } else {
-      setSites(selectedOrganization.sites);
+      // Coming through modality page
+      setSites(allSites);
     }
-  }, [healthNetwork, selectedOrganization, isAllSitesLoading]);
+  }, [siteId, healthNetwork, selectedOrganization, isAllSitesLoading]);
+
+  useEffect(() => {
+    if (sites.length && !props.system) {
+      formik.setFieldValue("site", sites[0].id);
+    }
+  }, [sites.length, Boolean(props.system)]);
 
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
@@ -774,138 +413,63 @@ export default function SystemModal(props: systemProps) {
         <div className="modal-content">
           <p className="gallery-title required">Select Image</p>
           <SystemImageGallery
-            setSystemImage={setSystemImage}
-            systemImage={systemImage}
+            setSystemImage={(value) =>
+              formik.setFieldValue("systemImage", value)
+            }
+            systemImage={formik.values.systemImage}
           />
           <div className="client-info">
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldModality}</p>
-                  <Autocomplete
-                    loading={isModalityLoading}
-                    loadingText={<Loader />}
-                    id="country-select-demo"
-                    sx={{ width: "100%" }}
-                    style={{ height: "48px" }}
-                    value={modality || {}}
-                    options={modalityList || []}
-                    autoHighlight
-                    getOptionLabel={(option) => option?.name || ""}
-                    onChange={(e, item: Modality) => handleModality(item)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                          placeholder: "Select Modality",
-                        }}
-                      />
-                    )}
+                  <FormikAutoComplete
+                    isLoading={isModalityLoading}
+                    options={modalityData}
+                    field="modality"
+                    formik={formik}
+                    placeholder="Select Modality"
                   />
-                  {modalityError ? (
-                    <p className="errorText">{modalityError}</p>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldManufacturer}</p>
-                  <Autocomplete
-                    id="country-select-demo"
-                    sx={{ width: "100%" }}
-                    style={{ height: "48px" }}
-                    loading={isManufacturerLoading}
-                    value={manufacturer || {}}
-                    loadingText={<Loader />}
-                    options={manufacturerList || []}
-                    autoHighlight
-                    getOptionLabel={(option) => option?.name || ""}
-                    onChange={(e, item: Manufacturer) =>
-                      handleManufacturer(item)
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                          placeholder: "Select Manufacturer",
-                        }}
-                      />
-                    )}
+                  <FormikAutoComplete
+                    isLoading={isManufacturerLoading}
+                    options={manufacturerData}
+                    field="manufacturer"
+                    formik={formik}
+                    placeholder="Select Manufacturer"
+                    parent="modality"
                   />
-
-                  {manufacturerError ? (
-                    <p className="errorText">{manufacturerError}</p>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldProduct}</p>
-                  <Autocomplete
-                    id="country-select-demo"
-                    sx={{ width: "100%" }}
-                    style={{ height: "48px" }}
-                    loading={isProductLoading}
-                    value={product || {}}
-                    loadingText={<Loader />}
-                    options={productList || []}
-                    autoHighlight
-                    getOptionLabel={(option) => option?.name || ""}
-                    onChange={(e, item: Product) => handleProduct(item)}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                          placeholder: "Select Product",
-                        }}
-                      />
-                    )}
+                  <FormikAutoComplete
+                    isLoading={isProductLoading}
+                    options={productData}
+                    field="product"
+                    formik={formik}
+                    placeholder="Select Product"
+                    parent="manufacturer"
                   />
-                  {productError ? (
-                    <p className="errorText">{productError}</p>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldModal}</p>
-                  <Autocomplete
-                    id="country-select-demo"
-                    sx={{ width: "100%" }}
-                    style={{ height: "48px" }}
-                    value={modal || {}}
-                    loading={isProductsModelsLoading}
-                    loadingText={<Loader />}
-                    onChange={(e, item: ProductModelDetail) =>
-                      handleProductModel(item)
-                    } // eslint-disable-line
-                    options={modalList || []}
-                    autoHighlight
-                    getOptionLabel={(option) => option?.model || ""}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                          placeholder: "Select Product Model",
-                        }}
-                      />
-                    )}
+                  <FormikAutoComplete
+                    isLoading={isProductsModelsLoading}
+                    options={productModelData}
+                    field="model"
+                    formik={formik}
+                    placeholder="Select Model"
+                    parent="product"
+                    optionLabel="model"
                   />
-                  {modalError ? <p className="errorText">{modalError}</p> : ""}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -915,36 +479,42 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={name}
+                    name="name"
                     placeholder="System1"
-                    onChange={handleName}
+                    error={formik.touched.name && Boolean(formik.errors.name)}
+                    helperText={formik.touched.name && formik.errors.name}
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
                   />
-                  {nameError ? <p className="errorText">{nameError}</p> : ""}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
                   <p className="info-label required">{fieldSite}</p>
-                  <FormControl sx={{ minWidth: "100%" }}>
+                  <FormControl
+                    sx={{ minWidth: "100%" }}
+                    error={formik.touched.site && Boolean(formik.errors.site)}
+                  >
                     <Select
-                      value={site?.name || ""}
+                      name="site"
                       displayEmpty
                       className="info-field"
+                      placeholder="Select site"
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "48px", marginRight: "15px" }}
+                      value={formik.values.site}
+                      onChange={formik.handleChange}
                     >
                       {sites.map((item, index) => (
-                        <MenuItem
-                          key={index}
-                          value={item.name}
-                          onClick={() => setSite(item)}
-                        >
+                        <MenuItem key={index} value={item.id}>
                           {item.name}
                         </MenuItem>
                       ))}
                     </Select>
+                    {formik.touched.site && Boolean(formik.errors.site) && (
+                      <FormHelperText>{formik.errors.site}</FormHelperText>
+                    )}
                   </FormControl>
-                  {siteError ? <p className="errorText">{siteError}</p> : ""}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -954,11 +524,10 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={serialNumber || ""}
+                    name="serialNumber"
+                    value={formik.values.serialNumber}
                     placeholder="9xuiua002"
-                    onChange={(e) => {
-                      setSerialNumber(e.target.value);
-                    }}
+                    onChange={formik.handleChange}
                   />
                 </div>
               </Grid>
@@ -969,109 +538,116 @@ export default function SystemModal(props: systemProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={buildingLocation || ""}
+                    name="buildingLocation"
+                    value={formik.values.buildingLocation}
                     placeholder="3161 Cunningham Avenue Suite 905"
-                    onChange={(e) => {
-                      setBuildingLocation(e.target.value);
-                    }}
+                    onChange={formik.handleChange}
                   />
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldVersion}</p>
+                  <p className="info-label">{fieldVersion}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={version}
+                    name="version"
+                    value={formik.values.version}
                     placeholder="v2.7"
-                    onChange={handleVerion}
+                    onChange={formik.handleChange}
                   />
-                  {versionError ? (
-                    <p className="errorText">{versionError}</p>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldIp}</p>
+                  <p className="info-label">{fieldIp}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={ip}
+                    name="ip"
+                    value={formik.values.ip}
                     placeholder="192.165.3.2"
-                    onChange={handleIpAddress}
+                    onChange={formik.handleChange}
                   />
-                  {ipError ? <p className="errorText">{ipError}</p> : ""}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldAsset}</p>
+                  <p className="info-label">{fieldAsset}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={asset}
+                    name="asset"
+                    value={formik.values.asset}
                     placeholder="Wm90d47P84"
-                    onChange={handleAsset}
+                    onChange={formik.handleChange}
                   />
-                  {assetError ? <p className="errorText">{assetError}</p> : ""}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldLocalAE}</p>
+                  <p className="info-label">{fieldLocalAE}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    value={localAE}
+                    name="localAE"
+                    value={formik.values.localAE}
                     placeholder="HS1"
-                    onChange={handleLocalAe}
+                    onChange={formik.handleChange}
                   />
-                  {localAeError ? (
-                    <p className="errorText">{localAeError}</p>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </Grid>
             </Grid>
             <div className="checkbox-container">
               <div className="checkBox">
                 <Checkbox
-                  onClick={() => setVfse(!vfse)}
-                  style={{ color: vfse ? buttonBackground : "" }}
-                  checked={vfse}
+                  name="connection.vfse"
+                  onClick={formik.handleChange}
+                  style={{
+                    color: formik.values.connection.vfse
+                      ? buttonBackground
+                      : "",
+                  }}
+                  checked={formik.values.connection.vfse}
                 />
                 <span className="text">vFSE [VNC OR OTHER]</span>
               </div>
               <div className="checkBox">
                 <Checkbox
-                  onClick={() => setSsh(!ssh)}
-                  style={{ color: ssh ? buttonBackground : "" }}
-                  checked={ssh}
+                  name="connection.ssh"
+                  onClick={formik.handleChange}
+                  style={{
+                    color: formik.values.connection.ssh ? buttonBackground : "",
+                  }}
+                  checked={formik.values.connection.ssh}
                 />
                 <span className="text">SSH [or terminal]</span>
               </div>
               <div className="checkBox">
                 <Checkbox
-                  onClick={() => setServiceWeb(!serviceWeb)}
-                  style={{ color: serviceWeb ? buttonBackground : "" }}
-                  checked={serviceWeb}
+                  name="connection.web"
+                  onClick={formik.handleChange}
+                  style={{
+                    color: formik.values.connection.web ? buttonBackground : "",
+                  }}
+                  checked={formik.values.connection.web}
                 />
                 <span className="text">Service web browser</span>
               </div>
               <div className="checkBox">
                 <Checkbox
-                  onClick={() => setVirtualMedia(!virtualMedia)}
-                  style={{ color: virtualMedia ? buttonBackground : "" }}
-                  checked={virtualMedia}
+                  name="connection.virtual"
+                  onClick={formik.handleChange}
+                  style={{
+                    color: formik.values.connection.virtual
+                      ? buttonBackground
+                      : "",
+                  }}
+                  checked={formik.values.connection.virtual}
                 />
                 <span className="text">Virtual media control</span>
               </div>
@@ -1085,10 +661,9 @@ export default function SystemModal(props: systemProps) {
                     variant="outlined"
                     size="small"
                     placeholder="971-091-9353x05482"
-                    value={systemContactInfo || ""}
-                    onChange={(e) => {
-                      setSystemContactInfo(e.target.value);
-                    }}
+                    name="contactInfo"
+                    value={formik.values.contactInfo}
+                    onChange={formik.handleChange}
                   />
                 </div>
               </Grid>
@@ -1103,10 +678,14 @@ export default function SystemModal(props: systemProps) {
                     size="small"
                     type="url"
                     placeholder="https://example.com"
-                    value={grafanaLink || ""}
-                    onChange={handleUrl}
+                    name="grafana"
+                    error={
+                      formik.touched.grafana && Boolean(formik.errors.grafana)
+                    }
+                    helperText={formik.touched.grafana && formik.errors.grafana}
+                    value={formik.values.grafana}
+                    onChange={formik.handleChange}
                   />
-                  {linkError ? <p className="errorText">{linkError}</p> : ""}
                 </div>
               </Grid>
             </Grid>
@@ -1115,69 +694,53 @@ export default function SystemModal(props: systemProps) {
               <div className="box">
                 <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                   <Grid item xs={12} sm={6}>
-                    <p className="info-label required">{fieldRisIp}</p>
+                    <p className="info-label">{fieldRisIp}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
                       size="small"
                       placeholder="192.165.3.2"
-                      value={risIp}
-                      onChange={handleRisIpAddress}
+                      name="ris.ip"
+                      value={formik.values.ris.ip}
+                      onChange={formik.handleChange}
                     />
-                    {risIpError ? (
-                      <p className="errorText">{risIpError}</p>
-                    ) : (
-                      ""
-                    )}
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <p className="info-label required">{fieldRisTitle}</p>
+                    <p className="info-label">{fieldRisTitle}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
                       size="small"
                       placeholder="HS1"
-                      value={risTitle}
-                      onChange={handleRisTitle}
+                      name="ris.title"
+                      value={formik.values.ris.title}
+                      onChange={formik.handleChange}
                     />
-                    {risTitleError ? (
-                      <p className="errorText">{risTitleError}</p>
-                    ) : (
-                      ""
-                    )}
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <p className="info-label required">{fieldRisPort}</p>
+                    <p className="info-label">{fieldRisPort}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
                       placeholder="200"
                       size="small"
                       type="number"
-                      value={risPort}
-                      onChange={handleRisPort}
+                      name="ris.port"
+                      value={formik.values.ris.port}
+                      onChange={formik.handleChange}
                     />
-                    {risPortError ? (
-                      <p className="errorText">{risPortError}</p>
-                    ) : (
-                      ""
-                    )}
                   </Grid>
                   <Grid item xs={12} sm={6}>
-                    <p className="info-label required">{fieldRisAE}</p>
+                    <p className="info-label">{fieldRisAE}</p>
                     <TextField
                       className="info-field"
                       variant="outlined"
                       size="small"
                       placeholder="system 1"
-                      value={risAE}
-                      onChange={handleRisAeTitle}
+                      name="ris.ae"
+                      value={formik.values.ris.ae}
+                      onChange={formik.handleChange}
                     />
-                    {risAeError ? (
-                      <p className="errorText">{risAeError}</p>
-                    ) : (
-                      ""
-                    )}
                   </Grid>
                 </Grid>
               </div>
@@ -1186,74 +749,58 @@ export default function SystemModal(props: systemProps) {
                 <div className="box">
                   <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                     <Grid item xs={12} sm={6}>
-                      <p className="info-label required">{fieldDicomIp}</p>
+                      <p className="info-label">{fieldDicomIp}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
                         size="small"
                         placeholder="192.165.3.2"
-                        value={dicIP}
-                        onChange={handleDicIpAddress}
+                        name="dicom.ip"
+                        value={formik.values.dicom.ip}
+                        onChange={formik.handleChange}
                       />
-                      {dicIpError ? (
-                        <p className="errorText">{dicIpError}</p>
-                      ) : (
-                        ""
-                      )}
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <p className="info-label required">{fieldDicomTitle}</p>
+                      <p className="info-label">{fieldDicomTitle}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
                         size="small"
                         placeholder="Dic 1"
-                        value={dicTitle}
-                        onChange={handleDicTitle}
+                        name="dicom.title"
+                        value={formik.values.dicom.title}
+                        onChange={formik.handleChange}
                       />
-                      {dicTitleError ? (
-                        <p className="errorText">{dicTitleError}</p>
-                      ) : (
-                        ""
-                      )}
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <p className="info-label required">{fieldDicomPort}</p>
+                      <p className="info-label">{fieldDicomPort}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
                         placeholder="280"
                         size="small"
-                        value={dicPort}
                         type="number"
-                        onChange={handleDicPort}
+                        name="dicom.port"
+                        value={formik.values.dicom.port}
+                        onChange={formik.handleChange}
                       />
-                      {dicPortError ? (
-                        <p className="errorText">{dicPortError}</p>
-                      ) : (
-                        ""
-                      )}
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <p className="info-label required">{fieldDicomAE}</p>
+                      <p className="info-label">{fieldDicomAE}</p>
                       <TextField
                         className="info-field"
                         variant="outlined"
                         size="small"
-                        value={dicAE}
                         placeholder="system 1"
-                        onChange={handleDicAeTitle}
+                        name="dicom.ae"
+                        value={formik.values.dicom.ae}
+                        onChange={formik.handleChange}
                       />
-                      {dicAeError ? (
-                        <p className="errorText">{dicAeError}</p>
-                      ) : (
-                        ""
-                      )}
                     </Grid>
                   </Grid>
                 </div>
               </div>
-              {modality.group === "mri" ? (
+              {isMri ? (
                 <div className="box-heading">
                   <p className="heading">{fieldMRIname}</p>
                   <div className="box">
@@ -1265,14 +812,10 @@ export default function SystemModal(props: systemProps) {
                           variant="outlined"
                           size="small"
                           placeholder="strong"
-                          value={mriHelium}
-                          onChange={handleMriHelium}
+                          name="mri.helium"
+                          value={formik.values.mri.helium}
+                          onChange={formik.handleChange}
                         />
-                        {mriHeliumError ? (
-                          <p className="errorText">{mriHeliumError}</p>
-                        ) : (
-                          ""
-                        )}
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <p className="info-label">{fieldMRIMagnet}</p>
@@ -1281,14 +824,10 @@ export default function SystemModal(props: systemProps) {
                           variant="outlined"
                           size="small"
                           placeholder="low"
-                          value={mriMagnet}
-                          onChange={handleMriMagnet}
+                          name="mri.magnet"
+                          value={formik.values.mri.magnet}
+                          onChange={formik.handleChange}
                         />
-                        {mriMagnetError ? (
-                          <p className="errorText">{mriMagnetError}</p>
-                        ) : (
-                          ""
-                        )}
                       </Grid>
                     </Grid>
                   </div>
@@ -1300,30 +839,32 @@ export default function SystemModal(props: systemProps) {
           </div>
         </div>
       </DialogContent>
-      <DialogActions>
-        <Button
-          className="cancel-btn"
-          style={{
-            backgroundColor: disableButton ? "#d9dbdd" : secondaryColor,
-            color: buttonTextColor,
-          }}
-          onClick={handleClear}
-          disabled={disableButton}
-        >
-          {btnCancel}
-        </Button>
-        <Button
-          className="add-btn"
-          style={{
-            backgroundColor: disableButton ? "#d9dbdd" : buttonBackground,
-            color: buttonTextColor,
-          }}
-          onClick={handleAdd}
-          disabled={disableButton}
-        >
-          {props.system ? btnEdit : btnAdd}
-        </Button>
-      </DialogActions>
+      <form onSubmit={formik.handleSubmit}>
+        <DialogActions>
+          <Button
+            className="cancel-btn"
+            style={{
+              backgroundColor: disableButton ? "#d9dbdd" : secondaryColor,
+              color: buttonTextColor,
+            }}
+            onClick={handleClear}
+            disabled={disableButton}
+          >
+            {btnCancel}
+          </Button>
+          <Button
+            className="add-btn"
+            style={{
+              backgroundColor: disableButton ? "#d9dbdd" : buttonBackground,
+              color: buttonTextColor,
+            }}
+            type="submit"
+            disabled={disableButton}
+          >
+            {props.system ? btnEdit : btnAdd}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 }

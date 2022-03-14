@@ -111,7 +111,7 @@ const SystemSection = () => {
     if (!paramModality) {
       setIndex(1);
     }
-  }, [modalitiesList]);
+  }, [modalitiesList, paramModality]);
 
   const handleEdit = (system) => {
     setOpen(true);
@@ -177,7 +177,7 @@ const SystemSection = () => {
         // send request to backend.
         dispatch(
           api.util.updateQueryData(
-            "organizationsSystemsList",
+            "organizationsSystemsList", // TODO: See if we can avoid hard-coding.
             { id: selectedOrganization.id.toString() },
             (draftSystems) => {
               Object.assign(draftSystems, systems);

@@ -2364,22 +2364,20 @@
             "properties": {
                 "ip": {
                     "title": "Ip",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                 },
                 "title": {
                     "title": "Title",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                 },
                 "port": {
                     "title": "Port",
-                    "type": "integer"
+                    "type": "integer",
+                    "x-nullable": true
                 },
                 "ae_title": {
                     "title": "Ae title",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                 }
             },
             "default": {
@@ -2396,13 +2394,11 @@
             "properties": {
                 "helium": {
                     "title": "Helium",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                 },
                 "magnet_pressure": {
                     "title": "Magnet pressure",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                 }
             },
             "default": {
@@ -2445,11 +2441,7 @@
             "required": [
                 "name",
                 "site",
-                "product_model",
-                "software_version",
-                "asset_number",
-                "ip_address",
-                "local_ae_title"
+                "product_model"
             ],
             "type": "object",
             "properties": {
@@ -2509,24 +2501,23 @@
                     "title": "Software version",
                     "type": "string",
                     "maxLength": 32,
-                    "minLength": 1
+                    "x-nullable": true
                 },
                 "asset_number": {
                     "title": "Asset number",
                     "type": "string",
                     "maxLength": 32,
-                    "minLength": 1
+                    "x-nullable": true
                 },
                 "ip_address": {
                     "title": "Ip address",
-                    "type": "string",
-                    "minLength": 1
+                    "type": "string"
                 },
                 "local_ae_title": {
                     "title": "Local ae title",
                     "type": "string",
                     "maxLength": 32,
-                    "minLength": 1
+                    "x-nullable": true
                 },
                 "his_ris_info": {
                     "$ref": "#/definitions/SystemInfo"

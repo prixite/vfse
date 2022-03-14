@@ -164,15 +164,15 @@ class OrganizationHealthNetworkSerializer(serializers.ModelSerializer):
 
 
 class SystemInfoSerializer(serializers.Serializer):
-    ip = serializers.IPAddressField(required=False)
-    title = serializers.CharField(required=False)
-    port = serializers.IntegerField(required=False)
-    ae_title = serializers.CharField(required=False)
+    ip = serializers.IPAddressField(required=False, allow_blank=True)
+    title = serializers.CharField(required=False, allow_blank=True)
+    port = serializers.IntegerField(required=False, allow_null=True)
+    ae_title = serializers.CharField(required=False, allow_blank=True)
 
 
 class MriInfoSerializer(serializers.Serializer):
-    helium = serializers.CharField(required=False)
-    magnet_pressure = serializers.CharField(required=False)
+    helium = serializers.CharField(required=False, allow_blank=True)
+    magnet_pressure = serializers.CharField(required=False, allow_blank=True)
 
 
 class ModalitySerializer(serializers.ModelSerializer):
@@ -433,6 +433,7 @@ class SystemSerializer(serializers.ModelSerializer):
     product_model_detail = ProductModelSerializer(
         source="product_model", read_only=True
     )
+    ip_address = serializers.IPAddressField(allow_blank=True, required=False)
 
     class Meta:
         model = models.System
