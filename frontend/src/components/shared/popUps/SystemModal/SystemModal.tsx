@@ -50,7 +50,6 @@ import "@src/components/shared/popUps/SystemModal/SystemModal.scss";
 interface systemProps {
   open: boolean;
   handleClose: () => void;
-  refetch: () => void;
   system?: System;
   setSystem?: (arg: object) => void;
 }
@@ -684,7 +683,6 @@ export default function SystemModal(props: systemProps) {
           selectedOrganization.id,
           obj,
           addSystem,
-          props.refetch,
           handleClear,
           setDisableButton
         ).catch((err) => {
@@ -699,7 +697,6 @@ export default function SystemModal(props: systemProps) {
           props.system.id,
           obj,
           updateSystem,
-          props.refetch,
           handleClear,
           setDisableButton
         ).catch((err) => {

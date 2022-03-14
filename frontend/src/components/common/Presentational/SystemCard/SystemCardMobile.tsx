@@ -30,7 +30,7 @@ import {
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-const SystemCardMobile = ({ system, handleEdit, refetch }: SystemInterface) => {
+const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
   );
@@ -74,8 +74,7 @@ const SystemCardMobile = ({ system, handleEdit, refetch }: SystemInterface) => {
     await DeleteOrganizationSystemService(
       selectedOrganization.id,
       system.id,
-      deleteSystem,
-      refetch
+      deleteSystem
     );
     handleClose();
   };

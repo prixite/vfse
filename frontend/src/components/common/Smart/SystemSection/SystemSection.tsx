@@ -95,11 +95,10 @@ const SystemSection = () => {
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });
-  const {
-    data: systemsData,
-    isLoading: isSystemDataLoading,
-    refetch: systemsRefetch,
-  } = useOrganizationsSystemsListQuery(apiArgData);
+
+  const { data: systemsData, isLoading: isSystemDataLoading } =
+    useOrganizationsSystemsListQuery(apiArgData);
+
   const [updateFromInflux] = useOrganizationsSystemsUpdateFromInfluxMutation();
 
   useEffect(() => {
@@ -153,7 +152,6 @@ const SystemSection = () => {
         search: queryParams.toString(),
       });
     }
-    systemsRefetch();
   };
 
   useEffect(() => {
@@ -456,11 +454,7 @@ const SystemSection = () => {
           browserWidth > mobileWidth ? (
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
-                <SystemCard
-                  system={item}
-                  handleEdit={() => handleEdit(item)}
-                  refetch={systemsRefetch}
-                />
+                <SystemCard system={item} handleEdit={() => handleEdit(item)} />
               </div>
             ))
           ) : (
@@ -469,7 +463,6 @@ const SystemSection = () => {
                 <SystemCardMobile
                   system={item}
                   handleEdit={() => handleEdit(item)}
-                  refetch={systemsRefetch}
                 />
               </div>
             ))
@@ -499,7 +492,6 @@ const SystemSection = () => {
           <SystemModal
             open={open}
             handleClose={() => setOpen(false)}
-            refetch={systemsRefetch}
             system={system}
             setSystem={setSystem}
           />

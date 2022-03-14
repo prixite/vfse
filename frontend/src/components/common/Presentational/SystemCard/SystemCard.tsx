@@ -29,7 +29,7 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 import "@src/components/common/Presentational/SystemCard/SystemCard.scss";
 
-const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
+const SystemCard = ({ system, handleEdit }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -74,8 +74,7 @@ const SystemCard = ({ system, handleEdit, refetch }: SystemInterface) => {
     await DeleteOrganizationSystemService(
       selectedOrganization.id,
       system.id,
-      deleteSystem,
-      refetch
+      deleteSystem
     );
     handleClose();
   };
