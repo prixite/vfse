@@ -8,14 +8,7 @@ import TopViewBtns from "@src/components/common/Smart/TopViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
 import { localizedData } from "@src/helpers/utils/language";
-import { useSelectedOrganization } from "@src/store/hooks";
-import {
-  useOrganizationsSitesListQuery,
-  useOrganizationsHealthNetworksListQuery,
-  Site,
-  useOrganizationsReadQuery,
-  useOrganizationsAssociatedSitesListQuery,
-} from "@src/store/reducers/api";
+import { useOrganizationsSitesListQuery, Site } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/Smart/SiteSection/SiteSection.scss";
 
@@ -27,36 +20,13 @@ const SiteSection = () => {
   const [itemsList, setItemsList] = useState<Array<Site>>([]);
 
   const { id, networkId } = useParams();
-  const selectedOrganization = useSelectedOrganization();
   const selectionID =
     networkId == undefined ? id?.toString() : networkId?.toString();
 
-  const {
-    data: sitesData,
-    isFetching: isSitesFetching,
-    refetch: sitesRefetch,
-  } = useOrganizationsSitesListQuery({
-    id: selectionID,
-  });
-  const { refetch: orgNetworkRefetch } =
-    useOrganizationsHealthNetworksListQuery(
-      {
-        id: selectedOrganization?.id.toString(),
-      },
-      {
-        skip: !networkId,
-      }
-    );
-
-  const { refetch: refetchAllSites } = useOrganizationsAssociatedSitesListQuery(
-    {
-      id: selectedOrganization.id.toString(),
-    },
-    { skip: !selectedOrganization }
-  );
-  const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
-    id: networkId ? networkId : id,
-  });
+  const { data: sitesData, isFetching: isSitesFetching } =
+    useOrganizationsSitesListQuery({
+      id: selectionID,
+    });
 
   const { title, noDataTitle, noDataDescription } = localizedData().sites;
   const { searching } = localizedData().common;
@@ -110,10 +80,7 @@ const SiteSection = () => {
                       machines={item?.modalities}
                       location={item?.address}
                       connections={item?.connections}
-                      refetch={sitesRefetch}
                       sites={sitesData}
-                      orgNetworkRefetch={orgNetworkRefetch}
-                      refetchAssociatedSites={refetchAllSites}
                     />
                   </Grid>
                 ))
@@ -141,9 +108,6 @@ const SiteSection = () => {
                     machines={item?.modalities}
                     location={item?.address}
                     connections={item?.connections}
-                    refetch={sitesRefetch}
-                    refetchAssociatedSites={refetchAllSites}
-                    orgNetworkRefetch={orgNetworkRefetch}
                     sites={sitesData}
                   />
                 </Grid>
@@ -159,10 +123,6 @@ const SiteSection = () => {
             action={"add"}
             selectionID={selectionID}
             handleClose={handleClose}
-            refetch={sitesRefetch}
-            refetchHealthorOrgNetwork={refetchOrgorHealth}
-            refetchAssociatedSites={refetchAllSites}
-            orgNetworkRefetch={orgNetworkRefetch}
           />
         ) : (
           ""

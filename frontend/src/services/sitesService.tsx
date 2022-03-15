@@ -1,15 +1,6 @@
 import { toast } from "react-toastify";
 
-const updateSitesService = async (
-  id,
-  sites,
-  updateSites,
-  refetch,
-  type,
-  refetchOrgorNetwork,
-  refetchAssociatedSites,
-  orgNetworkRefetch
-) => {
+const updateSitesService = async (id, sites, updateSites, type) => {
   await updateSites({
     id: id?.toString(),
     organizationSite: { sites: [...sites] },
@@ -25,26 +16,12 @@ const updateSitesService = async (
         {
           autoClose: 1000,
           pauseOnHover: false,
-          onClose: () => {
-            refetchAssociatedSites();
-            refetch();
-            refetchOrgorNetwork();
-            orgNetworkRefetch();
-          },
         }
       );
     });
 };
 
-const addNewSiteService = async (
-  selectionID,
-  siteObject,
-  addNewSite,
-  refetch,
-  refetchOrgorNetwork,
-  refetchAllSites,
-  orgNetworkRefetch
-) => {
+const addNewSiteService = async (selectionID, siteObject, addNewSite) => {
   await addNewSite({
     id: selectionID?.toString(),
     metaSite: siteObject,
@@ -54,12 +31,6 @@ const addNewSiteService = async (
       toast.success("New Site Added.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: () => {
-          refetchAllSites();
-          refetch();
-          refetchOrgorNetwork();
-          orgNetworkRefetch();
-        },
       });
     });
 };

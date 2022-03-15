@@ -10,23 +10,17 @@ import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateSitesService } from "@src/services/sitesService";
-import {
-  useOrganizationsSitesUpdateMutation,
-  useOrganizationsReadQuery,
-} from "@src/store/reducers/api";
+import { useOrganizationsSitesUpdateMutation } from "@src/store/reducers/api";
 
 import "@src/components/common/Presentational/SiteCard/SiteCard.scss";
 
 interface SiteCardProps {
-  refetch: () => void;
   siteId: number;
   name: string;
   machines: Array<string>;
   location: string;
   connections: number;
   sites: Array<object>;
-  refetchAssociatedSites?: () => void;
-  orgNetworkRefetch: () => void;
 }
 const SiteCard = ({
   siteId,
@@ -34,10 +28,7 @@ const SiteCard = ({
   machines,
   location,
   connections,
-  refetch,
-  orgNetworkRefetch,
   sites,
-  refetchAssociatedSites,
 }: SiteCardProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -47,9 +38,6 @@ const SiteCard = ({
   const { cardPopUp } = localizedData().sites;
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const { id, networkId } = useParams();
-  const { refetch: refetchOrgorHealth } = useOrganizationsReadQuery({
-    id: networkId ? networkId : id,
-  });
   const selectionID =
     networkId == undefined ? id?.toString() : networkId?.toString();
 
@@ -79,27 +67,9 @@ const SiteCard = ({
     handleModalClose();
     const updatedSites = sites.filter((site) => site?.id !== siteId);
     if (networkId) {
-      await updateSitesService(
-        selectionID,
-        updatedSites,
-        updateSite,
-        refetch,
-        "delete",
-        refetchOrgorHealth,
-        refetchAssociatedSites,
-        orgNetworkRefetch
-      );
+      await updateSitesService(selectionID, updatedSites, updateSite, "delete");
     } else {
-      await updateSitesService(
-        selectionID,
-        updatedSites,
-        updateSite,
-        refetch,
-        "delete",
-        refetchOrgorHealth,
-        refetchAssociatedSites,
-        orgNetworkRefetch
-      );
+      await updateSitesService(selectionID, updatedSites, updateSite, "delete");
     }
   };
   return (
@@ -183,9 +153,6 @@ const SiteCard = ({
         action={"edit"}
         selectionID={selectionID}
         handleClose={handleEditModalClose}
-        refetchHealthorOrgNetwork={refetchOrgorHealth}
-        refetchAssociatedSites={refetchAssociatedSites}
-        refetch={refetch}
       />
     </div>
   );

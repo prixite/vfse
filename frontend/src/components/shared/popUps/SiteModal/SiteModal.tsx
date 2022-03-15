@@ -37,10 +37,6 @@ interface siteProps {
   address?: string;
   selectionID: string;
   sites?: any; // eslint-disable-line
-  refetch: () => void;
-  refetchHealthorOrgNetwork: () => void;
-  orgNetworkRefetch?: () => void;
-  refetchAssociatedSites?: () => void;
   action: string;
 }
 
@@ -98,15 +94,7 @@ export default function SiteModal(props: siteProps) {
       : setAddressError("");
     if (siteName && siteAddress) {
       const siteObject = getSiteObject();
-      await addNewSiteService(
-        props?.selectionID,
-        siteObject,
-        addNewSite,
-        props.refetch,
-        props?.refetchHealthorOrgNetwork,
-        props.refetchAssociatedSites,
-        props?.orgNetworkRefetch
-      )
+      await addNewSiteService(props?.selectionID, siteObject, addNewSite)
         .then(() => {
           setTimeout(() => {
             resetModal();
@@ -168,11 +156,7 @@ export default function SiteModal(props: siteProps) {
         props?.selectionID,
         updatedSites,
         updateSite,
-        props?.refetch,
-        "edit",
-        props?.refetchHealthorOrgNetwork,
-        props?.refetchAssociatedSites,
-        props?.orgNetworkRefetch
+        "edit"
       )
         .then(() => {
           setTimeout(() => {
