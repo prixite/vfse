@@ -148,7 +148,7 @@ const AppearanceSection = () => {
           tempData.appearance["icon"] = data?.location;
           dispatch(
             setSelectedOrganization({
-              selectedOrganization: currentOrganiationDummyData,
+              selectedOrganization: tempData,
             })
           );
           return tempData;
