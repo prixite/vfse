@@ -56,8 +56,7 @@ const updateHealthNetworkService = async (
   organization,
   updateOrganization,
   updateOrganizationSites,
-  sites,
-  refetch
+  sites
 ) => {
   await updateOrganization({ id, organization })
     .unwrap()
@@ -70,7 +69,6 @@ const updateHealthNetworkService = async (
         id: response?.id,
         organizationSite: { sites: [...sites] },
       }).unwrap();
-      refetch();
     });
 };
 
@@ -79,8 +77,7 @@ const addNewHealthNetworkService = async (
   organization,
   addHealthNetwork,
   updateOrganizationSites,
-  sites,
-  refetch
+  sites
 ) => {
   await addHealthNetwork({
     id: id.toString(),
@@ -96,7 +93,6 @@ const addNewHealthNetworkService = async (
         id: response?.id,
         organizationSite: { sites: [...sites] },
       }).unwrap();
-      refetch();
     });
 };
 

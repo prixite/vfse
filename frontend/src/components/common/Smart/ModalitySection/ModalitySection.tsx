@@ -39,13 +39,10 @@ const ModalitySection = () => {
   const { searching } = localizedData().common;
   const selectedOrganization = useSelectedOrganization();
 
-  const {
-    data: networksData,
-    isLoading: isNetworkDataLoading,
-    refetch: orgNetworkRefetch,
-  } = useOrganizationsHealthNetworksListQuery({
-    id: selectedOrganization?.id.toString(),
-  });
+  const { data: networksData, isLoading: isNetworkDataLoading } =
+    useOrganizationsHealthNetworksListQuery({
+      id: selectedOrganization?.id.toString(),
+    });
 
   const handleClose = () => dispatch(closeNetworkModal());
   const handleSearchQuery = (searchQuery: string) => {
@@ -139,7 +136,6 @@ const ModalitySection = () => {
             open={openAddNetworkModal}
             action={action}
             handleClose={handleClose}
-            refetch={orgNetworkRefetch}
           />
         ) : (
           ""
