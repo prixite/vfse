@@ -30,7 +30,10 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       },
     },
     organizationsPartialUpdate: {
-      invalidatesTags: ["Organization"],
+      invalidatesTags: (result, errorr, { id }) => [
+        { type: "HealthNetwork", id: `HealthNetworks-${id}` },
+        "Organization",
+      ],
     },
     healthNetworksList: {
       providesTags: ["HealthNetwork"],

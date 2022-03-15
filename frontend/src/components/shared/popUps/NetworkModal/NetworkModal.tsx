@@ -26,7 +26,6 @@ import {
   useOrganizationsPartialUpdateMutation,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsSitesUpdateMutation,
-  useOrganizationsSitesListQuery,
   Site,
 } from "@src/store/reducers/api";
 
@@ -35,7 +34,6 @@ import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
 interface Props {
   organization: Organization;
-  refetch: () => void;
   open: boolean;
   handleClose: () => void;
   action: string;
@@ -43,14 +41,6 @@ interface Props {
 
 export default function NetworkModal(props: Props) {
   const selectedOrganization = useSelectedOrganization();
-  const { refetch: sitesRefetch } = useOrganizationsSitesListQuery(
-    {
-      id: props?.organization?.id.toString(),
-    },
-    {
-      skip: false,
-    }
-  );
   const { appearance } = selectedOrganization;
   //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
@@ -140,11 +130,9 @@ export default function NetworkModal(props: Props) {
                 organizationObject,
                 updateOrganization,
                 updateOrganizationSites,
-                organizationObject?.sites,
-                props.refetch
+                organizationObject?.sites
               )
                 .then(() => {
-                  sitesRefetch();
                   resetModal();
                 })
                 .catch(() => {
@@ -165,11 +153,9 @@ export default function NetworkModal(props: Props) {
             organizationObject,
             updateOrganization,
             updateOrganizationSites,
-            organizationObject?.sites,
-            props.refetch
+            organizationObject?.sites
           )
             .then(() => {
-              sitesRefetch();
               resetModal();
             })
             .catch(() => {
@@ -208,11 +194,9 @@ export default function NetworkModal(props: Props) {
                 organizationObject,
                 addHealthNetwork,
                 updateOrganizationSites,
-                organizationObject?.sites,
-                props.refetch
+                organizationObject?.sites
               )
                 .then(() => {
-                  sitesRefetch();
                   resetModal();
                 })
                 .catch(() => {
