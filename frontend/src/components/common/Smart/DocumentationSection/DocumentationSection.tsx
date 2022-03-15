@@ -116,11 +116,8 @@ export default function DocumentationSection() {
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
-  const {
-    data: rows,
-    isLoading,
-    refetch: docsRefetch,
-  } = useProductsModelsListQuery({});
+  const { data: rows, isLoading } = useProductsModelsListQuery({});
+
   const [searchedList, setSearchedList] = useState({});
   const [docList, setDocList] = useState(null);
   useEffect(() => {
@@ -242,11 +239,7 @@ export default function DocumentationSection() {
   const deleteDocument = async () => {
     handleModalClose();
     handleActionClose();
-    await deleteProductModelService(
-      currentDoc,
-      deleteProductModel,
-      docsRefetch
-    );
+    await deleteProductModelService(currentDoc, deleteProductModel);
     toast.success("Documentation successfully deleted", {
       autoClose: 1000,
       pauseOnHover: false,
@@ -383,7 +376,6 @@ export default function DocumentationSection() {
       <DocumentModal
         open={open}
         handleClose={handleClose}
-        refetch={docsRefetch}
         selectedDocId={currentDoc}
         selectedDoc={currentProductModel}
         action={action}
