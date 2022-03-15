@@ -1,0 +1,240 @@
+.topic-modal {
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    width: 784px;
+    max-width: 800px;
+  }
+
+  .errorText {
+    color: #ff1744;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+
+  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+    border-bottom: 1px solid #d9dbdd;
+    .title-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .modal-header {
+        font-weight: 600;
+      }
+      .dialog-page {
+        font-size: 16px;
+        .pg-number {
+          padding: 7px 30px;
+        }
+        .cross-btn {
+          width: 15px;
+          height: 15px;
+          margin-left: 12px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    .required {
+      &:after {
+        content: " *";
+        color: red;
+      }
+    }
+    .info-label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 25px;
+    }
+    .full-field {
+      width: 100%;
+      height: 48px !important;
+      .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+        border: 1px solid #d4d6db;
+        border-radius: 8px;
+        height: 48px !important;
+      }
+      input {
+        border: 1px solid transparent;
+        height: 8px;
+        border-radius: 8px;
+      }
+    }
+    .full-field-desc {
+      width: 100%;
+      height: 133px !important;
+      .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+        border: 1px solid #d4d6db;
+        border-radius: 8px;
+        height: 133px !important;
+      }
+      input {
+        border: 1px solid transparent;
+        height: 8px;
+        border-radius: 8px;
+      }
+    }
+    .divided-div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .info-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        margin-top: 25px;
+      }
+      .info-field {
+        width: 356px;
+        height: 48px !important;
+        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+          border: 1px solid #d4d6db;
+          border-radius: 8px;
+          height: 48px !important;
+        }
+        input {
+          border: 1px solid transparent;
+          height: 8px;
+          border-radius: 8px;
+        }
+      }
+    }
+    .network-details {
+      background: #fcfcfd;
+      border: 1px solid #d9dbdd;
+      margin-bottom: 8px;
+      padding: 15px;
+      font-size: 14px;
+      font-weight: 600;
+      .header {
+        width: 100%;
+        .title {
+          width: 45%;
+          display: inline-block;
+        }
+        .checked-ratio {
+          color: #85878f;
+          display: inline-block;
+          text-align: right;
+          width: 52%;
+        }
+      }
+      .options {
+        font-size: 14px;
+        font-weight: 400;
+        color: #85878f;
+      }
+    }
+    .topics-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .checked-ratio {
+        color: #85878f;
+        margin-top: 25px;
+      }
+    }
+    .toggle-btn {
+      min-width: 65px;
+      height: 28px;
+      margin-right: 12px !important;
+      border: 1px solid #d4d6db !important;
+      border-radius: 8px !important;
+      margin-bottom: 18px;
+      padding: 8px 24px;
+    }
+    .services {
+      display: flex;
+      flex-direction: row;
+
+      .service-options {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+  .css-hlj6pa-MuiDialogActions-root {
+    justify-content: center;
+    margin-bottom: 12px;
+    .cancel-btn {
+      background: #efe1ff;
+      color: #773cbd;
+      width: 47%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-transform: capitalize;
+      &:hover {
+        background: #efe1ff;
+        color: #773cbd;
+      }
+    }
+    .add-btn {
+      color: #fff;
+      background: #773cbd;
+      width: 47%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-left: 16px !important;
+      text-transform: capitalize;
+      &:hover {
+        color: #fff;
+        background: #773cbd;
+      }
+    }
+  }
+}
+
+.my-checkbox-wrapper .MuiCheckbox-colorPrimary {
+  color: "green" !important;
+}
+
+@media only screen and (max-width: 480px) {
+  .topic-modal {
+    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+      width: 100%;
+      margin: 5px;
+    }
+    .css-d3d7qy-MuiFormControl-root {
+      min-width: unset;
+      width: 100%;
+    }
+    .modal-content {
+      .divided-div {
+        flex-direction: column;
+        .info-field {
+          width: 100%;
+        }
+      }
+    }
+
+    .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+      .title-section {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .modal-header {
+          font-weight: 600;
+          width: 35%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .dialog-page {
+          font-size: 16px;
+          display: flex;
+          align-items: center;
+          .pg-number {
+            padding: 0px;
+          }
+        }
+      }
+    }
+  }
+}

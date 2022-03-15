@@ -16,7 +16,10 @@ import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/common/Smart/VfseTopSection/VfseTopSection.scss";
 
-export default function VfseTopSection() {
+interface Props {
+  setOpen?: (arg: boolean) => void;
+}
+export default function VfseTopSection({ setOpen }: Props) {
   const [sort, setSort] = React.useState("");
   const [filter, setFilter] = React.useState("");
   const [searchText, setSearchText] = React.useState("");
@@ -52,6 +55,9 @@ export default function VfseTopSection() {
   };
   const handleInput = (e) => {
     setSearchText(e.target.value);
+  };
+  const handleModal = () => {
+    setOpen(true);
   };
 
   return (
@@ -148,6 +154,7 @@ export default function VfseTopSection() {
               }}
               variant="contained"
               className="AddTopicsbtn"
+              onClick={handleModal}
             >
               <div className="btn-content">
                 <AddIcon />
