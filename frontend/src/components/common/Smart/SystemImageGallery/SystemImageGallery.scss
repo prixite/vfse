@@ -3,6 +3,10 @@
   width: 100%;
   border: 1px dashed #a7aeb2;
   padding: 10px;
+  .css-5jor0r-MuiImageList-root {
+    grid-template-columns: unset !important;
+    gap: unset !important;
+  }
   .selectedImage {
     margin-bottom: 20px;
     text-align: center;
@@ -30,6 +34,16 @@
     left: 0;
     width: 164px;
     height: 100%;
+  }
+  .infinite-scroll-component {
+    height: auto;
+    overflow: auto;
+    display: grid;
+    overflow-y: auto;
+    list-style: none;
+    padding: 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
   }
 }
 

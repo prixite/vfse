@@ -2,6 +2,7 @@ import { SetStateAction, useState, Dispatch, useEffect } from "react";
 
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
@@ -26,6 +27,7 @@ const RenderImage = ({ src, imgIndex, index }: imgProps) => {
   const [loaded, setIsLoaded] = useState(false);
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const [browserWidth] = useWindowSize();
+
   return (
     <>
       <img
@@ -71,6 +73,30 @@ const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
     const image = parseInt(imageId);
     setSystemImage(image);
   };
+  const [slicePointer, setSlicePointer] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [paginatedImages, setPaginatedImages] = useState([]);
+  const fetchMoreSection = () => {
+    setSlicePointer((prevState) => prevState + 4);
+    if (slicePointer + 4 >= data.length) {
+      setHasMore(false);
+    }
+
+    setTimeout(() => {
+      setPaginatedImages((prevState) => [
+        ...prevState.concat([...data.slice(slicePointer, slicePointer + 4)]),
+      ]);
+    }, 0);
+  };
+  useEffect(() => {
+    if (data && data?.length) {
+      setPaginatedImages([...data.slice(0, slicePointer + 12)]);
+      setSlicePointer((prevState) => prevState + 12);
+      if (data?.length < slicePointer + 12) {
+        setHasMore(false);
+      }
+    }
+  }, [data]);
 
   return (
     <div className="systemGallery">
@@ -80,19 +106,38 @@ const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
           cols={4}
           rowHeight={150}
           className="SystemImageList"
+          id="scrollableDiv"
         >
-          {data.map((item) => (
-            <ImageListItem
-              key={item.id}
-              onClick={() => handleSelectedImage(item?.id)}
-            >
-              <RenderImage
-                src={item?.image}
-                imgIndex={item?.id}
-                index={systemImage}
-              />
-            </ImageListItem>
-          ))}
+          <InfiniteScroll
+            dataLength={paginatedImages.length}
+            next={fetchMoreSection}
+            hasMore={hasMore}
+            loader={
+              <h4
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  color: "#696f77",
+                }}
+              >
+                Loading...
+              </h4>
+            }
+            scrollableTarget="scrollableDiv"
+          >
+            {paginatedImages.map((item) => (
+              <ImageListItem
+                key={item.id}
+                onClick={() => handleSelectedImage(item?.id)}
+              >
+                <RenderImage
+                  src={item?.image}
+                  imgIndex={item?.id}
+                  index={systemImage}
+                />
+              </ImageListItem>
+            ))}
+          </InfiniteScroll>
         </ImageList>
       ) : (
         <h3>loading</h3>
