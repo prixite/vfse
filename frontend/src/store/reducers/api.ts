@@ -67,30 +67,36 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       ],
     },
     organizationsSitesList: {
-      providesTags: (result, error, { id }) => [
-        { type: "Organization", id: `Sites-${id}` },
+      providesTags: (result = [], error, { id }) => [
+        ...result.map(({ id }) => ({
+          type: "Site" as const,
+          id: `Sites-${id}`,
+        })),
+        { type: "Site", id: `Sites-${id}` },
       ],
     },
     organizationsAssociatedSitesList: {
-      providesTags: (result, error, { id }) => [
-        { type: "Organization", id: `AssociatedSites-${id}` },
+      providesTags: (result = [], error, { id }) => [
+        ...result.map(({ id }) => ({
+          type: "Site" as const,
+          id: `Sites-${id}`,
+        })),
+        { type: "Site", id: `Sites-${id}` },
       ],
     },
     organizationsRead: {
       providesTags: (result, error, { id }) => [
-        { type: "Organization", id: id },
+        { type: "Site", id: `Sites-${id}` },
       ],
     },
     organizationsSitesCreate: {
-      invalidatesTags: (result, error, { id }) => [
-        { type: "Organization", id: `Sites-${id}` },
-        { type: "Organization", id: `AssociatedSites-${id}` },
-      ],
+      invalidatesTags: (result, error, { id }) => {
+        return [{ type: "Site", id: `Sites-${id}` }];
+      },
     },
     organizationsSitesUpdate: {
       invalidatesTags: (result, error, { id }) => [
-        { type: "Organization", id: `Sites-${id}` },
-        { type: "Organization", id: `AssociatedSites-${id}` },
+        { type: "Site", id: `Sites-${id}` },
       ],
     },
     organizationsSystemsList: {
