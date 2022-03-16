@@ -38,7 +38,6 @@ import {
 interface Props {
   open: boolean;
   handleClose: () => void;
-  refetch: () => void;
   selectedDocId?: number;
   selectedDoc?: ProductModelDetail;
   action: string;
@@ -47,7 +46,6 @@ interface Props {
 export default function DocumentModal({
   open,
   handleClose,
-  refetch,
   selectedDocId,
   selectedDoc,
   action,
@@ -169,7 +167,7 @@ export default function DocumentModal({
     if (verifyErrors()) {
       const newProductModel = getNewProductModel();
       if (newProductModel.documentation.url || newProductModel) {
-        await addProductModelService(newProductModel, addProductModel, refetch)
+        await addProductModelService(newProductModel, addProductModel)
           .then(() => {
             setTimeout(() => {
               resetModal();
@@ -201,8 +199,7 @@ export default function DocumentModal({
         await updateProductModelService(
           selectedDocId,
           newProductModel,
-          updateProductModel,
-          refetch
+          updateProductModel
         )
           .then(() => {
             setTimeout(() => {

@@ -1,33 +1,26 @@
 import { toast } from "react-toastify";
 
-const addProductModelService = async (
-  ProductModelCreate,
-  addProductModel,
-  refetch
-) => {
+const addProductModelService = async (ProductModelCreate, addProductModel) => {
   await addProductModel({ productModelCreate: ProductModelCreate })
     .unwrap()
     .then(async () => {
       toast.success("New User Added.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: refetch,
       });
     });
 };
 
-const deleteProductModelService = async (id, deleteProductModel, refetch) => {
+const deleteProductModelService = async (id, deleteProductModel) => {
   await deleteProductModel({
     id: id.toString(),
   }).unwrap();
-  refetch();
 };
 
 const updateProductModelService = async (
   id,
   ProductModelCreate,
-  updateProductModel,
-  refetch
+  updateProductModel
 ) => {
   await updateProductModel({
     id: id.toString(),
@@ -38,7 +31,6 @@ const updateProductModelService = async (
       toast.success("Documentation updated successfully.", {
         autoClose: 1000,
         pauseOnHover: false,
-        onClose: refetch,
       });
     });
 };

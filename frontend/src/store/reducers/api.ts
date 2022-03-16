@@ -156,7 +156,13 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       ],
     },
     productsModelsList: {
-      providesTags: ["ProductModel"],
+      providesTags: (result = []) => [
+        ...result.map(({ id }) => ({
+          type: "ProductModel" as const,
+          id: `ProductModel-${id}`,
+        })),
+        "ProductModel",
+      ],
     },
     productsModelsCreate: {
       invalidatesTags: ["ProductModel"],
@@ -164,13 +170,11 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     productsModelsPartialUpdate: {
       invalidatesTags: (result, error, { id }) => [
         { type: "ProductModel", id: `ProductModel-${id}` },
-        "ProductModel",
       ],
     },
     productsModelsDelete: {
       invalidatesTags: (result, error, { id }) => [
         { type: "ProductModel", id: `ProductModel-${id}` },
-        "ProductModel",
       ],
     },
     systemsImagesList: {
