@@ -249,9 +249,14 @@ export default function SystemModal(props: SystemProps) {
   const { siteId, networkId } =
     useParams<{ siteId: string; networkId: string }>();
 
-  const { data: healthNetwork } = useOrganizationsReadQuery({
-    id: networkId,
-  });
+  const { data: healthNetwork } = useOrganizationsReadQuery(
+    {
+      id: networkId,
+    },
+    {
+      skip: !networkId,
+    }
+  );
 
   const isMri = useMemo(
     () =>
