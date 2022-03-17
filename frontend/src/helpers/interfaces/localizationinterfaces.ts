@@ -2,8 +2,7 @@ import { System } from "@src/store/reducers/generated";
 
 export interface SystemInterface {
   system: System;
-  handleEdit?: () => void;
-  refetch?: () => void;
+  handleEdit?: (system: System) => void;
 }
 
 export interface Common {

@@ -458,16 +458,13 @@ const SystemSection = () => {
           browserWidth > mobileWidth ? (
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
-                <SystemCard system={item} handleEdit={() => handleEdit(item)} />
+                <SystemCard system={item} handleEdit={handleEdit} />
               </div>
             ))
           ) : (
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
-                <SystemCardMobile
-                  system={item}
-                  handleEdit={() => handleEdit(item)}
-                />
+                <SystemCardMobile system={item} handleEdit={handleEdit} />
               </div>
             ))
           )

@@ -66,8 +66,8 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
   };
 
   const onEdit = () => {
+    handleEdit(system);
     handleClose();
-    handleEdit();
   };
   const handleDelete = async () => {
     setModal(false);
