@@ -197,6 +197,7 @@ export default function SystemModal(props: SystemProps) {
         handleClear();
       }
     },
+    enableReinitialize: true,
   });
 
   const { data: modalityData = [], isLoading: isModalityLoading } =
@@ -312,70 +313,50 @@ export default function SystemModal(props: SystemProps) {
     props.setSystem(null);
     formik.resetForm();
   };
-
   useEffect(() => {
     if (props.system) {
-      formik.setFieldValue("systemImage", props.system.image);
-      formik.setFieldValue(
-        "modality",
-        props.system.product_model_detail.modality.id
-      );
-      formik.setFieldValue(
-        "manufacturer",
-        props.system.product_model_detail.product.manufacturer.id
-      );
-      formik.setFieldValue(
-        "product",
-        props.system.product_model_detail.product.id
-      );
-      formik.setFieldValue("model", props.system.product_model_detail.id);
-      formik.setFieldValue("name", props.system.name);
-      formik.setFieldValue("site", props.system.site);
-      formik.setFieldValue("serialNumber", props.system.serial_number);
-      formik.setFieldValue(
-        "buildingLocation",
-        props.system.location_in_building
-      );
-      formik.setFieldValue("version", props.system.software_version);
-      formik.setFieldValue("ip", props.system.ip_address);
-      formik.setFieldValue("asset", props.system.asset_number);
-      formik.setFieldValue("localAE", props.system.local_ae_title);
-      formik.setFieldValue(
-        "connection.vfse",
-        props.system.connection_options.vfse
-      );
-      formik.setFieldValue(
-        "connection.virtual",
-        props.system.connection_options.virtual_media_control
-      );
-      formik.setFieldValue(
-        "connection.web",
-        props.system.connection_options.service_web_browser
-      );
-      formik.setFieldValue(
-        "connection.ssh",
-        props.system.connection_options.ssh
-      );
-      formik.setFieldValue("contactInfo", props.system.system_contact_info);
-      formik.setFieldValue("grafana", props.system.grafana_link);
-      formik.setFieldValue("ris.ip", props.system.his_ris_info.ip);
-      formik.setFieldValue("ris.title", props.system.his_ris_info.title);
-      formik.setFieldValue("ris.port", props.system.his_ris_info.port);
-      formik.setFieldValue("ris.ae", props.system.his_ris_info.ae_title);
-      formik.setFieldValue("dicom.ip", props.system.dicom_info.ip);
-      formik.setFieldValue("dicom.title", props.system.dicom_info.title);
-      formik.setFieldValue("dicom.port", props.system.dicom_info.port);
-      formik.setFieldValue("dicom.ae", props.system.dicom_info.ae_title);
-      formik.setFieldValue(
-        "mri.helium",
-        props.system.mri_embedded_parameters.helium
-      );
-      formik.setFieldValue(
-        "mri.magnet",
-        props.system.mri_embedded_parameters.magnet_pressure
-      );
+      formik.setValues({
+        systemImage: props.system.image,
+        modality: props.system.product_model_detail.modality.id.toString(),
+        manufacturer:
+          props.system.product_model_detail.product.manufacturer.id.toString(),
+        product: props.system.product_model_detail.product.id.toString(),
+        model: props.system.product_model_detail.id.toString(),
+        name: props.system.name,
+        site: props.system.site.toString(),
+        serialNumber: props.system.serial_number,
+        buildingLocation: props.system.location_in_building,
+        version: props.system.software_version,
+        ip: props.system.ip_address,
+        asset: props.system.asset_number,
+        localAE: props.system.local_ae_title,
+        connection: {
+          vfse: props.system.connection_options.vfse,
+          virtual: props.system.connection_options.virtual_media_control,
+          web: props.system.connection_options.service_web_browser,
+          ssh: props.system.connection_options.ssh,
+        },
+        contactInfo: props.system.system_contact_info,
+        grafana: props.system.grafana_link,
+        ris: {
+          ip: props.system.his_ris_info.ip,
+          title: props.system.his_ris_info.title,
+          port: props.system.his_ris_info.port,
+          ae: props.system.his_ris_info.ae_title,
+        },
+        dicom: {
+          ip: props.system.dicom_info.ip,
+          title: props.system.dicom_info.title,
+          port: props.system.dicom_info.port,
+          ae: props.system.dicom_info.ae_title,
+        },
+        mri: {
+          helium: props.system.mri_embedded_parameters.helium,
+          magnet: props.system.mri_embedded_parameters.magnet_pressure,
+        },
+      });
     }
-  }, [Boolean(props.system)]);
+  }, [props.system]);
 
   useEffect(() => {
     if (siteId && healthNetwork) {
