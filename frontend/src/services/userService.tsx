@@ -28,28 +28,20 @@ const updateUserService = async (id, userObject, updateUser) => {
     });
 };
 
-const deactivateUserService = async (id, userDeactivateMutation, refetch) => {
+const deactivateUserService = async (id, userDeactivateMutation) => {
   await userDeactivateMutation({
     userEnableDisable: {
       users: [id],
     },
-  })
-    .unwrap()
-    .then(async () => {
-      refetch();
-    });
+  }).unwrap();
 };
 
-const activateUserService = async (id, userActivateMutation, refetch) => {
+const activateUserService = async (id, userActivateMutation) => {
   await userActivateMutation({
     userEnableDisable: {
       users: [id],
     },
-  })
-    .unwrap()
-    .then(async () => {
-      refetch();
-    });
+  }).unwrap();
 };
 
 export {

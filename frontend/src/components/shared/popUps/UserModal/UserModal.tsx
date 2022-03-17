@@ -51,7 +51,6 @@ interface Props {
   roles: unknown;
   organizationData?: Array<Organization>;
   modalitiesList?: Array<Modality>;
-  refetch: () => void;
   action: string;
 }
 
@@ -561,7 +560,12 @@ export default function UserModal(props: Props) {
                 />
               </span>
             </span>
-            <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
+            <img
+              src={CloseBtn}
+              className="cross-btn"
+              onClick={resetModal}
+              alt=""
+            />
           </span>
         </div>
       </DialogTitle>
@@ -639,7 +643,7 @@ export default function UserModal(props: Props) {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <img src={NumberIcon} />
+                          <img src={NumberIcon} alt="" />
                         </InputAdornment>
                       ),
                     }}
