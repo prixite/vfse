@@ -191,11 +191,7 @@ export default function UserSection() {
   const { lock, unlock, edit } = localizedData().user_menu_options;
 
   const selectedOrganization = useSelectedOrganization();
-  const {
-    data: items,
-    isLoading: isUsersLoading,
-    refetch: usersRefetch,
-  } = useScopeUsersListQuery({
+  const { data: items, isLoading: isUsersLoading } = useScopeUsersListQuery({
     id: selectedOrganization?.id?.toString(),
   });
 
@@ -295,12 +291,12 @@ export default function UserSection() {
   };
 
   const deactivateUser = async (id) => {
-    await deactivateUserService(id, userDeactivateMutation, usersRefetch);
+    await deactivateUserService(id, userDeactivateMutation);
     handleActionClose();
   };
 
   const activateUser = async (id) => {
-    await activateUserService(id, userActivateMutation, usersRefetch);
+    await activateUserService(id, userActivateMutation);
     handleActionClose();
   };
 
@@ -358,7 +354,6 @@ export default function UserSection() {
           action={currentUser ? "edit" : "add"}
           organizationData={organizationData}
           modalitiesList={modalitiesList}
-          refetch={usersRefetch}
         />
       )}
 
