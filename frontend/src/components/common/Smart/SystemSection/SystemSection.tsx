@@ -60,20 +60,21 @@ const SystemSection = () => {
   const [callSystemsApi, setCallSystemsApi] = useState(false);
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
-  const { siteId, networkId } =
-    useParams<{ siteId: string; networkId: string }>();
+  const { siteId, networkId, id } =
+    useParams<{ siteId: string; networkId: string; id: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const isOrganizationModality =
     !history?.location?.pathname.includes("sites") &&
     !history?.location?.pathname.includes("networks");
+  const selectedID = networkId || id;
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
       {
-        id: networkId,
+        id: selectedID,
       },
       {
-        skip: !networkId,
+        skip: !selectedID,
       }
     );
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
@@ -416,10 +417,10 @@ const SystemSection = () => {
 
   const { data: healthNetwork } = useOrganizationsReadQuery(
     {
-      id: networkId,
+      id: selectedID,
     },
     {
-      skip: !networkId,
+      skip: !selectedID,
     }
   );
 

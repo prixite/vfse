@@ -247,15 +247,16 @@ export default function SystemModal(props: SystemProps) {
       }
     );
 
-  const { siteId, networkId } =
-    useParams<{ siteId: string; networkId: string }>();
+  const { siteId, networkId, id } =
+    useParams<{ siteId: string; networkId: string; id: string }>();
 
+  const selectedID = networkId || id;
   const { data: healthNetwork } = useOrganizationsReadQuery(
     {
-      id: networkId,
+      id: selectedID,
     },
     {
-      skip: !networkId,
+      skip: !selectedID,
     }
   );
 
