@@ -13,7 +13,11 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { SiteModalFormState } from "@src/components/shared/popUps/SystemModal/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
-import { returnSearchedOject } from "@src/helpers/utils/utils";
+import {
+  returnSearchedOject,
+  isNonFieldError,
+  getNonFieldError,
+} from "@src/helpers/utils/utils";
 import {
   addNewSiteService,
   updateSitesService,
@@ -101,11 +105,18 @@ export default function SiteModal(props: siteProps) {
         resetModal();
         setReset(false);
       })
-      .catch(() => {
-        toast.error("Site with this name already exists.", {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+      .catch((error: unknown) => {
+        if (isNonFieldError(error)) {
+          toast.error(getNonFieldError(error), {
+            autoClose: 2000,
+            pauseOnHover: false,
+          });
+        } else {
+          toast.error("Error occurred while saving site", {
+            autoClose: 2000,
+            pauseOnHover: false,
+          });
+        }
       })
       .finally(() => setIsLoading(false));
   };
