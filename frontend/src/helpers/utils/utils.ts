@@ -1,4 +1,6 @@
-const ValidateIPaddress = (ipaddress: string) => {
+import { ApiError } from "@src/types/interfaces";
+
+const validateIPaddress = (ipaddress: string) => {
   if (
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
       // eslint-disable-line
@@ -10,17 +12,11 @@ const ValidateIPaddress = (ipaddress: string) => {
   return false;
 };
 
-const isValidURL = (url: string) => {
-  const res = url.match(
-    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g // eslint-disable-line
-  );
-  return res !== null;
-};
-
 const returnSearchedOject = (data, key) => {
   const list = data.filter((item) => item.id == key);
   return list;
 };
+
 const hexToRgb = (hex, opacity) => {
   const red = parseInt(hex[1] + hex[2], 16);
   const green = parseInt(hex[3] + hex[4], 16);
@@ -28,4 +24,36 @@ const hexToRgb = (hex, opacity) => {
 
   return `rgba(${red},${green},${blue},${opacity})`;
 };
-export { ValidateIPaddress, isValidURL, returnSearchedOject, hexToRgb };
+
+const isApiError = (error: unknown): error is ApiError => {
+  return typeof error === "object" && "status" in error;
+};
+
+const isBadRequestError = (error: ApiError): boolean => {
+  return isApiError(error) && error.status === 400;
+};
+
+const getNonFieldError = (error: unknown) => {
+  if (isApiError(error)) {
+    if (isBadRequestError(error) && "non_field_errors" in error.data) {
+      return error.data.non_field_errors[0];
+    }
+  }
+};
+
+const isNonFieldError = (error: unknown): boolean => {
+  if (isApiError(error)) {
+    return isBadRequestError(error) && "non_field_errors" in error.data;
+  }
+  return false;
+};
+
+export {
+  validateIPaddress,
+  returnSearchedOject,
+  hexToRgb,
+  isApiError,
+  isBadRequestError,
+  getNonFieldError,
+  isNonFieldError,
+};
