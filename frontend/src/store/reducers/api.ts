@@ -125,26 +125,26 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     },
     organizationsUsersList: {
       providesTags: (result, error, { id }) => [
-        { type: "User", id: `Users-${id}` },
+        { type: "User", id: `User-${id}` },
       ],
     },
     organizationsUsersCreate: {
       invalidatesTags: (result, error, { id }) => [
-        { type: "User", id: `Users-${id}` },
+        { type: "User", id: `User-${id}` },
       ],
     },
     scopeUsersList: {
-      providesTags: (result = []) => [
+      providesTags: (result = [], error, { id }) => [
         ...result.map(({ id }) => ({
           type: "User" as const,
           id: `User-${id}`,
         })),
-        "User",
+        { type: "User", id: `User-${id}` },
       ],
     },
     scopeUsersCreate: {
       invalidatesTags: (result, error, { id }) => [
-        { type: "User", id: `Users-${id}` },
+        { type: "User", id: `User-${id}` },
       ],
     },
     productsList: {
@@ -218,15 +218,18 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       ],
     },
     usersActivatePartialUpdate: {
-      invalidatesTags: ["User"],
+      invalidatesTags: (result, error, { userEnableDisable }) => [
+        { type: "User", id: `User-${userEnableDisable.users[0]}` },
+      ],
     },
     usersDeactivatePartialUpdate: {
-      invalidatesTags: ["User"],
+      invalidatesTags: (result, error, { userEnableDisable }) => [
+        { type: "User", id: `User-${userEnableDisable.users[0]}` },
+      ],
     },
     usersPartialUpdate: {
       invalidatesTags: (result, error, { id }) => [
-        { type: "User", id: `Users-${id}` },
-        "User",
+        { type: "User", id: `User-${id}` },
       ],
     },
     vfseDocumentsList: {
