@@ -6,9 +6,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { SiteModalFormState } from "@src/components/shared/popUps/SystemModal/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject } from "@src/helpers/utils/utils";
 import {
@@ -40,13 +43,17 @@ interface siteProps {
   action: string;
 }
 
+const initialState: SiteModalFormState = {
+  siteName: "",
+  siteAddress: "",
+};
+const validationSchema = yup.object({
+  siteName: yup.string().required("Name is required"),
+  siteAddress: yup.string().required("Address is required"),
+});
 export default function SiteModal(props: siteProps) {
-  const [siteName, setSiteName] = useState("");
-  const [siteAddress, setSiteAddress] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [reset, setReset] = useState(true);
-  const [nameError, setNameError] = useState("");
-  const [addressError, setAddressError] = useState("");
 
   const [addNewSite] = useOrganizationsSitesCreateMutation();
   const [updateSite] = useOrganizationsSitesUpdateMutation();
@@ -64,54 +71,43 @@ export default function SiteModal(props: siteProps) {
     });
   const selectedOrganization = useSelectedOrganization();
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      if (props?.action === "add") {
+        handleAddSite();
+      } else {
+        handleEditSite();
+      }
+    },
+  });
+
   useEffect(() => {
     if (props?.name && props?.address) {
-      setSiteName(props?.name);
-      setSiteAddress(props?.address);
+      formik.setValues({
+        siteName: props?.name,
+        siteAddress: props?.address,
+      });
     }
   }, [props?.open]);
 
-  const handleSiteName = (event) => {
-    if (event.target.value.length) {
-      setNameError("");
-    }
-    setSiteName(event.target.value);
-  };
-
-  const handleSiteAddress = (event) => {
-    if (event.target.value.length) {
-      setAddressError("");
-    }
-    setSiteAddress(event.target.value);
-  };
-
-  const handleAddSite = async () => {
+  const handleAddSite = () => {
     setIsLoading(true);
     setReset(true);
-    !siteName ? setNameError("Name is required.") : setNameError("");
-    !siteAddress
-      ? setAddressError("Address is required.")
-      : setAddressError("");
-    if (siteName && siteAddress) {
-      const siteObject = getSiteObject();
-      await addNewSiteService(props?.selectionID, siteObject, addNewSite)
-        .then(() => {
-          setTimeout(() => {
-            resetModal();
-            setReset(false);
-            setIsLoading(false);
-          }, 500);
-        })
-        .catch(() => {
-          toast.error("Site with this name already exists.", {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
-          setIsLoading(false);
+    const siteObject = getSiteObject();
+    addNewSiteService(props?.selectionID, siteObject, addNewSite)
+      .then(() => {
+        resetModal();
+        setReset(false);
+      })
+      .catch(() => {
+        toast.error("Site with this name already exists.", {
+          autoClose: 2000,
+          pauseOnHover: false,
         });
-    } else {
-      setIsLoading(false);
-    }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   useEffect(() => {
@@ -135,11 +131,7 @@ export default function SiteModal(props: siteProps) {
 
   const handleEditSite = async () => {
     setIsLoading(true);
-    !siteName ? setNameError("Name is required.") : setNameError("");
-    !siteAddress
-      ? setAddressError("Address is required.")
-      : setAddressError("");
-    if (siteName && siteAddress && props?.sites) {
+    if (props?.sites) {
       const siteObject = getSiteObject();
       let siteIndex = -1;
       props?.sites.forEach((site, index) => {
@@ -180,26 +172,14 @@ export default function SiteModal(props: siteProps) {
   const getSiteObject = () => {
     return {
       id: props?.siteId,
-      name: siteName,
-      address: siteAddress,
+      name: formik.values.siteName,
+      address: formik.values.siteAddress,
     };
   };
 
   const resetModal = () => {
-    if (props?.action == "add") {
-      setSiteName("");
-      setNameError("");
-      setSiteAddress("");
-      setAddressError("");
-    } else if (props?.action == "edit") {
-      if (props?.name && props?.address) {
-        setSiteName(props?.name);
-        setSiteAddress(props?.address);
-        setNameError("");
-        setAddressError("");
-      }
-    }
     props?.handleClose();
+    formik.resetForm();
   };
 
   return (
@@ -224,13 +204,14 @@ export default function SiteModal(props: siteProps) {
                   <TextField
                     className="info-field"
                     variant="outlined"
-                    value={siteName}
-                    onChange={handleSiteName}
+                    name="siteName"
+                    value={formik.values.siteName}
+                    onChange={formik.handleChange}
                     size="small"
                     placeholder="Site name"
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {nameError}
+                    {formik.errors.siteName}
                   </p>
                 </div>
               </Grid>
@@ -240,13 +221,14 @@ export default function SiteModal(props: siteProps) {
                   <TextField
                     className="info-field"
                     variant="outlined"
-                    value={siteAddress}
-                    onChange={handleSiteAddress}
+                    name="siteAddress"
+                    value={formik.values.siteAddress}
+                    onChange={formik.handleChange}
                     size="small"
                     placeholder="Site address"
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {addressError}
+                    {formik.errors.siteAddress}
                   </p>
                 </div>
               </Grid>
@@ -254,44 +236,46 @@ export default function SiteModal(props: siteProps) {
           </div>
         </div>
       </DialogContent>
-      <DialogActions>
-        <Button
-          className="cancel-btn"
-          style={
-            isLoading
-              ? {
-                  backgroundColor: "lightgray",
-                  color: buttonTextColor,
-                }
-              : {
-                  backgroundColor: secondaryColor,
-                  color: buttonTextColor,
-                }
-          }
-          onClick={resetModal}
-          disabled={isLoading}
-        >
-          {btnCancel}
-        </Button>
-        <Button
-          className="add-btn"
-          style={
-            isLoading
-              ? {
-                  backgroundColor: "lightgray",
-                  color: buttonTextColor,
-                }
-              : {
-                  backgroundColor: buttonBackground,
-                  color: buttonTextColor,
-                }
-          }
-          disabled={isLoading}
-          onClick={props.action === "add" ? handleAddSite : handleEditSite}
-        >
-          {props?.action == "add" ? btnAdd : btnEdit}
-        </Button>
-      </DialogActions>
+      <form onSubmit={formik.handleSubmit}>
+        <DialogActions>
+          <Button
+            className="cancel-btn"
+            style={
+              isLoading
+                ? {
+                    backgroundColor: "lightgray",
+                    color: buttonTextColor,
+                  }
+                : {
+                    backgroundColor: secondaryColor,
+                    color: buttonTextColor,
+                  }
+            }
+            onClick={resetModal}
+            disabled={isLoading}
+          >
+            {btnCancel}
+          </Button>
+          <Button
+            className="add-btn"
+            style={
+              isLoading
+                ? {
+                    backgroundColor: "lightgray",
+                    color: buttonTextColor,
+                  }
+                : {
+                    backgroundColor: buttonBackground,
+                    color: buttonTextColor,
+                  }
+            }
+            disabled={isLoading}
+            type="submit"
+          >
+            {props?.action == "add" ? btnAdd : btnEdit}
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 }

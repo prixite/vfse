@@ -37,3 +37,8 @@ export interface FormState {
     magnet: string;
   };
 }
+
+export interface SiteModalFormState {
+  siteName: string;
+  siteAddress: string;
+}
