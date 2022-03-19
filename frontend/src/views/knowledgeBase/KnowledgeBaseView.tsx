@@ -1,4 +1,4 @@
-import KnowledgeSection from "@src/components/common/Smart/KnowledgeSection/KnowledgeSection";
+import KnowledgeSection from "@src/components/common/smart/knowledgeSection/KnowledgeSection";
 
 export default function KnowledgeBaseView() {
   return (

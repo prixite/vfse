@@ -1,4 +1,4 @@
-import FaqSection from "@src/components/common/Smart/FaqSection/FaqSection";
+import FaqSection from "@src/components/common/smart/faqSection/FaqSection";
 
 export default function FaqView() {
   return (

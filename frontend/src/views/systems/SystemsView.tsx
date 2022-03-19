@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 import SectionSkeleton from "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton";
-import SystemSection from "@src/components/common/Smart/SystemSection/SystemSection";
+import SystemSection from "@src/components/common/smart/systemSection/SystemSection";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsSystemsListQuery } from "@src/store/reducers/api";
 

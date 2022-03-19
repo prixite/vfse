@@ -1,4 +1,4 @@
-import ForumSection from "@src/components/common/Smart/ForumSection/ForumSection";
+import ForumSection from "@src/components/common/smart/forumSection/ForumSection";
 
 export default function ForumView() {
   return (
