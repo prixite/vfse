@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import SystemImageGallery from "@src/components/common/Smart/SystemImageGallery/SystemImageGallery";
+import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
 import { FormState } from "@src/components/shared/popUps/SystemModal/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";

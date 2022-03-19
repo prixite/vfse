@@ -1,4 +1,4 @@
-import DocumentationDescription from "@src/components/common/Smart/DocumentationDescription/DocumentationDescription";
+import DocumentationDescription from "@src/components/common/smart/documentationDescription/DocumentationDescription";
 export default function ArticleDocumentation() {
   return (
     <>

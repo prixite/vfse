@@ -1,4 +1,4 @@
-import AppearanceSection from "@src/components/common/Smart/AppearanceSection/AppearanceSection";
+import AppearanceSection from "@src/components/common/smart/appearanceSection/AppearanceSection";
 const AppearanceView = () => {
   return (
     <>

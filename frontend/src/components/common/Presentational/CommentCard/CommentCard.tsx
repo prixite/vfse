@@ -6,10 +6,11 @@ import { toast } from "react-toastify";
 
 import DeleteLogo from "@src/assets/svgs/Delete.svg";
 import EditLogo from "@src/assets/svgs/Edit.svg";
-import EditComment from "@src/components/common/Smart/CommentsDrawer/EditComment";
+import EditComment from "@src/components/common/smart/commentsDrawer/editComment/EditComment";
 import DeleteNoteModal from "@src/components/shared/popUps/DeleteNoteModal/DeleteNoteModal";
 import { deleteSystemNoteService } from "@src/services/systemServices";
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
+
 import "@src/components/common/Presentational/CommentCard/CommentCard.scss";
 
 interface CommentProps {
