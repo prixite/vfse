@@ -6,30 +6,29 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import SiteSection from "@src/components/shared/popUps/NetworkModal/SiteSection";
+import { NetworkModalFormState } from "@src/components/shared/popUps/SystemModal/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
-  //addNewOrganizationService,
 } from "@src/services/organizationService";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   Organization,
-  //useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsSitesUpdateMutation,
-  Site,
 } from "@src/store/reducers/api";
-
 import "@src/components/shared/popUps/NetworkModal/NetworkModal.scss";
 
 interface Props {
@@ -38,26 +37,27 @@ interface Props {
   handleClose: () => void;
   action: string;
 }
+const initialState: NetworkModalFormState = {
+  networkName: "",
+  networkLogo: "",
+  sitePointer: [{ name: "", address: "" }],
+};
+const validationSchema = yup.object({
+  networkName: yup.string().required("Name is required"),
+  networkLogo: yup.string().required("Image is not selected"),
+});
 
 export default function NetworkModal(props: Props) {
   const selectedOrganization = useSelectedOrganization();
   const { appearance } = selectedOrganization;
-  //const [addNewOrganization] = useOrganizationsCreateMutation();
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
   const [addHealthNetwork] = useOrganizationsHealthNetworksCreateMutation();
   const [updateOrganizationSites] = useOrganizationsSitesUpdateMutation();
-  const [networkName, setNetworkName] = useState("");
-  const [networkLogo, setNetworkLogo] = useState("");
-  const [networkError, setNetworkError] = useState("");
   const [selectedImage, setSelectedImage] = useState([]);
-  const [imageError, setImageError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const [sitePointer, setSitePointer] = useState<Site[]>([
-    { name: "", address: "" },
-  ]);
   const [isSiteDataPartiallyFilled, setIsSiteDataPartiallyFilled] =
     useState(false);
   const {
@@ -68,33 +68,36 @@ export default function NetworkModal(props: Props) {
     newNetworkBtnCancel,
   } = localizedData().modalities.popUp;
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      if (props.action === "edit") {
+        handleEditOrganization();
+      } else {
+        handleAddNewHealthNetwork();
+      }
+    },
+  });
   useEffect(() => {
     if (props?.organization && props?.open) {
-      setNetworkName(props.organization?.name);
-      setNetworkLogo(props?.organization?.appearance?.logo);
       const sites = props?.organization?.sites;
-      setSitePointer([...sites]);
-    } else {
-      setNetworkName("");
-      setNetworkLogo("");
+      formik.setValues({
+        networkName: props.organization?.name,
+        networkLogo: props.organization?.appearance?.logo,
+        sitePointer: [...sites],
+      });
     }
   }, [props?.organization, props?.open]);
 
   useEffect(() => {
-    if (selectedImage.length || networkLogo) {
-      setImageError("");
+    if (selectedImage.length) {
+      formik.setFieldValue("networkLogo", selectedImage[0]);
     }
-  }, [selectedImage.length, networkLogo]);
-
-  const handleNetworkName = (event) => {
-    if (event.target.value.length) {
-      setNetworkError("");
-    }
-    setNetworkName(event.target.value);
-  };
+  }, [selectedImage.length]);
 
   const validateSiteForms = () => {
-    const valid = sitePointer?.every((site) => {
+    const valid = formik.values.sitePointer?.every((site) => {
       if (
         (site?.name === "" && site?.address !== "") ||
         (site?.name !== "" && site?.address === "")
@@ -107,17 +110,11 @@ export default function NetworkModal(props: Props) {
     return valid;
   };
 
-  const handleSetNewOrganization = async () => {
+  const handleEditOrganization = async () => {
     setIsLoading(true);
     const { id } = props.organization;
-    if (!networkName) {
-      setNetworkError("Name is required");
-    }
-    if (!(selectedImage.length || networkLogo)) {
-      setImageError("Image is not selected");
-    }
     if (validateSiteForms()) {
-      if (networkName && selectedImage.length) {
+      if (formik.values.networkName && selectedImage.length) {
         const organizationObject = getOrganizationObject();
         await uploadImageToS3(selectedImage[0]).then(
           async (data: S3Interface) => {
@@ -145,7 +142,7 @@ export default function NetworkModal(props: Props) {
           }
         );
         resetModal();
-      } else if (networkName && networkLogo) {
+      } else if (formik.values.networkName && formik.values.networkLogo) {
         const organizationObject = getOrganizationObject();
         if (organizationObject?.appearance.banner || organizationObject) {
           await updateHealthNetworkService(
@@ -174,13 +171,7 @@ export default function NetworkModal(props: Props) {
   const handleAddNewHealthNetwork = async () => {
     setIsLoading(true);
     const { id } = selectedOrganization;
-    if (!networkName) {
-      setNetworkError("Name is required");
-    }
-    if (!selectedImage.length) {
-      setImageError("Image is not selected");
-    }
-    if (networkName && selectedImage.length) {
+    if (formik.values.networkName && selectedImage.length) {
       if (validateSiteForms()) {
         const organizationObject = getOrganizationObject();
         await uploadImageToS3(selectedImage[0])
@@ -220,9 +211,11 @@ export default function NetworkModal(props: Props) {
   };
 
   const getOrganizationObject = () => {
-    const TempSites = sitePointer.filter((site) => site?.name && site?.address);
+    const TempSites = formik.values.sitePointer.filter(
+      (site) => site?.name && site?.address
+    );
     return {
-      name: networkName,
+      name: formik.values.networkName,
       number_of_seats: null,
       appearance: {
         sidebar_text: appearance.sidebar_text,
@@ -232,24 +225,22 @@ export default function NetworkModal(props: Props) {
         secondary_color: appearance?.secondary_color,
         font_one: appearance.font_one,
         font_two: appearance.font_two,
-        banner: networkLogo,
-        logo: networkLogo,
-        icon: networkLogo,
+        banner: formik.values.networkLogo,
+        logo: formik.values.networkLogo,
+        icon: formik.values.networkLogo,
       },
       sites: TempSites,
     };
   };
 
   const addSite = () => {
-    //  setSites((prevState)=>[...prevState,site]);
-    setSitePointer([...sitePointer, { name: "", address: "" }]);
+    formik.setFieldValue("sitePointer", [
+      ...formik.values.sitePointer,
+      { name: "", address: "" },
+    ]);
   };
   const resetModal = () => {
-    setSitePointer([{ name: "", address: "" }]);
-    setNetworkLogo("");
-    setNetworkName("");
-    setImageError("");
-    setNetworkError("");
+    formik.resetForm();
     setSelectedImage([]);
     props?.handleClose();
   };
@@ -273,11 +264,11 @@ export default function NetworkModal(props: Props) {
             <p className="dropzone-title required">{newNetworkLogo}</p>
             <DropzoneBox
               setSelectedImage={setSelectedImage}
-              imgSrc={networkLogo}
+              imgSrc={formik.values.networkLogo}
               selectedImage={selectedImage}
             />
-            {imageError?.length ? (
-              <p className="errorText">{imageError}</p>
+            {formik.errors.networkLogo?.length && !selectedImage.length ? (
+              <p className="errorText">{formik.errors.networkLogo}</p>
             ) : (
               ""
             )}
@@ -285,28 +276,31 @@ export default function NetworkModal(props: Props) {
           <div className="network-info">
             <p className="info-label required">{newNetworkName}</p>
             <TextField
+              name="networkName"
               className="info-field"
               variant="outlined"
-              value={networkName}
+              value={formik.values.networkName}
               placeholder="Enter name here"
-              onChange={handleNetworkName}
+              onChange={formik.handleChange}
             />
             <p
               className="errorText"
               style={{ marginTop: "0px", marginBottom: "5px" }}
             >
-              {networkError}
+              {formik.errors.networkName}
             </p>
           </div>
-          {sitePointer.map((site, index) => (
+          {formik.values.sitePointer.map((site, index) => (
             <SiteSection
               key={index}
               index={index}
               sitee={site}
-              setSites={setSitePointer}
+              setSites={(args) =>
+                formik.setFieldValue("sitePointer", [...args])
+              }
               isSiteDataPartiallyFilled={isSiteDataPartiallyFilled}
               setIsSiteDataPartiallyFilled={setIsSiteDataPartiallyFilled}
-              AllSites={sitePointer}
+              AllSites={formik.values.sitePointer}
             />
           ))}
           <div className="network-info">
@@ -348,11 +342,7 @@ export default function NetworkModal(props: Props) {
                   color: buttonTextColor,
                 }
           }
-          onClick={
-            props.action === "edit"
-              ? handleSetNewOrganization
-              : handleAddNewHealthNetwork
-          }
+          onClick={() => formik.handleSubmit()}
           disabled={isLoading}
           className="add-btn"
         >

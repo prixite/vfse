@@ -10,7 +10,7 @@ import { Site } from "@src/store/reducers/api";
 interface SiteSectionProps {
   sitee: Site;
   index: number;
-  setSites: Dispatch<SetStateAction<Site[]>>;
+  setSites: (args: Site[]) => void;
   AllSites: Site[];
   setIsSiteDataPartiallyFilled: Dispatch<SetStateAction<boolean>>;
   isSiteDataPartiallyFilled: boolean;
@@ -36,7 +36,7 @@ const SiteSection = ({
       setSiteName(sitee?.name);
       setSiteAddress(sitee?.address);
     }
-  }, []);
+  }, [sitee]);
 
   useEffect(() => {
     if (isSiteDataPartiallyFilled) {
@@ -78,6 +78,7 @@ const SiteSection = ({
     const tempSites = AllSites.filter((_, ind) => index !== ind);
     setSites([...tempSites]);
   };
+
   return (
     <>
       <div
