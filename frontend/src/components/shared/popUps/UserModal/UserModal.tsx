@@ -154,7 +154,7 @@ export default function UserModal(props: Props) {
     if (props?.selectedUser && props?.action == "edit") {
       populateEditableData();
     }
-  }, [props?.selectedUser]);
+  }, [props?.selectedUser, networksData, organizationSitesData]);
 
   useEffect(() => {
     if (selectedImage?.length) {
@@ -210,6 +210,13 @@ export default function UserModal(props: Props) {
                 }
               });
             });
+        });
+        organizationSitesData?.forEach((site) => {
+          editedUser?.sites?.forEach((newSite) => {
+            if (newSite == site?.name) {
+              sites_ids.push(site?.id);
+            }
+          });
         });
         if (sites_ids?.length == editedUser?.sites?.length) {
           setSelectedSites(sites_ids);
@@ -317,6 +324,16 @@ export default function UserModal(props: Props) {
     if (organizationSitesData && organizationSitesData?.length) {
       count += organizationSitesData?.length;
     }
+    return count;
+  };
+
+  const getNetworkSitesLength = () => {
+    let count = 0;
+    networksData?.forEach((item) => {
+      if (item?.sites?.length) {
+        count += item?.sites?.length;
+      }
+    });
     return count;
   };
 
@@ -727,10 +744,19 @@ export default function UserModal(props: Props) {
               <div>
                 {sitesLength() > 0 ? (
                   <p className="modalities-header">
-                    <span className="info-label">Health Network Access</span>
+                    <span className="info-label">Sites</span>
                     <span className="checked-ratio">{`${
                       selectedSites?.length
                     }/${sitesLength()}`}</span>
+                  </p>
+                ) : (
+                  ""
+                )}
+                {getNetworkSitesLength() > 0 ? (
+                  <p className="modalities-header">
+                    <span style={{ fontWeight: "600" }}>
+                      Health Network Access
+                    </span>
                   </p>
                 ) : (
                   ""
@@ -772,28 +798,35 @@ export default function UserModal(props: Props) {
                   )
                 )}
                 {organizationSitesData && organizationSitesData?.length ? (
-                  <div className="network-details">
-                    {organizationSitesData?.map((site, key) => (
-                      <FormGroup
-                        key={key}
-                        style={{ marginLeft: "20px" }}
-                        className="options"
-                      >
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              onChange={handleSitesSelection}
-                              checked={selectedSites.includes(site?.id)}
-                              value={site?.id}
-                              name={site?.address}
-                              color="primary"
-                            />
-                          }
-                          label={site?.address}
-                        />
-                      </FormGroup>
-                    ))}
-                  </div>
+                  <>
+                    <p className="modalities-header">
+                      <span style={{ fontWeight: "600" }}>
+                        Organization Sites
+                      </span>
+                    </p>
+                    <div className="network-details">
+                      {organizationSitesData?.map((site, key) => (
+                        <FormGroup
+                          key={key}
+                          style={{ marginLeft: "20px" }}
+                          className="options"
+                        >
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                onChange={handleSitesSelection}
+                                checked={selectedSites.includes(site?.id)}
+                                value={site?.id}
+                                name={site?.address}
+                                color="primary"
+                              />
+                            }
+                            label={site?.address}
+                          />
+                        </FormGroup>
+                      ))}
+                    </div>
+                  </>
                 ) : (
                   ""
                 )}
