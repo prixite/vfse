@@ -2,7 +2,7 @@ import "@src/components/common/smart/documentationSection/documentationSectionMo
 import { Box } from "@mui/material";
 
 import "@src/components/common/smart/lastActiveUser/lastActiveMobile/lastActiveMobile.scss";
-import LastActiveMobileCards from "@src/components/common/Presentational/LastActiveMobileCards/LastActiveMobileCards";
+import LastActiveMobileCards from "@src/components/common/presentational/lastActiveMobileCards/LastActiveMobileCards";
 interface LastActiveMobileProps {
   lastActiveDoc: LastActiveMobileCards[];
 }

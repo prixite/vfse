@@ -6,9 +6,9 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { Link, useParams, useHistory } from "react-router-dom";
 
-import ArticleDescriptionCard from "@src/components/common/Presentational/ArticleDescriptionCard/ArticleDescriptionCard";
-import ArticleOverviewCard from "@src/components/common/Presentational/ArticleOverviewCard/ArticleOverviewCard";
-import DocumentationBtnSection from "@src/components/common/Presentational/DocumentationBtnSection/DocumentationBtnSection";
+import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
+import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
+import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";

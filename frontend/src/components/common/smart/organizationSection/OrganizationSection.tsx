@@ -8,7 +8,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useHistory, useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
-import ClientCard from "@src/components/common/Presentational/ClientCard/ClientCard";
+import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
+import ClientCard from "@src/components/common/presentational/clientCard/ClientCard";
 import ModalitySection from "@src/components/common/smart/modalitySection/ModalitySection";
 import SiteSection from "@src/components/common/smart/siteSection/SiteSection";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
@@ -28,8 +29,6 @@ import {
   useOrganizationsMeReadQuery,
 } from "@src/store/reducers/api";
 import { closeAddModal } from "@src/store/reducers/appStore";
-
-import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
 
 const OrganizationSection = () => {
   const [tabValue, setTabValue] = React.useState(0);

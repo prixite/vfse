@@ -1,4 +1,4 @@
-import TableSkeleton from "@src/components/common/Presentational/TableSkeleton/TableSkeleton";
+import TableSkeleton from "@src/components/common/presentational/tableSkeleton/TableSkeleton";
 import DocumentationSection from "@src/components/common/smart/documentationSection/DocumentationSection";
 import { useProductsModelsListQuery } from "@src/store/reducers/api";
 

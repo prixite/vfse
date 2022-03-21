@@ -13,9 +13,9 @@ import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
-import HealthNetwork from "@src/components/common/Presentational/HealthNetwork/HealthNetwork";
+import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
+import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
+import HealthNetwork from "@src/components/common/presentational/healthNetwork/HealthNetwork";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";

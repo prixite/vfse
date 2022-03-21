@@ -22,7 +22,7 @@ import { toast } from "react-toastify";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";

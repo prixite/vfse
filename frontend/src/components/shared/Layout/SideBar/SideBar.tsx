@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
-import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
+import ProfilePopOver from "@src/components/common/presentational/profilePopOver/ProfilePopOver";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import MobileNavbar from "@src/components/shared/Layout/MobileNavbar/MobileNavbar";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";

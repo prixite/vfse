@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import SiteSection from "@src/components/shared/popUps/NetworkModal/SiteSection";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";

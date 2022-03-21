@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Box, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 
-import SiteCard from "@src/components/common/Presentational/SiteCard/SiteCard";
+import SiteCard from "@src/components/common/presentational/siteCard/SiteCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";

@@ -4,7 +4,7 @@ import { Box, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
-import NetworkCard from "@src/components/common/Presentational/NetworkCard/NetworkCard";
+import NetworkCard from "@src/components/common/presentational/networkCard/NetworkCard";
 import "@src/components/common/smart/modalitySection/modalitySection.scss";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";

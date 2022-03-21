@@ -14,7 +14,7 @@ import { Buffer } from "buffer";
 import LoginImage from "@src/assets/images/loginImage.png";
 import vfseLogo from "@src/assets/svgs/logo.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import SectionTwo from "@src/requests/src/components/Smart/SectionTwo/SectionTwo";

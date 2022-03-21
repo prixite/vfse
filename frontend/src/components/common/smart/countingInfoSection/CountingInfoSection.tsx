@@ -6,7 +6,7 @@ import FlowerIcon from "@src/assets/svgs/flower.svg";
 import offlineIcon from "@src/assets/svgs/offline_dev.svg";
 import onlineIcon from "@src/assets/svgs/online_dev.svg";
 import usersIcon from "@src/assets/svgs/users_dev.svg";
-import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
+import CountingInfoCards from "@src/components/common/presentational/countingInfoCards/CountingInfoCards";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 

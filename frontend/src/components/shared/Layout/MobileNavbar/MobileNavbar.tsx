@@ -5,8 +5,8 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { Link } from "react-router-dom";
 
-import ProfilePopOver from "@src/components/common/Presentational/ProfilePopOver/ProfilePopOver";
-import VfsePopOver from "@src/components/common/Presentational/VfsePopOver/VfsePopOver";
+import ProfilePopOver from "@src/components/common/presentational/profilePopOver/ProfilePopOver";
+import VfsePopOver from "@src/components/common/presentational/vfsePopOver/VfsePopOver";
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";

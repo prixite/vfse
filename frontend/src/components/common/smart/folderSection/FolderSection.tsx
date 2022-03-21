@@ -4,7 +4,7 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Grid, Box } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 
-import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
+import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
