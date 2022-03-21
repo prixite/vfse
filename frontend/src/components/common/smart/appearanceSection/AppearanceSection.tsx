@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
+import { AppearanceFormState } from "@src/components/shared/popUps/systemModal/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
