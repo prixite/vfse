@@ -42,3 +42,12 @@ export interface SiteModalFormState {
   siteName: string;
   siteAddress: string;
 }
+export interface AppearanceFormState {
+  sidebarColor: string;
+  sidebarContentColor: string;
+  buttonColor: string;
+  buttonContentColor: string;
+  secondColor: string;
+  sideBarFont: string;
+  mainContentFont: string;
+}

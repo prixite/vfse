@@ -10,14 +10,15 @@ import {
   Button,
 } from "@mui/material";
 import { Buffer } from "buffer";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
 
 import ColorPicker from "@src/components/common/Presentational/ColorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
-import { compileOrganizationColorObject } from "@src/helpers/compilers/organization";
+import { AppearanceFormState } from "@src/components/shared/popUps/SystemModal/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { updateOrganizationColor } from "@src/services/organizationService";
 import {
   useAppSelector,
   useAppDispatch,
@@ -39,21 +40,26 @@ import {
 } from "@src/store/reducers/themeStore";
 
 window.Buffer = window.Buffer || Buffer;
+
+const initialState: AppearanceFormState = {
+  sidebarColor: "",
+  sidebarContentColor: "",
+  buttonColor: "",
+  buttonContentColor: "",
+  secondColor: "",
+  sideBarFont: "",
+  mainContentFont: "",
+};
 const AppearanceSection = () => {
-  const [organizationsPartialUpdate] = useOrganizationsPartialUpdateMutation();
-  const [sidebarColor, setSideBarColor] = useState("");
-  const [sidebarContentColor, setSidebarContentColor] = useState("");
-  const [buttonColor, setButtonColor] = useState("");
-  const [buttonContentColor, setButtonContentColor] = useState("");
-  const [secondColor, setSecondColor] = useState("");
-  const [sideBarFont, setSideBarFont] = useState("");
-  const [mainContentFont, setMainContentFont] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [updateOrganization, { isLoading }] =
+    useOrganizationsPartialUpdateMutation();
   const [selectedImage, setSelectedImage] = useState([]);
   const { newOrganizationFont1, newOrganizationFont2 } =
     localizedData().organization.popUp;
   const dispatch = useAppDispatch();
+
   const selectedOrganization = useSelectedOrganization();
+
   const {
     sideBarBackground,
     buttonBackground,
@@ -63,80 +69,59 @@ const AppearanceSection = () => {
     fontOne,
     fontTwo,
   } = useAppSelector((state) => state.myTheme);
-  let currentOrganiationDummyData: Organization = JSON.parse(
-    JSON.stringify(selectedOrganization)
-  );
+
+  const formik = useFormik({
+    initialValues: initialState,
+    onSubmit: () => {
+      updateAppearance();
+    },
+  });
 
   useEffect(() => {
-    setSideBarColor(sideBarBackground);
-    setSidebarContentColor(sideBarTextColor);
-    setButtonColor(buttonBackground);
-    setButtonContentColor(buttonTextColor);
-    setSecondColor(secondaryColor);
-    setMainContentFont(fontOne);
-    setSideBarFont(fontTwo);
+    formik.setValues({
+      sidebarColor: sideBarBackground,
+      sidebarContentColor: sideBarTextColor,
+      buttonColor: buttonBackground,
+      buttonContentColor: buttonTextColor,
+      secondColor: secondaryColor,
+      sideBarFont: fontTwo,
+      mainContentFont: fontOne,
+    });
   }, []);
 
-  const compileOrganization = () => {
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      sidebarColor,
-      "sidebar_color"
-    );
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      buttonColor,
-      "primary_color"
-    );
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      sidebarContentColor,
-      "sidebar_text"
-    );
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      secondColor,
-      "secondary_color"
-    );
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      buttonContentColor,
-      "button_text"
-    );
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      mainContentFont,
-      "font_one"
-    );
-    currentOrganiationDummyData = compileOrganizationColorObject(
-      currentOrganiationDummyData,
-      sideBarFont,
-      "font_two"
-    );
-  };
-  const changeSideBarColor = (color: string) => {
-    setSideBarColor(color);
-  };
-
-  const changeButtonColor = (color: string) => {
-    setButtonColor(color);
-  };
-
   const updateAppearance = async () => {
-    setIsLoading(true);
-    dispatch(updateSideBarColor(sidebarColor));
-    dispatch(updateSideBarTextColor(sidebarContentColor));
-    dispatch(updateButtonColor(buttonColor));
-    dispatch(updateButtonTextColor(buttonContentColor));
-    dispatch(updateSecondaryColor(secondColor));
-    dispatch(updateFontOne(mainContentFont));
-    dispatch(updateFontTwo(sideBarFont));
-    compileOrganization();
+    dispatch(updateSideBarColor(formik.values.sidebarColor));
+    dispatch(updateSideBarTextColor(formik.values.sidebarContentColor));
+    dispatch(updateButtonColor(formik.values.buttonColor));
+    dispatch(updateButtonTextColor(formik.values.buttonContentColor));
+    dispatch(updateSecondaryColor(formik.values.secondColor));
+    dispatch(updateFontOne(formik.values.mainContentFont));
+    dispatch(updateFontTwo(formik.values.sideBarFont));
+
+    let currentOrganiationDummyData: Organization = JSON.parse(
+      JSON.stringify(selectedOrganization)
+    );
+
+    [
+      ["sidebarColor", "sidebar_color"],
+      ["buttonColor", "primary_color"],
+      ["sidebarContentColor", "sidebar_text"],
+      ["secondColor", "secondary_color"],
+      ["buttonContentColor", "button_text"],
+      ["mainContentFont", "font_one"],
+      ["sideBarFont", "font_two"],
+    ].forEach(
+      ([formField, color]) =>
+        (currentOrganiationDummyData.appearance[color] =
+          formik.values[formField])
+    );
+
     dispatch(
       setSelectedOrganization({
         selectedOrganization: currentOrganiationDummyData,
       })
     );
+
     if (selectedImage && selectedImage.length) {
       currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
         .then((data: S3Interface) => {
@@ -155,30 +140,16 @@ const AppearanceSection = () => {
         })
         .catch(() => currentOrganiationDummyData); // eslint-disable-line no-unused-vars
     }
-    await updateOrganizationColor(
-      organizationsPartialUpdate,
-      currentOrganiationDummyData
-    );
-    setIsLoading(false);
-  };
 
-  const changeSideBarTextColor = (color: string) => {
-    setSidebarContentColor(color);
-  };
-
-  const changeSecondaryColor = (color: string) => {
-    setSecondColor(color);
-  };
-
-  const changeButtonTextColor = (color: string) => {
-    setButtonContentColor(color);
-  };
-
-  const onChangeFont = (event) => {
-    setMainContentFont(event.target.value);
-  };
-  const onChangeFontTwo = (event) => {
-    setSideBarFont(event.target.value);
+    try {
+      await updateOrganization({
+        id: currentOrganiationDummyData.id.toString(),
+        organization: currentOrganiationDummyData,
+      }).unwrap();
+      toast.success("Client successfully updated");
+    } catch {
+      toast.error("Error updating client");
+    }
   };
 
   return (
@@ -211,15 +182,19 @@ const AppearanceSection = () => {
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar:"
-                    color={sidebarColor}
-                    onChange={changeSideBarColor}
+                    color={formik.values.sidebarColor}
+                    onChange={(color) =>
+                      formik.setFieldValue("sidebarColor", color)
+                    }
                   />
                 </div>
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Buttons:"
-                    color={buttonColor}
-                    onChange={changeButtonColor}
+                    color={formik.values.buttonColor}
+                    onChange={(color) =>
+                      formik.setFieldValue("buttonColor", color)
+                    }
                   />
                 </div>
               </div>
@@ -227,15 +202,19 @@ const AppearanceSection = () => {
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Sidebar Text:"
-                    color={sidebarContentColor}
-                    onChange={changeSideBarTextColor}
+                    color={formik.values.sidebarContentColor}
+                    onChange={(color) =>
+                      formik.setFieldValue("sidebarContentColor", color)
+                    }
                   />
                 </div>
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Buttons Text:"
-                    color={buttonContentColor}
-                    onChange={changeButtonTextColor}
+                    color={formik.values.buttonContentColor}
+                    onChange={(color) =>
+                      formik.setFieldValue("buttonContentColor", color)
+                    }
                   />
                 </div>
               </div>
@@ -243,8 +222,10 @@ const AppearanceSection = () => {
                 <div className="appearanceColorSection">
                   <ColorPicker
                     title="Secondary Color:"
-                    color={secondColor}
-                    onChange={changeSecondaryColor}
+                    color={formik.values.secondColor}
+                    onChange={(color) =>
+                      formik.setFieldValue("secondColor", color)
+                    }
                   />
                 </div>
               </div>
@@ -256,9 +237,10 @@ const AppearanceSection = () => {
                 <h4 className="labels">{newOrganizationFont1}</h4>
                 <FormControl sx={{ minWidth: 195 }}>
                   <Select
-                    value={mainContentFont}
+                    value={formik.values.mainContentFont}
+                    name="mainContentFont"
                     displayEmpty
-                    onChange={onChangeFont}
+                    onChange={formik.handleChange}
                     inputProps={{ "aria-label": "Without label" }}
                   >
                     <MenuItem value={"helvetica"}>Helvetica</MenuItem>
@@ -271,7 +253,7 @@ const AppearanceSection = () => {
               </Box>
               <h2
                 className="font-demo"
-                style={{ fontFamily: `${mainContentFont}` }}
+                style={{ fontFamily: `${formik.values.mainContentFont}` }}
               >
                 AaBbCcDd
               </h2>
@@ -281,9 +263,10 @@ const AppearanceSection = () => {
                 <h4 className="labels">{newOrganizationFont2}</h4>
                 <FormControl sx={{ minWidth: 195 }}>
                   <Select
-                    value={sideBarFont}
+                    value={formik.values.sideBarFont}
+                    name="sideBarFont"
                     displayEmpty
-                    onChange={onChangeFontTwo}
+                    onChange={formik.handleChange}
                     inputProps={{ "aria-label": "Without label" }}
                   >
                     <MenuItem value={"helvetica"}>Helvetica</MenuItem>
@@ -296,31 +279,40 @@ const AppearanceSection = () => {
               </Box>
               <h2
                 className="font-demo"
-                style={{ fontFamily: `${sideBarFont}` }}
+                style={{ fontFamily: `${formik.values.sideBarFont}` }}
               >
                 AaBbCcDd
               </h2>
             </div>
           </Box>
-          <Button
-            onClick={updateAppearance}
-            style={
-              isLoading
-                ? {
-                    backgroundColor: "gray",
-                    color: "black",
-                  }
-                : {
-                    backgroundColor: buttonBackground,
-                    color: buttonTextColor,
-                  }
-            }
-            variant="contained"
-            className="SaveAppearanceBtn"
-            disabled={isLoading}
+          <form
+            onSubmit={formik.handleSubmit}
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
           >
-            Save
-          </Button>
+            <Button
+              type="submit"
+              style={
+                isLoading
+                  ? {
+                      backgroundColor: "gray",
+                      color: "black",
+                    }
+                  : {
+                      backgroundColor: buttonBackground,
+                      color: buttonTextColor,
+                    }
+              }
+              variant="contained"
+              className="SaveAppearanceBtn"
+              disabled={isLoading}
+            >
+              Save
+            </Button>
+          </form>
         </Box>
       </Box>
     </Box>

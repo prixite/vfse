@@ -1,18 +1,5 @@
 import { toast } from "react-toastify";
 
-const updateOrganizationColor = async (
-  organizationsPartialUpdate,
-  organizationData
-) => {
-  await organizationsPartialUpdate({
-    id: organizationData.id.toString(),
-    organization: organizationData,
-  }).unwrap();
-  await toast.success("Current organization theme successfully updated.", {
-    autoClose: 1000,
-    pauseOnHover: false,
-  });
-};
 const DeleteOrganizationService = async (id, deleteOrganization) => {
   await deleteOrganization({
     id: id.toString(),
@@ -120,7 +107,6 @@ const addNewHealthNetworksService = async (
     });
 };
 export {
-  updateOrganizationColor,
   DeleteOrganizationService,
   updateOrganizationService,
   addNewOrganizationService,
