@@ -27,7 +27,7 @@ import {
   useUsersRolesListQuery,
 } from "@src/store/reducers/api";
 
-import "@src/views/user/UserView.scss";
+import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
 
 const columns = [

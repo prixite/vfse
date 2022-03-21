@@ -6,16 +6,16 @@ import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
+import AppearanceView from "@src/views/appearance/AppearanceView";
 import Documentation from "@src/views/documentation/DocumentationView";
 // import ModalityView from "@src/views/modality/ModalityView";
 import FaqView from "@src/views/faq/FaqView";
 import ForumView from "@src/views/forum/ForumView";
 import KnowledgeBaseView from "@src/views/knowledgeBase/KnowledgeBaseView";
 import OrganizationView from "@src/views/organization/OrganizationView";
+import SystemsView from "@src/views/systems/SystemsView";
 import UserView from "@src/views/user/UserView";
 
-import AppearanceView from "./views/appearance/AppearanceView";
-import SystemsView from "./views/systems/SystemsView";
 export const routes: routeItem[] = [
   {
     name: "vFSE",
