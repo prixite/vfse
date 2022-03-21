@@ -4,12 +4,12 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import InfiniteScroll from "react-infinite-scroll-component";
 
+import CardSkeleton from "@src/components/common/presentational/cardSkeleton/CardSkeleton";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { useAppSelector } from "@src/store/hooks";
 import { useSystemsImagesListQuery } from "@src/store/reducers/api";
 
-import CardSkeleton from "../../Presentational/CardSkeleton/CardSkeleton";
 import "@src/components/common/smart/systemImageGallery/systemImageGallery.scss";
 
 interface galleryProps {

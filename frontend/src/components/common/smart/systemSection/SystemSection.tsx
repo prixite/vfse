@@ -4,8 +4,9 @@ import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 
-import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
-import SystemCardMobile from "@src/components/common/Presentational/SystemCard/systemCardMobile/SystemCardMobile";
+import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
+import SystemCard from "@src/components/common/presentational/systemCard/SystemCard";
+import SystemCardMobile from "@src/components/common/presentational/systemCard/systemCardMobile/SystemCardMobile";
 import CommentsDrawer from "@src/components/common/smart/commentsDrawer/CommentsDrawer";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
@@ -31,8 +32,6 @@ import {
   useOrganizationsSystemsUpdateFromInfluxMutation,
   api,
 } from "@src/store/reducers/api";
-
-import BreadCrumb from "../../Presentational/BreadCrumb/BreadCrumb";
 
 import "@src/components/common/smart/systemSection/systemSection.scss";
 

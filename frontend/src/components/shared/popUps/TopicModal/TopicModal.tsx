@@ -15,7 +15,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import DropzoneBox from "@src/components/common/Presentational/DropzoneBox/DropzoneBox";
+import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { categories } from "@src/helpers/utils/constants";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/TopicModal/TopicModal.scss";

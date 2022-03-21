@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
 import "@src/components/common/smart/workOrderSection/workOrderSection.scss";
-import WorkOrderCell from "@src/components/common/Presentational/WorkOrderCell/WorkOrderCell";
+import WorkOrderCell from "@src/components/common/presentational/workOrderCell/WorkOrderCell";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";

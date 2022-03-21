@@ -22,7 +22,7 @@ import { useHistory, useParams } from "react-router-dom";
 
 // import ArrowDown from "@src/assets/svgs/arrow-long.svg";
 // import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
-import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
+import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
 import "@src/components/common/smart/organizationSection/organizationSection.scss";
 import "@src/components/common/smart/topViewBtns/topViewBtns.scss";
 import { localizedData } from "@src/helpers/utils/language";

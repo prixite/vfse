@@ -4,15 +4,14 @@ import Flicking from "@egjs/react-flicking";
 import { Grid, Box } from "@mui/material";
 import { isMobileOnly } from "react-device-detect";
 
-import KnowledgeTopCard from "@src/components/common/Presentational/KnowledgeTopCard/KnowledgeTopCard";
+import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
+import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-
-import ArticleCard from "../../Presentational/ArticleCard/ArticleCard";
 
 import "@src/components/common/smart/knowledgeSection/knowledgeSection.scss";
 

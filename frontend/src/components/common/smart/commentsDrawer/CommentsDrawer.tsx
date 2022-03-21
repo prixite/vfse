@@ -4,7 +4,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
 import { toast } from "react-toastify";
 
-import CommentCard from "@src/components/common/Presentational/CommentCard/CommentCard";
+import CommentCard from "@src/components/common/presentational/commentCard/CommentCard";
+import NoCommentsFound from "@src/components/common/presentational/noCommentsFound/NoCommentsFound";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import {
   useAppSelector,
@@ -18,8 +19,6 @@ import {
   useOrganizationsMeReadQuery,
 } from "@src/store/reducers/api";
 import { closeSystemDrawer } from "@src/store/reducers/appStore";
-
-import NoCommentsFound from "../../Presentational/NoCommentsFound/NoCommentsFound";
 
 const CommentsDrawer = () => {
   const [isLoading, setIsLoading] = useState(false);

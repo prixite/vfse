@@ -1,0 +1,61 @@
+import Popover from "@mui/material/Popover";
+import { useHistory } from "react-router-dom";
+
+import { constants } from "@src/helpers/utils/constants";
+import { vfseRoutes } from "@src/routes";
+import { useSelectedOrganization } from "@src/store/hooks";
+import "@src/components/common/presentational/profilePopOver/profilePopOver.scss";
+
+interface VfsePopOver {
+  anchorEl: unknown;
+  setAnchorEl: React.Dispatch<unknown>;
+}
+const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
+  const history = useHistory();
+  const selectedOrganization = useSelectedOrganization();
+  const { organizationRoute } = constants;
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "vfse-popover" : undefined;
+
+  return (
+    <Popover
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
+      style={{ marginLeft: "5px" }}
+      className="ProfilePopOver"
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "left",
+      }}
+    >
+      {vfseRoutes.map((route, key) => (
+        <div
+          className="profile-item"
+          style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
+          onClick={() => {
+            setAnchorEl(null);
+            history.push(
+              `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+            );
+          }}
+          key={key}
+        >
+          {" "}
+          <a style={{ textDecoration: "none" }}>{route?.name}</a>
+        </div>
+      ))}
+    </Popover>
+  );
+};
+
+export default VfsePopOver;

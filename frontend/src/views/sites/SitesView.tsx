@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 
-import BreadCrumb from "@src/components/common/Presentational/BreadCrumb/BreadCrumb";
-import SectionSkeleton from "@src/components/common/Presentational/SectionSkeleton/SectionSkeleton";
+import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
+import SectionSkeleton from "@src/components/common/presentational/sectionSkeleton/SectionSkeleton";
 import SiteSection from "@src/components/common/smart/siteSection/SiteSection";
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";

@@ -1,7 +1,7 @@
 // import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
 import { Box, Grid } from "@mui/material";
 
-import TableSkeleton from "@src/components/common/Presentational/TableSkeleton/TableSkeleton";
+import TableSkeleton from "@src/components/common/presentational/tableSkeleton/TableSkeleton";
 import CountingInfoSection from "@src/components/common/smart/countingInfoSection/CountingInfoSection";
 import LastActiveUsers from "@src/components/common/smart/lastActiveUser/LastActiveUser";
 import TopicUpdatesSection from "@src/components/common/smart/topicUpdatesSection/TopicUpdatesSection";

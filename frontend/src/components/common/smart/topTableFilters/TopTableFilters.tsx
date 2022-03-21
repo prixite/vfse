@@ -4,7 +4,7 @@ import { Box, Button, InputAdornment, TextField } from "@mui/material";
 
 import ArrowDown from "@src/assets/svgs/arrow-long.svg";
 import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
-import ColumnSelector from "@src/components/common/Presentational/ColumnSelector/ColumnSelector";
+import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
 import "@src/components/common/smart/topTableFilters/topTableFilters.scss";
 import { localizedData } from "@src/helpers/utils/language";
 
