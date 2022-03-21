@@ -1,3 +1,5 @@
+import { Site } from "@src/store/reducers/generated";
+
 export interface FormState {
   systemImage: number;
   modality: string;
@@ -41,6 +43,11 @@ export interface FormState {
 export interface SiteModalFormState {
   siteName: string;
   siteAddress: string;
+}
+export interface NetworkModalFormState {
+  networkName: string;
+  networkLogo: string;
+  sitePointer: Site[];
 }
 export interface AppearanceFormState {
   sidebarColor: string;
