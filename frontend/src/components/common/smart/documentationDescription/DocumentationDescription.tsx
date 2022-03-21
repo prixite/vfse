@@ -9,6 +9,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
+import DocumentationMobileDescription from "@src/components/common/smart/documentationDescription/DocumentationMobileDescription";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
@@ -16,8 +17,6 @@ import { LocalizationInterface } from "@src/helpers/interfaces/localizationinter
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
-
-import DocumentationMobileDescription from "./DocumentationMobileDescription";
 
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
 
