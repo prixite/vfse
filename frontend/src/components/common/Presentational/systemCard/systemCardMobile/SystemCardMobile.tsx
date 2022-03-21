@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import "@src/components/common/Presentational/systemCard/systemCardMobile/systemCardMobile.scss";
+import "@src/components/common/Presentational/SystemCard/systemCardMobile/systemCardMobile.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Accordion,

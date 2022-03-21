@@ -27,7 +27,7 @@ import {
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-import "@src/components/common/Presentational/systemCard/systemCard.scss";
+import "@src/components/common/Presentational/SystemCard/systemCard.scss";
 
 const SystemCard = ({ system, handleEdit }: SystemInterface) => {
   const [anchorEl, setAnchorEl] = useState(null);

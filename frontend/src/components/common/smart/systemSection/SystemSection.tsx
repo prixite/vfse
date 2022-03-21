@@ -4,8 +4,8 @@ import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 
-import SystemCard from "@src/components/common/Presentational/systemCard/SystemCard";
-import SystemCardMobile from "@src/components/common/Presentational/systemCard/systemCardMobile/SystemCardMobile";
+import SystemCard from "@src/components/common/Presentational/SystemCard/SystemCard";
+import SystemCardMobile from "@src/components/common/Presentational/SystemCard/systemCardMobile/SystemCardMobile";
 import CommentsDrawer from "@src/components/common/smart/commentsDrawer/CommentsDrawer";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
