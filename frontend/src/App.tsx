@@ -5,7 +5,7 @@ import { match, useLocation, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import RoutesHOC from "@src/components/hoc/routesHOC";
-import PageLayout from "@src/components/shared/Layout/PageLayout/PageLayout";
+import PageLayout from "@src/components/shared/layout/pageLayout/PageLayout";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   useOrganizationsMeReadQuery,

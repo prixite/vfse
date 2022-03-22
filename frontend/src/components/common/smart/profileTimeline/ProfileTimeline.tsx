@@ -14,7 +14,7 @@ import followedIcon from "@src/assets/svgs/followed.svg";
 import pagtiondotIcon from "@src/assets/svgs/pagtiondot.svg";
 import profileIcon from "@src/assets/svgs/profilepic.svg";
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { topicsTabs } from "@src/helpers/utils/constants";
 import userTimeLine from "@src/miragejs/MockApiHooks/userTimeLine";

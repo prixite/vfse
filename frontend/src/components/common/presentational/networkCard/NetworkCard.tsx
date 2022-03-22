@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import locationLogo from "@src/assets/images/locationIcon.svg";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
+import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationService } from "@src/services/organizationService";

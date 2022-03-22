@@ -6,10 +6,10 @@ import { DataGrid } from "@mui/x-data-grid";
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import UserSectionMobile from "@src/components/common/smart/userSection/userSectionMobile/UserSectionMobile";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
-import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import ListModal from "@src/components/shared/popUps/ListModal/ListModal";
-import UserModal from "@src/components/shared/popUps/UserModal/UserModal";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import ListModal from "@src/components/shared/popUps/listModal/ListModal";
+import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 import {

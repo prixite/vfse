@@ -6,7 +6,7 @@ import buttonsIcon from "@src/assets/svgs/Buttons.svg";
 import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import TopicUpdatesCards from "@src/components/common/presentational/topicUpdatesCards/TopicUpdatesCard";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 
 interface TopicUpdatesSection {

@@ -4,7 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastActiveMobile/LastActiveMobile";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 import useLastActiveUser from "@src/miragejs/MockApiHooks/useLastActiveUser";
