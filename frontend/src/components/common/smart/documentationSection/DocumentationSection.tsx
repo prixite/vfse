@@ -15,7 +15,7 @@ import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/C
 import DocumentModal from "@src/components/shared/popUps/DocumentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import { deleteProductModelService } from "@src/services/DocumentationService";
+import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,
   useProductsModelsDeleteMutation,

@@ -24,7 +24,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import {
   addProductModelService,
   updateProductModelService,
-} from "@src/services/DocumentationService";
+} from "@src/services/documentationService";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/DocumentModal/DocumentModal.scss";
 import {

@@ -16,7 +16,6 @@ import {
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
 import "@src/App.scss";
-
 import {
   updateButtonColor,
   updateSideBarColor,
@@ -25,7 +24,7 @@ import {
   updateFontOne,
   updateFontTwo,
   updateSecondaryColor,
-} from "./store/reducers/themeStore";
+} from "@src/store/reducers/themeStore";
 
 const App = () => {
   const dispatch = useAppDispatch();
