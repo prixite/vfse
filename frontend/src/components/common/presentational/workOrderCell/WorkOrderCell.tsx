@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import PropTypes from "prop-types";
 
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { workOrderTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/presentational/workOrderCell/workOrderCell.scss";

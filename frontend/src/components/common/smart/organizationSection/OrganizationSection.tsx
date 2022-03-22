@@ -13,8 +13,8 @@ import ClientCard from "@src/components/common/presentational/clientCard/ClientC
 import ModalitySection from "@src/components/common/smart/modalitySection/ModalitySection";
 import SiteSection from "@src/components/common/smart/siteSection/SiteSection";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
-import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import OrganizationModal from "@src/components/shared/popUps/OrganizationModal/OrganizationModal";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import OrganizationModal from "@src/components/shared/popUps/organizationModal/OrganizationModal";
 import { constants, organizationTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/smart/organizationSection/organizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";

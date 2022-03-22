@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 
 interface TopicUpdatesCards {

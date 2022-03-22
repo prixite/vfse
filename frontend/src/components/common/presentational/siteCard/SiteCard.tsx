@@ -5,8 +5,8 @@ import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 
 import locationLogo from "@src/assets/images/locationIcon.svg";
-import ConfirmationModal from "@src/components/shared/popUps/ConfirmationModal/ConfirmationModal";
-import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
+import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import SiteModal from "@src/components/shared/popUps/siteModal/SiteModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { updateSitesService } from "@src/services/sitesService";

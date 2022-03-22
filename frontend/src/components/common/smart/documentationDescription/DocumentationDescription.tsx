@@ -11,7 +11,7 @@ import ArticleOverviewCard from "@src/components/common/presentational/articleOv
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import DocumentationMobileDescription from "@src/components/common/smart/documentationDescription/DocumentationMobileDescription";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";

@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 
 import "@src/components/common/presentational/profileTimeLineCards/profileTimelineCards.scss";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 interface ProfileTimelineCards {
   cardText: string;

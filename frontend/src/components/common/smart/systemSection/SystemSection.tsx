@@ -9,10 +9,10 @@ import SystemCard from "@src/components/common/presentational/systemCard/SystemC
 import SystemCardMobile from "@src/components/common/presentational/systemCard/systemCardMobile/SystemCardMobile";
 import CommentsDrawer from "@src/components/common/smart/commentsDrawer/CommentsDrawer";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
-import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import AddSiteFirstModal from "@src/components/shared/popUps/AddSiteFirstModal/AddSiteFirstModal";
-import SystemModal from "@src/components/shared/popUps/SystemModal/SystemModal";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import AddSiteFirstModal from "@src/components/shared/popUps/addSiteFirstModal/AddSiteFirstModal";
+import SystemModal from "@src/components/shared/popUps/systemModal/SystemModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";

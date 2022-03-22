@@ -7,7 +7,7 @@ import offlineIcon from "@src/assets/svgs/offline_dev.svg";
 import onlineIcon from "@src/assets/svgs/online_dev.svg";
 import usersIcon from "@src/assets/svgs/users_dev.svg";
 import CountingInfoCards from "@src/components/common/presentational/countingInfoCards/CountingInfoCards";
-import useWindowSize from "@src/components/shared/CustomHooks/useWindowSize";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 
 const device_info = [

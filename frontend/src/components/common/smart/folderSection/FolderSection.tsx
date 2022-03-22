@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
-import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";

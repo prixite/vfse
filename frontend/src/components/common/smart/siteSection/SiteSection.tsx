@@ -5,8 +5,8 @@ import { useParams } from "react-router-dom";
 
 import SiteCard from "@src/components/common/presentational/siteCard/SiteCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
-import NoDataFound from "@src/components/shared/NoDataFound/NoDataFound";
-import SiteModal from "@src/components/shared/popUps/SiteModal/SiteModal";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import SiteModal from "@src/components/shared/popUps/siteModal/SiteModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { useOrganizationsSitesListQuery, Site } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
