@@ -1,4 +1,4 @@
-import { Site } from "@src/store/reducers/generated";
+import { Modality, Product, Site } from "@src/store/reducers/generated";
 
 export interface FormState {
   systemImage: number;
@@ -43,6 +43,12 @@ export interface FormState {
 export interface SiteModalFormState {
   siteName: string;
   siteAddress: string;
+}
+export interface DocumentationModalFormState {
+  docLink: string;
+  modelName: string;
+  modality: Modality;
+  modal: Product;
 }
 export interface NetworkModalFormState {
   networkName: string;

@@ -14,10 +14,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { DocumentationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
@@ -42,6 +45,16 @@ interface Props {
   selectedDoc?: ProductModelDetail;
   action: string;
 }
+const initialState: DocumentationModalFormState = {
+  docLink: "",
+  modelName: "",
+  modal: null,
+  modality: null,
+};
+const validationSchema = yup.object({
+  docLink: yup.string().required("Document is not uploaded"),
+  modelName: yup.string().required("Model Name is required"),
+});
 
 export default function DocumentModal({
   open,
@@ -50,12 +63,6 @@ export default function DocumentModal({
   selectedDoc,
   action,
 }: Props) {
-  const [docLink, setDocLink] = useState(null);
-  const [modelName, setModelName] = useState("");
-  const [modal, setModal] = useState(null);
-  const [modality, setModality] = useState(null);
-  const [docLinkError, setDocLinkError] = useState("");
-  const [modelNameError, setModelNameError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [addProductModel] = useProductsModelsCreateMutation();
   const [updateProductModel] = useProductsModelsPartialUpdateMutation();
@@ -68,11 +75,10 @@ export default function DocumentModal({
 
   const selectedOrganization = useSelectedOrganization();
 
-  const { isLoading: isModalitiesLoading, data: modalitiesList } =
-    useOrganizationsModalitiesListQuery(
-      { id: selectedOrganization.id.toString() },
-      { skip: !selectedOrganization }
-    );
+  const { data: modalitiesList } = useOrganizationsModalitiesListQuery(
+    { id: selectedOrganization.id.toString() },
+    { skip: !selectedOrganization }
+  );
   const {
     title,
     editTitle,
@@ -104,6 +110,17 @@ export default function DocumentModal({
         })
       ),
   });
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      if (action === "add") {
+        handleAddDocument();
+      } else {
+        handleEditDocument();
+      }
+    },
+  });
 
   useEffect(() => {
     if (acceptedFiles && acceptedFiles?.length) {
@@ -111,9 +128,8 @@ export default function DocumentModal({
         setIsLoading(true);
         await uploadImageToS3(acceptedFiles[0]).then(
           async (data: S3Interface) => {
-            setDocLink(data?.location);
+            formik.setFieldValue("docLink", data?.location);
             setIsLoading(false);
-            setDocLinkError("");
           }
         );
       })();
@@ -122,13 +138,13 @@ export default function DocumentModal({
 
   useEffect(() => {
     if (productData?.length) {
-      setModal(productData[0]);
+      formik.setFieldValue("modal", productData[0]);
     }
   }, [productData]);
 
   useEffect(() => {
     if (modalitiesList?.length) {
-      setModality(modalitiesList[0]);
+      formik.setFieldValue("modality", modalitiesList[0]);
     }
   }, [modalitiesList]);
 
@@ -138,24 +154,13 @@ export default function DocumentModal({
     }
   }, [selectedDoc, action]);
 
-  const handleModelName = (e) => {
-    if (e.target.value.length) {
-      setModelNameError("");
-    }
-    setModelName(e.target.value);
-  };
-
-  const handleErrors = () => {
-    !docLink?.length
-      ? setDocLinkError("Document is not uploaded")
-      : setDocLinkError("");
-    !modelName
-      ? setModelNameError("Model Name is required.")
-      : setModelNameError("");
-  };
-
   const verifyErrors = () => {
-    if (docLink?.length && modelName && modal && modality) {
+    if (
+      formik.values.docLink?.length &&
+      formik.values.modelName &&
+      formik.values.modal &&
+      formik.values.modality
+    ) {
       return true;
     }
     return false;
@@ -163,7 +168,6 @@ export default function DocumentModal({
 
   const handleAddDocument = async () => {
     setIsLoading(true);
-    handleErrors();
     if (verifyErrors()) {
       const newProductModel = getNewProductModel();
       if (newProductModel.documentation.url || newProductModel) {
@@ -192,7 +196,6 @@ export default function DocumentModal({
 
   const handleEditDocument = async () => {
     setIsLoading(true);
-    handleErrors();
     if (verifyErrors()) {
       const newProductModel = getNewProductModel();
       if (newProductModel.documentation.url || newProductModel) {
@@ -224,37 +227,34 @@ export default function DocumentModal({
   };
 
   const populateEditableData = () => {
-    setDocLink(selectedDoc.documentation);
-    setModelName(selectedDoc.model);
     const product = productData?.find(
       (prod) => prod?.name === selectedDoc.name
     );
-    setModal(product);
     const modalityValue = modalitiesList?.find(
       (item) => item.name === selectedDoc?.modality
     );
-    setModality(modalityValue);
+    formik.setValues({
+      docLink: selectedDoc.documentation,
+      modelName: selectedDoc.model,
+      modal: product,
+      modality: modalityValue,
+    });
   };
 
   const getNewProductModel = () => {
     const Documentation = {
-      url: docLink,
+      url: formik.values.docLink,
     };
     return {
-      model: modelName,
+      model: formik.values.modelName,
       documentation: Documentation,
-      modality: modality?.id,
-      product: modal?.id,
+      modality: formik.values.modality?.id,
+      product: formik.values.modal?.id,
     };
   };
 
   const resetModal = () => {
-    setDocLink(null);
-    setModelName("");
-    setModal(productData[0]);
-    setModality(modalitiesList[0]);
-    setDocLinkError("");
-    setModelNameError("");
+    formik.resetForm();
     handleClose();
   };
 
@@ -276,7 +276,7 @@ export default function DocumentModal({
             <p className="info-label">{link}</p>
             <TextField
               inputProps={{ readOnly: true }}
-              value={docLink ? docLink : ""}
+              value={formik.values.docLink ? formik.values.docLink : ""}
               className="info-field"
               variant="outlined"
               size="small"
@@ -295,24 +295,21 @@ export default function DocumentModal({
                 ),
               }}
             />
-            {docLinkError ? <p className="errorText">{docLinkError}</p> : ""}
+            <p className="errorText">{formik.errors.docLink}</p>
           </div>
           <div className="info-section">
             <p className="info-label">{model}</p>
             <TextField
-              value={modelName}
+              name="modelName"
+              value={formik.values.modelName}
               className="info-field"
               variant="outlined"
               size="small"
               type="url"
               placeholder="Model Name"
-              onChange={handleModelName}
+              onChange={formik.handleChange}
             />
-            {modelNameError ? (
-              <p className="errorText">{modelNameError}</p>
-            ) : (
-              ""
-            )}
+            <p className="errorText">{formik.errors.modelName}</p>
           </div>
           <div className="dropdown-wrapper">
             <Grid item xs={6}>
@@ -320,11 +317,11 @@ export default function DocumentModal({
                 <p className="info-label">{product_model}</p>
                 {!isProductsModelsLoading && (
                   <Autocomplete
-                    id="country-select-demo"
+                    id="modal"
                     sx={{ width: "100%" }}
                     style={{ height: "48px" }}
-                    value={modal}
-                    onChange={(e, item) => setModal(item)} // eslint-disable-line
+                    value={formik.values.modal}
+                    onChange={(e, item) => formik.setFieldValue("modal", item)} // eslint-disable-line
                     options={productData ? productData : []}
                     autoHighlight
                     getOptionLabel={(option) => option?.name}
@@ -346,7 +343,8 @@ export default function DocumentModal({
                 <p className="info-label">{modalities}</p>
                 <FormControl sx={{ minWidth: "100%" }}>
                   <Select
-                    value={modality?.name}
+                    name="modality"
+                    value={formik.values.modality}
                     displayEmpty
                     disabled={!modalitiesList?.length}
                     className="info-field"
@@ -357,19 +355,17 @@ export default function DocumentModal({
                       zIndex: "2000",
                     }}
                     MenuProps={dropdownStyles}
+                    onChange={formik.handleChange}
                   >
-                    {!isModalitiesLoading
-                      ? modalitiesList?.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item.name}
-                            onClick={() => setModality(item)}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))
-                      : ""}
+                    {modalitiesList?.map((item, index) => (
+                      <MenuItem
+                        key={index}
+                        value={item}
+                        onKeyDown={(e) => e.stopPropagation()}
+                      >
+                        {item.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </div>
@@ -410,7 +406,7 @@ export default function DocumentModal({
                 }
           }
           disabled={isLoading}
-          onClick={action === "add" ? handleAddDocument : handleEditDocument}
+          onClick={() => formik.handleSubmit()}
         >
           {action === "add" ? btnSave : btnEdit}
         </Button>
