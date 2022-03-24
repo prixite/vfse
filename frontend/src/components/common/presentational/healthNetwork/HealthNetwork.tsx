@@ -18,7 +18,7 @@ interface HealthNetworkProps {
   setIsDataPartiallyfilled: Dispatch<SetStateAction<boolean>>;
   setIsNetworkImageUploading: Dispatch<SetStateAction<boolean>>;
   allNetworks: HealthNeworkArg[];
-  setNetworks: Dispatch<SetStateAction<HealthNeworkArg[]>>;
+  setNetworks: (args: HealthNeworkArg[]) => void;
 }
 const HealthNetwork = ({
   index,
