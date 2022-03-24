@@ -1,9 +1,9 @@
 import { createServer, Model } from "miragejs";
 
-import badgeIcon from "@src/assets/svgs/Badge.svg";
-import buttonsIcon from "@src/assets/svgs/Buttons.svg";
+import badgeIcon from "@src/assets/svgs/badge.svg";
+import buttonsIcon from "@src/assets/svgs/buttons.svg";
 import followersIcon from "@src/assets/svgs/followers.svg";
-import ConnectIcon from "@src/assets/svgs/Green_Btn.svg";
+import ConnectIcon from "@src/assets/svgs/green_Btn.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import profileIcon from "@src/assets/svgs/profilepic.svg";
 import sampleIcon from "@src/assets/svgs/sampleimg.svg";

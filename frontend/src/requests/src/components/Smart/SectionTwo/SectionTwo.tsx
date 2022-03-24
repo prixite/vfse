@@ -9,8 +9,8 @@ import {
   ToggleButton,
 } from "@mui/material";
 
-import "@src/requests/src/components/Smart/SectionTwo/SectionTwo.scss";
-import Permissions from "@src/requests/src/components/Presentational/Permissions/Permissions";
+import "@src/requests/src/components/smart/sectionTwo/sectionTwo.scss";
+import Permissions from "@src/requests/src/components/presentational/permissions/Permissions";
 import { HealthNetwork, Modality, Site } from "@src/store/reducers/generated";
 interface SectionTwoProps {
   docLink: boolean;

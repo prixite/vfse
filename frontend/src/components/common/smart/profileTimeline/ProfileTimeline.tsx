@@ -17,7 +17,7 @@ import ProfileTimeLineCards from "@src/components/common/presentational/profileT
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { topicsTabs } from "@src/helpers/utils/constants";
-import userTimeLine from "@src/miragejs/MockApiHooks/userTimeLine";
+import userTimeLine from "@src/miragejs/mockApiHooks/userTimeLine";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

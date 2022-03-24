@@ -7,7 +7,7 @@ import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastAc
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import useLastActiveUser from "@src/miragejs/MockApiHooks/useLastActiveUser";
+import useLastActiveUser from "@src/miragejs/mockApiHooks/useLastActiveUser";
 
 const { lastActiveUser, seeAll } = localizedData().Faq;
 

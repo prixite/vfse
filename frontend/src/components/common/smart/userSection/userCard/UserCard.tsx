@@ -1,4 +1,4 @@
-import EditLogo from "@src/assets/svgs/Edit.svg";
+import EditLogo from "@src/assets/svgs/edit.svg";
 import "@src/components/common/smart/userSection/userCard/userCard.scss";
 import { User } from "@src/store/reducers/api";
 interface UserCardProps {

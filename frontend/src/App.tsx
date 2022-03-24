@@ -15,7 +15,7 @@ import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
-import "@src/App.scss";
+import "@src/app.scss";
 import {
   updateButtonColor,
   updateSideBarColor,

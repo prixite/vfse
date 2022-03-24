@@ -11,7 +11,7 @@ import { mobileWidth } from "@src/helpers/utils/config";
 import { workOrderTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/presentational/workOrderCell/workOrderCell.scss";
 import { localizedData } from "@src/helpers/utils/language";
-import useWorkOrders from "@src/miragejs/MockApiHooks/useWorkOrders";
+import useWorkOrders from "@src/miragejs/mockApiHooks/useWorkOrders";
 import { useAppSelector } from "@src/store/hooks";
 
 const { connect } = localizedData().systems_card;

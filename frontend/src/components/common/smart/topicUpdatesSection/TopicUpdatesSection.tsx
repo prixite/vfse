@@ -1,8 +1,8 @@
 import { Box, Grid } from "@mui/material";
 
 import "@src/components/common/smart/topicUpdatesSection/topicUpdatesSection.scss";
-import badgeIcon from "@src/assets/svgs/Badge.svg";
-import buttonsIcon from "@src/assets/svgs/Buttons.svg";
+import badgeIcon from "@src/assets/svgs/badge.svg";
+import buttonsIcon from "@src/assets/svgs/buttons.svg";
 import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import TopicUpdatesCards from "@src/components/common/presentational/topicUpdatesCards/TopicUpdatesCard";

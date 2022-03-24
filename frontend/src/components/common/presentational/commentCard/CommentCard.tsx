@@ -4,8 +4,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 
-import DeleteLogo from "@src/assets/svgs/Delete.svg";
-import EditLogo from "@src/assets/svgs/Edit.svg";
+import DeleteLogo from "@src/assets/svgs/delete.svg";
+import EditLogo from "@src/assets/svgs/edit.svg";
 import EditComment from "@src/components/common/smart/commentsDrawer/editComment/EditComment";
 import DeleteNoteModal from "@src/components/shared/popUps/deleteNoteModal/DeleteNoteModal";
 import { deleteSystemNoteService } from "@src/services/systemServices";

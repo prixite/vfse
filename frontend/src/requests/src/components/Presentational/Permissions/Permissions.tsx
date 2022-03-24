@@ -1,4 +1,4 @@
-import "@src/requests/src/components/Presentational/Permissions/Permissions.scss";
+import "@src/requests/src/components/presentational/permissions/permissions.scss";
 import { FormGroup, FormControlLabel, Checkbox } from "@mui/material";
 
 interface PermissionsProps {

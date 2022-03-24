@@ -4,8 +4,8 @@ import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
 
-import EditLogo from "@src/assets/svgs/Edit.svg";
-import LinkLogo from "@src/assets/svgs/Link.svg";
+import EditLogo from "@src/assets/svgs/edit.svg";
+import LinkLogo from "@src/assets/svgs/link.svg";
 import "@src/components/common/smart/documentationSection/documentationSection.scss";
 import DocumentationSectionMobile from "@src/components/common/smart/documentationSection/documentationSectionMobile/DocumentationSectionMobile";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";

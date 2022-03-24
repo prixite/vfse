@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 
 import "@src/views/serverErrorPage/serverErrorPage.scss";
-import Logo505 from "@src/assets/images/Frame505.png";
+import Logo505 from "@src/assets/images/frame505.png";
 import { localizedData } from "@src/helpers/utils/language";
 const ServerErrorPage = () => {
   const { title, description } = localizedData().page505;

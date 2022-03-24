@@ -1,4 +1,4 @@
-import EditLogo from "@src/assets/svgs/Edit.svg";
+import EditLogo from "@src/assets/svgs/edit.svg";
 import "@src/components/common/smart/documentationSection/documentationCard/documentationCard.scss";
 interface DocumentationCardProp {
   doc: {
