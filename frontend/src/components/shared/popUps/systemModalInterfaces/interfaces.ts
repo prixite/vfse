@@ -1,4 +1,9 @@
-import { Modality, Product, Site } from "@src/store/reducers/generated";
+import {
+  HealthNetwork,
+  Modality,
+  Product,
+  Site,
+} from "@src/store/reducers/generated";
 
 export interface FormState {
   systemImage: number;
@@ -43,6 +48,19 @@ export interface FormState {
 export interface SiteModalFormState {
   siteName: string;
   siteAddress: string;
+}
+export interface OrganizationModalFormState {
+  organizationName: string;
+  organizationSeats: string;
+  organizationLogo: string;
+  networks: HealthNetwork[];
+  sidebarColor: string;
+  sidebarTextColor: string;
+  ButtonTextColor: string;
+  ButtonColor: string;
+  secondColor: string;
+  fontone: string;
+  fonttwo: string;
 }
 export interface DocumentationModalFormState {
   docLink: string;
