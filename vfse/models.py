@@ -4,7 +4,7 @@ from django.db import models
 
 class Folder(models.Model):
     name = models.CharField(max_length=30)
-    categories = models.ManyToManyField("Category", related_name="categories")
+    categories = models.ManyToManyField("Category", related_name="folders")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -20,6 +20,7 @@ class Document(models.Model):
     folder = models.ForeignKey(
         "Folder", on_delete=models.PROTECT, related_name="documents"
     )
+    categories = models.ManyToManyField("Category", related_name="documents")
     text = models.TextField()
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
