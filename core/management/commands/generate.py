@@ -291,5 +291,4 @@ class Command(BaseCommand):
             ip_address="10.21.16.70", site=site, connection_monitoring=True
         )
 
-        call_command("populate")
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
