@@ -9,7 +9,7 @@ fake.seed_instance(1234)
 
 
 class FolderFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("job")
+    name = fake.unique.job()
 
     @factory.post_generation
     def categories(self, created, extracted, **kwargs):
@@ -25,14 +25,13 @@ class FolderFactory(factory.django.DjangoModelFactory):
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("color")
+    name = fake.unique.color()
 
     class Meta:
         model = models.Category
 
 
 class DocumentFactory(factory.django.DjangoModelFactory):
-    folder = factory.Iterator(models.Folder.objects.all())
     favorite = factory.Faker("boolean")
     text = factory.Faker("text")
     created_by = factory.Iterator(User.objects.filter(is_lambda_user=False))

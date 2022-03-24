@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from core.tests import factories
+from vfse.tests import factories as vfse_factories
 
 
 class Command(BaseCommand):
@@ -289,5 +290,10 @@ class Command(BaseCommand):
         factories.SystemFactory(
             ip_address="10.21.16.70", site=site, connection_monitoring=True
         )
+
+        vfse_factories.CategoryFactory.create_batch(10)
+
+        folder = vfse_factories.FolderFactory()
+        vfse_factories.DocumentFactory.create_batch(10, folder=folder)
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
