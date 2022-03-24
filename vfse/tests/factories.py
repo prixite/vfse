@@ -14,10 +14,13 @@ class FolderFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("job")
 
     @factory.post_generation
-    def category(self, created, extracted, **kwargs):
+    def categories(self, created, extracted, **kwargs):
         if not created:
             return
-        self.categories.add(extracted)
+
+        if extracted:
+            for category in extracted:
+                self.categories.add(category)
 
     class Meta:
         model = models.Folder
@@ -25,11 +28,6 @@ class FolderFactory(factory.django.DjangoModelFactory):
 
 class CategoryFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("color")
-    folder = factory.RelatedFactoryList(
-        FolderFactory,
-        factory_related_name="category",
-        size=lambda: random.randint(2, 5),  # nosec
-    )
 
     class Meta:
         model = models.Category
@@ -40,6 +38,15 @@ class DocumentFactory(factory.django.DjangoModelFactory):
     favorite = factory.Faker("boolean")
     text = factory.Faker("text")
     created_by = factory.Iterator(User.objects.filter(is_lambda_user=False))
+
+    @factory.post_generation
+    def categories(self, created, extracted, **kwargs):
+        if not created:
+            return
+
+        if extracted:
+            for category in extracted:
+                self.categories.add(category)
 
     class Meta:
         model = models.Document

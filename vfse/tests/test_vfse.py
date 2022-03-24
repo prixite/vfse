@@ -9,7 +9,7 @@ class VfseTestCase(BaseTestCase):
 
         response = self.client.get("/api/vfse/folders/")
         self.assertEqual(response.status_code, 200)
-        self.assertGreaterEqual(len(response.json()), 2)
+        self.assertGreaterEqual(len(response.json()), 1)
 
     def test_folder_post(self):
         self.client.force_login(self.user)
@@ -36,7 +36,7 @@ class VfseTestCase(BaseTestCase):
 
     def test_folder_patch(self):
         self.client.force_login(self.user)
-        new_category = factories.CategoryFactory(folder=None)
+        new_category = factories.CategoryFactory()
         response = self.client.patch(
             f"/api/vfse/folders/{self.folder.id}/",
             data={"categories": [new_category.id]},
@@ -52,7 +52,7 @@ class VfseTestCase(BaseTestCase):
 
         response = self.client.get("/api/vfse/documents/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.json()), 6)
+        self.assertEqual(len(response.json()), 1)
 
     def test_document_post(self):
         self.client.force_login(self.user)

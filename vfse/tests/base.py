@@ -11,6 +11,5 @@ class BaseTestCase(TestCase):
 
         self.user = core_app_factories.UserWithPasswordFactory()
         self.category = factories.CategoryFactory()
-        self.folder = self.category.categories.first()
+        self.folder = factories.FolderFactory(categories=[self.category])
         self.document = factories.DocumentFactory(folder=self.folder)
-        factories.DocumentFactory.create_batch(5, folder=self.folder)
