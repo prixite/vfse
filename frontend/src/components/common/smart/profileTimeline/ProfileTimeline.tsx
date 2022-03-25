@@ -6,14 +6,12 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import PropTypes from "prop-types";
 
-import activityIcon from "@src/assets/svgs/activity.svg";
 import allTopicsIcon from "@src/assets/svgs/alltopics.svg";
 import tickIcon from "@src/assets/svgs/coolicon.svg";
 import createdIcon from "@src/assets/svgs/created.svg";
 import followedIcon from "@src/assets/svgs/followed.svg";
-import pagtiondotIcon from "@src/assets/svgs/pagtiondot.svg";
-import profileIcon from "@src/assets/svgs/profilepic.svg";
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
+import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { topicsTabs } from "@src/helpers/utils/constants";
@@ -123,91 +121,8 @@ const ProfileTimeline = () => {
                         </div>
                       </Box>
                     </div>
-                    <div className="recentActivity">
-                      <Box component="div" className="card">
-                        <div className="recentActivityTitle">
-                          <div className="allTopicImg">
-                            <img
-                              src={activityIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="topicHeading">Recent Activity</div>
-                        </div>
-                        <div className="userStatus">
-                          <div className="userImg">
-                            <img
-                              src={profileIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="statusDetail">
-                            <span className="username">David Karger</span>{" "}
-                            started following your topic.
-                            <div className="postTime">3 hours ago</div>
-                          </div>
-                        </div>
-                        <div className="userStatus">
-                          <div className="userImg">
-                            <img
-                              src={profileIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="statusDetail">
-                            <span className="username">David Karger</span> a
-                            comment to topic you follow.
-                            <div className="postTime">3 hours ago</div>
-                          </div>
-                        </div>
-                        <div className="userStatus">
-                          <div className="userImg">
-                            <img
-                              src={profileIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="statusDetail">
-                            <span className="username">David Karger</span> a
-                            comment to topic you follow.
-                            <div className="postTime">3 hours ago</div>
-                          </div>
-                        </div>
-                        <div className="userStatus">
-                          <div className="userImg">
-                            <img
-                              src={profileIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="statusDetail">
-                            <span className="username">David Karger</span> a
-                            comment to topic you follow.
-                            <div className="postTime">3 hours ago</div>
-                          </div>
-                        </div>
-                        <div className="userStatus">
-                          <div className="userImg">
-                            <img
-                              src={profileIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="statusDetail">
-                            <span className="username">David Karger</span> a
-                            comment to topic you follow.
-                            <div className="postTime">3 hours ago</div>
-                          </div>
-                        </div>
-                        <div className="pagtiondot">
-                          <img
-                            src={pagtiondotIcon}
-                            className="imgStylingMessage"
-                          />
-                        </div>
-                      </Box>
-                    </div>
                   </div>
+                  <RecentActivity />
                 </Grid>
               </Grid>
             </Box>
