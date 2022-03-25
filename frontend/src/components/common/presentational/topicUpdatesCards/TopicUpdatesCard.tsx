@@ -1,15 +1,12 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
-import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
-import { mobileWidth } from "@src/helpers/utils/config";
 
 interface TopicUpdatesCards {
   cardText: string;
   messageText: string;
   followerText: string;
-  ultraImage: string;
-  followerImage: string;
+  modality: string;
   messageImage: string;
   followerProfiles: string;
 }
@@ -18,71 +15,37 @@ const TopicUpdatesCards = ({
   cardText,
   messageText,
   followerText,
-  ultraImage,
-  followerImage,
+  modality,
   messageImage,
   followerProfiles,
 }: TopicUpdatesCards) => {
-  const [browserWidth] = useWindowSize();
   return (
     <>
-      {browserWidth > mobileWidth ? (
-        <div className="topicInfo">
-          <Box component="div" className="card">
-            <div className="card_header">
-              <div className="topic_updates_imags">
-                <img src={ultraImage} className="imgStyling" />
-              </div>
-              <div className="topic_updates_imags">
-                <img src={followerImage} className="imgStyling" />
-              </div>
+      <Box component="div" className="TopicUpdatesCard">
+        <Box component="div" className="card_header">
+          <div className="modalitytag">
+            <p className="modality">{modality}</p>
+          </div>
+          <Button variant="contained" className="follow">
+            <p className="text">Follow</p>
+          </Button>
+        </Box>
+        <div className="card_detail">{cardText}</div>
+        <Box component="div" className="card_footer">
+          <div className="profile_side">
+            <div className="follower_img_container">
+              <img src={followerProfiles} className="imgStylingProfiles" />
             </div>
-            <div className="card_detail">{cardText}</div>
-            <div className="card_footer">
-              <div className="profile_side">
-                <div className="follower_img_container">
-                  <img src={followerProfiles} className="imgStylingProfiles" />
-                </div>
-                <div className="followerText">{followerText}</div>
-              </div>
-              <div className="message_side">
-                <div className="message_text_container">
-                  <img src={messageImage} className="imgStylingMessage" />
-                </div>
-                <div className="messageText">{messageText}</div>
-              </div>
+            <div className="followerText">{followerText}</div>
+          </div>
+          <div className="message_side">
+            <div className="message_text_container">
+              <img src={messageImage} className="imgStylingMessage" />
             </div>
-          </Box>
-        </div>
-      ) : (
-        <div className="mobiletopicInfo">
-          <Box component="div" className="card">
-            <div className="card_header">
-              <div className="topic_updates_imags">
-                <img src={ultraImage} className="imgStyling" />
-              </div>
-              <div className="topic_updates_imags">
-                <img src={followerImage} className="imgStyling" />
-              </div>
-            </div>
-            <div className="card_detail">{cardText}</div>
-            <div className="card_footer">
-              <div className="profile_side">
-                <div className="follower_img_container">
-                  <img src={followerProfiles} className="imgStylingProfiles" />
-                </div>
-                <div className="followerText">{followerText}</div>
-              </div>
-              <div className="message_side">
-                <div className="message_text_container">
-                  <img src={messageImage} className="imgStylingMessage" />
-                </div>
-                <div className="messageText">{messageText}</div>
-              </div>
-            </div>
-          </Box>
-        </div>
-      )}
+            <div className="messageText">{messageText}</div>
+          </div>
+        </Box>
+      </Box>
     </>
   );
 };

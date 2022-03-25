@@ -1,107 +1,125 @@
-.topicInfo {
-  .card {
-    height: 184px;
-    border-radius: 8px;
-    background: white;
-    box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+.TopicUpdatesCard {
+  height: 184px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  .imgStyling {
+    height: 32px;
+    width: 105px;
     display: flex;
-    flex-direction: column;
+  }
+  .card_detail {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 24px;
+    color: #151e29;
+  }
+  .card_footer {
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    padding: 24px;
-    .imgStyling {
-      height: 32px;
-      width: 105px;
-      display: flex;
-    }
-    .card_detail {
-      font-weight: 600;
-      font-size: 14px;
-      line-height: 24px;
-      color: #151e29;
-    }
-    .card_footer {
+    .profile_side {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      .profile_side {
+      .follower_img_container {
         display: flex;
-        flex-direction: row;
-        .follower_img_container {
-          display: flex;
-          align-items: center;
-        }
-        .followerText {
-          font-weight: normal;
-          font-size: 12px;
-          line-height: 18px;
-          font-style: normal;
-          margin-left: 4px;
-          display: flex;
-          align-items: center;
-          color: #696f77;
-        }
-        .imgStylingProfiles {
-          width: 72px;
-          height: 32px;
-        }
+        align-items: center;
       }
-      .message_side {
-        display: flex;
-        flex-direction: row;
-        .message_text_container {
-          display: flex;
-          align-items: center;
-        }
-        .messageText {
-          font-weight: 600;
-          font-size: 12px;
-          line-height: 18px;
-          font-style: normal;
-          display: flex;
-          align-items: center;
-          color: #696f77;
-        }
-        .imgStylingMessage {
-          width: 16px;
-          height: 16px;
-          margin-right: 4px;
-        }
-      }
-    }
-    .card_header {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      .topic_updates_imags {
-        height: 32px;
-        width: "48%";
-        .imgStyling {
-          height: inherit;
-          width: inherit;
-          object-fit: cover;
-        }
-      }
-    }
-    .info {
-      display: flex;
-      flex-direction: column;
-      .number {
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 28px;
-      }
-      .category {
+      .followerText {
         font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 12px;
+        line-height: 18px;
+        font-style: normal;
+        margin-left: 4px;
+        display: flex;
+        align-items: center;
+        color: #696f77;
+      }
+      .imgStylingProfiles {
+        width: 72px;
+        height: 32px;
+      }
+    }
+    .message_side {
+      display: flex;
+      flex-direction: row;
+      .message_text_container {
+        display: flex;
+        align-items: center;
+      }
+      .messageText {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 18px;
+        font-style: normal;
+        display: flex;
+        align-items: center;
+        color: #696f77;
+      }
+      .imgStylingMessage {
+        width: 16px;
+        height: 16px;
+        margin-right: 4px;
       }
     }
   }
+  .card_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .modalitytag {
+      width: 48%;
+      height: 32px;
+      padding: 7px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #efe1ff;
+      .modality {
+        color: #773cbd;
+        font-weight: 600;
+        font-size: 12px;
+      }
+    }
+    .follow {
+      height: 32px;
+      width: 48%;
+      box-shadow: unset;
+      background-color: #92d509 !important;
+      padding: 4px 16px;
+      text-transform: unset;
+      .text {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    .number {
+      font-weight: bold;
+      font-size: 24px;
+      line-height: 28px;
+    }
+    .category {
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
 }
-.mobiletopicInfo {
-  margin-right: 16px;
-  .card {
+
+@media only screen and (max-width: 480px) {
+  .TopicUpdatesCard {
     height: 166px;
+    margin-right: 16px;
     width: 284px;
     border-radius: 8px;
     background: white;
@@ -174,20 +192,6 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-    }
-    .info {
-      display: flex;
-      flex-direction: column;
-      .number {
-        font-weight: bold;
-        font-size: 24px;
-        line-height: 28px;
-      }
-      .category {
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 24px;
-      }
     }
   }
 }
