@@ -33,10 +33,7 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: ["Article"],
     }),
-    addArticle: builder.mutation<
-      Document,
-      { document: Document }
-    >({
+    addArticle: builder.mutation<Document, { document: Document }>({
       query: ({ document }) => ({
         url: "/vfse/documents/",
         method: "post",
@@ -44,14 +41,10 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: ["Article"],
     }),
-    deleteArticle: builder.mutation<
-      void,
-      { id: number }
-    >({
+    deleteArticle: builder.mutation<void, { id: number }>({
       query: ({ id }) => ({
         url: `/vfse/documents/${id}/`,
         method: "delete",
-        data: document,
       }),
       invalidatesTags: ["Article"],
     }),
@@ -66,6 +59,29 @@ export const emptySplitApi = createApi({
     getFolders: builder.query<Folder[], void>({
       query: () => ({ url: "/vfse/folders/", method: "get" }),
       providesTags: ["Folder"],
+    }),
+    updateFolder: builder.mutation<Folder, { id: number; folder: Folder }>({
+      query: ({ id, folder }) => ({
+        url: `/vfse/folders/${id}/`,
+        method: "patch",
+        data: folder,
+      }),
+      invalidatesTags: ["Folder"],
+    }),
+    addFolder: builder.mutation<Folder, { folder: Folder }>({
+      query: ({ folder }) => ({
+        url: "/vfse/folders/",
+        method: "post",
+        data: folder,
+      }),
+      invalidatesTags: ["Folder"],
+    }),
+    deleteFolder: builder.mutation<void, { id: number }>({
+      query: ({ id }) => ({
+        url: `/vfse/folders/${id}/`,
+        method: "delete",
+      }),
+      invalidatesTags: ["Folder"],
     }),
   }),
 });
