@@ -1,3 +1,5 @@
+import { lazy } from "react";
+
 import ArticleIcon from "@mui/icons-material/Article";
 import CategoryIcon from "@mui/icons-material/Category";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
@@ -6,16 +8,49 @@ import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
-import AppearanceView from "@src/views/appearance/AppearanceView";
-import Documentation from "@src/views/documentation/DocumentationView";
 // import ModalityView from "@src/views/modality/ModalityView";
-import FaqView from "@src/views/faq/FaqView";
-import ForumView from "@src/views/forum/ForumView";
-import KnowledgeBaseView from "@src/views/knowledgeBase/KnowledgeBaseView";
-import OrganizationView from "@src/views/organization/OrganizationView";
-import SystemsView from "@src/views/systems/SystemsView";
-import UserView from "@src/views/user/UserView";
 
+const OrganizationView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "OrganizationView" */ "@src/views/organization/OrganizationView"
+    )
+);
+const SystemsView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "SystemsView" */ "@src/views/systems/SystemsView"
+    )
+);
+const AppearanceView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "AppearanceView" */ "@src/views/appearance/AppearanceView"
+    )
+);
+const Documentation = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "Documentation" */ "@src/views/documentation/DocumentationView"
+    )
+);
+const FaqView = lazy(
+  async () => import(/* webpackChunkName: "FaqView" */ "@src/views/faq/FaqView")
+);
+const ForumView = lazy(
+  async () =>
+    import(/* webpackChunkName: "ForumView" */ "@src/views/forum/ForumView")
+);
+const KnowledgeBaseView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "KnowledgeBaseView" */ "@src/views/knowledgeBase/KnowledgeBaseView"
+    )
+);
+const UserView = lazy(
+  async () =>
+    import(/* webpackChunkName: "UserView" */ "@src/views/user/UserView")
+);
 export const routes: routeItem[] = [
   {
     name: "vFSE",
