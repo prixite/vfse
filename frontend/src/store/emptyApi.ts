@@ -33,6 +33,28 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: ["Article"],
     }),
+    addArticle: builder.mutation<
+      Document,
+      { document: Document }
+    >({
+      query: ({ document }) => ({
+        url: "/vfse/documents/",
+        method: "post",
+        data: document,
+      }),
+      invalidatesTags: ["Article"],
+    }),
+    deleteArticle: builder.mutation<
+      void,
+      { id: number }
+    >({
+      query: ({ id }) => ({
+        url: `/vfse/documents/${id}/`,
+        method: "delete",
+        data: document,
+      }),
+      invalidatesTags: ["Article"],
+    }),
     getCategories: builder.query<Category[], void>({
       query: () => ({ url: `/vfse/categories/`, method: "get" }),
       providesTags: ["Category"],
@@ -40,6 +62,10 @@ export const emptySplitApi = createApi({
     getFolder: builder.query<Folder, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/folders/${id}/`, method: "get" }),
       providesTags: (result, error, { id }) => [{ type: "Folder", id: id }],
+    }),
+    getFolders: builder.query<Folder[], void>({
+      query: () => ({ url: "/vfse/folders/", method: "get" }),
+      providesTags: ["Folder"],
     }),
   }),
 });
