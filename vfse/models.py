@@ -11,6 +11,7 @@ class Folder(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=20)
+    color = models.CharField(max_length=10, default="#28D4AB")
 
     class Meta:
         verbose_name_plural = "Categories"
@@ -21,6 +22,7 @@ class Document(models.Model):
         "Folder", on_delete=models.PROTECT, related_name="documents"
     )
     categories = models.ManyToManyField("Category", related_name="documents")
+    title = models.CharField(max_length=255, default="", blank=True)
     text = models.TextField()
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True

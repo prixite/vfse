@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+import { Category, Document, Folder } from "./reducers/generated";
+
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -10,5 +12,23 @@ export const emptySplitApi = createApi({
       return headers;
     },
   }),
-  endpoints: () => ({}),
+  tagTypes: ["Favorite", "Article", "Category", "Folder"],
+  endpoints: (builder) => ({
+    getTopArticles: builder.query<Document[], void>({
+      query: () => ({ url: "/vfse/documents/?favorite=true", method: "get" }),
+      providesTags: ["Favorite"],
+    }),
+    getArticle: builder.query<Document, { id: number }>({
+      query: ({ id }) => ({ url: `/vfse/documents/${id}/`, method: "get" }),
+      providesTags: (result, error, { id }) => [{ type: "Article", id: id }],
+    }),
+    getCategories: builder.query<Category[], void>({
+      query: () => ({ url: `/vfse/categories/`, method: "get" }),
+      providesTags: ["Category"],
+    }),
+    getFolder: builder.query<Folder, { id: number }>({
+      query: ({ id }) => ({ url: `/vfse/folders/${id}/`, method: "get" }),
+      providesTags: (result, error, { id }) => [{ type: "Folder", id: id }],
+    }),
+  }),
 });
