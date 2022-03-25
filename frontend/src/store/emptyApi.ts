@@ -22,6 +22,17 @@ export const emptySplitApi = createApi({
       query: ({ id }) => ({ url: `/vfse/documents/${id}/`, method: "get" }),
       providesTags: (result, error, { id }) => [{ type: "Article", id: id }],
     }),
+    updateArticle: builder.mutation<
+      Document,
+      { id: number; document: Document }
+    >({
+      query: ({ id, document }) => ({
+        url: `/vfse/documents/${id}/`,
+        method: "patch",
+        data: document,
+      }),
+      invalidatesTags: ["Article"],
+    }),
     getCategories: builder.query<Category[], void>({
       query: () => ({ url: `/vfse/categories/`, method: "get" }),
       providesTags: ["Category"],
