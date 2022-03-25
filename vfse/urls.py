@@ -24,6 +24,7 @@ urlpatterns = [
         "folders/<int:pk>/",
         api.FolderViewset.as_view(
             {
+                "get": "retrieve",
                 "delete": "destroy",
                 "patch": "partial_update",
             }

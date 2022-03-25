@@ -12,6 +12,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
+import { api } from "@src/store/reducers/api";
 
 import "@src/components/common/smart/knowledgeSection/knowledgeSection.scss";
 
@@ -133,6 +134,8 @@ const KnowledgeSection = () => {
   const constantData: LocalizationInterface = localizedData();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { title, subTitle } = constantData.knowledgeBase;
+
+  const { data: topData = [] } = api.useGetTopArticlesQuery();
 
   const handleSearchQuery = (searchQuery: string) => {
     const actualData = articleData

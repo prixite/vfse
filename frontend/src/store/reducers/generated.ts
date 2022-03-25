@@ -522,6 +522,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.folder,
       }),
     }),
+    vfseFoldersRead: build.query<
+      VfseFoldersReadApiResponse,
+      VfseFoldersReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/folders/${queryArg.id}/` }),
+    }),
     vfseFoldersPartialUpdate: build.mutation<
       VfseFoldersPartialUpdateApiResponse,
       VfseFoldersPartialUpdateApiArg
@@ -822,6 +828,10 @@ export type VfseFoldersListApiArg = {
 export type VfseFoldersCreateApiResponse = /** status 201  */ Folder;
 export type VfseFoldersCreateApiArg = {
   folder: Folder;
+};
+export type VfseFoldersReadApiResponse = /** status 200  */ FolderDetail;
+export type VfseFoldersReadApiArg = {
+  id: string;
 };
 export type VfseFoldersPartialUpdateApiResponse = /** status 200  */ Folder;
 export type VfseFoldersPartialUpdateApiArg = {
@@ -1129,21 +1139,31 @@ export type Role = {
   value: string;
   title: string;
 };
-export type Category = {
-  id?: number;
-  name: string;
-};
-export type Document = {
-  id?: number;
-  text: string;
-  folder: number;
-  created_by?: number | null;
-};
 export type Folder = {
   id?: number;
   name: string;
   categories: number[];
-  no_of_documents?: number;
+  document_count?: string;
+};
+export type Category = {
+  id?: number;
+  name: string;
+  color?: string;
+  folders: Folder[];
+};
+export type Document = {
+  id?: number;
+  title?: string;
+  text: string;
+  folder: number;
+  favorite?: boolean;
+  created_by?: number | null;
+};
+export type FolderDetail = {
+  id?: number;
+  name: string;
+  categories: number[];
+  documents: Document[];
 };
 export const {
   useAccountsRequestsCreateMutation,
@@ -1206,6 +1226,7 @@ export const {
   useVfseDocumentsDeleteMutation,
   useVfseFoldersListQuery,
   useVfseFoldersCreateMutation,
+  useVfseFoldersReadQuery,
   useVfseFoldersPartialUpdateMutation,
   useVfseFoldersDeleteMutation,
 } = injectedRtkApi;

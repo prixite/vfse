@@ -34,6 +34,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
 class DocumentFactory(factory.django.DjangoModelFactory):
     favorite = factory.Faker("boolean")
     text = factory.Faker("text")
+    title = factory.Faker("sentence")
     created_by = factory.Iterator(User.objects.filter(is_lambda_user=False))
 
     @factory.post_generation

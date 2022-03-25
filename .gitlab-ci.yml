@@ -17,7 +17,7 @@ image: python:3.9.7
 
 variables:
   SECRET_KEY: "fake"
-  NPLUSONE_RAISE: "True"
+  NPLUSONE_RAISE: "False"
   DUO_CLIENT_ID: "fake"
   DUO_CLIENT_SECRET: "fake"
   DUO_API_HOSTNAME: "fake"

@@ -1638,6 +1638,22 @@
             "parameters": []
         },
         "/vfse/folders/{id}/": {
+            "get": {
+                "operationId": "vfse_folders_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/FolderDetail"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
             "patch": {
                 "operationId": "vfse_folders_partial_update",
                 "description": "",
@@ -3114,55 +3130,6 @@
                 }
             }
         },
-        "Category": {
-            "description": "Category(id, name)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 20,
-                    "minLength": 1
-                }
-            }
-        },
-        "Document": {
-            "description": "Document(id, folder, text, created_by, favorite, created_at, updated_at)",
-            "required": [
-                "text",
-                "folder"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "text": {
-                    "title": "Text",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "folder": {
-                    "title": "Folder",
-                    "type": "integer"
-                },
-                "created_by": {
-                    "title": "Created by",
-                    "type": "integer",
-                    "x-nullable": true
-                }
-            }
-        },
         "Folder": {
             "description": "Folder(id, name, created_at, updated_at)",
             "required": [
@@ -3189,10 +3156,118 @@
                     },
                     "uniqueItems": true
                 },
-                "no_of_documents": {
-                    "title": "No of documents",
+                "document_count": {
+                    "title": "Document count",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
+        "Category": {
+            "description": "Category(id, name, color)",
+            "required": [
+                "name",
+                "folders"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
                     "type": "integer",
                     "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "color": {
+                    "title": "Color",
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 1
+                },
+                "folders": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Folder"
+                    }
+                }
+            }
+        },
+        "Document": {
+            "description": "Document(id, folder, title, text, created_by, favorite, created_at, updated_at)",
+            "required": [
+                "text",
+                "folder"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "text": {
+                    "title": "Text",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "folder": {
+                    "title": "Folder",
+                    "type": "integer"
+                },
+                "favorite": {
+                    "title": "Favorite",
+                    "type": "boolean"
+                },
+                "created_by": {
+                    "title": "Created by",
+                    "type": "integer",
+                    "x-nullable": true
+                }
+            }
+        },
+        "FolderDetail": {
+            "description": "Folder(id, name, created_at, updated_at)",
+            "required": [
+                "name",
+                "categories",
+                "documents"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "documents": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Document"
+                    }
                 }
             }
         }

@@ -4,20 +4,33 @@ from vfse import models
 
 
 class FolderSerializer(serializers.ModelSerializer):
-    no_of_documents = serializers.IntegerField(read_only=True)
+    document_count = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Folder
-        fields = ["id", "name", "categories", "no_of_documents"]
+        fields = ["id", "name", "categories", "document_count"]
 
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Category
-        fields = ["id", "name"]
+    def get_document_count(self, obj):
+        return obj.documents.count()
 
 
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Document
-        fields = ["id", "text", "folder", "created_by"]
+        fields = ["id", "title", "text", "folder", "favorite", "created_by"]
+
+
+class FolderDetailSerializer(serializers.ModelSerializer):
+    documents = DocumentSerializer(many=True)
+
+    class Meta:
+        model = models.Folder
+        fields = ["id", "name", "categories", "documents"]
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    folders = FolderSerializer(many=True)
+
+    class Meta:
+        model = models.Category
+        fields = ["id", "name", "color", "folders"]

@@ -15,6 +15,12 @@ class FolderViewset(ModelViewSet):
     serializer_class = serializers.FolderSerializer
     filterset_fields = ["categories"]
 
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return serializers.FolderDetailSerializer
+
+        return serializers.FolderSerializer
+
     def get_queryset(self):
         if self.action in ["destroy", "partial_update"]:
             return models.Folder.objects.all()
