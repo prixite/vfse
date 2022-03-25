@@ -1,15 +1,55 @@
+import { lazy } from "react";
+
 import { Box } from "@mui/material";
 import { Switch, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
-import ArticleDocumentation from "@src/views/articleDocumentation/ArticleDocumentation";
-import FolderView from "@src/views/folderView/FolderView";
-import HomeView from "@src/views/home/HomeView";
-import NotFoundPage from "@src/views/notFoundPage/NotFoundPage";
-import OrganizationView from "@src/views/organization/OrganizationView";
-import SitesView from "@src/views/sites/SitesView";
-import SystemsView from "@src/views/systems/SystemsView";
+
+const OrganizationView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "OrganizationView" */ "@src/views/organization/OrganizationView"
+    )
+);
+
+const ArticleDocumentation = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "ArticleDocumentation" */ "@src/views/articleDocumentation/ArticleDocumentation"
+    )
+);
+
+const FolderView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "FolderView" */ "@src/views/folderView/FolderView"
+    )
+);
+
+const HomeView = lazy(
+  async () =>
+    import(/* webpackChunkName: "HomeView" */ "@src/views/home/HomeView")
+);
+
+const NotFoundPage = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "NotFoundPage" */ "@src/views/notFoundPage/NotFoundPage"
+    )
+);
+
+const SitesView = lazy(
+  async () =>
+    import(/* webpackChunkName: "SitesView" */ "@src/views/sites/SitesView")
+);
+
+const SystemsView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "SystemsView" */ "@src/views/systems/SystemsView"
+    )
+);
 
 interface Props {
   isLoading: boolean;
