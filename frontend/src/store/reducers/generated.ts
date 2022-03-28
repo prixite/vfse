@@ -1153,10 +1153,12 @@ export type Category = {
 };
 export type Document = {
   id?: number;
-  title?: string;
+  title: string;
   text: string;
-  folder: number;
+  folder?: number | null;
   favorite?: boolean;
+  categories: number[];
+  document_link?: string | null;
   created_by?: number | null;
 };
 export type FolderDetail = {

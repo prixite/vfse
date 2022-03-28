@@ -15,9 +15,20 @@ class FolderSerializer(serializers.ModelSerializer):
 
 
 class DocumentSerializer(serializers.ModelSerializer):
+    title = serializers.CharField(required=True, max_length=255)
+
     class Meta:
         model = models.Document
-        fields = ["id", "title", "text", "folder", "favorite", "created_by"]
+        fields = [
+            "id",
+            "title",
+            "text",
+            "folder",
+            "favorite",
+            "categories",
+            "document_link",
+            "created_by",
+        ]
 
 
 class FolderDetailSerializer(serializers.ModelSerializer):

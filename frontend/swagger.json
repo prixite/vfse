@@ -3198,10 +3198,11 @@
             }
         },
         "Document": {
-            "description": "Document(id, folder, title, text, created_by, favorite, created_at, updated_at)",
+            "description": "Document(id, folder, title, text, created_by, favorite, document_link, created_at, updated_at)",
             "required": [
+                "title",
                 "text",
-                "folder"
+                "categories"
             ],
             "type": "object",
             "properties": {
@@ -3213,7 +3214,8 @@
                 "title": {
                     "title": "Title",
                     "type": "string",
-                    "maxLength": 255
+                    "maxLength": 255,
+                    "minLength": 1
                 },
                 "text": {
                     "title": "Text",
@@ -3222,11 +3224,27 @@
                 },
                 "folder": {
                     "title": "Folder",
-                    "type": "integer"
+                    "type": "integer",
+                    "x-nullable": true
                 },
                 "favorite": {
                     "title": "Favorite",
                     "type": "boolean"
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "document_link": {
+                    "title": "Document link",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "minLength": 1,
+                    "x-nullable": true
                 },
                 "created_by": {
                     "title": "Created by",

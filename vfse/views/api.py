@@ -36,4 +36,7 @@ class DocumentViewSet(ModelViewSet):
     filterset_fields = ["folder", "favorite"]
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Document.objects.none()
+
         return models.Document.objects.all()

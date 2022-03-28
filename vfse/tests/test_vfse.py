@@ -60,8 +60,10 @@ class VfseTestCase(BaseTestCase):
         response = self.client.post(
             "/api/vfse/documents/",
             data={
+                "title": factories.fake.sentence(),
                 "text": text,
                 "folder": self.folder.id,
+                "categories": [factories.CategoryFactory().id],
             },
         )
         self.assertEqual(response.status_code, 201)

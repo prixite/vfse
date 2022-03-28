@@ -19,7 +19,7 @@ class Category(models.Model):
 
 class Document(models.Model):
     folder = models.ForeignKey(
-        "Folder", on_delete=models.PROTECT, related_name="documents"
+        "Folder", on_delete=models.PROTECT, related_name="documents", null=True
     )
     categories = models.ManyToManyField("Category", related_name="documents")
     title = models.CharField(max_length=255, default="", blank=True)
@@ -28,5 +28,6 @@ class Document(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
     favorite = models.BooleanField(default=False)
+    document_link = models.URLField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
