@@ -107,6 +107,9 @@
             "btnCancel": "Cancel"
         }
     },
+    "article" :  {
+        "btnAdd": "Add Article"
+    },
     "systems": {
         "title": "Documentation database",
         "btnFilter": "Filter",

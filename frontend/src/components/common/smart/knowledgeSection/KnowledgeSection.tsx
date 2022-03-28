@@ -9,6 +9,7 @@ import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTop
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
@@ -133,6 +134,7 @@ const KnowledgeSection = () => {
   const [query, setQuery] = useState("");
   const constantData: LocalizationInterface = localizedData();
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const [open, setOpen] = useState(false);
   const { title, subTitle } = constantData.knowledgeBase;
 
   const { data: topData = [] } = api.useGetTopArticlesQuery();
@@ -151,6 +153,9 @@ const KnowledgeSection = () => {
       .filter((item) => item?.categories?.length);
     setFolderList(actualData);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (query.length > 2) {
@@ -164,7 +169,8 @@ const KnowledgeSection = () => {
     <Box component="div" className="knowledgeSection">
       <h1 className="main-heading">{title}</h1>
       <TopViewBtns
-        path="documentation"
+        setOpen={setOpen}
+        path="knowledge-base"
         setSearchText={setQuery}
         searchText={query}
         setData={setFolderList}
@@ -220,6 +226,7 @@ const KnowledgeSection = () => {
       ) : (
         ""
       )}
+      <ArticleModal open={open} handleClose={handleClose} />
     </Box>
   );
 };
