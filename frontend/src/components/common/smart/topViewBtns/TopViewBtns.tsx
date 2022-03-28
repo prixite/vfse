@@ -109,6 +109,8 @@ const TopViewBtns = ({
     constantData = localizedData()?.documentation;
   } else if (path == "description") {
     constantData = localizedData()?.documentation;
+  } else if (path == "knowledge-base") {
+    constantData = localizedData()?.article;
   }
   const { btnAdd } = constantData;
 
@@ -185,6 +187,8 @@ const TopViewBtns = ({
     } else if (path === "documentation") {
       setOpen(true);
       // setData(null);
+    } else if (path === "knowledge-base") {
+      setOpen(true);
     } else {
       setOpen(true);
       setData(null);
