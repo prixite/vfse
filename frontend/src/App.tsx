@@ -4,6 +4,7 @@ import { matchPath } from "react-router";
 import { match, useLocation, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import "react-toastify/dist/ReactToastify.css";
 import RoutesHOC from "@src/components/hoc/routesHOC";
 import PageLayout from "@src/components/shared/layout/pageLayout/PageLayout";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
