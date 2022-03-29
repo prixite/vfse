@@ -291,9 +291,24 @@ class Command(BaseCommand):
             ip_address="10.21.16.70", site=site, connection_monitoring=True
         )
 
-        vfse_factories.CategoryFactory.create_batch(10)
+        category1 = vfse_factories.CategoryFactory()
+        category2 = vfse_factories.CategoryFactory()
+        category3 = vfse_factories.CategoryFactory()
+        category4 = vfse_factories.CategoryFactory()
 
-        folder = vfse_factories.FolderFactory()
+        folder = vfse_factories.FolderFactory(
+            categories=[category1, category2, category3, category4]
+        )
+        vfse_factories.FolderFactory(
+            categories=[category1, category2, category3, category4]
+        )
+        vfse_factories.FolderFactory(
+            categories=[category1, category2, category3, category4]
+        )
+        vfse_factories.FolderFactory(
+            categories=[category1, category2, category3, category4]
+        )
+
         vfse_factories.DocumentFactory.create_batch(10, folder=folder)
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
