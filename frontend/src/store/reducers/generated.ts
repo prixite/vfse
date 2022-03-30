@@ -1189,7 +1189,7 @@ export type Document = {
   favorite?: boolean;
   categories: number[];
   document_link?: string | null;
-  created_by?: number | null;
+  created_by?: number;
 };
 export type FolderDetail = {
   id?: number;
