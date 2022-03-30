@@ -39,4 +39,4 @@ class DocumentViewSet(ModelViewSet):
         if getattr(self, "swagger_fake_view", False):
             return models.Document.objects.none()
 
-        return models.Document.objects.all()
+        return models.Document.objects.all().prefetch_related("categories")

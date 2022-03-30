@@ -3308,8 +3308,7 @@
                 },
                 "created_by": {
                     "title": "Created by",
-                    "type": "integer",
-                    "x-nullable": true
+                    "type": "integer"
                 }
             }
         },

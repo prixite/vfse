@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from core import models as core_models
 from vfse import models
 
 
@@ -16,6 +17,10 @@ class FolderSerializer(serializers.ModelSerializer):
 
 class DocumentSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=True, max_length=255)
+    created_by = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(),
+        queryset=core_models.User.objects.all(),
+    )
 
     class Meta:
         model = models.Document

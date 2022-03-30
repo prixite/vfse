@@ -68,7 +68,9 @@ class VfseTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertTrue(
-            models.Document.objects.filter(text=text, folder=self.folder).exists()
+            models.Document.objects.filter(
+                text=text, folder=self.folder, created_by=self.user
+            ).exists()
         )
 
     def test_document_delete(self):
