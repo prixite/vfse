@@ -18,7 +18,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
+import { Buffer } from "buffer";
+import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
@@ -54,57 +57,93 @@ interface Props {
   action: string;
 }
 
+const initialState = {
+  userProfileImage: "",
+  firstname: "",
+  lastname: "",
+  email: "",
+  phone: "",
+  role: "",
+  manager: undefined,
+  customer: undefined,
+  selectedModalities: [],
+  selectedSites: [],
+  docLink: false,
+  possibilitytoLeave: false,
+  accessToFSEFunctions: false,
+  viewOnly: false,
+  auditEnable: false,
+  oneTimeLinkCreation: false,
+};
+// eslint-disable-next-line
+const nameReg = /^[A-Za-z ]*$/;
+// eslint-disable-next-line
+const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+// eslint-disable-next-line
+const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+
+const validationSchema = yup.object({
+  userProfileImage: yup.string().required("Image is required!"),
+  firstname: yup.string().matches(nameReg).required("FirstName is required!"),
+  lastname: yup.string().matches(nameReg).required("Lastname is required!"),
+  email: yup
+    .string()
+    .matches(emailRegX, "Invalid E-mail!") //TODO
+    .required("Email is required!"),
+  phone: yup
+    .string()
+    .max(10, "Phone number must not be greater than 10 digits")
+    .matches(phoneReg)
+    .typeError("Invalid Phone Format") //TODO
+    .required("Phone is required!"),
+});
+
+window.Buffer = window.Buffer || Buffer;
+
 export default function UserModal(props: Props) {
   const [page, setPage] = useState("1");
-  const [userProfileImage, setUserProfileImage] = useState("");
   const [selectedImage, setSelectedImage] = useState([]);
-  const [imageError, setImageError] = useState("");
-  const [firstname, setFirstName] = useState("");
-  const [firstnameError, setFirstNameError] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [lastnameError, setLastNameError] = useState("");
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [role, setRole] = useState(props?.roles[0]?.value);
-  const [manager, setManager] = useState<number>();
-  const [customer, setCustomer] = useState<number>();
-  const [selectedModalities, setSelectedModalities] = useState([]);
-  const [selectedSites, setSelectedSites] = useState([]);
-  const [docLink, setDocLink] = useState<boolean>(false);
-  const [possibilitytoLeave, setPossibilitytoLeave] = useState<boolean>(false);
-  const [accessToFSEFunctions, setAccessToFSEFunctions] =
-    useState<boolean>(false);
-  const [viewOnly, setViewOnly] = useState<boolean>(false);
-  const [auditEnable, setAuditEnable] = useState<boolean>(false);
-  const [oneTimeLinkCreation, setOneTimeLinkCreation] =
-    useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const constantData = localizedData()?.users?.popUp;
+
+  const [onChangeValidation, setOnChangeValidation] = useState(false);
+
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    validateOnChange: onChangeValidation,
+    onSubmit: () => {
+      if (props?.action === "add") {
+        handleAddUser();
+      } else {
+        handleEditUser();
+      }
+    },
+  });
+
   const { data: networksData } = useOrganizationsHealthNetworksListQuery(
     {
-      id: customer?.toString(),
+      id: formik.values.customer?.toString(),
     },
     {
-      skip: !customer,
+      skip: !formik.values.customer,
     }
   );
   const { data: organizationSitesData } = useOrganizationsSitesListQuery(
     {
-      id: customer?.toString(),
+      id: formik.values.customer?.toString(),
     },
     {
-      skip: !customer,
+      skip: !formik.values.customer,
     }
   );
 
   const { data: managers = [] } = useOrganizationsUsersListQuery(
     {
-      id: customer?.toString(),
+      id: formik.values.customer?.toString(),
     },
     {
-      skip: !customer,
+      skip: !formik.values.customer,
     }
   );
 
@@ -128,9 +167,6 @@ export default function UserModal(props: Props) {
     (state) => state.myTheme
   );
 
-  const emailReg =
-    /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; // eslint-disable-line
-
   const [createUser] = useScopeUsersCreateMutation();
   const [updateUser] = useUsersPartialUpdateMutation();
 
@@ -142,10 +178,13 @@ export default function UserModal(props: Props) {
   useEffect(() => {
     if (props?.action == "add") {
       if (usersData?.length) {
-        setManager(usersData[0]?.id);
+        formik.setFieldValue("manager", usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
-        setCustomer(props?.organizationData[0]?.id);
+        formik.setFieldValue("customer", props?.organizationData[0]?.id);
+      }
+      if (props?.roles?.length) {
+        formik.setFieldValue("role", props?.roles[0].value);
       }
     }
   }, []);
@@ -158,7 +197,7 @@ export default function UserModal(props: Props) {
 
   useEffect(() => {
     if (selectedImage?.length) {
-      setImageError("");
+      formik.setFieldValue("userProfileImage", selectedImage[0]);
     }
   }, [selectedImage]);
 
@@ -166,32 +205,35 @@ export default function UserModal(props: Props) {
     const editedUser: User = usersData?.filter((user) => {
       return user?.id == props?.selectedUser;
     })[0];
-    if (editedUser) {
-      if (editedUser?.image?.length) {
-        setUserProfileImage(editedUser?.image);
-      }
-      setFirstName(editedUser?.first_name);
-      setLastName(editedUser?.last_name);
-      setEmail(editedUser?.email);
+    if (editedUser?.image?.length) {
+      formik.setValues({
+        ...formik.values,
+        userProfileImage: editedUser?.image,
+        firstname: editedUser?.first_name,
+        lastname: editedUser?.last_name,
+        email: editedUser?.email,
+      });
       if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
-        setPhone(editedUser?.phone?.substring(2));
+        formik.setFieldValue("phone", editedUser?.phone?.substring(2));
       }
       if (editedUser?.role?.length) {
-        setRole(editedUser?.role[0]);
+        formik.setFieldValue("role", editedUser.role[0]);
       }
       if (editedUser?.manager) {
-        setManager(
+        formik.setFieldValue(
+          "manager",
           usersData?.filter(
             (user) => user?.email == editedUser?.manager?.email
           )[0]?.id
         );
       } else {
         if (usersData?.length) {
-          setManager(usersData[0]?.id);
+          formik.setFieldValue("manager", usersData[0]?.id);
         }
       }
       if (editedUser?.organizations?.length) {
-        setCustomer(
+        formik.setFieldValue(
+          "customer",
           props?.organizationData?.filter((org) => {
             return (
               org?.name?.toString() == editedUser?.organizations[0]?.toString()
@@ -219,7 +261,7 @@ export default function UserModal(props: Props) {
           });
         });
         if (sites_ids?.length == editedUser?.sites?.length) {
-          setSelectedSites(sites_ids);
+          formik.setFieldValue("selectedSites", sites_ids);
         }
       }
       if (editedUser?.modalities?.length) {
@@ -230,25 +272,28 @@ export default function UserModal(props: Props) {
         filterModalities?.forEach((mod) => {
           mod_ids.push(mod?.id);
         });
-        setSelectedModalities(mod_ids);
+        formik.setFieldValue("selectedModalities", mod_ids);
       }
       if (editedUser?.fse_accessible) {
-        setAccessToFSEFunctions(editedUser?.fse_accessible);
+        formik.setFieldValue(
+          "accessToFSEFunctions",
+          editedUser?.fse_accessible
+        );
       }
       if (editedUser?.audit_enabled) {
-        setAuditEnable(editedUser?.audit_enabled);
+        formik.setFieldValue("auditEnable", editedUser?.audit_enabled);
       }
       if (editedUser?.can_leave_notes) {
-        setPossibilitytoLeave(editedUser?.can_leave_notes);
+        formik.setFieldValue("possibilitytoLeave", editedUser?.can_leave_notes);
       }
       if (editedUser?.view_only) {
-        setViewOnly(editedUser?.view_only);
+        formik.setFieldValue("viewOnly", editedUser?.view_only);
       }
       if (editedUser?.is_one_time) {
-        setOneTimeLinkCreation(editedUser?.is_one_time);
+        formik.setFieldValue("oneTimeLinkCreation", editedUser?.is_one_time);
       }
       if (editedUser?.documentation_url) {
-        setDocLink(editedUser?.documentation_url);
+        formik.setFieldValue("docLink", editedUser?.documentation_url);
       }
     }
   };
@@ -261,57 +306,24 @@ export default function UserModal(props: Props) {
     }
   };
 
-  const handleFirstName = (event) => {
-    if (event.target.value.length) {
-      setFirstNameError("");
-    }
-    setFirstName(event?.target?.value);
-  };
-
-  const handleLastName = (event) => {
-    if (event.target.value.length) {
-      setLastNameError("");
-    }
-    setLastName(event?.target?.value);
-  };
-
-  const handleEmail = (event) => {
-    if (
-      event.target.value.length &&
-      emailReg.test(event.target.value) == true
-    ) {
-      setEmailError("");
-    }
-    setEmail(event?.target?.value);
-  };
-
-  const handlePhone = (event) => {
-    if (event?.target?.value?.length == 10) {
-      setPhoneError("");
-    }
-    setPhone(event?.target?.value);
-  };
-
-  const handleRoleChange = (event) => {
-    setRole(event.target.value);
-  };
-
-  const handleManagerChange = (event) => {
-    setManager(event.target.value);
-  };
-
-  const handleCustomerChange = (event) => {
-    setCustomer(event.target.value);
-  };
-
   const handleSitesSelection = (e) => {
     const val = parseInt(e.target.value);
-    if (selectedSites.indexOf(val) > -1) {
-      selectedSites?.splice(selectedSites?.indexOf(val), 1);
-      setSelectedSites([...selectedSites]);
+    if (formik.values.selectedSites.indexOf(val) > -1) {
+      formik.values.selectedSites?.splice(
+        formik.values.selectedSites?.indexOf(val),
+        1
+      );
+      formik.setFieldValue("selectedSites", [...formik.values.selectedSites]);
     } else {
-      setSelectedSites([...selectedSites, parseInt(e.target.value)]);
+      formik.setFieldValue("selectedSites", [
+        ...formik.values.selectedSites,
+        val,
+      ]);
     }
+  };
+
+  const handleSelectedModalities = (event, newFormats) => {
+    formik.setFieldValue("selectedModalities", newFormats);
   };
 
   const sitesLength = () => {
@@ -337,14 +349,9 @@ export default function UserModal(props: Props) {
     return count;
   };
 
-  const handleSelectedModalities = (event, newFormats) => {
-    setSelectedModalities(newFormats);
-  };
-
   const handleAddUser = async () => {
     setIsLoading(true);
-    handleErrors();
-    if (verifyErrors()) {
+    if (formik.isValid) {
       await uploadImageToS3(selectedImage[0]).then(
         async (data: S3Interface) => {
           const userObject = getUserObject(data?.location);
@@ -375,10 +382,9 @@ export default function UserModal(props: Props) {
 
   const handleEditUser = async () => {
     setIsLoading(true);
-    handleErrors();
-    if (verifyErrors()) {
-      if (!selectedImage.length && userProfileImage?.length) {
-        performEditUser(userProfileImage);
+    if (formik.isValid) {
+      if (!selectedImage.length && formik.values.userProfileImage?.length) {
+        performEditUser(formik.values.userProfileImage);
       } else {
         await uploadImageToS3(selectedImage[0]).then(
           async (data: S3Interface) => {
@@ -421,121 +427,52 @@ export default function UserModal(props: Props) {
         profile_picture: imageUrl,
         title: "User Profile Image",
       },
-      first_name: firstname,
-      last_name: lastname,
-      email: email,
-      phone: "+1" + phone,
-      role: role,
-      organization: customer,
-      sites: selectedSites,
-      modalities: selectedModalities,
-      fse_accessible: accessToFSEFunctions,
-      audit_enabled: auditEnable,
-      can_leave_notes: possibilitytoLeave,
-      view_only: viewOnly,
-      is_one_time: oneTimeLinkCreation,
-      documentation_url: docLink,
+      first_name: formik.values.firstname,
+      last_name: formik.values.lastname,
+      email: formik.values.email,
+      phone: "+1" + formik.values.phone,
+      role: formik.values.role,
+      organization: formik.values.customer,
+      sites: formik.values.selectedSites,
+      modalities: formik.values.selectedModalities,
+      fse_accessible: formik.values.accessToFSEFunctions,
+      audit_enabled: formik.values.auditEnable,
+      can_leave_notes: formik.values.possibilitytoLeave,
+      view_only: formik.values.viewOnly,
+      is_one_time: formik.values.oneTimeLinkCreation,
+      documentation_url: formik.values.docLink,
     };
-    if (manager !== -1) {
-      obj["manager"] = manager;
+    if (formik.values.manager !== -1) {
+      obj["manager"] = formik.values.manager;
     }
     return obj;
   };
 
   const resetModal = () => {
     if (props?.action == "add") {
-      setPage("1");
-      setUserProfileImage("");
-      setSelectedImage([]);
-      setImageError("");
-      setFirstName("");
-      setFirstNameError("");
-      setLastName("");
-      setLastNameError("");
-      setEmail("");
-      setEmailError("");
-      setPhone("");
-      setPhoneError("");
-      setRole(props?.roles[0]?.value);
+      formik.resetForm();
+      formik.setFieldValue("userProfileImage", selectedImage[0]);
       if (usersData?.length) {
-        setManager(usersData[0]?.id);
+        formik.setFieldValue("manager", usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
-        setCustomer(props?.organizationData[0]?.id);
+        formik.setFieldValue("customer", props?.organizationData[0]?.id);
       }
-      setSelectedSites([]);
-      setSelectedModalities([]);
-      setDocLink(false);
-      setPossibilitytoLeave(false);
-      setAccessToFSEFunctions(false);
-      setViewOnly(false);
-      setAuditEnable(false);
-      setOneTimeLinkCreation(false);
     } else if (props?.action == "edit") {
       populateEditableData();
-      setImageError("");
-      setFirstNameError("");
-      setLastNameError("");
-      setEmailError("");
-      setPhoneError("");
+      formik.resetForm();
+      formik.setFieldValue("userProfileImage", selectedImage[0]);
     }
     props?.handleClose();
   };
 
-  const moveToNextPage = () => {
-    handleErrors();
-    if (
-      (selectedImage.length || userProfileImage.length) &&
-      firstname.length &&
-      lastname.length &&
-      email?.length &&
-      emailReg.test(email) == true &&
-      phone?.length &&
-      phone?.length == 10 &&
-      role?.length &&
-      customer
-    ) {
-      setPage("2");
+  const moveToNextPage = async () => {
+    const errors = await formik.validateForm();
+    if (!Object.keys(errors).length) {
+      await setPage("2");
+    } else {
+      setOnChangeValidation(true);
     }
-  };
-
-  const verifyErrors = () => {
-    if (
-      (selectedImage.length || userProfileImage.length) &&
-      firstname &&
-      lastname &&
-      email?.length &&
-      emailReg.test(email) == true &&
-      phone?.length &&
-      phone?.length == 10 &&
-      role &&
-      customer
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  const handleErrors = () => {
-    !userProfileImage.length && !selectedImage.length
-      ? setImageError("Image is not selected")
-      : setImageError("");
-    !firstname
-      ? setFirstNameError("First Name is required.")
-      : setFirstNameError("");
-    !lastname
-      ? setLastNameError("Last Name is required.")
-      : setLastNameError("");
-    !email
-      ? setEmailError("Email is required.")
-      : emailReg.test(email) == false
-      ? setEmailError("Invalid Email.")
-      : setEmailError("");
-    !phone
-      ? setPhoneError("Phone number is required.")
-      : phone?.length !== 10
-      ? setPhoneError("Phone number is incorrect.")
-      : setPhoneError("");
   };
 
   return (
@@ -593,69 +530,71 @@ export default function UserModal(props: Props) {
               <div>
                 <p className="info-label required">Profile Image</p>
                 <DropzoneBox
-                  imgSrc={userProfileImage}
+                  imgSrc={formik.values.userProfileImage}
                   setSelectedImage={setSelectedImage}
                   selectedImage={selectedImage}
                 />
-                {imageError?.length ? (
+                {
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {imageError}
+                    {formik.errors.userProfileImage}
                   </p>
-                ) : (
-                  ""
-                )}
+                }
               </div>
               <div>
                 <p className="info-label required">{userFirstName}</p>
                 <TextField
+                  name="firstname"
                   className="full-field"
-                  value={firstname}
+                  value={formik.values.firstname}
                   type="text"
-                  onChange={handleFirstName}
+                  onChange={formik.handleChange}
                   variant="outlined"
                   placeholder="First Name"
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
-                  {firstnameError}
+                  {formik.errors.firstname}
                 </p>
               </div>
               <div>
                 <p className="info-label required">{userLastName}</p>
                 <TextField
+                  name="lastname"
                   className="full-field"
                   type="text"
-                  value={lastname}
-                  onChange={handleLastName}
+                  value={formik.values.lastname}
+                  onChange={formik.handleChange}
                   variant="outlined"
                   placeholder="Last Name"
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
-                  {lastnameError}
+                  {formik.errors.lastname}
                 </p>
               </div>
               <div className="divided-div">
                 <div>
                   <p className="info-label required">{userEmail}</p>
                   <TextField
+                    name="email"
                     className="info-field"
                     type="email"
-                    value={email}
-                    onChange={handleEmail}
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
                     variant="outlined"
                     placeholder="Email"
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {emailError}
+                    {formik.errors.email}
                   </p>
                 </div>
                 <div>
                   <p className="info-label required">{userPhoneNumber}</p>
                   <TextField
+                    name="phone"
                     className="info-field"
                     variant="outlined"
-                    value={phone}
+                    value={formik.values.phone}
                     type="number"
-                    onChange={handlePhone}
+                    onChange={formik.handleChange}
                     placeholder="1234567890"
                     InputProps={{
                       startAdornment: (
@@ -666,7 +605,7 @@ export default function UserModal(props: Props) {
                     }}
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {phoneError}
+                    {formik.errors.phone}
                   </p>
                 </div>
               </div>
@@ -675,17 +614,18 @@ export default function UserModal(props: Props) {
                   <p className="info-label required">{userRole}</p>
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
-                      value={role}
-                      disabled={!props?.roles?.length}
+                      name="role"
+                      value={formik.values.role}
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
-                      defaultValue="none"
-                      onChange={handleRoleChange}
+                      onChange={formik.handleChange}
+                      disabled={!props?.roles?.length}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
+                      defaultValue="none"
                     >
                       {props?.roles?.map((item, key) => (
                         <MenuItem key={key} value={item.value}>
-                          {item.title}
+                          {item?.title}
                         </MenuItem>
                       ))}
                     </Select>
@@ -695,14 +635,15 @@ export default function UserModal(props: Props) {
                   <p className="info-label">{userManager}</p>
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
-                      value={manager}
+                      name="manager"
+                      value={formik.values.manager}
                       inputProps={{ "aria-label": "Without label" }}
                       style={{
                         height: "43px",
                         borderRadius: "8px",
-                        color: manager == -1 ? "darkgray" : "",
+                        color: formik.values.manager == -1 ? "darkgray" : "",
                       }}
-                      onChange={handleManagerChange}
+                      onChange={formik.handleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       disabled={!managers.length}
                     >
@@ -723,11 +664,12 @@ export default function UserModal(props: Props) {
                 <p className="info-label required">{userCustomer}</p>
                 <FormControl sx={{ width: "100%" }}>
                   <Select
-                    value={customer}
+                    name="customer"
+                    value={formik.values.customer}
                     disabled={props?.action == "edit"}
                     inputProps={{ "aria-label": "Without label" }}
                     style={{ height: "43px", borderRadius: "8px" }}
-                    onChange={handleCustomerChange}
+                    onChange={formik.handleChange}
                     MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                   >
                     {props?.organizationData?.map((item, key) => (
@@ -746,7 +688,7 @@ export default function UserModal(props: Props) {
                   <p className="modalities-header">
                     <span className="info-label">Sites</span>
                     <span className="checked-ratio">{`${
-                      selectedSites?.length
+                      formik.values.selectedSites?.length
                     }/${sitesLength()}`}</span>
                   </p>
                 ) : (
@@ -781,7 +723,9 @@ export default function UserModal(props: Props) {
                               control={
                                 <Checkbox
                                   onChange={handleSitesSelection}
-                                  checked={selectedSites.includes(site?.id)}
+                                  checked={formik.values.selectedSites.includes(
+                                    site?.id
+                                  )}
                                   value={site?.id}
                                   name={site?.address}
                                   color="primary"
@@ -815,7 +759,9 @@ export default function UserModal(props: Props) {
                             control={
                               <Checkbox
                                 onChange={handleSitesSelection}
-                                checked={selectedSites.includes(site?.id)}
+                                checked={formik.values.selectedSites.includes(
+                                  site?.id
+                                )}
                                 value={site?.id}
                                 name={site?.address}
                                 color="primary"
@@ -835,13 +781,13 @@ export default function UserModal(props: Props) {
                 {props?.modalitiesList?.length ? (
                   <p className="modalities-header">
                     <span className="info-label">Access to modalities</span>
-                    <span className="checked-ratio">{`${selectedModalities?.length}/${props?.modalitiesList?.length}`}</span>
+                    <span className="checked-ratio">{`${formik.values.selectedModalities?.length}/${props?.modalitiesList?.length}`}</span>
                   </p>
                 ) : (
                   ""
                 )}
                 <ToggleButtonGroup
-                  value={selectedModalities}
+                  value={formik.values.selectedModalities}
                   color="primary"
                   onChange={handleSelectedModalities}
                   aria-label="text formatting"
@@ -864,8 +810,13 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={docLink}
-                        onClick={() => setDocLink(!docLink)}
+                        checked={formik.values.docLink}
+                        onClick={() =>
+                          formik.setFieldValue(
+                            "docLink",
+                            !formik.values.docLink
+                          )
+                        }
                       />
                     }
                     label="Documentation Link Available"
@@ -873,9 +824,12 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={accessToFSEFunctions}
+                        checked={formik.values.accessToFSEFunctions}
                         onClick={() =>
-                          setAccessToFSEFunctions(!accessToFSEFunctions)
+                          formik.setFieldValue(
+                            "accessToFSEFunctions",
+                            !formik.values.accessToFSEFunctions
+                          )
                         }
                       />
                     }
@@ -884,8 +838,13 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={auditEnable}
-                        onClick={() => setAuditEnable(!auditEnable)}
+                        checked={formik.values.auditEnable}
+                        onClick={() =>
+                          formik.setFieldValue(
+                            "auditEnable",
+                            !formik.values.auditEnable
+                          )
+                        }
                       />
                     }
                     label="Audit Enable"
@@ -896,9 +855,12 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={possibilitytoLeave}
+                        checked={formik.values.possibilitytoLeave}
                         onClick={() =>
-                          setPossibilitytoLeave(!possibilitytoLeave)
+                          formik.setFieldValue(
+                            "possibilitytoLeave",
+                            !formik.values.possibilitytoLeave
+                          )
                         }
                       />
                     }
@@ -907,8 +869,13 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={viewOnly}
-                        onClick={() => setViewOnly(!viewOnly)}
+                        checked={formik.values.viewOnly}
+                        onClick={() =>
+                          formik.setFieldValue(
+                            "viewOnly",
+                            !formik.values.viewOnly
+                          )
+                        }
                       />
                     }
                     label="View Only"
@@ -916,9 +883,12 @@ export default function UserModal(props: Props) {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={oneTimeLinkCreation}
+                        checked={formik.values.oneTimeLinkCreation}
                         onClick={() =>
-                          setOneTimeLinkCreation(!oneTimeLinkCreation)
+                          formik.setFieldValue(
+                            "oneTimeLinkCreation",
+                            !formik.values.oneTimeLinkCreation
+                          )
                         }
                       />
                     }
@@ -975,7 +945,7 @@ export default function UserModal(props: Props) {
                   }
             }
             disabled={isLoading}
-            onClick={props?.action === "add" ? handleAddUser : handleEditUser}
+            onClick={() => formik.handleSubmit()}
             className="add-btn"
           >
             {props?.action == "add" ? btnAddUser : btnEditUser}
