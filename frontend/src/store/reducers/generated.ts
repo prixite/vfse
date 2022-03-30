@@ -465,6 +465,26 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/vfse/categories/` }),
     }),
+    vfseCategoriesCreate: build.mutation<
+      VfseCategoriesCreateApiResponse,
+      VfseCategoriesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/categories/`,
+        method: "POST",
+        body: queryArg.category,
+      }),
+    }),
+    vfseCategoriesPartialUpdate: build.mutation<
+      VfseCategoriesPartialUpdateApiResponse,
+      VfseCategoriesPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/categories/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.category,
+      }),
+    }),
     vfseDocumentsList: build.query<
       VfseDocumentsListApiResponse,
       VfseDocumentsListApiArg
@@ -803,6 +823,16 @@ export type UsersPartialUpdateApiArg = {
 };
 export type VfseCategoriesListApiResponse = /** status 200  */ Category[];
 export type VfseCategoriesListApiArg = void;
+export type VfseCategoriesCreateApiResponse = /** status 201  */ Category;
+export type VfseCategoriesCreateApiArg = {
+  category: Category;
+};
+export type VfseCategoriesPartialUpdateApiResponse =
+  /** status 200  */ Category;
+export type VfseCategoriesPartialUpdateApiArg = {
+  id: string;
+  category: Category;
+};
 export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
 export type VfseDocumentsListApiArg = {
   folder?: string;
@@ -1222,6 +1252,8 @@ export const {
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
   useVfseCategoriesListQuery,
+  useVfseCategoriesCreateMutation,
+  useVfseCategoriesPartialUpdateMutation,
   useVfseDocumentsListQuery,
   useVfseDocumentsCreateMutation,
   useVfseDocumentsPartialUpdateMutation,

@@ -8,6 +8,15 @@ urlpatterns = [
         api.CategoryViewSet.as_view(
             {
                 "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
+        "categories/<int:pk>/",
+        api.CategoryViewSet.as_view(
+            {
+                "patch": "partial_update",
             }
         ),
     ),

@@ -49,8 +49,27 @@ export const emptySplitApi = createApi({
       invalidatesTags: ["Article"],
     }),
     getCategories: builder.query<Category[], void>({
-      query: () => ({ url: `/vfse/categories/`, method: "get" }),
+      query: () => ({ url: "/vfse/categories/", method: "get" }),
       providesTags: ["Category"],
+    }),
+    addCategory: builder.mutation<Category, { category: Category }>({
+      query: ({ category }) => ({
+        url: "/vfse/categories/",
+        method: "post",
+        data: category,
+      }),
+      invalidatesTags: ["Category"],
+    }),
+    updateCategory: builder.mutation<
+      Category,
+      { id: number; category: Category }
+    >({
+      query: ({ id, category }) => ({
+        url: `/vfse/categories/${id}/`,
+        method: "patch",
+        data: category,
+      }),
+      invalidatesTags: ["Category"],
     }),
     getFolder: builder.query<Folder, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/folders/${id}/`, method: "get" }),

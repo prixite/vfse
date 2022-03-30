@@ -1470,7 +1470,67 @@
                     "vfse"
                 ]
             },
+            "post": {
+                "operationId": "vfse_categories_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
             "parameters": []
+        },
+        "/vfse/categories/{id}/": {
+            "patch": {
+                "operationId": "vfse_categories_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         },
         "/vfse/documents/": {
             "get": {
