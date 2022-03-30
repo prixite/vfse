@@ -23,10 +23,10 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { useAppSelector } from "@src/store/hooks";
+import { api } from "@src/store/reducers/api";
 import {
   Document,
   useVfseCategoriesListQuery,
-  useVfseDocumentsCreateMutation,
 } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/articleModal/articleModal.scss";
 window.Buffer = window.Buffer || Buffer;
@@ -55,7 +55,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     useVfseCategoriesListQuery();
-  const [addNewDocument] = useVfseDocumentsCreateMutation();
+  const [addNewDocument] = api.useAddArticleMutation();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,

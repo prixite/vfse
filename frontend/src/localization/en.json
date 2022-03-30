@@ -110,6 +110,9 @@
     "article" :  {
         "btnAdd": "Add Article"
     },
+    "category" : {
+        "btnAdd" : "Add Category"
+    },
     "systems": {
         "title": "Documentation database",
         "btnFilter": "Filter",

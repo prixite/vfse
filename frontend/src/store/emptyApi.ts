@@ -22,6 +22,10 @@ export const emptySplitApi = createApi({
       query: ({ id }) => ({ url: `/vfse/documents/${id}/`, method: "get" }),
       providesTags: (result, error, { id }) => [{ type: "Article", id: id }],
     }),
+    getAllArticles: builder.query<Document[], void>({
+      query: () => ({ url: `/vfse/documents/`, method: "get" }),
+      providesTags: () => [{ type: "Article" }],
+    }),
     updateArticle: builder.mutation<
       Document,
       { id: number; document: Document }
@@ -37,9 +41,9 @@ export const emptySplitApi = createApi({
       query: ({ document }) => ({
         url: "/vfse/documents/",
         method: "post",
-        data: document,
+        body: document,
       }),
-      invalidatesTags: ["Article"],
+      invalidatesTags: [{ type: "Article" }],
     }),
     deleteArticle: builder.mutation<void, { id: number }>({
       query: ({ id }) => ({
