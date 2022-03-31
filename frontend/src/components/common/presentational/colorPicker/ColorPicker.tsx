@@ -11,7 +11,7 @@ interface ColorPickerProps {
   onChange: (color: string) => void;
   title: string;
 }
-const ColorPicker = ({ color, onChange, title }: ColorPickerProps) => {
+const ColorPicker = ({ title, color, onChange }: ColorPickerProps) => {
   const popover = useRef();
   const [isOpen, toggle] = useState(false);
 
