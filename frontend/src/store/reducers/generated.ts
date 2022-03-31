@@ -1179,7 +1179,7 @@ export type Category = {
   id?: number;
   name: string;
   color?: string;
-  folders: Folder[];
+  folders?: Folder[];
 };
 export type Document = {
   id?: number;

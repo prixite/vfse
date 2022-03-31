@@ -3226,8 +3226,7 @@
         "Category": {
             "description": "Category(id, name, color)",
             "required": [
-                "name",
-                "folders"
+                "name"
             ],
             "type": "object",
             "properties": {

@@ -45,7 +45,7 @@ class FolderDetailSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    folders = FolderSerializer(many=True)
+    folders = FolderSerializer(many=True, required=False)
 
     class Meta:
         model = models.Category
