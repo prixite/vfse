@@ -11,7 +11,7 @@ import "@src/components/common/presentational/articleCard/articleCard.scss";
 interface props {
   color: string;
   title: string;
-  articleNo: number;
+  articleNo: string;
   id: number;
 }
 
