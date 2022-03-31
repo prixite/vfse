@@ -14,7 +14,7 @@ const KnowledgeBaseHome = () => {
   const [query, setQuery] = useState("");
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { data: topData = [] } = api.useGetTopArticlesQuery();
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
 
