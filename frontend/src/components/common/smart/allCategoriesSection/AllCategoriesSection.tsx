@@ -5,6 +5,7 @@ import { Grid } from "@mui/material";
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 const AllCategoriesSection = () => {
@@ -12,6 +13,9 @@ const AllCategoriesSection = () => {
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
   const { noDataTitle, noDataDescription } = localizedData().systems;
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
@@ -66,6 +70,8 @@ const AllCategoriesSection = () => {
       ) : (
         ""
       )}
+      {/* <CategoryModal open={open} handleClose={handleClose} /> */}
+      <CategoryModal open={open} handleClose={handleClose} />
     </>
   );
 };

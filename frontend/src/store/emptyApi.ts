@@ -60,7 +60,7 @@ export const emptySplitApi = createApi({
       query: ({ category }) => ({
         url: "/vfse/categories/",
         method: "post",
-        data: category,
+        body: category,
       }),
       invalidatesTags: ["Category"],
     }),
