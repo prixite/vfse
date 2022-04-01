@@ -475,6 +475,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.category,
       }),
     }),
+    vfseCategoriesRead: build.query<
+      VfseCategoriesReadApiResponse,
+      VfseCategoriesReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/categories/${queryArg.id}/` }),
+    }),
     vfseCategoriesPartialUpdate: build.mutation<
       VfseCategoriesPartialUpdateApiResponse,
       VfseCategoriesPartialUpdateApiArg
@@ -826,6 +832,10 @@ export type VfseCategoriesListApiArg = void;
 export type VfseCategoriesCreateApiResponse = /** status 201  */ Category;
 export type VfseCategoriesCreateApiArg = {
   category: Category;
+};
+export type VfseCategoriesReadApiResponse = /** status 200  */ Category;
+export type VfseCategoriesReadApiArg = {
+  id: string;
 };
 export type VfseCategoriesPartialUpdateApiResponse =
   /** status 200  */ Category;
@@ -1253,6 +1263,7 @@ export const {
   useUsersPartialUpdateMutation,
   useVfseCategoriesListQuery,
   useVfseCategoriesCreateMutation,
+  useVfseCategoriesReadQuery,
   useVfseCategoriesPartialUpdateMutation,
   useVfseDocumentsListQuery,
   useVfseDocumentsCreateMutation,

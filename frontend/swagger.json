@@ -1498,6 +1498,22 @@
             "parameters": []
         },
         "/vfse/categories/{id}/": {
+            "get": {
+                "operationId": "vfse_categories_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Category"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
             "patch": {
                 "operationId": "vfse_categories_partial_update",
                 "description": "",
