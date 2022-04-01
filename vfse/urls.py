@@ -17,6 +17,7 @@ urlpatterns = [
         api.CategoryViewSet.as_view(
             {
                 "patch": "partial_update",
+                "get": "retrieve",
             }
         ),
     ),
