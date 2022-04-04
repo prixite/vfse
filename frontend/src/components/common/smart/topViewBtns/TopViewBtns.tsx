@@ -113,6 +113,8 @@ const TopViewBtns = ({
     constantData = localizedData()?.article;
   } else if (path == "knowledge-base-category") {
     constantData = localizedData()?.category;
+  } else if (path == "knowledge-base-folder") {
+    constantData = localizedData()?.folder;
   }
   const { btnAdd } = constantData;
 

@@ -13,6 +13,13 @@ const OrganizationView = lazy(
     )
 );
 
+const CategoryDetailView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "CategoryDetailView" */ "@src/views/categoryDetail/CategoryDetailView"
+    )
+);
+
 const ArticleDocumentation = lazy(
   async () =>
     import(
@@ -160,6 +167,15 @@ const RoutesHOC = ({ isLoading }: Props) => {
             render={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <ArticleDocumentation />
+              </Suspense>
+            )}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId`}
+            render={() => (
+              <Suspense fallback={<p>Loading...</p>}>
+                <CategoryDetailView />
               </Suspense>
             )}
             exact

@@ -1,9 +1,3 @@
-import FolderSection from "@src/components/common/smart/folderSection/FolderSection";
-
 export default function FolderView() {
-  return (
-    <>
-      <FolderSection />
-    </>
-  );
+  return <>Folder View will be rendered here</>;
 }
