@@ -1,0 +1,40 @@
+.chatBox {
+  width: 328px;
+  height: 455px;
+  position: fixed;
+  bottom: 0;
+  right: 5px;
+  background-color: #fff;
+  z-index: 50;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  .chatHeader {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background-color: #f5f6f7;
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #151e39;
+    }
+  }
+  .chatSection {
+    height: 75%;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .InputSection {
+    height: 15%;
+    box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    width: 100%;
+  }
+}
