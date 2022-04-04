@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -85,6 +86,9 @@ const SystemCard = ({ system, handleEdit }: SystemInterface) => {
 
   return (
     <div className="system-card">
+      <div className="chatBg">
+        <ChatIcon className="chatIcon" />
+      </div>
       <Box className="container">
         <div className="machine">
           <p className="name">{system.name}</p>
