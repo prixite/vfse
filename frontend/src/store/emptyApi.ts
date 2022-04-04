@@ -56,6 +56,10 @@ export const emptySplitApi = createApi({
       query: () => ({ url: "/vfse/categories/", method: "get" }),
       providesTags: ["Category"],
     }),
+    getCategory: builder.query<Category, { id: number }>({
+      query: ({ id }) => ({ url: `/vfse/categories/${id}/`, method: "get" }),
+      providesTags: ["Category"],
+    }),
     addCategory: builder.mutation<Category, { category: Category }>({
       query: ({ category }) => ({
         url: "/vfse/categories/",
