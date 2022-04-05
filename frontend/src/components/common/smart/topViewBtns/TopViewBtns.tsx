@@ -193,6 +193,8 @@ const TopViewBtns = ({
       // setData(null);
     } else if (path === "knowledge-base") {
       setOpen(true);
+    } else if (path === "knowledge-base-folder") {
+      setOpen(true);
     } else if (path === "knowledge-base-category") {
       setOpen(true);
     } else {
