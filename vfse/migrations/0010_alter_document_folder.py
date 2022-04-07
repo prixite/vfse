@@ -7,13 +7,18 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vfse', '0009_document_document_link_alter_document_folder'),
+        ("vfse", "0009_document_document_link_alter_document_folder"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='document',
-            name='folder',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='vfse.folder'),
+            model_name="document",
+            name="folder",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="documents",
+                to="vfse.folder",
+            ),
         ),
     ]

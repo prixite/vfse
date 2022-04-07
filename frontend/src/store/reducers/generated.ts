@@ -510,6 +510,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.document,
       }),
     }),
+    vfseDocumentsRead: build.query<
+      VfseDocumentsReadApiResponse,
+      VfseDocumentsReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/documents/${queryArg.id}/` }),
+    }),
     vfseDocumentsPartialUpdate: build.mutation<
       VfseDocumentsPartialUpdateApiResponse,
       VfseDocumentsPartialUpdateApiArg
@@ -851,6 +857,10 @@ export type VfseDocumentsListApiArg = {
 export type VfseDocumentsCreateApiResponse = /** status 201  */ Document;
 export type VfseDocumentsCreateApiArg = {
   document: Document;
+};
+export type VfseDocumentsReadApiResponse = /** status 200  */ Document;
+export type VfseDocumentsReadApiArg = {
+  id: string;
 };
 export type VfseDocumentsPartialUpdateApiResponse = /** status 200  */ Document;
 export type VfseDocumentsPartialUpdateApiArg = {
@@ -1267,6 +1277,7 @@ export const {
   useVfseCategoriesPartialUpdateMutation,
   useVfseDocumentsListQuery,
   useVfseDocumentsCreateMutation,
+  useVfseDocumentsReadQuery,
   useVfseDocumentsPartialUpdateMutation,
   useVfseDocumentsDeleteMutation,
   useVfseFoldersListQuery,
