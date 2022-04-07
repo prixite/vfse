@@ -9,9 +9,10 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
-import { api } from "@src/store/reducers/api";
+import { api, Category } from "@src/store/reducers/api";
+
 const AllCategoriesSection = () => {
-  const [folderList, setFolderList] = useState([]);
+  const [folderList, setFolderList] = useState<Category[]>([]);
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
@@ -25,8 +26,15 @@ const AllCategoriesSection = () => {
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
   // eslint-disable-next-line
+
   const handleSearchQuery = (searchQuery: string) => {
-    // will write handleSearch Logic here
+    // handleSearch Logic here
+    const dataForSearch = [
+      ...categoriesList.filter((data) =>
+        data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    ];
+    setFolderList(dataForSearch);
   };
 
   useEffect(() => {
