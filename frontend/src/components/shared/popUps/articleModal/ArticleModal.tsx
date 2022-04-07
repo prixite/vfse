@@ -16,6 +16,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -26,9 +27,11 @@ import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import {
   Document,
+  Folder,
   useVfseCategoriesListQuery,
 } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/articleModal/articleModal.scss";
+
 window.Buffer = window.Buffer || Buffer;
 
 interface ArticleModalProps {
@@ -55,7 +58,10 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     useVfseCategoriesListQuery();
+  const [folderList, setFolderList] = useState<Folder[]>([]);
   const [addNewDocument] = api.useAddArticleMutation();
+  const { categoryId, folderId } =
+    useParams<{ categoryId: string; folderId: string }>();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
@@ -114,11 +120,35 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   }, [acceptedFiles]);
 
   useEffect(() => {
-    if (categoriesList && categoriesList.length) {
-      formik.setFieldValue("categories", [categoriesList[0].id]);
+    if (categoriesList && categoriesList.length && open) {
+      if (categoryId) {
+        formik.setFieldValue("categories", [
+          categoriesList.find(
+            (category) => category?.id.toString() === categoryId
+          )?.id,
+        ]);
+      } else {
+        formik.setFieldValue("categories", [categoriesList[0].id]);
+      }
     }
-  }, [categoriesList]);
+  }, [categoriesList, open, categoryId]);
+  useEffect(() => {
+    if (formik.values.categories.length && open) {
+      // formik.setFieldValue("folder" , undefined);
+      setFolderList([]);
+      categoriesList.forEach((category) => {
+        if (category?.id === formik.values.categories[0]) {
+          setFolderList([...category.folders]);
+        }
+      });
+    }
+  }, [formik.values.categories, open]);
 
+  useEffect(() => {
+    if (open && folderId) {
+      formik.setFieldValue("folder", folderId);
+    }
+  }, [folderId, open]);
   return (
     <Dialog className="article-modal" open={open}>
       <DialogTitle>
@@ -169,15 +199,16 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                   </p>
                 </div>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <div className="info-section">
                   <p className="info-label">Category</p>
-                  <FormControl sx={{ minWidth: 356 }}>
+                  <FormControl sx={{ minWidth: "100%" }}>
                     <Select
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "43px", borderRadius: "8px" }}
-                      defaultValue="none"
-                      disabled={isCategoriesLoading}
+                      disabled={
+                        isCategoriesLoading || categoryId ? true : false
+                      }
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       value={formik.values.categories[0]?.toString() || ""}
                       onChange={(e) =>
@@ -185,6 +216,33 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                       }
                     >
                       {categoriesList.map((item, index) => (
+                        <MenuItem key={index} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {formik.errors.categories}
+                  </p>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="info-section">
+                  <p className="info-label">Folder</p>
+                  <FormControl sx={{ minWidth: "100%" }}>
+                    <Select
+                      inputProps={{ "aria-label": "Without label" }}
+                      style={{ height: "43px", borderRadius: "8px" }}
+                      defaultValue="none"
+                      disabled={isCategoriesLoading || folderId ? true : false}
+                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
+                      value={formik.values.folder?.toString() || ""}
+                      onChange={(e) =>
+                        formik.setFieldValue("folder", e.target.value)
+                      }
+                    >
+                      {folderList.map((item, index) => (
                         <MenuItem key={index} value={item.id}>
                           {item.name}
                         </MenuItem>
