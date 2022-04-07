@@ -52,10 +52,7 @@ urlpatterns = [
     path(
         "documents/<int:pk>/",
         api.DocumentViewSet.as_view(
-            {
-                "delete": "destroy",
-                "patch": "partial_update",
-            }
+            {"delete": "destroy", "patch": "partial_update", "get": "retrieve"}
         ),
     ),
 ]

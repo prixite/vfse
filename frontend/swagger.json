@@ -1611,6 +1611,22 @@
             "parameters": []
         },
         "/vfse/documents/{id}/": {
+            "get": {
+                "operationId": "vfse_documents_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Document"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
             "patch": {
                 "operationId": "vfse_documents_partial_update",
                 "description": "",
