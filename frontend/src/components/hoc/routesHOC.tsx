@@ -145,7 +145,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
             exact
           />
           <Route
-            path={`/${organizationRoute}/:id/knowledge-base/folder/:folderId`}
+            path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId/folder/:folderId`}
             render={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <FolderView />

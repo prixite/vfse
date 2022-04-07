@@ -71,6 +71,7 @@ const AllCategoriesSection = () => {
                   title={item?.name}
                   articleNo={item?.document_count}
                   id={item.id}
+                  categoryID={category?.id}
                 />
               </Grid>
             ))}

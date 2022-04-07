@@ -13,9 +13,16 @@ interface props {
   title: string;
   articleNo: string;
   id: number;
+  categoryID: number;
 }
 
-const ArticleCard = ({ color, title, articleNo, id: folderId }: props) => {
+const ArticleCard = ({
+  color,
+  title,
+  articleNo,
+  id: folderId,
+  categoryID,
+}: props) => {
   const constantData: LocalizationInterface = localizedData();
   const { explore, numberTitle } = constantData.articleCard;
   const { organizationRoute } = constants;
@@ -23,7 +30,7 @@ const ArticleCard = ({ color, title, articleNo, id: folderId }: props) => {
   return (
     <div className="Article-card">
       <Link
-        to={`/${organizationRoute}/${id}/knowledge-base/folder/${folderId}`}
+        to={`/${organizationRoute}/${id}/knowledge-base/category/${categoryID}/folder/${folderId}`}
         key={id}
         className="Article-card"
         style={{ textDecoration: "none", height: "100%" }}
