@@ -31,10 +31,10 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
           searchText={query}
           setSearchText={setQuery}
         />
-        <Grid container spacing={1} style={{ marginTop: "30px" }}>
+        <Grid container spacing={1} style={{ marginTop: "21px" }}>
           {categoryData?.folders.length ? (
             categoryData?.folders?.map((item, index) => (
-              <Grid item={true} xs={6} xl={3} md={3} key={index}>
+              <Grid item={true} xs={6} xl={3} md={4} key={index}>
                 <ArticleCard
                   color={categoryData?.color}
                   title={item?.name}
