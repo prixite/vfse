@@ -13,9 +13,17 @@ const SeeAllArticles = () => {
   const [open, setOpen] = useState(false);
   const { data: topData = [] } = api.useGetAllArticlesQuery();
   // eslint-disable-next-line
+
   const handleSearchQuery = (searchQuery: string) => {
-    // TODO : write logic to search article from searchBar
+    // logic to search article from searchBar
+    const dataForSearch = [
+      ...topData.filter((data) =>
+        data?.title.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    ];
+    setArticlesList(dataForSearch);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
