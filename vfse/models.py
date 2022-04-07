@@ -19,7 +19,7 @@ class Category(models.Model):
 
 class Document(models.Model):
     folder = models.ForeignKey(
-        "Folder", on_delete=models.PROTECT, related_name="documents", null=True
+        "Folder", on_delete=models.CASCADE, related_name="documents", null=True
     )
     categories = models.ManyToManyField("Category", related_name="documents")
     title = models.CharField(max_length=255, default="", blank=True)
