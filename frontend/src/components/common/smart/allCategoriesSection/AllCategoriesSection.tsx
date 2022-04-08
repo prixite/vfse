@@ -86,7 +86,7 @@ const AllCategoriesSection = () => {
           </Grid>
         </div>
       ))}
-      {!folderList?.length && query?.length > 2 ? (
+      {!folderList?.length && query?.length > 2 && (
         <NoDataFound
           search
           setQuery={setQuery}
@@ -94,10 +94,7 @@ const AllCategoriesSection = () => {
           title={noDataTitle}
           description={noDataDescription}
         />
-      ) : (
-        ""
       )}
-      {/* <CategoryModal open={open} handleClose={handleClose} /> */}
       <CategoryModal open={open} handleClose={handleClose} />
     </>
   );

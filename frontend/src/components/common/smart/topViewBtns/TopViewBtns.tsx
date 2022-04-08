@@ -468,6 +468,7 @@ const TopViewBtns = ({
               variant="outlined"
               value={searchText}
               // autoFocus={path === "organizations" ? true : false}
+              autoComplete="off"
               onChange={handleInput}
               disabled={!actualData?.length}
               placeholder="Search"

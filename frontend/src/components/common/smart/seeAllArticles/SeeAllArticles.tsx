@@ -4,7 +4,9 @@ import { Grid } from "@mui/material";
 
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
+import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
 const SeeAllArticles = () => {
@@ -13,7 +15,7 @@ const SeeAllArticles = () => {
   const [open, setOpen] = useState(false);
   const { data: topData = [] } = api.useGetAllArticlesQuery();
   // eslint-disable-next-line
-
+  const { noDataTitle, noDataDescription } = localizedData().systems;
   const handleSearchQuery = (searchQuery: string) => {
     // logic to search article from searchBar
     const dataForSearch = [
@@ -53,6 +55,15 @@ const SeeAllArticles = () => {
           </Grid>
         ))}
       </Grid>
+      {!articlesList?.length && query?.length > 2 && (
+        <NoDataFound
+          search
+          setQuery={setQuery}
+          queryText={query}
+          title={noDataTitle}
+          description={noDataDescription}
+        />
+      )}
       <ArticleModal open={open} handleClose={handleClose} />
     </>
   );
