@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0068_alter_system_asset_number_alter_system_ip_address_and_more'),
+        ("core", "0068_alter_system_asset_number_alter_system_ip_address_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='system',
-            name='last_successful_ping_at',
+            model_name="system",
+            name="last_successful_ping_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]
