@@ -38,6 +38,7 @@ const FolderDetailSection = () => {
                 <KnowledgeTopCard
                   title={item?.title}
                   description={item?.text}
+                  id={item?.id}
                 />
               </Grid>
             ))
