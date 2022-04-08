@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Box, Grid } from "@mui/material";
 import { useParams } from "react-router";
 
+import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
@@ -24,6 +25,7 @@ const FolderDetailSection = () => {
   return (
     <>
       <Box component="div" className="FolderDetailSection">
+        <BackBtn />
         <h1 className="main-heading">{folderData?.name}</h1>
         <TopViewBtns
           setOpen={setOpen}

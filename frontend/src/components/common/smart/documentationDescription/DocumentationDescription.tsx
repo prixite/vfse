@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
 
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import { Box, Grid } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import { Link, useParams, useHistory } from "react-router-dom";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
+import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import DocumentationMobileDescription from "@src/components/common/smart/documentationDescription/DocumentationMobileDescription";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
-import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
@@ -36,18 +33,12 @@ const text = `
 `;
 
 const DocumentationDescription = () => {
-  const param: RouteParam = useParams();
   const [browserWidth] = useWindowSize();
   const [editText, setEditText] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlText, setHtmlText] = useState("");
   const localization: LocalizationInterface = localizedData();
-  const { backBtn, title } = localization.document;
-  const history = useHistory();
-  const { organizationRoute } = constants;
-  const route = history?.location?.pathname?.includes("folder")
-    ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}`
-    : `/${organizationRoute}/${param?.id}/knowledge-base`;
+  const { title } = localization.document;
 
   const handleEditText = (val) => setEditText(val);
   const saveText = () => {
@@ -64,18 +55,7 @@ const DocumentationDescription = () => {
 
   return (
     <Box component="div" className="documentation-section">
-      <Link
-        className="back-btn"
-        style={{ textDecoration: "none", height: "100%", width: "fit-content" }}
-        to={route}
-      >
-        <div className="back-btn">
-          <ArrowRightAltIcon
-            style={{ transform: "rotate(180deg)", color: "rgb(0, 0, 0)" }}
-          />
-          <p className="back-text">{backBtn}</p>
-        </div>
-      </Link>
+      <BackBtn />
       {browserWidth < mobileWidth && browserWidth !== 0 ? (
         <DocumentationMobileDescription overview={obj.overview} title={title} />
       ) : (
