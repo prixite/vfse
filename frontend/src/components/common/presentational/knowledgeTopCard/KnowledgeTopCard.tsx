@@ -1,21 +1,23 @@
 import { useState } from "react";
-import { Box,Menu, MenuItem} from "@mui/material";
+
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import fileImage from "@src/assets/svgs/fileImage.svg";
-import { api } from "@src/store/reducers/api";
+import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants } from "@src/helpers/utils/constants";
+import { api } from "@src/store/reducers/api";
 import "@src/components/common/presentational/knowledgeTopCard/knowledgeTopCard.scss";
 interface props {
   title: string;
   description: string;
-  id : number;
+  id: number;
 }
 
-const KnowledgeTopCard = ({ title, description , id }: props) => {
+const KnowledgeTopCard = ({ title, description, id }: props) => {
   const param: RouteParam = useParams();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -25,7 +27,7 @@ const KnowledgeTopCard = ({ title, description , id }: props) => {
   const route = history?.location?.pathname?.includes("folder")
     ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/3`
     : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/3`;
-    const open = Boolean(anchorEl);
+  const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -41,39 +43,39 @@ const KnowledgeTopCard = ({ title, description , id }: props) => {
   };
   const handleDeleteArticle = () => {
     deleteArticle({ id: id })
-    .unwrap()
-    .then(() => {
-      toast.success("Article successfully deleted", {
-        autoClose: 1000,
-        pauseOnHover: false,
+      .unwrap()
+      .then(() => {
+        toast.success("Article successfully deleted", {
+          autoClose: 1000,
+          pauseOnHover: false,
+        });
+        handleModalClose();
+      })
+      .catch(() => {
+        toast.error("Problem occured while deleting Article", {
+          autoClose: 1000,
+          pauseOnHover: false,
+        });
       });
-      handleModalClose();
-    })
-    .catch(() => {
-      toast.error("Problem occured while deleting Article", {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
-    });
-  }
+  };
   return (
     <>
-    <div className="knowledge-top-card">
-      <Link
-        to={route}
-        key={param?.id}
-        className="knowledge-top-card"
-        style={{ textDecoration: "none", height: "100%" }}
-      >
-        <Box component="div" className="card">
-          <img src={fileImage} />
-          <h2 className="title"> {title}</h2>
-          <div className="info">
-            <p className="category">{description}</p>
-          </div>
-        </Box>
-      </Link>
-      <div className="dropdownIcon">
+      <div className="knowledge-top-card">
+        <Link
+          to={route}
+          key={param?.id}
+          className="knowledge-top-card"
+          style={{ textDecoration: "none", height: "100%" }}
+        >
+          <Box component="div" className="card">
+            <img src={fileImage} />
+            <h2 className="title"> {title}</h2>
+            <div className="info">
+              <p className="category">{description}</p>
+            </div>
+          </Box>
+        </Link>
+        <div className="dropdownIcon">
           <MoreVertIcon
             id="client-options-button"
             className="dropdown"
@@ -98,8 +100,8 @@ const KnowledgeTopCard = ({ title, description , id }: props) => {
             <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
           </Menu>
         </div>
-    </div>
-    <ConfirmationModal
+      </div>
+      <ConfirmationModal
         name={title}
         open={openModal}
         handleClose={handleModalClose}

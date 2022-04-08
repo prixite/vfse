@@ -51,7 +51,11 @@ const SeeAllArticles = () => {
       <Grid container spacing={1}>
         {articlesList.map((item, index) => (
           <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
-            <KnowledgeTopCard title={item?.title} description={item?.text} id={item?.id} />
+            <KnowledgeTopCard
+              title={item?.title}
+              description={item?.text}
+              id={item?.id}
+            />
           </Grid>
         ))}
       </Grid>
