@@ -1,0 +1,12 @@
+.back-btn {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  .back-text {
+    font-family: "ProximaNova-Regular";
+    font-size: 16px;
+    color: black;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+}
