@@ -423,6 +423,21 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemNotes,
       }),
     }),
+    systemsChatbotList: build.query<
+      SystemsChatbotListApiResponse,
+      SystemsChatbotListApiArg
+    >({
+      query: (queryArg) => ({ url: `/systems/${queryArg.systemId}/chatbot/` }),
+    }),
+    systemsChatbotCreate: build.mutation<
+      SystemsChatbotCreateApiResponse,
+      SystemsChatbotCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/systems/${queryArg.systemId}/chatbot/`,
+        method: "POST",
+      }),
+    }),
     usersActivatePartialUpdate: build.mutation<
       UsersActivatePartialUpdateApiResponse,
       UsersActivatePartialUpdateApiArg
@@ -815,6 +830,14 @@ export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
 export type SystemsNotesCreateApiArg = {
   id: string;
   systemNotes: SystemNotes;
+};
+export type SystemsChatbotListApiResponse = unknown;
+export type SystemsChatbotListApiArg = {
+  systemId: string;
+};
+export type SystemsChatbotCreateApiResponse = unknown;
+export type SystemsChatbotCreateApiArg = {
+  systemId: string;
 };
 export type UsersActivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
@@ -1267,6 +1290,8 @@ export const {
   useSystemsImagesCreateMutation,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
+  useSystemsChatbotListQuery,
+  useSystemsChatbotCreateMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,

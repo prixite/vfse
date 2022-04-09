@@ -1337,6 +1337,42 @@
                 }
             ]
         },
+        "/systems/{system_id}/chatbot/": {
+            "get": {
+                "operationId": "systems_chatbot_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "systems"
+                ]
+            },
+            "post": {
+                "operationId": "systems_chatbot_create",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "systems"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "system_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/users/activate/": {
             "patch": {
                 "operationId": "users_activate_partial_update",
