@@ -286,6 +286,7 @@ api_urlpatterns = [
         "api/vfse/",
         include("vfse.urls"),
     ),
+    path("api/systems/<int:system_id>/chatbot/", api.ChatBotView.as_view()),
 ]
 
 urlpatterns = (

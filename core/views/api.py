@@ -14,10 +14,27 @@ from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from core import filters, models, permissions, serializers, utils
 from core.views import mixins
+
+
+class ChatBotView(APIView):
+    def get(self, request, system_id=None, format=None):
+        message = {"Message": "Welcome to GPT3 ChatBot API"}
+
+        return Response(message)
+
+    def post(self, request, system_id=None, format=None):
+        query = request.data.get("query", None)
+        answer = utils.get_chat_bot_response(query, system_id)
+        response = {
+            "response_text": answer,
+        }
+
+        return Response(response)
 
 
 class MeViewSet(ModelViewSet):
