@@ -46,7 +46,9 @@ class User(AbstractUser):
     )
 
     is_supermanager = models.BooleanField(default=False)
+    # lambda user can access api from AWS Lambda functions
     is_lambda_user = models.BooleanField(default=False)
+    # request user can access api from "Register Now" page.
     is_request_user = models.BooleanField(default=False)
 
     @property
