@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import { Category, Document, Folder } from "@src/store/reducers/generated";
+import {
+  Category,
+  Document,
+  Folder,
+  FolderDetail,
+} from "@src/store/reducers/generated";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
@@ -82,11 +87,15 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: ["Category"],
     }),
-    getFolder: builder.query<Folder, { id: number }>({
+    getFolder: builder.query<FolderDetail, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/folders/${id}/`, method: "get" }),
-      providesTags: (result, error, { id }) => [
+      providesTags: (
+        result = { documents: [], name: "", categories: [] },
+        error,
+        { id }
+      ) => [
         { type: "Folder", id: id },
-        ...result?.documents.map((item) => ({ type: "Article", id: item?.id })),
+        ...result.documents.map((item) => ({ type: "Article", id: item?.id })),
       ],
     }),
     getFolders: builder.query<Folder[], void>({
