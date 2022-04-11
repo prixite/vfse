@@ -71,7 +71,7 @@ const KnowledgeBaseHome = () => {
       <h2 className="sub-heading">Top Help Articles</h2>
       <Grid container spacing={1}>
         {articlesList.map((item, index) => (
-          <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
+          <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
             <KnowledgeTopCard
               title={item?.title}
               description={item?.text}
