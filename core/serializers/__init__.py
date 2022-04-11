@@ -656,3 +656,13 @@ class InfluxSystemsSerializer(serializers.Serializer):
     systems = serializers.PrimaryKeyRelatedField(
         many=True, queryset=models.System.objects.all()
     )
+
+
+class SystemAccessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.System
+        fields = [
+            "name",
+            "ip_address",
+            "ssh_password",
+        ]

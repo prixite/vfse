@@ -310,3 +310,29 @@ class SystemTestCase(BaseTestCase):
         response = self.client.delete(f"/api/notes/{self.note.id}/")
 
         self.assertEqual(response.status_code, 204)
+
+
+class SystemSSHTestCase(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+        self.token_user = self.super_admin
+        self.token_user.is_remote_user = True
+        self.token_user.save()
+        models.Token.objects.create(user=self.token_user)
+
+    def test_ssh_connection_request_permission_denied(self):
+        self.client.force_token_login(self.super_admin)
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/ssh_password/",  # noqa
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_ssh_connection_request(self):
+        self.client.force_token_login(self.token_user)
+        self.system.connection_options["ssh"] = True
+        self.system.save()
+        response = self.client.get(
+            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/ssh_password/",  # noqa
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("ssh_password", response.json().keys())

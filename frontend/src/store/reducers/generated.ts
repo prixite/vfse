@@ -286,6 +286,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.system,
       }),
     }),
+    organizationsSystemsSshPasswordRead: build.query<
+      OrganizationsSystemsSshPasswordReadApiResponse,
+      OrganizationsSystemsSshPasswordReadApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/ssh_password/`,
+      }),
+    }),
     organizationsUsersList: build.query<
       OrganizationsUsersListApiResponse,
       OrganizationsUsersListApiArg
@@ -758,6 +766,12 @@ export type OrganizationsSystemsUpdateFromInfluxApiArg = {
   systemPk: string;
   system: System;
 };
+export type OrganizationsSystemsSshPasswordReadApiResponse =
+  /** status 200  */ SystemAccess;
+export type OrganizationsSystemsSshPasswordReadApiArg = {
+  id: string;
+  systemPk: string;
+};
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
   id: string;
@@ -1123,6 +1137,11 @@ export type OrganizationSite = {
 export type InfluxSystems = {
   systems: number[];
 };
+export type SystemAccess = {
+  name: string;
+  ip_address?: string | null;
+  ssh_password?: string | null;
+};
 export type Manager = {
   email: string;
   name: string;
@@ -1274,6 +1293,7 @@ export const {
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsSystemsDeleteMutation,
   useOrganizationsSystemsUpdateFromInfluxMutation,
+  useOrganizationsSystemsSshPasswordReadQuery,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,

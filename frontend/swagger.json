@@ -915,6 +915,38 @@
                 }
             ]
         },
+        "/organizations/{id}/systems/{system_pk}/ssh_password/": {
+            "get": {
+                "operationId": "organizations_systems_ssh_password_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/SystemAccess"
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "system_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/organizations/{id}/users/": {
             "get": {
                 "operationId": "organizations_users_list",
@@ -2336,7 +2368,7 @@
             }
         },
         "Me": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "required": [
                 "profile_picture"
             ],
@@ -2581,7 +2613,7 @@
         },
         "System": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
@@ -2815,6 +2847,33 @@
                 }
             }
         },
+        "SystemAccess": {
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "ip_address": {
+                    "title": "Ip address",
+                    "type": "string",
+                    "minLength": 1,
+                    "x-nullable": true
+                },
+                "ssh_password": {
+                    "title": "Ssh password",
+                    "type": "string",
+                    "maxLength": 30,
+                    "x-nullable": true
+                }
+            }
+        },
         "ManagerMeta": {
             "title": "Manager",
             "description": "",
@@ -2838,7 +2897,7 @@
             }
         },
         "User": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user)",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "required": [
                 "username"
             ],
