@@ -141,6 +141,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/organizations/<int:pk>/systems/<int:system_pk>/ssh_password/",
+        api.SystemAccessViewSet.as_view(
+            {
+                "get": "retrieve",
+            }
+        ),
+    ),
+    path(
         "api/organizations/<int:pk>/systems/<int:system_pk>/",
         api.SystemViewSet.as_view(
             {

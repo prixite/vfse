@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
+from django.http import Http404
 from rest_framework import exceptions
 from rest_framework.authentication import (
     SessionAuthentication,
@@ -353,6 +354,20 @@ class SystemViewSet(OrganizationSystemViewSet):
         response = utils.fetch_from_influxdb(self.kwargs["system_pk"])
         serializer = self.get_serializer(response)
         return Response(serializer.data)
+
+
+class SystemAccessViewSet(OrganizationSystemViewSet):
+    lookup_url_kwarg = "system_pk"
+    serializer_class = serializers.SystemAccessSerializer
+    authentication_classes = [TokenAuthentication]
+
+    def retrieve(self, request, *args, **kwargs):
+        if (
+            not self.get_object().connection_options["ssh"]
+            or not request.user.is_remote_user
+        ):
+            raise Http404("System not found")
+        return super().retrieve(request, *args, **kwargs)
 
 
 class UserViewSet(ModelViewSet, mixins.UserMixin):

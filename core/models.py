@@ -50,6 +50,8 @@ class User(AbstractUser):
     is_lambda_user = models.BooleanField(default=False)
     # request user can access api from "Register Now" page.
     is_request_user = models.BooleanField(default=False)
+    # Remote user can access certain APIs remotely, using the token
+    is_remote_user = models.BooleanField(default=False)
 
     @property
     def modalities(self):
@@ -476,6 +478,7 @@ class System(models.Model):
     mri_embedded_parameters = models.JSONField(default=dict)
     connection_options = models.JSONField(default=dict)
     is_online = models.BooleanField(default=False)
+    ssh_password = models.CharField(max_length=30, null=True, blank=True)
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
