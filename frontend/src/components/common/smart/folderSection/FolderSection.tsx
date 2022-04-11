@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Grid, Box } from "@mui/material";
 
@@ -8,11 +8,12 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import "@src/components/common/smart/folderSection/folderSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
-import { Category } from "@src/store/reducers/generated";
+import { Category, Folder } from "@src/store/reducers/generated";
 interface FolderSetionProps {
   categoryData?: Category;
 }
 const FolderSection = ({ categoryData }: FolderSetionProps) => {
+  const [folderList, setFolderList] = useState<Folder[]>([]);
   const [query, setQuery] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -22,6 +23,22 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
 
   const { noDataTitle, noDataDescription } = localizedData().systems;
 
+  const handleSearchQuery = (searchQuery: string) => {
+    const dataForSearch = [
+      ...categoryData.folders.filter((data) =>
+        data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    ];
+    setFolderList(dataForSearch);
+  };
+  useEffect(() => {
+    if (query.length > 2) {
+      handleSearchQuery(query);
+    } else {
+      setFolderList(categoryData?.folders);
+    }
+  }, [query, categoryData]);
+
   return (
     <>
       <Box component="div" className="folder-heading">
@@ -30,21 +47,22 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
           path="knowledge-base-folder"
           searchText={query}
           setSearchText={setQuery}
+          actualData={categoryData?.folders}
+          setData={setFolderList}
         />
         <Grid container spacing={1} style={{ marginTop: "21px" }}>
-          {categoryData?.folders.length ? (
-            categoryData?.folders?.map((item, index) => (
-              <Grid item={true} xs={6} xl={3} md={4} key={index}>
-                <ArticleCard
-                  color={categoryData?.color}
-                  title={item?.name}
-                  articleNo={item?.document_count}
-                  id={item.id}
-                  categoryID={categoryData.id}
-                />
-              </Grid>
-            ))
-          ) : (
+          {folderList?.map((item, index) => (
+            <Grid item={true} xs={6} xl={3} md={4} key={index}>
+              <ArticleCard
+                color={categoryData?.color}
+                title={item?.name}
+                articleNo={item?.document_count}
+                id={item.id}
+                categoryID={categoryData.id}
+              />
+            </Grid>
+          ))}
+          {!folderList?.length && query?.length > 2 && (
             <NoDataFound
               search
               setQuery={setQuery}
