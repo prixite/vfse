@@ -50,11 +50,14 @@ export const emptySplitApi = createApi({
         url: `/vfse/documents/${id}/`,
         method: "delete",
       }),
-      invalidatesTags: ["Article"],
+      invalidatesTags: (result, error, { id }) => [
+        "Article",
+        { type: "Article", id: id },
+      ],
     }),
     getCategories: builder.query<Category[], void>({
       query: () => ({ url: "/vfse/categories/", method: "get" }),
-      providesTags: ["Category"],
+      providesTags: ["Category", "Article"],
     }),
     getCategory: builder.query<Category, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/categories/${id}/`, method: "get" }),
@@ -81,7 +84,10 @@ export const emptySplitApi = createApi({
     }),
     getFolder: builder.query<Folder, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/folders/${id}/`, method: "get" }),
-      providesTags: (result, error, { id }) => [{ type: "Folder", id: id }],
+      providesTags: (result, error, { id }) => [
+        { type: "Folder", id: id },
+        ...result?.documents.map((item) => ({ type: "Article", id: item?.id })),
+      ],
     }),
     getFolders: builder.query<Folder[], void>({
       query: () => ({ url: "/vfse/folders/", method: "get" }),
