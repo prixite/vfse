@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { useParams } from "react-router-dom";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
@@ -14,6 +15,7 @@ import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
+import { api } from "@src/store/reducers/api";
 
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
 
@@ -27,17 +29,14 @@ const obj = {
   image: "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
 };
 
-const text = `
-<h2 style="margin-bottom: 20px"><br>    <span style="font-size: 24px; color:#773cbd">OverView</span><br></h2>
-<p> <span style=font-size: 18px> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span></p>
-`;
-
 const DocumentationDescription = () => {
   const [browserWidth] = useWindowSize();
   const [editText, setEditText] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlText, setHtmlText] = useState("");
   const localization: LocalizationInterface = localizedData();
+  const { docId } = useParams<{ docId: string }>();
+  const { data: articleData } = api.useGetArticleQuery({ id: parseInt(docId) });
   const { title } = localization.document;
 
   const handleEditText = (val) => setEditText(val);
@@ -50,8 +49,12 @@ const DocumentationDescription = () => {
   };
 
   useEffect(() => {
+    const text = `
+<h2 style="margin-bottom: 20px"><br>    <span style="font-size: 24px; color:#773cbd">${articleData?.title}</span><br></h2>
+<p> <span style=font-size: 18px> ${articleData?.text} </span></p>
+`;
     setHtmlText(text);
-  }, []);
+  }, [articleData]);
 
   return (
     <Box component="div" className="documentation-section">

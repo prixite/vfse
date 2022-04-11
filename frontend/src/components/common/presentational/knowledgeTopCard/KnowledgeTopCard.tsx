@@ -25,8 +25,8 @@ const KnowledgeTopCard = ({ title, description, id }: props) => {
   const history = useHistory();
   const [deleteArticle] = api.useDeleteArticleMutation();
   const route = history?.location?.pathname?.includes("folder")
-    ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/3`
-    : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/3`;
+    ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/${id}`
+    : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/${id}`;
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
