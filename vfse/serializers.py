@@ -53,6 +53,36 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "color", "folders"]
 
 
+class TopicDefault:
+    requires_context = True
+
+    def __call__(self, serializer_field):
+        return models.Topic.objects.get(
+            id=serializer_field.context["view"].kwargs["topic_pk"]
+        )
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    topic = serializers.PrimaryKeyRelatedField(
+        default=TopicDefault(),
+        queryset=models.Topic.objects.all(),
+    )
+
+    class Meta:
+        model = models.Comment
+        fields = ["id", "topic", "user", "comment"]
+
+
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
+        fields = [
+            "id",
+            "user",
+            "title",
+            "description",
+            "followers",
+            "image",
+            "categories",
+            "reply_email_notification",
+        ]

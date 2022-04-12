@@ -1860,6 +1860,172 @@
                     "type": "string"
                 }
             ]
+        },
+        "/vfse/topics/": {
+            "get": {
+                "operationId": "vfse_topics_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Topic"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_topics_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Topic"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Topic"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
+        "/vfse/topics/{id}/": {
+            "get": {
+                "operationId": "vfse_topics_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Topic"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "patch": {
+                "operationId": "vfse_topics_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Topic"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Topic"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "delete": {
+                "operationId": "vfse_topics_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "A unique integer value identifying this topic.",
+                    "required": true,
+                    "type": "integer"
+                }
+            ]
+        },
+        "/vfse/topics/{topic_pk}/comments/": {
+            "get": {
+                "operationId": "vfse_topics_comments_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Comment"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_topics_comments_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "topic_pk",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         }
     },
     "definitions": {
@@ -3471,6 +3637,90 @@
                     "items": {
                         "$ref": "#/definitions/Document"
                     }
+                }
+            }
+        },
+        "Topic": {
+            "description": "Topic(id, user, title, description, image, reply_email_notification, created_at, updated_at)",
+            "required": [
+                "user",
+                "title",
+                "description"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "user": {
+                    "title": "User",
+                    "type": "integer"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 1
+                },
+                "description": {
+                    "title": "Description",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "followers": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "readOnly": true,
+                    "x-nullable": true,
+                    "format": "uri"
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "reply_email_notification": {
+                    "title": "Reply email notification",
+                    "type": "boolean"
+                }
+            }
+        },
+        "Comment": {
+            "description": "Comment(id, topic, user, comment, created_at, updated_at)",
+            "required": [
+                "user",
+                "comment"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "topic": {
+                    "title": "Topic",
+                    "type": "integer"
+                },
+                "user": {
+                    "title": "User",
+                    "type": "integer"
+                },
+                "comment": {
+                    "title": "Comment",
+                    "type": "string",
+                    "minLength": 1
                 }
             }
         }
