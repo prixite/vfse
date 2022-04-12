@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from core import models as core_models
 from vfse import models
+from vfse.models import Topic
 
 
 class FolderSerializer(serializers.ModelSerializer):
@@ -50,3 +51,8 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Category
         fields = ["id", "name", "color", "folders"]
+
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic

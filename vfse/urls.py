@@ -55,4 +55,23 @@ urlpatterns = [
             {"delete": "destroy", "patch": "partial_update", "get": "retrieve"}
         ),
     ),
+    path(
+        "topics/",
+        api.TopicViewset.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
+        "topics/<int:id>",
+        api.TopicViewset.as_view(
+            {
+                "get": "retrieve",
+                "delete": "destroy",
+                "patch": "partial_update",
+            }
+        ),
+    ),
 ]
