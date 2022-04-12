@@ -1,4 +1,5 @@
 from django.conf import settings
+
 from django.db import models
 
 
@@ -31,3 +32,36 @@ class Document(models.Model):
     document_link = models.URLField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Topic(models.Model):
+    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    title = models.CharField(max_length=500)
+    description = models.TextField()
+    followers = models.ManyToManyField("Follower", related_name="followed_topics")
+    image = models.ImageField(null=True)
+    reply_email_notification = models.BooleanField(default=False)
+    categories = models.ManyToManyField("Category", related_name="topics")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Follower(models.Model):
+    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Comments(models.Model):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class RecentActivity(models.Model):
+    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    action = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
