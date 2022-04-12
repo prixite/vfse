@@ -40,3 +40,8 @@ class DocumentViewSet(ModelViewSet):
             return models.Document.objects.none()
 
         return models.Document.objects.all().prefetch_related("categories")
+
+
+class TopicViewset(ModelViewSet):
+    queryset = models.Topic.objects.all()
+    serializer_class = serializers.TopicSerializer
