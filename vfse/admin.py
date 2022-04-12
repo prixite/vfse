@@ -16,3 +16,13 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(models.Document)
 class DocumentAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(models.Topic)
+class TopicAdmin(admin.ModelAdmin):
+    pass

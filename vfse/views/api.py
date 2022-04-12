@@ -42,6 +42,14 @@ class DocumentViewSet(ModelViewSet):
         return models.Document.objects.all().prefetch_related("categories")
 
 
+class CommentViewset(ModelViewSet):
+    queryset = models.Comment.objects.all()
+    serializer_class = serializers.CommentSerializer
+
+    def get_queryset(self):
+        return models.Comment.objects.filter(topic_id=self.kwargs["topic_pk"])
+
+
 class TopicViewset(ModelViewSet):
     queryset = models.Topic.objects.all()
     serializer_class = serializers.TopicSerializer

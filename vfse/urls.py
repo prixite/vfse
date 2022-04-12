@@ -56,6 +56,10 @@ urlpatterns = [
         ),
     ),
     path(
+        "topics/<int:topic_pk>/comments/",
+        api.CommentViewset.as_view({"get": "list", "post": "create"}),
+    ),
+    path(
         "topics/",
         api.TopicViewset.as_view(
             {
@@ -65,7 +69,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "topics/<int:id>",
+        "topics/<int:pk>/",
         api.TopicViewset.as_view(
             {
                 "get": "retrieve",

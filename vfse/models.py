@@ -1,5 +1,4 @@
 from django.conf import settings
-
 from django.db import models
 
 
@@ -16,6 +15,9 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.name
 
 
 class Document(models.Model):
@@ -38,12 +40,17 @@ class Topic(models.Model):
     user = models.ForeignKey("core.User", on_delete=models.CASCADE)
     title = models.CharField(max_length=500)
     description = models.TextField()
-    followers = models.ManyToManyField("Follower", related_name="followed_topics")
-    image = models.ImageField(null=True)
+    followers = models.ManyToManyField(
+        "Follower", related_name="followed_topics", blank=True
+    )
+    image = models.ImageField(null=True, blank=True)
     reply_email_notification = models.BooleanField(default=False)
-    categories = models.ManyToManyField("Category", related_name="topics")
+    categories = models.ManyToManyField("Category", related_name="topics", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
 
 class Follower(models.Model):
@@ -53,7 +60,7 @@ class Follower(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     user = models.ForeignKey("core.User", on_delete=models.CASCADE)
     comment = models.TextField()

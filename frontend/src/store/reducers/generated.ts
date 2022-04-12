@@ -602,6 +602,65 @@ const injectedRtkApi = api.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    vfseTopicsList: build.query<
+      VfseTopicsListApiResponse,
+      VfseTopicsListApiArg
+    >({
+      query: () => ({ url: `/vfse/topics/` }),
+    }),
+    vfseTopicsCreate: build.mutation<
+      VfseTopicsCreateApiResponse,
+      VfseTopicsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/`,
+        method: "POST",
+        body: queryArg.topic,
+      }),
+    }),
+    vfseTopicsRead: build.query<
+      VfseTopicsReadApiResponse,
+      VfseTopicsReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/` }),
+    }),
+    vfseTopicsPartialUpdate: build.mutation<
+      VfseTopicsPartialUpdateApiResponse,
+      VfseTopicsPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/`,
+        method: "PATCH",
+        body: queryArg.topic,
+      }),
+    }),
+    vfseTopicsDelete: build.mutation<
+      VfseTopicsDeleteApiResponse,
+      VfseTopicsDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
+    vfseTopicsCommentsList: build.query<
+      VfseTopicsCommentsListApiResponse,
+      VfseTopicsCommentsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.topicPk}/comments/`,
+      }),
+    }),
+    vfseTopicsCommentsCreate: build.mutation<
+      VfseTopicsCommentsCreateApiResponse,
+      VfseTopicsCommentsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.topicPk}/comments/`,
+        method: "POST",
+        body: queryArg.comment,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -928,6 +987,37 @@ export type VfseFoldersPartialUpdateApiArg = {
 export type VfseFoldersDeleteApiResponse = unknown;
 export type VfseFoldersDeleteApiArg = {
   id: string;
+};
+export type VfseTopicsListApiResponse = /** status 200  */ Topic[];
+export type VfseTopicsListApiArg = void;
+export type VfseTopicsCreateApiResponse = /** status 201  */ Topic;
+export type VfseTopicsCreateApiArg = {
+  topic: Topic;
+};
+export type VfseTopicsReadApiResponse = /** status 200  */ Topic;
+export type VfseTopicsReadApiArg = {
+  /** A unique integer value identifying this topic. */
+  id: number;
+};
+export type VfseTopicsPartialUpdateApiResponse = /** status 200  */ Topic;
+export type VfseTopicsPartialUpdateApiArg = {
+  /** A unique integer value identifying this topic. */
+  id: number;
+  topic: Topic;
+};
+export type VfseTopicsDeleteApiResponse = unknown;
+export type VfseTopicsDeleteApiArg = {
+  /** A unique integer value identifying this topic. */
+  id: number;
+};
+export type VfseTopicsCommentsListApiResponse = /** status 200  */ Comment[];
+export type VfseTopicsCommentsListApiArg = {
+  topicPk: string;
+};
+export type VfseTopicsCommentsCreateApiResponse = /** status 201  */ Comment;
+export type VfseTopicsCommentsCreateApiArg = {
+  topicPk: string;
+  comment: Comment;
 };
 export type Meta = {
   profile_picture: string;
@@ -1259,6 +1349,22 @@ export type FolderDetail = {
   categories: number[];
   documents: Document[];
 };
+export type Topic = {
+  id?: number;
+  user: number;
+  title: string;
+  description: string;
+  followers?: number[];
+  image?: string | null;
+  categories?: number[];
+  reply_email_notification?: boolean;
+};
+export type Comment = {
+  id?: number;
+  topic?: number;
+  user: number;
+  comment: string;
+};
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
@@ -1330,4 +1436,11 @@ export const {
   useVfseFoldersReadQuery,
   useVfseFoldersPartialUpdateMutation,
   useVfseFoldersDeleteMutation,
+  useVfseTopicsListQuery,
+  useVfseTopicsCreateMutation,
+  useVfseTopicsReadQuery,
+  useVfseTopicsPartialUpdateMutation,
+  useVfseTopicsDeleteMutation,
+  useVfseTopicsCommentsListQuery,
+  useVfseTopicsCommentsCreateMutation,
 } = injectedRtkApi;
