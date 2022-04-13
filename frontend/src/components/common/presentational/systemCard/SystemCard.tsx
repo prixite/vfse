@@ -30,7 +30,13 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 import "@src/components/common/presentational/systemCard/systemCard.scss";
 
-const SystemCard = ({ system, handleEdit }: SystemInterface) => {
+const SystemCard = ({
+  system,
+  handleEdit,
+  sysID,
+  setSystemID,
+  setIsOpen,
+}: SystemInterface) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -84,9 +90,16 @@ const SystemCard = ({ system, handleEdit }: SystemInterface) => {
     handleClose();
   };
 
+  const openChatBoxhandler = (sysID) => {
+    setIsOpen(true);
+    setSystemID(sysID - 1);
+
+    // console.log("sysID through handler", systemIdNumber)
+  };
+
   return (
     <div className="system-card">
-      <div className="chatBg">
+      <div className="chatBg" onClick={() => openChatBoxhandler(sysID)}>
         <ChatIcon className="chatIcon" />
       </div>
       <Box className="container">

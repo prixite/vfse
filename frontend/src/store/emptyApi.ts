@@ -6,6 +6,7 @@ import {
   Folder,
   FolderDetail,
 } from "@src/store/reducers/generated";
+import { ChatBotResponse } from "@src/types/interfaces";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
@@ -19,6 +20,16 @@ export const emptySplitApi = createApi({
   }),
   tagTypes: ["Favorite", "Article", "Category", "Folder"],
   endpoints: (builder) => ({
+    postChatBot: builder.mutation<
+      ChatBotResponse,
+      { sysId: number; query: string }
+    >({
+      query: ({ sysId, query }) => ({
+        url: `/systems/${sysId}/chatbot/`,
+        method: "post",
+        body: { query: query },
+      }),
+    }),
     getTopArticles: builder.query<Document[], void>({
       query: () => ({ url: "/vfse/documents/?favorite=true", method: "get" }),
       providesTags: ["Favorite"],

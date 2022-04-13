@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import { useLocation, useHistory, useParams } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
+import ChatBox from "@src/components/common/presentational/chatBox/ChatBox";
 import SystemCard from "@src/components/common/presentational/systemCard/SystemCard";
 import SystemCardMobile from "@src/components/common/presentational/systemCard/systemCardMobile/SystemCardMobile";
 import CommentsDrawer from "@src/components/common/smart/commentsDrawer/CommentsDrawer";
@@ -57,6 +58,9 @@ const SystemSection = () => {
   const [firstRender, setFirstRender] = useState(true);
   const [modality, setModality] = useState();
   const [callSystemsApi, setCallSystemsApi] = useState(false);
+  const [chatModal, setChatModal] = useState(false);
+  const [chatBoxSystemID, setChatBoxSystemID] = useState("");
+
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
   const { siteId, networkId, id } =
@@ -103,6 +107,10 @@ const SystemSection = () => {
     });
 
   const [updateFromInflux] = useOrganizationsSystemsUpdateFromInfluxMutation();
+
+  //Start
+
+  //End
 
   useEffect(() => {
     modalitiesList?.length &&
@@ -458,7 +466,14 @@ const SystemSection = () => {
           browserWidth > mobileWidth ? (
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
-                <SystemCard system={item} handleEdit={handleEdit} />
+                <SystemCard
+                  system={item}
+                  handleEdit={handleEdit}
+                  sysID={item.id}
+                  setSystemID={setChatBoxSystemID}
+                  IsOpen={chatModal}
+                  setIsOpen={setChatModal}
+                />
               </div>
             ))
           ) : (
@@ -505,6 +520,13 @@ const SystemSection = () => {
         />
         <CommentsDrawer />
       </Box>
+      {chatModal && (
+        <ChatBox
+          // IsOpen={chatModal}
+          setIsOpen={setChatModal}
+          systemID={chatBoxSystemID}
+        />
+      )}
     </>
   );
 };
