@@ -1,8 +1,15 @@
 import { System } from "@src/store/reducers/generated";
 
+export interface ChatBoxInterface {
+  setIsOpen: () => void;
+  systemID: number;
+}
 export interface SystemInterface {
   system: System;
   handleEdit?: (system: System) => void;
+  sysID?: number;
+  setSystemID?: () => void;
+  setIsOpen?: () => void;
 }
 
 export interface Common {
