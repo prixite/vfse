@@ -78,4 +78,5 @@ urlpatterns = [
             }
         ),
     ),
+    path("dashboard/", api.DashboardView.as_view()),
 ]
