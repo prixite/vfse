@@ -8,7 +8,7 @@ from core import models
 
 
 def get_chat_bot_response(question, system_id):
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = settings.OPENAI_API_KEY
     with open(os.getcwd() + "/core/openapi/data/content.txt") as f:
         prompt = f.readlines()[0]
     if not question:
