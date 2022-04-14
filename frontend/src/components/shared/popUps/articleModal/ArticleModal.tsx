@@ -25,11 +25,7 @@ import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import {
-  Document,
-  Folder,
-  useVfseCategoriesListQuery,
-} from "@src/store/reducers/generated";
+import { Document, Folder } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/articleModal/articleModal.scss";
 
 window.Buffer = window.Buffer || Buffer;
@@ -57,7 +53,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
-    useVfseCategoriesListQuery();
+    api.useGetCategoriesQuery();
   const [folderList, setFolderList] = useState<Folder[]>([]);
   const [addNewDocument] = api.useAddArticleMutation();
   const { categoryId, folderId } =
