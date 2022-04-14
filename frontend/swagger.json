@@ -1616,6 +1616,22 @@
                 }
             ]
         },
+        "/vfse/dashboard/": {
+            "get": {
+                "operationId": "vfse_dashboard_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
         "/vfse/documents/": {
             "get": {
                 "operationId": "vfse_documents_list",

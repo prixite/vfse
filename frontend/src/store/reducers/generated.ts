@@ -514,6 +514,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.category,
       }),
     }),
+    vfseDashboardList: build.query<
+      VfseDashboardListApiResponse,
+      VfseDashboardListApiArg
+    >({
+      query: () => ({ url: `/vfse/dashboard/` }),
+    }),
     vfseDocumentsList: build.query<
       VfseDocumentsListApiResponse,
       VfseDocumentsListApiArg
@@ -945,6 +951,8 @@ export type VfseCategoriesPartialUpdateApiArg = {
   id: string;
   category: Category;
 };
+export type VfseDashboardListApiResponse = unknown;
+export type VfseDashboardListApiArg = void;
 export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
 export type VfseDocumentsListApiArg = {
   folder?: string;
@@ -1426,6 +1434,7 @@ export const {
   useVfseCategoriesCreateMutation,
   useVfseCategoriesReadQuery,
   useVfseCategoriesPartialUpdateMutation,
+  useVfseDashboardListQuery,
   useVfseDocumentsListQuery,
   useVfseDocumentsCreateMutation,
   useVfseDocumentsReadQuery,

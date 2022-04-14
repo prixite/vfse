@@ -86,3 +86,10 @@ class TopicSerializer(serializers.ModelSerializer):
             "categories",
             "reply_email_notification",
         ]
+
+
+class DashboardSerializer(serializers.Serializer):
+    system_count = serializers.IntegerField()
+    online_system_count = serializers.IntegerField()
+    offline_system_count = serializers.IntegerField()
+    last_month_logged_in_user = serializers.IntegerField()

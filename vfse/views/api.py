@@ -1,6 +1,10 @@
 from django.db.models import Count
+from django.utils import timezone
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
+from core import models as core_models
 from vfse import models, serializers
 
 
@@ -53,3 +57,23 @@ class CommentViewset(ModelViewSet):
 class TopicViewset(ModelViewSet):
     queryset = models.Topic.objects.all()
     serializer_class = serializers.TopicSerializer
+
+
+class DashboardView(APIView):
+    serializer_class = serializers.DashboardSerializer
+
+    def get(self, request, format=None):
+        systems = core_models.System.objects.all().count()
+        online_systems = core_models.System.objects.filter(is_online=True).count()
+        serializer = self.serializer_class(
+            data={
+                "system_count": systems,
+                "online_system_count": online_systems,
+                "offline_system_count": systems - online_systems,
+                "last_month_logged_in_user": core_models.User.objects.filter(
+                    last_login__gte=timezone.now().date() - timezone.timedelta(days=30)
+                ).count(),
+            }
+        )
+        serializer.is_valid()
+        return Response(serializer.data)
