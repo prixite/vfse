@@ -48,6 +48,7 @@ env = environ.Env(
     INFLUX_ORG=(str, None),
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
+    OPENAI_API_KEY=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -236,3 +237,5 @@ INFLUX_TOKEN = env("INFLUX_TOKEN")
 INFLUX_ORG = env("INFLUX_ORG")
 INFLUX_BUCKET = env("INFLUX_BUCKET")
 INFLUX_DB_URL = env("INFLUX_DB_URL")
+
+OPENAI_API_KEY = env("OPENAI_API_KEY")
