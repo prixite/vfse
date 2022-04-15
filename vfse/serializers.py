@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from core import models as core_models
+from core import serializers as core_serializers
 from vfse import models
 from vfse.models import Topic
 
@@ -74,6 +75,10 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class TopicSerializer(serializers.ModelSerializer):
+    number_of_followers = serializers.IntegerField(read_only=True)
+    number_of_comments = serializers.IntegerField(read_only=True)
+    followers = core_serializers.ProfileMetaSerializer(many=True)
+
     class Meta:
         model = Topic
         fields = [
@@ -85,6 +90,8 @@ class TopicSerializer(serializers.ModelSerializer):
             "image",
             "categories",
             "reply_email_notification",
+            "number_of_followers",
+            "number_of_comments",
         ]
 
 
