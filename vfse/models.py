@@ -41,7 +41,7 @@ class Topic(models.Model):
     title = models.CharField(max_length=500)
     description = models.TextField()
     followers = models.ManyToManyField(
-        "Follower", related_name="followed_topics", blank=True
+        "core.User", related_name="followed_topics", blank=True
     )
     image = models.ImageField(null=True, blank=True)
     reply_email_notification = models.BooleanField(default=False)
@@ -53,15 +53,8 @@ class Topic(models.Model):
         return self.title
 
 
-class Follower(models.Model):
-    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
 class Comment(models.Model):
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey("core.User", on_delete=models.CASCADE)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)

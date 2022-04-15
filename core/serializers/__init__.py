@@ -666,3 +666,12 @@ class SystemAccessSerializer(serializers.ModelSerializer):
             "ip_address",
             "ssh_password",
         ]
+
+
+class ProfileMetaSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="get_full_name")
+    image = serializers.URLField(source="profile.meta.profile_picture")
+
+    class Meta:
+        model = models.User
+        fields = ["name", "image"]

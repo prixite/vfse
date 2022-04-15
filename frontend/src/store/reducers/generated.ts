@@ -1383,15 +1383,21 @@ export type FolderDetail = {
   categories: number[];
   documents: Document[];
 };
+export type ProfileMeta = {
+  name: string;
+  image: string;
+};
 export type Topic = {
   id?: number;
   user: number;
   title: string;
   description: string;
-  followers?: number[];
+  followers: ProfileMeta[];
   image?: string | null;
   categories?: number[];
   reply_email_notification?: boolean;
+  number_of_followers?: number;
+  number_of_comments?: number;
 };
 export type Comment = {
   id?: number;

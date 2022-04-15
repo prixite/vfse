@@ -58,7 +58,9 @@ class TopicViewset(ModelViewSet):
     filterset_class = filters.TopicFilterSet
 
     def get_queryset(self):
-        return models.Topic.objects.all()
+        return models.Topic.objects.all().annotate(
+            number_of_followers=Count("followers"), number_of_comments=Count("comments")
+        )
 
 
 class FollowerViewSet(ModelViewSet):
