@@ -36,7 +36,7 @@ export const emptySplitApi = createApi({
     }),
     getArticle: builder.query<Document, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/documents/${id}/`, method: "get" }),
-      providesTags: (result, error, { id }) => [{ type: "Article", id: id }],
+      providesTags: (result, _, { id }) => [{ type: "Article", id: id }],
     }),
     getAllArticles: builder.query<Document[], void>({
       query: () => ({ url: `/vfse/documents/`, method: "get" }),
@@ -73,7 +73,11 @@ export const emptySplitApi = createApi({
     }),
     getCategories: builder.query<Category[], void>({
       query: () => ({ url: "/vfse/categories/", method: "get" }),
-      providesTags: ["Category", "Article"],
+      providesTags: (result) => [
+        "Category",
+        "Article",
+        ...result.map((item) => ({ type: "Category" as const, id: item?.id })),
+      ],
     }),
     getCategory: builder.query<Category, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/categories/${id}/`, method: "get" }),
@@ -106,7 +110,10 @@ export const emptySplitApi = createApi({
         { id }
       ) => [
         { type: "Folder", id: id },
-        ...result.documents.map((item) => ({ type: "Article", id: item?.id })),
+        ...result.documents.map((item) => ({
+          type: "Article" as const,
+          id: item?.id,
+        })),
       ],
     }),
     getFolders: builder.query<Folder[], void>({
