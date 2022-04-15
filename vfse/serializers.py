@@ -58,7 +58,7 @@ class TopicDefault:
 
     def __call__(self, serializer_field):
         return models.Topic.objects.get(
-            id=serializer_field.context["view"].kwargs["topic_pk"]
+            id=serializer_field.context["view"].kwargs["pk"]
         )
 
 
@@ -86,6 +86,17 @@ class TopicSerializer(serializers.ModelSerializer):
             "categories",
             "reply_email_notification",
         ]
+
+
+class FollowerSerializer(serializers.ModelSerializer):
+    topic = serializers.PrimaryKeyRelatedField(
+        default=TopicDefault(),
+        queryset=models.Topic.objects.all(),
+    )
+
+    class Meta:
+        model = models.Follower
+        fields = ["user", "topic"]
 
 
 class DashboardSerializer(serializers.Serializer):

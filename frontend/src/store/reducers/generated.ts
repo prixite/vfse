@@ -653,18 +653,32 @@ const injectedRtkApi = api.injectEndpoints({
       VfseTopicsCommentsListApiResponse,
       VfseTopicsCommentsListApiArg
     >({
-      query: (queryArg) => ({
-        url: `/vfse/topics/${queryArg.topicPk}/comments/`,
-      }),
+      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/comments/` }),
     }),
     vfseTopicsCommentsCreate: build.mutation<
       VfseTopicsCommentsCreateApiResponse,
       VfseTopicsCommentsCreateApiArg
     >({
       query: (queryArg) => ({
-        url: `/vfse/topics/${queryArg.topicPk}/comments/`,
+        url: `/vfse/topics/${queryArg.id}/comments/`,
         method: "POST",
         body: queryArg.comment,
+      }),
+    }),
+    vfseTopicsFollowersList: build.query<
+      VfseTopicsFollowersListApiResponse,
+      VfseTopicsFollowersListApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/followers/` }),
+    }),
+    vfseTopicsFollowersCreate: build.mutation<
+      VfseTopicsFollowersCreateApiResponse,
+      VfseTopicsFollowersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/followers/`,
+        method: "POST",
+        body: queryArg.follower,
       }),
     }),
   }),
@@ -1020,12 +1034,21 @@ export type VfseTopicsDeleteApiArg = {
 };
 export type VfseTopicsCommentsListApiResponse = /** status 200  */ Comment[];
 export type VfseTopicsCommentsListApiArg = {
-  topicPk: string;
+  id: string;
 };
 export type VfseTopicsCommentsCreateApiResponse = /** status 201  */ Comment;
 export type VfseTopicsCommentsCreateApiArg = {
-  topicPk: string;
+  id: string;
   comment: Comment;
+};
+export type VfseTopicsFollowersListApiResponse = /** status 200  */ Follower[];
+export type VfseTopicsFollowersListApiArg = {
+  id: string;
+};
+export type VfseTopicsFollowersCreateApiResponse = /** status 201  */ Follower;
+export type VfseTopicsFollowersCreateApiArg = {
+  id: string;
+  follower: Follower;
 };
 export type Meta = {
   profile_picture: string;
@@ -1373,6 +1396,10 @@ export type Comment = {
   user: number;
   comment: string;
 };
+export type Follower = {
+  user: number;
+  topic?: number;
+};
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
@@ -1452,4 +1479,6 @@ export const {
   useVfseTopicsDeleteMutation,
   useVfseTopicsCommentsListQuery,
   useVfseTopicsCommentsCreateMutation,
+  useVfseTopicsFollowersListQuery,
+  useVfseTopicsFollowersCreateMutation,
 } = injectedRtkApi;

@@ -56,7 +56,7 @@ urlpatterns = [
         ),
     ),
     path(
-        "topics/<int:topic_pk>/comments/",
+        "topics/<int:pk>/comments/",
         api.CommentViewset.as_view({"get": "list", "post": "create"}),
     ),
     path(
@@ -75,6 +75,15 @@ urlpatterns = [
                 "get": "retrieve",
                 "delete": "destroy",
                 "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
+        "topics/<int:pk>/followers/",
+        api.FollowerViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
             }
         ),
     ),
