@@ -668,22 +668,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.comment,
       }),
     }),
-    vfseTopicsFollowersList: build.query<
-      VfseTopicsFollowersListApiResponse,
-      VfseTopicsFollowersListApiArg
-    >({
-      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/followers/` }),
-    }),
-    vfseTopicsFollowersCreate: build.mutation<
-      VfseTopicsFollowersCreateApiResponse,
-      VfseTopicsFollowersCreateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/vfse/topics/${queryArg.id}/followers/`,
-        method: "POST",
-        body: queryArg.follower,
-      }),
-    }),
   }),
   overrideExisting: false,
 });
@@ -1044,15 +1028,6 @@ export type VfseTopicsCommentsCreateApiArg = {
   id: string;
   comment: Comment;
 };
-export type VfseTopicsFollowersListApiResponse = /** status 200  */ Follower[];
-export type VfseTopicsFollowersListApiArg = {
-  id: string;
-};
-export type VfseTopicsFollowersCreateApiResponse = /** status 201  */ Follower;
-export type VfseTopicsFollowersCreateApiArg = {
-  id: string;
-  follower: Follower;
-};
 export type Meta = {
   profile_picture: string;
   title?: string;
@@ -1405,10 +1380,6 @@ export type Comment = {
   user: number;
   comment: string;
 };
-export type Follower = {
-  user: number;
-  topic?: number;
-};
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
@@ -1488,6 +1459,4 @@ export const {
   useVfseTopicsDeleteMutation,
   useVfseTopicsCommentsListQuery,
   useVfseTopicsCommentsCreateMutation,
-  useVfseTopicsFollowersListQuery,
-  useVfseTopicsFollowersCreateMutation,
 } = injectedRtkApi;

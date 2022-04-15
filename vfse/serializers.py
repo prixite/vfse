@@ -95,17 +95,6 @@ class TopicSerializer(serializers.ModelSerializer):
         ]
 
 
-class FollowerSerializer(serializers.ModelSerializer):
-    topic = serializers.PrimaryKeyRelatedField(
-        default=TopicDefault(),
-        queryset=models.Topic.objects.all(),
-    )
-
-    class Meta:
-        model = models.Follower
-        fields = ["user", "topic"]
-
-
 class DashboardSerializer(serializers.Serializer):
     system_count = serializers.IntegerField()
     online_system_count = serializers.IntegerField()
