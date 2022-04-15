@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from core import models as core_models
-from vfse import models, serializers
+from vfse import filters, models, serializers
 
 
 class CategoryViewSet(ModelViewSet):
@@ -54,8 +54,11 @@ class CommentViewset(ModelViewSet):
 
 
 class TopicViewset(ModelViewSet):
-    queryset = models.Topic.objects.all()
     serializer_class = serializers.TopicSerializer
+    filterset_class = filters.TopicFilterSet
+
+    def get_queryset(self):
+        return models.Topic.objects.all()
 
 
 class FollowerViewSet(ModelViewSet):

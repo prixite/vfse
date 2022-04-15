@@ -1881,7 +1881,22 @@
             "get": {
                 "operationId": "vfse_topics_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "followed",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "created",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -1983,9 +1998,8 @@
                 {
                     "name": "id",
                     "in": "path",
-                    "description": "A unique integer value identifying this topic.",
                     "required": true,
-                    "type": "integer"
+                    "type": "string"
                 }
             ]
         },
