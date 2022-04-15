@@ -1989,7 +1989,7 @@
                 }
             ]
         },
-        "/vfse/topics/{topic_pk}/comments/": {
+        "/vfse/topics/{id}/comments/": {
             "get": {
                 "operationId": "vfse_topics_comments_list",
                 "description": "",
@@ -2036,7 +2036,61 @@
             },
             "parameters": [
                 {
-                    "name": "topic_pk",
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/vfse/topics/{id}/followers/": {
+            "get": {
+                "operationId": "vfse_topics_followers_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Follower"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_topics_followers_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Follower"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Follower"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -3737,6 +3791,23 @@
                     "title": "Comment",
                     "type": "string",
                     "minLength": 1
+                }
+            }
+        },
+        "Follower": {
+            "description": "Follower(id, user, topic, created_at, updated_at)",
+            "required": [
+                "user"
+            ],
+            "type": "object",
+            "properties": {
+                "user": {
+                    "title": "User",
+                    "type": "integer"
+                },
+                "topic": {
+                    "title": "Topic",
+                    "type": "integer"
                 }
             }
         }

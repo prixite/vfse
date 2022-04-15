@@ -47,16 +47,22 @@ class DocumentViewSet(ModelViewSet):
 
 
 class CommentViewset(ModelViewSet):
-    queryset = models.Comment.objects.all()
     serializer_class = serializers.CommentSerializer
 
     def get_queryset(self):
-        return models.Comment.objects.filter(topic_id=self.kwargs["topic_pk"])
+        return models.Comment.objects.filter(topic_id=self.kwargs["pk"])
 
 
 class TopicViewset(ModelViewSet):
     queryset = models.Topic.objects.all()
     serializer_class = serializers.TopicSerializer
+
+
+class FollowerViewSet(ModelViewSet):
+    serializer_class = serializers.FollowerSerializer
+
+    def get_queryset(self):
+        return models.Follower.objects.filter(topic_id=self.kwargs["pk"])
 
 
 class DashboardView(APIView):
