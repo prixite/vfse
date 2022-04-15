@@ -78,14 +78,5 @@ urlpatterns = [
             }
         ),
     ),
-    path(
-        "topics/<int:pk>/followers/",
-        api.FollowerViewSet.as_view(
-            {
-                "get": "list",
-                "post": "create",
-            }
-        ),
-    ),
     path("dashboard/", api.DashboardView.as_view()),
 ]

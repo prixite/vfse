@@ -63,13 +63,6 @@ class TopicViewset(ModelViewSet):
         )
 
 
-class FollowerViewSet(ModelViewSet):
-    serializer_class = serializers.FollowerSerializer
-
-    def get_queryset(self):
-        return models.Follower.objects.filter(topic_id=self.kwargs["pk"])
-
-
 class DashboardView(APIView):
     serializer_class = serializers.DashboardSerializer
 
