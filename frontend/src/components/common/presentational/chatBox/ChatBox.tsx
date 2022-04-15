@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
+import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
-import { Box, Button, TextareaAutosize } from "@mui/material";
+import { Box, TextareaAutosize } from "@mui/material";
 import { toast } from "react-toastify";
 
 import { ChatBoxInterface } from "@src/helpers/interfaces/localizationinterfaces";
@@ -13,8 +14,13 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
   const [chatResponse, setChatResponse] = useState<string>("");
+  const [placeholder, setPlaceHolder] = useState<string>(
+    "How may I awnser your Query..."
+  );
 
   const resetQuery = () => {
+    setPlaceHolder("");
+    setIsLoading(false);
     setYourQuery("");
   };
 
@@ -23,12 +29,7 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
     postChat({ sysId: systemID, query: yourQuery })
       .unwrap()
       .then(({ response_text: responseText }) => {
-        toast.success("Article Successfully added", {
-          autoClose: 300,
-          pauseOnHover: false,
-        });
         setChatResponse(responseText);
-        resetQuery();
       })
       .catch((err) => {
         toast.success(`Error occured ${err}`, {
@@ -37,7 +38,6 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
         });
       })
       .finally(() => {
-        setIsLoading(false);
         resetQuery();
       });
   };
@@ -54,7 +54,9 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
         />
       </Box>
       <Box component="div" className="chatSection">
-        <pre>{chatResponse}</pre>
+        <div className="chatBotResponse">
+          <p>{chatResponse}</p>
+        </div>
       </Box>
       <Box component="div" className="InputSection">
         <TextareaAutosize
@@ -65,44 +67,28 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
           minRows={1}
           maxRows={3}
           aria-label="maximum height"
-          placeholder={`How may I awnser your Query...`}
+          placeholder={placeholder}
           style={{
             borderRadius: "7px",
             height: "54px",
-            width: "inherit",
-            borderColor: "black",
+            width: "270px",
+            borderColor: "light-gray",
+            userSelect: "text",
+            cursor: "text",
           }}
+          disabled={isLoading}
         />
+        {!isLoading && (
+          <SendIcon
+            style={{
+              color: "rgb(119, 60, 189)",
+              width: "34px",
+              height: "33px",
+            }}
+            onClick={() => handleChatting()}
+          />
+        )}
       </Box>
-      {isLoading ? (
-        <Button
-          variant="outlined"
-          style={{
-            padding: "0px",
-            marginLeft: "218px",
-            height: "50px",
-            marginRight: "12px",
-          }}
-          onClick={() => handleChatting()}
-        >
-          {" "}
-          Send{" "}
-        </Button>
-      ) : (
-        <Button
-          variant="contained"
-          style={{
-            padding: "0px",
-            marginLeft: "218px",
-            height: "50px",
-            marginRight: "12px",
-          }}
-          onClick={() => handleChatting()}
-        >
-          {" "}
-          Send{" "}
-        </Button>
-      )}
     </Box>
   );
 };

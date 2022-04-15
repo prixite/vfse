@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import ChatIcon from "@mui/icons-material/Chat";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -72,6 +71,10 @@ const SystemCard = ({
     setAnchorEl(null);
   };
 
+  const onSupport = () => {
+    handleSupportChatBox(sysID);
+    handleClose();
+  };
   const onEdit = () => {
     handleEdit(system);
     handleClose();
@@ -90,18 +93,13 @@ const SystemCard = ({
     handleClose();
   };
 
-  const openChatBoxhandler = (sysID) => {
+  const handleSupportChatBox = (sysID) => {
     setIsOpen(true);
     setSystemID(sysID - 1);
-
-    // console.log("sysID through handler", systemIdNumber)
   };
 
   return (
     <div className="system-card">
-      <div className="chatBg" onClick={() => openChatBoxhandler(sysID)}>
-        <ChatIcon className="chatIcon" />
-      </div>
       <Box className="container">
         <div className="machine">
           <p className="name">{system.name}</p>
@@ -251,6 +249,9 @@ const SystemCard = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
+          <MenuItem onClick={() => onSupport()}>
+            <span style={{ marginLeft: "12px" }}>Support</span>
+          </MenuItem>
           <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>

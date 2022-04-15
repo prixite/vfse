@@ -27,9 +27,9 @@
     }
   }
   .chatSection {
-    height: 75%;
-    overflow-y: auto;
+    height: 70%;
     width: 100%;
+    overflow-y: auto;
   }
   .InputSection {
     height: 15%;
@@ -37,4 +37,9 @@
     padding: 12px;
     width: 100%;
   }
+}
+.chatBotResponse {
+  width: 95%;
+  padding: 10px;
+  cursor: pointer;
 }
