@@ -48,3 +48,8 @@ class DocumentFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = models.Document
+
+
+class TopicFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Topic

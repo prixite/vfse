@@ -612,7 +612,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseTopicsListApiResponse,
       VfseTopicsListApiArg
     >({
-      query: () => ({ url: `/vfse/topics/` }),
+      query: (queryArg) => ({
+        url: `/vfse/topics/`,
+        params: { followed: queryArg.followed, created: queryArg.created },
+      }),
     }),
     vfseTopicsCreate: build.mutation<
       VfseTopicsCreateApiResponse,
@@ -997,26 +1000,26 @@ export type VfseFoldersDeleteApiArg = {
   id: string;
 };
 export type VfseTopicsListApiResponse = /** status 200  */ Topic[];
-export type VfseTopicsListApiArg = void;
+export type VfseTopicsListApiArg = {
+  followed?: string;
+  created?: string;
+};
 export type VfseTopicsCreateApiResponse = /** status 201  */ Topic;
 export type VfseTopicsCreateApiArg = {
   topic: Topic;
 };
 export type VfseTopicsReadApiResponse = /** status 200  */ Topic;
 export type VfseTopicsReadApiArg = {
-  /** A unique integer value identifying this topic. */
-  id: number;
+  id: string;
 };
 export type VfseTopicsPartialUpdateApiResponse = /** status 200  */ Topic;
 export type VfseTopicsPartialUpdateApiArg = {
-  /** A unique integer value identifying this topic. */
-  id: number;
+  id: string;
   topic: Topic;
 };
 export type VfseTopicsDeleteApiResponse = unknown;
 export type VfseTopicsDeleteApiArg = {
-  /** A unique integer value identifying this topic. */
-  id: number;
+  id: string;
 };
 export type VfseTopicsCommentsListApiResponse = /** status 200  */ Comment[];
 export type VfseTopicsCommentsListApiArg = {
