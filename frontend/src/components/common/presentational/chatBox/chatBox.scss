@@ -27,7 +27,7 @@
     }
   }
   .chatSection {
-    height: 70%;
+    height: 75%;
     width: 100%;
     overflow-y: auto;
   }
@@ -36,6 +36,9 @@
     box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2);
     padding: 12px;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 .chatBotResponse {
