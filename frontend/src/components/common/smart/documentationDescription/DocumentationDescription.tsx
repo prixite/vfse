@@ -48,9 +48,9 @@ const DocumentationDescription = () => {
       const htmlToString = stripedHeadings[0].replace(/<[^>]+>/g, "");
       //removing any html encoded entities
       const title = htmlToString.replace(/&#?[a-z0-9]{2,8};/g, "");
-     return title.trim() || "";
+      return title.trim() || "";
     }
-  }
+  };
 
   const saveText = () => {
     const htmlString = draftToHtml(
@@ -59,7 +59,7 @@ const DocumentationDescription = () => {
     const title = getTitle(htmlString);
     updateArticle({
       id: parseInt(docId),
-      document: { ...articleData, text: htmlString ,title : title },
+      document: { ...articleData, text: htmlString, title: title },
     }).unwrap();
     setHtmlText(htmlString);
     setEditText(false);
@@ -107,7 +107,7 @@ const DocumentationDescription = () => {
               editText={editText}
               saveText={saveText}
             />
-            <ArticleOverviewCard htmlText={htmlText}/>
+            <ArticleOverviewCard htmlText={htmlText} />
           </Grid>
         </Grid>
       )}

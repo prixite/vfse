@@ -1939,6 +1939,28 @@
             },
             "parameters": []
         },
+        "/vfse/topics/popular/": {
+            "get": {
+                "operationId": "vfse_topics_popular_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Topic"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
         "/vfse/topics/{id}/": {
             "get": {
                 "operationId": "vfse_topics_read",

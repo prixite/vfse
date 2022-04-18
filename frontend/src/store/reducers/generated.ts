@@ -627,6 +627,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.topic,
       }),
     }),
+    vfseTopicsPopularList: build.query<
+      VfseTopicsPopularListApiResponse,
+      VfseTopicsPopularListApiArg
+    >({
+      query: () => ({ url: `/vfse/topics/popular/` }),
+    }),
     vfseTopicsRead: build.query<
       VfseTopicsReadApiResponse,
       VfseTopicsReadApiArg
@@ -1006,6 +1012,8 @@ export type VfseTopicsCreateApiResponse = /** status 201  */ Topic;
 export type VfseTopicsCreateApiArg = {
   topic: Topic;
 };
+export type VfseTopicsPopularListApiResponse = /** status 200  */ Topic[];
+export type VfseTopicsPopularListApiArg = void;
 export type VfseTopicsReadApiResponse = /** status 200  */ Topic;
 export type VfseTopicsReadApiArg = {
   id: string;
@@ -1454,6 +1462,7 @@ export const {
   useVfseFoldersDeleteMutation,
   useVfseTopicsListQuery,
   useVfseTopicsCreateMutation,
+  useVfseTopicsPopularListQuery,
   useVfseTopicsReadQuery,
   useVfseTopicsPartialUpdateMutation,
   useVfseTopicsDeleteMutation,
