@@ -1,13 +1,44 @@
+import { useEffect, useState } from "react";
 import "@src/components/common/presentational/articleOverviewCard/articleOverviewCard.scss";
+interface ArticleOverviewCardProps {
+  htmlText : string
+}
+const ArticleOverviewCard = ({htmlText}:ArticleOverviewCardProps) => {
+  const [tableContents,setTableContents] = useState([]);
+  const getHeadings = () => {
+    const stripedHeadings = htmlText.match(/<h[1-6]>(.*?)<\/h[1-6]>/g);
+    if (stripedHeadings && stripedHeadings?.length) {
+      //removing p tags from string
+      const headingsText = stripedHeadings.map((heading,i)=>{
+        const htmlToString = heading.replace(/<[^>]+>/g, "");
+        return   htmlToString.replace(/&#?[a-z0-9]{2,8};/g, "");
+      })
 
-const ArticleOverviewCard = () => {
+     setTableContents(headingsText);
+    }
+  }
+
+ const renderHeadings = () => {
+   return tableContents.map((content,i)=> {
+     if(i===0) {
+       return  <h1 className="heading">{content?.toLowerCase()}</h1>
+     }
+     else {
+       return <p className="description">{content?.toLowerCase()}</p>
+     }
+   })
+ }
+
+  useEffect(()=>{
+   if(htmlText) {
+     console.log(htmlText , "");
+     getHeadings();
+   }
+  },[htmlText])
   return (
     <div className="overview">
       <div className="card">
-        <h1 className="heading">Overview</h1>
-        <p className="description">Getting started</p>
-        <p className="description">Quick start guide</p>
-        <p className="description">Your next step</p>
+         {renderHeadings()}
       </div>
     </div>
   );

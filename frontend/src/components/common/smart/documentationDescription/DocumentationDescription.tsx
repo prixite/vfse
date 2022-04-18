@@ -37,23 +37,36 @@ const DocumentationDescription = () => {
   const localization: LocalizationInterface = localizedData();
   const { docId } = useParams<{ docId: string }>();
   const { data: articleData } = api.useGetArticleQuery({ id: parseInt(docId) });
+  const [updateArticle] = api.useUpdateArticleMutation();
   const { title } = localization.document;
 
   const handleEditText = (val) => setEditText(val);
+  const getTitle = (htmlString) => {
+    const stripedHeadings = htmlString.match(/<h[1-6]>(.*?)<\/h[1-6]>/g);
+    if (stripedHeadings && stripedHeadings?.length) {
+      //removing p tags from string
+      const htmlToString = stripedHeadings[0].replace(/<[^>]+>/g, "");
+      //removing any html encoded entities
+      const title = htmlToString.replace(/&#?[a-z0-9]{2,8};/g, "");
+     return title.trim() || "";
+    }
+  }
+
   const saveText = () => {
     const htmlString = draftToHtml(
       convertToRaw(editorState.getCurrentContent())
     );
+    const title = getTitle(htmlString);
+    updateArticle({
+      id: parseInt(docId),
+      document: { ...articleData, text: htmlString ,title : title },
+    }).unwrap();
     setHtmlText(htmlString);
     setEditText(false);
   };
 
   useEffect(() => {
-    const text = `
-<h2 style="margin-bottom: 20px"><br>    <span style="font-size: 24px; color:#773cbd">${articleData?.title}</span><br></h2>
-<p> <span style=font-size: 18px> ${articleData?.text} </span></p>
-`;
-    setHtmlText(text);
+    setHtmlText(articleData?.text);
   }, [articleData]);
 
   return (
@@ -94,7 +107,7 @@ const DocumentationDescription = () => {
               editText={editText}
               saveText={saveText}
             />
-            <ArticleOverviewCard />
+            <ArticleOverviewCard htmlText={htmlText}/>
           </Grid>
         </Grid>
       )}

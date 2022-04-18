@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
@@ -21,6 +21,7 @@ const KnowledgeTopCard = ({ title, description, id }: props) => {
   const param: RouteParam = useParams();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [cardText, setCardText] = useState("");
   const { organizationRoute } = constants;
   const history = useHistory();
   const [deleteArticle] = api.useDeleteArticleMutation();
@@ -58,6 +59,19 @@ const KnowledgeTopCard = ({ title, description, id }: props) => {
         });
       });
   };
+  useEffect(() => {
+    if (description) {
+      //this is for extracting text containing p tags
+      const stripedParagraphs = description.match(/<p>(.*?)<\/p>/g);
+      if (stripedParagraphs && stripedParagraphs?.length) {
+        //removing p tags from string
+        const htmlToString = stripedParagraphs[0].replace(/<[^>]+>/g, "");
+        //removing any html encoded entities
+        const text = htmlToString.replace(/&#?[a-z0-9]{2,8};/g, "");
+        setCardText(text);
+      }
+    }
+  }, [description]);
   return (
     <>
       <div className="knowledge-top-card">
@@ -71,7 +85,7 @@ const KnowledgeTopCard = ({ title, description, id }: props) => {
             <img src={fileImage} />
             <h2 className="title"> {title}</h2>
             <div className="info">
-              <p className="category">{description}</p>
+              <p className="category">{cardText}</p>
             </div>
           </Box>
         </Link>

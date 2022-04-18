@@ -49,7 +49,7 @@ export const emptySplitApi = createApi({
       query: ({ id, document }) => ({
         url: `/vfse/documents/${id}/`,
         method: "patch",
-        data: document,
+        body: document,
       }),
       invalidatesTags: ["Article"],
     }),
