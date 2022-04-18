@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
@@ -6,10 +6,14 @@ import "@src/components/common/presentational/chatBox/chatBox.scss";
 import { Box, TextareaAutosize } from "@mui/material";
 import { toast } from "react-toastify";
 
-import { ChatBoxInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { api } from "@src/store/reducers/api";
+import { System } from "@src/store/reducers/generated";
 
-const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
+interface ChatBoxInterface {
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+  system: System;
+}
+const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const [isLoading, setIsLoading] = useState(false);
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
@@ -26,7 +30,7 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
 
   const handleChatting = () => {
     setIsLoading(true);
-    postChat({ sysId: systemID, query: yourQuery })
+    postChat({ sysId: system?.id, query: yourQuery })
       .unwrap()
       .then(({ response_text: responseText }) => {
         setChatResponse(responseText);
@@ -45,7 +49,7 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
   return (
     <Box component="div" className="chatBox">
       <Box component="div" className="chatHeader">
-        <p className="title">System-{systemID}</p>
+        <p className="title">{system?.name}</p>
         <CloseIcon
           style={{ cursor: "pointer" }}
           onClick={() => {
