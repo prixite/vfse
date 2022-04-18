@@ -77,7 +77,15 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   });
   const handleAddNewDocument = () => {
     setIsLoading(true);
-    addNewDocument({ document: { ...formik.values } })
+    const convertTextToHtml = `
+    <h2 style="margin-bottom: 20px"><br>    <span style="font-size: 24px; color:#773cbd">${formik.values.title}</span><br></h2>
+    <p> <span style=font-size: 18px> ${formik.values.text} </span></p>
+    `;
+    const payload: Document = {
+      ...formik.values,
+      text: convertTextToHtml,
+    };
+    addNewDocument({ document: { ...payload } })
       .unwrap()
       .then(() => {
         toast.success("Article Successfully added", {
