@@ -3716,10 +3716,8 @@
         "Topic": {
             "description": "Topic(id, user, title, description, image, reply_email_notification, created_at, updated_at)",
             "required": [
-                "user",
                 "title",
-                "description",
-                "followers"
+                "description"
             ],
             "type": "object",
             "properties": {
@@ -3748,7 +3746,8 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ProfileMeta"
-                    }
+                    },
+                    "readOnly": true
                 },
                 "image": {
                     "title": "Image",

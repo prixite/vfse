@@ -77,7 +77,11 @@ class CommentSerializer(serializers.ModelSerializer):
 class TopicSerializer(serializers.ModelSerializer):
     number_of_followers = serializers.IntegerField(read_only=True)
     number_of_comments = serializers.IntegerField(read_only=True)
-    followers = core_serializers.ProfileMetaSerializer(many=True)
+    followers = core_serializers.ProfileMetaSerializer(many=True, read_only=True)
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=core_models.User.objects.all(),
+        default=serializers.CurrentUserDefault(),
+    )
 
     class Meta:
         model = Topic

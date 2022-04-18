@@ -1372,10 +1372,10 @@ export type ProfileMeta = {
 };
 export type Topic = {
   id?: number;
-  user: number;
+  user?: number;
   title: string;
   description: string;
-  followers: ProfileMeta[];
+  followers?: ProfileMeta[];
   image?: string | null;
   categories?: number[];
   reply_email_notification?: boolean;
