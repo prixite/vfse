@@ -79,4 +79,5 @@ urlpatterns = [
         ),
     ),
     path("dashboard/", api.DashboardView.as_view()),
+    path("topics/popular/", api.PopularTopicsViewset.as_view({"get": "list"})),
 ]
