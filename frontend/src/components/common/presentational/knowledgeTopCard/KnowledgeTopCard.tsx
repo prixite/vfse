@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Box, Menu, MenuItem } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import { Box, Menu, MenuItem, Tooltip, IconButton } from "@mui/material";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -9,22 +11,44 @@ import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants } from "@src/helpers/utils/constants";
-import { api } from "@src/store/reducers/api";
+import { useSelectedOrganization } from "@src/store/hooks";
+import { api , useOrganizationsMeReadQuery } from "@src/store/reducers/api";
+import { Document } from "@src/store/reducers/generated";
 import "@src/components/common/presentational/knowledgeTopCard/knowledgeTopCard.scss";
 interface props {
   title: string;
   description: string;
   id: number;
+  favourite?: boolean;
+  path?: string;
+  article?: Document;
 }
 
-const KnowledgeTopCard = ({ title, description, id }: props) => {
+const KnowledgeTopCard = ({
+  title,
+  description,
+  id,
+  favourite,
+  path,
+  article,
+}: props) => {
   const param: RouteParam = useParams();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [cardText, setCardText] = useState("");
   const { organizationRoute } = constants;
   const history = useHistory();
+  const selectedOrganization = useSelectedOrganization();
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
   const [deleteArticle] = api.useDeleteArticleMutation();
+  const [updateArticle] = api.useUpdateArticleMutation();
   const route = history?.location?.pathname?.includes("folder")
     ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/${id}`
     : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/${id}`;
@@ -59,6 +83,12 @@ const KnowledgeTopCard = ({ title, description, id }: props) => {
         });
       });
   };
+  const toggleFavourite = (favourite) => {
+    updateArticle({
+      id: id,
+      document: { ...article, favorite: favourite },
+    }).unwrap();
+  };
   useEffect(() => {
     if (description) {
       //this is for extracting text containing p tags
@@ -89,6 +119,28 @@ const KnowledgeTopCard = ({ title, description, id }: props) => {
             </div>
           </Box>
         </Link>
+        {me?.is_superuser && path === "see-all" ? (
+          <>
+            {!favourite ? (
+              <Tooltip title="Mark article as favourite" className="favIcon">
+                <IconButton onClick={() => toggleFavourite(true)}>
+                  <StarOutlineIcon style={{ color: "#6b7280" }} />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip
+                title="Unmark article from favourites"
+                className="favIcon"
+              >
+                <IconButton onClick={() => toggleFavourite(false)}>
+                  <StarIcon style={{ color: "#773CBD" }} />
+                </IconButton>
+              </Tooltip>
+            )}
+          </>
+        ) : (
+          ""
+        )}
         <div className="dropdownIcon">
           <MoreVertIcon
             id="client-options-button"

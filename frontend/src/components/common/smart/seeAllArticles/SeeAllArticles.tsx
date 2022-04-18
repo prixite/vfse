@@ -55,6 +55,9 @@ const SeeAllArticles = () => {
               title={item?.title}
               description={item?.text}
               id={item?.id}
+              favourite={item?.favorite}
+              path="see-all"
+              article={item}
             />
           </Grid>
         ))}
