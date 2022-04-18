@@ -15,7 +15,7 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
   const [yourQuery, setYourQuery] = useState<string>("");
   const [chatResponse, setChatResponse] = useState<string>("");
   const [placeholder, setPlaceHolder] = useState<string>(
-    "How may I awnser your Query..."
+    "How may I answer your query..."
   );
 
   const resetQuery = () => {
@@ -70,7 +70,7 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
           placeholder={placeholder}
           style={{
             borderRadius: "7px",
-            height: "54px",
+            padding: "10px",
             width: "270px",
             borderColor: "light-gray",
             userSelect: "text",
@@ -78,7 +78,7 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
           }}
           disabled={isLoading}
         />
-        {!isLoading && (
+        {!isLoading && yourQuery ? (
           <SendIcon
             style={{
               color: "rgb(119, 60, 189)",
@@ -86,6 +86,14 @@ const ChatBox = ({ setIsOpen, systemID }: ChatBoxInterface) => {
               height: "33px",
             }}
             onClick={() => handleChatting()}
+          />
+        ) : (
+          <SendIcon
+            style={{
+              color: "#94989E",
+              width: "34px",
+              height: "33px",
+            }}
           />
         )}
       </Box>
