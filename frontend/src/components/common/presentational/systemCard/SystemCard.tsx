@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
@@ -16,7 +16,6 @@ import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
@@ -26,16 +25,21 @@ import {
 } from "@src/store/hooks";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
+import { System } from "@src/store/reducers/generated";
 
 import "@src/components/common/presentational/systemCard/systemCard.scss";
-
+interface SystemInterfaceProps {
+  system: System;
+  handleEdit?: (system: System) => void;
+  setSystem?: Dispatch<SetStateAction<string>>;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+}
 const SystemCard = ({
   system,
   handleEdit,
-  sysID,
-  setSystemID,
+  setSystem,
   setIsOpen,
-}: SystemInterface) => {
+}: SystemInterfaceProps) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -72,7 +76,7 @@ const SystemCard = ({
   };
 
   const onSupport = () => {
-    handleSupportChatBox(sysID);
+    handleSupportChatBox();
     handleClose();
   };
   const onEdit = () => {
@@ -93,9 +97,9 @@ const SystemCard = ({
     handleClose();
   };
 
-  const handleSupportChatBox = (sysID) => {
+  const handleSupportChatBox = () => {
     setIsOpen(true);
-    setSystemID(sysID - 1);
+    setSystem(system);
   };
 
   return (

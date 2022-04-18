@@ -33,6 +33,7 @@ import {
   useOrganizationsSystemsUpdateFromInfluxMutation,
   api,
 } from "@src/store/reducers/api";
+import { System } from "@src/store/reducers/generated";
 
 import "@src/components/common/smart/systemSection/systemSection.scss";
 
@@ -59,7 +60,7 @@ const SystemSection = () => {
   const [modality, setModality] = useState();
   const [callSystemsApi, setCallSystemsApi] = useState(false);
   const [chatModal, setChatModal] = useState(false);
-  const [chatBoxSystemID, setChatBoxSystemID] = useState("");
+  const [chatBoxSystem, setChatBoxSystem] = useState<System>();
 
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
@@ -469,8 +470,7 @@ const SystemSection = () => {
                 <SystemCard
                   system={item}
                   handleEdit={handleEdit}
-                  sysID={item.id}
-                  setSystemID={setChatBoxSystemID}
+                  setSystem={setChatBoxSystem}
                   IsOpen={chatModal}
                   setIsOpen={setChatModal}
                 />
@@ -524,7 +524,7 @@ const SystemSection = () => {
         <ChatBox
           // IsOpen={chatModal}
           setIsOpen={setChatModal}
-          systemID={chatBoxSystemID}
+          system={chatBoxSystem}
         />
       )}
     </>
