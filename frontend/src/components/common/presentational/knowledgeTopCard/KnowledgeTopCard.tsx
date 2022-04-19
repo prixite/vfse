@@ -12,7 +12,7 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
-import { api , useOrganizationsMeReadQuery } from "@src/store/reducers/api";
+import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
 import "@src/components/common/presentational/knowledgeTopCard/knowledgeTopCard.scss";
 interface props {
