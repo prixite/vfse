@@ -30,3 +30,11 @@ services:
     command: bash -c "python manage.py ping"
     depends_on:
       - app
+
+  ssh:
+    image: vfse_app
+    command: bash -c "python run.py --port=8888"
+    ports:
+      - "8888:8888"
+    depends_on:
+      - app
