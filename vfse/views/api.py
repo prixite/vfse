@@ -1,5 +1,6 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils import timezone
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -93,6 +94,16 @@ class DashboardView(APIView):
         )
         serializer.is_valid()
         return Response(serializer.data)
+
+
+class TopicActivityViewSet(ListAPIView):
+    serializer_class = serializers.RecentActivitySerializer
+
+    def get_queryset(self):
+        return models.RecentActivity.objects.filter(
+            topic__in=Q(self.request.user.topics.all().values_list("id"))
+            | Q(self.request.user.followed_topics.all().values_list("id"))
+        )
 
 
 class WorkOrderViewset(ModelViewSet):
