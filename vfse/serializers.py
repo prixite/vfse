@@ -115,7 +115,7 @@ class RecentActivitySerializer(serializers.ModelSerializer):
 class WorkOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.WorkOrder
-        fields = ["system", " description", "work_started", "work_completed"]
+        fields = ["system", "description", "work_started", "work_completed"]
 
 
 class FollowUnfollowSerializer(serializers.Serializer):

@@ -110,6 +110,8 @@ class WorkOrderViewset(ModelViewSet):
     serializer_class = serializers.WorkOrderSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.WorkOrder.objects.none()
         return models.WorkOrder.objects.all()
 
 

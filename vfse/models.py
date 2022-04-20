@@ -70,7 +70,7 @@ class RecentActivity(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class WorkOrder:
+class WorkOrder(models.Model):
     system = models.ForeignKey("core.System", on_delete=models.CASCADE)
     description = models.TextField()
     work_started = models.BooleanField(default=False)

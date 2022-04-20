@@ -476,6 +476,8 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
 class OrganizationUserViewSet(ScopedUserViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
+        if getattr(self, "swagger_fake_view", False):
+            return queryset.none()
         return queryset.filter(
             memberships__organization=self.kwargs["pk"],
         )
