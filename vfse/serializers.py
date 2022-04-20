@@ -106,6 +106,12 @@ class DashboardSerializer(serializers.Serializer):
     last_month_logged_in_user = serializers.IntegerField()
 
 
+class RecentActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.RecentActivity
+        fields = ["id", "user", "topic", "action", "created_at"]
+
+
 class WorkOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.WorkOrder

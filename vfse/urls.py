@@ -78,6 +78,7 @@ urlpatterns = [
             }
         ),
     ),
+    path("user/activity/", api.TopicActivityViewSet.as_view()),
     path("dashboard/", api.DashboardView.as_view()),
     path("topics/popular/", api.PopularTopicsViewset.as_view({"get": "list"})),
     path(

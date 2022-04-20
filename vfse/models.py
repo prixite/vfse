@@ -37,7 +37,9 @@ class Document(models.Model):
 
 
 class Topic(models.Model):
-    user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        "core.User", on_delete=models.CASCADE, related_name="topics"
+    )
     title = models.CharField(max_length=500)
     description = models.TextField()
     followers = models.ManyToManyField(
@@ -63,6 +65,7 @@ class Comment(models.Model):
 
 class RecentActivity(models.Model):
     user = models.ForeignKey("core.User", on_delete=models.CASCADE)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="activity")
     action = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
 
