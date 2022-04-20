@@ -92,3 +92,16 @@ class DashboardView(APIView):
         )
         serializer.is_valid()
         return Response(serializer.data)
+
+
+class FollowtopicViewset(ModelViewSet):
+    serializer_class = serializers.FollowUnfollowSerializer
+
+    def get_queryset(self):
+        return models.Topic.objects.all()
+
+    def perform_update(self, serializer):
+        if serializer.validated_data["follow"]:
+            self.get_object().followers.add(self.request.user)
+        else:
+            self.get_object().followers.remove(self.request.user)

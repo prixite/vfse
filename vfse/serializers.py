@@ -104,3 +104,7 @@ class DashboardSerializer(serializers.Serializer):
     online_system_count = serializers.IntegerField()
     offline_system_count = serializers.IntegerField()
     last_month_logged_in_user = serializers.IntegerField()
+
+
+class FollowUnfollowSerializer(serializers.Serializer):
+    follow = serializers.BooleanField()

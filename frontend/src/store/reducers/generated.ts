@@ -674,6 +674,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.comment,
       }),
     }),
+    vfseTopicsFollowPartialUpdate: build.mutation<
+      VfseTopicsFollowPartialUpdateApiResponse,
+      VfseTopicsFollowPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/follow/`,
+        method: "PATCH",
+        body: queryArg.followUnfollow,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -1036,6 +1046,12 @@ export type VfseTopicsCommentsCreateApiArg = {
   id: string;
   comment: Comment;
 };
+export type VfseTopicsFollowPartialUpdateApiResponse =
+  /** status 200  */ FollowUnfollow;
+export type VfseTopicsFollowPartialUpdateApiArg = {
+  id: string;
+  followUnfollow: FollowUnfollow;
+};
 export type Meta = {
   profile_picture: string;
   title?: string;
@@ -1388,6 +1404,9 @@ export type Comment = {
   user: number;
   comment: string;
 };
+export type FollowUnfollow = {
+  follow: boolean;
+};
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
@@ -1468,4 +1487,5 @@ export const {
   useVfseTopicsDeleteMutation,
   useVfseTopicsCommentsListQuery,
   useVfseTopicsCommentsCreateMutation,
+  useVfseTopicsFollowPartialUpdateMutation,
 } = injectedRtkApi;
