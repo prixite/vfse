@@ -106,5 +106,11 @@ class DashboardSerializer(serializers.Serializer):
     last_month_logged_in_user = serializers.IntegerField()
 
 
+class WorkOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.WorkOrder
+        fields = ["system", " description", "work_started", "work_completed"]
+
+
 class FollowUnfollowSerializer(serializers.Serializer):
     follow = serializers.BooleanField()

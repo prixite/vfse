@@ -81,6 +81,23 @@ urlpatterns = [
     path("dashboard/", api.DashboardView.as_view()),
     path("topics/popular/", api.PopularTopicsViewset.as_view({"get": "list"})),
     path(
+        "workorders/",
+        api.WorkOrderViewset.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
+        "workorders/<int:pk>/",
+        api.WorkOrderViewset.as_view(
+            {
+                "get": "retrieve",
+            }
+        ),
+    ),
+    path(
         "topics/<int:pk>/follow/",
         api.FollowtopicViewset.as_view(
             {
