@@ -456,6 +456,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.userEnableDisable,
       }),
     }),
+    usersActiveUsersList: build.query<
+      UsersActiveUsersListApiResponse,
+      UsersActiveUsersListApiArg
+    >({
+      query: () => ({ url: `/users/active_users/` }),
+    }),
     usersDeactivatePartialUpdate: build.mutation<
       UsersDeactivatePartialUpdateApiResponse,
       UsersDeactivatePartialUpdateApiArg
@@ -930,6 +936,8 @@ export type UsersActivatePartialUpdateApiResponse =
 export type UsersActivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
 };
+export type UsersActiveUsersListApiResponse = /** status 200  */ User[];
+export type UsersActiveUsersListApiArg = void;
 export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
 export type UsersDeactivatePartialUpdateApiArg = {
@@ -1442,6 +1450,7 @@ export const {
   useSystemsChatbotListQuery,
   useSystemsChatbotCreateMutation,
   useUsersActivatePartialUpdateMutation,
+  useUsersActiveUsersListQuery,
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,

@@ -161,6 +161,7 @@ api_urlpatterns = [
         "api/health_networks/",
         api.HealthNetworkViewSet.as_view(),
     ),
+    path("api/users/active_users/", api.ActiveUsersViewSet.as_view()),
     path(
         "api/users/deactivate/",
         api.UserDeactivateViewSet.as_view(

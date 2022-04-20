@@ -6,6 +6,7 @@ from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
 from django.http import Http404
+from django.utils import timezone
 from rest_framework import exceptions
 from rest_framework.authentication import (
     SessionAuthentication,
@@ -754,3 +755,12 @@ class UserRolesView(ModelViewSet):
         data = [{"value": item, "title": value} for item, value in models.Role.choices]
         serializer = self.serializer_class(data, many=True)
         return Response(serializer.data)
+
+
+class ActiveUsersViewSet(ListAPIView):
+    serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        return models.User.objects.filter(
+            last_login__gte=timezone.now().astimezone() - timezone.timedelta(days=30)
+        )

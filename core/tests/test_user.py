@@ -1,4 +1,5 @@
 from django import test
+from django.utils import timezone
 
 from core import models
 from core.tests import factories
@@ -110,3 +111,14 @@ class UserTestCase(BaseTestCase):
         self.client.force_login(self.super_admin)
         response = self.client.get("/api/users/roles/")
         self.assertEqual(len(response.json()), len(models.Role.choices))
+
+    def test_list_active_users(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get("/api/users/active_users/")
+
+        users = models.User.objects.filter(
+            last_login__gte=timezone.now().date() - timezone.timedelta(days=30)
+        ).count()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), users)

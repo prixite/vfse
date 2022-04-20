@@ -86,7 +86,8 @@ class DashboardView(APIView):
                 "online_system_count": online_systems,
                 "offline_system_count": systems - online_systems,
                 "last_month_logged_in_user": core_models.User.objects.filter(
-                    last_login__gte=timezone.now().date() - timezone.timedelta(days=30)
+                    last_login__gte=timezone.now().astimezone()
+                    - timezone.timedelta(days=30)
                 ).count(),
             }
         )

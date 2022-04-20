@@ -1433,6 +1433,28 @@
             },
             "parameters": []
         },
+        "/users/active_users/": {
+            "get": {
+                "operationId": "users_active_users_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
         "/users/deactivate/": {
             "patch": {
                 "operationId": "users_deactivate_partial_update",
