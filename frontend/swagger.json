@@ -2100,6 +2100,41 @@
                     "type": "string"
                 }
             ]
+        },
+        "/vfse/topics/{id}/follow/": {
+            "patch": {
+                "operationId": "vfse_topics_follow_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FollowUnfollow"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/FollowUnfollow"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         }
     },
     "definitions": {
@@ -3826,6 +3861,19 @@
                     "title": "Comment",
                     "type": "string",
                     "minLength": 1
+                }
+            }
+        },
+        "FollowUnfollow": {
+            "description": "",
+            "required": [
+                "follow"
+            ],
+            "type": "object",
+            "properties": {
+                "follow": {
+                    "title": "Follow",
+                    "type": "boolean"
                 }
             }
         }
