@@ -95,6 +95,13 @@ class DashboardView(APIView):
         return Response(serializer.data)
 
 
+class WorkOrderViewset(ModelViewSet):
+    serializer_class = serializers.WorkOrderSerializer
+
+    def get_queryset(self):
+        return models.WorkOrder.objects.all()
+
+
 class FollowtopicViewset(ModelViewSet):
     serializer_class = serializers.FollowUnfollowSerializer
 

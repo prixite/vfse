@@ -65,3 +65,14 @@ class RecentActivity(models.Model):
     user = models.ForeignKey("core.User", on_delete=models.CASCADE)
     action = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class WorkOrder:
+    system = models.ForeignKey("core.System", on_delete=models.CASCADE)
+    description = models.TextField()
+    work_started = models.BooleanField(default=False)
+    work_started_at = models.DateTimeField()
+    work_completed = models.BooleanField(default=False)
+    work_completed_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
