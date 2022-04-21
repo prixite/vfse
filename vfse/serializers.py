@@ -113,6 +113,8 @@ class RecentActivitySerializer(serializers.ModelSerializer):
 
 
 class WorkOrderSerializer(serializers.ModelSerializer):
+    system = core_serializers.SystemMetaSerializer()
+
     class Meta:
         model = models.WorkOrder
         fields = ["system", "description", "work_started", "work_completed"]

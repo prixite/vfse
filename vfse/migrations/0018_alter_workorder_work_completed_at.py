@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vfse', '0017_alter_topic_image'),
+        ("vfse", "0017_alter_topic_image"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='workorder',
-            name='work_completed_at',
+            model_name="workorder",
+            name="work_completed_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

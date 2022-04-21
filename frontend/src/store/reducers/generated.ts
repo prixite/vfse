@@ -1471,8 +1471,12 @@ export type RecentActivity = {
   action: string;
   created_at?: string;
 };
+export type System2 = {
+  name: string;
+  image_url?: string;
+};
 export type WorkOrder = {
-  system: number;
+  system: System2;
   description: string;
   work_started?: boolean;
   work_completed?: boolean;

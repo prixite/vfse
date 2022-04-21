@@ -675,3 +675,11 @@ class ProfileMetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ["name", "image"]
+
+
+class SystemMetaSerializer(serializers.ModelSerializer):
+    image_url = serializers.ReadOnlyField()
+
+    class Meta:
+        model = models.System
+        fields = ["name", "image_url"]

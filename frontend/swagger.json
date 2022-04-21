@@ -4024,6 +4024,27 @@
                 }
             }
         },
+        "SystemMeta": {
+            "title": "System",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "image_url": {
+                    "title": "Image url",
+                    "type": "string",
+                    "readOnly": true
+                }
+            }
+        },
         "WorkOrder": {
             "description": "WorkOrder(id, system, description, work_started, work_started_at, work_completed, work_completed_at, created_at, updated_at)",
             "required": [
@@ -4033,8 +4054,7 @@
             "type": "object",
             "properties": {
                 "system": {
-                    "title": "System",
-                    "type": "integer"
+                    "$ref": "#/definitions/SystemMeta"
                 },
                 "description": {
                     "title": "Description",
