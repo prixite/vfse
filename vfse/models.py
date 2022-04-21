@@ -76,6 +76,6 @@ class WorkOrder(models.Model):
     work_started = models.BooleanField(default=False)
     work_started_at = models.DateTimeField()
     work_completed = models.BooleanField(default=False)
-    work_completed_at = models.DateTimeField()
+    work_completed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
