@@ -690,6 +690,34 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.followUnfollow,
       }),
     }),
+    vfseUserActivityList: build.query<
+      VfseUserActivityListApiResponse,
+      VfseUserActivityListApiArg
+    >({
+      query: () => ({ url: `/vfse/user/activity/` }),
+    }),
+    vfseWorkordersList: build.query<
+      VfseWorkordersListApiResponse,
+      VfseWorkordersListApiArg
+    >({
+      query: () => ({ url: `/vfse/workorders/` }),
+    }),
+    vfseWorkordersCreate: build.mutation<
+      VfseWorkordersCreateApiResponse,
+      VfseWorkordersCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/workorders/`,
+        method: "POST",
+        body: queryArg.workOrder,
+      }),
+    }),
+    vfseWorkordersRead: build.query<
+      VfseWorkordersReadApiResponse,
+      VfseWorkordersReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/workorders/${queryArg.id}/` }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -1060,6 +1088,19 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
   id: string;
   followUnfollow: FollowUnfollow;
 };
+export type VfseUserActivityListApiResponse =
+  /** status 200  */ RecentActivity[];
+export type VfseUserActivityListApiArg = void;
+export type VfseWorkordersListApiResponse = /** status 200  */ WorkOrder[];
+export type VfseWorkordersListApiArg = void;
+export type VfseWorkordersCreateApiResponse = /** status 201  */ WorkOrder;
+export type VfseWorkordersCreateApiArg = {
+  workOrder: WorkOrder;
+};
+export type VfseWorkordersReadApiResponse = /** status 200  */ WorkOrder;
+export type VfseWorkordersReadApiArg = {
+  id: string;
+};
 export type Meta = {
   profile_picture: string;
   title?: string;
@@ -1415,6 +1456,19 @@ export type Comment = {
 export type FollowUnfollow = {
   follow: boolean;
 };
+export type RecentActivity = {
+  id?: number;
+  user: number;
+  topic: number;
+  action: string;
+  created_at?: string;
+};
+export type WorkOrder = {
+  system: number;
+  description: string;
+  work_started?: boolean;
+  work_completed?: boolean;
+};
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
@@ -1497,4 +1551,8 @@ export const {
   useVfseTopicsCommentsListQuery,
   useVfseTopicsCommentsCreateMutation,
   useVfseTopicsFollowPartialUpdateMutation,
+  useVfseUserActivityListQuery,
+  useVfseWorkordersListQuery,
+  useVfseWorkordersCreateMutation,
+  useVfseWorkordersReadQuery,
 } = injectedRtkApi;
