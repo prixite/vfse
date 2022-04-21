@@ -2135,6 +2135,101 @@
                     "type": "string"
                 }
             ]
+        },
+        "/vfse/user/activity/": {
+            "get": {
+                "operationId": "vfse_user_activity_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/RecentActivity"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
+        "/vfse/workorders/": {
+            "get": {
+                "operationId": "vfse_workorders_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/WorkOrder"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_workorders_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WorkOrder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/WorkOrder"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
+        "/vfse/workorders/{id}/": {
+            "get": {
+                "operationId": "vfse_workorders_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/WorkOrder"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
         }
     },
     "definitions": {
@@ -3809,9 +3904,9 @@
                 "image": {
                     "title": "Image",
                     "type": "string",
-                    "readOnly": true,
-                    "x-nullable": true,
-                    "format": "uri"
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
                 },
                 "categories": {
                     "type": "array",
@@ -3873,6 +3968,69 @@
             "properties": {
                 "follow": {
                     "title": "Follow",
+                    "type": "boolean"
+                }
+            }
+        },
+        "RecentActivity": {
+            "description": "RecentActivity(id, user, topic, action, created_at)",
+            "required": [
+                "user",
+                "topic",
+                "action"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "user": {
+                    "title": "User",
+                    "type": "integer"
+                },
+                "topic": {
+                    "title": "Topic",
+                    "type": "integer"
+                },
+                "action": {
+                    "title": "Action",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "created_at": {
+                    "title": "Created at",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
+                }
+            }
+        },
+        "WorkOrder": {
+            "description": "WorkOrder(id, system, description, work_started, work_started_at, work_completed, work_completed_at, created_at, updated_at)",
+            "required": [
+                "system",
+                "description"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                },
+                "description": {
+                    "title": "Description",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "work_started": {
+                    "title": "Work started",
+                    "type": "boolean"
+                },
+                "work_completed": {
+                    "title": "Work completed",
                     "type": "boolean"
                 }
             }

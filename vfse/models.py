@@ -45,7 +45,7 @@ class Topic(models.Model):
     followers = models.ManyToManyField(
         "core.User", related_name="followed_topics", blank=True
     )
-    image = models.ImageField(null=True, blank=True)
+    image = models.URLField(null=True, blank=True)
     reply_email_notification = models.BooleanField(default=False)
     categories = models.ManyToManyField("Category", related_name="topics", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

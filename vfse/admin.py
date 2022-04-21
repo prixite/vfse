@@ -31,3 +31,8 @@ class TopicAdmin(admin.ModelAdmin):
 @admin.register(models.RecentActivity)
 class RecentActivityAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(models.WorkOrder)
+class WorkOrderAdmin(admin.ModelAdmin):
+    pass
