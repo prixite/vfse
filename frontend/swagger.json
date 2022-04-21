@@ -1315,6 +1315,22 @@
             },
             "parameters": []
         },
+        "/systems/influxdb/": {
+            "get": {
+                "operationId": "systems_influxdb_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "systems"
+                ]
+            },
+            "parameters": []
+        },
         "/systems/{id}/notes/": {
             "get": {
                 "operationId": "systems_notes_list",

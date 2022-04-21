@@ -764,3 +764,10 @@ class ActiveUsersViewSet(ListAPIView):
         return models.User.objects.filter(
             last_login__gte=timezone.now().astimezone() - timezone.timedelta(days=30)
         )
+
+
+class SystemInfluxView(APIView):
+    def get(self, request):
+        ip_address = request.query_params.get("ip_address")
+        data = utils.get_data_from_influxdb(ip_address)
+        return Response({"data": data})

@@ -247,6 +247,7 @@ api_urlpatterns = [
             }
         ),
     ),
+    path("api/systems/influxdb/", api.SystemInfluxView.as_view()),
     path(
         "api/systems/<int:pk>/notes/",
         api.SystemNoteViewSet.as_view(

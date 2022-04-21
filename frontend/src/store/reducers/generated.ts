@@ -415,6 +415,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.systemImage,
       }),
     }),
+    systemsInfluxdbList: build.query<
+      SystemsInfluxdbListApiResponse,
+      SystemsInfluxdbListApiArg
+    >({
+      query: () => ({ url: `/systems/influxdb/` }),
+    }),
     systemsNotesList: build.query<
       SystemsNotesListApiResponse,
       SystemsNotesListApiArg
@@ -924,6 +930,8 @@ export type SystemsImagesCreateApiResponse = /** status 201  */ SystemImage;
 export type SystemsImagesCreateApiArg = {
   systemImage: SystemImage;
 };
+export type SystemsInfluxdbListApiResponse = unknown;
+export type SystemsInfluxdbListApiArg = void;
 export type SystemsNotesListApiResponse = /** status 200  */ SystemNotes[];
 export type SystemsNotesListApiArg = {
   id: string;
@@ -1464,6 +1472,7 @@ export const {
   useScopeUsersCreateMutation,
   useSystemsImagesListQuery,
   useSystemsImagesCreateMutation,
+  useSystemsInfluxdbListQuery,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
   useSystemsChatbotListQuery,
