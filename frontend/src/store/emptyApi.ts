@@ -5,6 +5,9 @@ import {
   Document,
   Folder,
   FolderDetail,
+  VfseTopicsListApiResponse,
+  VfseTopicsCreateApiResponse,
+  VfseTopicsCreateApiArg,
   WorkOrder
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, WorkOrderResponse } from "@src/types/interfaces";
@@ -19,8 +22,39 @@ export const emptySplitApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Favorite", "Article", "Category", "Folder"],
+  tagTypes: ["Favorite", "Article", "Category", "Folder", "Topics"],
   endpoints: (builder) => ({
+    //TODO
+    // getTopics: builder.query<VfseTopicsListApiResponse, any>({
+    //   query: ({ title, description }) => ({
+    //     url: `/vfse/topics/${title}/`,
+    //     method: "get"
+    //   }),
+    //   providesTags: ["Topics"],
+    // }),
+    updateTopics: builder.mutation<
+      VfseTopicsListApiResponse,
+      { title: string; description: string }
+    >({
+      query: ({ title, description }) => ({
+        url: `/vfse/topics/`,
+        method: "post",
+        body: { title: title, description: description },
+      }),
+      invalidatesTags: ["Topics"],
+    }),
+
+    addTopic: builder.mutation<
+      VfseTopicsCreateApiResponse,
+      VfseTopicsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/`,
+        method: "POST",
+        body: queryArg.topic,
+      }),
+    }),
+
     postChatBot: builder.mutation<
       ChatBotResponse,
       { sysId: number; query: string }
