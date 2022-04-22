@@ -1,38 +1,31 @@
 import { Box } from "@mui/material";
-
 import "@src/components/common/smart/workOrderSection/workOrderSection.scss";
+import { useParams, Link } from "react-router-dom";
+
 import WorkOrderCell from "@src/components/common/presentational/workOrderCell/WorkOrderCell";
-import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
-import { mobileWidth } from "@src/helpers/utils/config";
+import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 
-const { workOrders, seeAll } = localizedData().Faq;
-
 const WorkOrderSection = () => {
-  const [browserWidth] = useWindowSize();
+  const { organizationRoute } = constants;
+  const { id } = useParams<{ id?: string }>();
+  const { workOrders } = localizedData().Faq;
   return (
     <>
-      {browserWidth > mobileWidth ? (
-        <Box component="div" className="WorkOrderSection">
-          <div className="heading_section">
-            <h2 className="heading">{workOrders}</h2>
-            <h3 className="subheading">{seeAll}</h3>
-          </div>
-          <div className="WorkOrderSectionBottom">
-            <WorkOrderCell />
-          </div>
-        </Box>
-      ) : (
-        <Box component="div" className="mobileWorkOrderSection">
-          <div className="heading_section">
-            <h2 className="heading">{workOrders}</h2>
-            <h3 className="subheading">{seeAll}</h3>
-          </div>
-          <div className="WorkOrderSectionBottom">
-            <WorkOrderCell />
-          </div>
-        </Box>
-      )}
+      <Box component="div" className="WorkOrderSection">
+        <div className="heading_section">
+          <h2 className="heading">{workOrders}</h2>
+          <Link
+            className="subheading"
+            to={`/${organizationRoute}/${id}/systems/`}
+          >
+            See All
+          </Link>
+        </div>
+        <div className="WorkOrderSectionBottom">
+          <WorkOrderCell />
+        </div>
+      </Box>
     </>
   );
 };

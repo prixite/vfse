@@ -6,3 +6,11 @@ export interface ApiError {
 export interface ChatBotResponse {
   response_text: string;
 }
+//we also need system name and image in workOrderApi Response
+export interface WorkOrderResponse {
+  id: number;
+  system: number;
+  description: string;
+  work_started?: boolean;
+  work_completed?: boolean;
+}
