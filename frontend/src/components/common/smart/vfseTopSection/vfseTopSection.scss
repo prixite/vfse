@@ -1,7 +1,11 @@
 .rootSection {
   display: flex;
   align-items: center;
-  // justify-content: space-between;
+  justify-content: space-between;
+  width: 100%;
+  .css-1o6k2p0 .MuiTextField-root {
+    width: unset;
+  }
   .create-topic-btn {
     .AddTopicsbtn {
       .btn-content {
