@@ -5,8 +5,9 @@ import {
   Document,
   Folder,
   FolderDetail,
+  WorkOrder
 } from "@src/store/reducers/generated";
-import { ChatBotResponse } from "@src/types/interfaces";
+import { ChatBotResponse, WorkOrderResponse } from "@src/types/interfaces";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
@@ -145,6 +146,12 @@ export const emptySplitApi = createApi({
         method: "delete",
       }),
       invalidatesTags: ["Folder"],
+    }),
+    getWorkOrders: builder.query<WorkOrder[], void>({
+      query: () => ({ url: "/vfse/workorders/", method: "get" }),
+    }),
+    getDashboardList: builder.query<unknown, void>({
+      query: () => ({ url: `/vfse/dashboard/` }),
     }),
   }),
 });
