@@ -1941,7 +1941,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Topic"
+                                "$ref": "#/definitions/TopicDetail"
                             }
                         }
                     }
@@ -2008,7 +2008,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/Topic"
+                            "$ref": "#/definitions/TopicDetail"
                         }
                     }
                 },
@@ -3861,23 +3861,128 @@
             }
         },
         "ProfileMeta": {
+            "title": "User",
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
-            "required": [
-                "name",
-                "image"
-            ],
             "type": "object",
             "properties": {
                 "name": {
                     "title": "Name",
                     "type": "string",
+                    "readOnly": true,
                     "minLength": 1
                 },
                 "image": {
                     "title": "Image",
                     "type": "string",
                     "format": "uri",
+                    "readOnly": true,
                     "minLength": 1
+                }
+            }
+        },
+        "TopicCategory": {
+            "description": "Category(id, name, color)",
+            "required": [
+                "name",
+                "folders"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 1
+                },
+                "color": {
+                    "title": "Color",
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 1
+                },
+                "folders": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                }
+            }
+        },
+        "TopicDetail": {
+            "description": "Topic(id, user, title, description, image, reply_email_notification, created_at, updated_at)",
+            "required": [
+                "title",
+                "description",
+                "categories"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "user": {
+                    "$ref": "#/definitions/ProfileMeta"
+                },
+                "title": {
+                    "title": "Title",
+                    "type": "string",
+                    "maxLength": 500,
+                    "minLength": 1
+                },
+                "description": {
+                    "title": "Description",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "followers": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ProfileMeta"
+                    },
+                    "readOnly": true
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "maxLength": 200,
+                    "x-nullable": true
+                },
+                "categories": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/TopicCategory"
+                    }
+                },
+                "reply_email_notification": {
+                    "title": "Reply email notification",
+                    "type": "boolean"
+                },
+                "number_of_followers": {
+                    "title": "Number of followers",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "number_of_comments": {
+                    "title": "Number of comments",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "created_at": {
+                    "title": "Created at",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
                 }
             }
         },
@@ -3943,6 +4048,12 @@
                 "number_of_comments": {
                     "title": "Number of comments",
                     "type": "integer",
+                    "readOnly": true
+                },
+                "created_at": {
+                    "title": "Created at",
+                    "type": "string",
+                    "format": "date-time",
                     "readOnly": true
                 }
             }

@@ -54,6 +54,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "color", "folders"]
 
 
+class TopicCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Category
+        fields = ["id", "name", "color", "folders"]
+
+
 class TopicDefault:
     requires_context = True
 
@@ -96,7 +102,13 @@ class TopicSerializer(serializers.ModelSerializer):
             "reply_email_notification",
             "number_of_followers",
             "number_of_comments",
+            "created_at",
         ]
+
+
+class TopicDetailSerializer(TopicSerializer):
+    categories = TopicCategorySerializer(many=True)
+    user = core_serializers.ProfileMetaSerializer(read_only=True)
 
 
 class DashboardSerializer(serializers.Serializer):

@@ -8,9 +8,9 @@ import {
   VfseTopicsListApiResponse,
   VfseTopicsCreateApiResponse,
   VfseTopicsCreateApiArg,
-  WorkOrder
+  WorkOrder,
 } from "@src/store/reducers/generated";
-import { ChatBotResponse, WorkOrderResponse } from "@src/types/interfaces";
+import { ChatBotResponse } from "@src/types/interfaces";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
