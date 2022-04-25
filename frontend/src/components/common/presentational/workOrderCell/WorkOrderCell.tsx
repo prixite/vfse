@@ -98,11 +98,14 @@ export default function WorkOrderCell() {
         <Box component="div" className="systems">
           {!isSystemsLoading ? (
             systemsData.length ? (
-              systemsData.slice(0, 5).map((system , key) => (
+              systemsData.slice(0, 5).map((system, key) => (
                 <div className="root_section" key={key}>
                   <div className="img_section">
                     <div className="img_div">
-                      <img src={system?.system?.image_url} className="imgStyling" />
+                      <img
+                        src={system?.system?.image_url}
+                        className="imgStyling"
+                      />
                     </div>
                     <div className="detail_section">
                       <div className="title">{system?.system?.name}</div>

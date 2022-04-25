@@ -58,6 +58,11 @@ class TopicViewset(ModelViewSet):
     serializer_class = serializers.TopicSerializer
     filterset_class = filters.TopicFilterSet
 
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return serializers.TopicDetailSerializer
+        return super().get_serializer_class()
+
     def get_queryset(self):
         return models.Topic.objects.all().annotate(
             number_of_followers=Count("followers"), number_of_comments=Count("comments")

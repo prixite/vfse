@@ -1057,7 +1057,7 @@ export type VfseFoldersDeleteApiResponse = unknown;
 export type VfseFoldersDeleteApiArg = {
   id: string;
 };
-export type VfseTopicsListApiResponse = /** status 200  */ Topic[];
+export type VfseTopicsListApiResponse = /** status 200  */ TopicDetail[];
 export type VfseTopicsListApiArg = {
   followed?: string;
   created?: string;
@@ -1068,7 +1068,7 @@ export type VfseTopicsCreateApiArg = {
 };
 export type VfseTopicsPopularListApiResponse = /** status 200  */ Topic[];
 export type VfseTopicsPopularListApiArg = void;
-export type VfseTopicsReadApiResponse = /** status 200  */ Topic;
+export type VfseTopicsReadApiResponse = /** status 200  */ TopicDetail;
 export type VfseTopicsReadApiArg = {
   id: string;
 };
@@ -1439,21 +1439,41 @@ export type FolderDetail = {
   categories: number[];
   documents: Document[];
 };
-export type ProfileMeta = {
+export type User2 = {
+  name?: string;
+  image?: string;
+};
+export type TopicCategory = {
+  id?: number;
   name: string;
-  image: string;
+  color?: string;
+  folders: number[];
+};
+export type TopicDetail = {
+  id?: number;
+  user?: User2;
+  title: string;
+  description: string;
+  followers?: User2[];
+  image?: string | null;
+  categories: TopicCategory[];
+  reply_email_notification?: boolean;
+  number_of_followers?: number;
+  number_of_comments?: number;
+  created_at?: string;
 };
 export type Topic = {
   id?: number;
   user?: number;
   title: string;
   description: string;
-  followers?: ProfileMeta[];
+  followers?: User2[];
   image?: string | null;
   categories?: number[];
   reply_email_notification?: boolean;
   number_of_followers?: number;
   number_of_comments?: number;
+  created_at?: string;
 };
 export type Comment = {
   id?: number;
