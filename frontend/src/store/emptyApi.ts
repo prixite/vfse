@@ -8,6 +8,9 @@ import {
   VfseTopicsListApiResponse,
   VfseTopicsCreateApiResponse,
   VfseTopicsCreateApiArg,
+  VfseTopicsListApiArg,
+  VfseTopicsReadApiResponse,
+  VfseTopicsReadApiArg,
   WorkOrder,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse } from "@src/types/interfaces";
@@ -53,6 +56,20 @@ export const emptySplitApi = createApi({
         method: "POST",
         body: queryArg.topic,
       }),
+    }),
+
+    getTopicsList: builder.query<
+      VfseTopicsListApiResponse,
+      VfseTopicsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/`,
+        params: { followed: queryArg.followed, created: queryArg.created },
+      }),
+    }),
+
+    getTopic: builder.query<VfseTopicsReadApiResponse, VfseTopicsReadApiArg>({
+      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/` }),
     }),
 
     postChatBot: builder.mutation<

@@ -1,9 +1,5 @@
-import { useState } from "react";
-
 import { Box, Grid } from "@mui/material";
 import "@src/components/common/smart/profileTimeline/profileTimeline.scss";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import PropTypes from "prop-types";
 
 import allTopicsIcon from "@src/assets/svgs/alltopics.svg";
@@ -12,11 +8,7 @@ import createdIcon from "@src/assets/svgs/created.svg";
 import followedIcon from "@src/assets/svgs/followed.svg";
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
-import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
-import { mobileWidth } from "@src/helpers/utils/config";
-import { topicsTabs } from "@src/helpers/utils/constants";
-import userTimeLine from "@src/miragejs/mockApiHooks/userTimeLine";
-
+import { api } from "@src/store/reducers/api";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -44,155 +36,72 @@ TabPanel.propTypes = {
 };
 
 const ProfileTimeline = () => {
-  const [data, isLoading] = userTimeLine();
-  const [browserWidth] = useWindowSize();
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const { data: topicsList, isLoading } = api.useGetTopicsListQuery({});
   return (
     <>
-      {browserWidth > mobileWidth ? (
-        <>
-          {!isLoading ? (
-            <Box component="div" className="timeline_section">
-              <Grid container spacing={2}>
-                <Grid item xs={9}>
-                  {data.map((item, key) => (
-                    <Grid key={key} item xs={12}>
-                      <ProfileTimeLineCards
-                        key={item.message_text}
-                        cardText={item.card_text}
-                        cardTextTitle={item.card_text_title}
-                        messageText={item.message_text}
-                        followerText={item.followers_text}
-                        ultraImage={item.ultra_image}
-                        followerImage={item.follower_btn}
-                        messageImage={item.message_icon}
-                        followerProfiles={item.followers_icon}
-                        profileImage={item.profile_icon}
-                        userName={item.user_name}
-                        postTime={item.post_time}
-                        sampleImage={item.sample_icon}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-                <Grid item xs={3}>
-                  <div className="timelineLeft">
-                    <div className="allTopics">
-                      <Box component="div" className="card">
-                        <div className="allTopicsSelect">
-                          <div className="allTopicsHeading">
-                            <div className="allTopicImg">
-                              <img
-                                src={allTopicsIcon}
-                                className="imgStylingMessage"
-                              />
-                            </div>
-                            <div className="topicHeading">All topics</div>
-                          </div>
-                          <div className="tickImage">
-                            <img src={tickIcon} className="imgStylingMessage" />
-                          </div>
-                        </div>
-                        <div className="followedTopics">
-                          <div className="followedImg">
-                            <img
-                              src={followedIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="followeddHeading">
-                            Followed topics
-                          </div>
-                        </div>
-                        <div className="createTopics">
-                          <div className="createImg">
-                            <img
-                              src={createdIcon}
-                              className="imgStylingMessage"
-                            />
-                          </div>
-                          <div className="createTopicHading">
-                            Created topics
-                          </div>
-                        </div>
-                      </Box>
-                    </div>
-                  </div>
-                  <RecentActivity />
-                </Grid>
-              </Grid>
-            </Box>
-          ) : (
-            <p>Loading ...</p>
-          )}
-        </>
-      ) : (
-        <Box sx={{ width: "100%" }}>
-          <Box
-            sx={{ borderBottom: 1, borderColor: "divider", marginTop: "24px" }}
-          >
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-            >
-              {topicsTabs.map((tab: string, index: number) => {
-                return (
-                  <Tab
-                    key={index}
-                    label={tab}
-                    sx={{
-                      "&.Mui-selected": {
-                        color: "#0000FF",
-                      },
-                    }}
-                    className="tab-style"
-                  />
-                );
-              })}
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
+      <>
+        <Box component="div" className="timeline_section">
+          <Grid container spacing={2}>
             {!isLoading ? (
-              <Box component="div" className="timeline_section">
-                <Grid item xs={12}>
-                  {data.map((item, key) => (
-                    <Grid key={key} item xs={12}>
-                      <ProfileTimeLineCards
-                        key={item.message_text}
-                        cardText={item.card_text}
-                        cardTextTitle={item.card_text_title}
-                        messageText={item.message_text}
-                        followerText={item.followers_text}
-                        ultraImage={item.ultra_image}
-                        followerImage={item.follower_btn}
-                        messageImage={item.message_icon}
-                        followerProfiles={item.followers_icon}
-                        profileImage={item.profile_icon}
-                        userName={item.user_name}
-                        postTime={item.post_time}
-                        sampleImage={item.sample_icon}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              </Box>
+              <Grid item xs={9}>
+                {topicsList.map((item, key) => (
+                  <Grid key={key} item xs={12}>
+                    <ProfileTimeLineCards
+                      description={item?.description}
+                      title={item?.title}
+                      user={item?.user}
+                      image={item?.image}
+                      number_of_comments={item?.number_of_comments}
+                      number_of_followers={item?.number_of_followers}
+                      categories={item?.categories}
+                      followers={item?.followers}
+                      id={item?.id}
+                      reply_email_notification={item?.reply_email_notification}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
             ) : (
               <p>Loading ...</p>
             )}
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Item Three
-          </TabPanel>
+            <Grid item xs={3}>
+              <div className="timelineLeft">
+                <div className="allTopics">
+                  <Box component="div" className="card">
+                    <div className="allTopicsSelect">
+                      <div className="allTopicsHeading">
+                        <div className="allTopicImg">
+                          <img
+                            src={allTopicsIcon}
+                            className="imgStylingMessage"
+                          />
+                        </div>
+                        <div className="topicHeading">All topics</div>
+                      </div>
+                      <div className="tickImage">
+                        <img src={tickIcon} className="imgStylingMessage" />
+                      </div>
+                    </div>
+                    <div className="followedTopics">
+                      <div className="followedImg">
+                        <img src={followedIcon} className="imgStylingMessage" />
+                      </div>
+                      <div className="followeddHeading">Followed topics</div>
+                    </div>
+                    <div className="createTopics">
+                      <div className="createImg">
+                        <img src={createdIcon} className="imgStylingMessage" />
+                      </div>
+                      <div className="createTopicHading">Created topics</div>
+                    </div>
+                  </Box>
+                </div>
+              </div>
+              <RecentActivity />
+            </Grid>
+          </Grid>
         </Box>
-      )}
+      </>
     </>
   );
 };
