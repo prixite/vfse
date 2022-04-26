@@ -1,0 +1,56 @@
+.topicCommentSection {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  .commentActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .profileImage {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      overflow: hidden;
+      img {
+        object-fit: contain;
+        width: inherit;
+      }
+    }
+    .commentInput {
+      width: 75%;
+      font-family: unset !important;
+      &::before {
+        content: none;
+      }
+      &::after {
+        content: none;
+      }
+      .css-1x51dt5-MuiInputBase-input-MuiInput-input {
+        border: 1px solid rgba(0, 0, 0, 0.23);
+        height: unset;
+        line-height: 0;
+        padding: 12px;
+        border-radius: 8px;
+        &:focus {
+          border: 1px solid #773cbd;
+        }
+      }
+    }
+    .postBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #efe1ff;
+      border-radius: 6px;
+      overflow: hidden;
+      padding: unset;
+      line-height: 1;
+      padding: 14px 16px;
+      font-weight: 600;
+      color: #773cbd;
+      text-transform: unset;
+      font-family: unset;
+    }
+  }
+}
