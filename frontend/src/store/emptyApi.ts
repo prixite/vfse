@@ -9,6 +9,8 @@ import {
   VfseTopicsCreateApiResponse,
   VfseTopicsCreateApiArg,
   WorkOrder,
+  VfseTopicsPopularListApiResponse,
+  VfseTopicsPopularListApiArg,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse } from "@src/types/interfaces";
 
@@ -24,14 +26,26 @@ export const emptySplitApi = createApi({
   }),
   tagTypes: ["Favorite", "Article", "Category", "Folder", "Topics"],
   endpoints: (builder) => ({
-    //TODO
-    // getTopics: builder.query<VfseTopicsListApiResponse, any>({
-    //   query: ({ title, description }) => ({
-    //     url: `/vfse/topics/${title}/`,
+    // TODO
+    // getTopics: builder.query<VfseTopicsListApiResponse, void>({
+    //   query: () => ({
+    //     url: `/vfse/topics/`,
     //     method: "get"
     //   }),
     //   providesTags: ["Topics"],
     // }),
+
+    getPopularTopics: builder.query<
+      VfseTopicsPopularListApiResponse,
+      VfseTopicsPopularListApiArg
+    >({
+      query: () => ({
+        url: `/vfse/topics/popular/`,
+        method: "get",
+      }),
+      providesTags: ["Topics"],
+    }),
+
     updateTopics: builder.mutation<
       VfseTopicsListApiResponse,
       { title: string; description: string }
