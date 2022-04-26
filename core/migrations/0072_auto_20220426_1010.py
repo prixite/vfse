@@ -7,7 +7,7 @@ from django.db import migrations
 def chatbot_initial_content(apps, schema_editor):
     System = apps.get_model("core", "System")
     with open(os.getcwd() + "/core/openapi/data/content.txt") as f:
-        prompt = f.readlines()[0]
+        prompt = f.read()
 
     for system in System.objects.all():
         system.chatbot_content = prompt
