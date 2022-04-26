@@ -114,6 +114,19 @@
       line-height: 24px;
     }
   }
+  .categoriesTags {
+    margin-top: 15px;
+    display: flex;
+    .tag {
+      padding: 7px;
+      background: #efe1ff;
+      border-radius: 6px;
+      margin-right: 8px;
+      color: #773cbd;
+      font-weight: 600;
+      font-size: 12px;
+    }
+  }
 }
 
 @media only screen and (max-width: 480px) {

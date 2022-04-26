@@ -54,6 +54,7 @@ const ProfileTimelineCards = ({
                 </div>
               </div>
             </div>
+
             {categories?.length ? (
               <div className="categoriesTags">
                 {categories.map((category, index) => (
@@ -65,11 +66,16 @@ const ProfileTimelineCards = ({
             ) : (
               ""
             )}
+
             <div className="card_title">{title}</div>
             <div className="card_detail">{description}</div>
-            <div className="card_image">
-              <img src={image} className="postImage" />
-            </div>
+            {image?.length ? (
+              <div className="card_image">
+                <img src={image} className="postImage" />
+              </div>
+            ) : (
+              ""
+            )}
             <div className="card_footer">
               <div className="profile_side">
                 <div className="followerText">{`${number_of_followers} followers`}</div>

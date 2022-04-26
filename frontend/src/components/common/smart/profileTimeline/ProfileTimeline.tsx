@@ -44,7 +44,7 @@ const ProfileTimeline = () => {
           <Grid container spacing={2}>
             {!isLoading ? (
               <Grid item xs={9}>
-                {topicsList.map((item, key) => (
+                {topicsList?.map((item, key) => (
                   <Grid key={key} item xs={12}>
                     <ProfileTimeLineCards
                       description={item?.description}
