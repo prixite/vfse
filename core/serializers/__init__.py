@@ -674,7 +674,7 @@ class ProfileMetaSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ["name", "image"]
+        fields = ["id", "name", "image"]
 
 
 class SystemMetaSerializer(serializers.ModelSerializer):

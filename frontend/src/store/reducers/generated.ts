@@ -1066,7 +1066,7 @@ export type VfseTopicsCreateApiResponse = /** status 201  */ Topic;
 export type VfseTopicsCreateApiArg = {
   topic: Topic;
 };
-export type VfseTopicsPopularListApiResponse = /** status 200  */ Topic[];
+export type VfseTopicsPopularListApiResponse = /** status 200  */ TopicDetail[];
 export type VfseTopicsPopularListApiArg = void;
 export type VfseTopicsReadApiResponse = /** status 200  */ TopicDetail;
 export type VfseTopicsReadApiArg = {
@@ -1440,6 +1440,7 @@ export type FolderDetail = {
   documents: Document[];
 };
 export type User2 = {
+  id?: number;
   name?: string;
   image?: string;
 };

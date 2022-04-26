@@ -70,7 +70,7 @@ class TopicViewset(ModelViewSet):
 
 
 class PopularTopicsViewset(ModelViewSet):
-    serializer_class = serializers.TopicSerializer
+    serializer_class = serializers.TopicDetailSerializer
 
     def get_queryset(self):
         return (
