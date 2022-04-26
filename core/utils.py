@@ -1,5 +1,3 @@
-import os
-
 import openai
 from django.conf import settings
 from influxdb_client import InfluxDBClient
@@ -7,10 +5,8 @@ from influxdb_client import InfluxDBClient
 from core import models
 
 
-def get_chat_bot_response(question, system_id):
+def get_chat_bot_response(question, prompt):
     openai.api_key = settings.OPENAI_API_KEY
-    with open(os.getcwd() + "/core/openapi/data/content.txt") as f:
-        prompt = f.readlines()[0]
     if not question:
         return "please enter some text to get response"
     query = prompt + question

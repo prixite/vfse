@@ -468,6 +468,7 @@ class System(models.Model):
     serial_number = models.CharField(max_length=32, blank=True, null=True)
     location_in_building = models.CharField(max_length=32, blank=True, null=True)
     system_contact_info = models.TextField(max_length=256, blank=True, null=True)
+    chatbot_content = models.TextField(null=True, blank=True)
     connection_monitoring = models.BooleanField(default=False)
     grafana_link = models.URLField(null=True, blank=True)
     system_option = models.TextField(blank=True, null=True)
