@@ -50,7 +50,7 @@ export const emptySplitApi = createApi({
         url: `/vfse/topics/popular/`,
         method: "get",
       }),
-      providesTags: ["Topics"],
+      providesTags: ["Favorite"],
     }),
 
     updateTopics: builder.mutation<
@@ -62,7 +62,7 @@ export const emptySplitApi = createApi({
         method: "post",
         body: { title: title, description: description },
       }),
-      invalidatesTags: ["Topics"],
+      invalidatesTags: ["Topics", "Favorite"],
     }),
 
     addTopic: builder.mutation<
@@ -74,6 +74,7 @@ export const emptySplitApi = createApi({
         method: "POST",
         body: queryArg.topic,
       }),
+      invalidatesTags: ["Topics", "Favorite"],
     }),
 
     getTopicsList: builder.query<
