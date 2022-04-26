@@ -26,12 +26,13 @@ from core.views import mixins
 class ChatBotView(APIView):
     def get(self, request, system_id=None, format=None):
         message = {"Message": "Welcome to GPT3 ChatBot API"}
-
         return Response(message)
 
     def post(self, request, system_id=None, format=None):
         query = request.data.get("query", None)
-        answer = utils.get_chat_bot_response(query, system_id)
+        answer = utils.get_chat_bot_response(
+            query, models.System.objects.get(id=system_id).chatbot_content
+        )
         response = {
             "response_text": answer,
         }
@@ -569,7 +570,6 @@ class UserActivateViewSet(ModelViewSet):
 
 
 class ModalityViewSet(ModelViewSet):
-
     serializer_class = serializers.ModalitySerializer
     authentication_classes = [SessionAuthentication, TokenAuthentication]
 
