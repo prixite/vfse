@@ -26,7 +26,12 @@ const ArticleDocumentation = lazy(
       /* webpackChunkName: "ArticleDocumentation" */ "@src/views/articleDocumentation/ArticleDocumentation"
     )
 );
-
+const TopicView = lazy(
+  async () =>
+    import(
+      /* webpackChunkName: "FolderView" */ "@src/views/topicView/TopicView"
+    )
+);
 const FolderView = lazy(
   async () =>
     import(
@@ -176,6 +181,15 @@ const RoutesHOC = ({ isLoading }: Props) => {
             render={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <CategoryDetailView />
+              </Suspense>
+            )}
+            exact
+          />
+          <Route
+            path={`/${organizationRoute}/:id/forum/topic/:topicId`}
+            render={() => (
+              <Suspense fallback={<p>Loading...</p>}>
+                <TopicView />
               </Suspense>
             )}
             exact
