@@ -14,6 +14,10 @@ import {
   WorkOrder,
   VfseTopicsPopularListApiResponse,
   VfseTopicsPopularListApiArg,
+  VfseTopicsCommentsCreateApiResponse,
+  VfseTopicsCommentsCreateApiArg,
+  VfseTopicsCommentsListApiResponse,
+  VfseTopicsCommentsListApiArg,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse } from "@src/types/interfaces";
 
@@ -27,7 +31,7 @@ export const emptySplitApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Favorite", "Article", "Category", "Folder", "Topics"],
+  tagTypes: ["Favorite", "Article", "Category", "Folder", "Topics", "Comment"],
   endpoints: (builder) => ({
     // TODO
     // getTopics: builder.query<VfseTopicsListApiResponse, void>({
@@ -217,6 +221,28 @@ export const emptySplitApi = createApi({
     }),
     getDashboardList: builder.query<unknown, void>({
       query: () => ({ url: `/vfse/dashboard/` }),
+    }),
+    postTopicComment: builder.mutation<
+      VfseTopicsCommentsCreateApiResponse,
+      VfseTopicsCommentsCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/comments/`,
+        method: "POST",
+        body: queryArg.comment,
+      }),
+      invalidatesTags: (result, error, queryArg) => [
+        { type: "Comment", id: `Comment-${queryArg?.id}` },
+      ],
+    }),
+    getTopicsCommentsList: builder.query<
+      VfseTopicsCommentsListApiResponse,
+      VfseTopicsCommentsListApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/comments/` }),
+      providesTags: (result, error, queryArg) => [
+        { type: "Comment", id: `Comment-${queryArg?.id}` },
+      ],
     }),
   }),
 });
