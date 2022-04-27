@@ -60,6 +60,15 @@ urlpatterns = [
         api.CommentViewset.as_view({"get": "list", "post": "create"}),
     ),
     path(
+        "comments/<int:pk>/replies/",
+        api.ReplyViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
+    path(
         "topics/",
         api.TopicViewset.as_view(
             {

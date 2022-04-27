@@ -54,6 +54,16 @@ class CommentViewset(ModelViewSet):
         return models.Comment.objects.filter(topic_id=self.kwargs["pk"])
 
 
+class ReplyViewSet(ModelViewSet):
+    serializer_class = serializers.CommentSerializer
+
+    def get_queryset(self):
+        return models.Comment.objects.filter(parent_id=self.kwargs["pk"])
+
+    def perform_create(self, serializer):
+        serializer.save(parent_id=self.kwargs["pk"])
+
+
 class TopicViewset(ModelViewSet):
     serializer_class = serializers.TopicSerializer
     filterset_class = filters.TopicFilterSet

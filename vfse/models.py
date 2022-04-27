@@ -59,6 +59,9 @@ class Comment(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey("core.User", on_delete=models.CASCADE)
     comment = models.TextField()
+    parent = models.ForeignKey(
+        "self", null=True, blank=True, on_delete=models.CASCADE, related_name="replies"
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
