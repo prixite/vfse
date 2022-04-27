@@ -526,6 +526,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.category,
       }),
     }),
+    vfseCommentsRepliesList: build.query<
+      VfseCommentsRepliesListApiResponse,
+      VfseCommentsRepliesListApiArg
+    >({
+      query: (queryArg) => ({ url: `/vfse/comments/${queryArg.id}/replies/` }),
+    }),
+    vfseCommentsRepliesCreate: build.mutation<
+      VfseCommentsRepliesCreateApiResponse,
+      VfseCommentsRepliesCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/comments/${queryArg.id}/replies/`,
+        method: "POST",
+        body: queryArg.comment,
+      }),
+    }),
     vfseDashboardList: build.query<
       VfseDashboardListApiResponse,
       VfseDashboardListApiArg
@@ -1012,6 +1028,15 @@ export type VfseCategoriesPartialUpdateApiArg = {
   id: string;
   category: Category;
 };
+export type VfseCommentsRepliesListApiResponse = /** status 200  */ Comment[];
+export type VfseCommentsRepliesListApiArg = {
+  id: string;
+};
+export type VfseCommentsRepliesCreateApiResponse = /** status 201  */ Comment;
+export type VfseCommentsRepliesCreateApiArg = {
+  id: string;
+  comment: Comment;
+};
 export type VfseDashboardListApiResponse = unknown;
 export type VfseDashboardListApiArg = void;
 export type VfseDocumentsListApiResponse = /** status 200  */ Document[];
@@ -1423,6 +1448,12 @@ export type Category = {
   color?: string;
   folders?: Folder[];
 };
+export type Comment = {
+  id?: number;
+  topic?: number;
+  user?: number;
+  comment: string;
+};
 export type Document = {
   id?: number;
   title: string;
@@ -1475,12 +1506,6 @@ export type Topic = {
   number_of_followers?: number;
   number_of_comments?: number;
   created_at?: string;
-};
-export type Comment = {
-  id?: number;
-  topic?: number;
-  user: number;
-  comment: string;
 };
 export type FollowUnfollow = {
   follow: boolean;
@@ -1565,6 +1590,8 @@ export const {
   useVfseCategoriesCreateMutation,
   useVfseCategoriesReadQuery,
   useVfseCategoriesPartialUpdateMutation,
+  useVfseCommentsRepliesListQuery,
+  useVfseCommentsRepliesCreateMutation,
   useVfseDashboardListQuery,
   useVfseDocumentsListQuery,
   useVfseDocumentsCreateMutation,

@@ -75,6 +75,11 @@ class CommentSerializer(serializers.ModelSerializer):
         queryset=models.Topic.objects.all(),
     )
 
+    user = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(),
+        queryset=core_models.User.objects.all(),
+    )
+
     class Meta:
         model = models.Comment
         fields = ["id", "topic", "user", "comment"]

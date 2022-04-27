@@ -1654,6 +1654,60 @@
                 }
             ]
         },
+        "/vfse/comments/{id}/replies/": {
+            "get": {
+                "operationId": "vfse_comments_replies_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Comment"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "post": {
+                "operationId": "vfse_comments_replies_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/Comment"
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
         "/vfse/dashboard/": {
             "get": {
                 "operationId": "vfse_dashboard_list",
@@ -2999,7 +3053,7 @@
         },
         "System": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
@@ -3234,7 +3288,7 @@
             }
         },
         "SystemAccess": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -3769,6 +3823,33 @@
                 }
             }
         },
+        "Comment": {
+            "description": "Comment(id, topic, user, comment, parent, created_at, updated_at)",
+            "required": [
+                "comment"
+            ],
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "topic": {
+                    "title": "Topic",
+                    "type": "integer"
+                },
+                "user": {
+                    "title": "User",
+                    "type": "integer"
+                },
+                "comment": {
+                    "title": "Comment",
+                    "type": "string",
+                    "minLength": 1
+                }
+            }
+        },
         "Document": {
             "description": "Document(id, folder, title, text, created_by, favorite, document_link, created_at, updated_at)",
             "required": [
@@ -4063,34 +4144,6 @@
                 }
             }
         },
-        "Comment": {
-            "description": "Comment(id, topic, user, comment, created_at, updated_at)",
-            "required": [
-                "user",
-                "comment"
-            ],
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "topic": {
-                    "title": "Topic",
-                    "type": "integer"
-                },
-                "user": {
-                    "title": "User",
-                    "type": "integer"
-                },
-                "comment": {
-                    "title": "Comment",
-                    "type": "string",
-                    "minLength": 1
-                }
-            }
-        },
         "FollowUnfollow": {
             "description": "",
             "required": [
@@ -4142,7 +4195,7 @@
         },
         "SystemMeta": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
