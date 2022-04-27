@@ -28,7 +28,6 @@ const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
                   numberOfComments={item?.number_of_comments}
                   numberOfFollowers={item?.number_of_followers}
                   categories={item?.categories}
-                  description={item?.description}
                   // image={item?.image}
                   // reply_email_notification={item?.reply_email_notification}
                   // followers={item?.followers}
