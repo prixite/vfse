@@ -1,14 +1,14 @@
+import {useState} from "react";
 import { Box, Grid } from "@mui/material";
 import "@src/components/common/smart/profileTimeline/profileTimeline.scss";
 import PropTypes from "prop-types";
 
-import allTopicsIcon from "@src/assets/svgs/alltopics.svg";
-import tickIcon from "@src/assets/svgs/coolicon.svg";
-import createdIcon from "@src/assets/svgs/created.svg";
-import followedIcon from "@src/assets/svgs/followed.svg";
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
+import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import { api } from "@src/store/reducers/api";
+import {VfseTopicsListApiArg} from "@src/store/reducers/generated";
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -36,7 +36,8 @@ TabPanel.propTypes = {
 };
 
 const ProfileTimeline = () => {
-  const { data: topicsList, isLoading } = api.useGetTopicsListQuery({});
+  const [topicListPayload,setTopicListPayload] = useState<VfseTopicsListApiArg>({});
+  const { data: topicsList, isLoading } = api.useGetTopicsListQuery(topicListPayload);
   return (
     <>
       <>
@@ -64,37 +65,11 @@ const ProfileTimeline = () => {
             ) : (
               <p>Loading ...</p>
             )}
+
             <Grid item xs={3}>
               <div className="timelineLeft">
                 <div className="allTopics">
-                  <Box component="div" className="card">
-                    <div className="allTopicsSelect">
-                      <div className="allTopicsHeading">
-                        <div className="allTopicImg">
-                          <img
-                            src={allTopicsIcon}
-                            className="imgStylingMessage"
-                          />
-                        </div>
-                        <div className="topicHeading">All topics</div>
-                      </div>
-                      <div className="tickImage">
-                        <img src={tickIcon} className="imgStylingMessage" />
-                      </div>
-                    </div>
-                    <div className="followedTopics">
-                      <div className="followedImg">
-                        <img src={followedIcon} className="imgStylingMessage" />
-                      </div>
-                      <div className="followeddHeading">Followed topics</div>
-                    </div>
-                    <div className="createTopics">
-                      <div className="createImg">
-                        <img src={createdIcon} className="imgStylingMessage" />
-                      </div>
-                      <div className="createTopicHading">Created topics</div>
-                    </div>
-                  </Box>
+                  <TopicToggler />
                 </div>
               </div>
               <RecentActivity />
