@@ -6,6 +6,10 @@ export interface ApiError {
 export interface ChatBotResponse {
   response_text: string;
 }
+export interface getTopicListArg {
+  followed?: boolean;
+  created?: boolean;
+}
 //we also need system name and image in workOrderApi Response
 export interface WorkOrderResponse {
   id: number;

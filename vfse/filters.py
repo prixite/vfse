@@ -24,4 +24,4 @@ class TopicFilterSet(filters.FilterSet):
         if not value:
             return models.Topic.objects.none()
 
-        return queryset.filter(user=self.request.user)
+        return queryset.filter(followers=self.request.user)

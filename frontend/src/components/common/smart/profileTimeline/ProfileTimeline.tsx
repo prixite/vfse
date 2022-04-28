@@ -1,4 +1,5 @@
-import {useState} from "react";
+import { useState } from "react";
+
 import { Box, Grid } from "@mui/material";
 import "@src/components/common/smart/profileTimeline/profileTimeline.scss";
 import PropTypes from "prop-types";
@@ -7,7 +8,7 @@ import ProfileTimeLineCards from "@src/components/common/presentational/profileT
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import { api } from "@src/store/reducers/api";
-import {VfseTopicsListApiArg} from "@src/store/reducers/generated";
+import { getTopicListArg } from "@src/types/interfaces";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,8 +37,9 @@ TabPanel.propTypes = {
 };
 
 const ProfileTimeline = () => {
-  const [topicListPayload,setTopicListPayload] = useState<VfseTopicsListApiArg>({});
-  const { data: topicsList, isLoading } = api.useGetTopicsListQuery(topicListPayload);
+  const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
+  const { data: topicsList, isLoading } =
+    api.useGetTopicsListQuery(topicListPayload);
   return (
     <>
       <>
@@ -69,7 +71,7 @@ const ProfileTimeline = () => {
             <Grid item xs={3}>
               <div className="timelineLeft">
                 <div className="allTopics">
-                  <TopicToggler />
+                  <TopicToggler setTopicListPayload={setTopicListPayload} />
                 </div>
               </div>
               <RecentActivity />
