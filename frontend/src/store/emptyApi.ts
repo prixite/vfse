@@ -8,7 +8,6 @@ import {
   VfseTopicsListApiResponse,
   VfseTopicsCreateApiResponse,
   VfseTopicsCreateApiArg,
-  VfseTopicsListApiArg,
   VfseTopicsReadApiResponse,
   VfseTopicsReadApiArg,
   WorkOrder,
@@ -19,7 +18,7 @@ import {
   VfseTopicsCommentsListApiResponse,
   VfseTopicsCommentsListApiArg,
 } from "@src/store/reducers/generated";
-import { ChatBotResponse } from "@src/types/interfaces";
+import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
@@ -77,10 +76,7 @@ export const emptySplitApi = createApi({
       invalidatesTags: ["Topics", "Favorite"],
     }),
 
-    getTopicsList: builder.query<
-      VfseTopicsListApiResponse,
-      VfseTopicsListApiArg
-    >({
+    getTopicsList: builder.query<VfseTopicsListApiResponse, getTopicListArg>({
       query: (queryArg) => ({
         url: `/vfse/topics/`,
         params: { followed: queryArg.followed, created: queryArg.created },
