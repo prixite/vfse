@@ -1,38 +1,36 @@
 import { Box } from "@mui/material";
 
 import "@src/components/common/presentational/lastActiveMobileCards/lastActiveMobileCards.scss";
+import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import { localizedData } from "@src/helpers/utils/language";
+import { User } from "@src/store/reducers/generated";
 
 const { healthNetwork, status } = localizedData().Faq;
 
 interface LastActiveMobileCards {
-  doc: {
-    user_name: string;
-    unionImage: string;
-    health_network: string;
-    status: string;
-  };
+  key: number;
+  doc: User;
 }
-const LastActiveMobileCards = ({ doc }: LastActiveMobileCards) => {
+const LastActiveMobileCards = ({ key, doc }: LastActiveMobileCards) => {
   return (
     <Box component="div" className="card-faq">
       <div className="userInfo">
-        <div className="userTitle">{doc?.user_name}</div>
+        <div className="userTitle">{`${doc?.first_name} ${doc?.last_name}`}</div>
         <div className="meuniImage">
-          <img src={doc?.unionImage} className="menuimgStyling" />
+          <img src={ThreeDots} className="menuimgStyling" />
         </div>
       </div>
       <div className="healthNetwork">
         <div className="networkName">{healthNetwork}</div>
-        <div className="networkValue">{doc?.health_network}</div>
+        <div className="networkValue">{doc?.health_networks[key]}</div>
       </div>
       <div className="userStatus">
         <div className="statusTitle">{status}</div>
         <div
           className="statusValue"
-          style={{ color: `${doc?.status ? "#6B7280" : "red"}` }}
+          style={{ color: `${doc?.is_active ? "#6B7280" : "red"}` }}
         >
-          {doc?.status ? "Active" : "Locked"}
+          {doc?.is_active ? "Active" : "Locked"}
         </div>
       </div>
     </Box>

@@ -1,20 +1,19 @@
-import { Box } from "@mui/material";
 import "@src/components/common/smart/lastActiveUser/lastActiveUser.scss";
+
+import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
-import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastActiveMobile/LastActiveMobile";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import useLastActiveUser from "@src/miragejs/mockApiHooks/useLastActiveUser";
+import { useUsersActiveUsersListQuery } from "@src/store/reducers/generated";
 
 const { lastActiveUser, seeAll } = localizedData().Faq;
 
 const LastActiveUser = () => {
-  const [data, isLoading] = useLastActiveUser();
   const [browserWidth] = useWindowSize();
-
+  const { data, isLoading } = useUsersActiveUsersListQuery();
   return (
     <>
       {browserWidth > mobileWidth ? (
@@ -49,7 +48,7 @@ const LastActiveUser = () => {
                             fontSize: "14px",
                           }}
                         >
-                          {cellValues.row.user_name}
+                          {`${cellValues.row.first_name} ${cellValues.row.last_name}`}
                         </span>
                       ),
                     },
@@ -60,18 +59,20 @@ const LastActiveUser = () => {
                       hide: false,
                       disableColumnMenu: true,
                       sortable: false,
-                      renderCell: (cellValues) => (
-                        <span
-                          style={{
-                            color: "#6B7280",
-                            fontWeight: "normal",
-                            fontStyle: "normal",
-                            fontSize: "14px",
-                          }}
-                        >
-                          {cellValues.row.health_network}
-                        </span>
-                      ),
+                      renderCell: (cellValues) =>
+                        cellValues.row.health_networks?.map((name, index) => (
+                          <span
+                            key={index}
+                            style={{
+                              color: "#6B7280",
+                              fontWeight: "normal",
+                              fontStyle: "normal",
+                              fontSize: "14px",
+                            }}
+                          >
+                            {name}
+                          </span>
+                        )),
                     },
                     {
                       field: "STATUS",
@@ -89,26 +90,7 @@ const LastActiveUser = () => {
                             fontSize: "14px",
                           }}
                         >
-                          {cellValues.row.status ? "Active" : "Locked"}
-                        </div>
-                      ),
-                    },
-                    {
-                      field: "Actions",
-                      disableColumnMenu: true,
-                      headerAlign: "center",
-                      align: "center",
-                      sortable: false,
-                      width: 85,
-                      renderCell: () => (
-                        <div
-                          style={{
-                            cursor: "pointer",
-                            padding: "10px",
-                            marginLeft: "auto",
-                          }}
-                        >
-                          <img src={ThreeDots} />
+                          {cellValues.row.is_active ? "Active" : "Locked"}
                         </div>
                       ),
                     },
