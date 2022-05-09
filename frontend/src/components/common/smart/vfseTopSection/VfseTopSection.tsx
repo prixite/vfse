@@ -156,7 +156,9 @@ export default function VfseTopSection({ setOpen }: Props) {
           >
             <div className="btn-content">
               <AddIcon />
-              <span>{btnCreateTopic}</span>
+              <span style={{ display: "inline-block", paddingTop: "3px" }}>
+                {btnCreateTopic}
+              </span>
             </div>
           </Button>
         </div>

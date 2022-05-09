@@ -10,7 +10,12 @@
     .AddTopicsbtn {
       .btn-content {
         display: flex;
-        height: 27px;
+        align-items: center;
+        justify-content: center;
+        width: 190px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
       }
     }
   }
