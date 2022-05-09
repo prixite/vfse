@@ -1,3 +1,4 @@
+from core.tests import factories as core_factories
 from vfse import models
 from vfse.tests import factories
 from vfse.tests.base import BaseTestCase
@@ -89,3 +90,24 @@ class VfseTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.document.refresh_from_db()
         self.assertEqual(self.document.text, new_text)
+
+    def test_follow_unfollow_topic(self):
+        follower = core_factories.UserFactory()
+        self.client.force_login(follower)
+
+        response = self.client.patch(
+            f"/api/vfse/topics/{self.topic.id}/follow/", data={"follow": True}
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            models.Topic.objects.filter(id=self.topic.id, followers=follower).exists()
+        )
+
+        response = self.client.patch(
+            f"/api/vfse/topics/{self.topic.id}/follow/", data={"follow": False}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(
+            models.Topic.objects.filter(id=self.topic.id, followers=follower).exists()
+        )

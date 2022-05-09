@@ -136,8 +136,13 @@ class FollowtopicViewset(ModelViewSet):
     def get_queryset(self):
         return models.Topic.objects.all()
 
-    def perform_update(self, serializer):
+    def update(self, request, *args, **kwargs):
+        # TODO: Revisit. Ideally we should not be override update function.
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         if serializer.validated_data["follow"]:
             self.get_object().followers.add(self.request.user)
         else:
             self.get_object().followers.remove(self.request.user)
+
+        return Response(serializer.validated_data)
