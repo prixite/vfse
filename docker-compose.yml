@@ -2,18 +2,14 @@ version: "3.4"
 
 services:
   db:
-    image: postgres:13.4
-    env_file:
-      - ./docker/env.db
+    extends:
+      file: docker-compose.base.yml
+      service: db
 
   app:
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-    env_file:
-      - ./docker/env.db
-      - ./.env
-    container_name: vfse
+    extends:
+      file: docker-compose.base.yml
+      service: app
     ports:
       - "8000:8000"
       - "3000:3000"
@@ -23,18 +19,15 @@ services:
       - db
 
   ping:
-    image: vfse_app
-    env_file:
-      - ./docker/env.db
-      - ./.env
-    command: bash -c "python manage.py ping"
+    extends:
+      file: docker-compose.base.yml
+      service: ping
     depends_on:
       - app
 
   ssh:
-    image: vfse_app
-    command: bash -c "python run.py --port=8888"
-    ports:
-      - "8888:8888"
+    extends:
+      file: docker-compose.base.yml
+      service: ssh
     depends_on:
       - app

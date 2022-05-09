@@ -1,0 +1,42 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    container_name: vfse
+
+  prod_app:
+    extends:
+      service: app
+    build:
+      context: .
+      dockerfile: ./docker/prod.Dockerfile
+    command: ./docker/scripts/run-gunicorn
+
+  ping:
+    image: vfse_app
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    command: bash -c "python manage.py ping"
+
+  nginx:
+    build: ./nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+
+  db:
+    image: postgres:13.4
+    env_file:
+      - ./docker/env.db
+
+  ssh:
+    image: vfse_app
+    command: bash -c "python run.py --port=8888"
+    ports:
+      - "8888:8888"

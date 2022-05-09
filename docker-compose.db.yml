@@ -2,31 +2,24 @@ version: "3.4"
 
 services:
   db:
-    image: postgres:13.4
-    env_file:
-      - ./docker/env.db
+    extends:
+      file: docker-compose.base.yml
+      service: db
 
   app:
-    build:
-      context: .
-      dockerfile: ./docker/prod.Dockerfile
-    env_file:
-      - ./docker/env.db
-      - ./.env
-    container_name: vfse
+    extends:
+      file: docker-compose.base.yml
+      service: prod_app
     volumes:
-      - static_volume:/opt/code/static
-      - shm:/dev/shm
-    command: ./docker/scripts/run-gunicorn
+        - static_volume:/opt/code/static
+        - shm:/dev/shm
     depends_on:
       - db
 
   nginx:
-    build: ./nginx
-    restart: always
-    ports:
-      - 80:80
-      - 443:443
+    extends:
+      file: docker-compose.base.yml
+      service: nginx
     volumes:
       - static_volume:/opt/code/static
       - shm:/dev/shm
@@ -34,11 +27,9 @@ services:
       - app
 
   ping:
-    image: vfse_app
-    env_file:
-      - ./docker/env.db
-      - ./.env
-    command: bash -c "python manage.py ping"
+    extends:
+      file: docker-compose.base.yml
+      service: ping
     depends_on:
       - app
 
