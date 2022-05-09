@@ -132,6 +132,21 @@
             }
           }
         }
+        .follow {
+          height: 32px;
+          box-shadow: unset;
+          padding: 4px 16px;
+          text-transform: unset;
+          width: 25%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .text {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+          }
+        }
       }
       .info {
         display: flex;

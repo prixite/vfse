@@ -209,6 +209,7 @@ export function makeServer({ environment }) {
     },
     routes() {
       this.namespace = "/";
+      this.logging = false;
       this.get("/api/mockusers", () => {
         return users;
       });

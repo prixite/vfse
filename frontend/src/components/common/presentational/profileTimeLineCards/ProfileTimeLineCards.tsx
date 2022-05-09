@@ -1,11 +1,19 @@
-import { Box } from "@mui/material";
+import { useEffect, useState } from "react";
+
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import { Box, Button } from "@mui/material";
 import { useHistory } from "react-router-dom";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import "@src/components/common/presentational/profileTimeLineCards/profileTimelineCards.scss";
-import { User2, TopicCategory } from "@src/store/reducers/generated";
+import {
+  User2,
+  TopicCategory,
+  useVfseTopicsFollowPartialUpdateMutation,
+} from "@src/store/reducers/generated";
 interface ProfileTimelineCards {
   id: number;
   title: string;
@@ -16,7 +24,7 @@ interface ProfileTimelineCards {
   user: User2;
   image?: string;
   categories: TopicCategory[];
-  followers?: unknown[];
+  followers?: User2[];
 }
 
 const ProfileTimelineCards = ({
@@ -28,10 +36,37 @@ const ProfileTimelineCards = ({
   user,
   image,
   categories,
+  followers,
 }: ProfileTimelineCards) => {
   const selectedOrganization = useSelectedOrganization();
   const { organizationRoute } = constants;
   const history = useHistory();
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
+  const [updateFollowUnfollowTopic] =
+    useVfseTopicsFollowPartialUpdateMutation();
+  const [isFollowing, setIsFollowing] = useState(
+    followers.some((follower) => follower?.id === me?.id)
+  );
+
+  const handleFollowToggler = () => {
+    setIsFollowing(!isFollowing);
+    updateFollowUnfollowTopic({
+      id: id.toString(),
+      followUnfollow: { follow: !isFollowing },
+    }).unwrap();
+  };
+
+  useEffect(() => {
+    setIsFollowing(followers.some((follower) => follower?.id === me?.id));
+  }, [followers]);
+
   return (
     <>
       <div className="timelineInfo">
@@ -53,6 +88,31 @@ const ProfileTimelineCards = ({
                   <div className="postTime">3 hours ago</div>
                 </div>
               </div>
+              {me?.id !== user?.id ? (
+                <Button
+                  variant="contained"
+                  className="follow"
+                  onClick={handleFollowToggler}
+                  style={{
+                    backgroundColor: `${isFollowing ? "#D3F887" : "#92d509"}`,
+                  }}
+                >
+                  {isFollowing ? (
+                    <>
+                      <DoneAllIcon
+                        style={{ color: "#568000", marginRight: "9px" }}
+                      />
+                      <p className="text" style={{ color: "#568000" }}>
+                        Following
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text">Follow</p>
+                  )}
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
 
             {categories?.length ? (
