@@ -13,3 +13,4 @@ class BaseTestCase(TestCase):
         self.category = factories.CategoryFactory()
         self.folder = factories.FolderFactory(categories=[self.category])
         self.document = factories.DocumentFactory(folder=self.folder)
+        self.topic = factories.TopicFactory(title="Test Topic", user=self.user)
