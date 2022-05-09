@@ -32,15 +32,6 @@ export const emptySplitApi = createApi({
   }),
   tagTypes: ["Favorite", "Article", "Category", "Folder", "Topics", "Comment"],
   endpoints: (builder) => ({
-    // TODO
-    // getTopics: builder.query<VfseTopicsListApiResponse, void>({
-    //   query: () => ({
-    //     url: `/vfse/topics/`,
-    //     method: "get"
-    //   }),
-    //   providesTags: ["Topics"],
-    // }),
-
     getPopularTopics: builder.query<
       VfseTopicsPopularListApiResponse,
       VfseTopicsPopularListApiArg
@@ -86,6 +77,10 @@ export const emptySplitApi = createApi({
 
     getTopic: builder.query<VfseTopicsReadApiResponse, VfseTopicsReadApiArg>({
       query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/` }),
+      providesTags: (result, error, queryArg) => [
+        { type: "Comment", id: `Comment-${queryArg?.id}` },
+        { type: "Topics" as const, id: `Topics-${queryArg.id}` },
+      ],
     }),
 
     postChatBot: builder.mutation<
@@ -231,6 +226,7 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: (result, error, queryArg) => [
         { type: "Comment", id: `Comment-${queryArg?.id}` },
+        "Topics",
       ],
     }),
     getTopicsCommentsList: builder.query<
