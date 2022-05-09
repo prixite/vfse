@@ -60,12 +60,12 @@ const ProfileTimeline = () => {
     }, 0);
   };
   useEffect(() => {
-    if (topicsList) {
+    if (topicsList && topicsList.length) {
       setPaginatedTopics([...topicsList.slice(0, 5)]);
       setSlicePointer(5);
-    }
-    if (topicsList.length <= 5) {
-      setHasMore(false);
+      if (topicsList.length <= 5) {
+        setHasMore(false);
+      }
     }
   }, [topicsList]);
   return (
