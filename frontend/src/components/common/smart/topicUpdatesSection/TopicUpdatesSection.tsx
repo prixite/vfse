@@ -11,7 +11,6 @@ interface TopicUpdatesSection {
 
 const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery();
-
   return (
     <>
       <Box component="div" className="topic_updates_section">
@@ -28,9 +27,9 @@ const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
                   numberOfComments={item?.number_of_comments}
                   numberOfFollowers={item?.number_of_followers}
                   categories={item?.categories}
-                  // image={item?.image}
-                  // reply_email_notification={item?.reply_email_notification}
-                  // followers={item?.followers}
+                  user={item?.user}
+                  followers={item?.followers}
+                  id={item?.id}
                 />
               </Grid>
             ))}

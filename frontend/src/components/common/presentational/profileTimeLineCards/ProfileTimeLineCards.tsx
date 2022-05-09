@@ -71,7 +71,16 @@ const ProfileTimelineCards = ({
     <>
       <div className="timelineInfo">
         <div className="timelineCards">
-          <Box component="div" className="card">
+          <Box
+            component="div"
+            className="card"
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              history.push(
+                `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
+              )
+            }
+          >
             <div className="card_header">
               <div className="userInfoWrapper">
                 <div className="topic_updates_imags">
@@ -140,14 +149,7 @@ const ProfileTimelineCards = ({
               <div className="profile_side">
                 <div className="followerText">{`${number_of_followers} followers`}</div>
               </div>
-              <div
-                className="message_side"
-                onClick={() =>
-                  history.push(
-                    `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
-                  )
-                }
-              >
+              <div className="message_side">
                 <div className="message_text_container">
                   <img src={messageIcon} className="imgStylingMessage" />
                 </div>
