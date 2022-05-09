@@ -116,8 +116,8 @@ class TopicActivityViewSet(ListAPIView):
 
     def get_queryset(self):
         return models.RecentActivity.objects.filter(
-            topic__in=Q(self.request.user.topics.all().values_list("id"))
-            | Q(self.request.user.followed_topics.all().values_list("id"))
+            Q(topic__in=self.request.user.topics.all().values_list("id"))
+            | Q(topic__in=self.request.user.followed_topics.all().values_list("id"))
         )
 
 
