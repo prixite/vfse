@@ -44,9 +44,13 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               )}
               <div className="card_title">{topic.title}</div>
               <div className="card_detail">{topic.description}</div>
-              <div className="card_image">
-                <img src={topic.image} className="postImage" />
-              </div>
+              {topic?.image ? (
+                <div className="card_image">
+                  <img src={topic.image} className="postImage" />
+                </div>
+              ) : (
+                ""
+              )}
               <div className="card_footer">
                 <div className="profile_side">
                   <div className="followerText">{`${topic.number_of_followers} followers`}</div>

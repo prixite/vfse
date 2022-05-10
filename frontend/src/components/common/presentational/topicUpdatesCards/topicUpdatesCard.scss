@@ -88,11 +88,13 @@
     }
     .follow {
       height: 32px;
-      width: 48%;
       box-shadow: unset;
-      background-color: #92d509 !important;
       padding: 4px 16px;
+      min-width: 136px;
       text-transform: unset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       .text {
         color: #fff;
         font-size: 16px;
