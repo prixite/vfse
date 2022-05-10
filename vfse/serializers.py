@@ -124,6 +124,8 @@ class DashboardSerializer(serializers.Serializer):
 
 
 class RecentActivitySerializer(serializers.ModelSerializer):
+    user = core_serializers.ProfileMetaSerializer(read_only=True)
+
     class Meta:
         model = models.RecentActivity
         fields = ["id", "user", "topic", "action", "created_at"]
