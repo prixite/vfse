@@ -9,8 +9,18 @@ class BaseTestCase(TestCase):
     def setUp(self):
         self.client = client.Client()
 
-        self.user = core_app_factories.UserWithPasswordFactory()
+        self.super_user = core_app_factories.UserWithPasswordFactory(is_superuser=True)
+        self.follower = core_app_factories.UserFactory()
+        self.topic_owner = core_app_factories.UserFactory()
         self.category = factories.CategoryFactory()
         self.folder = factories.FolderFactory(categories=[self.category])
         self.document = factories.DocumentFactory(folder=self.folder)
-        self.topic = factories.TopicFactory(title="Test Topic", user=self.user)
+        self.topic = factories.TopicFactory(
+            title="Test Topic",
+            user=self.topic_owner,
+            followers=[self.follower, self.topic_owner],
+        )
+
+        self.comment = factories.CommentFactory(
+            topic=self.topic, user=self.follower, comment="This is the first comment"
+        )

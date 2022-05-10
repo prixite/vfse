@@ -53,3 +53,16 @@ class DocumentFactory(factory.django.DjangoModelFactory):
 class TopicFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = models.Topic
+
+    @factory.post_generation
+    def followers(self, created, extracted, **kwargs):
+        if not created:
+            return
+
+        for user in extracted and extracted:
+            self.followers.add(user)
+
+
+class CommentFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.Comment

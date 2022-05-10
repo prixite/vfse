@@ -138,4 +138,4 @@ class WorkOrderSerializer(serializers.ModelSerializer):
 
 
 class FollowUnfollowSerializer(serializers.Serializer):
-    follow = serializers.BooleanField()
+    follow = serializers.BooleanField(write_only=True)
