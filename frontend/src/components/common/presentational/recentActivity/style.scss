@@ -10,6 +10,7 @@
   padding: 24px;
   .recentActivityTitle {
     display: flex;
+    align-items: center;
     .topicHeading {
       margin-left: 8px;
     }
@@ -50,5 +51,9 @@
     display: flex;
     justify-content: center;
     margin-top: 16px;
+  }
+  .imgStylingMessage {
+    height: 34px;
+    width: 40px;
   }
 }
