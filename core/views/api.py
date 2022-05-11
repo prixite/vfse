@@ -341,7 +341,6 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
                     )
                 )
             )
-
         return (
             queryset.select_related("site", "image", "product_model")
             if self.action != "partial_update"

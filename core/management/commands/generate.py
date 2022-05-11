@@ -58,6 +58,12 @@ class Command(BaseCommand):
         cryo_admin = factories.UserWithPasswordFactory(
             username="cryo-admin@example.com", profile__manager=customer_admin
         )
+
+        ssh_user = factories.UserWithPasswordFactory(
+            username="ssh-user@example.com",
+            profile__manager=super_user,
+            is_remote_user=True,
+        )
         users = [
             one_time_role,
             view_only,
@@ -98,7 +104,7 @@ class Command(BaseCommand):
             fse_admin_roles=[fse_admin],
             customer_admin_roles=[customer_admin],
             user_admin_roles=[user_admin],
-            fse_roles=[fse_role],
+            fse_roles=[fse_role, ssh_user],
             end_user_roles=[end_user_role],
             view_only_roles=[view_only],
             one_time_roles=[one_time_role],
@@ -112,7 +118,7 @@ class Command(BaseCommand):
             name="Health Network with Sites",
             organizations=[organization],
             site__name="sites with Systems",
-            users=users,
+            users=users + [ssh_user],
             site__users=users,
             site__system__users=users,
             site__system__product_model=product_model,
@@ -123,8 +129,23 @@ class Command(BaseCommand):
             name="Site with Systems",
             organization=health_network,
             system__connection_monitoring=True,
-            system__users=users,
+            system__users=users + [ssh_user],
+            users=users + [ssh_user],
         )
+
+        factories.SystemFactory(
+            name="Remote System",
+            site=site,
+            ip_address="173.230.135.166",
+            ssh_password="HsB7&Jf}>o",
+            users=[ssh_user],
+            connection_options={
+                "virtual_media_control": False,
+                "service_web_browser": False,
+                "ssh": True,
+            },
+        )
+
         # Crothal
         orgnization = factories.OrganizationFactory(
             name="Crothal",

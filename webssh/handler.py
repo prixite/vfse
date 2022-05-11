@@ -412,7 +412,6 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
             headers={"Authorization": f"Token {AUTH_TOKEN}"},
         )
         if response.status_code != 200:
-            print(response.status_code, response.json())
             raise InvalidValueError("Couldn't establish a connection")
 
         hostname = response.json()["ip_address"]

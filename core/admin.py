@@ -168,4 +168,8 @@ class ManufacturerImageAdmin(admin.ModelAdmin):
 
 admin.site.register(models.OrganizationHealthNetwork)
 admin.site.register(models.Documentation)
-admin.site.register(models.UserSystem)
+
+
+@admin.register(models.UserSystem)
+class UserSystemAdmin(admin.ModelAdmin):
+    list_display = ["user", "system"]
