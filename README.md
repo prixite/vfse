@@ -43,6 +43,12 @@ Run the frontend dev server
 
 Visit localhost:8000 to view the landing page.
 
+Run the SSH Service
+
+    python run.py --port=8888
+
+Create a token using Django Admin panel for user `ssh-user@example.com`, Copy the key to /webssh/.env/. Get intial file from /webssh/env.sample 
+
 ## Test users
 The `generate` command will generate the following users in the DB. Every user's password is admin.
 
