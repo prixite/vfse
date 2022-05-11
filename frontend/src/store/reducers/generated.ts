@@ -1512,7 +1512,7 @@ export type FollowUnfollow = {
 };
 export type RecentActivity = {
   id?: number;
-  user: number;
+  user?: User2;
   topic: number;
   action: string;
   created_at?: string;

@@ -4160,7 +4160,6 @@
         "RecentActivity": {
             "description": "RecentActivity(id, user, topic, action, created_at)",
             "required": [
-                "user",
                 "topic",
                 "action"
             ],
@@ -4172,8 +4171,7 @@
                     "readOnly": true
                 },
                 "user": {
-                    "title": "User",
-                    "type": "integer"
+                    "$ref": "#/definitions/ProfileMeta"
                 },
                 "topic": {
                     "title": "Topic",
