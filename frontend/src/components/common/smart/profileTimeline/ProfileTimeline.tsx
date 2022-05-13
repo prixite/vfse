@@ -86,9 +86,7 @@ const ProfileTimeline = () => {
                         textAlign: "center",
                         color: "#696f77",
                       }}
-                    >
-                      Loading...
-                    </h4>
+                    ></h4>
                   }
                 >
                   <Grid container xs={12} item style={{ marginTop: "0px" }}>
