@@ -170,38 +170,6 @@ export function makeServer({ environment }) {
     },
   ];
 
-  const recent_activities = [
-    {
-      id: 1,
-      name: "David Krager",
-      activity: "started following your activity",
-      time: "3 hours ago",
-    },
-    {
-      id: 2,
-      name: "David Krager",
-      activity: "commented on topic you follow",
-      time: "4 hours ago",
-    },
-    {
-      id: 3,
-      name: "David Degea",
-      activity: "commented on topic you follow",
-      time: "5 hours ago",
-    },
-    {
-      id: 4,
-      name: "David Degea",
-      activity: "commented on topic you follow",
-      time: "5 hours ago",
-    },
-    {
-      id: 5,
-      name: "David Degea",
-      activity: "commented on topic you follow",
-      time: "5 hours ago",
-    },
-  ];
   return createServer({
     environment,
     models: {
@@ -218,9 +186,6 @@ export function makeServer({ environment }) {
       });
       this.get("/api/mockuserposts", () => {
         return timeline_info;
-      });
-      this.get("/api/mockrecentactivity", () => {
-        return recent_activities;
       });
 
       this.passthrough("https://vfse.s3-us-east-2.amazonaws.com");
