@@ -1987,6 +1987,13 @@
                         "description": "",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
                     }
                 ],
                 "responses": {

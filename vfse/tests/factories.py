@@ -55,11 +55,11 @@ class TopicFactory(factory.django.DjangoModelFactory):
         model = models.Topic
 
     @factory.post_generation
-    def followers(self, created, extracted, **kwargs):
-        if not created:
+    def followers(self, create, extracted, **kwargs):
+        if not create:
             return
 
-        for user in extracted and extracted:
+        for user in extracted or []:
             self.followers.add(user)
 
 
