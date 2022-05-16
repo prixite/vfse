@@ -1560,7 +1560,15 @@
             "get": {
                 "operationId": "vfse_categories_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
