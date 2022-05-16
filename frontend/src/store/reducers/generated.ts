@@ -649,6 +649,7 @@ const injectedRtkApi = api.injectEndpoints({
           followed: queryArg.followed,
           created: queryArg.created,
           query: queryArg.query,
+          page: queryArg.page,
         },
       }),
     }),
@@ -1096,6 +1097,8 @@ export type VfseTopicsListApiArg = {
   followed?: string;
   created?: string;
   query?: string;
+  /** A page number within the paginated result set. */
+  page?: number;
 };
 export type VfseTopicsCreateApiResponse = /** status 201  */ Topic;
 export type VfseTopicsCreateApiArg = {
