@@ -498,7 +498,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseCategoriesListApiResponse,
       VfseCategoriesListApiArg
     >({
-      query: () => ({ url: `/vfse/categories/` }),
+      query: (queryArg) => ({
+        url: `/vfse/categories/`,
+        params: { name: queryArg.name },
+      }),
     }),
     vfseCategoriesCreate: build.mutation<
       VfseCategoriesCreateApiResponse,
@@ -1017,7 +1020,9 @@ export type UsersPartialUpdateApiArg = {
   upsertUser: UpsertUser;
 };
 export type VfseCategoriesListApiResponse = /** status 200  */ Category[];
-export type VfseCategoriesListApiArg = void;
+export type VfseCategoriesListApiArg = {
+  name?: string;
+};
 export type VfseCategoriesCreateApiResponse = /** status 201  */ Category;
 export type VfseCategoriesCreateApiArg = {
   category: Category;

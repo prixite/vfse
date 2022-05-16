@@ -35,3 +35,11 @@ class TopicFilterSet(filters.FilterSet):
         return queryset.filter(
             Q(title__icontains=value) | Q(description__icontains=value)
         )
+
+
+class CategoryFilterSet(filters.FilterSet):
+    name = filters.CharFilter(field_name="name", lookup_expr="icontains")
+
+    class Meta:
+        model = models.Category
+        fields = ["name"]

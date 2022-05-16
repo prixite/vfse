@@ -11,6 +11,7 @@ from vfse import filters, models, serializers
 
 class CategoryViewSet(ModelViewSet):
     serializer_class = serializers.CategorySerializer
+    filterset_class = filters.CategoryFilterSet
 
     def get_queryset(self):
         return models.Category.objects.all()
