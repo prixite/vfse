@@ -2002,6 +2002,13 @@
                         "description": "",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
