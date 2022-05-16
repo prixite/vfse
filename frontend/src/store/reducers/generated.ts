@@ -642,7 +642,11 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/vfse/topics/`,
-        params: { followed: queryArg.followed, created: queryArg.created },
+        params: {
+          followed: queryArg.followed,
+          created: queryArg.created,
+          query: queryArg.query,
+        },
       }),
     }),
     vfseTopicsCreate: build.mutation<
@@ -1086,6 +1090,7 @@ export type VfseTopicsListApiResponse = /** status 200  */ TopicDetail[];
 export type VfseTopicsListApiArg = {
   followed?: string;
   created?: string;
+  query?: string;
 };
 export type VfseTopicsCreateApiResponse = /** status 201  */ Topic;
 export type VfseTopicsCreateApiArg = {

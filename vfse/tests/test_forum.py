@@ -38,3 +38,20 @@ class TopicTestCase(BaseTestCase):
         self.assertEqual(
             response.json(), {}
         )  # TODO: what response should be returned ?
+
+    def test_topic_query(self):
+        self.client.force_login(self.super_user)
+        factories.TopicFactory(
+            title="Travelling to Space",
+            description="The project is to enable space travel for general public",
+            user=self.topic_owner,
+        )
+        # Topic Title search
+        response = self.client.get("/api/vfse/topics/?query=space")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+        # Topic Description search
+        response = self.client.get("/api/vfse/topics/?query=public")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
