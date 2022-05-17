@@ -5,7 +5,6 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-  ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -13,6 +12,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
+import MuiToggleButton from "@mui/material/ToggleButton";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -27,6 +28,7 @@ import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
 import { api } from "@src/store/reducers/api";
 import { Topic } from "@src/store/reducers/generated";
+
 window.Buffer = window.Buffer || Buffer;
 interface Props {
   open: boolean;
@@ -41,6 +43,15 @@ const validationSchema = yup.object({
   title: yup.string().required("Title is required"),
   description: yup.string().required("Description is required"),
 });
+
+const ToggleButton = styled(MuiToggleButton)(
+  ({ selectedColor }: { selectedColor?: string }) => ({
+    "&.Mui-selected, &.Mui-selected:hover": {
+      color: "white",
+      backgroundColor: selectedColor,
+    },
+  })
+);
 
 export default function TopicModal({ open, handleClose }: Props) {
   const [onChangeValidation, setOnChangeValidation] = useState(false);
@@ -180,6 +191,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                       key={index}
                       value={item.id}
                       className="toggle-btn"
+                      selectedColor={`${item?.color}`}
                     >
                       {item?.name}
                     </ToggleButton>
@@ -189,7 +201,6 @@ export default function TopicModal({ open, handleClose }: Props) {
             <div>
               <p className="info-label required">Image (optional)</p>
               <DropzoneBox
-                // imgSrc={userProfileImage}
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
                 isUploading={isImageUploading}
