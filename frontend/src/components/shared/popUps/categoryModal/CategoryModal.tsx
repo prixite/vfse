@@ -131,7 +131,7 @@ export default function CategoryModal({
               <Grid item xs={6}>
                 <div className="info-section">
                   <ColorPicker
-                    title={"ColorX"}
+                    title={"Color"}
                     color={formik.values.color}
                     onChange={changeColor}
                   />
