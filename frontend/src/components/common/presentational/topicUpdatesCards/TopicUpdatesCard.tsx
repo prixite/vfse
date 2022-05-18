@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
-
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
+import { useHistory } from "react-router-dom";
+
 import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
+import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
@@ -33,6 +35,8 @@ const TopicUpdatesCards = ({
   user,
   followers,
 }: TopicUpdatesCards) => {
+  const history = useHistory();
+  const { organizationRoute } = constants;
   const [isFollowing, setIsFollowing] = useState(
     followers.some((follower) => follower?.id === me?.id)
   );
@@ -47,19 +51,33 @@ const TopicUpdatesCards = ({
       skip: !selectedOrganization,
     }
   );
-  const handleFollowToggler = () => {
+  useEffect(() => {
+    setIsFollowing(followers.some((follower) => follower?.id === me?.id));
+  }, [followers]);
+
+  const handleFollowToggler = (event) => {
+    event.stopPropagation();
     setIsFollowing(!isFollowing);
     updateFollowUnfollowTopic({
       id: id.toString(),
       followUnfollow: { follow: !isFollowing },
     }).unwrap();
   };
-  useEffect(() => {
-    setIsFollowing(followers.some((follower) => follower?.id === me?.id));
-  }, [followers]);
+
+  const expandOnClick = () => {
+    history.push(
+      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
+    );
+  };
+
   return (
     <>
-      <Box component="div" className="TopicUpdatesCard">
+      <Box
+        component="div"
+        className="TopicUpdatesCard"
+        style={{ cursor: "pointer" }}
+        onClick={expandOnClick}
+      >
         <Box
           component="div"
           className="card_header"
@@ -98,22 +116,49 @@ const TopicUpdatesCards = ({
                   </p>
                 </>
               ) : (
-                <p className="text">Follow</p>
+                <p className="text"> Follow </p>
               )}
             </Button>
           ) : (
             ""
           )}
         </Box>
-        <div className="card_detail">{cardTitle}</div>
+        <div className="card_detail" style={{ cursor: "pointer" }}>
+          {cardTitle}
+        </div>
         <Box component="div" className="card_footer">
           <div className="profile_side">
-            <div className="follower_img_container">
-              <img src={followersIcon} className="imgStylingProfiles" />
+            <div
+              className="follower_img_container"
+              style={{ height: "32px", width: "39px" }}
+            >
+              {followers.length ? (
+                followers
+                  ?.slice(0, 3)
+                  ?.map((item, key) => (
+                    <img
+                      key={key}
+                      src={`${item?.image}`}
+                      className="imgStylingProfiles"
+                    />
+                  ))
+              ) : (
+                <img
+                  alt=""
+                  src={followersIcon}
+                  className="imgStylingProfiles"
+                />
+              )}
             </div>
-            <div className="followerText">{numberOfFollowers}</div>
+            {numberOfFollowers > 0 ? (
+              <div className="followerText">{numberOfFollowers}</div>
+            ) : (
+              <div className="followerText" style={{ paddingLeft: "35px" }}>
+                No Followers
+              </div>
+            )}
           </div>
-          <div className="message_side">
+          <div className="message_side" style={{ cursor: "pointer" }}>
             <div className="message_text_container">
               <img className="imgStylingMessage" src={messageIcon} />
             </div>
