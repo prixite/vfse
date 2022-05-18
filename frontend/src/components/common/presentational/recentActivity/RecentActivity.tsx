@@ -58,17 +58,11 @@ const RecentActivity = () => {
           ))
         : ""}
       <div className="pagtiondot" style={{ alignItems: "center" }}>
-        {userActivityList
-          .slice(0, Math.ceil(userActivityList?.length / 4))
-          .map((item, index) => (
-            <div
-              onChange={handlePagination}
-              key={item}
-              style={{ margin: "4px" }}
-            >
-              <input type="radio" value={index + 1} name="gender" />
-            </div>
-          ))}
+        {userActivityList.slice(0, 3).map((item, index) => (
+          <div onChange={handlePagination} key={item} style={{ margin: "4px" }}>
+            <input type="radio" value={index + 1} name="gender" />
+          </div>
+        ))}
       </div>
     </Box>
   );

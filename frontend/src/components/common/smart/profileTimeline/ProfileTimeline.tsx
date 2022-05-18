@@ -93,6 +93,7 @@ const ProfileTimeline = () => {
                     {paginatedTopics?.map((item, key) => (
                       <Grid key={key} item xs={12}>
                         <ProfileTimeLineCards
+                          id={item?.id}
                           description={item?.description}
                           title={item?.title}
                           user={item?.user}
@@ -101,7 +102,6 @@ const ProfileTimeline = () => {
                           number_of_followers={item?.number_of_followers}
                           categories={item?.categories}
                           followers={item?.followers}
-                          id={item?.id}
                           reply_email_notification={
                             item?.reply_email_notification
                           }

@@ -23,13 +23,13 @@ const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
             {popularTopicData.map((item, key) => (
               <Grid key={key} item lg={6} xl={3} md={4} sm={6} xs={12}>
                 <TopicUpdatesCards
+                  id={item?.id}
                   cardTitle={item?.title}
                   numberOfComments={item?.number_of_comments}
                   numberOfFollowers={item?.number_of_followers}
                   categories={item?.categories}
                   user={item?.user}
                   followers={item?.followers}
-                  id={item?.id}
                 />
               </Grid>
             ))}
