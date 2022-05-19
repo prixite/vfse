@@ -25,7 +25,7 @@ class FolderFactory(factory.django.DjangoModelFactory):
 
 
 class CategoryFactory(factory.django.DjangoModelFactory):
-    name = fake.unique.color()
+    name = fake.color_name()
 
     class Meta:
         model = models.Category
@@ -51,6 +51,9 @@ class DocumentFactory(factory.django.DjangoModelFactory):
 
 
 class TopicFactory(factory.django.DjangoModelFactory):
+    title = factory.Faker("job")
+    description = factory.Faker("paragraph")
+
     class Meta:
         model = models.Topic
 
@@ -62,7 +65,17 @@ class TopicFactory(factory.django.DjangoModelFactory):
         for user in extracted or []:
             self.followers.add(user)
 
+    @factory.post_generation
+    def categories(self, create, extracted, **kwargs):
+        if not create:
+            return
+
+        for category in extracted or []:
+            self.categories.add(category)
+
 
 class CommentFactory(factory.django.DjangoModelFactory):
+    comment = factory.Faker("paragraph")
+
     class Meta:
         model = models.Comment

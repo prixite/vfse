@@ -312,10 +312,10 @@ class Command(BaseCommand):
             ip_address="10.21.16.70", site=site, connection_monitoring=True
         )
 
-        category1 = vfse_factories.CategoryFactory()
-        category2 = vfse_factories.CategoryFactory()
-        category3 = vfse_factories.CategoryFactory()
-        category4 = vfse_factories.CategoryFactory()
+        category1 = vfse_factories.CategoryFactory(name="UltraSound")
+        category2 = vfse_factories.CategoryFactory(name="MRI")
+        category3 = vfse_factories.CategoryFactory(name="ECG")
+        category4 = vfse_factories.CategoryFactory(name="CT")
 
         folder = vfse_factories.FolderFactory(
             categories=[category1, category2, category3, category4]
@@ -331,5 +331,37 @@ class Command(BaseCommand):
         )
 
         vfse_factories.DocumentFactory.create_batch(10, folder=folder)
+
+        topic_1 = vfse_factories.TopicFactory(
+            user=super_user, followers=users[2:7], categories=[category1, category2]
+        )
+        topic_2 = vfse_factories.TopicFactory(
+            user=super_user, followers=users[1:4], categories=[category3]
+        )
+        topic_3 = vfse_factories.TopicFactory(
+            user=super_user, followers=users[3:7], categories=[category4]
+        )
+        topic_4 = vfse_factories.TopicFactory(
+            user=super_user, followers=users[4:6], categories=[category3, category2]
+        )
+        topic_5 = vfse_factories.TopicFactory(
+            user=customer_admin,
+            followers=users[2:7] + [super_user],
+            categories=[category1, category4],
+        )
+
+        vfse_factories.CommentFactory.create_batch(
+            size=3, topic=topic_1, user=fse_admin
+        )
+        vfse_factories.CommentFactory.create_batch(size=5, topic=topic_2, user=fse_role)
+        vfse_factories.CommentFactory.create_batch(
+            size=2, topic=topic_3, user=user_admin
+        )
+        vfse_factories.CommentFactory.create_batch(
+            size=6, topic=topic_4, user=customer_admin
+        )
+        vfse_factories.CommentFactory.create_batch(
+            size=4, topic=topic_5, user=fse_admin
+        )
 
         self.stdout.write(self.style.SUCCESS("Successfully generated data."))
