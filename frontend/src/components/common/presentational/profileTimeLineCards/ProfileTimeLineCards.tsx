@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import { useHistory } from "react-router-dom";
-
-import messageIcon from "@src/assets/svgs/message.svg";
+import messageIcon from "-!svg-react-loader!src/assets/svgs/message.svg";
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";

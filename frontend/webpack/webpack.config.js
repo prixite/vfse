@@ -36,7 +36,7 @@ module.exports = {
   },
   plugins: [
     new EnvironmentPlugin({
-      NODE_ENV: "development",
+      NODE_ENV: "production",
       REQUEST_TOKEN: "fake",
     }),
   ],
@@ -52,5 +52,5 @@ module.exports = {
     filename: "[name].bundle.js",
     clean: true,
   },
-  devtool: "source-map",
+  devtool: "inline-source-map",
 };

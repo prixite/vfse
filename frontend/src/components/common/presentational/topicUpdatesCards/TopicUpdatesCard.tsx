@@ -12,6 +12,7 @@ import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
   TopicCategory,
+  TopicFollowers,
   User2,
   useVfseTopicsFollowPartialUpdateMutation,
 } from "@src/store/reducers/generated";
@@ -23,7 +24,7 @@ interface TopicUpdatesCards {
   numberOfFollowers?: number;
   categories?: TopicCategory[]; //Update TypeScript!
   user: User2;
-  followers?: User2[];
+  followers?: TopicFollowers[];
 }
 
 const TopicUpdatesCards = ({
@@ -63,12 +64,18 @@ const TopicUpdatesCards = ({
       followUnfollow: { follow: !isFollowing },
     }).unwrap();
   };
+<<<<<<< HEAD
+  useEffect(() => {
+    setIsFollowing(followers.some((follower) => follower?.id === me?.id));
+  }, [followers]);
+=======
 
   const expandOnClick = () => {
     history.push(
       `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
     );
   };
+>>>>>>> dcaeaee2835d2e5bebcde178fff1a9dbf9de59b4
 
   return (
     <>
@@ -128,6 +135,18 @@ const TopicUpdatesCards = ({
         </div>
         <Box component="div" className="card_footer">
           <div className="profile_side">
+<<<<<<< HEAD
+            <div className="follower_img_container">
+              {followers?.map((item) => (
+                <img
+                  key={item.id}
+                  src={item.image}
+                  className="imgStylingProfiles"
+                />
+              ))}
+            </div>
+            <div className="followerText">{numberOfFollowers} followers</div>
+=======
             <div
               className="follower_img_container"
               style={{ height: "32px", width: "39px" }}
@@ -157,6 +176,7 @@ const TopicUpdatesCards = ({
                 No Followers
               </div>
             )}
+>>>>>>> dcaeaee2835d2e5bebcde178fff1a9dbf9de59b4
           </div>
           <div className="message_side" style={{ cursor: "pointer" }}>
             <div className="message_text_container">

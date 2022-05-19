@@ -359,7 +359,6 @@ const SystemSection = () => {
       return "";
     }
   };
-
   const createModalitySection = () => {
     return (
       <div style={{ width: "100%" }}>

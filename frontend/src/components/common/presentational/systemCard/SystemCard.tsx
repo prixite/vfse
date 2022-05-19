@@ -119,7 +119,7 @@ const SystemCard = ({
               }}
               className="connect-btn"
             >
-              {connect}
+              {connect} test
             </Button>
             {system?.grafana_link ? (
               <Button
