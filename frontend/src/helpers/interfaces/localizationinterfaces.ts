@@ -1,5 +1,6 @@
 export interface Common {
   searching: string;
+  Forum: string;
 }
 
 export interface PopUp {
@@ -315,6 +316,8 @@ export interface articleDescription {
 }
 
 export interface LocalizationInterface {
+  Faq: { dashboard: any; topicUpdates: any; seeAll: any };
+  Forum: { btnCreateTopic: any };
   common: Common;
   users: Users;
   user_menu_options: UserMenuOptions;

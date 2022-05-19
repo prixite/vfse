@@ -1,9 +1,6 @@
-// import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
 import { Box, Grid } from "@mui/material";
-
 import CountingInfoSection from "@src/components/common/smart/countingInfoSection/CountingInfoSection";
 import LastActiveUsers from "@src/components/common/smart/lastActiveUser/LastActiveUser";
-import TopicUpdatesSection from "@src/components/common/smart/topicUpdatesSection/TopicUpdatesSection";
 import WorkOrderSection from "@src/components/common/smart/workOrderSection/WorkOrderSection";
 import { localizedData } from "@src/helpers/utils/language";
 import "@src/components/common/smart/faqSection/faqSection.scss";
@@ -23,9 +20,7 @@ export default function FaqSection() {
             <LastActiveUsers />
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TopicUpdatesSection title={topicUpdates} seeAll={seeAll} />
-        </Grid>
+        <Grid item xs={12}></Grid>
       </Box>
     </div>
   );

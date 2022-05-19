@@ -61,6 +61,7 @@ const ModalitySection = () => {
       setItemsList(networksData);
     }
   }, [searchText, networksData]);
+
   return (
     <>
       <Box component="div" className="ModalitySection">
