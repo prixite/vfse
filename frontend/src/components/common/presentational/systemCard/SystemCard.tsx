@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { toast } from "react-toastify";
+
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
@@ -132,9 +133,7 @@ const SystemCard = ({
                   method: "POST",
                   mode: "cors",
                   body: data,
-                })
-                  .then((res) => res.json())
-                  .then((res) => console.log("res", res));
+                }).then((res) => res.json());
               }}
             >
               {connect} test

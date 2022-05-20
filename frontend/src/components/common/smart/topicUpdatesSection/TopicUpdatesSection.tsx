@@ -1,6 +1,5 @@
 import { Box, Grid } from "@mui/material";
 
-import "@src/components/common/smart/topicUpdatesSection/topicUpdatesSection.scss";
 import TopicUpdatesCards from "@src/components/common/presentational/topicUpdatesCards/TopicUpdatesCard";
 import { api } from "@src/store/reducers/api";
 

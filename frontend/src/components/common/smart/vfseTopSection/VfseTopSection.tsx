@@ -1,6 +1,6 @@
 // import CountingInfoCards from "@src/components/common/Presentational/CountingInfoCards/CountingInfoCards";
 import React, { useState, useMemo, useEffect } from "react";
-import debouce from "lodash.debounce";
+
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Grid, Button, InputAdornment, TextField } from "@mui/material";
@@ -8,10 +8,12 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import debouce from "lodash.debounce";
+
 import TopicUpdatesCards from "@src/components/common/presentational/topicUpdatesCards/TopicUpdatesCard";
-import { api } from "@src/store/reducers/api";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
+import { api } from "@src/store/reducers/api";
 import "@src/components/common/smart/vfseTopSection/vfseTopSection.scss";
 
 interface Props {
@@ -24,7 +26,6 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery();
   const [searchTerm, setSearchTerm] = useState("");
   const [listData, setListData] = useState([]);
-  const [sort, setSort] = useState("");
   const [filter, setFilter] = useState("");
   const [openSort, setOpenSort] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
@@ -43,8 +44,13 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
   useEffect(() => {
     if (searchTerm !== "") {
       setListData([
-        ...popularTopicData?.filter((topic) => {
-          return topic.title?.toLowerCase().includes(searchTerm.toLowerCase());
+        ...popularTopicData.filter((topic) => {
+          if (topic.title) {
+            return (
+              topic &&
+              topic.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+          }
         }),
       ]);
     } else {
@@ -133,7 +139,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
                 open={openSort}
                 onClose={handleClose}
                 onOpen={handleOpen}
-                value={sort}
+                // value={sort}
                 label="Sort"
                 onChange={handleChange}
               >
