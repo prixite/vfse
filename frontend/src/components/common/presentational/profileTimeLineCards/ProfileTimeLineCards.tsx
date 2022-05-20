@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
-import { useHistory } from "react-router-dom";
+
 import messageIcon from "@src/assets/svgs/message.svg";
-import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import "@src/components/common/presentational/profileTimeLineCards/profileTimelineCards.scss";
@@ -37,8 +37,6 @@ const ProfileTimelineCards = ({
   followers,
 }: ProfileTimelineCards) => {
   const selectedOrganization = useSelectedOrganization();
-  const { organizationRoute } = constants;
-  const history = useHistory();
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
