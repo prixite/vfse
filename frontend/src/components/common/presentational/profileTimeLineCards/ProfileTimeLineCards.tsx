@@ -53,8 +53,7 @@ const ProfileTimelineCards = ({
     followers.some((follower) => follower?.id === me?.id)
   );
 
-  const handleFollowToggler = (event) => {
-    event.stopPropagation();
+  const handleFollowToggler = () => {
     setIsFollowing(!isFollowing);
     updateFollowUnfollowTopic({
       id: id.toString(),
@@ -66,21 +65,11 @@ const ProfileTimelineCards = ({
     setIsFollowing(followers.some((follower) => follower?.id === me?.id));
   }, [followers]);
 
-  const expandOnClick = () => {
-    history.push(
-      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
-    );
-  };
   return (
     <>
       <div className="timelineInfo">
         <div className="timelineCards">
-          <Box
-            component="div"
-            className="card"
-            style={{ cursor: "pointer" }}
-            onClick={expandOnClick}
-          >
+          <Box component="div" className="card" style={{ cursor: "pointer" }}>
             <div className="card_header">
               <div className="userInfoWrapper">
                 <div className="topic_updates_imags">

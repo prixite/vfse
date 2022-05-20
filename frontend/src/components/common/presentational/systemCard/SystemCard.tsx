@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import { toast } from "react-toastify";
-
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
@@ -118,6 +117,25 @@ const SystemCard = ({
                 color: buttonTextColor,
               }}
               className="connect-btn"
+              onClick={() => {
+                const data = new FormData();
+                data.append("organization_id", "3");
+                data.append("system_id", "3");
+                data.append("port", "22");
+                data.append("username", "root");
+                data.append("term", "xterm-256color");
+                data.append(
+                  "_xsrf",
+                  "2|abbde9cf|03e7cb77009b22aa79d18d35a208eb26|165295229"
+                );
+                fetch("http://localhost:8888", {
+                  method: "POST",
+                  mode: "cors",
+                  body: data,
+                })
+                  .then((res) => res.json())
+                  .then((res) => console.log("res", res));
+              }}
             >
               {connect} test
             </Button>

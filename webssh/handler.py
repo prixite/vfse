@@ -331,6 +331,10 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
         self.font = self.settings.get("font", "")
         self.result = dict(id=None, status=None, encoding=None)
 
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "http://localhost:8000")
+        self.set_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+
     def write_error(self, status_code, **kwargs):
         if swallow_http_errors and self.request.method == "POST":
             exc_info = kwargs.get("exc_info")
@@ -548,6 +552,10 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
             self.result.update(id=worker.id, encoding=worker.encoding)
 
         self.write(self.result)
+
+    def options(self):
+        self.set_status(204)
+        self.finish()
 
 
 class WsockHandler(MixinHandler, tornado.websocket.WebSocketHandler):
