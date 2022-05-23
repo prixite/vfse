@@ -14,11 +14,16 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     "ProductModel",
     "Folder",
     "Topics",
+    "Favorite",
   ],
   endpoints: {
     vfseTopicsFollowPartialUpdate: {
       invalidatesTags: (result, error, { id }) => {
-        return [{ type: "Topics" as const, id: `Topics-${id}` }, "Topics"];
+        return [
+          { type: "Topics" as const, id: `Topics-${id}` },
+          "Topics",
+          "Favorite",
+        ];
       },
     },
     organizationsList: {
