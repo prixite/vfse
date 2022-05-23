@@ -70,62 +70,60 @@ const ProfileTimeline = () => {
   }, [topicsList]);
   return (
     <>
-      <>
-        <Box component="div" className="timeline_section">
-          <Grid container spacing={2}>
-            {!isLoading ? (
-              <Grid item xs={9}>
-                <InfiniteScroll
-                  dataLength={paginatedTopics.length}
-                  next={fetchMoreSection}
-                  hasMore={hasMore}
-                  loader={
-                    <h4
-                      style={{
-                        width: "100%",
-                        textAlign: "center",
-                        color: "#696f77",
-                      }}
-                    ></h4>
-                  }
-                >
-                  <Grid container xs={12} item style={{ marginTop: "0px" }}>
-                    {paginatedTopics?.map((item, key) => (
-                      <Grid key={key} item xs={12}>
-                        <ProfileTimeLineCards
-                          id={item?.id}
-                          description={item?.description}
-                          title={item?.title}
-                          user={item?.user}
-                          image={item?.image}
-                          number_of_comments={item?.number_of_comments}
-                          number_of_followers={item?.number_of_followers}
-                          categories={item?.categories}
-                          followers={item?.followers}
-                          reply_email_notification={
-                            item?.reply_email_notification
-                          }
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
-                </InfiniteScroll>
-              </Grid>
-            ) : (
-              <p>Loading ...</p>
-            )}
-
-            <Grid item xs={3}>
-              <div className="timelineLeft">
-                <div className="allTopics">
-                  <TopicToggler setTopicListPayload={setTopicListPayload} />
-                </div>
-              </div>
-              <RecentActivity />
+      <Box component="div" className="timeline_section">
+        <Grid container spacing={2}>
+          {!isLoading ? (
+            <Grid item xs={9}>
+              <InfiniteScroll
+                dataLength={paginatedTopics.length}
+                next={fetchMoreSection}
+                hasMore={hasMore}
+                loader={
+                  <h4
+                    style={{
+                      width: "100%",
+                      textAlign: "center",
+                      color: "#696f77",
+                    }}
+                  ></h4>
+                }
+              >
+                <Grid container xs={12} item style={{ marginTop: "0px" }}>
+                  {paginatedTopics?.map((item, key) => (
+                    <Grid key={key} item xs={12}>
+                      <ProfileTimeLineCards
+                        id={item?.id}
+                        description={item?.description}
+                        title={item?.title}
+                        user={item?.user}
+                        image={item?.image}
+                        number_of_comments={item?.number_of_comments}
+                        number_of_followers={item?.number_of_followers}
+                        categories={item?.categories}
+                        followers={item?.followers}
+                        reply_email_notification={
+                          item?.reply_email_notification
+                        }
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              </InfiniteScroll>
             </Grid>
+          ) : (
+            <p>Loading ...</p>
+          )}
+
+          <Grid item xs={3}>
+            <div className="timelineLeft">
+              <div className="allTopics">
+                <TopicToggler setTopicListPayload={setTopicListPayload} />
+              </div>
+            </div>
+            <RecentActivity />
           </Grid>
-        </Box>
-      </>
+        </Grid>
+      </Box>
     </>
   );
 };
