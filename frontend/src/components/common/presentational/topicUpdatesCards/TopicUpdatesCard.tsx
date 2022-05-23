@@ -12,9 +12,8 @@ import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
   TopicCategory,
-  TopicFollowers,
-  User2,
   useVfseTopicsFollowPartialUpdateMutation,
+  User2,
 } from "@src/store/reducers/generated";
 
 interface TopicUpdatesCards {
@@ -24,7 +23,7 @@ interface TopicUpdatesCards {
   numberOfFollowers?: number;
   categories?: TopicCategory[]; //Update TypeScript!
   user: User2;
-  followers?: TopicFollowers[];
+  followers?: User2[];
 }
 
 const TopicUpdatesCards = ({
@@ -64,9 +63,6 @@ const TopicUpdatesCards = ({
       followUnfollow: { follow: !isFollowing },
     }).unwrap();
   };
-  useEffect(() => {
-    setIsFollowing(followers.some((follower) => follower?.id === me?.id));
-  }, [followers]);
 
   const expandOnClick = () => {
     history.push(
@@ -153,14 +149,14 @@ const TopicUpdatesCards = ({
                   className="imgStylingProfiles"
                 />
               )}
-            </div>
-            {numberOfFollowers > 0 ? (
-              <div className="followerText">{numberOfFollowers}</div>
-            ) : (
-              <div className="followerText" style={{ paddingLeft: "35px" }}>
-                No Followers
+              <div className="followerText" style={{ marginTop: "5px" }}>
+                {numberOfFollowers > 0 ? (
+                  <p> {numberOfFollowers} </p>
+                ) : (
+                  <p>No Followers</p>
+                )}
               </div>
-            )}
+            </div>
           </div>
           <div className="message_side" style={{ cursor: "pointer" }}>
             <div className="message_text_container">
