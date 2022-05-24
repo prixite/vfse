@@ -153,14 +153,14 @@ const TopicUpdatesCards = ({
                   className="imgStylingProfiles"
                 />
               )}
-            </div>
-            {numberOfFollowers > 0 ? (
-              <div className="followerText">{numberOfFollowers}</div>
-            ) : (
-              <div className="followerText" style={{ paddingLeft: "35px" }}>
-                No Followers
+              <div className="followerText" style={{ marginTop: "5px" }}>
+                {numberOfFollowers > 0 ? (
+                  <p> {numberOfFollowers} </p>
+                ) : (
+                  <p>No Followers</p>
+                )}
               </div>
-            )}
+            </div>
           </div>
           <div className="message_side" style={{ cursor: "pointer" }}>
             <div className="message_text_container">
