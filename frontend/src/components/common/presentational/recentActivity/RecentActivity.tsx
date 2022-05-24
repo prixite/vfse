@@ -12,20 +12,22 @@ const RecentActivity = () => {
   const { data: userActivityList = [], isLoading } =
     useVfseUserActivityListQuery();
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
+  const [paginatedArr, setPaginatedArr] = useState([]);
 
-  const paginate = (array, pageSize, pageNumber) => {
-    return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+  const paginate = (array, pageSize = 4, pageNumber = 1) => {
+    const tempArr = JSON.parse(JSON.stringify(array))
+      .reverse()
+      .slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
+    setPaginatedArr(tempArr);
   };
-
-  const paginatedUserActivityList = paginate(userActivityList, 4, page);
 
   useEffect(() => {
     paginate(userActivityList, 4, page);
-  }, [page]);
+  }, [page, userActivityList]);
 
-  const handlePagination = (event) => {
-    const pageNumber = event.target.value;
+  const handlePagination = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const pageNumber: number = +event.target.value;
     setPage(pageNumber);
     paginate(userActivityList, 4, pageNumber);
   };
@@ -38,7 +40,7 @@ const RecentActivity = () => {
         <div className="topicHeading">Recent Activity</div>
       </div>
       {!isLoading
-        ? paginatedUserActivityList.map((item) => (
+        ? paginatedArr.slice(0, 4).map((item) => (
             <div className="userStatus" key={item?.id}>
               <div className="userImg">
                 <img
