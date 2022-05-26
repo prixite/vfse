@@ -17,9 +17,6 @@
   .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       .modal-header {
         font-weight: 600;
       }
@@ -37,6 +34,11 @@
         }
       }
     }
+  }
+  .title-cross {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
   .modal-content {
     display: flex;

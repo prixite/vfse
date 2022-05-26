@@ -275,6 +275,7 @@ export default function SideBar() {
               <ListItem
                 button
                 style={{ marginBottom: "0px", cursor: "initial" }}
+                onClick={toggleDrawer}
               >
                 <ListItemIcon
                   className="client-image"

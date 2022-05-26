@@ -383,7 +383,7 @@ export default function OrganizationModal({
   return (
     <Dialog className="organization-modal" open={open} onClose={resetModal}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {organization?.name ?? "Add Client"}
           </span>

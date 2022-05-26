@@ -128,7 +128,7 @@ export default function TopicModal({ open, handleClose }: Props) {
   return (
     <Dialog className="topic-modal" open={open} onClose={resetModal}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">Create Topic</span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />

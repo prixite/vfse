@@ -247,7 +247,7 @@ export default function NetworkModal(props: Props) {
   return (
     <Dialog className="network-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {props?.action === "edit"
               ? `Edit ${props?.organization?.name} Network`

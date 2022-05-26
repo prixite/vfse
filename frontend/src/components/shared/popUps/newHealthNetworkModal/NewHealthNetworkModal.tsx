@@ -45,7 +45,7 @@ export default function NewHealthNetwotkModal(props: Props) {
       onClose={props.handleClose}
     >
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {props.organization?.name ?? newHealthNetwork}
           </span>

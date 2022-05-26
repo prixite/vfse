@@ -73,7 +73,12 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
       <>
         <Box component="div" className="topic_updates_section">
           <div className="heading_section">
-            <h2 className="heading">{title}</h2>
+            <h2
+              className="heading"
+              style={{ marginTop: "23px", marginBottom: "23px" }}
+            >
+              {title}
+            </h2>
             <h3 className="subheading">{seeAll}</h3>
           </div>
           <Box component="div" className="cardsSection">
@@ -127,7 +132,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
     <>
       <Box className="rootSection">
         <Box component="div" style={{ display: "flex", width: "80%" }}>
-          <div>
+          <div style={{ marginRight: "5px" }}>
             <FormControl
               sx={{ m: 0, mr: 1, minWidth: 200, backgroundColor: "white" }}
               size="small"
@@ -152,7 +157,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
               </Select>
             </FormControl>
           </div>
-          <div>
+          <div style={{ marginRight: "5px" }}>
             <FormControl
               sx={{ m: 0, mr: 1, minWidth: 140, backgroundColor: "white" }}
               size="small"

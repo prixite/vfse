@@ -28,6 +28,11 @@
       }
     }
   }
+  .title-cross {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .MuiAutocomplete-hasPopupIcon.css-dd2h8b-MuiAutocomplete-root
     .MuiOutlinedInput-root {
     height: 48px;

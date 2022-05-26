@@ -87,7 +87,7 @@ export default function FolderModal({
   return (
     <Dialog className="folder-modal" open={open}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">Add Folder</span>
           <span className="dialog-page">
             <img

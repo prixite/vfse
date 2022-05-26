@@ -261,7 +261,7 @@ export default function DocumentModal({
   return (
     <Dialog className="document-modal" open={open} onClose={resetModal}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {action === "add" ? title : editTitle}
           </span>

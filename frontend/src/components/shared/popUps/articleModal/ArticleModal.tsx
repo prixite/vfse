@@ -156,7 +156,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   return (
     <Dialog className="article-modal" open={open}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">Add Article</span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
