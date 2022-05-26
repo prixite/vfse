@@ -12,3 +12,5 @@ requests/dist/
 .DS_Store
 Pipfile
 Pipfile.lock
+nginx/vfse.626.healthcare/cert.pem
+nginx/vfse.626.healthcare/key.pem
