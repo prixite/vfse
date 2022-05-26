@@ -196,7 +196,7 @@ export default function SiteModal(props: siteProps) {
   return (
     <Dialog className="site-modal" open={props?.open}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {props?.action == "add" ? "Add Site" : "Edit Site"}
           </span>

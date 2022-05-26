@@ -478,7 +478,7 @@ export default function UserModal(props: Props) {
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {!props?.selectedUser ? addNewUser : "Edit User"}
           </span>

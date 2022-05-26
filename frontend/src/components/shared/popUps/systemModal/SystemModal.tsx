@@ -387,7 +387,7 @@ export default function SystemModal(props: SystemProps) {
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
-        <div className="title-section">
+        <div className="title-section title-cross">
           <span className="modal-header">
             {props.system ? "Edit System" : "Add System"}
           </span>

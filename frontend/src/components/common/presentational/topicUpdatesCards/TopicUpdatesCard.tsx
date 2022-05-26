@@ -98,27 +98,29 @@ const TopicUpdatesCards = ({
           </div>
 
           {me?.id !== user?.id ? (
-            <Button
-              variant="contained"
-              className="follow"
-              onClick={handleFollowToggler}
-              style={{
-                backgroundColor: `${isFollowing ? "#D3F887" : "#92d509"}`,
-              }}
-            >
-              {isFollowing ? (
-                <>
-                  <DoneAllIcon
-                    style={{ color: "#568000", marginRight: "9px" }}
-                  />
-                  <p className="text" style={{ color: "#568000" }}>
-                    Following
-                  </p>
-                </>
-              ) : (
-                <p className="text"> Follow </p>
-              )}
-            </Button>
+            <div style={{ overflow: "hidden" }}>
+              <Button
+                variant="contained"
+                className="follow"
+                onClick={handleFollowToggler}
+                style={{
+                  backgroundColor: `${isFollowing ? "#D3F887" : "#92d509"}`,
+                }}
+              >
+                {isFollowing ? (
+                  <>
+                    <DoneAllIcon
+                      style={{ color: "#568000", marginRight: "9px" }}
+                    />
+                    <p className="text" style={{ color: "#568000" }}>
+                      Following
+                    </p>
+                  </>
+                ) : (
+                  <p className="text"> Follow </p>
+                )}
+              </Button>
+            </div>
           ) : (
             ""
           )}

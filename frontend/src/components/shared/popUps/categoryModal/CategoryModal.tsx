@@ -94,7 +94,7 @@ export default function CategoryModal({
   return (
     <Dialog className="category-modal" open={open}>
       <DialogTitle>
-        <div className="title-section">
+        <div id="title-cross" className="title-section">
           <span className="modal-header">Add Category</span>
           <span className="dialog-page">
             <img
