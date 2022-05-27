@@ -62,6 +62,14 @@ class ProfileAdmin(admin.ModelAdmin):
         "manager",
     )
 
+    list_filter = (
+        "user__is_remote_user",
+        "user__is_lambda_user",
+        "user__is_staff",
+        "user__is_supermanager",
+        "user__is_active",
+    )
+
 
 @admin.register(models.Organization)
 class OrganizationAdmin(admin.ModelAdmin):

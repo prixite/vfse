@@ -1148,7 +1148,7 @@ export type VfseWorkordersReadApiArg = {
   id: string;
 };
 export type Meta = {
-  profile_picture: string;
+  profile_picture?: string;
   title?: string;
 };
 export type UserRequestAccess = {
