@@ -1,12 +1,17 @@
 .rootSection {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
+  flex-direction: unset;
+  overflow: hidden;
   .css-1o6k2p0 .MuiTextField-root {
     width: unset;
   }
   .create-topic-btn {
+    display: flex;
+    height: fit-content;
+    flex-shrink: 80;
     .AddTopicsbtn {
       .btn-content {
         display: flex;
@@ -16,13 +21,39 @@
         text-align: center;
         font-weight: 600;
         font-size: 14px;
+        .text {
+          color: #fff;
+          font-size: 16px;
+          font-weight: 600;
+          padding-top: 3px;
+          flex-wrap: wrap;
+          display: inline-block;
+        }
       }
     }
   }
+}
+.div-wrapper{
+  display: flex;
+  width: 80%;
+  flex-direction: row;
+  justify-content: start;
+  flex-wrap: wrap;
+  flex: auto;
 }
 .mobilerootSection {
   display: flex;
   align-items: center;
   margin-top: 24px;
   justify-content: space-between;
+}
+@media screen and (max-width: 566px) {
+  #remove{
+    display: none;
+  }
+  .create-topic-btn{
+    display: flex;
+    overflow: hidden;
+    flex-shrink: 80;
+  }
 }

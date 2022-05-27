@@ -131,7 +131,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
   return (
     <>
       <Box className="rootSection">
-        <Box component="div" style={{ display: "flex", width: "80%" }}>
+        <Box component="div" className="div-wrapper">
           <div style={{ marginRight: "5px" }}>
             <FormControl
               sx={{ m: 0, mr: 1, minWidth: 200, backgroundColor: "white" }}
@@ -214,7 +214,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
             </div>
           </Box>
         </Box>
-        <div className="create-topic-btn">
+        <div className="create-topic-btn"> 
           <Button
             style={{
               backgroundColor: buttonBackground,
@@ -226,7 +226,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
           >
             <div className="btn-content">
               <AddIcon />
-              <span style={{ display: "inline-block", paddingTop: "3px" }}>
+              <span className="text" id={`remove`}>
                 {btnCreateTopic}
               </span>
             </div>
