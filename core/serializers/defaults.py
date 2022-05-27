@@ -1,3 +1,5 @@
+from django.templatetags.static import static
+
 from core import models
 
 
@@ -55,19 +57,22 @@ class MriInfoDefault:
 
 
 class ProfileMetaDefault:
-    def __call__(self, *args, **kwds):
-        return {"profile_picture": "", "title": ""}
+    def __call__(self):
+        return {
+            "profile_picture": static("assets/profile.png"),
+            "title": "",
+        }
 
 
 class HealthNetworkAppearanceDefault:
-    def __call__(self, *args, **kwds):
+    def __call__(self):
         return {"logo": ""}
 
 
 class ConnectionOptionDefault:
     requires_context = True
 
-    def __call__(self, serializer_field, **kwds):
+    def __call__(self, serializer_field):
         if serializer_field.instance is None:
             return None
 

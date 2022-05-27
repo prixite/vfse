@@ -182,10 +182,6 @@ class OrganizationTestCase(BaseTestCase):
     def test_user_upsert_insert(self):
         self.client.force_login(self.super_admin)
         user_data = {
-            "meta": {
-                "profile_picture": "http://example.com/profilepic.jpg",
-                "title": "Mr.",
-            },
             "first_name": "John",
             "last_name": "Doe",
             "email": "john@doe.com",

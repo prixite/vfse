@@ -1,5 +1,6 @@
 import factory
 from django.db.models.signals import post_save
+from django.templatetags.static import static
 from faker import Faker
 
 from core import models
@@ -172,7 +173,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory, profile=None)
     is_one_time = False
     meta = {
-        "profile_picture": "https://www.kindpng.com/picc/m/495-4952535_create-digital-profile-icon-blue-user-profile-icon.png",  # noqa
+        "profile_picture": static("assets/profile.png"),  # noqa
         "title": "",
     }
 

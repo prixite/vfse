@@ -2328,9 +2328,6 @@
         "MetaSerialzer": {
             "title": "Meta",
             "description": "",
-            "required": [
-                "profile_picture"
-            ],
             "type": "object",
             "properties": {
                 "profile_picture": {
@@ -2346,7 +2343,7 @@
                 }
             },
             "default": {
-                "profile_picture": "",
+                "profile_picture": "/static/assets/profile.png",
                 "title": ""
             }
         },
