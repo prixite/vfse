@@ -13,7 +13,9 @@ def change_profile_picture(apps, schema_edtor):
         Q(user__is_request_user=True),
         Q(user__is_remote_user=True),
     ).filter(
-        Q(meta__profile_picture="") | Q(meta__profile_picture__icontains="kindpng")
+        Q(meta__profile_picture="")
+        | Q(meta__profile_picture__icontains="kindpng")
+        | Q(meta__profile_picture__icontains="https://tinyurl.com/meta-profile")
     ):
         user_profile.meta["profile_picture"] = static("assets/profile.png")
         user_profile.save()
