@@ -33,13 +33,13 @@
     }
   }
 }
-.div-wrapper{
+.div-wrapper {
   display: flex;
   width: 80%;
   flex-direction: row;
   justify-content: start;
   flex-wrap: wrap;
-  flex: auto;
+  flex: inherit;
 }
 .mobilerootSection {
   display: flex;
@@ -47,11 +47,15 @@
   margin-top: 24px;
   justify-content: space-between;
 }
+.heading {
+  margin-top: 23px;
+  margin-bottom: 23px;
+}
 @media screen and (max-width: 566px) {
-  #remove{
+  #remove {
     display: none;
   }
-  .create-topic-btn{
+  .create-topic-btn {
     display: flex;
     overflow: hidden;
     flex-shrink: 80;

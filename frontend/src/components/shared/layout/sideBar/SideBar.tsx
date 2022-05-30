@@ -260,6 +260,7 @@ export default function SideBar() {
       document.getElementById("search-clients").focus();
     }, 0);
   };
+
   return (
     <>
       {browserWidth > mobileWidth ? (
@@ -272,15 +273,8 @@ export default function SideBar() {
             textcolor={sideBarTextColor}
           >
             <List className="leftLists">
-              <ListItem
-                button
-                style={{ marginBottom: "0px", cursor: "initial" }}
-                onClick={toggleDrawer}
-              >
-                <ListItemIcon
-                  className="client-image"
-                  style={{ marginBottom: "0px", cursor: "initial" }}
-                >
+              <ListItem button onClick={toggleDrawer}>
+                <ListItemIcon className="client-image">
                   <img
                     src={selectedOrganization?.appearance?.logo}
                     className="img"
@@ -304,12 +298,7 @@ export default function SideBar() {
               ) : (
                 ""
               )}
-              <ListItem
-                button
-                component="a"
-                className="item-margin"
-                style={{ marginBottom: "10px" }}
-              >
+              <ListItem button component="a" className="item-margin">
                 <ListItemIcon style={{ color: sideBarTextColor }}>
                   <SearchIcon onClick={onSearchClick} />
                 </ListItemIcon>
