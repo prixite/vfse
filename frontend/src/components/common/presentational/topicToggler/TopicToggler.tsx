@@ -46,7 +46,7 @@ export default function TopicToggler({
           onChange={handleChange}
           className="togglers"
         >
-          <ToggleButton value="allTopics" aria-label="list">
+          <ToggleButton value="allTopics" aria-label="list" className="setter">
             <div className="grouped">
               <ChatBubbleOutlineIcon
                 style={{

@@ -26,6 +26,8 @@
     position: relative;
     width: 80px;
     height: 100%;
+    margin-bottom: 0px;
+    cursor: pointer;
   }
   .leftLists::after {
     content: "\A";
@@ -53,13 +55,21 @@
     min-width: fit-content;
   }
   .client-image {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
+    cursor: pointer;
     min-width: 38px;
     width: 38px;
     height: 38px;
+    &:hover {
+      opacity: 0.65;
+    }
   }
   .item-margin {
     margin-top: 15px;
+    margin-bottom: 10px;
+    &:hover {
+      opacity: 0.65;
+    }
   }
   .img {
     height: inherit;

@@ -114,7 +114,7 @@ const ProfileTimeline = () => {
             <p>Loading ...</p>
           )}
 
-          <Grid item xs={3}>
+          <Grid item xs={3} id="timeX">
             <div className="timelineLeft">
               <div className="allTopics">
                 <TopicToggler setTopicListPayload={setTopicListPayload} />

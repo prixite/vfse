@@ -73,12 +73,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
       <>
         <Box component="div" className="topic_updates_section">
           <div className="heading_section">
-            <h2
-              className="heading"
-              style={{ marginTop: "23px", marginBottom: "23px" }}
-            >
-              {title}
-            </h2>
+            <h2 className="heading">{title}</h2>
             <h3 className="subheading">{seeAll}</h3>
           </div>
           <Box component="div" className="cardsSection">
@@ -214,7 +209,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
             </div>
           </Box>
         </Box>
-        <div className="create-topic-btn"> 
+        <div className="create-topic-btn">
           <Button
             style={{
               backgroundColor: buttonBackground,
