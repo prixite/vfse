@@ -18,9 +18,18 @@ const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
           <h3 className="subheading">{seeAll}</h3>
         </div>
         <Box component="div" className="cardsSection">
-          <Grid container spacing={3}>
+          <Grid container spacing={3} id="cards">
             {popularTopicData.map((item, key) => (
-              <Grid key={key} item lg={6} xl={3} md={4} sm={6} xs={12}>
+              <Grid
+                id="card"
+                key={key}
+                item
+                lg={6}
+                xl={3}
+                md={4}
+                sm={6}
+                xs={12}
+              >
                 <TopicUpdatesCards
                   id={item?.id}
                   cardTitle={item?.title}

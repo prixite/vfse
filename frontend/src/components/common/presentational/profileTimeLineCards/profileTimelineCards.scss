@@ -54,7 +54,7 @@
       .card_footer {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: start;
         margin-top: 30px;
         .profile_side {
           display: flex;
@@ -83,6 +83,7 @@
         .message_side {
           display: flex;
           flex-direction: row;
+          margin-left: 5px;
           cursor: pointer;
           .message_text_container {
             display: flex;
@@ -110,6 +111,7 @@
         justify-content: space-between;
         .userInfoWrapper {
           display: flex;
+          overflow: hidden;
           .user_info {
             margin-left: 8px;
             .userName {
@@ -139,7 +141,6 @@
           box-shadow: unset;
           padding: 4px 16px;
           text-transform: unset;
-          width: 25%;
           display: flex;
           justify-content: center;
           align-items: center;

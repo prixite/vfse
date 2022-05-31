@@ -71,10 +71,10 @@ const ProfileTimeline = () => {
   return (
     <>
       <Box component="div" className="timeline_section">
-        <Grid container spacing={2}>
+        <Grid container spacing={2} id="mainProfileGrid">
           {/* ProfileTimeLine */}
           {!isLoading ? (
-            <Grid item xs={9}>
+            <Grid item xs={9} id="profileTimeLine">
               <InfiniteScroll
                 dataLength={paginatedTopics.length}
                 next={fetchMoreSection}
@@ -114,8 +114,8 @@ const ProfileTimeline = () => {
           ) : (
             <p>Loading ...</p>
           )}
-
-          <Grid item xs={3} id="timeX">
+          {/* RecentActivity */}
+          <Grid item xs={3} id="recentActivity">
             <div className="timelineLeft">
               <div className="allTopics">
                 <TopicToggler setTopicListPayload={setTopicListPayload} />

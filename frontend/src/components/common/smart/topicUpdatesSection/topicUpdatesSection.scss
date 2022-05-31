@@ -1,0 +1,18 @@
+.cards{
+    flex-grow: unset;
+    flex-basis: unset;
+    flex-direction: row;
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    box-sizing: unset;
+    width: 100%;
+}
+.card{
+    width: 100%;
+    padding: 10px;
+}
+.card > TopicUpdatesCard{
+    cursor: pointer;
+    width: 90% !important;
+}
