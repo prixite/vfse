@@ -420,7 +420,7 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
 
         hostname = response.json()["ip_address"]
         port = self.get_port()
-        username = "root"
+        username = response.json()["ssh_user"]
         password = response.json()["ssh_password"]
         privatekey, filename = self.get_privatekey()
         passphrase = self.get_argument("passphrase", "")

@@ -1359,6 +1359,7 @@ export type SystemAccess = {
   name: string;
   ip_address?: string | null;
   ssh_password?: string | null;
+  ssh_user?: string;
 };
 export type Manager = {
   email: string;
