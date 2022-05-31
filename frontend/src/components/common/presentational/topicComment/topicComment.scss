@@ -9,7 +9,6 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      overflow: hidden;
       img {
         object-fit: contain;
         width: inherit;
@@ -46,11 +45,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: 8px;
+        margin-top: 5px;
+        overflow: inherit;
+        flex-wrap: wrap;
+        flex-direction: row;
         .action {
-          display: flex;
-          align-items: center;
-          margin-right: 20%;
+          margin-right: 31px;
           .icon {
             width: 12px;
             height: 12px;

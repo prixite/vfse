@@ -20,7 +20,9 @@ export default function ForumSection() {
         <h2 className="heading" style={{ marginBottom: "32px" }}>
           {forum}
         </h2>
+        {/* PopularTopis */}
         <VfseTopSection setOpen={setOpen} title={title} seeAll="" />
+        {/* ProfileTimeLine */}
         <ProfileTimeline />
       </Box>
       {open ? <TopicModal open={open} handleClose={handleClose} /> : ""}

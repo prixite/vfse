@@ -5,21 +5,29 @@
   padding: 16px;
   .commentActions {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
+    flex-direction: row;
     .profileImage {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      overflow: hidden;
       img {
         object-fit: contain;
         width: inherit;
       }
     }
     .commentInput {
-      width: 75%;
+      width: 80%;
       font-family: unset !important;
+      border: 2px solid #773cbd;
+      border-radius: 5px;
+      caret-color: #773cbd;
+      margin-left: 12px;
+      margin-right: auto;
+      padding: 5px;
+      padding: 5px 12px 3px;
+
       &::before {
         content: none;
       }
@@ -39,6 +47,7 @@
     }
     .postBtn {
       display: flex;
+      margin-left: 5px;
       justify-content: center;
       align-items: center;
       background: #efe1ff;

@@ -138,7 +138,7 @@ export default function TopicModal({ open, handleClose }: Props) {
       <DialogContent>
         <div className="modal-content">
           <>
-            <div>
+            <div className="modal-content-title">
               <p className="info-label required">Title</p>
               <TextField
                 name="title"
@@ -155,7 +155,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                 </p>
               )}
             </div>
-            <div>
+            <div className="modal-content-description">
               <p className="info-label required">Description</p>
               <TextField
                 className="full-field-desc"
@@ -172,7 +172,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                 </p>
               )}
             </div>
-            <div>
+            <div className="modal-content-header">
               {categories?.length && (
                 <p className="topics-header">
                   <span className="info-label">Choose categories max(3)</span>
@@ -198,7 +198,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                   ))}
               </ToggleButtonGroup>
             </div>
-            <div>
+            <div className="modal-content-label">
               <p className="info-label required">Image (optional)</p>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}

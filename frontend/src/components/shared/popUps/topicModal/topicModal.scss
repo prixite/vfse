@@ -48,6 +48,21 @@
         color: red;
       }
     }
+    .modal-content-title {
+      order: 2;
+    }
+    .modal-content-description {
+      order: 3;
+    }
+    .modal-content-header {
+      order: 4;
+    }
+    .modal-content-label {
+      order: 1;
+    }
+    .notify-checkbox {
+      order: 5;
+    }
     .info-label {
       font-weight: 600;
       margin-bottom: 6px;
