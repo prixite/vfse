@@ -480,6 +480,7 @@ class System(models.Model):
     connection_options = models.JSONField(default=dict)
     is_online = models.BooleanField(default=False)
     ssh_password = models.CharField(max_length=30, null=True, blank=True)
+    ssh_user = models.CharField(max_length=25, default="root")
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

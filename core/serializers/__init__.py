@@ -665,6 +665,7 @@ class SystemAccessSerializer(serializers.ModelSerializer):
             "name",
             "ip_address",
             "ssh_password",
+            "ssh_user",
         ]
 
 

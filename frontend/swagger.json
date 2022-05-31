@@ -3072,7 +3072,7 @@
         },
         "System": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
@@ -3307,7 +3307,7 @@
             }
         },
         "SystemAccess": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -3330,6 +3330,12 @@
                     "type": "string",
                     "maxLength": 30,
                     "x-nullable": true
+                },
+                "ssh_user": {
+                    "title": "Ssh user",
+                    "type": "string",
+                    "maxLength": 25,
+                    "minLength": 1
                 }
             }
         },
@@ -4212,7 +4218,7 @@
         },
         "SystemMeta": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
