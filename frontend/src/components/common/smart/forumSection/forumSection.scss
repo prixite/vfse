@@ -16,3 +16,10 @@
     }
   }
 }
+@media only screen and (max-width: 480px) {
+  .ForumSection {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+}

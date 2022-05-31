@@ -67,13 +67,30 @@
   }
 }
 @media screen and (max-width: 600px) {
-  #timeX {
-    box-sizing: border-box;
-    margin: 0px;
+  #recentActivity {
+    order: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    max-width: inherit;
+    padding: 1px;
+    box-sizing: unset;
+    flex-grow: unset;
+    flex-basis: unset;
+  }
+  .timelineLeft {
+    order: 1;
+  }
+  #mainProfileGrid {
+    display: flex;
     flex-direction: row;
-    flex-basis: 75%;
-    -webkit-box-flex: 0;
-    flex-grow: 0;
-    max-width: 75%;
+  }
+  #profileTimeLine {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+    flex-direction: unset;
+    flex-basis: unset;
+    flex-grow: unset;
+    max-width: 100%;
   }
 }
