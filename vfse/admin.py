@@ -30,7 +30,8 @@ class TopicAdmin(admin.ModelAdmin):
 
 @admin.register(models.RecentActivity)
 class RecentActivityAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("topic", "action")
+    list_filter = ("topic", "user", "action")
 
 
 @admin.register(models.WorkOrder)

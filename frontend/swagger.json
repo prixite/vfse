@@ -4199,7 +4199,7 @@
                 "action": {
                     "title": "Action",
                     "type": "string",
-                    "maxLength": 20,
+                    "maxLength": 530,
                     "minLength": 1
                 },
                 "created_at": {
