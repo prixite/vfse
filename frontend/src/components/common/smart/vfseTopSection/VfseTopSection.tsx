@@ -127,6 +127,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
     <>
       <Box className="rootSection">
         <Box component="div" className="div-wrapper">
+          {/* SortBy Div */}
           <div style={{ marginRight: "5px" }}>
             <FormControl
               sx={{ m: 0, mr: 1, minWidth: 200, backgroundColor: "white" }}
@@ -152,6 +153,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
               </Select>
             </FormControl>
           </div>
+          {/* Filter Div */}
           <div style={{ marginRight: "5px" }}>
             <FormControl
               sx={{ m: 0, mr: 1, minWidth: 140, backgroundColor: "white" }}
@@ -177,6 +179,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
               </Select>
             </FormControl>
           </div>
+          {/* Search Div  */}
           <Box
             component="form"
             sx={{
@@ -209,6 +212,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
             </div>
           </Box>
         </Box>
+        {/* Div-3 Create A Topic */}
         <div className="create-topic-btn">
           <Button
             style={{
