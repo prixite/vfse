@@ -111,10 +111,10 @@ const AppearanceSection = () => {
       ["mainContentFont", "font_one"],
       ["sideBarFont", "font_two"],
     ].forEach(
-      ([formField, color]) =>
+      ([formField, color]) =>(
         (currentOrganiationDummyData.appearance[color] =
           formik.values[formField])
-    );
+        ));
 
     dispatch(
       setSelectedOrganization({
@@ -156,16 +156,20 @@ const AppearanceSection = () => {
     <Box component="div" className="AppearanceSection">
       <h2>{selectedOrganization?.name}</h2>
       <Box component="div" className="AppearanceSection__clientCard">
-        <Box component="div" className="AppearanceSection__clientSection">
-          <Box component="div" className="clientName">
-            <h4 className="labels">Client Name</h4>
-            <TextField
-              disabled
-              className="nameInput"
-              placeholder={selectedOrganization?.name}
-              variant="outlined"
-            />
-          </Box>
+        <Box component="div" className="clientName">
+          <h4 className="labels">Client Name</h4>
+          <TextField
+            disabled
+            className="nameInput"
+            placeholder={selectedOrganization?.name}
+            variant="outlined"
+          />
+        </Box>
+        <Box
+          component="div"
+          className="AppearanceSection__clientSection"
+          style={{ marginTop: "10px" }}
+        >
           <Box component="div" className="clientTheming">
             <Box component="div" className="clientLogo">
               <h4 className="labels">Logo</h4>

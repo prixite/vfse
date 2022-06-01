@@ -6,7 +6,7 @@
     padding: 42px;
   }
   &__clientSection {
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -14,7 +14,7 @@
       margin-bottom: 6px;
     }
     .clientName {
-      width: 40%;
+      width: 100%;
       margin-bottom: 26px;
       .nameInput {
         width: 100%;
@@ -53,7 +53,7 @@
       .colorSection {
         display: flex;
         flex-direction: column;
-        margin-top: -100px;
+        margin-top: 17px;
         width: 60%;
         .container {
           display: flex;
@@ -120,7 +120,7 @@
     }
     &__clientSection {
       .clientName {
-        width: 55%;
+        width: 100%;
       }
       .clientFonts {
         flex-direction: column;
@@ -207,7 +207,7 @@
     }
   }
 }
-.forum{
+.forum {
   width: 100%;
   display: flex;
   justify-content: flex-start;
