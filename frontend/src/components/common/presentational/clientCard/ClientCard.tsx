@@ -111,16 +111,16 @@ const ClientCard = ({
       history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
     }
   };
-  const switchOrganization = () => {
-    dispatch(setSelectedOrganization({ selectedOrganization: row }));
-    dispatch(updateSideBarColor(row.appearance.sidebar_color));
-    dispatch(updateButtonColor(row.appearance.primary_color));
-    dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
-    dispatch(updateButtonTextColor(row.appearance.button_text));
-    dispatch(updateSecondaryColor(row.appearance.secondary_color));
-    dispatch(updateFontOne(row.appearance.font_one));
-    dispatch(updateFontTwo(row.appearance.font_two));
-    history.replace(`/${organizationRoute}/${id}/`);
+  const switchOrganization = async () => {
+   await      dispatch(setSelectedOrganization({ selectedOrganization: row }));
+   await dispatch(updateSideBarColor(row.appearance.sidebar_color));
+   await  dispatch(updateButtonColor(row.appearance.primary_color));
+   await dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
+   await dispatch(updateButtonTextColor(row.appearance.button_text));
+   await dispatch(updateSecondaryColor(row.appearance.secondary_color));
+   await dispatch(updateFontOne(row.appearance.font_one));
+   await dispatch(updateFontTwo(row.appearance.font_two));
+   await history.replace(`/${organizationRoute}/${id}/`);
   };
   return (
     <div
