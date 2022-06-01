@@ -78,6 +78,8 @@
       .font-wrapper {
         display: flex;
         align-items: center;
+        margin: 10px 0px;
+        flex-wrap: wrap-reverse;
       }
       .font-section {
         margin-right: 15px;
@@ -94,6 +96,7 @@
       max-width: 200px;
       margin-top: 20px;
       align-self: flex-end;
+      flex: 1 0 auto;
     }
     .css-1s2075w-MuiButtonBase-root-MuiButton-root.Mui-disabled {
       color: rgba(0, 0, 0, 0.26) !important;
@@ -124,7 +127,8 @@
         margin-top: -160px;
         align-items: flex-start;
         .font-wrapper {
-          margin-bottom: 10px;
+          flex-wrap: wrap-reverse;
+          margin: 10px 0px;
         }
         .font-demo {
           font-size: 26px;
@@ -160,7 +164,7 @@
         .font-demo {
           margin-right: 0;
           margin-top: 5px;
-          margin-bottom: 26px;
+          margin-bottom: 0px;
         }
         .font-section {
           margin-right: 0px;
@@ -198,7 +202,14 @@
         margin-top: 0px;
         max-width: unset;
         width: 100%;
+        flex: 1 0 auto;
       }
     }
   }
+}
+.forum{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
