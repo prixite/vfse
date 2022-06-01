@@ -285,14 +285,7 @@ const AppearanceSection = () => {
               </h2>
             </div>
           </Box>
-          <form
-            onSubmit={formik.handleSubmit}
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
+          <form onSubmit={formik.handleSubmit} className="forum">
             <Button
               type="submit"
               style={
