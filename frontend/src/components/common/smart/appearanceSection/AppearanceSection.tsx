@@ -111,10 +111,10 @@ const AppearanceSection = () => {
       ["mainContentFont", "font_one"],
       ["sideBarFont", "font_two"],
     ].forEach(
-      ([formField, color]) =>(
+      ([formField, color]) =>
         (currentOrganiationDummyData.appearance[color] =
           formik.values[formField])
-        ));
+    );
 
     dispatch(
       setSelectedOrganization({

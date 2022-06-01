@@ -122,7 +122,7 @@ const ClientCard = ({
       dispatch(updateFontOne(row.appearance.font_one)),
       dispatch(updateFontTwo(row.appearance.font_two)),
       history.replace(`/${organizationRoute}/${id}/`),
-   ])
+    ]);
   };
   return (
     <div
