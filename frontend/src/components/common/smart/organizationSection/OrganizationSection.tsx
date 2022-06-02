@@ -100,16 +100,20 @@ const OrganizationSection = () => {
       (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) == "sites"
     );
   };
-  const handleSearchQuery = (searchQuery: string) => {
-    setItemsList(
-      organizationList?.filter((organization) => {
+  const handleSearchQuery = async (searchQuery: string) => {
+    const itemsToBeSet = [
+      ...organizationList.filter((organization) => {
         return (
           organization?.name
             ?.toLowerCase()
-            .search(searchQuery?.toLowerCase()) != -1
+            ?.trim()
+            ?.search(searchQuery?.trim().toLowerCase()) != -1
         );
-      })
-    );
+      }),
+    ];
+    if (organizationList && organizationList.length) {
+      await Promise.all([itemsToBeSet, setItemsList(itemsToBeSet)]);
+    }
   };
   useEffect(() => {
     if (history.location.pathname.includes("sites")) {

@@ -93,7 +93,7 @@ const headers = [
 
 export default function DocumentationSection() {
   const { title } = localizedData().documentation;
-  const [searchText, setSearchText] = useState("");
+  const [query, setQuery] = useState("");
   const [tableColumns, setTableColumns] = useState(columns);
   const [columnHeaders, setColumnHeaders] = useState(headers);
   const [pageSize, setPageSize] = useState(14);
@@ -121,21 +121,17 @@ export default function DocumentationSection() {
   const [searchedList, setSearchedList] = useState({});
   const [docList, setDocList] = useState(null);
   useEffect(() => {
-    if (
-      searchText?.length > 2 &&
-      searchedList &&
-      searchedList?.results?.length
-    ) {
+    if (query?.trim().length > 2 && searchedList) {
       setHasData(true);
       setDocList(docList);
-      handleSearchQuery(searchText);
-    } else if (docData?.length && searchText?.length <= 2) {
+      handleSearchQuery(query);
+    } else if (docData?.length && query?.trim().length <= 2) {
       setHasData(true);
       setDocList(docData);
     } else {
       setHasData(false);
     }
-  }, [searchText, searchedList, docData]);
+  }, [query, searchedList, docData]);
 
   useEffect(() => {
     const dataArray = [];
@@ -169,14 +165,27 @@ export default function DocumentationSection() {
     setColumnHeaders(headers);
   }, [tableColumns]);
 
-  const handleSearchQuery = (searchQuery: string) => {
-    setDocList(
-      docData?.filter((doc) => {
+  const handleSearchQuery = async (searchQuery: string) => {
+    const itemsToBeSet = [
+      ...docData.filter((doc) => {
         return (
-          doc?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+          (
+            doc?.name +
+            doc?.model +
+            doc?.modality +
+            doc?.product_id +
+            doc?.documentation +
+            doc?.id
+          )
+            ?.trim()
+            .toLowerCase()
+            .search(searchQuery?.trim().toLowerCase()) != -1
         );
-      })
-    );
+      }),
+    ];
+    if (docData && docData.length) {
+      await Promise.all([itemsToBeSet, setDocList(itemsToBeSet)]);
+    }
   };
 
   const handleClose = () => {
@@ -270,8 +279,8 @@ export default function DocumentationSection() {
         setTableColumns={setTableColumns}
         setList={setSearchedList}
         actualData={rows}
-        searchText={searchText}
-        setSearchText={setSearchText}
+        searchText={query}
+        setSearchText={setQuery}
         hasData={hasData}
       />
       <div style={{ marginTop: "30px" }}>
@@ -342,7 +351,7 @@ export default function DocumentationSection() {
               />
             )}
           </>
-        ) : searchedList?.query === searchText ? (
+        ) : searchedList?.query === query ? (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         ) : (
           <div

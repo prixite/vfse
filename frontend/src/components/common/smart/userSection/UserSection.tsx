@@ -169,7 +169,7 @@ export default function UserSection() {
   const [tableColumns, setTableColumns] = useState(headers);
   const [columnHeaders, setColumnHeaders] = useState(columns);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [searchText, setSearchText] = useState("");
+  const [query, setQuery] = useState("");
   const openModal = Boolean(anchorEl);
   const [hasData, setHasData] = useState(false);
   const [hideManager, setHideManager] = useState(false);
@@ -208,17 +208,17 @@ export default function UserSection() {
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
   useEffect(() => {
-    if (searchText?.length > 2 && userList && userList?.results?.length) {
+    if (query?.trim()?.length > 2 && userList) {
       setHasData(true);
       setItemsList(itemsList);
-      handleSearchQuery(searchText);
-    } else if (items?.length && searchText?.length <= 2) {
+      handleSearchQuery(query);
+    } else if (items?.length && query?.length <= 2) {
       setHasData(true);
       setItemsList(items);
     } else {
       setHasData(false);
     }
-  }, [searchText, userList, items]);
+  }, [query, userList, items]);
 
   useEffect(() => {
     if (tableColumns[6]?.hide === true) {
@@ -261,14 +261,28 @@ export default function UserSection() {
     return <p>Loading</p>;
   }
 
-  const handleSearchQuery = (searchQuery: string) => {
-    setItemsList(
-      items?.filter((user) => {
+  const handleSearchQuery = async (searchQuery: string) => {
+    const itemsToBeSet = [
+      ...items.filter((user) => {
         return (
-          user?.username?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
+          (
+            user?.first_name +
+            user?.last_name +
+            user?.username +
+            user?.email +
+            user?.phone +
+            user?.manager?.name +
+            user?.manager?.email
+          )
+            ?.trim()
+            .toLowerCase()
+            .search(searchQuery?.trim().toLowerCase()) != -1
         );
-      })
-    );
+      }),
+    ];
+    if (items && items.length) {
+      await Promise.all([itemsToBeSet, setItemsList(itemsToBeSet)]);
+    }
   };
 
   const handleClick = (event, id, active) => {
@@ -338,10 +352,10 @@ export default function UserSection() {
         tableColumns={tableColumns}
         setTableColumns={setTableColumns}
         setList={setUserList}
-        actualData={items}
         handleSearchQuery={handleSearchQuery}
-        searchText={searchText}
-        setSearchText={setSearchText}
+        searchText={query}
+        setSearchText={setQuery}
+        actualData={items}
         hasData={hasData}
       />
 
@@ -512,7 +526,7 @@ export default function UserSection() {
               marginTop: "20%",
             }}
           >
-            <h2>{searchText?.length > 2 ? searching : "Loading..."}</h2>
+            <h2>{query?.trim().length > 2 ? searching : "Loading..."}</h2>
           </div>
         ) : (
           ""
