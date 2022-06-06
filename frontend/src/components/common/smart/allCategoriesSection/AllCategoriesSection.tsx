@@ -4,6 +4,7 @@ import { Grid } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
+import useStyles from "@src/components/common/smart/knowledgeSection/Styles.tsx";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
@@ -12,6 +13,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
 
 const AllCategoriesSection = () => {
+  const classes = useStyles();
   const [folderList, setFolderList] = useState<Category[]>([]);
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
@@ -56,16 +58,10 @@ const AllCategoriesSection = () => {
       />
       {folderList?.map((category, index) => (
         <div key={index}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <h2 className="sub-heading">{category?.name}</h2>
+          <div className={classes.seeAllDiv}>
+            <h2 className={classes.subHeading}>{category?.name}</h2>
             <Link
-              className="see-all"
+              className={classes.seeAll}
               to={`/${organizationRoute}/${id}/knowledge-base/category/${category?.id}`}
             >
               See All Folders

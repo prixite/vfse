@@ -4,12 +4,13 @@ import { Box, Tab, Tabs } from "@mui/material";
 
 import AllCategoriesSection from "@src/components/common/smart/allCategoriesSection/AllCategoriesSection";
 import KnowledgeBaseHome from "@src/components/common/smart/knowledgeBaseHome/KnowledgeBaseHome";
+import useStyles from "@src/components/common/smart/knowledgeSection/Styles.tsx";
 import SeeAllArticles from "@src/components/common/smart/seeAllArticles/SeeAllArticles";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
-import "@src/components/common/smart/knowledgeSection/knowledgeSection.scss";
 
 const KnowledgeSection = () => {
+  const classes = useStyles();
   const constantData: LocalizationInterface = localizedData();
   const { title } = constantData.knowledgeBase;
   const [value, setValue] = useState("home");
@@ -29,48 +30,24 @@ const KnowledgeSection = () => {
   };
 
   return (
-    <Box component="div" className="knowledgeSection">
-      <h1 className="main-heading">{title}</h1>
+    <Box component="div" className={classes.knowledgeSection}>
+      <h1 className={classes.mainHeading}>{title}</h1>
       <Tabs
         value={value}
         onChange={handleChange}
         aria-label="basic tabs example"
-        TabIndicatorProps={{
-          style: {
-            backgroundColor: "#773CBD",
-          },
-        }}
       >
         {" "}
-        <Tab
-          value="home"
-          sx={{
-            "&.Mui-selected": {
-              color: "#773CBD",
-            },
-          }}
-          label="Home"
-          className="tab-style"
-        />
+        <Tab value="home" label="Home" className={classes.tabStyle} />
         <Tab
           value="categories"
-          sx={{
-            "&.Mui-selected": {
-              color: "#773CBD",
-            },
-          }}
           label="See All Categories"
-          className="tab-style"
+          className={classes.tabStyle}
         />
         <Tab
           value="articles"
-          sx={{
-            "&.Mui-selected": {
-              color: "#773CBD",
-            },
-          }}
           label="See All Articles"
-          className="tab-style"
+          className={classes.tabStyle}
         />
       </Tabs>
       <hr style={{ borderTop: "1px solid #D4D6DB", marginBottom: "32px" }} />

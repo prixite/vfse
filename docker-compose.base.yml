@@ -7,7 +7,7 @@ services:
       - ./docker/env.db
       - ./.env
     container_name: vfse
-    command: 'python manage.py runserver 0.0.0.0:8000'
+    command: bash -c 'python manage.py runserver 0.0.0.0:8000'
 
   prod_app:
     extends:

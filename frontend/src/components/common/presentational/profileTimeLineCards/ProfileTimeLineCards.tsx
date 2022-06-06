@@ -2,10 +2,8 @@ import { useEffect, useState } from "react";
 
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
-import { useHistory } from "react-router-dom";
 
 import messageIcon from "@src/assets/svgs/message.svg";
-import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import "@src/components/common/presentational/profileTimeLineCards/profileTimelineCards.scss";
@@ -39,8 +37,6 @@ const ProfileTimelineCards = ({
   categories,
   followers,
 }: ProfileTimelineCards) => {
-  const history = useHistory();
-  const { organizationRoute } = constants;
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery(
     {
@@ -69,21 +65,11 @@ const ProfileTimelineCards = ({
     }).unwrap();
   };
 
-  const expandOnClick = () => {
-    history.push(
-      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
-    );
-  };
   return (
     <>
       <div className="timelineInfo">
         <div className="timelineCards">
-          <Box
-            component="div"
-            className="card"
-            style={{ cursor: "pointer" }}
-            onClick={expandOnClick}
-          >
+          <Box component="div" className="card" style={{ cursor: "pointer" }}>
             <div className="card_header">
               <div className="userInfoWrapper">
                 <div className="topic_updates_imags">
