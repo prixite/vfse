@@ -3,13 +3,16 @@ import { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
+import useStyles from "@src/components/common/smart/knowledgeSection/Styles.tsx";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
+
 const SeeAllArticles = () => {
+  const classes = useStyles();
   const [articlesList, setArticlesList] = useState<Document[]>([]);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -47,7 +50,7 @@ const SeeAllArticles = () => {
         setData={setArticlesList}
         actualData={topData}
       />
-      <h2 className="sub-heading">All Articles</h2>
+      <h2 className={classes.subHeading}>All Articles</h2>
       <Grid container spacing={1}>
         {articlesList.map((item, index) => (
           <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>

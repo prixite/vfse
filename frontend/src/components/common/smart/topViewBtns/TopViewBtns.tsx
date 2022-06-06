@@ -7,7 +7,6 @@ import {
 } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-// import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
@@ -20,11 +19,8 @@ import Select from "@mui/material/Select";
 import debounce from "debounce";
 import { useHistory, useParams } from "react-router-dom";
 
-// import ArrowDown from "@src/assets/svgs/arrow-long.svg";
-// import ArrowUpIcon from "@src/assets/svgs/arrow-up.svg";
 import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
-import "@src/components/common/smart/organizationSection/organizationSection.scss";
-import "@src/components/common/smart/topViewBtns/topViewBtns.scss";
+import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   useAppDispatch,
@@ -88,7 +84,7 @@ const TopViewBtns = ({
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
-
+  const classes = useStyles();
   const history = useHistory();
   const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
@@ -169,7 +165,7 @@ const TopViewBtns = ({
     }
   }, [isSitesFetching]);
 
-  const handleInput = (e) => {
+  const handleInput = (e: { target: { value: string } }) => {
     setSearchText(e.target.value);
   };
 
@@ -212,7 +208,9 @@ const TopViewBtns = ({
     },
   };
 
-  const handleClickNetwork = (event) => {
+  const handleClickNetwork = (event: {
+    target: { outerText: string | unknown[] };
+  }) => {
     if (event?.target?.outerText !== "") {
       if (network?.length && event?.target?.outerText == network) {
         setNetwork([]);
@@ -231,7 +229,9 @@ const TopViewBtns = ({
     }
   };
 
-  const handleClickSite = (event) => {
+  const handleClickSite = (event: {
+    target: { outerText: string | unknown[] };
+  }) => {
     if (event?.target?.outerText !== "") {
       if (site?.length && event?.target?.outerText == site) {
         setSite([]);
@@ -265,18 +265,24 @@ const TopViewBtns = ({
           handleSearchQuery(searchQuery);
         }
         const newList = { query: searchQuery, results: [] };
-        const result = actualData?.filter((data) => {
-          return path === "users"
-            ? data?.username
-                ?.toLowerCase()
-                .search(searchQuery?.toLowerCase()) != -1
-            : path === "documentation"
-            ? data?.product?.name
-                ?.toLowerCase()
-                .search(searchQuery?.toLowerCase()) != -1
-            : data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !=
-              -1;
-        });
+        const result = actualData?.filter(
+          (data: {
+            username: string;
+            product: { name: string };
+            name: string;
+          }) => {
+            return path === "users"
+              ? data?.username
+                  ?.toLowerCase()
+                  .search(searchQuery?.toLowerCase()) != -1
+              : path === "documentation"
+              ? data?.product?.name
+                  ?.toLowerCase()
+                  .search(searchQuery?.toLowerCase()) != -1
+              : data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !=
+                -1;
+          }
+        );
         newList.results = result;
         setList(newList);
       }
@@ -297,9 +303,9 @@ const TopViewBtns = ({
         }}
         onClick={handleModal}
         variant="contained"
-        className="AddClientsbtn"
+        className={classes.AddClientsbtn}
       >
-        <div className="btn-content">
+        <div className={classes.btnContent}>
           <AddIcon />
           <span style={{ display: "inline-block", paddingTop: "3px" }}>
             {btnAdd}
@@ -311,18 +317,24 @@ const TopViewBtns = ({
 
   return (
     <>
-      <Box component="div" className="OrganizationSection__Header">
-        <Box component="div" className="InputSection">
-          {/* <Button
-            variant="contained"
-            className="Filterbtn"
-            disabled={!actualData?.length}
-          >
-            <div className="btn-content">
-              <FilterAltIcon style={{ marginRight: "9px" }} />
-              <span>{btnFilter}</span>
-            </div>
-          </Button> */}
+      <Box
+        component="div"
+        style={{
+          display: "flex",
+          justifyContent: "space-etween",
+          marginTop: "23px",
+          height: "47px",
+          width: "100%",
+        }}
+      >
+        <Box
+          component="div"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
           <Box component="div" style={{ display: "flex" }}>
             {path === "systems" ? (
               <>
@@ -376,7 +388,7 @@ const TopViewBtns = ({
                 ) : (
                   ""
                 )}
-                {!isSitesFetching && !siteId && sitesData.length ? (
+                {!isSitesFetching && !siteId && sitesData?.length ? (
                   <FormControl
                     sx={{
                       m: 0,
@@ -464,7 +476,7 @@ const TopViewBtns = ({
 
             <TextField
               id="search-clients"
-              className="Search-input"
+              className={classes.SearchInput}
               variant="outlined"
               value={searchText}
               // autoFocus={path === "organizations" ? true : false}

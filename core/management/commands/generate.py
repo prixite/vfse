@@ -285,14 +285,12 @@ class Command(BaseCommand):
         factories.SystemFactory.create_batch(
             10,
             seats=True,
-            site=health_network.sites.get(id=12),
+            site=health_network.sites.first(),
             users=users,
         )
         factories.SiteFactory.create_batch(
             5,
-            organization=organization.health_networks.get(
-                health_network__id=191
-            ).health_network,
+            organization=organization.health_networks.last().health_network,
             users=users,
         )
 

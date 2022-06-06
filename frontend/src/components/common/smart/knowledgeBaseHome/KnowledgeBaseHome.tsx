@@ -5,14 +5,15 @@ import { Link, useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
+import useStyles from "@src/components/common/smart/knowledgeSection/Styles.tsx";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { api, Category, Document } from "@src/store/reducers/api";
-
 const KnowledgeBaseHome = () => {
+  const classes = useStyles();
   const [categoryListForSearch, setCategoryListForSearch] = useState<
     Category[]
   >([]);
@@ -68,8 +69,10 @@ const KnowledgeBaseHome = () => {
         actualData={categoriesList || topData}
         setData={setCategoryListForSearch}
       />
-      <h2 className="sub-heading">Top Help Articles</h2>
-      <Grid container spacing={1}>
+      <h2 className={classes.subHeading} pt={5}>
+        Top Help Articles
+      </h2>
+      <Grid container spacing={1} mt={3}>
         {articlesList.map((item, index) => (
           <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
             <KnowledgeTopCard
@@ -82,16 +85,10 @@ const KnowledgeBaseHome = () => {
       </Grid>
       {categoryListForSearch?.map((category, index) => (
         <div key={index}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <h2 className="sub-heading">{category?.name}</h2>
+          <div className={classes.seeAllDiv}>
+            <h2 className={classes.subHeading}>{category?.name}</h2>
             <Link
-              className="see-all"
+              className={classes.seeAll}
               to={`/${organizationRoute}/${id}/knowledge-base/category/${category?.id}`}
             >
               See All Folders

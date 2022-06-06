@@ -1,5 +1,6 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 
+import CloseIcon from "@mui/icons-material/Close";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -9,12 +10,23 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Dialog from "@mui/material/Dialog";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import Slide from "@mui/material/Slide";
+import Toolbar from "@mui/material/Toolbar";
+import { TransitionProps } from "@mui/material/transitions";
+import Typography from "@mui/material/Typography";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { Terminal } from "xterm";
+import { FitAddon } from "xterm-addon-fit";
 
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
+import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
@@ -28,11 +40,29 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 import { System } from "@src/store/reducers/generated";
 
 import "@src/components/common/presentational/systemCard/systemCard.scss";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 interface SystemInterfaceProps {
   system: System;
   handleEdit?: (system: System) => void;
   setSystem?: Dispatch<SetStateAction<string>>;
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
+}
+function getCookie(cookieName) {
+  const cookie = {};
+  document.cookie.split(";").forEach(function (el) {
+    const [key, value] = el.split("=");
+    cookie[key.trim()] = value;
+  });
+  return cookie[cookieName];
 }
 const SystemCard = ({
   system,
@@ -40,14 +70,18 @@ const SystemCard = ({
   setSystem,
   setIsOpen,
 }: SystemInterfaceProps) => {
+  const classes = useStyles();
+  const xsrfToken = getCookie("_xsrf");
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const selectedOrganization = useSelectedOrganization();
+  const selectedOrganization: unknown = useSelectedOrganization();
   const dispatch = useAppDispatch();
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
+  const [openModal, setOpenModal] = useState(false);
+
   const open = Boolean(anchorEl);
   const {
     his_ris_info_txt,
@@ -66,6 +100,10 @@ const SystemCard = ({
     connect,
     grafana_link_txt,
   } = localizedData().systems_card;
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -102,8 +140,243 @@ const SystemCard = ({
     setSystem(system);
   };
 
+  const webSSHConnection = (msg: { id: string }) => {
+    setOpenModal(true);
+    const url = "ws://localhost:8888/" + "ws?id=" + msg.id;
+    const title_element: unknown = {};
+    const url_opts_data: unknown = {};
+    const style: unknown = {};
+    const encoding = "utf-8";
+    const decoder = window.TextDecoder
+      ? new window.TextDecoder(encoding)
+      : encoding;
+    const custom_font = document.fonts
+      ? document.fonts.values().next().value
+      : undefined;
+    let default_fonts;
+    let sock = new window.WebSocket(url);
+    const containerElement = document.getElementById("terminal");
+    const termOptions = {
+      cursorBlink: true,
+      theme: {
+        background: "black",
+        foreground: "white",
+      },
+    };
+    const term: unknown = new Terminal(termOptions);
+    const fitAddon = new FitAddon();
+    term.loadAddon(fitAddon);
+
+    term.on_resize = function (cols, rows) {
+      if (cols !== this.cols || rows !== this.rows) {
+        this.resize(cols, rows);
+        sock.send(JSON.stringify({ resize: [cols, rows] }));
+      }
+    };
+
+    term.onData(function (data) {
+      sock.send(JSON.stringify({ data: data }));
+    });
+    function custom_font_is_loaded() {
+      if (custom_font.status === "loaded") {
+        return true;
+      }
+      if (custom_font.status === "unloaded") {
+        return false;
+      }
+    }
+    function update_font_family(term) {
+      if (term.font_family_updated) {
+        return;
+      }
+
+      if (!default_fonts) {
+        default_fonts = term.getOption("fontFamily");
+      }
+
+      if (custom_font_is_loaded()) {
+        const new_fonts = custom_font.family + ", " + default_fonts;
+        term.setOption("fontFamily", new_fonts);
+        term.font_family_updated = true;
+      }
+    }
+
+    function read_as_text_with_encoding(file, callback, encoding) {
+      const reader = new window.FileReader();
+
+      if (encoding === undefined) {
+        encoding = "utf-8";
+      }
+
+      reader.onload = function () {
+        if (callback) {
+          callback(reader.result);
+        }
+      };
+
+      reader.readAsText(file, encoding);
+    }
+    function read_as_text_with_decoder(file, callback, decoder) {
+      const reader = new window.FileReader();
+
+      if (decoder === undefined) {
+        decoder = new window.TextDecoder("utf-8", { fatal: true });
+      }
+
+      reader.onload = function () {
+        let text;
+        try {
+          text = decoder.decode(reader.result);
+        } finally {
+          if (callback) {
+            callback(text);
+          }
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+    function get_cell_size(term) {
+      style.width =
+        term._core._renderService._renderer.dimensions.actualCellWidth;
+      style.height =
+        term._core._renderService._renderer.dimensions.actualCellHeight;
+    }
+    function parse_xterm_style() {
+      // var text = $(".xterm-helpers style").text();
+      const el = document.getElementsByClassName(
+        ".xterm-helpers style"
+      ) as unknown as HTMLElement | null;
+      if (el !== null) {
+        const text = el.innerText;
+        let arr = text.split("xterm-normal-char{width:");
+        style.width = parseFloat(arr[1]);
+        arr = text.split("div{height:");
+        style.height = parseFloat(arr[1]);
+      }
+    }
+    function current_geometry(term) {
+      if (!style.width || !style.height) {
+        try {
+          get_cell_size(term);
+        } catch (TypeError) {
+          parse_xterm_style();
+        }
+      }
+
+      const cols = window.innerWidth / style.width - 1;
+      const rows = window.innerHeight / style.height;
+      return { cols: cols, rows: rows };
+    }
+
+    function resize_terminal(term) {
+      const geometry = current_geometry(term);
+      term.on_resize(geometry.cols, geometry.rows);
+    }
+
+    function term_write(text) {
+      if (term) {
+        term.write(text);
+        if (!term.resized) {
+          resize_terminal(term);
+          term.resized = true;
+        }
+      }
+    }
+    function read_file_as_text(file, callback, decoder) {
+      if (!window.TextDecoder) {
+        read_as_text_with_encoding(file, callback, decoder);
+      } else {
+        read_as_text_with_decoder(file, callback, decoder);
+      }
+    }
+    sock.onopen = function () {
+      term.open(containerElement);
+      update_font_family(term);
+      term.focus();
+      title_element.text = "WebSSH";
+      if (url_opts_data.command) {
+        setTimeout(function () {
+          sock.send(JSON.stringify({ data: url_opts_data.command + "\r" }));
+        }, 500);
+      }
+    };
+
+    sock.onmessage = function (msg) {
+      read_file_as_text(msg.data, term_write, decoder);
+    };
+    sock.onclose = function () {
+      term.dispose();
+      term = undefined;
+      sock = undefined;
+    };
+  };
+
+  const handleConnect = async (systemId: number) => {
+    try {
+      const response = await fetch("http://localhost:8888", {
+        credentials: "include",
+        method: "GET",
+        mode: "cors",
+      });
+
+      if (!response.status === 200) {
+        throw new Error(`Error! status: ${response.status}`);
+      } else {
+        const xsrfToken = getCookie("_xsrf");
+
+        const data = new FormData();
+        data.append("organization_id", selectedOrganization?.id);
+        data.append("system_id", systemId);
+        data.append("port", "22");
+        data.append("username", "root");
+        data.append("term", "xterm-256color");
+        data.append("_xsrf", xsrfToken);
+
+        fetch("http://localhost:8888", {
+          credentials: "include",
+          method: "POST",
+          mode: "cors",
+          body: data,
+        })
+          .then((res) => res.json())
+          .then((res) => webSSHConnection(res));
+      }
+    } catch (error) {
+      toast.error("Could not connect.", {
+        autoClose: 1000,
+        pauseOnHover: false,
+      });
+    }
+  };
   return (
     <div className="system-card">
+      <div>
+        <Dialog
+          maxWidth="lg"
+          open={openModal}
+          onClose={handleModalClose}
+          TransitionComponent={Transition}
+        >
+          <AppBar sx={{ position: "relative" }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleModalClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                SSH Terminal
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <List id="terminal"></List>
+        </Dialog>
+      </div>
+
       <Box className="container">
         <div className="machine">
           <p className="name">{system.name}</p>
@@ -118,25 +391,9 @@ const SystemCard = ({
                 color: buttonTextColor,
               }}
               className="connect-btn"
-              onClick={() => {
-                const data = new FormData();
-                data.append("organization_id", "3");
-                data.append("system_id", "3");
-                data.append("port", "22");
-                data.append("username", "root");
-                data.append("term", "xterm-256color");
-                data.append(
-                  "_xsrf",
-                  "2|abbde9cf|03e7cb77009b22aa79d18d35a208eb26|165295229"
-                );
-                fetch("http://localhost:8888", {
-                  method: "POST",
-                  mode: "cors",
-                  body: data,
-                }).then((res) => res.json());
-              }}
+              onClick={() => handleConnect(system.id, xsrfToken)}
             >
-              {connect} test
+              {connect}
             </Button>
             {system?.grafana_link ? (
               <Button
@@ -159,7 +416,9 @@ const SystemCard = ({
             <div style={{ marginRight: "32px" }}>
               <p className="option">
                 {his_ris_info_txt} <br />
-                <strong>{system.his_ris_info?.title || "-"}</strong>
+                <strong className={classes.testClassMui}>
+                  {system.his_ris_info?.title || "-"}
+                </strong>
               </p>
               <p className="option">
                 {dicom_info_txt} <br />
