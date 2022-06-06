@@ -7,6 +7,7 @@ services:
       - ./docker/env.db
       - ./.env
     container_name: vfse
+    command: 'python manage.py runserver 0.0.0.0:8000'
 
   prod_app:
     extends:
@@ -37,6 +38,6 @@ services:
 
   ssh:
     image: vfse_app
-    command: bash -c "python run.py --port=8888"
+    command: bash -c "python run.py --port=8888 --origin=http://localhost:8000"
     ports:
       - "8888:8888"

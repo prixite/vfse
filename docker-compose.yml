@@ -29,5 +29,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: ssh
+    environment:
+      - SERVICE=app
     depends_on:
       - app
