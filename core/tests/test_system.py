@@ -323,7 +323,7 @@ class SystemSSHTestCase(BaseTestCase):
     def test_ssh_connection_request_permission_denied(self):
         self.client.force_token_login(self.super_admin)
         response = self.client.get(
-            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/ssh_password/",  # noqa
+            f"/api/systems/{self.system.id}/ssh_password/",  # noqa
         )
         self.assertEqual(response.status_code, 404)
 
@@ -332,7 +332,7 @@ class SystemSSHTestCase(BaseTestCase):
         self.system.connection_options["ssh"] = True
         self.system.save()
         response = self.client.get(
-            f"/api/organizations/{self.organization.id}/systems/{self.system.id}/ssh_password/",  # noqa
+            f"/api/systems/{self.system.id}/ssh_password/",  # noqa
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn("ssh_password", response.json().keys())
