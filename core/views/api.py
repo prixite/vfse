@@ -357,10 +357,12 @@ class SystemViewSet(OrganizationSystemViewSet):
         return Response(serializer.data)
 
 
-class SystemAccessViewSet(OrganizationSystemViewSet):
-    lookup_url_kwarg = "system_pk"
+class SystemAccessViewSet(ModelViewSet):
     serializer_class = serializers.SystemAccessSerializer
     authentication_classes = [TokenAuthentication]
+
+    def get_queryset(self):
+        return models.System.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
         if (

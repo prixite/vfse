@@ -915,38 +915,6 @@
                 }
             ]
         },
-        "/organizations/{id}/systems/{system_pk}/ssh_password/": {
-            "get": {
-                "operationId": "organizations_systems_ssh_password_read",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/SystemAccess"
-                        }
-                    }
-                },
-                "tags": [
-                    "organizations"
-                ]
-            },
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                },
-                {
-                    "name": "system_pk",
-                    "in": "path",
-                    "required": true,
-                    "type": "string"
-                }
-            ]
-        },
         "/organizations/{id}/users/": {
             "get": {
                 "operationId": "organizations_users_list",
@@ -1369,6 +1337,32 @@
                         "description": "",
                         "schema": {
                             "$ref": "#/definitions/SystemNotes"
+                        }
+                    }
+                },
+                "tags": [
+                    "systems"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/systems/{id}/ssh_password/": {
+            "get": {
+                "operationId": "systems_ssh_password_read",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/SystemAccess"
                         }
                     }
                 },
@@ -3306,39 +3300,6 @@
                 }
             }
         },
-        "SystemAccess": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
-            "required": [
-                "name"
-            ],
-            "type": "object",
-            "properties": {
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 1
-                },
-                "ip_address": {
-                    "title": "Ip address",
-                    "type": "string",
-                    "minLength": 1,
-                    "x-nullable": true
-                },
-                "ssh_password": {
-                    "title": "Ssh password",
-                    "type": "string",
-                    "maxLength": 30,
-                    "x-nullable": true
-                },
-                "ssh_user": {
-                    "title": "Ssh user",
-                    "type": "string",
-                    "maxLength": 25,
-                    "minLength": 1
-                }
-            }
-        },
         "ManagerMeta": {
             "title": "Manager",
             "description": "",
@@ -3742,6 +3703,39 @@
                     "title": "Author full name",
                     "type": "string",
                     "readOnly": true,
+                    "minLength": 1
+                }
+            }
+        },
+        "SystemAccess": {
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
+            "required": [
+                "name"
+            ],
+            "type": "object",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 1
+                },
+                "ip_address": {
+                    "title": "Ip address",
+                    "type": "string",
+                    "minLength": 1,
+                    "x-nullable": true
+                },
+                "ssh_password": {
+                    "title": "Ssh password",
+                    "type": "string",
+                    "maxLength": 30,
+                    "x-nullable": true
+                },
+                "ssh_user": {
+                    "title": "Ssh user",
+                    "type": "string",
+                    "maxLength": 25,
                     "minLength": 1
                 }
             }

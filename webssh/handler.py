@@ -410,10 +410,9 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
                 )
 
     def get_args(self):
-        org_id = self.get_organization()
         system_id = self.get_system()
         response = requests.get(
-            f"http://{SERVICE}/api/organizations/{org_id}/systems/{system_id}/ssh_password/",  # noqa
+            f"http://{SERVICE}/api/systems/{system_id}/ssh_password/",  # noqa
             headers={"Authorization": f"Token {AUTH_TOKEN}"},
         )
         if response.status_code != 200:
