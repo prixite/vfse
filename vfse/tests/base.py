@@ -24,3 +24,10 @@ class BaseTestCase(TestCase):
         self.comment = factories.CommentFactory(
             topic=self.topic, user=self.follower, comment="This is the first comment"
         )
+
+        self.reply = factories.CommentFactory(
+            topic=self.topic,
+            user=self.follower,
+            comment="This is the first reply",
+            parent=self.comment,
+        )
