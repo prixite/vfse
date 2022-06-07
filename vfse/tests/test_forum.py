@@ -12,7 +12,7 @@ class TopicTestCase(BaseTestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["number_of_followers"], 2)
-        self.assertEqual(response.json()["number_of_comments"], 6)
+        self.assertEqual(response.json()["number_of_comments"], 7)
 
     def test_follow_unfollow_topic(self):
         follower = core_factories.UserFactory()
@@ -55,3 +55,121 @@ class TopicTestCase(BaseTestCase):
         response = self.client.get("/api/vfse/topics/?query=public")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), 1)
+
+    def test_topic_list(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get("/api/vfse/topics/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+    def test_topic_retrieve(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get(f"/api/vfse/topics/{self.folder.id}/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            list(response.json().keys()),
+            [
+                "id",
+                "user",
+                "title",
+                "description",
+                "followers",
+                "image",
+                "categories",
+                "reply_email_notification",
+                "number_of_followers",
+                "number_of_comments",
+                "created_at",
+            ],
+        )
+
+    def test_topic_delete(self):
+        self.client.force_login(self.super_user)
+        response = self.client.delete(f"/api/vfse/topics/{self.folder.id}/")
+
+        self.assertEqual(response.status_code, 204)
+
+    def test_topic_post(self):
+        self.client.force_login(self.super_user)
+        response = self.client.post(
+            "/api/vfse/topics/",
+            data={
+                "title": "New Topic",
+                "description": "This topic has no description",
+                "image": "http://example.com/image.jpeg",
+                "categories": [self.category.id],
+                "reply_email_notification": False,
+            },
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.Topic.objects.filter(
+                title="New Topic", reply_email_notification=False
+            ).exists()
+        )
+
+    def test_topic_patch(self):
+        self.client.force_login(self.super_user)
+        response = self.client.patch(
+            f"/api/vfse/topics/{self.topic.id}/",
+            data={
+                "title": "Changed Topic",
+                "reply_email_notification": True,
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            models.Topic.objects.filter(
+                title="Changed Topic", reply_email_notification=True
+            ).exists()
+        )
+
+
+class CommentsTestCase(BaseTestCase):
+    def test_comment_list(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get(f"/api/vfse/topics/{self.topic.id}/comments/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+    def test_comment_post(self):
+        self.client.force_login(self.super_user)
+        response = self.client.post(
+            f"/api/vfse/topics/{self.topic.id}/comments/",
+            data={"comment": "This is another random comment"},
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.Comment.objects.filter(
+                topic=self.topic.id, comment="This is another random comment"
+            ).exists()
+        )
+
+
+class RepliesTestCase(BaseTestCase):
+    def test_replies_list(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get(f"/api/vfse/comments/{self.comment.id}/replies/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+    def test_comment_post(self):
+        self.client.force_login(self.super_user)
+        response = self.client.post(
+            f"/api/vfse/comments/{self.topic.id}/replies/",
+            data={"comment": "This is another random comment"},
+        )
+
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.Comment.objects.filter(
+                topic=self.topic.id,
+                comment="This is another random comment",
+                parent=self.comment,
+            ).exists()
+        )

@@ -52,7 +52,9 @@ class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
 
     def get_queryset(self):
-        return models.Comment.objects.filter(topic_id=self.kwargs["pk"])
+        return models.Comment.objects.filter(
+            topic_id=self.kwargs["pk"], parent__isnull=True
+        )
 
 
 class ReplyViewSet(ModelViewSet):
@@ -76,10 +78,10 @@ class TopicViewset(ModelViewSet):
         return super().get_serializer_class()
 
     def get_queryset(self):
-        return models.Topic.objects.all().annotate(
+        return models.Topic.objects.annotate(
             number_of_followers=Count("followers", distinct=True),
             number_of_comments=Count("comments", distinct=True),
-        )
+        ).order_by("-id")
 
 
 class PopularTopicsViewset(ModelViewSet):
