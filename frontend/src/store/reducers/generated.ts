@@ -286,14 +286,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.system,
       }),
     }),
-    organizationsSystemsSshPasswordRead: build.query<
-      OrganizationsSystemsSshPasswordReadApiResponse,
-      OrganizationsSystemsSshPasswordReadApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/systems/${queryArg.systemPk}/ssh_password/`,
-      }),
-    }),
     organizationsUsersList: build.query<
       OrganizationsUsersListApiResponse,
       OrganizationsUsersListApiArg
@@ -436,6 +428,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: "POST",
         body: queryArg.systemNotes,
       }),
+    }),
+    systemsSshPasswordRead: build.query<
+      SystemsSshPasswordReadApiResponse,
+      SystemsSshPasswordReadApiArg
+    >({
+      query: (queryArg) => ({ url: `/systems/${queryArg.id}/ssh_password/` }),
     }),
     systemsChatbotList: build.query<
       SystemsChatbotListApiResponse,
@@ -912,12 +910,6 @@ export type OrganizationsSystemsUpdateFromInfluxApiArg = {
   systemPk: string;
   system: System;
 };
-export type OrganizationsSystemsSshPasswordReadApiResponse =
-  /** status 200  */ SystemAccess;
-export type OrganizationsSystemsSshPasswordReadApiArg = {
-  id: string;
-  systemPk: string;
-};
 export type OrganizationsUsersListApiResponse = /** status 200  */ User[];
 export type OrganizationsUsersListApiArg = {
   id: string;
@@ -992,6 +984,10 @@ export type SystemsNotesCreateApiResponse = /** status 201  */ SystemNotes;
 export type SystemsNotesCreateApiArg = {
   id: string;
   systemNotes: SystemNotes;
+};
+export type SystemsSshPasswordReadApiResponse = /** status 200  */ SystemAccess;
+export type SystemsSshPasswordReadApiArg = {
+  id: string;
 };
 export type SystemsChatbotListApiResponse = unknown;
 export type SystemsChatbotListApiArg = {
@@ -1355,12 +1351,6 @@ export type OrganizationSite = {
 export type InfluxSystems = {
   systems: number[];
 };
-export type SystemAccess = {
-  name: string;
-  ip_address?: string | null;
-  ssh_password?: string | null;
-  ssh_user?: string;
-};
 export type Manager = {
   email: string;
   name: string;
@@ -1442,6 +1432,12 @@ export type SystemNotes = {
   created_at?: string;
   author_image?: string;
   author_full_name?: string;
+};
+export type SystemAccess = {
+  name: string;
+  ip_address?: string | null;
+  ssh_password?: string | null;
+  ssh_user?: string;
 };
 export type UserEnableDisable = {
   users: number[];
@@ -1575,7 +1571,6 @@ export const {
   useOrganizationsSystemsPartialUpdateMutation,
   useOrganizationsSystemsDeleteMutation,
   useOrganizationsSystemsUpdateFromInfluxMutation,
-  useOrganizationsSystemsSshPasswordReadQuery,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
   useProductsListQuery,
@@ -1593,6 +1588,7 @@ export const {
   useSystemsInfluxdbListQuery,
   useSystemsNotesListQuery,
   useSystemsNotesCreateMutation,
+  useSystemsSshPasswordReadQuery,
   useSystemsChatbotListQuery,
   useSystemsChatbotCreateMutation,
   useUsersActivatePartialUpdateMutation,
