@@ -37,6 +37,7 @@ const TopicCommentSection = () => {
         setIsCommentPosting(false);
       });
   };
+
   return (
     <Box className="topicCommentSection" component="div">
       <Box component="div" className="commentActions">
@@ -53,6 +54,7 @@ const TopicCommentSection = () => {
           className="postBtn"
           disabled={!comment && isCommentPosting}
           onClick={addCommentHandler}
+          sx={{ height: 45, width: 125 }}
         >
           {isCommentPosting ? "Posting..." : "Add reply"}
         </Button>

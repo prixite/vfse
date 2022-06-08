@@ -14,20 +14,29 @@ import TopicUpdatesCards from "@src/components/common/presentational/topicUpdate
 import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
-import { api } from "@src/store/reducers/api";
-
+import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
 interface Props {
   setOpen?: (arg: boolean) => void;
   title: string;
   seeAll: string;
+  setPaginatedTopics?: React.Dispatch<
+    React.SetStateAction<VfseTopicsListApiResponse>
+  >;
 }
 
-export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
+export default function VfseTopSection({
+  setOpen,
+  title,
+  seeAll,
+  setPaginatedTopics,
+}: Props) {
   const classes = useStyles();
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery();
+  const { data: topicsList = [] } = api.useGetTopicsListQuery({});
+
   const [searchTerm, setSearchTerm] = useState("");
   const [listData, setListData] = useState([]);
-  const [filter, setFilter] = useState("");
+
   const [openSort, setOpenSort] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -36,32 +45,64 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
 
   useEffect(() => {
     setListData(popularTopicData);
-  }, [popularTopicData]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
+  }, [popularTopicData, topicsList]);
 
   useEffect(() => {
     if (searchTerm !== "") {
-      setListData([
-        ...popularTopicData.filter((topic) => {
-          if (topic.title) {
+      if (popularTopicData && popularTopicData.length) {
+        setListData([
+          ...popularTopicData.filter((topic) => {
             return (
-              topic &&
-              topic.title.toLowerCase().includes(searchTerm.toLowerCase())
+              (topic?.title + topic?.description + topic?.user?.name)
+                ?.trim()
+                ?.toLowerCase()
+                ?.search(searchTerm?.toLowerCase()?.trim()) != -1
             );
-          }
-        }),
-      ]);
+          }),
+        ]);
+      }
+      if (topicsList && topicsList.length) {
+        setPaginatedTopics([
+          ...topicsList.filter((topic) => {
+            return (
+              (topic?.title + topic?.description + topic?.user?.name)
+                ?.trim()
+                ?.toLowerCase()
+                ?.search(searchTerm?.toLowerCase()?.trim()) != -1
+            );
+          }),
+        ]);
+      }
     } else {
       setListData([...popularTopicData]);
+      setPaginatedTopics([...topicsList]);
     }
   }, [searchTerm]);
 
+  const handleChangeFilter = async (event) => {
+    if (event.target.value === 1) {
+      setListData([...popularTopicData]);
+      setPaginatedTopics([...topicsList]);
+    } else {
+      const reversePopularTopicsData = await JSON.parse(
+        JSON.stringify([...popularTopicData])
+      ).reverse();
+      setListData([...reversePopularTopicsData]);
+
+      const reverseTopicsListData = await JSON.parse(
+        JSON.stringify([...topicsList])
+      ).reverse();
+      setPaginatedTopics(reverseTopicsListData);
+    }
+  };
+
+  const handleChangeSort = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   //useMemo Hook is used to memoize a return value from our debounce function.
   const debouncedResults = useMemo(() => {
-    return debouce(handleChange, 300);
+    return debouce(handleChangeSort, 300);
   }, []);
 
   useEffect(() => {
@@ -69,6 +110,29 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
       debouncedResults.cancel();
     };
   });
+
+  const { btnCreateTopic } = localizedData().Forum;
+
+  const handleClose = () => {
+    setOpenSort(false);
+  };
+
+  const handleOpen = () => {
+    setOpenSort(true);
+  };
+
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
+  };
+
+  const handleModal = () => {
+    setOpen(true);
+  };
+
   const renderPopularTopics = () => {
     return (
       <>
@@ -99,31 +163,6 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
     );
   };
 
-  const { btnCreateTopic } = localizedData().Forum;
-
-  const handleClose = () => {
-    setOpenSort(false);
-  };
-
-  const handleOpen = () => {
-    setOpenSort(true);
-  };
-  const handleChangeFilter = (event) => {
-    setFilter(event.target.value);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleModal = () => {
-    setOpen(true);
-  };
-
   return (
     <>
       <Grid
@@ -132,6 +171,7 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
         justifyContent="flex-start"
         alignItems="center"
       >
+        {/* Sort  */}
         <Grid item xs={4} sm={4} md={2} lg={2}>
           <FormControl className={classes.sortByField} size="small">
             <InputLabel id="sort-by-categoty">Sort By:</InputLabel>
@@ -143,17 +183,15 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
               onOpen={handleOpen}
               // value={sort}
               label="Sort"
-              onChange={handleChange}
+              // onChange={}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={10}>Updated At</MenuItem>
+              <MenuItem value={20}>Created At</MenuItem>
             </Select>
           </FormControl>
         </Grid>
+
+        {/* Filter  */}
         <Grid item xs={2} sm={2} md={1} lg={2} ml={3}>
           <FormControl
             // sx={{ m: 0, mr: 1, minWidth: 140, backgroundColor: "white" }}
@@ -167,19 +205,17 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
               open={openFilter}
               onClose={handleCloseFilter}
               onOpen={handleOpenFilter}
-              value={filter}
+              // value={filter}
               label="Filter"
               onChange={handleChangeFilter}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={1}>Ascending</MenuItem>
+              <MenuItem value={2}>Descending</MenuItem>
             </Select>
           </FormControl>
         </Grid>
+
+        {/* Search  */}
         <Grid item xs={12} sm={12} md={2} lg={3}>
           <TextField
             id="search-topics"
@@ -197,6 +233,8 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
             }}
           />
         </Grid>
+
+        {/* Create Topic Button  */}
         <Grid item xs={6} sm={12} md={12} lg={4} className={classes.topBtnGrid}>
           <Box className={classes.topBtnCreate}>
             <Button
@@ -232,14 +270,10 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
                 onOpen={handleOpen}
                 // value={sort}
                 label="Sort"
-                onChange={handleChange}
+                onChange={handleChangeSort}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={10}>Created At</MenuItem>
+                <MenuItem value={20}>updated At</MenuItem>
               </Select>
             </FormControl>
           </div> */}
@@ -260,12 +294,8 @@ export default function VfseTopSection({ setOpen, title, seeAll }: Props) {
                 label="Filter"
                 onChange={handleChangeFilter}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={1}>Ascending</MenuItem>
+                <MenuItem value={2}>Descending</MenuItem>
               </Select>
             </FormControl>
           </div> */}

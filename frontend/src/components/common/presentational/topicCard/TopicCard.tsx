@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import moment from "moment";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import "@src/components/common/presentational/topicCard/topicCard.scss";
@@ -27,7 +28,9 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                   </div>
                   <div className="user_info">
                     <div className="userName">{topic?.user?.name}</div>
-                    <div className="postTime">3 hours ago</div>
+                    <div className="postTime">
+                      {moment(topic?.created_at).startOf("minutes").fromNow()}
+                    </div>
                   </div>
                 </div>
               </div>
