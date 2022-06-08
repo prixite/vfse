@@ -52,9 +52,9 @@ const RecentActivity = () => {
               <div className="statusDetail">
                 <span className="username">{item?.user?.name}</span>{" "}
                 {item?.action}
-                <div className="postTime">{`${moment(item?.created_at).format(
-                  "MMMM d, YYYY"
-                )}`}</div>
+                <div className="postTime">
+                  {moment(item?.created_at).startOf("minutes").fromNow()}
+                </div>
               </div>
             </div>
           ))

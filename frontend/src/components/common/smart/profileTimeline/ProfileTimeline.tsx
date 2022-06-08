@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
-import { api } from "@src/store/reducers/api";
+import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
 import { getTopicListArg } from "@src/types/interfaces";
 
 function TabPanel(props) {
@@ -37,11 +37,16 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-const ProfileTimeline = () => {
+type Props = {
+  paginatedTopics?: VfseTopicsListApiResponse;
+  setPaginatedTopics?: React.Dispatch<
+    React.SetStateAction<VfseTopicsListApiResponse>
+  >;
+};
+const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
   const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
   const [slicePointer, setSlicePointer] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [paginatedTopics, setPaginatedTopics] = useState([]);
   const { data: topicsList = [], isLoading } =
     api.useGetTopicsListQuery(topicListPayload);
 
@@ -59,6 +64,7 @@ const ProfileTimeline = () => {
       ]);
     }, 0);
   };
+
   useEffect(() => {
     if (topicsList && topicsList.length) {
       setPaginatedTopics([...topicsList.slice(0, 5)]);
@@ -105,6 +111,8 @@ const ProfileTimeline = () => {
                         reply_email_notification={
                           item?.reply_email_notification
                         }
+                        createdAt={item?.created_at}
+                        updatedAt={item?.updatedAt}
                       />
                     </Grid>
                   ))}

@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
+import moment from "moment";
+import { useHistory } from "react-router-dom";
 
 import messageIcon from "@src/assets/svgs/message.svg";
+import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import "@src/components/common/presentational/profileTimeLineCards/profileTimelineCards.scss";
@@ -24,6 +27,8 @@ interface ProfileTimelineCards {
   image?: string;
   categories: TopicCategory[];
   followers?: User2[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 const ProfileTimelineCards = ({
@@ -36,6 +41,7 @@ const ProfileTimelineCards = ({
   image,
   categories,
   followers,
+  createdAt,
 }: ProfileTimelineCards) => {
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery(
@@ -46,6 +52,9 @@ const ProfileTimelineCards = ({
       skip: !selectedOrganization,
     }
   );
+  const history = useHistory();
+  const { organizationRoute } = constants;
+
   const [updateFollowUnfollowTopic] =
     useVfseTopicsFollowPartialUpdateMutation();
   const [isFollowing, setIsFollowing] = useState(
@@ -65,10 +74,16 @@ const ProfileTimelineCards = ({
     }).unwrap();
   };
 
+  const expandOnClick = () => {
+    history.push(
+      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
+    );
+  };
+
   return (
     <>
       <div className="timelineInfo">
-        <div className="timelineCards">
+        <div className="timelineCards" onClick={expandOnClick}>
           <Box component="div" className="card" style={{ cursor: "pointer" }}>
             <div className="card_header">
               <div className="userInfoWrapper">
@@ -83,7 +98,9 @@ const ProfileTimelineCards = ({
                 </div>
                 <div className="user_info">
                   <div className="userName">{user?.name}</div>
-                  <div className="postTime">3 hours ago</div>
+                  <div className="postTime">
+                    {moment(createdAt).startOf("minutes").fromNow()}
+                  </div>
                 </div>
               </div>
               {me?.id !== user?.id ? (
