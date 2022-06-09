@@ -162,7 +162,35 @@ export default function VfseTopSection({
       </>
     );
   };
+  const handleSortFiltering = async (e) => {
+    if (e.target.value === 10) {
+      //Created At
+      const sortedCreatedAtDatesTopics = await topicsList
+        .slice()
+        .sort((first, second) => {
+          return (
+            new Date(first?.created_at).getTime() -
+            new Date(second?.created_at).getTime()
+          );
+        });
+      await setPaginatedTopics(sortedCreatedAtDatesTopics);
 
+      const sortedCreatedAtDatesPopular = await popularTopicData
+        .slice()
+        .sort((first, second) => {
+          return (
+            new Date(first?.created_at).getTime() -
+            new Date(second?.created_at).getTime()
+          );
+        });
+      await setListData(sortedCreatedAtDatesPopular);
+    } else if (e.target.value === 20) {
+      //UpdatedAt
+    } else {
+      setListData(popularTopicData);
+      setPaginatedTopics(topicsList);
+    }
+  };
   return (
     <>
       <Grid
@@ -183,10 +211,10 @@ export default function VfseTopSection({
               onOpen={handleOpen}
               // value={sort}
               label="Sort"
-              // onChange={}
+              onChange={handleSortFiltering}
             >
-              <MenuItem value={10}>Updated At</MenuItem>
-              <MenuItem value={20}>Created At</MenuItem>
+              <MenuItem value={20}>Updated At</MenuItem>
+              <MenuItem value={10}>Created At</MenuItem>
             </Select>
           </FormControl>
         </Grid>
