@@ -9,6 +9,9 @@
 .xterm:focus {
   outline: none;
 }
+.xterm-helpers {
+  display: none !important;
+}
 .xterm .xterm-helpers {
   position: absolute;
   top: 0;

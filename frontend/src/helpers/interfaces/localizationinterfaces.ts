@@ -317,7 +317,7 @@ export interface articleDescription {
 
 export interface LocalizationInterface {
   Faq: { dashboard: unknown; topicUpdates: unknown; seeAll: unknown };
-  Forum: { btnCreateTopic: unknown };
+  Forum: { btnCreateTopic: unknown; forum: unknown; title: string };
   common: Common;
   users: Users;
   user_menu_options: UserMenuOptions;
