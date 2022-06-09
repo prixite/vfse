@@ -128,6 +128,19 @@ class TopicTestCase(BaseTestCase):
             ).exists()
         )
 
+    def test_topics_popular_list(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get("/api/vfse/topics/popular/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+    def test_topic_activity(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get("/api/vfse/user/activity/")
+
+        self.assertEqual(response.status_code, 200)
+
 
 class CommentsTestCase(BaseTestCase):
     def test_comment_list(self):
@@ -171,5 +184,49 @@ class RepliesTestCase(BaseTestCase):
                 topic=self.topic.id,
                 comment="This is another random comment",
                 parent=self.comment,
+            ).exists()
+        )
+
+
+class DashboardTestCase(BaseTestCase):
+    def test_dashboard_home(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get("/api/vfse/dashboard/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            list(response.json().keys()),
+            [
+                "system_count",
+                "online_system_count",
+                "offline_system_count",
+                "last_month_logged_in_user",
+            ],
+        )
+
+
+class WorkOrderTestCase(BaseTestCase):
+    def test_workorders_list(self):
+        self.client.force_login(self.super_user)
+        response = self.client.get("/api/vfse/workorders/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 1)
+
+    def test_workorders_post(self):
+        self.client.force_login(self.super_user)
+        response = self.client.post(
+            "/api/vfse/workorders/",
+            data={
+                "system": 1,
+                "description": "There is no description",
+                "work_started": False,
+                "work_completed": False,
+            },
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertTrue(
+            models.WorkOrder.objects.filter(
+                system_id=1, description="There is no description"
             ).exists()
         )

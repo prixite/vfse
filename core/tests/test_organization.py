@@ -72,6 +72,14 @@ class OrganizationTestCase(BaseTestCase):
             )
             self.assertEqual(len(response.json()), 1)
 
+    def test_site_list_non_super_users(self):
+        for user in [self.customer_admin]:
+            self.client.force_login(user)
+            response = self.client.get(
+                f"/api/organizations/{self.organization.id}/sites/"
+            )
+            self.assertEqual(len(response.json()), 1)
+
     def test_user_list(self):
         for user, count in [
             (self.super_admin, 10),
@@ -728,6 +736,12 @@ class OrganizationTestCase(BaseTestCase):
             f"/api/organizations/{self.organization.id}/associated_sites/"
         )
         self.assertEqual(len(response.json()), 2)
+
+    def test_health_network(self):
+        self.client.force_login(self.super_admin)
+        response = self.client.get("/api/health_networks/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.json()), 4)
 
 
 class VfseTestCase(BaseTestCase):

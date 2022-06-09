@@ -1,5 +1,9 @@
+from datetime import datetime
+
 import factory
+import factory.fuzzy
 from faker import Faker
+from pytz import UTC
 
 from core.models import User
 from vfse import models
@@ -79,3 +83,11 @@ class CommentFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = models.Comment
+
+
+class WorkOrderFactory(factory.django.DjangoModelFactory):
+    description = factory.Faker("paragraph")
+    work_started_at = factory.fuzzy.FuzzyDateTime(datetime(2015, 1, 1, tzinfo=UTC))
+
+    class Meta:
+        model = models.WorkOrder

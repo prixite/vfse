@@ -31,3 +31,11 @@ class BaseTestCase(TestCase):
             comment="This is the first reply",
             parent=self.comment,
         )
+
+        self.work_order = factories.WorkOrderFactory(
+            system=core_app_factories.SystemFactory(
+                site=core_app_factories.SiteFactory(
+                    organization=core_app_factories.OrganizationFactory()
+                )
+            )
+        )

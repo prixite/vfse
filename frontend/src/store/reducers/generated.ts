@@ -1133,13 +1133,14 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserActivityListApiArg = void;
-export type VfseWorkordersListApiResponse = /** status 200  */ WorkOrder[];
+export type VfseWorkordersListApiResponse =
+  /** status 200  */ WorkOrderDetail[];
 export type VfseWorkordersListApiArg = void;
 export type VfseWorkordersCreateApiResponse = /** status 201  */ WorkOrder;
 export type VfseWorkordersCreateApiArg = {
   workOrder: WorkOrder;
 };
-export type VfseWorkordersReadApiResponse = /** status 200  */ WorkOrder;
+export type VfseWorkordersReadApiResponse = /** status 200  */ WorkOrderDetail;
 export type VfseWorkordersReadApiArg = {
   id: string;
 };
@@ -1531,8 +1532,14 @@ export type System2 = {
   name: string;
   image_url?: string;
 };
-export type WorkOrder = {
+export type WorkOrderDetail = {
   system: System2;
+  description: string;
+  work_started?: boolean;
+  work_completed?: boolean;
+};
+export type WorkOrder = {
+  system: number;
   description: string;
   work_started?: boolean;
   work_completed?: boolean;

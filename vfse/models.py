@@ -80,7 +80,7 @@ class WorkOrder(models.Model):
     system = models.ForeignKey("core.System", on_delete=models.CASCADE)
     description = models.TextField()
     work_started = models.BooleanField(default=False)
-    work_started_at = models.DateTimeField()
+    work_started_at = models.DateTimeField(null=True, blank=True)
     work_completed = models.BooleanField(default=False)
     work_completed_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
