@@ -751,9 +751,6 @@ class UserRolesView(ModelViewSet):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     serializer_class = serializers.RoleSerializer
 
-    def get_serializer_class(self):
-        return self.serializer_class
-
     def list(self, request, *args, **kwargs):
         data = [{"value": item, "title": value} for item, value in models.Role.choices]
         serializer = self.serializer_class(data, many=True)

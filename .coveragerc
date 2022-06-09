@@ -1,10 +1,13 @@
 [run]
 omit =
     core/migrations/*
+    vfse/migrations/*
     admin.py
     apps.py
     manage.py
     app/*
+    webssh/*
+    emailbackend/*
 
 [report]
 # Regexes for lines to exclude from consideration

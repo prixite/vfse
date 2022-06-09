@@ -134,6 +134,11 @@ class WorkOrderViewset(ModelViewSet):
             return models.WorkOrder.objects.none()
         return models.WorkOrder.objects.all()
 
+    def get_serializer_class(self):
+        if self.action in ["list", "retrieve"]:
+            return serializers.WorkOrderDetailSerializer
+        return super().get_serializer_class()
+
 
 class FollowtopicViewset(ModelViewSet):
     serializer_class = serializers.FollowUnfollowSerializer

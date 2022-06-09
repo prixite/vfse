@@ -2255,7 +2255,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/WorkOrder"
+                                "$ref": "#/definitions/WorkOrderDetail"
                             }
                         }
                     }
@@ -2300,7 +2300,7 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/WorkOrder"
+                            "$ref": "#/definitions/WorkOrderDetail"
                         }
                     }
                 },
@@ -4231,7 +4231,7 @@
                 }
             }
         },
-        "WorkOrder": {
+        "WorkOrderDetail": {
             "description": "WorkOrder(id, system, description, work_started, work_started_at, work_completed, work_completed_at, created_at, updated_at)",
             "required": [
                 "system",
@@ -4241,6 +4241,33 @@
             "properties": {
                 "system": {
                     "$ref": "#/definitions/SystemMeta"
+                },
+                "description": {
+                    "title": "Description",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "work_started": {
+                    "title": "Work started",
+                    "type": "boolean"
+                },
+                "work_completed": {
+                    "title": "Work completed",
+                    "type": "boolean"
+                }
+            }
+        },
+        "WorkOrder": {
+            "description": "WorkOrder(id, system, description, work_started, work_started_at, work_completed, work_completed_at, created_at, updated_at)",
+            "required": [
+                "system",
+                "description"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
                 },
                 "description": {
                     "title": "Description",
