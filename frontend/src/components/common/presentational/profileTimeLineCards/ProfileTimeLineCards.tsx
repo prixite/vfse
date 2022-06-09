@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
-
 import messageIcon from "@src/assets/svgs/message.svg";
-import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
-import "@src/components/common/presentational/profileTimeLineCards/profileTimelineCards.scss";
+import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
 import {
   User2,
   TopicCategory,
@@ -43,6 +40,7 @@ const ProfileTimelineCards = ({
   followers,
   createdAt,
 }: ProfileTimelineCards) => {
+  const classes = useStyles();
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery(
     {
@@ -53,7 +51,7 @@ const ProfileTimelineCards = ({
     }
   );
   const history = useHistory();
-  const { organizationRoute } = constants;
+  // const { organizationRoute } = constants;
 
   const [updateFollowUnfollowTopic] =
     useVfseTopicsFollowPartialUpdateMutation();
@@ -73,7 +71,6 @@ const ProfileTimelineCards = ({
       followUnfollow: { follow: !isFollowing },
     }).unwrap();
   };
-
   const expandOnClick = () => {
     history.push(
       `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
@@ -82,23 +79,28 @@ const ProfileTimelineCards = ({
 
   return (
     <>
-      <div className="timelineInfo">
-        <div className="timelineCards" onClick={expandOnClick}>
-          <Box component="div" className="card" style={{ cursor: "pointer" }}>
-            <div className="card_header">
-              <div className="userInfoWrapper">
+      <div className={classes.timelineInfo}>
+        <div>
+          <Box
+            component="div"
+            className={classes.card}
+            style={{ cursor: "pointer" }}
+          >
+            <div className={classes.cardHeader}>
+              <div className={classes.userInfoWrapper}>
                 <div className="topic_updates_imags">
-                  <div className="imgStyling">
+                  <div className={classes.imgStyling}>
                     <img
                       src={user?.image}
                       alt="profile picture"
-                      className="profilePic"
+                      className={classes.profilePic}
                     />
                   </div>
                 </div>
-                <div className="user_info">
-                  <div className="userName">{user?.name}</div>
-                  <div className="postTime">
+                <div className={classes.userInfo}>
+                  <div className={classes.userName}>{user?.name}</div>
+                  <div className={classes.postTime}>
+                    {" "}
                     {moment(createdAt).startOf("minutes").fromNow()}
                   </div>
                 </div>
@@ -106,7 +108,7 @@ const ProfileTimelineCards = ({
               {me?.id !== user?.id ? (
                 <Button
                   variant="contained"
-                  className="follow"
+                  className={classes.follow}
                   onClick={handleFollowToggler}
                   style={{
                     backgroundColor: `${isFollowing ? "#D3F887" : "#92d509"}`,
@@ -117,12 +119,12 @@ const ProfileTimelineCards = ({
                       <DoneAllIcon
                         style={{ color: "#568000", marginRight: "9px" }}
                       />
-                      <p className="text" style={{ color: "#568000" }}>
+                      <p className={classes.text} style={{ color: "#568000" }}>
                         Following
                       </p>
                     </>
                   ) : (
-                    <p className="text">Follow</p>
+                    <p className={classes.text}>Follow</p>
                   )}
                 </Button>
               ) : (
@@ -131,9 +133,9 @@ const ProfileTimelineCards = ({
             </div>
 
             {categories?.length ? (
-              <div className="categoriesTags">
+              <div className={classes.categoriesTags}>
                 {categories.map((category, index) => (
-                  <div className="tag" key={index}>
+                  <div className={classes.tag} key={index}>
                     {category?.name}
                   </div>
                 ))}
@@ -142,24 +144,29 @@ const ProfileTimelineCards = ({
               ""
             )}
 
-            <div className="card_title">{title}</div>
-            <div className="card_detail">{description}</div>
+            <div className={classes.cardTitle}>{title}</div>
+            <div className={classes.cardDetail}>{description}</div>
             {image?.length ? (
-              <div className="card_image">
-                <img src={image} className="postImage" />
+              <div className={classes.cardImage}>
+                <img src={image} className={classes.postImage} />
               </div>
             ) : (
               ""
             )}
-            <div className="card_footer">
-              <div className="profile_side">
-                <div className="followerText">{`${number_of_followers} followers`}</div>
+            <div className={classes.cardFooter}>
+              <div className={classes.profileSide}>
+                <div
+                  className={classes.followerText}
+                >{`${number_of_followers} followers`}</div>
               </div>
-              <div className="message_side">
-                <div className="message_text_container">
-                  <img src={messageIcon} className="imgStylingMessage" />
+              <div className={classes.messageSide}>
+                <div className={classes.messageTextContainer}>
+                  <img
+                    src={messageIcon}
+                    className={classes.imgStylingMessage}
+                  />
                 </div>
-                <div className="messageText">{number_of_comments}</div>
+                <div className={classes.messageText}>{number_of_comments}</div>
               </div>
             </div>
           </Box>

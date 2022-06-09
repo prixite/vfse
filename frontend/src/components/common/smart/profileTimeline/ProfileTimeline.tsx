@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
-import "@src/components/common/smart/profileTimeline/profileTimeline.scss";
+import useStyles from "@src/components/common/smart/profileTimeline/Styles";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -44,6 +44,7 @@ type Props = {
   >;
 };
 const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
+  const classes = useStyles();
   const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
   const [slicePointer, setSlicePointer] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -76,11 +77,11 @@ const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
   }, [topicsList]);
   return (
     <>
-      <Box component="div" className="timeline_section">
-        <Grid container spacing={2} id="mainProfileGrid">
+      <Box component="div" className={classes.timelineSection}>
+        <Grid container spacing={2} className={classes.mainProfileGrid}>
           {/* ProfileTimeLine */}
           {!isLoading ? (
-            <Grid item xs={9} id="profileTimeLine">
+            <Grid item xs={9} className={classes.profileTimeLine}>
               <InfiniteScroll
                 dataLength={paginatedTopics.length}
                 next={fetchMoreSection}
@@ -123,9 +124,9 @@ const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
             <p>Loading ...</p>
           )}
           {/* RecentActivity */}
-          <Grid item xs={3} id="recentActivity">
-            <div className="timelineLeft">
-              <div className="allTopics">
+          <Grid item xs={3} className={classes.recentActivity}>
+            <div className={classes.timelineLeft}>
+              <div>
                 <TopicToggler setTopicListPayload={setTopicListPayload} />
               </div>
             </div>
