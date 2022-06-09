@@ -108,6 +108,7 @@ class TopicSerializer(serializers.ModelSerializer):
             "number_of_followers",
             "number_of_comments",
             "created_at",
+            "updated_at",
         ]
 
 

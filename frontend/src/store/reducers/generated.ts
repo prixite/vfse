@@ -1504,6 +1504,7 @@ export type TopicDetail = {
   number_of_followers?: number;
   number_of_comments?: number;
   created_at?: string;
+  updated_at?: string;
 };
 export type Topic = {
   id?: number;
@@ -1517,6 +1518,7 @@ export type Topic = {
   number_of_followers?: number;
   number_of_comments?: number;
   created_at?: string;
+  updated_at?: string;
 };
 export type FollowUnfollow = {
   follow: boolean;

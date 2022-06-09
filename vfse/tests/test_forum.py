@@ -82,6 +82,7 @@ class TopicTestCase(BaseTestCase):
                 "number_of_followers",
                 "number_of_comments",
                 "created_at",
+                "updated_at",
             ],
         )
 
