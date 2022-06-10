@@ -2,8 +2,8 @@ import { makeStyles } from "@mui/styles";
 
 interface Theme {
   breakpoints: {
-    down: (a: string) => string
-  }
+    down: (a: string) => string;
+  };
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
