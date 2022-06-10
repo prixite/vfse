@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -114,7 +114,7 @@ export default function SideBar() {
     setOpen((prevState) => !prevState);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       pathRoute.includes(
         `/${organizationRoute}/${selectedOrganization?.id}/networks/`
@@ -132,6 +132,18 @@ export default function SideBar() {
   const handleVfseClick = () => {
     setOpenVfse(!openVfse);
   };
+
+  useEffect(() => {
+    if (
+      currentRoute?.includes("knowledge-base") ||
+      currentRoute?.includes("forum") ||
+      currentRoute?.includes("faq")
+    ) {
+      setOpenVfse(true);
+    } else {
+      setOpenVfse(false);
+    }
+  }, [currentRoute]);
 
   const checkVfseRoutes = () => {
     if (
@@ -260,7 +272,6 @@ export default function SideBar() {
       document.getElementById("search-clients").focus();
     }, 0);
   };
-
   return (
     <>
       {browserWidth > mobileWidth ? (

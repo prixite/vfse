@@ -7,6 +7,8 @@ import messageIcon from "@src/assets/svgs/message.svg";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
+import { constants } from "@src/helpers/utils/constants";
+
 import {
   User2,
   TopicCategory,
@@ -51,7 +53,7 @@ const ProfileTimelineCards = ({
     }
   );
   const history = useHistory();
-  // const { organizationRoute } = constants;
+  const { organizationRoute } = constants;
 
   const [updateFollowUnfollowTopic] =
     useVfseTopicsFollowPartialUpdateMutation();
@@ -71,11 +73,6 @@ const ProfileTimelineCards = ({
       followUnfollow: { follow: !isFollowing },
     }).unwrap();
   };
-  const expandOnClick = () => {
-    history.push(
-      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
-    );
-  };
 
   return (
     <>
@@ -85,6 +82,11 @@ const ProfileTimelineCards = ({
             component="div"
             className={classes.card}
             style={{ cursor: "pointer" }}
+            onClick={() =>
+              history.push(
+                `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
+              )
+            }
           >
             <div className={classes.cardHeader}>
               <div className={classes.userInfoWrapper}>

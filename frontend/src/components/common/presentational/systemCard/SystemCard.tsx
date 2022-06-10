@@ -220,7 +220,7 @@ const SystemCard = ({
 
         reader.readAsText(file, encoding);
       }
-      function read_as_text_with_decoder(file, callback, decoder) {
+      const read_as_text_with_decoder = (file, callback, decoder) => {
         const reader = new window.FileReader();
 
         if (decoder === undefined) {
@@ -239,7 +239,7 @@ const SystemCard = ({
         };
 
         reader.readAsArrayBuffer(file);
-      }
+      };
       const get_cell_size = (term) => {
         style.width =
           term._core._renderService._renderer.dimensions.actualCellWidth;
