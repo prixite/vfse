@@ -1,7 +1,7 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
+
 import CloseIcon from "@mui/icons-material/Close";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import CircularProgress from "@mui/material/CircularProgress";
 import {
   Box,
   InputAdornment,
@@ -11,6 +11,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
+import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -22,6 +23,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
+
 import Machine from "@src/assets/images/system.png";
 import AttachmentIcon from "@src/assets/svgs/attachment.svg";
 import CopyIcon from "@src/assets/svgs/copy-icon.svg";
@@ -205,7 +207,7 @@ const SystemCard = ({
         }
       };
 
-      function read_as_text_with_encoding(file, callback, encoding) {
+      const read_as_text_with_encoding = (file, callback, encoding) => {
         const reader = new window.FileReader();
 
         if (encoding === undefined) {
@@ -219,7 +221,8 @@ const SystemCard = ({
         };
 
         reader.readAsText(file, encoding);
-      }
+      };
+
       const read_as_text_with_decoder = (file, callback, decoder) => {
         const reader = new window.FileReader();
 

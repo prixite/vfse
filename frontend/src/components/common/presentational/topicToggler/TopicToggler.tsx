@@ -5,8 +5,9 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import DoneIcon from "@mui/icons-material/Done";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { getTopicListArg } from "@src/types/interfaces";
+
 import useStyles from "@src/components/common/presentational/topicToggler/Styles";
+import { getTopicListArg } from "@src/types/interfaces";
 
 interface TopicTogglerInterface {
   setTopicListPayload: Dispatch<SetStateAction<getTopicListArg>>;

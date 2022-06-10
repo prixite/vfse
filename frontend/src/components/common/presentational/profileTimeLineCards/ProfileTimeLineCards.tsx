@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
+
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
+
 import messageIcon from "@src/assets/svgs/message.svg";
-import { useSelectedOrganization } from "@src/store/hooks";
-import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
 import { constants } from "@src/helpers/utils/constants";
-
+import { useSelectedOrganization } from "@src/store/hooks";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
   User2,
   TopicCategory,

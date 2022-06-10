@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { Box } from "@mui/material";
+
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
 import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopSection";
 import TopicModal from "@src/components/shared/popUps/topicModal/TopicModal";

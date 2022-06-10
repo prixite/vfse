@@ -1,6 +1,12 @@
 import { makeStyles } from "@mui/styles";
 
-const useStyles = makeStyles((theme: any) => ({
+interface Theme {
+  breakpoints: {
+    down: (a: string) => string
+  }
+}
+
+const useStyles = makeStyles((theme: Theme) => ({
   timelineSection: {
     display: "flex",
     flexDirection: "row",
