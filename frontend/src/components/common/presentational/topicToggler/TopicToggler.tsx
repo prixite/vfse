@@ -5,9 +5,8 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import DoneIcon from "@mui/icons-material/Done";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
-
 import { getTopicListArg } from "@src/types/interfaces";
-import "@src/components/common/presentational/topicToggler/topicToggler.scss";
+import useStyles from "@src/components/common/presentational/topicToggler/Styles";
 
 interface TopicTogglerInterface {
   setTopicListPayload: Dispatch<SetStateAction<getTopicListArg>>;
@@ -15,6 +14,7 @@ interface TopicTogglerInterface {
 export default function TopicToggler({
   setTopicListPayload,
 }: TopicTogglerInterface) {
+  const classes = useStyles();
   const [view, setView] = useState("allTopics");
   const handleChange = (event, nextView) => {
     setView(nextView);
@@ -38,16 +38,29 @@ export default function TopicToggler({
   }, [view]);
   return (
     <>
-      <Box component="div" className="card">
+      <Box component="div" className={classes.card}>
         <ToggleButtonGroup
           orientation="vertical"
           value={view}
           exclusive
           onChange={handleChange}
-          className="togglers"
+          className={classes.togglers}
         >
-          <ToggleButton value="allTopics" aria-label="list" className="setter">
-            <div className="grouped">
+          <ToggleButton
+            value="allTopics"
+            aria-label="list"
+            className={`${classes.setter} ${classes.customToggleBtn}`}
+            // style={{
+            //   backgroundColor: "unset !important",
+            //   background: "unset !important",
+            //   border: "unset",
+            //   padding: "unset",
+            //   display: "flex",
+            //   justifyContent: "space-between",
+            //   alignItems: "center",
+            // }}
+          >
+            <div className={classes.grouped}>
               <ChatBubbleOutlineIcon
                 style={{
                   color: `${view === "allTopics" ? "#773CBD" : "#DADADA"}`,
@@ -56,7 +69,7 @@ export default function TopicToggler({
                 }}
               />
               <p
-                className="choiceDescription"
+                className={classes.choiceDescription}
                 style={view === "allTopics" ? { color: "#773CBD" } : {}}
               >
                 {" "}
@@ -70,8 +83,12 @@ export default function TopicToggler({
             )}
           </ToggleButton>
 
-          <ToggleButton value="followed" aria-label="module">
-            <div className="grouped">
+          <ToggleButton
+            value="followed"
+            aria-label="module"
+            className={`${classes.setter} ${classes.customToggleBtn}`}
+          >
+            <div className={classes.grouped}>
               <BookmarkBorderIcon
                 style={{
                   color: `${view === "followed" ? "#773CBD" : "#DADADA"}`,
@@ -80,7 +97,7 @@ export default function TopicToggler({
                 }}
               />
               <p
-                className="choiceDescription"
+                className={classes.choiceDescription}
                 style={view === "followed" ? { color: "#773CBD" } : {}}
               >
                 {" "}
@@ -94,8 +111,12 @@ export default function TopicToggler({
             )}
           </ToggleButton>
 
-          <ToggleButton value="created" aria-label="quilt">
-            <div className="grouped">
+          <ToggleButton
+            value="created"
+            aria-label="quilt"
+            className={`${classes.setter} ${classes.customToggleBtn}`}
+          >
+            <div className={classes.grouped}>
               <GroupAddOutlinedIcon
                 style={{
                   color: `${view === "created" ? "#773CBD" : "#DADADA"}`,
@@ -104,7 +125,7 @@ export default function TopicToggler({
                 }}
               />
               <p
-                className="choiceDescription"
+                className={classes.choiceDescription}
                 style={view === "created" ? { color: "#773CBD" } : {}}
               >
                 {" "}
