@@ -15,10 +15,12 @@ import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
+
 interface Props {
   setOpen?: (arg: boolean) => void;
   title: string;
   seeAll: string;
+  paginatedTopics: VfseTopicsListApiResponse;
   setPaginatedTopics?: React.Dispatch<
     React.SetStateAction<VfseTopicsListApiResponse>
   >;
@@ -28,10 +30,11 @@ export default function VfseTopSection({
   setOpen,
   title,
   seeAll,
+  paginatedTopics,
   setPaginatedTopics,
 }: Props) {
   const classes = useStyles();
-  const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery();
+  const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery(); //popular
   const { data: topicsList = [] } = api.useGetTopicsListQuery({});
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,12 +45,20 @@ export default function VfseTopSection({
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+  const [sort, setSort] = useState<number>(0);
+  const [filter, setfilter] = useState<number>(0);
 
   useEffect(() => {
     setListData(popularTopicData);
-  }, [popularTopicData, topicsList]);
+  }, [popularTopicData]);
 
   useEffect(() => {
+    handleChangeFilter();
+    handleChangeSortBy();
+    if (filter === 30 && sort === 30) {
+      setListData(popularTopicData);
+      setPaginatedTopics(topicsList);
+    }
     if (searchTerm !== "") {
       if (popularTopicData && popularTopicData.length) {
         setListData([
@@ -65,7 +76,11 @@ export default function VfseTopSection({
         setPaginatedTopics([
           ...topicsList.filter((topic) => {
             return (
-              (topic?.title + topic?.description + topic?.user?.name)
+              (
+                topic?.title +
+                topic?.description +
+                topic?.user?.name.trim().toLowerCase()
+              )
                 ?.trim()
                 ?.toLowerCase()
                 ?.search(searchTerm?.toLowerCase()?.trim()) != -1
@@ -77,32 +92,81 @@ export default function VfseTopSection({
       setListData([...popularTopicData]);
       setPaginatedTopics([...topicsList]);
     }
-  }, [searchTerm]);
+  }, [searchTerm, sort, filter]);
 
-  const handleChangeFilter = async (event) => {
-    if (event.target.value === 1) {
-      setListData([...popularTopicData]);
-      setPaginatedTopics([...topicsList]);
-    } else {
-      const reversePopularTopicsData = await JSON.parse(
-        JSON.stringify([...popularTopicData])
-      ).reverse();
+  const handleChangeFilter = async () => {
+    if (filter === 10) {
+      //ASC
+      const ascPopulatTopicsData = await [
+        ...listData.slice().sort((first, second) => {
+          return first?.id - second?.id;
+        }),
+      ];
+      setListData([...ascPopulatTopicsData]);
+      const ascPaginatedTopicsData = await [
+        ...paginatedTopics.slice().sort((first, second) => {
+          return first?.id - second?.id;
+        }),
+      ];
+      setPaginatedTopics([...ascPaginatedTopicsData]);
+    } else if (filter === 20) {
+      //DES
+      const reversePopularTopicsData = await listData
+        .slice()
+        .sort((first, second) => {
+          return first?.id - second?.id;
+        })
+        .reverse();
       setListData([...reversePopularTopicsData]);
 
-      const reverseTopicsListData = await JSON.parse(
-        JSON.stringify([...topicsList])
-      ).reverse();
-      setPaginatedTopics(reverseTopicsListData);
+      const reverseTopicsListData = await [
+        ...paginatedTopics.slice().sort((first, second) => {
+          return first?.id - second?.id;
+        }),
+      ].reverse();
+      setPaginatedTopics([...reverseTopicsListData]);
+    } else {
+      setListData([...popularTopicData]);
+      setPaginatedTopics([...topicsList]);
     }
   };
 
-  const handleChangeSort = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSortBy = async () => {
+    if (sort === 10) {
+      //Created At
+      const sortedCreatedAtDatesPopular = await listData
+        .slice()
+        .sort((first, second) => {
+          return (
+            new Date(first?.created_at).getTime() -
+            new Date(second?.created_at).getTime()
+          );
+        });
+      setListData(sortedCreatedAtDatesPopular);
+      const sortedCreatedAtDatesTopics = await paginatedTopics
+        .slice()
+        .sort((first, second) => {
+          return (
+            new Date(first?.created_at).getTime() -
+            new Date(second?.created_at).getTime()
+          );
+        });
+      setPaginatedTopics(sortedCreatedAtDatesTopics);
+    } else if (sort === 20) {
+      //UpdatedAt !TODO
+    } else {
+      setListData(popularTopicData);
+      setPaginatedTopics(topicsList);
+    }
+  };
+
+  const searchSetter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
   //useMemo Hook is used to memoize a return value from our debounce function.
   const debouncedResults = useMemo(() => {
-    return debouce(handleChangeSort, 300);
+    return debouce(searchSetter, 300);
   }, []);
 
   useEffect(() => {
@@ -131,6 +195,13 @@ export default function VfseTopSection({
 
   const handleModal = () => {
     setOpen(true);
+  };
+
+  const sortSetter = (e) => {
+    setSort(e.target.value);
+  };
+  const filterSetter = (e) => {
+    setfilter(e.target.value);
   };
 
   const renderPopularTopics = () => {
@@ -162,35 +233,7 @@ export default function VfseTopSection({
       </>
     );
   };
-  const handleSortFiltering = async (e) => {
-    if (e.target.value === 10) {
-      //Created At
-      const sortedCreatedAtDatesTopics = await topicsList
-        .slice()
-        .sort((first, second) => {
-          return (
-            new Date(first?.created_at).getTime() -
-            new Date(second?.created_at).getTime()
-          );
-        });
-      await setPaginatedTopics(sortedCreatedAtDatesTopics);
 
-      const sortedCreatedAtDatesPopular = await popularTopicData
-        .slice()
-        .sort((first, second) => {
-          return (
-            new Date(first?.created_at).getTime() -
-            new Date(second?.created_at).getTime()
-          );
-        });
-      await setListData(sortedCreatedAtDatesPopular);
-    } else if (e.target.value === 20) {
-      //UpdatedAt
-    } else {
-      setListData(popularTopicData);
-      setPaginatedTopics(topicsList);
-    }
-  };
   return (
     <>
       <Grid
@@ -211,8 +254,9 @@ export default function VfseTopSection({
               onOpen={handleOpen}
               // value={sort}
               label="Sort"
-              onChange={handleSortFiltering}
+              onChange={sortSetter}
             >
+              <MenuItem value={30}>None</MenuItem>
               <MenuItem value={20}>Updated At</MenuItem>
               <MenuItem value={10}>Created At</MenuItem>
             </Select>
@@ -235,10 +279,11 @@ export default function VfseTopSection({
               onOpen={handleOpenFilter}
               // value={filter}
               label="Filter"
-              onChange={handleChangeFilter}
+              onChange={filterSetter}
             >
-              <MenuItem value={1}>Ascending</MenuItem>
-              <MenuItem value={2}>Descending</MenuItem>
+              <MenuItem value={30}>None</MenuItem>
+              <MenuItem value={10}>Ascending</MenuItem>
+              <MenuItem value={20}>Descending</MenuItem>
             </Select>
           </FormControl>
         </Grid>
