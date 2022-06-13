@@ -26,6 +26,7 @@ export default function ForumSection() {
           setOpen={setOpen}
           title={title}
           seeAll=""
+          paginatedTopics={paginatedTopics}
           setPaginatedTopics={setPaginatedTopics}
         />
         {/* ProfileTimeLine */}

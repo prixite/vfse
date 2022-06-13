@@ -113,7 +113,7 @@ const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
                           item?.reply_email_notification
                         }
                         createdAt={item?.created_at}
-                        updatedAt={item?.updatedAt}
+                        // updatedAt={item?.updatedAt}
                       />
                     </Grid>
                   ))}

@@ -28,7 +28,7 @@ interface ProfileTimelineCards {
   categories: TopicCategory[];
   followers?: User2[];
   createdAt?: string;
-  updatedAt?: string;
+  // updatedAt?: string;
 }
 
 const ProfileTimelineCards = ({
