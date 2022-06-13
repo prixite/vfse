@@ -148,7 +148,7 @@ const SystemCard = ({
     } else {
       setLoginProgress(false);
       setOpenModal(true);
-      const url = "ws://localhost:8888/" + "ws?id=" + msg.id;
+      const url = "ws://" + window.location.host + ":8888/ws?id=" + msg.id;
       const title_element: unknown = {};
       const url_opts_data: unknown = {};
       const style: unknown = {};
@@ -222,7 +222,6 @@ const SystemCard = ({
 
         reader.readAsText(file, encoding);
       };
-
       const read_as_text_with_decoder = (file, callback, decoder) => {
         const reader = new window.FileReader();
 
@@ -323,7 +322,7 @@ const SystemCard = ({
   const handleConnect = async (systemId: number) => {
     setLoginProgress(true);
     try {
-      const response = await fetch("http://localhost:8888", {
+      const response = await fetch("://" + window.location.host + ":8888", {
         credentials: "include",
         method: "GET",
         mode: "cors",
@@ -341,7 +340,7 @@ const SystemCard = ({
         data.append("term", "xterm-256color");
         data.append("_xsrf", xsrfToken);
 
-        fetch("http://localhost:8888", {
+        fetch("://" + window.location.host + ":8888", {
           credentials: "include",
           method: "POST",
           mode: "cors",
