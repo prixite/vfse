@@ -33,6 +33,7 @@ env = environ.Env(
     AWS_STORAGE_BUCKET_NAME=(str, None),
     AWS_THUMBNAIL_LAMBDA_ARN=(str, None),
     ALLOWED_HOSTS=(list, []),
+    CSRF_TRUSTED_ORIGINS=(list, ["https://app.vfse.io"]),
     EMAIL_BACKEND=(str, None),
     EMAIL_HOST=(str, None),
     EMAIL_PORT=(int, 587),
@@ -58,6 +59,8 @@ DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
 # Application definition
 
