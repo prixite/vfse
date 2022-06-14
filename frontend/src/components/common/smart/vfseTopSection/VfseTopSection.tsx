@@ -154,6 +154,25 @@ export default function VfseTopSection({
       setPaginatedTopics(sortedCreatedAtDatesTopics);
     } else if (sort === 20) {
       //UpdatedAt !TODO
+      const sortedUpdateAtDatesPopular = await listData
+        .slice()
+        .sort((first, second) => {
+          return (
+            new Date(first?.updated_at).getTime() -
+            new Date(second?.updated_at).getTime()
+          );
+        });
+      setListData(sortedUpdateAtDatesPopular);
+
+      const sortedUpdatedAtDatesTopics = await paginatedTopics
+        .slice()
+        .sort((first, second) => {
+          return (
+            new Date(first?.updated_at).getTime() -
+            new Date(second?.updated_at).getTime()
+          );
+        });
+      setPaginatedTopics(sortedUpdatedAtDatesTopics);
     } else {
       setListData(popularTopicData);
       setPaginatedTopics(topicsList);
