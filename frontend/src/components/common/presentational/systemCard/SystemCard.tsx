@@ -148,7 +148,7 @@ const SystemCard = ({
     } else {
       setLoginProgress(false);
       setOpenModal(true);
-      const url = "ws://" + window.location.host + ":8888/ws?id=" + msg.id;
+      const url = "ws://" + window.location.hostname + ":8888/ws?id=" + msg.id;
       const title_element: unknown = {};
       const url_opts_data: unknown = {};
       const style: unknown = {};
@@ -321,8 +321,9 @@ const SystemCard = ({
 
   const handleConnect = async (systemId: number) => {
     setLoginProgress(true);
+    const url = `http://${window.location.hostname}:8888/`;
     try {
-      const response = await fetch("://" + window.location.host + ":8888", {
+      const response = await fetch(url, {
         credentials: "include",
         method: "GET",
         mode: "cors",
@@ -340,7 +341,7 @@ const SystemCard = ({
         data.append("term", "xterm-256color");
         data.append("_xsrf", xsrfToken);
 
-        fetch("://" + window.location.host + ":8888", {
+        fetch(url, {
           credentials: "include",
           method: "POST",
           mode: "cors",
