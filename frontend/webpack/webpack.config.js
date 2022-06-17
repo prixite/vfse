@@ -38,6 +38,8 @@ module.exports = {
     new EnvironmentPlugin({
       NODE_ENV: "production",
       REQUEST_TOKEN: "fake",
+      WEBSSH_SERVER: "http://localhost:8888/",
+      WEBSSH_WS: "ws://localhost:8888/",
     }),
   ],
   resolve: {

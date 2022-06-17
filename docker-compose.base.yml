@@ -23,6 +23,8 @@ services:
       - ./docker/env.db
       - ./.env
     command: bash -c "python manage.py ping"
+    depends_on:
+      - app
 
   nginx:
     build: ./nginx
@@ -38,6 +40,8 @@ services:
 
   ssh:
     image: vfse_app
-    command: bash -c "python run.py --port=8888 --origin=http://localhost:8000"
-    ports:
-      - "8888:8888"
+    command: ./docker/scripts/run-ssh
+    env_file:
+      - ./.env
+    expose:
+      - 8888

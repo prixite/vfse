@@ -23,15 +23,16 @@ services:
     volumes:
       - static_volume:/opt/code/static
       - shm:/dev/shm
-    depends_on:
-      - app
 
   ping:
     extends:
       file: docker-compose.base.yml
       service: ping
-    depends_on:
-      - app
+
+  ssh:
+    extends:
+      file: docker-compose.base.yml
+      service: ssh
 
 volumes:
   static_volume:
