@@ -45,7 +45,7 @@ Visit localhost:8000 to view the landing page.
 
 Run the SSH Service
 
-    python run.py --port=8888
+    python run.py --port=8888 --origin=http://127.0.0.1:8000
 
 Create a token using Django Admin panel for user `ssh-user@example.com`, Copy the key to /webssh/.env/. Get intial file from /webssh/env.sample
 

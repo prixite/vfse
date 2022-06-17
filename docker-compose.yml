@@ -30,7 +30,7 @@ services:
       file: docker-compose.base.yml
       service: ssh
     environment:
-      - SERVICE=app:8000
+      - WEBSSH_SERVICE=app:8000
     volumes:
       - .:/opt/code
     depends_on:
