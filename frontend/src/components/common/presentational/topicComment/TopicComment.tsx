@@ -4,7 +4,6 @@ import { Box } from "@mui/material";
 import moment from "moment";
 
 import messageIcon from "@src/assets/svgs/message.svg";
-import reportIcon from "@src/assets/svgs/report.svg";
 import shareIcon from "@src/assets/svgs/share.svg";
 import "@src/components/common/presentational/topicComment/topicComment.scss";
 import { Comment } from "@src/store/reducers/generated";
@@ -21,20 +20,16 @@ const TopicComment = ({
   last_name,
   commentData,
 }: TopicCommentProps) => {
-  const [copied, setCopied] = useState(false);
+  const [shared, setShared] = useState(false);
 
-  const handleCopy = () => {
+  const handleShare = () => {
     const el = document.createElement("input");
     el.value = window.location.href;
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");
     document.body.removeChild(el);
-    setCopied(!copied);
-  };
-
-  const handleShare = () => {
-    // console.log("handleShare clicked");
+    setShared(!shared);
   };
 
   const handleReply = () => {
@@ -60,12 +55,8 @@ const TopicComment = ({
             </div>
             <div className="action" onClick={handleShare}>
               <img src={shareIcon} alt="msgIcon" className="icon" />
-              <span className="actionDescription">Share</span>
-            </div>
-            <div className="action" onClick={handleCopy}>
-              <img src={reportIcon} alt="msgIcon" className="icon" />
               <span className="actionDescription">
-                {!copied ? "Link" : "Copied!"}
+                {!shared ? "Share" : "Copied!"}
               </span>
             </div>
           </div>
