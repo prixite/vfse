@@ -65,7 +65,9 @@ const TopicComment = ({
 
               <div className="action" onClick={handleShare}>
                 <img src={shareIcon} alt="msgIcon" className="icon" />
-                <span className="actionDescription">{!shared ? "Share" : "Copied!"}</span>
+                <span className="actionDescription">
+                  {!shared ? "Share" : "Copied!"}
+                </span>
               </div>
             </div>
           </div>

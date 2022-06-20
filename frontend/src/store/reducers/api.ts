@@ -25,8 +25,8 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
             type: "Reply" as const,
             id: `Reply-${id}`,
           })),
-        { type: "Comment", id: `Comment-${id}` },
-        { type: "Topics", id: `Topics-${id}` },
+          { type: "Comment", id: `Comment-${id}` },
+          { type: "Topics", id: `Topics-${id}` },
         ];
       },
     },

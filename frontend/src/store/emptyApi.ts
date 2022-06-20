@@ -30,7 +30,15 @@ export const emptySplitApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Favorite", "Article", "Category", "Folder", "Topics", "Comment", "Reply"],
+  tagTypes: [
+    "Favorite",
+    "Article",
+    "Category",
+    "Folder",
+    "Topics",
+    "Comment",
+    "Reply",
+  ],
   endpoints: (builder) => ({
     getPopularTopics: builder.query<
       VfseTopicsPopularListApiResponse,
@@ -226,7 +234,8 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: (result, error, queryArg) => [
         { type: "Comment", id: `Comment-${queryArg?.id}` },
-        "Topics","Reply",
+        "Topics",
+        "Reply",
       ],
     }),
     getTopicsCommentsList: builder.query<
