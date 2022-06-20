@@ -11,7 +11,9 @@ import "@src/components/common/smart/topicCommentSection/topicCommentSection.scs
 const TopicCommentSection = () => {
   const selectedOrganization = useSelectedOrganization();
   const { topicId } = useParams<{ topicId: string }>();
+  //POST PostTopicComment
   const [addComment] = api.usePostTopicCommentMutation();
+  //GET GetTopicsCommentsList
   const { data: commentsData = [], isLoading: isCommentsLoading } =
     api.useGetTopicsCommentsListQuery({ id: topicId });
   const [comment, setComment] = useState("");

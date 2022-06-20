@@ -33,7 +33,11 @@ const TopicComment = ({
   };
 
   const handleReply = () => {
+<<<<<<< Updated upstream
     // console.log("handleReply clicked");
+=======
+    setReplyChecked((replyChecked) => !replyChecked);
+>>>>>>> Stashed changes
   };
 
   return (

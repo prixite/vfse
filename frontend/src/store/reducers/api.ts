@@ -15,8 +15,31 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     "Folder",
     "Topics",
     "Favorite",
+    "Reply",
   ],
   endpoints: {
+    vfseCommentsRepliesList: {
+      providesTags: (result = [], error, { id }) => {
+        return [
+          ...result.map(({ id }) => ({
+            type: "Reply" as const,
+            id: `Reply-${id}`,
+          })),
+        { type: "Comment", id: `Comment-${id}` },
+        { type: "Topics", id: `Topics-${id}` },
+        ];
+      },
+    },
+    vfseCommentsRepliesCreate: {
+      invalidatesTags: (result, error, { id }) => {
+        return [
+          { type: "Topics" as const, id: `Topics-${id}` },
+          { type: "Reply" as const, id: `Reply-${id}` },
+          "Comment",
+          "Reply",
+        ];
+      },
+    },
     vfseTopicsFollowPartialUpdate: {
       invalidatesTags: (result, error, { id }) => {
         return [
