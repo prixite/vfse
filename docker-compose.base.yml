@@ -39,8 +39,11 @@ services:
       - ./docker/env.db
 
   ssh:
-    image: vfse_app
-    command: ./docker/scripts/run-ssh
+    build:
+      context: .
+      dockerfile: ./webssh/Dockerfile
+    container_name: vfse_ssh
+    command: ./docker/scripts/run-webssh
     env_file:
       - ./.env
     expose:
