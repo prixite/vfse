@@ -22,13 +22,8 @@ const TopicComment = ({
   last_name,
   commentData,
 }: TopicCommentProps) => {
-<<<<<<< HEAD
   const [replyChecked, setReplyChecked] = useState<boolean>(false);
   const [shared, setShared] = useState(false);
-=======
-  const [copied, setCopied] = useState<boolean>(false);
-  const [replyChecked, setReplyChecked] = useState<boolean>(false);
->>>>>>> c246d6f424f12c24f88d81f7da84863f309edc9b
 
   const handleShare = () => {
     const el = document.createElement("input");
@@ -58,7 +53,6 @@ const TopicComment = ({
                 {moment().startOf("minutes").fromNow()}
               </p>
             </div>
-<<<<<<< HEAD
             <div className="commentDescription">{commentData.comment}</div>
             <div className="commentActions">
               <div
@@ -73,13 +67,6 @@ const TopicComment = ({
                 <img src={shareIcon} alt="msgIcon" className="icon" />
                 <span className="actionDescription">{!shared ? "Share" : "Copied!"}</span>
               </div>
-=======
-            <div className="action" onClick={handleShare}>
-              <img src={shareIcon} alt="msgIcon" className="icon" />
-              <span className="actionDescription">
-                {!shared ? "Share" : "Copied!"}
-              </span>
->>>>>>> c246d6f424f12c24f88d81f7da84863f309edc9b
             </div>
           </div>
         </div>
