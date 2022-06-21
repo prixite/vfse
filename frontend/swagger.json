@@ -3866,6 +3866,12 @@
                     "title": "Comment",
                     "type": "string",
                     "minLength": 1
+                },
+                "created_at": {
+                    "title": "Created at",
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
                 }
             }
         },
