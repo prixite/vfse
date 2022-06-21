@@ -3892,9 +3892,6 @@
                     "type": "string",
                     "minLength": 1
                 },
-                "user_profile": {
-                    "$ref": "#/definitions/ProfileMeta"
-                },
                 "created_at": {
                     "title": "Created at",
                     "type": "string",

@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import "@src/components/common/presentational/systemCard/systemCardMobile/systemCardMobile.scss";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Accordion,
@@ -16,8 +18,6 @@ import moment from "moment";
 import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
-import AttachmentIcon from "@src/assets/svgs/attachment.svg";
-import CopyIcon from "@src/assets/svgs/copy-icon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
@@ -159,7 +159,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <img src={CopyIcon} className="icon" />
+                    <ContentCopyIcon />
                   </InputAdornment>
                 ),
                 endAdornment: (
@@ -216,7 +216,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
                 onClick={() => window?.open(system.grafana_link, "_blank")}
               >
                 <div className="btn-content">
-                  <img src={AttachmentIcon} className="icon" />
+                  <AttachFileIcon className="icon" />
                   <span>{grafana_link_txt}</span>
                 </div>
               </Button>
