@@ -1,6 +1,8 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
@@ -25,9 +27,6 @@ import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 
 import Machine from "@src/assets/images/system.png";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { localizedData } from "@src/helpers/utils/language";

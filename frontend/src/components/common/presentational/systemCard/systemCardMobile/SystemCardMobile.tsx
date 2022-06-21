@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 import "@src/components/common/presentational/systemCard/systemCardMobile/systemCardMobile.scss";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Accordion,
@@ -16,8 +18,6 @@ import moment from "moment";
 import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
