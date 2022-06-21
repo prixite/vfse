@@ -13,8 +13,18 @@ module.exports = {
   },
   optimization: {
     splitChunks: {
-      chunks: "all",
-      name: "vendor",
+      chunks: "async",
+      cacheGroups: {
+        default: {
+          minChunks: 4,
+          reuseExistingChunk: true,
+        },
+        vendor_react: {
+          name: "vendor-react",
+          chunks: "initial",
+          enforce: true,
+        },
+      },
     },
   },
   module: {
