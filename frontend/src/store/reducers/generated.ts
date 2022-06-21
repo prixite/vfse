@@ -1459,11 +1459,17 @@ export type Category = {
   color?: string;
   folders?: Folder[];
 };
+export type UserProfile = {
+  id?: number;
+  name?: string;
+  image?: string;
+};
 export type Comment = {
   id?: number;
   topic?: number;
   user?: number;
   comment: string;
+  user_profile?: UserProfile;
   created_at?: string;
 };
 export type Document = {
@@ -1481,11 +1487,6 @@ export type FolderDetail = {
   name: string;
   categories: number[];
   documents: Document[];
-};
-export type UserProfile = {
-  id?: number;
-  name?: string;
-  image?: string;
 };
 export type TopicCategory = {
   id?: number;

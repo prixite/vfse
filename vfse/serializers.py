@@ -84,7 +84,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Comment
-        fields = ["id", "topic", "user", "comment",'user_profile', "created_at"]
+        fields = ["id", "topic", "user", "comment", "user_profile", "created_at"]
 
 
 class TopicSerializer(serializers.ModelSerializer):
