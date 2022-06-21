@@ -1465,7 +1465,6 @@ export type Comment = {
   user?: number;
   comment: string;
   created_at?: string;
-  updated_at?: string;
 };
 export type Document = {
   id?: number;

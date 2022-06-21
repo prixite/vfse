@@ -3872,12 +3872,6 @@
                     "type": "string",
                     "format": "date-time",
                     "readOnly": true
-                },
-                "updated_at": {
-                    "title": "Updated at",
-                    "type": "string",
-                    "format": "date-time",
-                    "readOnly": true
                 }
             }
         },
