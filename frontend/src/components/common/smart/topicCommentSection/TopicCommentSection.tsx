@@ -26,7 +26,6 @@ const TopicCommentSection = () => {
       skip: !selectedOrganization,
     }
   );
-  console.log(me);
   const addCommentHandler = () => {
     const payload: VfseTopicsCommentsCreateApiArg = {
       id: topicId,
