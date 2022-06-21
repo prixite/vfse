@@ -9,7 +9,6 @@ import "@src/components/common/presentational/topicComment/topicComment.scss";
 import { Comment } from "@src/store/reducers/generated";
 
 import TopicReply from "../topicReply/TopicReply";
-
 interface TopicCommentProps {
   profile_picture: string;
   first_name: string;
@@ -26,15 +25,12 @@ const TopicComment = ({
   const [shared, setShared] = useState(false);
 
   const handleShare = () => {
-    const el = document.createElement("input");
-    el.value = window.location.href;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand("copy");
-    document.body.removeChild(el);
-    setShared(!shared);
+    setShared(true);
+    navigator.clipboard.writeText(commentData?.comment);
+    setTimeout(() => {
+      setShared(false);
+    }, 2500);
   };
-
   const handleReply = () => {
     setReplyChecked((replyChecked) => !replyChecked);
   };
@@ -63,7 +59,10 @@ const TopicComment = ({
                 <span className="actionDescription">Reply</span>
               </div>
 
-              <div className="action" onClick={handleShare}>
+              <div
+                className={!shared ? "action" : "action-highlighted"}
+                onClick={handleShare}
+              >
                 <img src={shareIcon} alt="msgIcon" className="icon" />
                 <span className="actionDescription">
                   {!shared ? "Share" : "Copied!"}
@@ -73,11 +72,7 @@ const TopicComment = ({
           </div>
         </div>
         {replyChecked && (
-          <TopicReply
-            replyChecked={replyChecked}
-            commentData={commentData}
-            profile_picture={profile_picture}
-          />
+          <TopicReply replyChecked={replyChecked} commentData={commentData} />
         )}
       </Box>
     </>
