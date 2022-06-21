@@ -60,7 +60,7 @@
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
     "babel-loader": "^8.2.2",
     "core-js": "^3.19.1",
-    "css-loader": "^6.4.0",
+    "css-loader": "^6.7.1",
     "miragejs": "^0.1.43",
     "openapi-typescript": "^4.4.0",
     "regenerator-runtime": "^0.13.9",
