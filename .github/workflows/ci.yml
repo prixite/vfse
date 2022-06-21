@@ -41,8 +41,6 @@ jobs:
           cache: npm
       - uses: actions/setup-python@v2
         with:
-          # This python-version should be kept in sync with `runtime.txt` which controls the Python version on Heroku
-          # https://github.com/actions/setup-python
           python-version: 3.9.7
           cache: pip
       - name: Install Python Dependencies
