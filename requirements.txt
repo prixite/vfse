@@ -11,7 +11,7 @@ drf-yasg2==1.19.4
 duo-universal==2.0.1
 factory-boy==3.2.1
 gunicorn==20.1.0
-icmplib==3.0.2
+icmplib==3.0.3
 influxdb-client==1.26.0
 openai==0.16.0
 Pillow==8.4.0
