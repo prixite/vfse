@@ -22,6 +22,7 @@ jobs:
       - uses: pre-commit/action@v2.0.3
 
   test:
+    runs-on: ubuntu-latest
     env:
       SECRET_KEY: "fake"
       NPLUSONE_RAISE: "False"
@@ -62,5 +63,4 @@ jobs:
         # exist. The warning doesn't impact the check for missing migrations
         run: python manage.py makemigrations --check --dry-run
       - name: Run Tests
-        run: |
-          python manage.py test
+        run: python manage.py test
