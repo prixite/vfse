@@ -57,25 +57,6 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   return (
     <Box className="TopicReplyView">
       {/* Replied start  */}
-      <Box component="div" className="commentActions">
-        <div className="profileImage">
-          <img src={commentData?.user_profile.image} alt="profilePicture" />
-        </div>
-        <Input
-          className="commentInput"
-          placeholder="Enter Comment..."
-          value={reply}
-          onChange={(e) => setReply(e.target.value)}
-        />
-        <Button
-          className="postBtn"
-          disabled={!reply && isReplyPosting}
-          onClick={addReplyHandler}
-          sx={{ height: 45, width: 125 }}
-        >
-          {isReplyPosting ? "Posting..." : "Reply"}
-        </Button>
-      </Box>
       {/* Replied end  */}
       <div>
         {!isRepliesLoading ? (
@@ -127,6 +108,25 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
           </Box>
         )}
       </div>
+      <Box component="div" className="commentActions">
+        <div className="profileImage">
+          <img src={commentData?.user_profile.image} alt="profilePicture" />
+        </div>
+        <Input
+          className="commentInput"
+          placeholder="Enter Comment..."
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
+        />
+        <Button
+          className="postBtn"
+          disabled={!reply && isReplyPosting}
+          onClick={addReplyHandler}
+          sx={{ height: 45, width: 125 }}
+        >
+          {isReplyPosting ? "Posting..." : "Reply"}
+        </Button>
+      </Box>
     </Box>
   );
 }
