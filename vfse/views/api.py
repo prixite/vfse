@@ -1,5 +1,6 @@
 from django.db.models import Count, Q
 from django.utils import timezone
+from numpy import True_
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -80,7 +81,7 @@ class TopicViewset(ModelViewSet):
     def get_queryset(self):
         return models.Topic.objects.annotate(
             number_of_followers=Count("followers", distinct=True),
-            number_of_comments=Count("comments", distinct=True),
+            number_of_comments=Count("comments", distinct=True, filter=Q(comments__parent__isnull=True)),
         ).order_by("-id")
 
 
