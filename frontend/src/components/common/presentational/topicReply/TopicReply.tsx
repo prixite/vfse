@@ -69,7 +69,9 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
                 <div className="commentDetail">
                   <div className="headerInfo">
                     <p className="userName">{`${item?.user_profile?.name}`}</p>
-                    {moment(item?.created_at).startOf("minutes").fromNow()}
+                    <p className="timeStamp">
+                      {moment(item?.created_at).startOf("minutes").fromNow()}
+                    </p>
                   </div>
                   <div className="commentDescription">{item.comment}</div>
                   <div className="commentActions"></div>
