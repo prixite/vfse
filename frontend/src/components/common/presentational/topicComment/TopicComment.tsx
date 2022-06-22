@@ -34,7 +34,6 @@ const TopicComment = ({
   const handleReply = () => {
     setReplyChecked((replyChecked) => !replyChecked);
   };
-
   return (
     <>
       <Box component="div" className="TopicCommentView">
@@ -46,7 +45,7 @@ const TopicComment = ({
             <div className="headerInfo">
               <p className="userName">{`${first_name} ${last_name}`}</p>
               <p className="timeStamp">
-                {moment().startOf("minutes").fromNow()}
+                {moment(commentData?.created_at).startOf("minutes").fromNow()}
               </p>
             </div>
             <div className="commentDescription">{commentData.comment}</div>
