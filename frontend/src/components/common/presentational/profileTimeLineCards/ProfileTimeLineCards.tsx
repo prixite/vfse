@@ -104,7 +104,7 @@ const ProfileTimelineCards = ({
                   <div className={classes.userName}>{user?.name}</div>
                   <div className={classes.postTime}>
                     {" "}
-                    {moment(createdAt).startOf("minutes").fromNow()}
+                    {moment(createdAt).startOf("s").fromNow()}
                   </div>
                 </div>
               </div>

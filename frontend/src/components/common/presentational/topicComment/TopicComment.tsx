@@ -45,7 +45,7 @@ const TopicComment = ({
             <div className="headerInfo">
               <p className="userName">{`${first_name} ${last_name}`}</p>
               <p className="timeStamp">
-                {moment(commentData?.created_at).startOf("minutes").fromNow()}
+                {moment(commentData?.created_at).startOf("s").fromNow()}
               </p>
             </div>
             <div className="commentDescription">{commentData.comment}</div>

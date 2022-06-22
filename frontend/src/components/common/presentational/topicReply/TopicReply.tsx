@@ -20,7 +20,6 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   //GET vfseCommentsRepliesCreate
   const { data: repliesData = [], isLoading: isRepliesLoading } =
     api.useVfseCommentsRepliesListQuery({
-      //remove  Refetch
       id: commentIDState,
       topic: topicIDState,
     });
@@ -56,8 +55,6 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
 
   return (
     <Box className="TopicReplyView">
-      {/* Replied start  */}
-      {/* Replied end  */}
       <div>
         {!isRepliesLoading ? (
           <div>
@@ -70,7 +67,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
                   <div className="headerInfo">
                     <p className="userName">{`${item?.user_profile?.name}`}</p>
                     <p className="timeStamp">
-                      {moment(item?.created_at).startOf("minutes").fromNow()}
+                      {moment(item?.created_at).startOf("s").fromNow()}
                     </p>
                   </div>
                   <div className="commentDescription">{item.comment}</div>
