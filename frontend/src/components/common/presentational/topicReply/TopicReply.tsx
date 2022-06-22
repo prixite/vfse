@@ -53,6 +53,11 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
       });
   };
 
+  const keyPressEnter = (event) => {
+    if (event.key == "Enter") {
+      addReplyHandler();
+    }
+  };
   return (
     <Box className="TopicReplyView">
       <div>
@@ -116,6 +121,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
           placeholder="Enter Comment..."
           value={reply}
           onChange={(e) => setReply(e.target.value)}
+          onKeyPress={keyPressEnter}
         />
         <Button
           className="postBtn"
