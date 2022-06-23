@@ -3842,6 +3842,31 @@
                 }
             }
         },
+        "ProfileMeta": {
+            "title": "User profile",
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "ID",
+                    "type": "integer",
+                    "readOnly": true
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "image": {
+                    "title": "Image",
+                    "type": "string",
+                    "format": "uri",
+                    "readOnly": true,
+                    "minLength": 1
+                }
+            }
+        },
         "Comment": {
             "description": "Comment(id, topic, user, comment, parent, created_at, updated_at)",
             "required": [
@@ -3866,6 +3891,9 @@
                     "title": "Comment",
                     "type": "string",
                     "minLength": 1
+                },
+                "user_profile": {
+                    "$ref": "#/definitions/ProfileMeta"
                 },
                 "created_at": {
                     "title": "Created at",
@@ -3963,31 +3991,6 @@
                     "items": {
                         "$ref": "#/definitions/Document"
                     }
-                }
-            }
-        },
-        "ProfileMeta": {
-            "title": "User",
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
-            "type": "object",
-            "properties": {
-                "id": {
-                    "title": "ID",
-                    "type": "integer",
-                    "readOnly": true
-                },
-                "name": {
-                    "title": "Name",
-                    "type": "string",
-                    "readOnly": true,
-                    "minLength": 1
-                },
-                "image": {
-                    "title": "Image",
-                    "type": "string",
-                    "format": "uri",
-                    "readOnly": true,
-                    "minLength": 1
                 }
             }
         },
