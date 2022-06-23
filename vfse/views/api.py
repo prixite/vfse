@@ -80,7 +80,9 @@ class TopicViewset(ModelViewSet):
     def get_queryset(self):
         return models.Topic.objects.annotate(
             number_of_followers=Count("followers", distinct=True),
-            number_of_comments=Count("comments", distinct=True),
+            number_of_comments=Count(
+                "comments", distinct=True, filter=Q(comments__parent__isnull=True)
+            ),
         ).order_by("-id")
 
 
