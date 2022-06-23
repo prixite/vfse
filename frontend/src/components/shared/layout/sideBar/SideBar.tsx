@@ -15,7 +15,7 @@ import {
   Collapse,
 } from "@mui/material";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
@@ -90,7 +90,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function SideBar() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [open, setOpen] = React.useState(true);
   const [openVfse, setOpenVfse] = React.useState(false);
@@ -266,7 +266,7 @@ export default function SideBar() {
   };
 
   const onSearchClick = () => {
-    history.push(`/${organizationRoute}/${selectedOrganization?.id}/`);
+    navigate(`/${organizationRoute}/${selectedOrganization?.id}/`);
     setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
     window.setTimeout(function () {
       document.getElementById("search-clients").focus();
@@ -297,7 +297,7 @@ export default function SideBar() {
                   <ListItemIcon style={{ color: sideBarTextColor }}>
                     <AddIcon
                       onClick={() => {
-                        history.push(
+                        navigate(
                           `/${organizationRoute}/${selectedOrganization?.id}/`
                         );
                         setCurrentRoute("/");

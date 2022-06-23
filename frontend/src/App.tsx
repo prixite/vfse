@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { matchPath } from "react-router";
-import { match, useLocation, withRouter } from "react-router-dom";
+import { useLocation, withRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -30,10 +30,14 @@ import {
 const App = () => {
   const dispatch = useAppDispatch();
   const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
-  const { pathname } = useLocation();
-  const params: match<{ id: string }> = matchPath(pathname, {
-    path: "/clients/:id",
-  });
+  const location = useLocation();
+  // const params: match<{ id: string }> = matchPath(pathname, {
+  // path: "/clients/:id",
+  // });
+  const params: string = ["/clients/:id"].find((path) =>
+    matchPath(path, location.pathname)
+  );
+
   const { data, isFetching } = useOrganizationsMeReadQuery({
     id: params.params.id,
   });

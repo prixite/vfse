@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const AddSiteFirstModal = ({ open, handleClose }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -27,7 +27,7 @@ const AddSiteFirstModal = ({ open, handleClose }: Props) => {
 
   const selectedOrganization = useSelectedOrganization();
   const navigateToSite = () => {
-    history.push(`/${organizationRoute}/${selectedOrganization?.id}/sites`);
+    navigate(`/${organizationRoute}/${selectedOrganization?.id}/sites`);
   };
   return (
     <>

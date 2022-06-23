@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Popover from "@mui/material/Popover";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
@@ -21,7 +21,7 @@ interface Props {
 
 const ProfilePopOver = ({ profilePicture, className }: Props) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const defaultOrganizationData = useAppSelector(
     (state) => state.organization.currentOrganization
@@ -53,7 +53,9 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
       updateButtonTextColor(defaultOrganizationData.appearance.button_text)
     );
     handleClose();
-    history.replace(`/${organizationRoute}/${defaultOrganizationData.id}/`);
+    navigate(`/${organizationRoute}/${defaultOrganizationData.id}/`, {
+      replace: true,
+    });
   };
 
   const open = Boolean(anchorEl);

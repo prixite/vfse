@@ -4,7 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import StarIcon from "@mui/icons-material/Star";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { Box, Menu, MenuItem, Tooltip, IconButton } from "@mui/material";
-import { Link, useParams, useHistory } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import fileImage from "@src/assets/svgs/fileImage.svg";
@@ -37,7 +37,8 @@ const KnowledgeTopCard = ({
   const [openModal, setOpenModal] = useState(false);
   const [cardText, setCardText] = useState("");
   const { organizationRoute } = constants;
-  const history = useHistory();
+  const location = useLocation();
+
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery(
     {
@@ -49,7 +50,7 @@ const KnowledgeTopCard = ({
   );
   const [deleteArticle] = api.useDeleteArticleMutation();
   const [updateArticle] = api.useUpdateArticleMutation();
-  const route = history?.location?.pathname?.includes("folder")
+  const route = location?.pathname?.includes("folder")
     ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/${id}`
     : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/${id}`;
   const open = Boolean(anchorEl);

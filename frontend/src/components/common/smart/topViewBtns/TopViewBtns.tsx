@@ -17,7 +17,7 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 import debounce from "debounce";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
 import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
@@ -85,7 +85,7 @@ const TopViewBtns = ({
     id: useSelectedOrganization().id.toString(),
   });
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
   const [network, setNetwork] = useState([]);
@@ -216,9 +216,12 @@ const TopViewBtns = ({
         setNetwork([]);
         networkFilter({});
         queryParams.delete("health_network");
-        history.replace({
-          search: queryParams.toString(),
-        });
+        navigate(
+          {
+            search: queryParams.toString(),
+          },
+          { replace: true }
+        );
       } else {
         queryParams.delete("health_network");
         setNetwork([event?.target?.outerText]);
@@ -237,9 +240,12 @@ const TopViewBtns = ({
         setSite([]);
         siteFilter({});
         queryParams.delete("site");
-        history.replace({
-          search: queryParams.toString(),
-        });
+        navigate(
+          {
+            search: queryParams.toString(),
+          },
+          { replace: true }
+        );
       } else {
         setSite([event?.target?.outerText]);
         siteFilter(

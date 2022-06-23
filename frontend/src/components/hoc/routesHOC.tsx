@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 
 import { Box } from "@mui/material";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
@@ -79,139 +79,126 @@ const RoutesHOC = ({ isLoading }: Props) => {
       className="main-content"
     >
       {!isLoading ? (
-        <Switch>
+        <Routes>
           {routes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
-              render={() => (
+              element={() => (
                 <Suspense fallback={<p>Loading...</p>}>
                   <route.component />
                 </Suspense>
               )}
               key={key}
-              exact
             />
           ))}
           {vfseRoutes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
-              render={() => (
+              element={() => (
                 <Suspense fallback={<p>Loading...</p>}>
                   <route.component />
                 </Suspense>
               )}
               key={key}
-              exact
             />
           ))}
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <OrganizationView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <OrganizationView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <SitesView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/:siteId/systems`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <SystemsView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/:siteId/systems`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <SystemsView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId/folder/:folderId`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <FolderView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/folder/:folderId/documentation/:docId`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <ArticleDocumentation />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/documentation/:docId`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <ArticleDocumentation />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <CategoryDetailView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path={`/${organizationRoute}/:id/forum/topic/:topicId`}
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <TopicView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path="/"
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <HomeView />
               </Suspense>
             )}
-            exact
           />
           <Route
             path="*"
-            render={() => (
+            element={() => (
               <Suspense fallback={<p>Loading...</p>}>
                 <NotFoundPage />
               </Suspense>
             )}
           />
-        </Switch>
+        </Routes>
       ) : (
         <p>Loading Main</p>
       )}

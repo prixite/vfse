@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import "@src/components/common/presentational/clientCard/clientCard.scss";
@@ -48,7 +48,7 @@ const ClientCard = ({
   superuser,
 }: ClientCardProps) => {
   const dispatch = useAppDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const open = Boolean(anchorEl);
@@ -108,7 +108,9 @@ const ClientCard = ({
       dispatch(updateSecondaryColor(row.appearance.secondary_color));
       dispatch(updateFontOne(row.appearance.font_one));
       dispatch(updateFontTwo(row.appearance.font_two));
-      history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
+      navigate(`/${organizationRoute}/${id}/${networkRoute}/`, {
+        replace: ture,
+      });
     }
   };
   const switchOrganization = async () => {
@@ -121,7 +123,7 @@ const ClientCard = ({
       dispatch(updateSecondaryColor(row.appearance.secondary_color)),
       dispatch(updateFontOne(row.appearance.font_one)),
       dispatch(updateFontTwo(row.appearance.font_two)),
-      history.replace(`/${organizationRoute}/${id}/`),
+      navigate(`/${organizationRoute}/${id}/`, { replace: true }),
     ]);
   };
   return (
