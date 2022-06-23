@@ -80,9 +80,11 @@ class CommentSerializer(serializers.ModelSerializer):
         queryset=core_models.User.objects.all(),
     )
 
+    user_profile = core_serializers.ProfileMetaSerializer(read_only=True, source="user")
+
     class Meta:
         model = models.Comment
-        fields = ["id", "topic", "user", "comment", "created_at"]
+        fields = ["id", "topic", "user", "comment", "user_profile", "created_at"]
 
 
 class TopicSerializer(serializers.ModelSerializer):
