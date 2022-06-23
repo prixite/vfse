@@ -83,120 +83,120 @@ const RoutesHOC = ({ isLoading }: Props) => {
           {routes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
-              element={() => (
+              element={
                 <Suspense fallback={<p>Loading...</p>}>
                   <route.component />
                 </Suspense>
-              )}
+              }
               key={key}
             />
           ))}
           {vfseRoutes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
-              element={() => (
+              element={
                 <Suspense fallback={<p>Loading...</p>}>
                   <route.component />
                 </Suspense>
-              )}
+              }
               key={key}
             />
           ))}
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <OrganizationView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <OrganizationView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <SitesView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/:siteId/systems`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <SystemsView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/:siteId/systems`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <SystemsView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId/folder/:folderId`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <FolderView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/folder/:folderId/documentation/:docId`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <ArticleDocumentation />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/documentation/:docId`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <ArticleDocumentation />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <CategoryDetailView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path={`/${organizationRoute}/:id/forum/topic/:topicId`}
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <TopicView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path="/"
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <HomeView />
               </Suspense>
-            )}
+            }
           />
           <Route
             path="*"
-            element={() => (
+            element={
               <Suspense fallback={<p>Loading...</p>}>
                 <NotFoundPage />
               </Suspense>
-            )}
+            }
           />
         </Routes>
       ) : (

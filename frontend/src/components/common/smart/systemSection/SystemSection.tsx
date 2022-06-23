@@ -70,8 +70,8 @@ const SystemSection = () => {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const isOrganizationModality =
-    !location?.pathname.includes("sites") &&
-    !location?.pathname.includes("networks");
+    !location?.pathname?.includes("sites") &&
+    !location?.pathname?.includes("networks");
   const selectedID = networkId || id;
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
@@ -165,7 +165,7 @@ const SystemSection = () => {
       queryParams.set("modality", item?.id.toString());
       navigate(
         {
-          pathname: history.location.pathname,
+          pathname: location.pathname,
           search: queryParams.toString(),
         },
         { replace: true }

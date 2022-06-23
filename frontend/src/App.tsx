@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { matchPath } from "react-router";
-import { useLocation, withRouter } from "react-router-dom";
+import {
+  useMatch,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -27,23 +31,33 @@ import {
   updateSecondaryColor,
 } from "@src/store/reducers/themeStore";
 
+export function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+  return ComponentWithRouterProp;
+}
+
 const App = () => {
   const dispatch = useAppDispatch();
   const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
-  const location = useLocation();
-  // const params: match<{ id: string }> = matchPath(pathname, {
-  // path: "/clients/:id",
-  // });
-  const params: string = ["/clients/:id"].find((path) =>
-    matchPath(path, location.pathname)
-  );
+  // const { pathname } = useLocation();
 
+  //V5
+  // const params: match<{ id: string }> = matchPath(pathname, {
+  //   path: "/clients/:id",
+  // });
+
+  const match = useMatch("/clients/:id/*");
   const { data, isFetching } = useOrganizationsMeReadQuery({
-    id: params.params.id,
+    id: match?.params?.id,
   });
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: params.params.id,
+      id: match?.params?.id,
     });
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstTimeRendered, setIsFirstTimeRendered] = useState(false);
