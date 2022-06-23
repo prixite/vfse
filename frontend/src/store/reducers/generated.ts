@@ -1459,11 +1459,17 @@ export type Category = {
   color?: string;
   folders?: Folder[];
 };
+export type UserProfile = {
+  id?: number;
+  name?: string;
+  image?: string;
+};
 export type Comment = {
   id?: number;
   topic?: number;
   user?: number;
   comment: string;
+  user_profile?: UserProfile;
   created_at?: string;
 };
 export type Document = {
@@ -1482,11 +1488,6 @@ export type FolderDetail = {
   categories: number[];
   documents: Document[];
 };
-export type User2 = {
-  id?: number;
-  name?: string;
-  image?: string;
-};
 export type TopicCategory = {
   id?: number;
   name: string;
@@ -1495,10 +1496,10 @@ export type TopicCategory = {
 };
 export type TopicDetail = {
   id?: number;
-  user?: User2;
+  user?: UserProfile;
   title: string;
   description: string;
-  followers?: User2[];
+  followers?: UserProfile[];
   image?: string | null;
   categories: TopicCategory[];
   reply_email_notification?: boolean;
@@ -1512,7 +1513,7 @@ export type Topic = {
   user?: number;
   title: string;
   description: string;
-  followers?: User2[];
+  followers?: UserProfile[];
   image?: string | null;
   categories?: number[];
   reply_email_notification?: boolean;
@@ -1526,7 +1527,7 @@ export type FollowUnfollow = {
 };
 export type RecentActivity = {
   id?: number;
-  user?: User2;
+  user?: UserProfile;
   topic: number;
   action: string;
   created_at?: string;
