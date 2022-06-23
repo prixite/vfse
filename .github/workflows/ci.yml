@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "17"
+          cache: npm
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.7
+          cache: pip
+      - run: npm install
+      - uses: pre-commit/action@v2.0.3
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: "fake"
+      NPLUSONE_RAISE: "False"
+      DUO_CLIENT_ID: "fake"
+      DUO_CLIENT_SECRET: "fake"
+      DUO_API_HOSTNAME: "fake"
+      DUO_REDIRECT_URI: "fake"
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "17"
+          cache: npm
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9.7
+          cache: pip
+      - name: Install Python Dependencies
+        run: |
+          pip install -r requirements-dev.txt
+      - name: Install Node Dependencies
+        run: npm install
+      - name: Build Front-end
+        run: |
+          npm run build
+          python manage.py collectstatic --noinput
+      - name: Run Django system checks
+        # https://docs.djangoproject.com/en/3.2/topics/checks/
+        run: python manage.py check
+      - name: Check missing migrations
+        # https://stackoverflow.com/a/49794873/402560
+        # NOTE: makemigrations will warn it can't "check a consistent migration history" because the database doesn't
+        # exist. The warning doesn't impact the check for missing migrations
+        run: python manage.py makemigrations --check --dry-run
+      - name: Run Tests
+        run: python manage.py test
