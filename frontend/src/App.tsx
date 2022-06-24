@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { matchPath } from "react-router";
-import { useLocation, withRouter } from "react-router-dom";
+import { useLocation, useMatch, useParams, matchPath } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -29,21 +28,20 @@ import {
 
 const App = () => {
   const dispatch = useAppDispatch();
+
   const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
-  const location = useLocation();
-  // const params: match<{ id: string }> = matchPath(pathname, {
-  // path: "/clients/:id",
-  // });
-  const params: string = ["/clients/:id"].find((path) =>
-    matchPath(path, location.pathname)
-  );
+  const { pathname } = useLocation();
+
+  const paramsId = matchPath("/clients/*", pathname);
+  const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
 
   const { data, isFetching } = useOrganizationsMeReadQuery({
-    id: params.params.id,
+    id: paramsSingleId,
   });
+
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: params.params.id,
+      id: paramsSingleId,
     });
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstTimeRendered, setIsFirstTimeRendered] = useState(false);
@@ -142,4 +140,4 @@ const App = () => {
     </>
   );
 };
-export default withRouter(App);
+export default App;

@@ -1,8 +1,6 @@
 import { lazy, Suspense } from "react";
-
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
-
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
 
@@ -56,17 +54,13 @@ const SitesView = lazy(
     import(/* webpackChunkName: "SitesView" */ "@src/views/sites/SitesView")
 );
 
-const SystemsView = lazy(
-  async () =>
-    import(
-      /* webpackChunkName: "SystemsView" */ "@src/views/systems/SystemsView"
-    )
-);
+import SystemsView from "../../views/systems/SystemsView";
 
 interface Props {
   isLoading: boolean;
 }
 const RoutesHOC = ({ isLoading }: Props) => {
+  console.log("routes", routes, vfseRoutes);
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   return (
     <Box
@@ -83,22 +77,22 @@ const RoutesHOC = ({ isLoading }: Props) => {
           {routes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
-              element={() => (
-                <Suspense fallback={<p>Loading...</p>}>
+              element={
+                <Suspense fallback={<>Loading...</>}>
                   <route.component />
                 </Suspense>
-              )}
+              }
               key={key}
             />
           ))}
           {vfseRoutes.map((route, key) => (
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
-              element={() => (
-                <Suspense fallback={<p>Loading...</p>}>
+              element={
+                <Suspense fallback={<>Loading...</>}>
                   <route.component />
                 </Suspense>
-              )}
+              }
               key={key}
             />
           ))}
