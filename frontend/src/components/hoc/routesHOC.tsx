@@ -1,6 +1,8 @@
 import { lazy, Suspense } from "react";
+
 import { Box } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
+
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
 
