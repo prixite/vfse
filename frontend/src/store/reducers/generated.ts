@@ -1036,8 +1036,7 @@ export type VfseCategoriesPartialUpdateApiArg = {
 };
 export type VfseCommentsRepliesListApiResponse = /** status 200  */ Comment[];
 export type VfseCommentsRepliesListApiArg = {
-  id: number;
-  topic?: number;
+  id: string;
 };
 export type VfseCommentsRepliesCreateApiResponse = /** status 201  */ Comment;
 export type VfseCommentsRepliesCreateApiArg = {
