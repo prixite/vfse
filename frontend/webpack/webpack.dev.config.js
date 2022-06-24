@@ -9,4 +9,5 @@ module.exports = merge.mergeWithCustomize({
   }),
 })(common, {
   mode: "development",
+  devtool: "inline-source-map",
 });

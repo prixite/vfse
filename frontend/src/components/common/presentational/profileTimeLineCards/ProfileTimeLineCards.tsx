@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import moment from "moment";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
@@ -53,7 +53,7 @@ const ProfileTimelineCards = ({
       skip: !selectedOrganization,
     }
   );
-  const history = useHistory();
+  const navigate = useNavigate();
   const { organizationRoute } = constants;
 
   const [updateFollowUnfollowTopic] =
@@ -84,7 +84,7 @@ const ProfileTimelineCards = ({
             className={classes.card}
             style={{ cursor: "pointer" }}
             onClick={() =>
-              history.push(
+              navigate(
                 `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
               )
             }

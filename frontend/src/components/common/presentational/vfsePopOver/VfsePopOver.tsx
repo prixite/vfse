@@ -1,5 +1,5 @@
 import Popover from "@mui/material/Popover";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { vfseRoutes } from "@src/routes";
@@ -11,7 +11,7 @@ interface VfsePopOver {
   setAnchorEl: React.Dispatch<unknown>;
 }
 const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const selectedOrganization = useSelectedOrganization();
   const { organizationRoute } = constants;
   const handleClose = () => {
@@ -44,7 +44,7 @@ const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
           style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
           onClick={() => {
             setAnchorEl(null);
-            history.push(
+            navigate(
               `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
             );
           }}

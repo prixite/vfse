@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
 import ChatBox from "@src/components/common/presentational/chatBox/ChatBox";
@@ -38,8 +38,9 @@ import { System } from "@src/store/reducers/generated";
 import "@src/components/common/smart/systemSection/systemSection.scss";
 
 const SystemSection = () => {
+  const navigate = useNavigate();
   const location = useLocation();
-  const history = useHistory();
+
   const dispatch = useAppDispatch();
   const queryParams = new URLSearchParams(location?.search);
   const paramModality = queryParams?.get("modality");
@@ -69,8 +70,8 @@ const SystemSection = () => {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const isOrganizationModality =
-    !history?.location?.pathname.includes("sites") &&
-    !history?.location?.pathname.includes("networks");
+    !location?.pathname?.includes("sites") &&
+    !location?.pathname?.includes("networks");
   const selectedID = networkId || id;
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
@@ -132,11 +133,11 @@ const SystemSection = () => {
 
   const returnSiteName = () => {
     if (
-      history.location.pathname.includes("networks") &&
-      history.location.pathname.includes("sites")
+      location.pathname.includes("networks") &&
+      location.pathname.includes("sites")
     ) {
       return returnSearchedOject(organization?.sites, siteId)[0]?.name;
-    } else if (history.location.pathname.includes("sites")) {
+    } else if (location.pathname.includes("sites")) {
       return returnSearchedOject(sites, siteId)[0]?.name;
     }
     return selectedOrganization?.name;
@@ -152,17 +153,23 @@ const SystemSection = () => {
       setApiArgData({ ...TempArgs });
       setModality(null);
       queryParams.delete("modality");
-      history.replace({
-        search: queryParams.toString(),
-      });
+      navigate(
+        {
+          search: queryParams.toString(),
+        },
+        { replace: true }
+      );
     } else {
       setModality(item?.id.toString());
       setApiArgData({ ...apiArgData, modality: item?.id.toString() });
       queryParams.set("modality", item?.id.toString());
-      history.replace({
-        pathname: history.location.pathname,
-        search: queryParams.toString(),
-      });
+      navigate(
+        {
+          pathname: location.pathname,
+          search: queryParams.toString(),
+        },
+        { replace: true }
+      );
     }
   };
 
@@ -234,8 +241,8 @@ const SystemSection = () => {
           return { ...prevState, healthNetwork: networkFilter?.id };
         });
         queryParams.set("health_network", networkFilter?.id?.toString());
-        history.push({
-          pathname: history.location.pathname,
+        navigate({
+          pathname: location.pathname,
           search: queryParams.toString(),
         });
       } else if (
@@ -275,8 +282,8 @@ const SystemSection = () => {
       ) {
         setApiArgData({ ...apiArgData, site: siteFilter?.id });
         queryParams.set("site", siteFilter?.id?.toString());
-        history.push({
-          pathname: history.location.pathname,
+        navigate({
+          pathname: location.pathname,
           search: queryParams.toString(),
         });
       } else if (
@@ -312,9 +319,9 @@ const SystemSection = () => {
 
   const addBreadcrumbs = () => {
     if (
-      history.location.pathname.includes("sites") &&
+      location.pathname.includes("sites") &&
       !fetching &&
-      history.location.pathname.includes("networks")
+      location.pathname.includes("networks")
     ) {
       return (
         <BreadCrumb
@@ -337,7 +344,7 @@ const SystemSection = () => {
           ]}
         />
       );
-    } else if (history.location.pathname.includes("sites") && !fetching) {
+    } else if (location.pathname.includes("sites") && !fetching) {
       return (
         <BreadCrumb
           breadCrumbList={[

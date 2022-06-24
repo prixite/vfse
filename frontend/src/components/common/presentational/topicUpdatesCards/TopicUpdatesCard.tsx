@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
@@ -35,7 +35,7 @@ const TopicUpdatesCards = ({
   user,
   followers,
 }: TopicUpdatesCards) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { organizationRoute } = constants;
   const [isFollowing, setIsFollowing] = useState(
     followers.some((follower) => follower?.id === me?.id)
@@ -65,7 +65,7 @@ const TopicUpdatesCards = ({
   };
 
   const expandOnClick = () => {
-    history.push(
+    navigate(
       `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
     );
   };

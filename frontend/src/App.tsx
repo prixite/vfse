@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { matchPath } from "react-router";
-import { match, useLocation, withRouter } from "react-router-dom";
+import {
+  useLocation,
+  useParams,
+  matchPath,
+  useNavigate,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -27,19 +31,31 @@ import {
   updateSecondaryColor,
 } from "@src/store/reducers/themeStore";
 
+export function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+  return ComponentWithRouterProp;
+}
+
 const App = () => {
   const dispatch = useAppDispatch();
+
   const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
   const { pathname } = useLocation();
-  const params: match<{ id: string }> = matchPath(pathname, {
-    path: "/clients/:id",
-  });
+
+  const paramsId = matchPath("/clients/*", pathname);
+  const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
   const { data, isFetching } = useOrganizationsMeReadQuery({
-    id: params.params.id,
+    id: paramsSingleId,
   });
+
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: params.params.id,
+      id: paramsSingleId,
     });
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstTimeRendered, setIsFirstTimeRendered] = useState(false);
@@ -138,4 +154,4 @@ const App = () => {
     </>
   );
 };
-export default withRouter(App);
+export default App;

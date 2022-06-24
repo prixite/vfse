@@ -5,7 +5,7 @@ import { Box, Grid } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
@@ -32,7 +32,10 @@ import { closeAddModal } from "@src/store/reducers/appStore";
 
 const OrganizationSection = () => {
   const [tabValue, setTabValue] = React.useState(0);
-  const history = useHistory();
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
   const { openAddClientModal } = useAppSelector((state) => state.app);
   const [organization, setOrganization] = useState(null);
@@ -73,9 +76,11 @@ const OrganizationSection = () => {
     if (
       event.target.innerText.toLowerCase() == organizationTabs[0].toLowerCase()
     ) {
-      history.replace(`/${organizationRoute}/${id}/${networkRoute}/`);
+      navigate(`/${organizationRoute}/${id}/${networkRoute}/`, {
+        replace: true,
+      });
     } else {
-      history.replace(`/${organizationRoute}/${id}/${sitesRoute}/`);
+      navigate(`/${organizationRoute}/${id}/${sitesRoute}/`, { replace: true });
     }
   };
   const fetchMoreSection = () => {
@@ -93,7 +98,7 @@ const OrganizationSection = () => {
   };
 
   const showTabs = () => {
-    const pathUrl = history.location.pathname.split("/");
+    const pathUrl = location.pathname.split("/");
     return (
       (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) ==
         "networks" ||
@@ -116,7 +121,7 @@ const OrganizationSection = () => {
     }
   };
   useEffect(() => {
-    if (history.location.pathname.includes("sites")) {
+    if (location.pathname.includes("sites")) {
       setTabValue(1);
     }
   }, []);
@@ -145,8 +150,8 @@ const OrganizationSection = () => {
 
   return (
     <>
-      {history.location.pathname.includes("networks") ||
-      history.location.pathname.includes("sites") ? (
+      {location.pathname.includes("networks") ||
+      location.pathname.includes("sites") ? (
         <BreadCrumb
           breadCrumbList={[
             {

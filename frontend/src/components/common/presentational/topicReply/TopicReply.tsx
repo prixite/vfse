@@ -15,7 +15,6 @@ type TopicReplyProps = {
 function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   const [commentIDState, setCommentIDState] = useState<number>(commentData?.id);
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
-  const [, setUserIDState] = useState<number>(commentData?.user);
 
   //GET vfseCommentsRepliesCreate
   const { data: repliesData = [], isLoading: isRepliesLoading } =
@@ -33,7 +32,6 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   useEffect(() => {
     setCommentIDState(commentData?.id);
     setTopicIDState(commentData?.topic);
-    setUserIDState(commentData?.user);
   }, [replyChecked, commentData, repliesData]);
 
   const addReplyHandler = () => {
