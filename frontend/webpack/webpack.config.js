@@ -18,6 +18,7 @@ module.exports = {
     },
   },
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
@@ -54,5 +55,4 @@ module.exports = {
     filename: "[name].bundle.js",
     clean: true,
   },
-  devtool: "inline-source-map",
 };
