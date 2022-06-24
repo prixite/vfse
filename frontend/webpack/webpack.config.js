@@ -52,7 +52,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../dist/"),
     publicPath: "/static/",
-    filename: "[name].[chunkhash:8].js",
+    filename: "[name].bundle.js",
     clean: true,
   },
 };
