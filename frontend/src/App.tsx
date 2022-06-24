@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 
-import { useLocation, useMatch, useParams, matchPath } from "react-router-dom";
+import {
+  useLocation,
+  useMatch,
+  useParams,
+  matchPath,
+  useNavigate,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +32,16 @@ import {
   updateSecondaryColor,
 } from "@src/store/reducers/themeStore";
 
+export function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+  return ComponentWithRouterProp;
+}
+
 const App = () => {
   const dispatch = useAppDispatch();
 
@@ -35,6 +51,7 @@ const App = () => {
   const paramsId = matchPath("/clients/*", pathname);
   const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
 
+  const match = useMatch("/clients/:id/*");
   const { data, isFetching } = useOrganizationsMeReadQuery({
     id: paramsSingleId,
   });
