@@ -40,6 +40,11 @@ const TopicCommentSection = () => {
       });
   };
 
+  const keyPressEnter = (event) => {
+    if (event.key == "Enter") {
+      addCommentHandler();
+    }
+  };
   return (
     <Box className="topicCommentSection" component="div">
       <Box component="div" className="commentActions">
@@ -51,6 +56,7 @@ const TopicCommentSection = () => {
           placeholder="Enter Comment..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          onKeyPress={keyPressEnter}
         />
         <Button
           className="postBtn"

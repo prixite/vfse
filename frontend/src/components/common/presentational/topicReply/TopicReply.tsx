@@ -1,30 +1,24 @@
 import { useEffect, useState } from "react";
 
 import { Avatar, Box, Button, Input, Skeleton } from "@mui/material";
-
 import "@src/components/common/presentational/topicReply/topicReply.scss";
+import moment from "moment";
+
 import { api, VfseCommentsRepliesCreateApiArg } from "@src/store/reducers/api";
 import { Comment } from "@src/store/reducers/generated";
 
 type TopicReplyProps = {
-  profile_picture: string;
   commentData: Comment;
   replyChecked: boolean;
 };
 
-function TopicReply({
-  profile_picture, //!TODO
-  commentData,
-  replyChecked,
-}: TopicReplyProps) {
+function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   const [commentIDState, setCommentIDState] = useState<number>(commentData?.id);
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
-  // const [userIDState, setUserIDState] = useState<number>(commentData?.user);
 
   //GET vfseCommentsRepliesCreate
   const { data: repliesData = [], isLoading: isRepliesLoading } =
     api.useVfseCommentsRepliesListQuery({
-      //remove  Refetch
       id: commentIDState,
       topic: topicIDState,
     });
@@ -38,8 +32,7 @@ function TopicReply({
   useEffect(() => {
     setCommentIDState(commentData?.id);
     setTopicIDState(commentData?.topic);
-    // setUserIDState(commentData?.user);
-  }, [replyChecked, commentData]);
+  }, [replyChecked, commentData, repliesData]);
 
   const addReplyHandler = () => {
     const payload: VfseCommentsRepliesCreateApiArg = {
@@ -58,42 +51,27 @@ function TopicReply({
       });
   };
 
+  const keyPressEnter = (event) => {
+    if (event.key == "Enter") {
+      addReplyHandler();
+    }
+  };
   return (
     <Box className="TopicReplyView">
-      {/* Replied start  */}
-      <Box component="div" className="commentActions">
-        <div className="profileImage">
-          <img src={profile_picture} alt="profilePicture" />
-        </div>
-        <Input
-          className="commentInput"
-          placeholder="Enter Comment..."
-          value={reply}
-          onChange={(e) => setReply(e.target.value)}
-        />
-        <Button
-          className="postBtn"
-          disabled={!reply && isReplyPosting}
-          onClick={addReplyHandler}
-          sx={{ height: 45, width: 125 }}
-        >
-          {isReplyPosting ? "Posting..." : "Reply"}
-        </Button>
-      </Box>
-      {/* Replied end  */}
       <div>
         {!isRepliesLoading ? (
           <div>
             {repliesData.map((item, key) => (
               <div key={key} className="Comment" style={{ margin: "5px" }}>
                 <div className="profileImage">
-                  <img src={profile_picture} alt="profilePicture" />
+                  <img src={item?.user_profile?.image} alt="profilePicture" />
                 </div>
                 <div className="commentDetail">
                   <div className="headerInfo">
-                    {/* <p className="userName">{`${first_name} ${last_name}`}</p> */}
-                    <p className="userName">{`Comment-${++key}`}</p>
-                    {/* <p className="timeStamp">{moment().startOf("minutes").fromNow()}</p> */}
+                    <p className="userName">{`${item?.user_profile?.name}`}</p>
+                    <p className="timeStamp">
+                      {moment(item?.created_at).startOf("s").fromNow()}
+                    </p>
                   </div>
                   <div className="commentDescription">{item.comment}</div>
                   <div className="commentActions"></div>
@@ -132,6 +110,26 @@ function TopicReply({
           </Box>
         )}
       </div>
+      <Box component="div" className="commentActions">
+        <div className="profileImage">
+          <img src={commentData?.user_profile.image} alt="profilePicture" />
+        </div>
+        <Input
+          className="commentInput"
+          placeholder="Enter Comment..."
+          value={reply}
+          onChange={(e) => setReply(e.target.value)}
+          onKeyPress={keyPressEnter}
+        />
+        <Button
+          className="postBtn"
+          disabled={!reply && isReplyPosting}
+          onClick={addReplyHandler}
+          sx={{ height: 45, width: 125 }}
+        >
+          {isReplyPosting ? "Posting..." : "Reply"}
+        </Button>
+      </Box>
     </Box>
   );
 }
