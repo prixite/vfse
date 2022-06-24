@@ -18,6 +18,7 @@ module.exports = {
     },
   },
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
@@ -40,7 +41,7 @@ module.exports = {
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
-    }),
+    })
   ],
   resolve: {
     alias: {
@@ -51,8 +52,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../dist/"),
     publicPath: "/static/",
-    filename: "[name].bundle.js",
-    clean: true,
-  },
-  devtool: "inline-source-map",
+    filename: "[name].[chunkhash:8].js",
+    clean: true
+  }
 };
