@@ -19,7 +19,7 @@ function TopicReply({
 }: TopicReplyProps) {
   const [commentIDState, setCommentIDState] = useState<number>(commentData?.id);
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
-  const [, setUserIDState] = useState<number>(commentData?.user);
+  // const [userIDState, setUserIDState] = useState<number>(commentData?.user);
 
   //GET vfseCommentsRepliesCreate
   const { data: repliesData = [], isLoading: isRepliesLoading } =
@@ -38,7 +38,7 @@ function TopicReply({
   useEffect(() => {
     setCommentIDState(commentData?.id);
     setTopicIDState(commentData?.topic);
-    setUserIDState(commentData?.user);
+    // setUserIDState(commentData?.user);
   }, [replyChecked, commentData]);
 
   const addReplyHandler = () => {

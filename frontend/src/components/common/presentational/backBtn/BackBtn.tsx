@@ -1,10 +1,10 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import "@src/components/common/presentational/backBtn/backBtn.scss";
 const BackBtn = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
-    <div className="back-btn" onClick={() => history.goBack()}>
+    <div className="back-btn" onClick={() => navigate(-1)}>
       <ArrowRightAltIcon
         style={{ transform: "rotate(180deg)", color: "rgb(0, 0, 0)" }}
       />

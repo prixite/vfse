@@ -11,6 +11,7 @@ const PageLayout = ({ children }: LayoutProps) => {
     <div className="Layout">
       <SideBar />
       {children}
+      {/* <Outlet /> */}
     </div>
   );
 };

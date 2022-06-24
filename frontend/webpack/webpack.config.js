@@ -37,7 +37,8 @@ module.exports = {
   },
   plugins: [
     new EnvironmentPlugin({
-      NODE_ENV: "production",
+      "process.env.NODE_ENV": JSON.stringify("production"),
+      // NODE_ENV: "production",
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
