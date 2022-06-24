@@ -50,8 +50,6 @@ const App = () => {
 
   const paramsId = matchPath("/clients/*", pathname);
   const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
-
-  const match = useMatch("/clients/:id/*");
   const { data, isFetching } = useOrganizationsMeReadQuery({
     id: paramsSingleId,
   });

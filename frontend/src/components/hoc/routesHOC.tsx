@@ -60,7 +60,6 @@ interface Props {
   isLoading: boolean;
 }
 const RoutesHOC = ({ isLoading }: Props) => {
-  console.log("routes", routes, vfseRoutes);
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   return (
     <Box

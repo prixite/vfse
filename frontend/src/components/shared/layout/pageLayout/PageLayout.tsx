@@ -2,7 +2,6 @@ import { ReactChildren, ReactChild } from "react";
 
 import "@src/components/shared/layout/pageLayout/pageLayout.scss";
 import SideBar from "@src/components/shared/layout/sideBar/SideBar";
-import { Outlet } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactChild | ReactChildren;
