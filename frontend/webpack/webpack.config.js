@@ -41,7 +41,7 @@ module.exports = {
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
-    })
+    }),
   ],
   resolve: {
     alias: {
@@ -53,6 +53,6 @@ module.exports = {
     path: path.resolve(__dirname, "../dist/"),
     publicPath: "/static/",
     filename: "[name].[chunkhash:8].js",
-    clean: true
-  }
+    clean: true,
+  },
 };
