@@ -1471,6 +1471,7 @@ export type Comment = {
   comment: string;
   user_profile?: UserProfile;
   created_at?: string;
+  number_of_replies?: number;
 };
 export type Document = {
   id?: number;
