@@ -199,7 +199,7 @@ export default function TopicModal({ open, handleClose }: Props) {
               </ToggleButtonGroup>
             </div>
             <div className="modal-content-label">
-              <p className="info-label required">Image (optional)</p>
+              <p className="info-label">Image (optional)</p>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
