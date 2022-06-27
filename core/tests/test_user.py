@@ -117,8 +117,7 @@ class UserTestCase(BaseTestCase):
         response = self.client.get("/api/users/active_users/")
 
         users = models.User.objects.filter(
-            last_login__gte=timezone.now().date() - timezone.timedelta(days=30)
+            last_login__gte=timezone.now() - timezone.timedelta(days=30)
         ).count()
-
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), users)
