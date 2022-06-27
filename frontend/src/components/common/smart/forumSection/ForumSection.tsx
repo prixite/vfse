@@ -39,8 +39,8 @@ export default function ForumSection() {
   }, [page, topicsList, popularTopicData]);
 
   const paginate = (array, pageSize, pageNumber) => {
-    const A1 = JSON.parse(JSON.stringify([...topicsList, ...popularTopicData]));
-    const newPaginatedTopicsArray = A1.slice(
+    const tempArr = JSON.parse(JSON.stringify([...topicsList]));
+    const newPaginatedTopicsArray = tempArr.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
@@ -72,9 +72,7 @@ export default function ForumSection() {
         >
           <Pagination
             defaultPage={1}
-            count={
-              Math.ceil((topicsList.length + popularTopicData.length) / 10) || 1
-            }
+            count={Math.ceil(topicsList.length / 10) || 1}
             onChange={handlePagination}
             size="large"
           />
