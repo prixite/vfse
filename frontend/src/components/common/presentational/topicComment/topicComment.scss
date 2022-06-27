@@ -49,6 +49,7 @@
         overflow: inherit;
         flex-wrap: wrap;
         flex-direction: row;
+        cursor: pointer;
         .action {
           margin-right: 31px;
           .icon {
@@ -64,15 +65,13 @@
         }
         .action-highlighted {
           margin-right: 31px;
-          background-color: #d4d4d4;
-          color: purple;
           .icon {
             width: 12px;
             height: 12px;
             margin-right: 6px;
           }
           .actionDescription {
-            color: #696f77;
+            color: #661bc0;
             font-weight: 600;
             font-size: 12px;
           }

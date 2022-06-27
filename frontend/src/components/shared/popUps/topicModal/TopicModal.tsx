@@ -147,7 +147,6 @@ export default function TopicModal({ open, handleClose }: Props) {
                 className="full-field"
                 type="text"
                 variant="outlined"
-                placeholder="Default"
               />
               {formik.errors?.title && (
                 <p className="errorText" style={{ marginTop: "5px" }}>
@@ -164,7 +163,6 @@ export default function TopicModal({ open, handleClose }: Props) {
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 variant="outlined"
-                placeholder="Default"
               />
               {formik.errors?.description && (
                 <p className="errorText" style={{ marginTop: "5px" }}>
@@ -186,9 +184,9 @@ export default function TopicModal({ open, handleClose }: Props) {
                 onChange={handleSelectedCategories}
               >
                 {categoriesList?.length &&
-                  categoriesList?.map((item, index) => (
+                  categoriesList?.map((item) => (
                     <ToggleButton
-                      key={index}
+                      key={item.id}
                       value={item.id}
                       className="toggle-btn"
                       selectedColor={`${item?.color}`}
@@ -199,7 +197,7 @@ export default function TopicModal({ open, handleClose }: Props) {
               </ToggleButtonGroup>
             </div>
             <div className="modal-content-label">
-              <p className="info-label required">Image (optional)</p>
+              <p className="info-label">Image (optional)</p>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
@@ -241,7 +239,6 @@ export default function TopicModal({ open, handleClose }: Props) {
             color: buttonTextColor,
           }}
           onClick={() => {
-            setIsLoading(true);
             setOnChangeValidation(true);
             formik.handleSubmit();
           }}

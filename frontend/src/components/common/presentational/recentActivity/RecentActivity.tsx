@@ -53,7 +53,7 @@ const RecentActivity = () => {
                 <span className="username">{item?.user?.name}</span>{" "}
                 {item?.action}
                 <div className="postTime">
-                  {moment(item?.created_at).startOf("minutes").fromNow()}
+                  {moment(item?.created_at).startOf("s").fromNow()}
                 </div>
               </div>
             </div>

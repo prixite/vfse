@@ -29,7 +29,7 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                   <div className="user_info">
                     <div className="userName">{topic?.user?.name}</div>
                     <div className="postTime">
-                      {moment(topic?.created_at).startOf("minutes").fromNow()}
+                      {moment(topic?.created_at).startOf("s").fromNow()}
                     </div>
                   </div>
                 </div>
