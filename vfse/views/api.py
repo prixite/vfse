@@ -52,11 +52,17 @@ class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
 
     def get_queryset(self):
-        return models.Comment.objects.filter(topic_id=self.kwargs["pk"], parent__isnull=True).annotate(
-            number_of_replies=Count(
-                "replies", distinct=True, filter=Q(parent__isnull=False)
+        return (
+            models.Comment.objects.filter(
+                topic_id=self.kwargs["pk"], parent__isnull=True
             )
-        ).order_by("-id")
+            .annotate(
+                number_of_replies=Count(
+                    "replies", distinct=True, filter=Q(parent__isnull=False)
+                )
+            )
+            .order_by("-id")
+        )
 
 
 class ReplyViewSet(ModelViewSet):
