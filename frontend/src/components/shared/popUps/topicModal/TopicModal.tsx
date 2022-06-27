@@ -147,7 +147,6 @@ export default function TopicModal({ open, handleClose }: Props) {
                 className="full-field"
                 type="text"
                 variant="outlined"
-                placeholder="Type or paste text here."
               />
               {formik.errors?.title && (
                 <p className="errorText" style={{ marginTop: "5px" }}>
@@ -164,7 +163,6 @@ export default function TopicModal({ open, handleClose }: Props) {
                 value={formik.values.description}
                 onChange={formik.handleChange}
                 variant="outlined"
-                placeholder="Type or paste text here."
               />
               {formik.errors?.description && (
                 <p className="errorText" style={{ marginTop: "5px" }}>
