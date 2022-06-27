@@ -184,7 +184,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                 onChange={handleSelectedCategories}
               >
                 {categoriesList?.length &&
-                  categoriesList?.map((item, index) => (
+                  categoriesList?.map((item) => (
                     <ToggleButton
                       key={item.id}
                       value={item.id}
