@@ -188,7 +188,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                 {categoriesList?.length &&
                   categoriesList?.map((item, index) => (
                     <ToggleButton
-                      key={index}
+                      key={item.id}
                       value={item.id}
                       className="toggle-btn"
                       selectedColor={`${item?.color}`}
@@ -241,7 +241,6 @@ export default function TopicModal({ open, handleClose }: Props) {
             color: buttonTextColor,
           }}
           onClick={() => {
-            setIsLoading(true);
             setOnChangeValidation(true);
             formik.handleSubmit();
           }}
