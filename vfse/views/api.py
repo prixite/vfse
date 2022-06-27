@@ -50,7 +50,6 @@ class DocumentViewSet(ModelViewSet):
 
 class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
-    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         return models.Comment.objects.filter(topic_id=self.kwargs["pk"], parent__isnull=True).annotate(
