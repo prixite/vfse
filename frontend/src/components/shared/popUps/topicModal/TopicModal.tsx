@@ -239,7 +239,6 @@ export default function TopicModal({ open, handleClose }: Props) {
             color: buttonTextColor,
           }}
           onClick={() => {
-            setIsLoading(true);
             setOnChangeValidation(true);
             formik.handleSubmit();
           }}
