@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import moment from "moment";
 
+import replyIcon from "@src/assets/images/replyIcon.png";
 import messageIcon from "@src/assets/svgs/message.svg";
 import shareIcon from "@src/assets/svgs/share.svg";
 import "@src/components/common/presentational/topicComment/topicComment.scss";
@@ -68,6 +69,16 @@ const TopicComment = ({
                 </span>
               </div>
             </div>
+            {commentData?.number_of_replies > 0 && (
+              <div onClick={handleReply} className="replyIconElement">
+                <img src={replyIcon} alt="replyIcon" />
+                <span className="replyIconText">
+                  {commentData?.number_of_replies > 1
+                    ? commentData?.number_of_replies + " Replies"
+                    : commentData?.number_of_replies + " Reply"}
+                </span>
+              </div>
+            )}
           </div>
         </div>
         {replyChecked && (

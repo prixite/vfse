@@ -58,7 +58,7 @@ class CommentViewset(ModelViewSet):
             )
             .annotate(
                 number_of_replies=Count(
-                    "replies", distinct=True, filter=Q(parent__isnull=False)
+                    "replies", distinct=True, filter=Q(replies__parent__isnull=False)
                 )
             )
             .order_by("-id")
