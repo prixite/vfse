@@ -17,8 +17,8 @@ class BaseTestCase(TestCase):
         self.document = factories.DocumentFactory(folder=self.folder)
         self.topic = factories.TopicFactory(
             title="Test Topic",
-            description='Test Topic Description',
-            user=self.topic_owner,            
+            description="Test Topic Description",
+            user=self.topic_owner,
             followers=[self.follower, self.topic_owner],
         )
 
