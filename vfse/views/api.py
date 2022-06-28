@@ -90,11 +90,12 @@ class PopularTopicsViewset(ModelViewSet):
     serializer_class = serializers.TopicDetailSerializer
 
     def get_queryset(self):
-        return (
-            models.Topic.objects.all()
-            .annotate(number_of_followers=Count("followers"))
-            .order_by("-number_of_followers")[:4]
-        )
+        return models.Topic.objects.annotate(
+            number_of_followers=Count("followers", distinct=True),
+            number_of_comments=Count(
+                "comments", distinct=True, filter=Q(comments__parent__isnull=True)
+            ),
+        ).order_by("-number_of_followers")[:4]
 
 
 class DashboardView(APIView):
