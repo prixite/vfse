@@ -38,13 +38,12 @@ export default function ForumSection() {
     paginate();
   }, [page, topicsList, popularTopicData]);
 
-  const paginate = (array = topicsList, pageSize = 10, pageNumber = page) => {
-    const tempArr = [...array];
-    const newPaginatedTopicsArray = tempArr.slice(
+  const paginate = (topics = topicsList, pageSize = 10, pageNumber = page) => {
+    const tempArr = [...topics].slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
-    setPaginatedTopics(newPaginatedTopicsArray);
+    setPaginatedTopics(tempArr);
   };
   return (
     <>
