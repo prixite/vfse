@@ -24,7 +24,7 @@ const TopicComment = ({
 }: TopicCommentProps) => {
   const [replyChecked, setReplyChecked] = useState<boolean>(false);
   const [shared, setShared] = useState(false);
-
+  const { number_of_replies: numberOfReplies } = commentData;
   const handleShare = () => {
     setShared(true);
     navigator.clipboard.writeText(commentData?.comment);
@@ -69,13 +69,13 @@ const TopicComment = ({
                 </span>
               </div>
             </div>
-            {commentData?.number_of_replies > 0 && (
+            {numberOfReplies > 0 && (
               <div onClick={handleReply} className="replyIconElement">
                 <img src={replyIcon} alt="replyIcon" />
                 <span className="replyIconText">
-                  {commentData?.number_of_replies > 1
-                    ? commentData?.number_of_replies + " Replies"
-                    : commentData?.number_of_replies + " Reply"}
+                  {numberOfReplies > 1
+                    ? numberOfReplies + " Replies"
+                    : numberOfReplies + " Reply"}
                 </span>
               </div>
             )}
