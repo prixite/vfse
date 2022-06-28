@@ -158,9 +158,13 @@ const ProfileTimelineCards = ({
             )}
             <div className={classes.cardFooter}>
               <div className={classes.profileSide}>
-                <div
-                  className={classes.followerText}
-                >{`${number_of_followers} followers`}</div>
+                <div className={classes.followerText}>
+                  {number_of_followers > 0 ? (
+                    <p> {number_of_followers} Followers</p>
+                  ) : (
+                    <p>No Followers</p>
+                  )}
+                </div>
               </div>
               <div className={classes.messageSide}>
                 <div className={classes.messageTextContainer}>

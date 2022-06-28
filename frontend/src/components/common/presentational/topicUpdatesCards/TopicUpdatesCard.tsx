@@ -153,9 +153,12 @@ const TopicUpdatesCards = ({
               )}
               <div className="followerText" style={{ marginTop: "5px" }}>
                 {numberOfFollowers > 0 ? (
-                  <p> {numberOfFollowers} </p>
+                  <p style={{ width: "100px" }}>
+                    {" "}
+                    {numberOfFollowers} Followers
+                  </p>
                 ) : (
-                  <p>No Followers</p>
+                  <p style={{ width: "100px" }}>No Followers</p>
                 )}
               </div>
             </div>
