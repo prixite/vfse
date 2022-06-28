@@ -35,19 +35,15 @@ export default function ForumSection() {
   };
 
   useEffect(() => {
-    paginate(topicsList, 10, page);
-  }, [page, topicsList]);
+    paginate();
+  }, [page, topicsList, popularTopicData]);
 
-  const paginate = (array, pageSize, pageNumber) => {
-    const A1 = JSON.parse(JSON.stringify(topicsList));
-    const A2 = JSON.parse(JSON.stringify(popularTopicData));
-    const A3 = [...A1, ...A2];
-
-    const newPaginatedTopicsArray = A3.slice(
+  const paginate = (topics = topicsList, pageSize = 10, pageNumber = page) => {
+    const tempArr = [...topics].slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
     );
-    setPaginatedTopics(newPaginatedTopicsArray);
+    setPaginatedTopics(tempArr);
   };
   return (
     <>
@@ -75,9 +71,7 @@ export default function ForumSection() {
         >
           <Pagination
             defaultPage={1}
-            count={
-              Math.ceil((topicsList.length + popularTopicData.length) / 10) || 1
-            }
+            count={Math.ceil(topicsList.length / 10) || 1}
             onChange={handlePagination}
             size="large"
           />
