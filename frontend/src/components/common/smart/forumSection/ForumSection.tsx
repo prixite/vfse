@@ -35,11 +35,11 @@ export default function ForumSection() {
   };
 
   useEffect(() => {
-    paginate(topicsList, 10, page);
+    paginate();
   }, [page, topicsList, popularTopicData]);
 
-  const paginate = (array, pageSize, pageNumber) => {
-    const tempArr = JSON.parse(JSON.stringify([...topicsList]));
+  const paginate = (array = topicsList, pageSize = 10, pageNumber = page) => {
+    const tempArr = [...array];
     const newPaginatedTopicsArray = tempArr.slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
