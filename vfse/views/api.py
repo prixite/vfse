@@ -52,8 +52,16 @@ class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
 
     def get_queryset(self):
-        return models.Comment.objects.filter(
-            topic_id=self.kwargs["pk"], parent__isnull=True
+        return (
+            models.Comment.objects.filter(
+                topic_id=self.kwargs["pk"], parent__isnull=True
+            )
+            .annotate(
+                number_of_replies=Count(
+                    "replies", distinct=True, filter=Q(replies__parent__isnull=False)
+                )
+            )
+            .order_by("-id")
         )
 
 

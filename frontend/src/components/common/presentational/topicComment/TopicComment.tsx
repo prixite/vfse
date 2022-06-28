@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import moment from "moment";
 
+import replyIcon from "@src/assets/images/replyIcon.png";
 import messageIcon from "@src/assets/svgs/message.svg";
 import shareIcon from "@src/assets/svgs/share.svg";
 import "@src/components/common/presentational/topicComment/topicComment.scss";
@@ -23,7 +24,7 @@ const TopicComment = ({
 }: TopicCommentProps) => {
   const [replyChecked, setReplyChecked] = useState<boolean>(false);
   const [shared, setShared] = useState(false);
-
+  const { number_of_replies: numberOfReplies } = commentData;
   const handleShare = () => {
     setShared(true);
     navigator.clipboard.writeText(commentData?.comment);
@@ -68,6 +69,16 @@ const TopicComment = ({
                 </span>
               </div>
             </div>
+            {numberOfReplies > 0 && (
+              <div onClick={handleReply} className="replyIconElement">
+                <img src={replyIcon} alt="replyIcon" />
+                <span className="replyIconText">
+                  {numberOfReplies > 1
+                    ? numberOfReplies + " Replies"
+                    : numberOfReplies + " Reply"}
+                </span>
+              </div>
+            )}
           </div>
         </div>
         {replyChecked && (

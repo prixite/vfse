@@ -70,6 +70,7 @@ class TopicDefault:
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    number_of_replies = serializers.IntegerField(read_only=True)
     topic = serializers.PrimaryKeyRelatedField(
         default=TopicDefault(),
         queryset=models.Topic.objects.all(),
@@ -84,7 +85,15 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Comment
-        fields = ["id", "topic", "user", "comment", "user_profile", "created_at"]
+        fields = [
+            "id",
+            "topic",
+            "user",
+            "comment",
+            "user_profile",
+            "created_at",
+            "number_of_replies",
+        ]
 
 
 class TopicSerializer(serializers.ModelSerializer):
