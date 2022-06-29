@@ -4,8 +4,6 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
 import { useNavigate } from "react-router-dom";
-
-import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
@@ -145,15 +143,6 @@ const TopicUpdatesCards = ({
                     />
                   ))}
               <div className="followerText" style={{ marginTop: "5px" }}>
-                {/* {numberOfFollowers > 0 ? (
-                  <p style={{ width: "100px" }}>
-                    {" "}
-                    {numberOfFollowers} Followers{" "}
-                  </p>
-                ) : (
-                  <p style={{ width: "100px" }}>No Followers</p>
-                )} */}
-
                 <p style={{ width: "100px" }}>
                   {numberOfFollowers > 0
                     ? `${numberOfFollowers} Followers`
