@@ -48,7 +48,7 @@ export const emptySplitApi = createApi({
         url: `/vfse/topics/popular/`,
         method: "get",
       }),
-      providesTags: ["Favorite"],
+      providesTags: ["Favorite", "Topics"],
     }),
 
     updateTopics: builder.mutation<
