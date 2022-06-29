@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     width: "min-content",
     flexWrap: "wrap",
     marginTop: "10px",
-    padding: "0px 50px",
+    padding: "0px 10px",
     alignItems: "flex-start",
     justifyContent: "space-evenly",
   },
