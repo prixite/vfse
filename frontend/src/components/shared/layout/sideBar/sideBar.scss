@@ -112,7 +112,7 @@
   }
 }
 
-@media only screen and (min-width: $ipad) and (max-width: $ipad-pro) {
+@media only screen and (min-width: $surface-Duo) and (max-width: $ipad-pro) {
   .SideBar {
     position: fixed;
     z-index: 600;
