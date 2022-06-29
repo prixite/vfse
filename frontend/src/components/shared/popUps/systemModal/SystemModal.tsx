@@ -68,12 +68,14 @@ const initialState: FormState = {
   },
   contactInfo: "",
   grafana: "",
+  showRis: false,
   ris: {
     ip: "",
     title: "",
     port: null,
     ae: "",
   },
+  showDiscom: false,
   dicom: {
     ip: "",
     title: "",
@@ -99,6 +101,8 @@ const validationSchema = yup.object({
 
 const getPayload = (values: FormState): System => {
   const {
+    showRis: show_ris,
+    showDiscom: show_dicom,
     systemImage: image,
     model,
     name,
@@ -117,6 +121,8 @@ const getPayload = (values: FormState): System => {
     mri,
   } = values;
   return {
+    show_ris,
+    show_dicom,
     image,
     product_model: parseInt(model),
     name,
@@ -317,6 +323,8 @@ export default function SystemModal(props: SystemProps) {
   useEffect(() => {
     if (props.system) {
       formik.setValues({
+        showDiscom: props.system.show_dicom,
+        showRis: props.system.show_ris,
         systemImage: props.system.image,
         modality: props.system.product_model_detail.modality.id.toString(),
         manufacturer:
@@ -676,117 +684,150 @@ export default function SystemModal(props: SystemProps) {
                 </div>
               </Grid>
             </Grid>
-            <div className="box-heading">
-              <p className="heading">{fieldRisName}</p>
-              <div className="box">
-                <Grid container spacing={2} style={{ marginBottom: "5px" }}>
-                  <Grid item xs={12} sm={6}>
-                    <p className="info-label">{fieldRisIp}</p>
-                    <TextField
-                      className="info-field"
-                      variant="outlined"
-                      size="small"
-                      placeholder="192.165.3.2"
-                      name="ris.ip"
-                      value={formik.values.ris.ip}
-                      onChange={formik.handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <p className="info-label">{fieldRisTitle}</p>
-                    <TextField
-                      className="info-field"
-                      variant="outlined"
-                      size="small"
-                      placeholder="HS1"
-                      name="ris.title"
-                      value={formik.values.ris.title}
-                      onChange={formik.handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <p className="info-label">{fieldRisPort}</p>
-                    <TextField
-                      className="info-field"
-                      variant="outlined"
-                      placeholder="200"
-                      size="small"
-                      type="number"
-                      name="ris.port"
-                      value={formik.values.ris.port}
-                      onChange={formik.handleChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <p className="info-label">{fieldRisAE}</p>
-                    <TextField
-                      className="info-field"
-                      variant="outlined"
-                      size="small"
-                      placeholder="system 1"
-                      name="ris.ae"
-                      value={formik.values.ris.ae}
-                      onChange={formik.handleChange}
-                    />
-                  </Grid>
-                </Grid>
+            <div className="checkbox-container">
+              <div className="checkBox">
+                <Checkbox
+                  name="showRis"
+                  onClick={formik.handleChange}
+                  style={{
+                    color: formik.values.showRis ? buttonBackground : "",
+                  }}
+                  checked={formik.values.showRis}
+                />
+                <span className="text textBold">Show HIS/RIS Info</span>
               </div>
-              <div className="box-heading">
-                <p className="heading">{fieldDicomName}</p>
-                <div className="box">
-                  <Grid container spacing={2} style={{ marginBottom: "5px" }}>
-                    <Grid item xs={12} sm={6}>
-                      <p className="info-label">{fieldDicomIp}</p>
-                      <TextField
-                        className="info-field"
-                        variant="outlined"
-                        size="small"
-                        placeholder="192.165.3.2"
-                        name="dicom.ip"
-                        value={formik.values.dicom.ip}
-                        onChange={formik.handleChange}
-                      />
+            </div>
+            <div className="box-heading">
+              {formik.values.showRis && (
+                <>
+                  {" "}
+                  <p className="heading">{fieldRisName}</p>
+                  <div className="box">
+                    <Grid container spacing={2} style={{ marginBottom: "5px" }}>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldRisIp}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="192.165.3.2"
+                          name="ris.ip"
+                          value={formik.values.ris.ip}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldRisTitle}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="HS1"
+                          name="ris.title"
+                          value={formik.values.ris.title}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldRisPort}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          placeholder="200"
+                          size="small"
+                          type="number"
+                          name="ris.port"
+                          value={formik.values.ris.port}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldRisAE}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="system 1"
+                          name="ris.ae"
+                          value={formik.values.ris.ae}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p className="info-label">{fieldDicomTitle}</p>
-                      <TextField
-                        className="info-field"
-                        variant="outlined"
-                        size="small"
-                        placeholder="Dic 1"
-                        name="dicom.title"
-                        value={formik.values.dicom.title}
-                        onChange={formik.handleChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p className="info-label">{fieldDicomPort}</p>
-                      <TextField
-                        className="info-field"
-                        variant="outlined"
-                        placeholder="280"
-                        size="small"
-                        type="number"
-                        name="dicom.port"
-                        value={formik.values.dicom.port}
-                        onChange={formik.handleChange}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <p className="info-label">{fieldDicomAE}</p>
-                      <TextField
-                        className="info-field"
-                        variant="outlined"
-                        size="small"
-                        placeholder="system 1"
-                        name="dicom.ae"
-                        value={formik.values.dicom.ae}
-                        onChange={formik.handleChange}
-                      />
-                    </Grid>
-                  </Grid>
+                  </div>
+                </>
+              )}
+              <div className="checkbox-container">
+                <div className="checkBox">
+                  <Checkbox
+                    name="showDiscom"
+                    onClick={formik.handleChange}
+                    style={{
+                      color: formik.values.showDiscom ? buttonBackground : "",
+                    }}
+                    checked={formik.values.showDiscom}
+                  />
+                  <span className="text textBold">Show Discom Info</span>
                 </div>
               </div>
+              {formik.values.showDiscom && (
+                <div className="box-heading">
+                  <p className="heading">{fieldDicomName}</p>
+                  <div className="box">
+                    <Grid container spacing={2} style={{ marginBottom: "5px" }}>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldDicomIp}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="192.165.3.2"
+                          name="dicom.ip"
+                          value={formik.values.dicom.ip}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldDicomTitle}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="Dic 1"
+                          name="dicom.title"
+                          value={formik.values.dicom.title}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldDicomPort}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          placeholder="280"
+                          size="small"
+                          type="number"
+                          name="dicom.port"
+                          value={formik.values.dicom.port}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <p className="info-label">{fieldDicomAE}</p>
+                        <TextField
+                          className="info-field"
+                          variant="outlined"
+                          size="small"
+                          placeholder="system 1"
+                          name="dicom.ae"
+                          value={formik.values.dicom.ae}
+                          onChange={formik.handleChange}
+                        />
+                      </Grid>
+                    </Grid>
+                  </div>
+                </div>
+              )}
               {isMri ? (
                 <div className="box-heading">
                   <p className="heading">{fieldMRIname}</p>

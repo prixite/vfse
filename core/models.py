@@ -473,7 +473,8 @@ class System(models.Model):
     grafana_link = models.URLField(null=True, blank=True)
     system_option = models.TextField(blank=True, null=True)
     other = models.TextField(null=True, blank=True)
-
+    show_ris = models.BooleanField(default=False)
+    show_dicom = models.BooleanField(default=False)
     his_ris_info = models.JSONField(default=dict)
     dicom_info = models.JSONField(default=dict)
     mri_embedded_parameters = models.JSONField(default=dict)

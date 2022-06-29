@@ -460,6 +460,8 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
             "is_online",
             "last_successful_ping_at",
+            "show_ris",
+            "show_dicom",
         ]
         validators = [
             UniqueTogetherValidator(

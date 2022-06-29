@@ -1328,6 +1328,8 @@ export type System = {
   documentation?: string;
   is_online?: boolean;
   last_successful_ping_at?: string | null;
+  show_ris?: boolean;
+  show_dicom?: boolean;
 };
 export type SeatList = {
   system: System;
