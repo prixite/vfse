@@ -1,26 +1,26 @@
 @import "@src/styles/shared/_variables.scss";
 .top-view-btns {
-    @media (min-width: $small-mobile-screens) and (max-width: $normal-mobile-screens){
-        .btn-add{
-            min-width: 30px;
-            width: 30px;
-        }
-        .jss8 .MuiOutlinedInput-root{
-            min-width: 150px;
-        }
-        .show-hide{
-            display: none;
-        }
-   }
-    @media (min-width:$normal-mobile-screens) and (max-width: $ipad){
-        .btn-add{
-            min-width: 50px;
-            width: 50px;
-            margin-left: 5px
-        }
-       
-        .show-hide{
-            display: none;
-        }
-   }
+  @media (min-width: $small-mobile-screens) and (max-width: $normal-mobile-screens) {
+    .btn-add {
+      min-width: 30px;
+      width: 30px;
+    }
+    .jss8 .MuiOutlinedInput-root {
+      min-width: 150px;
+    }
+    .show-hide {
+      display: none;
+    }
+  }
+  @media (min-width: $normal-mobile-screens) and (max-width: $ipad) {
+    .btn-add {
+      min-width: 50px;
+      width: 50px;
+      margin-left: 5px;
+    }
+
+    .show-hide {
+      display: none;
+    }
+  }
 }
