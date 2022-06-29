@@ -127,7 +127,12 @@ export default function SideBar() {
     } else {
       setCurrentRoute(pathRoute);
     }
-  }, [selectedOrganization, pathRoute]);
+    if (screen.width > 1030) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [selectedOrganization, pathRoute, screen.width]);
 
   const handleVfseClick = () => {
     setOpenVfse(!openVfse);
