@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 
 import { List, ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
@@ -19,7 +19,9 @@ const MobileNavbar = () => {
   const [currentRoute, setCurrentRoute] = useState(pathRoute);
   const { organizationRoute } = constants;
   const selectedOrganization = useSelectedOrganization();
-  const [vfseAnchorEl, setVfseAnchorEl] = useState(null);
+  const [vfseAnchorEl, setVfseAnchorEl] = useState<
+    Element | ((element: Element) => Element)
+  >(null);
   const { sideBarTextColor, buttonBackground, fontTwo } = useAppSelector(
     (state) => state.myTheme
   );
@@ -37,13 +39,13 @@ const MobileNavbar = () => {
       .map((prop: routeItem, key) => {
         const splittedName = prop?.name.split(" ");
         return (
-          <>
+          <Fragment key={key}>
             {prop?.name !== "vFSE" ? (
               <ListItem
                 button
                 component={Link}
                 to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
-                key={key}
+                key={`listItem1-${key}`}
                 className="MobileDrawerList"
                 onClick={() =>
                   setCurrentRoute(
@@ -52,6 +54,7 @@ const MobileNavbar = () => {
                 }
               >
                 <ListItemIcon
+                  key={`listItemIcon1-${key}`}
                   className="ListIcon"
                   style={
                     currentRoute ===
@@ -70,6 +73,7 @@ const MobileNavbar = () => {
                   <prop.icon />
                 </ListItemIcon>
                 <ListItemText
+                  key={`listItemText1-${key}`}
                   primary={splittedName[0]}
                   style={
                     currentRoute ===
@@ -90,7 +94,7 @@ const MobileNavbar = () => {
             ) : (
               <ListItem
                 button
-                key={key}
+                key={`listItem2-${key}`}
                 className="MobileDrawerList"
                 onClick={(e) => {
                   setCurrentRoute(
@@ -100,6 +104,7 @@ const MobileNavbar = () => {
                 }}
               >
                 <ListItemIcon
+                  key={`listItemIcon2-${key}`}
                   className="ListIcon"
                   style={
                     currentRoute ===
@@ -118,6 +123,7 @@ const MobileNavbar = () => {
                   <prop.icon />
                 </ListItemIcon>
                 <ListItemText
+                  key={`listItemText2-${key}`}
                   primary={splittedName[0]}
                   style={
                     currentRoute ===
@@ -136,7 +142,7 @@ const MobileNavbar = () => {
                 />
               </ListItem>
             )}
-          </>
+          </Fragment>
         );
       });
 

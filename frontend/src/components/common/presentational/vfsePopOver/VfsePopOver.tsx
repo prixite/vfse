@@ -7,8 +7,10 @@ import { useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/common/presentational/profilePopOver/profilePopOver.scss";
 
 interface VfsePopOver {
-  anchorEl: unknown;
-  setAnchorEl: React.Dispatch<unknown>;
+  anchorEl: Element | ((element: Element) => Element);
+  setAnchorEl: React.Dispatch<
+    React.SetStateAction<Element | ((element: Element) => Element)>
+  >;
 }
 const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
   const navigate = useNavigate();

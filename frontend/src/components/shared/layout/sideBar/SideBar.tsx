@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -161,37 +161,39 @@ export default function SideBar() {
     if (me?.flags) {
       return routes
         .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
-        .map((prop: routeItem) => {
+        .map((prop: routeItem, key) => {
           return prop.name !== "vFSE" ? (
-            <ListItem
-              button
-              component={Link}
-              to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
-              key={prop.path}
-              style={
-                currentRoute ===
-                `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                  ? {
-                      borderRadius: "4px",
-                      backgroundColor: hexToRgb(buttonBackground, 0.5),
-                    }
-                  : {}
-              }
-              onClick={() =>
-                setCurrentRoute(
+            <Fragment key={key}>
+              <ListItem
+                button
+                component={Link}
+                to={`/${organizationRoute}/${selectedOrganization?.id}${prop.path}`}
+                key={prop.path}
+                style={
+                  currentRoute ===
                   `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
-                )
-              }
-            >
-              <ListItemIcon
-                style={{ color: sideBarTextColor, marginRight: "10px" }}
+                    ? {
+                        borderRadius: "4px",
+                        backgroundColor: hexToRgb(buttonBackground, 0.5),
+                      }
+                    : {}
+                }
+                onClick={() =>
+                  setCurrentRoute(
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                  )
+                }
               >
-                <prop.icon />
-              </ListItemIcon>
-              <ListItemText primary={prop.name} />
-            </ListItem>
+                <ListItemIcon
+                  style={{ color: sideBarTextColor, marginRight: "10px" }}
+                >
+                  <prop.icon />
+                </ListItemIcon>
+                <ListItemText primary={prop.name} />
+              </ListItem>
+            </Fragment>
           ) : (
-            <>
+            <Fragment key={key}>
               <ListItem
                 button
                 key={prop.path}
@@ -259,7 +261,7 @@ export default function SideBar() {
                   ))}
                 </List>
               </Collapse>
-            </>
+            </Fragment>
           );
         });
     }
