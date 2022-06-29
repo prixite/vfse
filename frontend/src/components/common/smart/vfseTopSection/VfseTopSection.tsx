@@ -274,6 +274,7 @@ export default function VfseTopSection({
               // value={sort}
               label="Sort"
               onChange={sortSetter}
+              defaultValue=""
             >
               <MenuItem value={30}>None</MenuItem>
               <MenuItem value={20}>Updated At</MenuItem>
@@ -299,6 +300,7 @@ export default function VfseTopSection({
               // value={filter}
               label="Filter"
               onChange={filterSetter}
+              defaultValue=""
             >
               <MenuItem value={30}>None</MenuItem>
               <MenuItem value={10}>Ascending</MenuItem>
