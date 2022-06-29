@@ -40,8 +40,8 @@ const RecentActivity = () => {
         <div className="topicHeading">Recent Activity</div>
       </div>
       {!isLoading
-        ? paginatedArr.slice(0, 4).map((item) => (
-            <div className="userStatus" key={item?.id}>
+        ? paginatedArr.slice(0, 4).map((item, key) => (
+            <div className="userStatus" key={key}>
               <div className="userImg">
                 <img
                   className="imgStylingMessage"
@@ -61,7 +61,11 @@ const RecentActivity = () => {
         : ""}
       <div className="pagtiondot" style={{ alignItems: "center" }}>
         {userActivityList.slice(0, 3).map((item, index) => (
-          <div onChange={handlePagination} key={item} style={{ margin: "4px" }}>
+          <div
+            onChange={handlePagination}
+            key={index}
+            style={{ margin: "4px" }}
+          >
             <input type="radio" value={index + 1} name="gender" />
           </div>
         ))}
