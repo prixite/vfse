@@ -9,6 +9,7 @@ import TopicToggler from "@src/components/common/presentational/topicToggler/Top
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
 import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
 import { getTopicListArg } from "@src/types/interfaces";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,25 +46,8 @@ type Props = {
 const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
   const classes = useStyles();
   const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
-  // const [slicePointer, setSlicePointer] = useState(0);
-  // const [hasMore, setHasMore] = useState(true);
   const { data: topicsList = [], isLoading } =
     api.useGetTopicsListQuery(topicListPayload);
-
-  // const fetchMoreSection = () => {
-  //   setSlicePointer((prevState) => prevState + 2);
-  //   if (slicePointer + 2 >= topicsList.length) {
-  //     setHasMore(false);
-  //   }
-
-  //   setTimeout(() => {
-  //     setPaginatedTopics((prevState) => [
-  //       ...prevState.concat([
-  //         ...topicsList.slice(slicePointer, slicePointer + 2),
-  //       ]),
-  //     ]);
-  //   }, 0);
-  // };
 
   useEffect(() => {
     if (topicsList && topicsList.length) {
@@ -77,40 +61,35 @@ const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
           {/* ProfileTimeLine */}
           {!isLoading ? (
             <Grid item xs={9} className={classes.profileTimeLine}>
-              {/* <InfiniteScroll
-                dataLength={paginatedTopics.length}
-                next={fetchMoreSection}
-                hasMore={hasMore}
-                loader={
-                  <h4
-                    style={{
-                      width: "100%",
-                      textAlign: "center",
-                      color: "#696f77",
-                    }}
-                  ></h4>
-                }
-              > */}
-              <Grid container xs={12} item style={{ marginTop: "0px" }}>
-                {paginatedTopics?.map((item, key) => (
-                  <Grid key={key} item xs={12}>
-                    <ProfileTimeLineCards
-                      id={item?.id}
-                      description={item?.description}
-                      title={item?.title}
-                      user={item?.user}
-                      image={item?.image}
-                      number_of_comments={item?.number_of_comments}
-                      number_of_followers={item?.number_of_followers}
-                      categories={item?.categories}
-                      followers={item?.followers}
-                      reply_email_notification={item?.reply_email_notification}
-                      createdAt={item?.created_at}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-              {/* </InfiniteScroll> */}
+              {paginatedTopics?.length > 0 ? (
+                <Grid container xs={12} item style={{ marginTop: "0px" }}>
+                  {paginatedTopics?.map((item, key) => (
+                    <Grid key={key} item xs={12}>
+                      <ProfileTimeLineCards
+                        id={item?.id}
+                        description={item?.description}
+                        title={item?.title}
+                        user={item?.user}
+                        image={item?.image}
+                        number_of_comments={item?.number_of_comments}
+                        number_of_followers={item?.number_of_followers}
+                        categories={item?.categories}
+                        followers={item?.followers}
+                        reply_email_notification={
+                          item?.reply_email_notification
+                        }
+                        createdAt={item?.created_at}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <NoDataFound
+                  search
+                  title={"No Data Found"}
+                  description={"No data found for popular topics"}
+                />
+              )}
             </Grid>
           ) : (
             <p>Loading ...</p>
