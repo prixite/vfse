@@ -7,9 +7,9 @@ import ProfileTimeLineCards from "@src/components/common/presentational/profileT
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
+import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
 import { getTopicListArg } from "@src/types/interfaces";
-import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

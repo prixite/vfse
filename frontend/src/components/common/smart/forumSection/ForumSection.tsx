@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Box, Pagination, Stack } from "@mui/material";
+
 // import useStyles from "@src/components/common/smart/forumSection/Styles";
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
 import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopSection";
