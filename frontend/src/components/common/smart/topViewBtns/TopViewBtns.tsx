@@ -11,6 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
 import InputLabel from "@mui/material/InputLabel";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
@@ -20,7 +21,7 @@ import debounce from "debounce";
 import { useNavigate, useParams } from "react-router-dom";
 
 import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
-import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
+import useStyles from "@src/components/common/smart/vfseTopSection/Styles";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   useAppDispatch,
@@ -303,33 +304,78 @@ const TopViewBtns = ({
   const createAddButton = () => {
     return (
       <Button
-        style={{
+        sx={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
+          height: "50px",
         }}
+        size="large"
         onClick={handleModal}
         variant="contained"
         className={classes.AddClientsbtn}
+        startIcon={<AddIcon />}
       >
-        <div className={classes.btnContent}>
-          <AddIcon />
-          <span style={{ display: "inline-block", paddingTop: "3px" }}>
-            {btnAdd}
-          </span>
-        </div>
+        {btnAdd}
       </Button>
     );
   };
 
   return (
     <>
+      <Grid container spacing={2} mt={3}>
+        <Grid item xs={6} md={2} lg={2}>
+          {path === "users" || (path === "documentation" && hasData) ? (
+            <ColumnSelector
+              tableColumns={tableColumns}
+              setTableColumns={setTableColumns}
+            />
+          ) : (
+            ""
+          )}
+        </Grid>
+
+        <Grid item xs={6} md={3} lg={3}>
+          <TextField
+            id="search-clients"
+            className={classes.SearchInput}
+            variant="outlined"
+            value={searchText}
+            // autoFocus={path === "organizations" ? true : false}
+            autoComplete="off"
+            onChange={handleInput}
+            disabled={!actualData?.length}
+            placeholder="Search"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Grid>
+        <Grid item xs={12} md={7} lg={7}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            {currentUser?.is_superuser &&
+              path === "organizations" &&
+              createAddButton()}
+            {path !== "organizations" && createAddButton()}
+          </Box>
+        </Grid>
+      </Grid>
+
       <Box
         component="div"
         style={{
           display: "flex",
           justifyContent: "space-etween",
-          marginTop: "23px",
-          height: "47px",
           width: "100%",
         }}
       >
@@ -441,68 +487,11 @@ const TopViewBtns = ({
                 ) : (
                   ""
                 )}
-                {/* SORT BY ASSET BUTTON.............. */}
-                {/* <Button
-                variant="contained"
-                className="Filterbtn"
-                onClick={handleSort}
-              >
-                <div className="btn-content" style={{ textTransform: "none" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      fontSize: "11px",
-                    }}
-                  >
-                    <span style={{ height: "10px" }}>0</span>
-                    <span>9</span>
-                  </div>
-                  <img src={ArrowDown} style={{ marginRight: "10px" }} />
-                  <span>{btnAsset}</span>
-                  <span className="coloumns-icon">
-                    {/* <img className="asset-image" src={ArrowUpIcon} /> */}
-                {/* </span>
-                </div>
-              </Button> */}
               </>
             ) : (
               ""
             )}
-
-            {path === "users" || (path === "documentation" && hasData) ? (
-              <ColumnSelector
-                className="columnSelector"
-                tableColumns={tableColumns}
-                setTableColumns={setTableColumns}
-              />
-            ) : (
-              ""
-            )}
-
-            <TextField
-              id="search-clients"
-              className={classes.SearchInput}
-              variant="outlined"
-              value={searchText}
-              // autoFocus={path === "organizations" ? true : false}
-              autoComplete="off"
-              onChange={handleInput}
-              disabled={!actualData?.length}
-              placeholder="Search"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
           </Box>
-          {currentUser?.is_superuser &&
-            path === "organizations" &&
-            createAddButton()}
-          {path !== "organizations" && createAddButton()}
         </Box>
       </Box>
     </>
