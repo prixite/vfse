@@ -61,12 +61,10 @@ const ColumnSelector = ({ tableColumns, setTableColumns }: Props) => {
   };
 
   return (
-    <FormControl
-      sx={{ width: 200, minHeight: 47, margin: "1px", marginRight: "8px" }}
-      className="columnSelectorControl"
-    >
+    <FormControl fullWidth>
       <Select
         multiple
+        fullWidth
         displayEmpty
         style={{ height: "47px", background: "#ffffff" }}
         value={columnList}
