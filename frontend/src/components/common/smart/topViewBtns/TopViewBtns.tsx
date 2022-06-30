@@ -327,7 +327,7 @@ const TopViewBtns = ({
         component="div"
         style={{
           display: "flex",
-          justifyContent: "space-etween",
+          justifyContent: "space-between",
           marginTop: "23px",
           height: "47px",
           width: "100%",
@@ -341,7 +341,10 @@ const TopViewBtns = ({
             width: "100%",
           }}
         >
-          <Box component="div" style={{ display: "flex" }}>
+          <Box
+            component="div"
+            style={{ display: "flex", minWidth: "60%", maxWidth: "60%" }}
+          >
             {path === "systems" ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (

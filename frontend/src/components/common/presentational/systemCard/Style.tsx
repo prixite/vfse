@@ -51,6 +51,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    flexFlow: "column wrap",
   },
   option: {
     color: "#94989e",
@@ -86,6 +87,8 @@ const useStyles = makeStyles(() => ({
   infoSection: {
     width: "23%",
     padding: "10px 0px",
+    marginLeft: "5px",
+    marginRight: "5%",
   },
 
   btnSection: {

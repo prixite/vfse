@@ -65,15 +65,12 @@ const useStyles = makeStyles((theme: themeTypes) => ({
     backgroundColor: "#fff",
     borderRadius: "8px",
     maxWidth: "65%",
-    minWidth: "50%",
     height: "100%",
     "& .MuiOutlinedInput-root": {
       height: "100%",
-      minWidth: "300px",
       backgroundColor: "#fff",
-      [theme.breakpoints.down("sm")]: {
-        minWidth: "170px",
-      },
+      marginRight: "10px",
+      [theme.breakpoints.down("sm")]: {},
     },
     "& .input": {
       padding: "10px 16px 6px 9px",
