@@ -1,7 +1,9 @@
 import { makeStyles } from "@mui/styles";
 
 interface themeTypes {
-  breakpoints: unknown;
+  breakpoints:{
+    down: (a: string) => string;
+  } 
 }
 
 const useStyles = makeStyles((theme: themeTypes) => ({
@@ -60,6 +62,7 @@ const useStyles = makeStyles((theme: themeTypes) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    width: "max-content",
   },
   SearchInput: {
     backgroundColor: "#fff",

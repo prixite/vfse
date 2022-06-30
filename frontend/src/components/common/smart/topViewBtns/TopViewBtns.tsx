@@ -306,6 +306,8 @@ const TopViewBtns = ({
         style={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
+          height: "47px",
+          alignSelf: "flex-end",
         }}
         onClick={handleModal}
         variant="contained"
@@ -313,7 +315,7 @@ const TopViewBtns = ({
       >
         <div className={classes.btnContent}>
           <AddIcon />
-          <span style={{ display: "inline-block", paddingTop: "3px" }}>
+          <span style={{ display: "inline-block", paddingTop: "6px" }}>
             {btnAdd}
           </span>
         </div>
