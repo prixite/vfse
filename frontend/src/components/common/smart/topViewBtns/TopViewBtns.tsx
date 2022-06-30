@@ -309,6 +309,7 @@ const TopViewBtns = ({
           color: buttonTextColor,
           height: "42.5px",
           alignSelf: "baseline",
+          padding: "inherit",
         }}
         onClick={handleModal}
         variant="contained"
