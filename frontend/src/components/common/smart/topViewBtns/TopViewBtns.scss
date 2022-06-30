@@ -2,7 +2,7 @@
 .top-view-btns {
   @media (min-width: $small-mobile-screens) and (max-width: $normal-mobile-screens) {
     .btn-add {
-      min-width: 30px;
+      min-width: max-content;
       width: 30px;
     }
     .jss8 .MuiOutlinedInput-root {
@@ -14,7 +14,7 @@
   }
   @media (min-width: $normal-mobile-screens) and (max-width: $ipad) {
     .btn-add {
-      min-width: 50px;
+      min-width: max-content;
       width: 50px;
       margin-left: 5px;
     }

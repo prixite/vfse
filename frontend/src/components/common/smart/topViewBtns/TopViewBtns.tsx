@@ -307,8 +307,8 @@ const TopViewBtns = ({
         style={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
-          height: "47px",
-          alignSelf: "flex-end",
+          height: "42.5px",
+          alignSelf: "baseline",
         }}
         onClick={handleModal}
         variant="contained"
