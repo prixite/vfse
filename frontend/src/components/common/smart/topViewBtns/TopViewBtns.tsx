@@ -33,6 +33,7 @@ import {
   useOrganizationsSitesListQuery,
 } from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
+import "@src/components/common/smart/topViewBtns/TopViewBtns.scss";
 
 interface Props {
   path: string;
@@ -311,7 +312,7 @@ const TopViewBtns = ({
         }}
         onClick={handleModal}
         variant="contained"
-        className={classes.AddClientsbtn}
+        className={`${classes.AddClientsbtn} btn-add`}
       >
         <div className={classes.btnContent}>
           <AddIcon />
@@ -327,6 +328,7 @@ const TopViewBtns = ({
     <>
       <Box
         component="div"
+        className="top-view-btns"
         style={{
           display: "flex",
           justifyContent: "space-between",
