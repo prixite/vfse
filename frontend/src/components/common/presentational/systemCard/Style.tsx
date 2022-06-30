@@ -24,12 +24,14 @@ const useStyles = makeStyles(() => ({
     flexWrap: "wrap",
     marginTop: "10px",
     padding: "0px 10px",
-    alignItems: "flex-start",
-    justifyContent: "space-evenly",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingRight: "25px",
   },
   name: {
     // padding-bottom: 25px,
     marginBottom: "7px",
+    alignSelf: "flex-start",
   },
   image: {
     width: "100%",
