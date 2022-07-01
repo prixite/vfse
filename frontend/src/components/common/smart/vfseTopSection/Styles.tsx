@@ -6,13 +6,6 @@ interface themeTypes {
 }
 
 const useStyles = makeStyles((theme: themeTypes) => ({
-  sortByField: {
-    minWidth: "200px",
-    background: "#fff",
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "150px",
-    },
-  },
   filterField: {
     minWidth: "140px",
     background: "#fff",
