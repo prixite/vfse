@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Avatar, Box, Button, Input, Skeleton } from "@mui/material";
 import "@src/components/common/presentational/topicReply/topicReply.scss";
 import moment from "moment";
 
+import { linkParser } from "@src/helpers";
 import { api, VfseCommentsRepliesCreateApiArg } from "@src/store/reducers/api";
 import { Comment } from "@src/store/reducers/generated";
 
@@ -15,14 +16,31 @@ type TopicReplyProps = {
 function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   const [commentIDState, setCommentIDState] = useState<number>(commentData?.id);
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
-
+  const [page, setPage] = useState(1);
+  const [replies, setRepliesData] = useState([]);
   //GET vfseCommentsRepliesCreate
-  const { data: repliesData = [], isLoading: isRepliesLoading } =
-    api.useVfseCommentsRepliesListQuery({
-      id: commentIDState,
-      topic: topicIDState,
-    });
+  const {
+    data: repliesData = { data: [], link: "" },
+    isLoading: isRepliesLoading,
+  } = api.useGetCommentsRepliesListQuery({
+    id: commentIDState,
+    topic: topicIDState,
+    page,
+  });
 
+  const handlePagination = () => {
+    setPage((prev) => {
+      if (repliesPagination?.length === prev) {
+        return 1;
+      }
+      return prev + 1;
+    });
+  };
+
+  const repliesPagination = useMemo(
+    () => linkParser(repliesData.link),
+    [isRepliesLoading]
+  );
   //POST vfseCommentsRepliesCreate
   const [addReply] = api.useVfseCommentsRepliesCreateMutation();
 
@@ -56,12 +74,23 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
       addReplyHandler();
     }
   };
+
+  useEffect(() => {
+    if (repliesData?.data) {
+      if (page !== 1) {
+        setRepliesData((prev) => [...prev, ...repliesData.data]);
+      } else {
+        setRepliesData([...repliesData.data]);
+      }
+    }
+  }, [repliesData?.data]);
+
   return (
     <Box className="TopicReplyView">
       <div>
         {!isRepliesLoading ? (
           <div>
-            {repliesData.map((item, key) => (
+            {replies?.map((item, key) => (
               <div key={key} className="Comment" style={{ margin: "5px" }}>
                 <div className="profileImage">
                   <img src={item?.user_profile?.image} alt="profilePicture" />
@@ -78,6 +107,19 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
                 </div>
               </div>
             ))}
+            {repliesPagination?.length ? (
+              <div
+                className="Comment replyIconText"
+                style={{ cursor: "pointer" }}
+                onClick={handlePagination}
+              >
+                {repliesPagination?.length !== page
+                  ? "Show more replies"
+                  : "Show less replies"}{" "}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           <Box component="div" style={{ width: "100%", marginTop: "16px" }}>

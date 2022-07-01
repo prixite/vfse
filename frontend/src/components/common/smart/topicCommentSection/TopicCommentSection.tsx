@@ -1,21 +1,27 @@
-import { useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 import { Box, Input, Button, Avatar, Skeleton } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import TopicComment from "@src/components/common/presentational/topicComment/TopicComment";
+import { linkParser } from "@src/helpers";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery, api } from "@src/store/reducers/api";
 import { VfseTopicsCommentsCreateApiArg } from "@src/store/reducers/generated";
 import "@src/components/common/smart/topicCommentSection/topicCommentSection.scss";
+
 const TopicCommentSection = () => {
   const selectedOrganization = useSelectedOrganization();
   const { topicId } = useParams<{ topicId: string }>();
+  const [page, setPage] = useState(1);
+  const [comments, setCommentsData] = useState([]);
   //POST PostTopicComment
   const [addComment] = api.usePostTopicCommentMutation();
   //GET GetTopicsCommentsList
-  const { data: commentsData = [], isLoading: isCommentsLoading } =
-    api.useGetTopicsCommentsListQuery({ id: topicId });
+  const {
+    data: commentsData = { data: [], link: "" },
+    isLoading: isCommentsLoading,
+  } = api.useGetTopicsCommentsListQuery({ id: topicId, page });
   const [comment, setComment] = useState("");
   const [isCommentPosting, setIsCommentPosting] = useState(false);
   const { data: me } = useOrganizationsMeReadQuery(
@@ -26,6 +32,21 @@ const TopicCommentSection = () => {
       skip: !selectedOrganization,
     }
   );
+
+  const handlePagination = () => {
+    setPage((prev) => {
+      if (commentsPagination.length === prev) {
+        return 1;
+      }
+      return prev + 1;
+    });
+  };
+
+  const commentsPagination = useMemo(
+    () => linkParser(commentsData.link),
+    [isCommentsLoading]
+  );
+
   const addCommentHandler = () => {
     const payload: VfseTopicsCommentsCreateApiArg = {
       id: topicId,
@@ -45,6 +66,15 @@ const TopicCommentSection = () => {
       addCommentHandler();
     }
   };
+
+  useEffect(() => {
+    if (page !== 1) {
+      setCommentsData((prev) => [...prev, ...commentsData.data]);
+    } else {
+      setCommentsData([...commentsData.data]);
+    }
+  }, [commentsData.data]);
+
   return (
     <Box className="topicCommentSection" component="div">
       <Box component="div" className="commentActions">
@@ -69,7 +99,7 @@ const TopicCommentSection = () => {
       </Box>
       {!isCommentsLoading ? (
         <>
-          {commentsData.map((comment, key) => (
+          {comments?.map((comment, key) => (
             <div key={key} style={{ width: "100%" }}>
               <TopicComment
                 profile_picture={me?.profile_picture}
@@ -79,6 +109,19 @@ const TopicCommentSection = () => {
               />
             </div>
           ))}
+          {commentsPagination.length ? (
+            <div
+              className="replyIconText"
+              style={{ cursor: "pointer", margin: "5px" }}
+              onClick={handlePagination}
+            >
+              {commentsPagination.length !== page
+                ? "Show more comments"
+                : "Show less comments"}{" "}
+            </div>
+          ) : (
+            ""
+          )}
         </>
       ) : (
         <Box component="div" style={{ width: "100%", marginTop: "16px" }}>
