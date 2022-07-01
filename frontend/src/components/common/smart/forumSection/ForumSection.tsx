@@ -13,7 +13,7 @@ import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
 const { forum, title } = localizedData().Forum;
 export default function ForumSection() {
   const {
-    data: topicsList = [],
+    data: topicsList = { data: [], link: "" },
     // isLoading,
   } = api.useGetTopicsListQuery({}); //Arr1 Paginated
 
@@ -38,7 +38,11 @@ export default function ForumSection() {
     paginate();
   }, [page, topicsList, popularTopicData]);
 
-  const paginate = (topics = topicsList, pageSize = 10, pageNumber = page) => {
+  const paginate = (
+    topics = topicsList.data,
+    pageSize = 10,
+    pageNumber = page
+  ) => {
     const tempArr = [...topics].slice(
       (pageNumber - 1) * pageSize,
       pageNumber * pageSize
@@ -73,8 +77,9 @@ export default function ForumSection() {
             <Pagination
               defaultPage={1}
               count={
-                Math.ceil((topicsList.length + popularTopicData.length) / 10) ||
-                1
+                Math.ceil(
+                  (topicsList.data.length + popularTopicData.length) / 10
+                ) || 1
               }
               onChange={handlePagination}
               size="large"

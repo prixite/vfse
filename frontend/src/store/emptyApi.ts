@@ -20,6 +20,10 @@ import {
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
+type GetTopicList = {
+  data: VfseTopicsListApiResponse;
+  link: string;
+};
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -75,11 +79,20 @@ export const emptySplitApi = createApi({
       invalidatesTags: ["Topics", "Favorite"],
     }),
 
-    getTopicsList: builder.query<VfseTopicsListApiResponse, getTopicListArg>({
+    getTopicsList: builder.query<GetTopicList, getTopicListArg>({
       query: (queryArg) => ({
         url: `/vfse/topics/`,
         params: { followed: queryArg.followed, created: queryArg.created },
       }),
+      transformResponse: (
+        response: VfseTopicsListApiResponse,
+        meta
+      ): GetTopicList => {
+        return {
+          data: response,
+          link: meta.response.headers.map.link,
+        };
+      },
       providesTags: ["Topics", "Favorite"],
     }),
 
