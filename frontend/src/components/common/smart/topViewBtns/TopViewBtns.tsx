@@ -333,6 +333,98 @@ const TopViewBtns = ({
           ) : (
             ""
           )}
+          {path === "systems" ? (
+            <>
+              {!isNetworkDataLoading && !networkId && networksData?.length ? (
+                <FormControl
+                  fullWidth
+                  sx={{
+                    background: "#ffffff",
+                  }}
+                >
+                  <InputLabel
+                    id="networkInputLabel"
+                    style={{ marginTop: "-3px" }}
+                  >
+                    Filter by network
+                  </InputLabel>
+                  <Select
+                    labelId="networks-dropdown"
+                    id="network-dropdown"
+                    defaultValue={[]}
+                    value={network}
+                    onClick={handleClickNetwork}
+                    style={{ height: "47px" }}
+                    input={<OutlinedInput label="Filter by network" />}
+                    renderValue={(selected) => selected}
+                    MenuProps={dropdownStyles}
+                  >
+                    <MenuItem
+                      style={{ marginLeft: "-15px", display: "none" }}
+                      value=""
+                    >
+                      <ListItemText primary={``} />
+                    </MenuItem>
+                    {networksData?.map((item, index) => (
+                      <MenuItem
+                        style={{ marginLeft: "-15px" }}
+                        key={index}
+                        value={item.name}
+                      >
+                        <Checkbox checked={network?.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : (
+                ""
+              )}
+              {!isSitesFetching && !siteId && sitesData?.length ? (
+                <FormControl
+                  fullWidth
+                  sx={{
+                    background: "#ffffff",
+                  }}
+                >
+                  <InputLabel id="siteInputlabel" style={{ marginTop: "-3px" }}>
+                    Filter by site
+                  </InputLabel>
+                  <Select
+                    labelId="site-dropdown"
+                    id="site-dropdown"
+                    value={site}
+                    onClick={handleClickSite}
+                    // style={{ width: "100%", height: "100%" }}
+                    input={<OutlinedInput label="Filter by site" />}
+                    renderValue={(selected) => selected}
+                    MenuProps={dropdownStyles}
+                  >
+                    <MenuItem
+                      style={{ marginLeft: "-15px", display: "none" }}
+                      value=""
+                    >
+                      <ListItemText primary={``} />
+                    </MenuItem>
+                    {sitesData?.map((item, index) => (
+                      <MenuItem
+                        style={{ marginLeft: "-15px" }}
+                        key={index}
+                        value={item.name}
+                      >
+                        <Checkbox checked={site?.indexOf(item.name) > -1} />
+                        <ListItemText primary={item.name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              ) : (
+                ""
+              )}
+            </>
+          ) : (
+            ""
+          )}
         </Grid>
 
         <Grid item xs={6} md={3} lg={3}>
@@ -342,6 +434,7 @@ const TopViewBtns = ({
             variant="outlined"
             value={searchText}
             // autoFocus={path === "organizations" ? true : false}
+
             autoComplete="off"
             onChange={handleInput}
             disabled={!actualData?.length}
@@ -371,131 +464,6 @@ const TopViewBtns = ({
           </Box>
         </Grid>
       </Grid>
-
-      <Box
-        component="div"
-        className="top-view-btns"
-        style={{
-          display: "flex",
-          justifyContent: "space-etween",
-          width: "100%",
-        }}
-      >
-        <Box
-          component="div"
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <Box component="div" style={{ display: "flex" }}>
-            {path === "systems" ? (
-              <>
-                {!isNetworkDataLoading && !networkId && networksData?.length ? (
-                  <FormControl
-                    sx={{
-                      m: 0,
-                      mr: 1,
-                      maxWidth: "30%",
-                      minWidth: "26%",
-                      background: "#ffffff",
-                    }}
-                  >
-                    <InputLabel
-                      id="networkInputLabel"
-                      style={{ marginTop: "-3px" }}
-                    >
-                      Filter by network
-                    </InputLabel>
-                    <Select
-                      labelId="networks-dropdown"
-                      id="network-dropdown"
-                      defaultValue={[]}
-                      value={network}
-                      onClick={handleClickNetwork}
-                      style={{ width: "100%", height: "100%" }}
-                      input={<OutlinedInput label="Filter by network" />}
-                      renderValue={(selected) => selected}
-                      MenuProps={dropdownStyles}
-                    >
-                      <MenuItem
-                        style={{ marginLeft: "-15px", display: "none" }}
-                        value=""
-                      >
-                        <ListItemText primary={``} />
-                      </MenuItem>
-                      {networksData?.map((item, index) => (
-                        <MenuItem
-                          style={{ marginLeft: "-15px" }}
-                          key={index}
-                          value={item.name}
-                        >
-                          <Checkbox
-                            checked={network?.indexOf(item.name) > -1}
-                          />
-                          <ListItemText primary={item.name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                ) : (
-                  ""
-                )}
-                {!isSitesFetching && !siteId && sitesData?.length ? (
-                  <FormControl
-                    sx={{
-                      m: 0,
-                      mr: 1,
-                      maxWidth: "30%",
-                      minWidth: "26%",
-                      background: "#ffffff",
-                    }}
-                  >
-                    <InputLabel
-                      id="siteInputlabel"
-                      style={{ marginTop: "-3px" }}
-                    >
-                      Filter by site
-                    </InputLabel>
-                    <Select
-                      labelId="site-dropdown"
-                      id="site-dropdown"
-                      value={site}
-                      onClick={handleClickSite}
-                      style={{ width: "100%", height: "100%" }}
-                      input={<OutlinedInput label="Filter by site" />}
-                      renderValue={(selected) => selected}
-                      MenuProps={dropdownStyles}
-                    >
-                      <MenuItem
-                        style={{ marginLeft: "-15px", display: "none" }}
-                        value=""
-                      >
-                        <ListItemText primary={``} />
-                      </MenuItem>
-                      {sitesData?.map((item, index) => (
-                        <MenuItem
-                          style={{ marginLeft: "-15px" }}
-                          key={index}
-                          value={item.name}
-                        >
-                          <Checkbox checked={site?.indexOf(item.name) > -1} />
-                          <ListItemText primary={item.name} />
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                ) : (
-                  ""
-                )}
-              </>
-            ) : (
-              ""
-            )}
-          </Box>
-        </Box>
-      </Box>
     </>
   );
 };
