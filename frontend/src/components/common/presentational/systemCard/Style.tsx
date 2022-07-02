@@ -1,5 +1,12 @@
 import { makeStyles } from "@mui/styles";
-const useStyles = makeStyles(() => ({
+
+interface Theme {
+  breakpoints: {
+    down: unknown;
+  };
+}
+
+const useStyles = makeStyles((theme: Theme) => ({
   systemCard: {
     position: "relative",
     marginBottom: "20px",
@@ -16,6 +23,9 @@ const useStyles = makeStyles(() => ({
     fontWeight: "600",
     backgroundColor: "white",
     borderRadius: "4px",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "14px",
+    },
   },
   machine: {
     display: "flex",
@@ -27,6 +37,14 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "flex-start",
     paddingRight: "25px",
+    [theme.breakpoints.down(800)]: {
+      padding: "0",
+      paddingRight: "5px",
+      justifyContent: "flex-start",
+      alignItems: "baseline",
+      width: "40%",
+      marginRight: "10px",
+    },
   },
   name: {
     // padding-bottom: 25px,
@@ -48,6 +66,14 @@ const useStyles = makeStyles(() => ({
     marginTop: "10px",
     borderLeft: "1px solid #d4d6db",
     borderRight: "1px solid #d4d6db",
+    [theme.breakpoints.down(800)]: {
+      display: "flex",
+      width: "45%",
+      padding: "0px 5px",
+      paddingRight: "30px",
+      flexWrap: "wrap",
+      flexDirection: "row",
+    },
   },
   features: {
     display: "flex",
@@ -55,25 +81,64 @@ const useStyles = makeStyles(() => ({
     justifyContent: "space-between",
     flexFlow: "column wrap",
   },
+  featuresOptions: {
+    marginRight: "32px",
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "0px",
+      display: "flex",
+      alignItems: "center",
+      flexWrap: "wrap",
+      flexDirection: "column",
+    },
+  },
   option: {
     color: "#94989e",
     marginBottom: "18px",
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      flexWrap: "wrap",
+      overflowWrap: "break-word",
+      alignSelf: "flex-start",
+      justiyContent: "baseline",
+    },
   },
   titleStrong: {
     color: "black !important",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      flexWrap: "wrap",
+      overFlowWrap: "anywhere",
+    },
   },
   copyField: {
     marginTop: "20px",
     width: "100%",
     padding: "0 !important",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "0",
+      width: "100%",
+      height: "min-content",
+
+      "&. MuiOutlinedInput": {
+        display: "none",
+      },
+    },
+  },
+  "&. MuiOutlinedInput": {
+    display: "none",
   },
   input: {
     padding: "0 !important",
     height: "40px",
     color: "#6b7280",
+    [theme.breakpoints.down("sm")]: {},
   },
   connectBtn: {
     width: "195px",
+    [theme.breakpoints.down(800)]: {
+      width: "inherit",
+      height: "inherit",
+    },
   },
 
   copyBtn: {
@@ -85,17 +150,40 @@ const useStyles = makeStyles(() => ({
     color: "black",
     marginRight: "-4px",
     textTransform: "capitalize",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   infoSection: {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "column",
     width: "23%",
     padding: "10px 0px",
     marginLeft: "5px",
     marginRight: "5%",
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "5%",
+      width: "30%",
+    },
   },
-
+  "&. $css-i4bv87-MuiSvgIcon-root": {
+    [theme.breakpoints.down("sm")]: {
+      top: "30px",
+      right: "15px",
+    },
+  },
   btnSection: {
     display: "flex",
     flexDirection: "column",
+    [theme.breakpoints.down(800)]: {
+      alignSelf: "center",
+      width: "88%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "30px",
+    },
   },
   button: {
     margin: "10px 0px",
@@ -104,11 +192,13 @@ const useStyles = makeStyles(() => ({
     textTransform: "capitalize",
     borderRadius: "6px",
     fontSize: "13px",
+    [theme.breakpoints.down("sm")]: {},
   },
   icon: {
     width: "14px",
     height: "14px",
     marginRight: "10px",
+    [theme.breakpoints.down("sm")]: {},
   },
   linkBtn: {
     backgroundColor: "transparent !important",
@@ -117,6 +207,7 @@ const useStyles = makeStyles(() => ({
     boxShadow: "none",
     height: "max-content",
     padding: "6px 12px",
+    [theme.breakpoints.down("sm")]: {},
   },
   dropdown: {
     position: "absolute",
@@ -124,6 +215,7 @@ const useStyles = makeStyles(() => ({
     right: "30px",
     cursor: "pointer",
     color: "#6b7280",
+    [theme.breakpoints.down("sm")]: {},
   },
 
   // .system-dropdownMenu {
@@ -145,9 +237,11 @@ const useStyles = makeStyles(() => ({
 
   submitProgress: {
     marginLeft: "10px",
+    [theme.breakpoints.down("sm")]: {},
   },
   terminalContainer: {
     marginTop: "-30px",
+    [theme.breakpoints.down("sm")]: {},
   },
 }));
 

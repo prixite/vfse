@@ -1,14 +1,36 @@
 @import "@src/styles/shared/_variables.scss";
 .top-view-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 23px;
+  height: 47px;
+  width: 100%;
+
+  .topView-Btns-Div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+  }
+  .topView-Main-Div-1 {
+    display: flex;
+    min-width: 60%;
+    max-width: 60%;
+    height: -webkit-fill-available;
+  }
+
   @media (min-width: $small-mobile-screens) and (max-width: $normal-mobile-screens) {
     .btn-add {
       min-width: max-content;
-      width: 30px;
+      width: 50px;
     }
     .jss8 .MuiOutlinedInput-root {
       min-width: 150px;
     }
     .show-hide {
+      display: none;
+    }
+    .btn-text {
       display: none;
     }
   }
@@ -19,6 +41,29 @@
       margin-left: 5px;
     }
 
+    .show-hide {
+      display: none;
+    }
+    .btn-text {
+      display: none;
+    }
+  }
+  @media (min-device-width: 481px) and (max-device-width: 700px) {
+    .top-view-btns MuiBox-root css-0 {
+      margin-top: 0px !important;
+    }
+    .topView-Btns-Div {
+      // display: none;
+    }
+    .topView-Main-Div-1 {
+      height: -webkit-fill-available;
+    }
+    .buttonAdd {
+      height: -webkit-fill-available !important;
+    }
+    .btn-text {
+      display: none;
+    }
     .show-hide {
       display: none;
     }
