@@ -32,4 +32,13 @@
       display: none;
     }
   }
+  @media (min-device-width: 1px) and (max-device-width: 570px) {
+    .system-section MuiBox-root css-0 {
+      line-height: 1 !important;
+      padding: 10px;
+    }
+    .css-yzx0ar {
+      padding: 0px;
+    }
+  }
 }

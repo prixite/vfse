@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       fontSize: "14px",
     },
+    [theme.breakpoints.down(800)]: {
+      padding: "18px 0px",
+    },
   },
   machine: {
     display: "flex",
@@ -68,11 +71,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     borderRight: "1px solid #d4d6db",
     [theme.breakpoints.down(800)]: {
       display: "flex",
-      width: "45%",
+      width: "40%",
       padding: "0px 5px",
       paddingRight: "30px",
       flexWrap: "wrap",
       flexDirection: "row",
+      paddingLeft: "10px",
     },
   },
   features: {
@@ -165,6 +169,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {
       marginRight: "5%",
       width: "30%",
+      paddingLeft: "5px",
     },
   },
   "&. $css-i4bv87-MuiSvgIcon-root": {

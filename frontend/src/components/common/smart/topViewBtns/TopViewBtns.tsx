@@ -21,8 +21,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
 import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
-import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
-import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   useAppDispatch,
@@ -304,31 +302,21 @@ const TopViewBtns = ({
   }, [searchText]);
 
   const createAddButton = () => {
-    const [browserWidth] = useWindowSize();
     return (
       <Button
         style={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
-          height: "47px",
-          alignSelf: "baseline",
-          padding: "inherit",
         }}
         onClick={handleModal}
         variant="contained"
+        className={`${classes.AddClientsbtn} btn-add`}
       >
-        <div
-          className={`${classes.btnContent} buttonAdd`}
-          style={{ padding: "5px" }}
-        >
+        <div className={classes.btnContent}>
           <AddIcon />
-          {browserWidth > mobileWidth ? (
-            <span className="btn-text" style={{ marginTop: "5px" }}>
-              {btnAdd}
-            </span>
-          ) : (
-            ""
-          )}
+          <span className="show-hide" style={{ paddingTop: "3px" }}>
+            {btnAdd}
+          </span>
         </div>
       </Button>
     );
@@ -336,9 +324,26 @@ const TopViewBtns = ({
 
   return (
     <>
-      <Box component="div" className="top-view-btns">
-        <Box component="div" className="topView-Btns-Div">
-          <Box component="div" className="topView-Main-Div-1">
+      <Box
+        component="div"
+        className="top-view-btns"
+        style={{
+          display: "flex",
+          justifyContent: "space-etween",
+          marginTop: "23px",
+          height: "47px",
+          width: "100%",
+        }}
+      >
+        <Box
+          component="div"
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Box component="div" style={{ display: "flex" }}>
             {path === "systems" ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (

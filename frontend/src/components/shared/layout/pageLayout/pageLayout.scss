@@ -14,7 +14,8 @@
 @media only screen and (min-width: $surface-Duo) and (max-width: $ipad) {
   .Layout {
     .main-content {
-      margin-left: 70px;
+      margin-left: 58px;
+      line-height: 1;
     }
   }
 }
@@ -23,6 +24,7 @@
   .Layout {
     .main-content {
       margin-bottom: 110px;
+      line-height: 1;
     }
   }
 }
