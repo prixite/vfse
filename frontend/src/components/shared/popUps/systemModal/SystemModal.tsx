@@ -320,6 +320,14 @@ export default function SystemModal(props: SystemProps) {
     props.setSystem(null);
     formik.resetForm();
   };
+
+  const [showDiscomState, setShowDiscomState] = useState<boolean>(
+    formik.values.showDiscom
+  );
+  const [showRisState, setShowRisState] = useState<boolean>(
+    formik.values.showRis
+  );
+
   useEffect(() => {
     if (props.system) {
       formik.setValues({
@@ -365,7 +373,7 @@ export default function SystemModal(props: SystemProps) {
         },
       });
     }
-  }, [props.system]);
+  }, [props.system, formik.values.showDiscom, formik.values.showRis]);
 
   useEffect(() => {
     if (siteId && healthNetwork) {
@@ -392,6 +400,18 @@ export default function SystemModal(props: SystemProps) {
     }
   }, [sites.length, Boolean(props.system)]);
 
+  useEffect(() => {
+    const currentModality = modalityData.find(
+      (item) => item.id == formik.values.modality
+    );
+    // console.log("item.id", typeof modalityData[0].id)
+    if (currentModality?.show_dicom) {
+      setShowDiscomState(!!currentModality.show_dicom);
+    }
+    if (currentModality?.show_ris) {
+      setShowRisState(!!currentModality.show_ris);
+    }
+  }, [formik.values.modality, modalityData]);
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
@@ -684,19 +704,23 @@ export default function SystemModal(props: SystemProps) {
                 </div>
               </Grid>
             </Grid>
-            <div className="checkbox-container">
-              <div className="checkBox">
-                <Checkbox
-                  name="showRis"
-                  onClick={formik.handleChange}
-                  style={{
-                    color: formik.values.showRis ? buttonBackground : "",
-                  }}
-                  checked={formik.values.showRis}
-                />
-                <span className="text textBold">Show HIS/RIS Info</span>
+            {showRisState ? (
+              <div className="checkbox-container">
+                <div className="checkBox">
+                  <Checkbox
+                    name="showRis"
+                    onClick={formik.handleChange}
+                    style={{
+                      color: formik.values.showRis ? buttonBackground : "",
+                    }}
+                    checked={formik.values.showRis}
+                  />
+                  <span className="text textBold">Show HIS/RIS Info</span>
+                </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
             <div className="box-heading">
               {formik.values.showRis && (
                 <>
@@ -757,19 +781,23 @@ export default function SystemModal(props: SystemProps) {
                   </div>
                 </>
               )}
-              <div className="checkbox-container">
-                <div className="checkBox">
-                  <Checkbox
-                    name="showDiscom"
-                    onClick={formik.handleChange}
-                    style={{
-                      color: formik.values.showDiscom ? buttonBackground : "",
-                    }}
-                    checked={formik.values.showDiscom}
-                  />
-                  <span className="text textBold">Show Discom Info</span>
+              {showDiscomState ? (
+                <div className="checkbox-container">
+                  <div className="checkBox">
+                    <Checkbox
+                      name="showDiscom"
+                      onClick={formik.handleChange}
+                      style={{
+                        color: formik.values.showDiscom ? buttonBackground : "",
+                      }}
+                      checked={formik.values.showDiscom}
+                    />
+                    <span className="text textBold">Show Discom Info</span>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
               {formik.values.showDiscom && (
                 <div className="box-heading">
                   <p className="heading">{fieldDicomName}</p>
