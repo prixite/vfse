@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 
 import { Box } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { Routes, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
@@ -63,11 +64,13 @@ interface Props {
 }
 const RoutesHOC = ({ isLoading }: Props) => {
   const { organizationRoute, networkRoute, sitesRoute } = constants;
+  const matches = useMediaQuery("(max-width:300px)");
+
   return (
     <Box
       sx={{
         flexGrow: 1,
-        p: 3,
+        padding: `${matches ? "8px" : "24px"}`,
         backgroundColor: "#F5F6F7",
         overflowX: "hidden",
       }}

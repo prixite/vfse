@@ -115,21 +115,16 @@ const TopViewBtns = ({
     constantData = localizedData()?.folder;
   }
   const { btnAdd } = constantData;
-
   // const { btnAsset } = localizedData().systems;
-
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-
   const { id, siteId, networkId } = useParams();
-
   const { data: networksData, isLoading: isNetworkDataLoading } =
     useOrganizationsHealthNetworksListQuery({
       page: 1,
       id: id,
     });
-
   const { data: sitesData, isFetching: isSitesFetching } =
     useOrganizationsSitesListQuery({
       page: 1,
@@ -257,10 +252,6 @@ const TopViewBtns = ({
     }
   };
 
-  // const handleSort = () => {
-  //   // sortSystems();
-  // };
-
   const onEventSearch = useCallback(
     debounce((searchQuery: string) => {
       if (searchQuery?.length > 2) {
@@ -305,26 +296,26 @@ const TopViewBtns = ({
   const createAddButton = () => {
     return (
       <Button
-        sx={{
+        style={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
-          height: "50px",
         }}
-        size="large"
         onClick={handleModal}
         variant="contained"
-        className={classes.AddClientsbtn}
-        startIcon={<AddIcon />}
+        className={`${classes.AddClientsbtn} btn-add`}
       >
-        {btnAdd}
+        <div className={classes.btnContent}>
+          <AddIcon />
+          <span className="show-hide">{btnAdd}</span>
+        </div>
       </Button>
     );
   };
 
   return (
     <>
-      <Grid container spacing={2} mt={3}>
-        <Grid item xs={6} md={2} lg={2}>
+      <Grid container spacing={1} mt={3} className="top-view-btns">
+        <Grid item xs={3} sm={3} md={2} lg={2}>
           {path === "users" || (path === "documentation" && hasData) ? (
             <ColumnSelector
               tableColumns={tableColumns}
@@ -427,7 +418,7 @@ const TopViewBtns = ({
           )}
         </Grid>
 
-        <Grid item xs={6} md={3} lg={3}>
+        <Grid item xs={6} sm={5} md={3} lg={3}>
           <TextField
             id="search-clients"
             className={classes.SearchInput}
@@ -448,7 +439,7 @@ const TopViewBtns = ({
             }}
           />
         </Grid>
-        <Grid item xs={12} md={7} lg={7}>
+        <Grid item xs={3} sm={4} md={7} lg={7}>
           <Box
             sx={{
               display: "flex",
