@@ -313,12 +313,15 @@ class SystemTestCase(BaseTestCase):
 
     def test_delete_unaccesible_system(self):
         self.client.force_login(self.super_admin)
-        
-        response = self.client.delete(f'/api/organizations/{self.organization.id}/systems/999999/')
-        self.assertEqual(response.status_code,404)
 
-        response = self.client.delete(f'/api/organizations/999999/systems/999999/')
-        self.assertEqual(response.status_code,404)
+        response = self.client.delete(
+            f"/api/organizations/{self.organization.id}/systems/999999/"
+        )
+        self.assertEqual(response.status_code, 404)
+
+        response = self.client.delete("/api/organizations/999999/systems/999999/")
+        self.assertEqual(response.status_code, 404)
+
 
 class SystemSSHTestCase(BaseTestCase):
     def setUp(self):
