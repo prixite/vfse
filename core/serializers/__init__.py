@@ -187,7 +187,13 @@ class ModalitySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Modality
-        fields = ["id", "name", "group"]
+        fields = [
+            "id",
+            "name",
+            "group",
+            "show_ris",
+            "show_dicom",
+        ]
 
 
 class ManagerMetaSerializer(serializers.Serializer):
@@ -460,8 +466,6 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
             "is_online",
             "last_successful_ping_at",
-            "show_ris",
-            "show_dicom",
         ]
         validators = [
             UniqueTogetherValidator(

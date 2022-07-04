@@ -2869,7 +2869,7 @@
             }
         },
         "Modality": {
-            "description": "Modality(id, name, group, created_at, updated_at)",
+            "description": "Modality(id, name, group, show_ris, show_dicom, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -2903,6 +2903,14 @@
                         "ct"
                     ],
                     "x-nullable": true
+                },
+                "show_ris": {
+                    "title": "Show ris",
+                    "type": "boolean"
+                },
+                "show_dicom": {
+                    "title": "Show dicom",
+                    "type": "boolean"
                 }
             }
         },
@@ -3066,7 +3074,7 @@
         },
         "System": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, show_ris, show_dicom, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
@@ -3179,14 +3187,6 @@
                     "type": "string",
                     "format": "date-time",
                     "x-nullable": true
-                },
-                "show_ris": {
-                    "title": "Show ris",
-                    "type": "boolean"
-                },
-                "show_dicom": {
-                    "title": "Show dicom",
-                    "type": "boolean"
                 }
             }
         },
@@ -3716,7 +3716,7 @@
             }
         },
         "SystemAccess": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, show_ris, show_dicom, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -4246,7 +4246,7 @@
         },
         "SystemMeta": {
             "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, show_ris, show_dicom, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
+            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
