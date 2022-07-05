@@ -389,7 +389,7 @@ export default function SystemModal(props: SystemProps) {
         },
       });
     }
-  }, [props.system, formik.values.showDiscom, formik.values.showRis]);
+  }, [props.system]);
 
   useEffect(() => {
     if (siteId && healthNetwork) {
