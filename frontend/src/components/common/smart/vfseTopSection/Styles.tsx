@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme: themeTypes) => ({
       minWidth: "300px",
       backgroundColor: "#fff",
       [theme.breakpoints.down("sm")]: {
-        minWidth: "170px",
+        minWidth: "auto",
       },
     },
     "& .input": {

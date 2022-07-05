@@ -21,6 +21,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
 import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   useAppDispatch,
@@ -82,6 +83,7 @@ const TopViewBtns = ({
   setAction,
   hasData,
 }: Props) => {
+  const [browserWidth] = useWindowSize();
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
@@ -314,7 +316,13 @@ const TopViewBtns = ({
       >
         <div className={classes.btnContent}>
           <AddIcon />
-          <span className="show-hide" style={{ paddingTop: "3px" }}>
+          <span
+            className="show-hide"
+            style={{
+              paddingTop: "3px",
+              display: `${browserWidth < 301 ? "none" : ""}`,
+            }}
+          >
             {btnAdd}
           </span>
         </div>
@@ -341,6 +349,7 @@ const TopViewBtns = ({
             display: "flex",
             justifyContent: "space-between",
             width: "100%",
+            overflow: "hidden",
           }}
         >
           <Box component="div" style={{ display: "flex" }}>
@@ -491,7 +500,7 @@ const TopViewBtns = ({
               autoComplete="off"
               onChange={handleInput}
               disabled={!actualData?.length}
-              placeholder="Search"
+              placeholder={browserWidth < 301 ? `` : `Search`}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

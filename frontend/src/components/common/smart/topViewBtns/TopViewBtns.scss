@@ -18,9 +18,21 @@
       width: 50px;
       margin-left: 5px;
     }
-
     .show-hide {
       display: none;
     }
+  }
+  @media (min-device-width: 0px) and (max-device-width: 301px) {
+    .btn-add {
+      min-width: 50px;
+      width: 50px;
+      margin-left: 5px;
+    }
+    .show-hide {
+      display: none;
+    }
+  }
+  .btn-title-text {
+    padding-top: 3px;
   }
 }
