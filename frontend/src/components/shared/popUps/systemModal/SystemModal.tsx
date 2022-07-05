@@ -704,25 +704,8 @@ export default function SystemModal(props: SystemProps) {
                 </div>
               </Grid>
             </Grid>
-            {showRisState ? (
-              <div className="checkbox-container">
-                <div className="checkBox">
-                  <Checkbox
-                    name="showRis"
-                    onClick={formik.handleChange}
-                    style={{
-                      color: formik.values.showRis ? buttonBackground : "",
-                    }}
-                    checked={formik.values.showRis}
-                  />
-                  <span className="text textBold">Show HIS/RIS Info</span>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
             <div className="box-heading">
-              {formik.values.showRis && (
+              {showRisState && (
                 <>
                   {" "}
                   <p className="heading">{fieldRisName}</p>
@@ -781,24 +764,7 @@ export default function SystemModal(props: SystemProps) {
                   </div>
                 </>
               )}
-              {showDiscomState ? (
-                <div className="checkbox-container">
-                  <div className="checkBox">
-                    <Checkbox
-                      name="showDiscom"
-                      onClick={formik.handleChange}
-                      style={{
-                        color: formik.values.showDiscom ? buttonBackground : "",
-                      }}
-                      checked={formik.values.showDiscom}
-                    />
-                    <span className="text textBold">Show Discom Info</span>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
-              {formik.values.showDiscom && (
+              {showDiscomState && (
                 <div className="box-heading">
                   <p className="heading">{fieldDicomName}</p>
                   <div className="box">
