@@ -2869,7 +2869,7 @@
             }
         },
         "Modality": {
-            "description": "Modality(id, name, group, created_at, updated_at)",
+            "description": "Modality(id, name, group, show_ris, show_dicom, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -2903,6 +2903,14 @@
                         "ct"
                     ],
                     "x-nullable": true
+                },
+                "show_ris": {
+                    "title": "Show ris",
+                    "type": "boolean"
+                },
+                "show_dicom": {
+                    "title": "Show dicom",
+                    "type": "boolean"
                 }
             }
         },
