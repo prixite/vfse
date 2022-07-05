@@ -32,7 +32,16 @@
       display: none;
     }
   }
-  @media (min-device-width: 1px) and (max-device-width: 570px) {
+  @media (min-device-width: 301px) and (max-device-width: 570px) {
+    .system-section MuiBox-root css-0 {
+      line-height: 1 !important;
+      padding: 10px;
+    }
+    .css-yzx0ar {
+      padding: 0px;
+    }
+  }
+  @media (min-device-width: 0px) and (max-device-width: 300px) {
     .system-section MuiBox-root css-0 {
       line-height: 1 !important;
       padding: 10px;

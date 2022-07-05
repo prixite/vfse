@@ -36,6 +36,12 @@
         font-weight: 600;
         font-size: 18px;
       }
+      @media (min-width: 0px) and (max-width: 301px) {
+        .title {
+          margin-left: 0px;
+          font-size: 16px !important;
+        }
+      }
     }
   }
   &__details {
