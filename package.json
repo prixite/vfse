@@ -24,7 +24,7 @@
     "@mui/material": "^5.1.0",
     "@mui/styles": "^5.8.6",
     "@mui/x-data-grid": "^5.0.1",
-    "@reduxjs/toolkit": "^1.6.2",
+    "@reduxjs/toolkit": "^1.8.3",
     "buffer": "^6.0.3",
     "debounce": "^1.2.1",
     "dotenv": "^16.0.1",
