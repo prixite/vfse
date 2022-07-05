@@ -278,6 +278,29 @@ export default function SystemModal(props: SystemProps) {
     [modalityData.length, formik.values.modality]
   );
 
+  const isShowRis = useMemo(
+    () =>
+      Boolean(
+        modalityData.find(
+          (value) =>
+            value.show_ris === true &&
+            value.id === parseInt(formik.values.modality)
+        )
+      ),
+    [modalityData.length, formik.values.modality]
+  );
+  const isDiscom = useMemo(
+    () =>
+      Boolean(
+        modalityData.find(
+          (value) =>
+            value.show_dicom === true &&
+            value.id === parseInt(formik.values.modality)
+        )
+      ),
+    [modalityData.length, formik.values.modality]
+  );
+
   const {
     fieldName,
     fieldManufacturer,
@@ -320,13 +343,6 @@ export default function SystemModal(props: SystemProps) {
     props.setSystem(null);
     formik.resetForm();
   };
-
-  const [showDiscomState, setShowDiscomState] = useState<boolean>(
-    formik.values.showDiscom
-  );
-  const [showRisState, setShowRisState] = useState<boolean>(
-    formik.values.showRis
-  );
 
   useEffect(() => {
     if (props.system) {
@@ -400,18 +416,6 @@ export default function SystemModal(props: SystemProps) {
     }
   }, [sites.length, Boolean(props.system)]);
 
-  useEffect(() => {
-    const currentModality = modalityData.find(
-      (item) => item.id == formik.values.modality
-    );
-    // console.log("item.id", typeof modalityData[0].id)
-    if (currentModality?.show_dicom) {
-      setShowDiscomState(!!currentModality.show_dicom);
-    }
-    if (currentModality?.show_ris) {
-      setShowRisState(!!currentModality.show_ris);
-    }
-  }, [formik.values.modality, modalityData]);
   return (
     <Dialog className="system-modal" open={props.open} onClose={handleClear}>
       <DialogTitle>
@@ -705,7 +709,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
             </Grid>
             <div className="box-heading">
-              {showRisState && (
+              {isShowRis && (
                 <>
                   {" "}
                   <p className="heading">{fieldRisName}</p>
@@ -764,7 +768,7 @@ export default function SystemModal(props: SystemProps) {
                   </div>
                 </>
               )}
-              {showDiscomState && (
+              {isDiscom && (
                 <div className="box-heading">
                   <p className="heading">{fieldDicomName}</p>
                   <div className="box">
