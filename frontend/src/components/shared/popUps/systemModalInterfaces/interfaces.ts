@@ -19,8 +19,6 @@ export interface FormState {
   ip: string;
   asset: string;
   localAE: string;
-  showRis: boolean;
-  showDiscom: boolean;
   connection: {
     vfse: boolean;
     ssh: boolean;

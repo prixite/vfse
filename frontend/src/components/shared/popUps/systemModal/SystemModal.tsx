@@ -68,14 +68,12 @@ const initialState: FormState = {
   },
   contactInfo: "",
   grafana: "",
-  showRis: false,
   ris: {
     ip: "",
     title: "",
     port: null,
     ae: "",
   },
-  showDiscom: false,
   dicom: {
     ip: "",
     title: "",
@@ -101,8 +99,6 @@ const validationSchema = yup.object({
 
 const getPayload = (values: FormState): System => {
   const {
-    showRis: show_ris,
-    showDiscom: show_dicom,
     systemImage: image,
     model,
     name,
@@ -121,8 +117,6 @@ const getPayload = (values: FormState): System => {
     mri,
   } = values;
   return {
-    show_ris,
-    show_dicom,
     image,
     product_model: parseInt(model),
     name,
@@ -347,8 +341,6 @@ export default function SystemModal(props: SystemProps) {
   useEffect(() => {
     if (props.system) {
       formik.setValues({
-        showDiscom: props.system.show_dicom,
-        showRis: props.system.show_ris,
         systemImage: props.system.image,
         modality: props.system.product_model_detail.modality.id.toString(),
         manufacturer:
