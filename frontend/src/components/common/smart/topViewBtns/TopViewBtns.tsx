@@ -316,7 +316,13 @@ const TopViewBtns = ({
       >
         <div className={classes.btnContent}>
           <AddIcon />
-          <span className="show-hide" style={{ paddingTop: "3px" }}>
+          <span
+            className="show-hide"
+            style={{
+              paddingTop: "3px",
+              display: `${browserWidth < 301 ? "none" : ""}`,
+            }}
+          >
             {btnAdd}
           </span>
         </div>
@@ -343,9 +349,10 @@ const TopViewBtns = ({
             display: "flex",
             justifyContent: "space-between",
             width: "100%",
+            overflow: "hidden",
           }}
         >
-          <Box component="div" style={{ display: "flex", minWidth: "60%" }}>
+          <Box component="div" style={{ display: "flex" }}>
             {path === "systems" ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (

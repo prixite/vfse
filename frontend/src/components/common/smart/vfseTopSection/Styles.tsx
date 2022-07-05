@@ -1,9 +1,7 @@
 import { makeStyles } from "@mui/styles";
 
 interface themeTypes {
-  breakpoints: {
-    down: (a: string) => string;
-  };
+  breakpoints: unknown;
 }
 
 const useStyles = makeStyles((theme: themeTypes) => ({
@@ -55,18 +53,20 @@ const useStyles = makeStyles((theme: themeTypes) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    width: "max-content",
   },
   SearchInput: {
     backgroundColor: "#fff",
     borderRadius: "8px",
     maxWidth: "65%",
+    minWidth: "50%",
     height: "100%",
     "& .MuiOutlinedInput-root": {
       height: "100%",
+      minWidth: "300px",
       backgroundColor: "#fff",
-      marginRight: "10px",
-      [theme.breakpoints.down("sm")]: {},
+      [theme.breakpoints.down("sm")]: {
+        minWidth: "auto",
+      },
     },
     "& .input": {
       padding: "10px 16px 6px 9px",

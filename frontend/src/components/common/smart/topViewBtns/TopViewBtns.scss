@@ -22,7 +22,7 @@
       display: none;
     }
   }
-  @media (min-width: 0px) and (max-width: 300px) {
+  @media (min-device-width: 0px) and (max-device-width: 301px) {
     .btn-add {
       min-width: 50px;
       width: 50px;
@@ -31,5 +31,8 @@
     .show-hide {
       display: none;
     }
+  }
+  .btn-title-text {
+    padding-top: 3px;
   }
 }

@@ -32,9 +32,9 @@
 @media (min-width: 0px) and (max-width: 301px) {
   .Layout {
     .main-content {
-      margin-bottom: 110px;
-      line-height: 18px;
-      padding: 10px;
+      margin-bottom: 110px !important;
+      line-height: 18px !important;
+      padding: 10px !important;
     }
   }
 }
