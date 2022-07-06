@@ -74,7 +74,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       providesTags: ["HealthNetwork"],
     },
     organizationsHealthNetworksList: {
-      providesTags: (result = []) => {
+      providesTags: (result = [], errors, { id }) => {
         // TODO: Verify this. Why are we poviding tags for Site?
         return [
           ...result.map(({ id }) => ({
@@ -85,6 +85,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
             type: "Site" as const,
             id: `Sites-${id}`,
           })),
+          { type: "HealthNetwork", id: `HealthNetworks-${id}` },
           "Site",
         ];
       },
