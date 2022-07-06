@@ -19,7 +19,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
   ],
   endpoints: {
     vfseCommentsRepliesList: {
-      providesTags: (result = [], error, { id }) => {
+      providesTags: (result, error, { id }) => {
         return [
           ...result.map(({ id }) => ({
             type: "Reply" as const,
@@ -60,6 +60,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         return [
           { type: "HealthNetwork" as const, id: `HealthNetworks-${id}` },
           "Organization",
+          "Site",
         ];
       },
     },
@@ -73,7 +74,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       providesTags: ["HealthNetwork"],
     },
     organizationsHealthNetworksList: {
-      providesTags: (result = [], error, { id }) => {
+      providesTags: (result = []) => {
         // TODO: Verify this. Why are we poviding tags for Site?
         return [
           ...result.map(({ id }) => ({
@@ -84,7 +85,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
             type: "Site" as const,
             id: `Sites-${id}`,
           })),
-          { type: "HealthNetwork", id: `HealthNetworks-${id}` },
+          "Site",
         ];
       },
     },
@@ -92,6 +93,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       invalidatesTags: (result, error, { id }) => [
         { type: "HealthNetwork", id: `HealthNetworks-${id}` },
         "HealthNetwork",
+        "Site",
       ],
     },
     organizationsHealthNetworksUpdate: {
