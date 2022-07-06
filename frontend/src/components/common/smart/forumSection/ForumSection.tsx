@@ -12,10 +12,11 @@ import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
 
 const { forum, title } = localizedData().Forum;
 export default function ForumSection() {
+  const [page, setPage] = useState(1);
   const {
     data: topicsList = [],
     // isLoading,
-  } = api.useGetTopicsListQuery({}); //Arr1 Paginated
+  } = api.useGetTopicsListQuery({ page: page }); //Arr1 Paginated
 
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery(); //Arr2 PopularTopics
 
@@ -26,25 +27,20 @@ export default function ForumSection() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [page, setPage] = useState(1);
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setPage(value);
+    // refetch();
   };
 
   useEffect(() => {
     paginate();
   }, [page, topicsList, popularTopicData]);
 
-  const paginate = (topics = topicsList, pageSize = 10, pageNumber = page) => {
-    const tempArr = [...topics].slice(
-      (pageNumber - 1) * pageSize,
-      pageNumber * pageSize
-    );
-    setPaginatedTopics(tempArr);
-  };
+  const paginate = () => setPaginatedTopics(topicsList);
+
   return (
     <>
       <Box component="div">
@@ -73,8 +69,10 @@ export default function ForumSection() {
             <Pagination
               defaultPage={1}
               count={
-                Math.ceil((topicsList.length + popularTopicData.length) / 10) ||
-                1
+                Math.ceil(
+                  (topicsList.length + popularTopicData.length) / 10 +
+                    (page * 1 - 1)
+                ) || 1
               }
               onChange={handlePagination}
               size="large"

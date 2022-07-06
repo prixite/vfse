@@ -78,7 +78,11 @@ export const emptySplitApi = createApi({
     getTopicsList: builder.query<VfseTopicsListApiResponse, getTopicListArg>({
       query: (queryArg) => ({
         url: `/vfse/topics/`,
-        params: { followed: queryArg.followed, created: queryArg.created },
+        params: {
+          followed: queryArg.followed,
+          created: queryArg.created,
+          page: queryArg.page,
+        },
       }),
       providesTags: ["Topics", "Favorite"],
     }),
