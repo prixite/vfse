@@ -39,7 +39,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
 
   const repliesPagination = useMemo(
     () => linkParser(repliesData.link),
-    [isRepliesLoading]
+    [repliesData?.data]
   );
   //POST vfseCommentsRepliesCreate
   const [addReply] = api.useVfseCommentsRepliesCreateMutation();

@@ -44,7 +44,7 @@ const TopicCommentSection = () => {
 
   const commentsPagination = useMemo(
     () => linkParser(commentsData.link),
-    [isCommentsLoading]
+    [commentsData.data]
   );
 
   const addCommentHandler = () => {

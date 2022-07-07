@@ -16,7 +16,7 @@ export default function ForumSection() {
   const [page, setPage] = useState(1);
   const {
     data: topicsList = { data: [], link: "" },
-    isLoading: isTopicsLoading,
+    // isLoading: isTopicsLoading,
   } = api.useGetTopicsListQuery({ page }); //Arr1 Paginated
 
   const [paginatedTopics, setPaginatedTopics] =
@@ -41,7 +41,7 @@ export default function ForumSection() {
 
   const topicsPagination = useMemo(
     () => linkParser(topicsList.link),
-    [isTopicsLoading]
+    [topicsList?.data]
   );
 
   return (

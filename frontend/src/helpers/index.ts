@@ -4,10 +4,11 @@ export const linkParser = (linkHeader: string) => {
   let arrRes = [];
   const parsedLink = [];
   while ((arrRes = re.exec(linkHeader)) !== null) {
-    parsedLink.push({
-      url: arrRes[1],
-      page: arrRes[2],
-    });
+    if (!parsedLink.find((obj) => obj.page === arrRes[2]))
+      parsedLink.push({
+        url: arrRes[1],
+        page: arrRes[2],
+      });
   }
   return parsedLink;
 };
