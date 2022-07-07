@@ -30,17 +30,18 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
 
   const handlePagination = () => {
     setPage((prev) => {
-      if (repliesPagination?.length === prev) {
+      if (totalReplyPages <= prev) {
         return 1;
       }
       return prev + 1;
     });
   };
 
-  const repliesPagination = useMemo(
+  const totalReplyPages = useMemo(
     () => linkParser(repliesData.link),
     [repliesData?.data]
   );
+
   //POST vfseCommentsRepliesCreate
   const [addReply] = api.useVfseCommentsRepliesCreateMutation();
 
@@ -107,13 +108,13 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
                 </div>
               </div>
             ))}
-            {repliesPagination?.length ? (
+            {totalReplyPages ? (
               <div
                 className="Comment replyIconText"
                 style={{ cursor: "pointer" }}
                 onClick={handlePagination}
               >
-                {repliesPagination?.length !== page
+                {totalReplyPages >= page
                   ? "Show more replies"
                   : "Show less replies"}{" "}
               </div>

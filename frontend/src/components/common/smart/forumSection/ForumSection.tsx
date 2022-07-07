@@ -39,7 +39,7 @@ export default function ForumSection() {
     setPaginatedTopics(topicsList.data);
   }, [topicsList?.data]);
 
-  const topicsPagination = useMemo(
+  const totalTopicPages = useMemo(
     () => linkParser(topicsList.link),
     [topicsList?.data]
   );
@@ -71,7 +71,7 @@ export default function ForumSection() {
           >
             <Pagination
               defaultPage={1}
-              count={topicsPagination?.length + 1}
+              count={totalTopicPages || 1}
               onChange={handlePagination}
               size="large"
             />

@@ -35,14 +35,14 @@ const TopicCommentSection = () => {
 
   const handlePagination = () => {
     setPage((prev) => {
-      if (commentsPagination.length === prev) {
+      if (totalPages <= prev) {
         return 1;
       }
       return prev + 1;
     });
   };
 
-  const commentsPagination = useMemo(
+  const totalPages = useMemo(
     () => linkParser(commentsData.link),
     [commentsData.data]
   );
@@ -109,15 +109,13 @@ const TopicCommentSection = () => {
               />
             </div>
           ))}
-          {commentsPagination.length ? (
+          {totalPages ? (
             <div
               className="replyIconText"
               style={{ cursor: "pointer", margin: "5px" }}
               onClick={handlePagination}
             >
-              {commentsPagination.length !== page
-                ? "Show more comments"
-                : "Show less comments"}{" "}
+              {totalPages >= page ? "Show more comments" : "Show less comments"}{" "}
             </div>
           ) : (
             ""
