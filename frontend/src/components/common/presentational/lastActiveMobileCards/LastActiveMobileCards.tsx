@@ -8,10 +8,10 @@ import { User } from "@src/store/reducers/generated";
 const { healthNetwork, status } = localizedData().Faq;
 
 interface LastActiveMobileCards {
-  key: number;
+  keyNumber?: number;
   doc: User;
 }
-const LastActiveMobileCards = ({ key, doc }: LastActiveMobileCards) => {
+const LastActiveMobileCards = ({ keyNumber, doc }: LastActiveMobileCards) => {
   return (
     <Box component="div" className="card-faq">
       <div className="userInfo">
@@ -22,7 +22,7 @@ const LastActiveMobileCards = ({ key, doc }: LastActiveMobileCards) => {
       </div>
       <div className="healthNetwork">
         <div className="networkName">{healthNetwork}</div>
-        <div className="networkValue">{doc?.health_networks[key]}</div>
+        <div className="networkValue">{doc?.health_networks[keyNumber]}</div>
       </div>
       <div className="userStatus">
         <div className="statusTitle">{status}</div>

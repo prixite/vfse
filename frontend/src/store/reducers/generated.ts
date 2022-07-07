@@ -1272,6 +1272,8 @@ export type Modality = {
         | "ct"
       )
     | null;
+  show_ris?: boolean;
+  show_dicom?: boolean;
 };
 export type Product = {
   id?: number;
