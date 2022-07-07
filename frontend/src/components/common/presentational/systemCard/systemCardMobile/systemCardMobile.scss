@@ -36,6 +36,12 @@
         font-weight: 600;
         font-size: 18px;
       }
+      @media (min-width: 0px) and (max-width: 301px) {
+        .title {
+          margin-left: 0px;
+          font-size: 16px !important;
+        }
+      }
     }
   }
   &__details {
@@ -45,6 +51,7 @@
       width: 100%;
       display: flex;
       flex-direction: column;
+      flex-flow: row wrap;
       .option {
         width: 100%;
         display: flex;
@@ -92,6 +99,7 @@
       flex-direction: column;
       border-top: 1px solid #d4d6db;
       padding-top: 24px;
+      flex-flow: row wrap;
       .option {
         width: 100%;
         display: flex;

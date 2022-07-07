@@ -442,6 +442,8 @@ class Modality(models.Model):
         unique=True,
         null=True,
     )
+    show_ris = models.BooleanField(default=False)
+    show_dicom = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -473,7 +475,6 @@ class System(models.Model):
     grafana_link = models.URLField(null=True, blank=True)
     system_option = models.TextField(blank=True, null=True)
     other = models.TextField(null=True, blank=True)
-
     his_ris_info = models.JSONField(default=dict)
     dicom_info = models.JSONField(default=dict)
     mri_embedded_parameters = models.JSONField(default=dict)

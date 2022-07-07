@@ -5,7 +5,6 @@ import { Box, Button } from "@mui/material";
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
 import { useNavigate } from "react-router-dom";
 
-import followersIcon from "@src/assets/svgs/followers.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
@@ -134,7 +133,7 @@ const TopicUpdatesCards = ({
               className="follower_img_container"
               style={{ height: "32px", width: "39px" }}
             >
-              {followers.length ? (
+              {followers.length > 0 &&
                 followers
                   ?.slice(0, 3)
                   ?.map((item, key) => (
@@ -143,20 +142,15 @@ const TopicUpdatesCards = ({
                       src={`${item?.image}`}
                       className="imgStylingProfiles"
                     />
-                  ))
-              ) : (
-                <img
-                  alt=""
-                  src={followersIcon}
-                  className="imgStylingProfiles"
-                />
-              )}
+                  ))}
               <div className="followerText" style={{ marginTop: "5px" }}>
-                {numberOfFollowers > 0 ? (
-                  <p> {numberOfFollowers} </p>
-                ) : (
-                  <p>No Followers</p>
-                )}
+                <p style={{ width: "100px" }}>
+                  {numberOfFollowers > 0
+                    ? `${numberOfFollowers} Followers`
+                    : numberOfFollowers === 1
+                    ? `${numberOfFollowers} Follower `
+                    : `No Followers`}
+                </p>
               </div>
             </div>
           </div>

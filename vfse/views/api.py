@@ -52,6 +52,8 @@ class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Comment.objects.none()
         return (
             models.Comment.objects.filter(
                 topic_id=self.kwargs["pk"], parent__isnull=True
@@ -69,6 +71,8 @@ class ReplyViewSet(ModelViewSet):
     serializer_class = serializers.CommentSerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Comment.objects.none()
         return models.Comment.objects.filter(parent_id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
@@ -86,6 +90,8 @@ class TopicViewset(ModelViewSet):
         return super().get_serializer_class()
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Topic.objects.none()
         return models.Topic.objects.annotate(
             number_of_followers=Count("followers", distinct=True),
             number_of_comments=Count(
@@ -131,6 +137,8 @@ class TopicActivityViewSet(ListAPIView):
     serializer_class = serializers.RecentActivitySerializer
 
     def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.RecentActivity.objects.none()
         return models.RecentActivity.objects.filter(
             Q(topic__in=self.request.user.topics.all().values_list("id"))
             | Q(topic__in=self.request.user.followed_topics.all().values_list("id"))

@@ -5,13 +5,6 @@ interface themeTypes {
 }
 
 const useStyles = makeStyles((theme: themeTypes) => ({
-  sortByField: {
-    minWidth: "200px",
-    background: "#fff",
-    [theme.breakpoints.down("sm")]: {
-      minWidth: "150px",
-    },
-  },
   filterField: {
     minWidth: "140px",
     background: "#fff",
@@ -72,7 +65,7 @@ const useStyles = makeStyles((theme: themeTypes) => ({
       minWidth: "300px",
       backgroundColor: "#fff",
       [theme.breakpoints.down("sm")]: {
-        minWidth: "170px",
+        minWidth: "auto",
       },
     },
     "& .input": {

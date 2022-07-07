@@ -11,11 +11,30 @@
     }
   }
 }
+@media only screen and (min-width: $surface-Duo) and (max-width: $ipad) {
+  .Layout {
+    .main-content {
+      margin-left: 58px;
+      line-height: 1;
+    }
+  }
+}
 
 @media only screen and (max-width: 480px) {
   .Layout {
     .main-content {
       margin-bottom: 110px;
+      line-height: 1;
+    }
+  }
+}
+
+@media (min-width: 0px) and (max-width: 301px) {
+  .Layout {
+    .main-content {
+      margin-bottom: 110px !important;
+      line-height: 18px !important;
+      padding: 10px !important;
     }
   }
 }

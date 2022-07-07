@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 import "@src/components/common/smart/documentationSection/documentationSectionMobile/documentationSectionMobile.scss";
 import { Box } from "@mui/material";
 
@@ -12,7 +14,9 @@ const LastActiveMobile = ({ lastActiveDoc }: LastActiveMobileProps) => {
   return (
     <Box className="last_active_mobile_section">
       {lastActiveDoc?.map((doc, index) => (
-        <LastActiveMobileCards key={index} doc={doc} />
+        <Fragment key={index}>
+          <LastActiveMobileCards keyNumber={index} doc={doc} />
+        </Fragment>
       ))}
     </Box>
   );

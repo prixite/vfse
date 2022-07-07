@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-import "@src/components/common/smart/appearanceSection/appearanceSection.scss";
 import {
   Box,
   TextField,
@@ -8,6 +7,7 @@ import {
   MenuItem,
   FormControl,
   Button,
+  Grid,
 } from "@mui/material";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
@@ -153,37 +153,41 @@ const AppearanceSection = () => {
   };
 
   return (
-    <Box component="div" className="AppearanceSection">
-      <h2>{selectedOrganization?.name}</h2>
-      <Box component="div" className="AppearanceSection__clientCard">
-        <Box component="div" className="clientName">
-          <h4 className="labels">Client Name</h4>
-          <TextField
-            disabled
-            className="nameInput"
-            placeholder={selectedOrganization?.name}
-            variant="outlined"
-          />
-        </Box>
-        <Box
-          component="div"
-          className="AppearanceSection__clientSection"
-          style={{ marginTop: "10px" }}
-        >
-          <Box component="div" className="clientTheming">
-            <Box component="div" className="clientLogo">
-              <h4 className="labels">Logo</h4>
-              <Box component="div" className="logo">
-                <DropzoneBox
-                  setSelectedImage={setSelectedImage}
-                  selectedImage={selectedImage}
-                  imgSrc={selectedOrganization?.appearance?.logo}
-                />
-              </Box>
-            </Box>
-            <Box component="div" className="colorSection">
-              <div className="container">
-                <div className="appearanceColorSection">
+    <>
+      <Box component="div">
+        <h2 style={{ paddingLeft: "7px" }}>{selectedOrganization?.name}</h2>
+        <Box component="div" sx={{ background: "#fff" }} m={1} p={4}>
+          <Grid container>
+            <Grid item>
+              <h4>Client Name</h4>
+              <TextField
+                disabled
+                fullWidth
+                placeholder={selectedOrganization?.name}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              lg={4}
+              mt={2}
+              mb={5}
+              style={{ height: "163px" }}
+            >
+              <h4>Logo</h4>
+              <DropzoneBox
+                setSelectedImage={setSelectedImage}
+                selectedImage={selectedImage}
+                imgSrc={selectedOrganization?.appearance?.logo}
+              />
+            </Grid>
+            <Grid item xs={12} md={4} lg={4} mt={4}>
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
                     title="Sidebar:"
                     color={formik.values.sidebarColor}
@@ -191,8 +195,8 @@ const AppearanceSection = () => {
                       formik.setFieldValue("sidebarColor", color)
                     }
                   />
-                </div>
-                <div className="appearanceColorSection">
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
                     title="Buttons:"
                     color={formik.values.buttonColor}
@@ -200,10 +204,8 @@ const AppearanceSection = () => {
                       formik.setFieldValue("buttonColor", color)
                     }
                   />
-                </div>
-              </div>
-              <div className="container">
-                <div className="appearanceColorSection">
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
                     title="Sidebar Text:"
                     color={formik.values.sidebarContentColor}
@@ -211,8 +213,8 @@ const AppearanceSection = () => {
                       formik.setFieldValue("sidebarContentColor", color)
                     }
                   />
-                </div>
-                <div className="appearanceColorSection">
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
                     title="Buttons Text:"
                     color={formik.values.buttonContentColor}
@@ -220,10 +222,8 @@ const AppearanceSection = () => {
                       formik.setFieldValue("buttonContentColor", color)
                     }
                   />
-                </div>
-              </div>
-              <div className="container">
-                <div className="appearanceColorSection">
+                </Grid>
+                <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
                     title="Secondary Color:"
                     color={formik.values.secondColor}
@@ -231,89 +231,118 @@ const AppearanceSection = () => {
                       formik.setFieldValue("secondColor", color)
                     }
                   />
-                </div>
-              </div>
-            </Box>
-          </Box>
-          <Box component="div" className="clientFonts">
-            <div className="font-wrapper">
-              <Box component="div" className="font-section">
-                <h4 className="labels">{newOrganizationFont1}</h4>
-                <FormControl sx={{ minWidth: 195 }}>
-                  <Select
-                    value={formik.values.mainContentFont}
-                    name="mainContentFont"
-                    displayEmpty
-                    onChange={formik.handleChange}
-                    inputProps={{ "aria-label": "Without label" }}
-                  >
-                    <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                    <MenuItem value={"calibri"}>Calibiri</MenuItem>
-                    <MenuItem value={"ProximaNova-Regular"}>
-                      ProximaNova
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <h2
-                className="font-demo"
-                style={{ fontFamily: `${formik.values.mainContentFont}` }}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={0} mt={3}>
+            <Grid item xs={12} md={4} lg={4}>
+              <Grid
+                container
+                spacing={1}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                AaBbCcDd
-              </h2>
-            </div>
-            <div className="font-wrapper">
-              <Box component="div" className="font-section">
-                <h4 className="labels">{newOrganizationFont2}</h4>
-                <FormControl sx={{ minWidth: 195 }}>
-                  <Select
-                    value={formik.values.sideBarFont}
-                    name="sideBarFont"
-                    displayEmpty
-                    onChange={formik.handleChange}
-                    inputProps={{ "aria-label": "Without label" }}
+                <Grid item xs={6} md={4} lg={4}>
+                  <h4>{newOrganizationFont1}</h4>
+                  <FormControl fullWidth>
+                    <Select
+                      value={formik.values.mainContentFont}
+                      name="mainContentFont"
+                      displayEmpty
+                      onChange={formik.handleChange}
+                      inputProps={{ "aria-label": "Without label" }}
+                    >
+                      <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                      <MenuItem value={"calibri"}>Calibiri</MenuItem>
+                      <MenuItem value={"ProximaNova-Regular"}>
+                        ProximaNova
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6} md={4} lg={4}>
+                  <h2
+                    style={{
+                      fontFamily: `${formik.values.mainContentFont}`,
+                      paddingTop: "17px",
+                    }}
                   >
-                    <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                    <MenuItem value={"calibri"}>Calibri</MenuItem>
-                    <MenuItem value={"ProximaNova-Regular"}>
-                      ProximaNova
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-              <h2
-                className="font-demo"
-                style={{ fontFamily: `${formik.values.sideBarFont}` }}
+                    AaBbCcDd
+                  </h2>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
+              <Grid
+                container
+                spacing={1}
+                justifyContent="flex-start"
+                alignItems="center"
               >
-                AaBbCcDd
-              </h2>
-            </div>
-          </Box>
-          <form onSubmit={formik.handleSubmit} className="forum">
-            <Button
-              type="submit"
-              style={
-                isLoading
-                  ? {
-                      backgroundColor: "gray",
-                      color: "black",
-                    }
-                  : {
-                      backgroundColor: buttonBackground,
-                      color: buttonTextColor,
-                    }
-              }
-              variant="contained"
-              className="SaveAppearanceBtn"
-              disabled={isLoading}
-            >
-              Save
-            </Button>
-          </form>
+                <Grid item xs={6} md={4} lg={4}>
+                  <h4>{newOrganizationFont2}</h4>
+                  <FormControl fullWidth>
+                    <Select
+                      value={formik.values.sideBarFont}
+                      name="sideBarFont"
+                      displayEmpty
+                      onChange={formik.handleChange}
+                      inputProps={{ "aria-label": "Without label" }}
+                    >
+                      <MenuItem value={"helvetica"}>Helvetica</MenuItem>
+                      <MenuItem value={"calibri"}>Calibri</MenuItem>
+                      <MenuItem value={"ProximaNova-Regular"}>
+                        ProximaNova
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={6} md={4} lg={4}>
+                  <h2
+                    style={{
+                      fontFamily: `${formik.values.mainContentFont}`,
+                      paddingTop: "17px",
+                    }}
+                  >
+                    AaBbCcDd
+                  </h2>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid container mt={5}>
+            <Grid item>
+              <form onSubmit={formik.handleSubmit}>
+                <Button
+                  type="submit"
+                  size="large"
+                  style={
+                    isLoading
+                      ? {
+                          backgroundColor: "gray",
+                          color: "black",
+                          width: "156px",
+                        }
+                      : {
+                          backgroundColor: buttonBackground,
+                          color: buttonTextColor,
+                          width: "156px",
+                        }
+                  }
+                  variant="contained"
+                  disabled={isLoading}
+                >
+                  Save
+                </Button>
+              </form>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
-
 export default AppearanceSection;

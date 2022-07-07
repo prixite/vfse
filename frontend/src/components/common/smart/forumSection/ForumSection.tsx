@@ -63,19 +63,24 @@ export default function ForumSection() {
           setPaginatedTopics={setPaginatedTopics}
         />
         {/* Pagination */}
-        <Stack
-          spacing={2}
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Pagination
-            defaultPage={1}
-            count={Math.ceil(topicsList.length / 10) || 1}
-            onChange={handlePagination}
-            size="large"
-          />
-        </Stack>
+        {paginatedTopics?.length > 0 && (
+          <Stack
+            spacing={2}
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Pagination
+              defaultPage={1}
+              count={
+                Math.ceil((topicsList.length + popularTopicData.length) / 10) ||
+                1
+              }
+              onChange={handlePagination}
+              size="large"
+            />
+          </Stack>
+        )}
         {/* Pagination End  */}
       </Box>
       {open ? <TopicModal open={open} handleClose={handleClose} /> : ""}

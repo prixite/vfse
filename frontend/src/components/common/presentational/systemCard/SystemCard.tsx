@@ -429,10 +429,13 @@ const SystemCard = ({
         </div>
         <div className={classes.featuresSection}>
           <div className={classes.features}>
-            <div style={{ marginRight: "32px" }}>
+            <div className={classes.featuresOptions}>
               <p className={classes.option}>
                 {his_ris_info_txt} <br />
-                <strong className={classes.titleStrong}>
+                <strong
+                  className={classes.titleStrong}
+                  style={{ overflowWrap: "anywhere" }}
+                >
                   {system.his_ris_info?.title || "-"}
                 </strong>
               </p>
