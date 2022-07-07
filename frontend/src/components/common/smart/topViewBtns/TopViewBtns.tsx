@@ -352,7 +352,7 @@ const TopViewBtns = ({
             overflow: "hidden",
           }}
         >
-          <Box component="div" style={{ display: "flex" }}>
+          <Box component="div" style={{ display: "flex", width: "100%" }}>
             {path === "systems" ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (

@@ -57,9 +57,12 @@ const useStyles = makeStyles((theme: themeTypes) => ({
   SearchInput: {
     backgroundColor: "#fff",
     borderRadius: "8px",
-    maxWidth: "65%",
+    maxWidth: "100%",
     minWidth: "50%",
     height: "100%",
+    [theme.breakpoints.down(539)]: {
+      width: "100%",
+    },
     "& .MuiOutlinedInput-root": {
       height: "100%",
       minWidth: "300px",
