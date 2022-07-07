@@ -2,7 +2,7 @@
 
 const path = require("path");
 
-const { EnvironmentPlugin } = require("webpack");
+const { EnvironmentPlugin, ProvidePlugin } = require("webpack");
 
 require("dotenv").config();
 
@@ -42,6 +42,9 @@ module.exports = {
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
+    }),
+    new ProvidePlugin({
+      process: "process/browser",
     }),
   ],
   resolve: {

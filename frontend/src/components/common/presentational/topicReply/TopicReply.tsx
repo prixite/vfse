@@ -114,9 +114,9 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
                 style={{ cursor: "pointer" }}
                 onClick={handlePagination}
               >
-                {totalReplyPages >= page
+                {totalReplyPages > page
                   ? "Show more replies"
-                  : "Show less replies"}{" "}
+                  : "Show less replies"}
               </div>
             ) : (
               ""
