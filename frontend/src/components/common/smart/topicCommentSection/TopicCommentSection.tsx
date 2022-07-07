@@ -115,7 +115,7 @@ const TopicCommentSection = () => {
               style={{ cursor: "pointer", margin: "5px" }}
               onClick={handlePagination}
             >
-              {totalPages >= page ? "Show more comments" : "Show less comments"}{" "}
+              {totalPages > page ? "Show more comments" : "Show less comments"}{" "}
             </div>
           ) : (
             ""
