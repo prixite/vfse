@@ -58,15 +58,19 @@ const useStyles = makeStyles((theme: themeTypes) => ({
     backgroundColor: "#fff",
     borderRadius: "8px",
     maxWidth: "100%",
-    minWidth: "50%",
+    minWidth: "inherit",
     height: "100%",
+    width: "100%",
+    marginRight: "8px",
+    // padding:"inherit",
     [theme.breakpoints.down(539)]: {
       width: "100%",
     },
     "& .MuiOutlinedInput-root": {
       height: "100%",
-      minWidth: "300px",
+      minWidth: "inherit",
       backgroundColor: "#fff",
+      paddingRigth: "14px",
       [theme.breakpoints.down("sm")]: {
         minWidth: "auto",
       },
