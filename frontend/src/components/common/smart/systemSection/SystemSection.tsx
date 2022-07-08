@@ -69,9 +69,6 @@ const SystemSection = () => {
     useParams<{ siteId: string; networkId: string; id: string }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
-  const isOrganizationModality =
-    !location?.pathname?.includes("sites") &&
-    !location?.pathname?.includes("networks");
   const selectedID = networkId || id;
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
@@ -439,14 +436,12 @@ const SystemSection = () => {
   );
 
   useEffect(() => {
-    if (healthNetwork) {
-      setSites(healthNetwork.sites);
-    } else if (isOrganizationModality && !isAllSitesLoading) {
+    if (healthNetwork?.sites && allSites) {
       setSites(allSites);
     } else {
       setSites(selectedOrganization.sites);
     }
-  }, [healthNetwork, selectedOrganization, isAllSitesLoading]);
+  }, [healthNetwork, selectedOrganization, isAllSitesLoading, allSites]);
 
   return (
     <>
