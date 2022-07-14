@@ -64,7 +64,6 @@
     "css-loader": "^6.7.1",
     "miragejs": "^0.1.43",
     "openapi-typescript": "^4.4.0",
-    "process": "^0.11.10",
     "regenerator-runtime": "^0.13.9",
     "sass": "^1.43.4",
     "sass-loader": "^13.0.0",
