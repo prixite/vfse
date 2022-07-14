@@ -110,6 +110,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
           id: `Sites-${id}`,
         })),
         { type: "Site", id: `Sites-${id}` },
+        "Site",
       ],
     },
     organizationsAssociatedSitesList: {
@@ -119,6 +120,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
           id: `Sites-${id}`,
         })),
         { type: "Site", id: `Sites-${id}` },
+        "Site",
       ],
     },
     organizationsRead: {
@@ -128,17 +130,18 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     },
     organizationsSitesCreate: {
       invalidatesTags: (result, error, { id }) => {
-        return [{ type: "Site", id: `Sites-${id}` }];
+        return [{ type: "Site", id: `Sites-${id}` }, "Site"];
       },
     },
     organizationsSitesUpdate: {
       invalidatesTags: (result, error, { id }) => [
         { type: "Site", id: `Sites-${id}` },
+        "Site",
       ],
     },
     organizationsSystemsList: {
       providesTags: (result, error, { id }) => {
-        return [{ type: "System", id: `Systems-${id}` }];
+        return [{ type: "System", id: `Systems-${id}` }, "Site"];
       },
     },
     organizationsSystemsCreate: {
@@ -157,6 +160,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         return [
           { type: "System", id: `Systems-${id}` },
           { type: "System", id: `Systems-${id}-${systemPk}` },
+          "Site",
         ];
       },
     },
