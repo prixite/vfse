@@ -12,7 +12,7 @@
       display: none;
     }
   }
-  @media (min-width: $normal-mobile-screens) and (max-width: $ipad) {
+  @media (min-width: $normal-mobile-screens) and (max-width: 825px) {
     .btn-add {
       min-width: 50px;
       width: 50px;
@@ -32,5 +32,17 @@
   }
   .btn-title-text {
     padding-top: 3px;
+  }
+  @media only screen and (min-width: 825px) {
+    .btn-add {
+      min-width: 150px;
+      width: 200px;
+      display: flex;
+      flex-wrap: nowrap;
+    }
+    .show-hide {
+      padding-top: 5px;
+      width: 110px;
+    }
   }
 }

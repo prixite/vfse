@@ -316,15 +316,7 @@ const TopViewBtns = ({
       >
         <div className={classes.btnContent}>
           <AddIcon />
-          <span
-            className="show-hide"
-            style={{
-              paddingTop: "3px",
-              display: `${browserWidth < 301 ? "none" : ""}`,
-            }}
-          >
-            {btnAdd}
-          </span>
+          <span className="show-hide">{btnAdd}</span>
         </div>
       </Button>
     );
