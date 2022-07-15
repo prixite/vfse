@@ -33,11 +33,11 @@ const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
       className="ProfilePopOver"
       anchorOrigin={{
         vertical: "top",
-        horizontal: "center",
+        horizontal: "right",
       }}
       transformOrigin={{
-        vertical: "top",
-        horizontal: "left",
+        vertical: "bottom",
+        horizontal: "right",
       }}
     >
       {vfseRoutes.map((route, key) => (
