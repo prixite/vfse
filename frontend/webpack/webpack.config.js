@@ -3,6 +3,7 @@
 const path = require("path");
 
 const { EnvironmentPlugin } = require("webpack");
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 require("dotenv").config();
 
@@ -42,6 +43,13 @@ module.exports = {
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
+    }),
+    new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true,
+      swDest: path.resolve("core/static/sw")
     }),
   ],
   resolve: {
