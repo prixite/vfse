@@ -212,9 +212,9 @@ const SystemSection = () => {
   }, [itemsList]);
 
   useEffect(() => {
-    if (searchText?.length > 2 && systemList?.results) {
+    if (searchText?.length >= 1 && systemList?.results) {
       setItemsList(systemList?.results);
-    } else if (systemsData && searchText?.length <= 2 && !isSystemDataLoading) {
+    } else if (systemsData && searchText?.length <= 1 && !isSystemDataLoading) {
       setItemsList(systemsData);
     } else if (!isSystemDataLoading) {
       setFirstRender(false);
