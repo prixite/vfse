@@ -22,7 +22,7 @@ import {
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
-type GetTopicList = {
+type TopicListResponse = {
   data: VfseTopicsListApiResponse;
   link: string;
 };
@@ -90,7 +90,7 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: ["Topics", "Favorite"],
     }),
-    getTopicsList: builder.query<GetTopicList, getTopicListArg>({
+    getTopicsList: builder.query<TopicListResponse, getTopicListArg>({
       query: (queryArg) => ({
         url: `/vfse/topics/`,
         params: {
@@ -102,7 +102,7 @@ export const emptySplitApi = createApi({
       transformResponse: (
         response: VfseTopicsListApiResponse,
         meta
-      ): GetTopicList => {
+      ): TopicListResponse => {
         return {
           data: response,
           link: meta.response.headers.map.link,
