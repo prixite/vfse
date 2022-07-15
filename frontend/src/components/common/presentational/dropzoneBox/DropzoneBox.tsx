@@ -41,7 +41,8 @@ const DropzoneBox = ({
     }
   }, [acceptedFiles]);
   return (
-    <section className="dropzone-style">
+    <section className="dropzone-style" {...getRootProps()}>
+      <input {...getInputProps()} />
       {selectedImage && selectedImage.length ? (
         <div className="UploadedImg">
           {isUploading ? (
@@ -73,8 +74,7 @@ const DropzoneBox = ({
           <b>{heading}</b>
           {description}
         </p>
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
+        <div>
           <Button className="browse-btn">{button}</Button>
         </div>
         <p className="file-info">{info}</p>
