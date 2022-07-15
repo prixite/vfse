@@ -6,7 +6,7 @@ import { Box, Pagination, Stack } from "@mui/material";
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
 import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopSection";
 import TopicModal from "@src/components/shared/popUps/topicModal/TopicModal";
-import { linkParser } from "@src/helpers";
+import { parseLink } from "@src/helpers/paging";
 import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
@@ -40,7 +40,7 @@ export default function ForumSection() {
   }, [topicsList?.data]);
 
   const totalTopicPages = useMemo(
-    () => linkParser(topicsList.link),
+    () => parseLink(topicsList.link) || 1,
     [topicsList?.data]
   );
 
@@ -71,7 +71,7 @@ export default function ForumSection() {
           >
             <Pagination
               defaultPage={1}
-              count={totalTopicPages || 1}
+              count={totalTopicPages}
               onChange={handlePagination}
               size="large"
             />
