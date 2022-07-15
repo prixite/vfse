@@ -4,7 +4,7 @@ import { Avatar, Box, Button, Input, Skeleton } from "@mui/material";
 import "@src/components/common/presentational/topicReply/topicReply.scss";
 import moment from "moment";
 
-import { linkParser } from "@src/helpers";
+import { parseLink } from "@src/helpers/paging";
 import { api, VfseCommentsRepliesCreateApiArg } from "@src/store/reducers/api";
 import { Comment } from "@src/store/reducers/generated";
 
@@ -38,7 +38,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   };
 
   const totalReplyPages = useMemo(
-    () => linkParser(repliesData.link),
+    () => parseLink(repliesData.link),
     [repliesData?.data]
   );
 

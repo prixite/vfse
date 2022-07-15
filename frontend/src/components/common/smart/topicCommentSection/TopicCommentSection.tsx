@@ -4,7 +4,7 @@ import { Box, Input, Button, Avatar, Skeleton } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import TopicComment from "@src/components/common/presentational/topicComment/TopicComment";
-import { linkParser } from "@src/helpers";
+import { parseLink } from "@src/helpers/paging";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery, api } from "@src/store/reducers/api";
 import { VfseTopicsCommentsCreateApiArg } from "@src/store/reducers/generated";
@@ -43,7 +43,7 @@ const TopicCommentSection = () => {
   };
 
   const totalPages = useMemo(
-    () => linkParser(commentsData.link),
+    () => parseLink(commentsData.link),
     [commentsData.data]
   );
 
@@ -99,7 +99,7 @@ const TopicCommentSection = () => {
       </Box>
       {!isCommentsLoading ? (
         <>
-          {comments?.map((comment, key) => (
+          {comments.map((comment, key) => (
             <div key={key} style={{ width: "100%" }}>
               <TopicComment
                 profile_picture={me?.profile_picture}

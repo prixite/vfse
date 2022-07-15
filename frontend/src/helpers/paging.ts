@@ -1,4 +1,4 @@
-export const linkParser = (linkHeader: string) => {
+export const parseLink = (linkHeader: string) => {
   if (!linkHeader) return 0;
   function hasRel(x) {
     return x && x.rel;
@@ -21,7 +21,7 @@ export const linkParser = (linkHeader: string) => {
     return acc;
   }
 
-  function parseLink(link) {
+  function parseLinkToObj(link) {
     try {
       const m = link.match(/<?([^>]*)>(.*)/),
         linkUrl = m[1],
@@ -41,7 +41,7 @@ export const linkParser = (linkHeader: string) => {
   }
   const parsed = linkHeader
     .split(/,\s*</)
-    .map(parseLink)
+    .map(parseLinkToObj)
     .filter(hasRel)
     .reduce(intoRels, {});
   // eslint-disable-next-line
