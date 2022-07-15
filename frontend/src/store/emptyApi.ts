@@ -27,7 +27,7 @@ type GetTopicList = {
   link: string;
 };
 
-type GetCommentsRepliesList = {
+type CommentRepliesResponse = {
   data: VfseCommentsRepliesListApiResponse;
   link: string;
 };
@@ -288,7 +288,7 @@ export const emptySplitApi = createApi({
       ],
     }),
     getCommentsRepliesList: builder.query<
-      GetCommentsRepliesList,
+      CommentRepliesResponse,
       VfseCommentsRepliesListApiArg
     >({
       query: (queryArg) => ({
@@ -298,7 +298,7 @@ export const emptySplitApi = createApi({
       transformResponse: (
         response: VfseCommentsRepliesListApiResponse,
         meta
-      ): GetCommentsRepliesList => {
+      ): CommentRepliesResponse => {
         return {
           data: response,
           link: meta.response.headers.map.link,
