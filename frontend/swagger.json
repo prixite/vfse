@@ -1660,7 +1660,15 @@
             "get": {
                 "operationId": "vfse_comments_replies_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2137,7 +2145,15 @@
             "get": {
                 "operationId": "vfse_topics_comments_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",

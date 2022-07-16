@@ -50,6 +50,7 @@ class DocumentViewSet(ModelViewSet):
 
 class CommentViewset(ModelViewSet):
     serializer_class = serializers.CommentSerializer
+    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -69,6 +70,7 @@ class CommentViewset(ModelViewSet):
 
 class ReplyViewSet(ModelViewSet):
     serializer_class = serializers.CommentSerializer
+    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
