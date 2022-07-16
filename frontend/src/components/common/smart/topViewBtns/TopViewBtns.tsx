@@ -264,7 +264,7 @@ const TopViewBtns = ({
 
   const onEventSearch = useCallback(
     debounce((searchQuery: string) => {
-      if (searchQuery?.length > 2) {
+      if (searchQuery?.length >= 1) {
         if (
           path === "users" ||
           path === "organizations" ||
@@ -274,6 +274,7 @@ const TopViewBtns = ({
           handleSearchQuery(searchQuery);
         }
         const newList = { query: searchQuery, results: [] };
+        searchQuery = searchQuery?.toLowerCase()?.trim();
         const result = actualData?.filter(
           (data: {
             username: string;
@@ -281,15 +282,11 @@ const TopViewBtns = ({
             name: string;
           }) => {
             return path === "users"
-              ? data?.username
-                  ?.toLowerCase()
-                  .search(searchQuery?.toLowerCase()) != -1
+              ? data?.username?.toLowerCase().trim().search(searchQuery) != -1
               : path === "documentation"
-              ? data?.product?.name
-                  ?.toLowerCase()
-                  .search(searchQuery?.toLowerCase()) != -1
-              : data?.name?.toLowerCase().search(searchQuery?.toLowerCase()) !=
-                -1;
+              ? data?.product?.name?.toLowerCase().trim().search(searchQuery) !=
+                -1
+              : data?.name?.toLowerCase().search(searchQuery) != -1;
           }
         );
         newList.results = result;
