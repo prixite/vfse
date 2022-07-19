@@ -19,12 +19,12 @@ services:
     depends_on:
       - app
 
-  # ping:
-  #   extends:
-  #     file: docker-compose.base.yml
-  #     service: ping
-  #   depends_on:
-  #     - app
+  ping:
+    extends:
+      file: docker-compose.base.yml
+      service: ping
+    depends_on:
+      - app
 
   ssh:
     extends:
