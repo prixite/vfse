@@ -17,9 +17,25 @@ import {
   VfseTopicsCommentsCreateApiArg,
   VfseTopicsCommentsListApiResponse,
   VfseTopicsCommentsListApiArg,
+  VfseCommentsRepliesListApiResponse,
+  VfseCommentsRepliesListApiArg,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
+type TopicListResponse = {
+  data: VfseTopicsListApiResponse;
+  link: string;
+};
+
+type CommentRepliesResponse = {
+  data: VfseCommentsRepliesListApiResponse;
+  link: string;
+};
+
+type TopicCommentsResponse = {
+  data: VfseTopicsCommentsListApiResponse;
+  link: string;
+};
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -74,12 +90,24 @@ export const emptySplitApi = createApi({
       }),
       invalidatesTags: ["Topics", "Favorite"],
     }),
-
-    getTopicsList: builder.query<VfseTopicsListApiResponse, getTopicListArg>({
+    getTopicsList: builder.query<TopicListResponse, getTopicListArg>({
       query: (queryArg) => ({
         url: `/vfse/topics/`,
-        params: { followed: queryArg.followed, created: queryArg.created },
+        params: {
+          followed: queryArg.followed,
+          created: queryArg.created,
+          page: queryArg.page,
+        },
       }),
+      transformResponse: (
+        response: VfseTopicsListApiResponse,
+        meta
+      ): TopicListResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.map.link,
+        };
+      },
       providesTags: ["Topics", "Favorite"],
     }),
 
@@ -239,12 +267,45 @@ export const emptySplitApi = createApi({
       ],
     }),
     getTopicsCommentsList: builder.query<
-      VfseTopicsCommentsListApiResponse,
+      TopicCommentsResponse,
       VfseTopicsCommentsListApiArg
     >({
-      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/comments/` }),
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/comments/`,
+        params: { page: queryArg.page },
+      }),
+      transformResponse: (
+        response: VfseTopicsCommentsListApiResponse,
+        meta
+      ): TopicCommentsResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.map.link,
+        };
+      },
       providesTags: (result, error, queryArg) => [
         { type: "Comment", id: `Comment-${queryArg?.id}` },
+      ],
+    }),
+    getCommentsRepliesList: builder.query<
+      CommentRepliesResponse,
+      VfseCommentsRepliesListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/comments/${queryArg.id}/replies/`,
+        params: { page: queryArg.page },
+      }),
+      transformResponse: (
+        response: VfseCommentsRepliesListApiResponse,
+        meta
+      ): CommentRepliesResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.map.link,
+        };
+      },
+      providesTags: (result, error, queryArg) => [
+        { type: "Reply", id: `Reply-${queryArg?.id}` },
       ],
     }),
   }),

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Box, Pagination, Stack } from "@mui/material";
 
@@ -6,18 +6,18 @@ import { Box, Pagination, Stack } from "@mui/material";
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
 import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopSection";
 import TopicModal from "@src/components/shared/popUps/topicModal/TopicModal";
+import { parseLink } from "@src/helpers/paging";
 import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
 
 const { forum, title } = localizedData().Forum;
 export default function ForumSection() {
+  const [page, setPage] = useState(1);
   const {
-    data: topicsList = [],
-    // isLoading,
-  } = api.useGetTopicsListQuery({}); //Arr1 Paginated
-
-  const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery(); //Arr2 PopularTopics
+    data: topicsList = { data: [], link: "" },
+    // isLoading: isTopicsLoading,
+  } = api.useGetTopicsListQuery({ page }); //Arr1 Paginated
 
   const [paginatedTopics, setPaginatedTopics] =
     useState<VfseTopicsListApiResponse>([]);
@@ -26,25 +26,24 @@ export default function ForumSection() {
   const handleClose = () => {
     setOpen(false);
   };
-  const [page, setPage] = useState(1);
+
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
     value: number
   ) => {
+    event.preventDefault();
     setPage(value);
   };
 
   useEffect(() => {
-    paginate();
-  }, [page, topicsList, popularTopicData]);
+    setPaginatedTopics(topicsList.data);
+  }, [topicsList?.data]);
 
-  const paginate = (topics = topicsList, pageSize = 10, pageNumber = page) => {
-    const tempArr = [...topics].slice(
-      (pageNumber - 1) * pageSize,
-      pageNumber * pageSize
-    );
-    setPaginatedTopics(tempArr);
-  };
+  const totalTopicPages = useMemo(
+    () => parseLink(topicsList.link) || 1,
+    [topicsList?.data]
+  );
+
   return (
     <>
       <Box component="div">
@@ -72,10 +71,7 @@ export default function ForumSection() {
           >
             <Pagination
               defaultPage={1}
-              count={
-                Math.ceil((topicsList.length + popularTopicData.length) / 10) ||
-                1
-              }
+              count={totalTopicPages}
               onChange={handlePagination}
               size="large"
             />

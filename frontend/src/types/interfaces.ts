@@ -9,6 +9,7 @@ export interface ChatBotResponse {
 export interface getTopicListArg {
   followed?: boolean;
   created?: boolean;
+  page?: number;
 }
 //we also need system name and image in workOrderApi Response
 export interface WorkOrderResponse {

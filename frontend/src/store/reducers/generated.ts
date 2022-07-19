@@ -531,7 +531,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseCommentsRepliesListApiResponse,
       VfseCommentsRepliesListApiArg
     >({
-      query: (queryArg) => ({ url: `/vfse/comments/${queryArg.id}/replies/` }),
+      query: (queryArg) => ({
+        url: `/vfse/comments/${queryArg.id}/replies/`,
+        params: { page: queryArg.page },
+      }),
     }),
     vfseCommentsRepliesCreate: build.mutation<
       VfseCommentsRepliesCreateApiResponse,
@@ -696,7 +699,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseTopicsCommentsListApiResponse,
       VfseTopicsCommentsListApiArg
     >({
-      query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/comments/` }),
+      query: (queryArg) => ({
+        url: `/vfse/topics/${queryArg.id}/comments/`,
+        params: { page: queryArg.page },
+      }),
     }),
     vfseTopicsCommentsCreate: build.mutation<
       VfseTopicsCommentsCreateApiResponse,
@@ -1037,6 +1043,8 @@ export type VfseCategoriesPartialUpdateApiArg = {
 export type VfseCommentsRepliesListApiResponse = /** status 200  */ Comment[];
 export type VfseCommentsRepliesListApiArg = {
   id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
 };
 export type VfseCommentsRepliesCreateApiResponse = /** status 201  */ Comment;
 export type VfseCommentsRepliesCreateApiArg = {
@@ -1118,6 +1126,8 @@ export type VfseTopicsDeleteApiArg = {
 export type VfseTopicsCommentsListApiResponse = /** status 200  */ Comment[];
 export type VfseTopicsCommentsListApiArg = {
   id: string;
+  /** A page number within the paginated result set. */
+  page?: number;
 };
 export type VfseTopicsCommentsCreateApiResponse = /** status 201  */ Comment;
 export type VfseTopicsCommentsCreateApiArg = {
