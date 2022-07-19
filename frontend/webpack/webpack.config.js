@@ -41,7 +41,7 @@ module.exports = {
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
-    })
+    }),
   ],
   resolve: {
     alias: {

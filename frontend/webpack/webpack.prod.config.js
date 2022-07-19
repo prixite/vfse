@@ -1,8 +1,11 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
-const merge = require("webpack-merge");
 const path = require("path");
+
+const merge = require("webpack-merge");
+const WorkboxPlugin = require("workbox-webpack-plugin");
+
 const common = require("./webpack.config.js");
-const WorkboxPlugin = require('workbox-webpack-plugin');
+
 
 module.exports = merge.mergeWithCustomize({
   customizeArray: merge.customizeArray({

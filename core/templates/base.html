@@ -36,7 +36,7 @@
       href="{% static 'img/favicon.ico' %}"
     />
     {% block head %}{% endblock %}
-    <script> 
+    <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register("{% static '/serviceworker/sw.js' %}", { scope: '/' }).then(registration => {
