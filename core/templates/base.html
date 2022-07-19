@@ -17,12 +17,12 @@
       <meta name="apple-mobile-web-app-title" content="VFSE - Fostering Students' Creativity and Critical Thinking" />
       <meta name="description" content="Fostering Students' Creativity and Critical Thinking" />
       <meta name="theme-color" content="#f69435" />
-      <link rel="apple-touch-icon" sizes="114x114" href="{% static 'icons/apple-touch-icon-114x114.png' %}" />
-      <link rel="apple-touch-icon" sizes="120x120" href="{% static 'icons/apple-touch-icon-120x120.png' %}" />
-      <link rel="apple-touch-icon" sizes="144x144" href="{% static 'icons/apple-touch-icon-144x144.png' %}" />
-      <link rel="apple-touch-icon" sizes="152x152" href="{% static 'icons/apple-touch-icon-152x152.png' %}" />
-      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'icons/apple-touch-icon-180x180.png' %}" />
-      <link rel="manifest" href="{% static 'manifest.json' %}" />
+      <link rel="apple-touch-icon" sizes="114x114" href="{% static 'assets/icons/apple-touch-icon-114x114.png' %}" />
+      <link rel="apple-touch-icon" sizes="120x120" href="{% static 'assets/icons/apple-touch-icon-120x120.png' %}" />
+      <link rel="apple-touch-icon" sizes="144x144" href="{% static 'assets/icons/apple-touch-icon-144x144.png' %}" />
+      <link rel="apple-touch-icon" sizes="152x152" href="{% static 'assets/icons/apple-touch-icon-152x152.png' %}" />
+      <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/icons/apple-touch-icon-180x180.png' %}" />
+      <link rel="manifest" href="{% static 'serviceworker/manifest.json' %}" />
       <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="title" content="VFSE - Fostering Students' Creativity and Critical Thinking" />
@@ -39,7 +39,7 @@
     <script> 
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('../static/sw.js').then(registration => {
+          navigator.serviceWorker.register("{% static '/serviceworker/sw.js' %}", { scope: '/' }).then(registration => {
             console.log('SW registered: ', registration);
           }).catch(registrationError => {
             console.log('SW registration failed: ', registrationError);
