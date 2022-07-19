@@ -6,7 +6,6 @@ const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const common = require("./webpack.config.js");
 
-
 module.exports = merge.mergeWithCustomize({
   customizeArray: merge.customizeArray({
     plugins: "prepend",
