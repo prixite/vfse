@@ -35,7 +35,6 @@ repos:
     hooks:
       - id: eslint
         files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
-        exclude: frontend/src/store/reducers/generated.ts | frontend/src/serviceworker
         types: [file]
         verbose: true
         args:
