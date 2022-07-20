@@ -20,6 +20,8 @@ jobs:
           cache: pip
       - run: npm install
       - uses: pre-commit/action@v2.0.3
+        with:
+            token: ${{ secrets.GITHUB_TOKEN }}
       - uses: EndBug/add-and-commit@v9.0.1
         with:
             committer_name: Umair Khan
