@@ -25,14 +25,13 @@ jobs:
       - uses: pre-commit/action@v3.0.0
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: stefanzweifel/git-auto-commit-action@v4
+            uses: EndBug/add-and-commit@v9.0.1
+
+      - uses: EndBug/add-and-commit@v9.0.1
         with:
-            commit_user_name: Umair Khan
-            commit_user_email: umair.khan@toptal.com
-            commit_author: Umair Khan <umair.khan@toptal.com>
-            commit_options: '--no-verify --signoff'
-            commit_message: ${{ github.event.head_commit.message }}
-      - uses: pre-commit/action@v3.0.0
+            committer_name: Umair Khan
+            committer_email: umair.khan@toptal.com
+            message: 'Add the very useful text file'
 
   test:
     runs-on: ubuntu-latest
