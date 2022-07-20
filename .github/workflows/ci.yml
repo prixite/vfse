@@ -25,13 +25,14 @@ jobs:
       - uses: pre-commit/action@v3.0.0
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: EndBug/add-and-commit@v9.0.1
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-            committer_name: Umair Khan
-            committer_email: umair.khan@toptal.com
-            default_author: github_actions
-            commit: --signoff
-            message: ${{ github.event.head_commit.message }}
+            commit_user_name: Umair Khan
+            commit_user_email: umair.khan@toptal.com
+            commit_author: Umair Khan <umair.khan@toptal.com>
+            commit_options: '--no-verify --signoff'
+            commit_message: ${{ github.event.head_commit.message }}
+      - uses: pre-commit/action@v3.0.0
 
   test:
     runs-on: ubuntu-latest
