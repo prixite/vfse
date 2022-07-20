@@ -22,8 +22,6 @@ jobs:
       - uses: pre-commit/action@v2.0.3
       - uses: EndBug/add-and-commit@v9.0.1
         with:
-            author_name: Umair Khan
-            author_email: umair.khan@toptal.com
             committer_name: Umair Khan
             committer_email: umair.khan@toptal.com
             default_author: user_info
