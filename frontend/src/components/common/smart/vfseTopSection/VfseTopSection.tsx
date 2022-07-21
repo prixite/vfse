@@ -272,7 +272,7 @@ export default function VfseTopSection({
               onClose={handleClose}
               onOpen={handleOpen}
               // value={sort}
-              label="Sort"
+              label="Sort By"
               onChange={sortSetter}
               defaultValue=""
             >
