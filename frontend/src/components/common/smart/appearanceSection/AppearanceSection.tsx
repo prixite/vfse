@@ -185,7 +185,7 @@ const AppearanceSection = () => {
                 imgSrc={selectedOrganization?.appearance?.logo}
               />
             </Grid>
-            <Grid item xs={12} md={4} lg={4} mt={4}>
+            <Grid item xs={12} md={8} lg={8} mt={4}>
               <Grid container spacing={1}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
@@ -236,15 +236,15 @@ const AppearanceSection = () => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={0} mt={3}>
-            <Grid item xs={12} md={4} lg={4}>
+          <Grid container spacing={0.5} mt={3}>
+            <Grid item xs={12} sm={12} md={6} lg={4}>
               <Grid
                 container
                 spacing={1}
                 justifyContent="flex-start"
                 alignItems="center"
               >
-                <Grid item xs={6} md={4} lg={4}>
+                <Grid item xs={6} md={6} lg={6}>
                   <h4>{newOrganizationFont1}</h4>
                   <FormControl fullWidth>
                     <Select
@@ -262,7 +262,7 @@ const AppearanceSection = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={6} md={4} lg={4}>
+                <Grid item xs={6} md={6} lg={6}>
                   <h2
                     style={{
                       fontFamily: `${formik.values.mainContentFont}`,
@@ -274,14 +274,14 @@ const AppearanceSection = () => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item xs={12} md={4} lg={4}>
+            <Grid item xs={12} sm={12} md={6} lg={4}>
               <Grid
                 container
                 spacing={1}
                 justifyContent="flex-start"
                 alignItems="center"
               >
-                <Grid item xs={6} md={4} lg={4}>
+                <Grid item xs={6} md={6} lg={6}>
                   <h4>{newOrganizationFont2}</h4>
                   <FormControl fullWidth>
                     <Select
