@@ -105,7 +105,7 @@ export const emptySplitApi = createApi({
       ): TopicListResponse => {
         return {
           data: response,
-          link: meta.response.headers.map.link,
+          link: meta.response.headers.map?.link,
         };
       },
       providesTags: ["Topics", "Favorite"],
@@ -280,7 +280,7 @@ export const emptySplitApi = createApi({
       ): TopicCommentsResponse => {
         return {
           data: response,
-          link: meta.response.headers.map.link,
+          link: meta.response.headers.map?.link,
         };
       },
       providesTags: (result, error, queryArg) => [
@@ -301,7 +301,7 @@ export const emptySplitApi = createApi({
       ): CommentRepliesResponse => {
         return {
           data: response,
-          link: meta.response.headers.map.link,
+          link: meta.response.headers.map?.link,
         };
       },
       providesTags: (result, error, queryArg) => [

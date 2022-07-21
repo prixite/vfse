@@ -38,7 +38,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   };
 
   const totalReplyPages = useMemo(
-    () => parseLink(repliesData.link),
+    () => parseLink(repliesData?.link),
     [repliesData?.data]
   );
 

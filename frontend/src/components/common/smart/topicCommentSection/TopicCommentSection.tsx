@@ -43,7 +43,7 @@ const TopicCommentSection = () => {
   };
 
   const totalPages = useMemo(
-    () => parseLink(commentsData.link),
+    () => parseLink(commentsData?.link),
     [commentsData.data]
   );
 
