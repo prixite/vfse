@@ -37,7 +37,8 @@ export default function VfseTopSection({
   const [browserWidth] = useWindowSize();
   const classes = useStyles();
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery(); //popular
-  const { data: topicsList = [] } = api.useGetTopicsListQuery({});
+  const { data: topicsList = { data: [], link: undefined } } =
+    api.useGetTopicsListQuery({});
 
   const [searchTerm, setSearchTerm] = useState("");
   const [listData, setListData] = useState([]);
@@ -59,7 +60,7 @@ export default function VfseTopSection({
     handleChangeSortBy();
     if (filter === 30 && sort === 30) {
       setListData(popularTopicData);
-      setPaginatedTopics(topicsList);
+      setPaginatedTopics(topicsList?.data);
     }
     if (searchTerm !== "") {
       if (popularTopicData && popularTopicData.length) {
@@ -74,9 +75,9 @@ export default function VfseTopSection({
           }),
         ]);
       }
-      if (topicsList && topicsList.length) {
+      if (topicsList.data && topicsList.data.length) {
         setPaginatedTopics([
-          ...topicsList.filter((topic) => {
+          ...topicsList.data.filter((topic) => {
             return (
               (
                 topic?.title +
@@ -92,7 +93,7 @@ export default function VfseTopSection({
       }
     } else {
       setListData([...popularTopicData]);
-      setPaginatedTopics([...topicsList]);
+      setPaginatedTopics([...topicsList.data]);
     }
   }, [searchTerm, sort, filter]);
 
@@ -129,7 +130,7 @@ export default function VfseTopSection({
       setPaginatedTopics([...reverseTopicsListData]);
     } else {
       setListData([...popularTopicData]);
-      setPaginatedTopics([...topicsList]);
+      setPaginatedTopics([...topicsList.data]);
     }
   };
 
@@ -177,7 +178,7 @@ export default function VfseTopSection({
       setPaginatedTopics(sortedUpdatedAtDatesTopics);
     } else {
       setListData(popularTopicData);
-      setPaginatedTopics(topicsList);
+      setPaginatedTopics(topicsList.data);
     }
   };
 
