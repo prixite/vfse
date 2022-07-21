@@ -120,4 +120,16 @@
       display: block;
     }
   }
+  @media only screen and (max-width: 600px) {
+    .SideBar {
+      .leftLists {
+        width: 60px;
+      }
+      .drawer-btn {
+        &.open-btn {
+          left: 13px;
+        }
+      }
+    }
+  }
 }
