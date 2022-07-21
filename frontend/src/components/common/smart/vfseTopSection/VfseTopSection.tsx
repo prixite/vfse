@@ -263,7 +263,7 @@ export default function VfseTopSection({
         mt={3}
         sx={{ flexWrap: "nowrap", margin: "0px", width: "100%" }}
       >
-        <Grid item sx={{ width: "20%" }}>
+        <Grid item sx={{ width: "20%" }} style={{ paddingLeft: "0px" }}>
           <FormControl fullWidth size="small" sx={{ backgroundColor: "#fff" }}>
             <InputLabel id="sort-by-categoty">Sort By:</InputLabel>
             <Select
