@@ -40,7 +40,7 @@ export default function ForumSection() {
   }, [topicsList?.data]);
 
   const totalTopicPages = useMemo(
-    () => parseLink(topicsList.link) || 1,
+    () => parseLink(topicsList?.link) || 1,
     [topicsList?.data]
   );
 
