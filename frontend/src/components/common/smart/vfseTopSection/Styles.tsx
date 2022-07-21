@@ -38,7 +38,16 @@ const useStyles = makeStyles((theme: themeTypes) => ({
       marginTop: "10px",
     },
   },
-
+  createTopicBtn: {
+    "& .css-htszrh-MuiButton-startIcon": {
+      [theme.breakpoints.down(900)]: {
+        margin: "0px",
+      },
+    },
+    "& .span": {
+      width: "max-content",
+    },
+  },
   //style for topViewBtns
   AddClientsbtn: {
     width: "190px",

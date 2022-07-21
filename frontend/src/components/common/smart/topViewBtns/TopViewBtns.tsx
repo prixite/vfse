@@ -338,6 +338,7 @@ const TopViewBtns = ({
             display: "flex",
             justifyContent: "space-between",
             width: "100%",
+            overflow: "visible",
           }}
         >
           <Box component="div" style={{ display: "flex", width: "100%" }}>

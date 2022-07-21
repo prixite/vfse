@@ -10,9 +10,12 @@ import Select from "@mui/material/Select";
 import debouce from "lodash.debounce";
 
 import TopicUpdatesCards from "@src/components/common/presentational/topicUpdatesCards/TopicUpdatesCard";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
+
+import useStyles from "../../smart/vfseTopSection/Styles";
 
 interface Props {
   setOpen?: (arg: boolean) => void;
@@ -31,6 +34,8 @@ export default function VfseTopSection({
   paginatedTopics,
   setPaginatedTopics,
 }: Props) {
+  const [browserWidth] = useWindowSize();
+  const classes = useStyles();
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery(); //popular
   const { data: topicsList = { data: [], link: undefined } } =
     api.useGetTopicsListQuery({});
@@ -220,7 +225,6 @@ export default function VfseTopSection({
   const filterSetter = (e) => {
     setfilter(e.target.value);
   };
-
   const renderPopularTopics = () => {
     return (
       <>
@@ -253,8 +257,13 @@ export default function VfseTopSection({
 
   return (
     <>
-      <Grid container spacing={2} mt={3}>
-        <Grid item xs={6} md={2} lg={2}>
+      <Grid
+        container
+        spacing={1}
+        mt={3}
+        sx={{ flexWrap: "nowrap", margin: "0px", width: "100%" }}
+      >
+        <Grid item sx={{ width: "20%" }}>
           <FormControl fullWidth size="small" sx={{ backgroundColor: "#fff" }}>
             <InputLabel id="sort-by-categoty">Sort By:</InputLabel>
             <Select
@@ -264,7 +273,7 @@ export default function VfseTopSection({
               onClose={handleClose}
               onOpen={handleOpen}
               // value={sort}
-              label="Sort"
+              label="Sort By"
               onChange={sortSetter}
               defaultValue=""
             >
@@ -275,7 +284,7 @@ export default function VfseTopSection({
           </FormControl>
         </Grid>
 
-        <Grid item xs={6} md={2} lg={2}>
+        <Grid item sx={{ width: "20%" }}>
           <FormControl sx={{ backgroundColor: "#fff" }} fullWidth size="small">
             <InputLabel id="filter-dropdown">Filter:</InputLabel>
             <Select
@@ -295,9 +304,9 @@ export default function VfseTopSection({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={2} lg={2}>
+        <Grid item sx={{ width: "40%" }}>
           <TextField
-            id="search-topics"
+            id="search-topicmargins"
             size="small"
             fullWidth
             variant="outlined"
@@ -313,7 +322,7 @@ export default function VfseTopSection({
             }}
           />
         </Grid>
-        <Grid item xs={12} md={6} lg={6}>
+        <Grid item sx={{ marginLeft: "auto", width: "max-content" }}>
           <Box
             sx={{
               display: "flex",
@@ -328,10 +337,13 @@ export default function VfseTopSection({
               style={{
                 backgroundColor: buttonBackground,
                 color: buttonTextColor,
+                height: "40px",
+                minWidth: "max-content",
               }}
               onClick={handleModal}
+              className={classes.createTopicBtn}
             >
-              {btnCreateTopic}
+              {browserWidth > 900 ? <>{btnCreateTopic}</> : ""}
             </Button>
           </Box>
         </Grid>
