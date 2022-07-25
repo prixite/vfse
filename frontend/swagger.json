@@ -8,7 +8,7 @@
         },
         "version": "v1"
     },
-    "basePath": "/api",
+    "basePath": "/vfse/api",
     "consumes": [
         "application/json"
     ],
