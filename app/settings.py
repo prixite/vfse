@@ -50,7 +50,7 @@ env = environ.Env(
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
-    MY_PROJECT=(str, ""),
+    PREFIX_URL=(str, ""),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -242,12 +242,12 @@ INFLUX_DB_URL = env("INFLUX_DB_URL")
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
 
-MY_PROJECT = env("MY_PROJECT", "")  # example; '/vfse'
-print(MY_PROJECT)
-if MY_PROJECT:
-    USE_X_FORWARDED_HOST = True
-    FORCE_SCRIPT_NAME = MY_PROJECT + "/"
-    SESSION_COOKIE_PATH = MY_PROJECT + "/"
+PREFIX_URL = env("PREFIX_URL", "")  # example; '/vfse'
 
-LOGIN_REDIRECT_URL = MY_PROJECT + "/"
-LOGOUT_REDIRECT_URL = MY_PROJECT + "/"
+if PREFIX_URL:
+    USE_X_FORWARDED_HOST = True
+    FORCE_SCRIPT_NAME = PREFIX_URL + "/"
+    SESSION_COOKIE_PATH = PREFIX_URL + "/"
+
+LOGIN_REDIRECT_URL = PREFIX_URL + "/"
+LOGOUT_REDIRECT_URL = PREFIX_URL + "/"

@@ -69,7 +69,7 @@ def duo_login(request):
 
 class WelcomeView(TemplateView):
     template_name = "core/welcome.html"
-    prefix = "/clients"
+    prefix = settings.PREFIX_URL + "/clients"
     redirect_map = {
         "organization": "/",
         "modality": "/systems/",
