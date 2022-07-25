@@ -51,7 +51,7 @@ env = environ.Env(
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
-    MY_PROJECT=(str, ''),
+    MY_PROJECT=(str, ""),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -243,7 +243,7 @@ INFLUX_DB_URL = env("INFLUX_DB_URL")
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
 
-MY_PROJECT = env('MY_PROJECT', '')  # example; '/vfse'
+MY_PROJECT = env("MY_PROJECT", "")  # example; '/vfse'
 print(MY_PROJECT)
 if MY_PROJECT:
     USE_X_FORWARDED_HOST = True
