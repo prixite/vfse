@@ -1,9 +1,9 @@
 .system-modal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  .MuiDialog-paper {
     width: 783px;
     max-width: 783px;
     position: relative;
-    .css-ypiqx9-MuiDialogContent-root {
+    .MuiDialogContent-root {
       padding: 20px 22px;
     }
   }
@@ -14,7 +14,7 @@
   .MuiOutlinedInput-root {
     height: 48px;
     border-radius: 8px;
-    .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    .MuiOutlinedInput-notchedOutline {
       border: 1px solid #d4d6db !important;
       border-radius: 8px !important;
     }
@@ -24,10 +24,10 @@
     font-size: 0.8rem;
     margin-top: 10px;
   }
-  .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
+  .MuiOutlinedInput-input {
     height: 1.8em;
   }
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
       display: flex;
@@ -81,7 +81,7 @@
       justify-content: space-between;
       align-items: center;
       .checkBox {
-        .css-5tfqm9-MuiButtonBase-root-MuiCheckbox-root {
+        .MuiCheckbox-root {
           color: #d4d6db;
           padding: 0;
         }
@@ -123,7 +123,7 @@
         .info-field {
           width: 100%;
           height: 100%;
-          .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+          .MuiOutlinedInput-notchedOutline {
             border: 1px solid #d4d6db;
             border-radius: 8px;
           }
@@ -147,7 +147,7 @@
           border-radius: 5px;
           .info-field {
             width: 100%;
-            .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+            .MuiOutlinedInput-notchedOutline {
               border: 1px solid #d4d6db;
               border-radius: 8px;
             }
@@ -164,7 +164,7 @@
       }
     }
   }
-  .css-hlj6pa-MuiDialogActions-root {
+  .MuiDialogActions-root {
     justify-content: center;
     margin-top: 2px;
     margin-bottom: 16px;
@@ -201,7 +201,7 @@
 }
 
 .search {
-  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  .MuiOutlinedInput-notchedOutline {
     border: 1px solid #d4d6db !important;
     border-radius: 8px !important;
   }
@@ -213,7 +213,7 @@
 
 @media only screen and (max-width: 480px) {
   .system-modal {
-    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    .MuiDialog-paper {
       width: 100%;
       margin: 5px;
     }
