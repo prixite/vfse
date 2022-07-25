@@ -1,8 +1,8 @@
 .organization-modal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  .MuiDialog-paper {
     width: 500px;
     max-width: 500px;
-    .css-ypiqx9-MuiDialogContent-root {
+    .MuiDialogContent-root {
       padding: 20px 30px;
     }
   }
@@ -11,12 +11,13 @@
     font-size: 0.8rem;
     margin-top: 5px;
   }
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
       .modal-header {
         font-weight: 600;
         width: 35%;
@@ -70,7 +71,7 @@
         .info-field {
           width: 356px;
           height: 48px;
-          .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+          .MuiInputBase-input {
             border: 1px solid #d4d6db;
             border-radius: 8px;
           }
@@ -120,7 +121,7 @@
       }
     }
   }
-  .css-hlj6pa-MuiDialogActions-root {
+  .MuiDialogActions-root {
     justify-content: center;
     margin-top: 2px;
     margin-bottom: 8px;
@@ -158,7 +159,7 @@
 
 @media only screen and (max-width: 480px) {
   .organization-modal {
-    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    .MuiDialog-paper {
       width: 100%;
       margin: 5px;
     }
@@ -186,7 +187,7 @@
             }
             .font-section {
               width: 100%;
-              .css-1ceyddh-MuiFormControl-root {
+              .MuiFormControl-root {
                 width: 100%;
                 margin-bottom: 5px;
               }
@@ -208,7 +209,7 @@
         }
       }
     }
-    .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+    .MuiDialogTitle-root {
       .title-section {
         display: flex;
         flex-direction: row;

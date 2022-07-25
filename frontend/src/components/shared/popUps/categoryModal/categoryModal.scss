@@ -1,8 +1,8 @@
 .category-modal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  .MuiDialog-paper {
     width: 500px;
     max-width: 500px;
-    .css-ypiqx9-MuiDialogContent-root {
+    .MuiDialogContent-root {
       padding: 20px 22px;
     }
   }
@@ -11,7 +11,7 @@
     font-size: 0.8rem;
     margin-top: 5px;
   }
-  .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
+  .MuiOutlinedInput-input {
     height: 1.8em;
   }
   #title-cross {
@@ -19,7 +19,7 @@
     flex-direction: row;
     justify-content: space-between;
   }
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
       .modal-header {
@@ -88,7 +88,7 @@
         .info-field {
           width: 100%;
           height: 100%;
-          .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+          .MuiOutlinedInput-notchedOutline {
             border: 1px solid #d4d6db;
             border-radius: 8px;
           }
@@ -99,7 +99,7 @@
       }
     }
   }
-  .css-hlj6pa-MuiDialogActions-root {
+  .MuiDialogActions-root {
     justify-content: center;
     margin-top: 2px;
     margin-bottom: 12px;

@@ -1,5 +1,5 @@
 .users-modal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  .MuiDialog-paper {
     width: 784px;
     max-width: 800px;
   }
@@ -10,7 +10,7 @@
     margin-top: 5px;
   }
 
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
       display: flex;
@@ -55,7 +55,7 @@
     .full-field {
       width: 100%;
       height: 48px !important;
-      .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+      .MuiTextField-root {
         border: 1px solid #d4d6db;
         border-radius: 8px;
         height: 48px !important;
@@ -78,7 +78,7 @@
       .info-field {
         width: 356px;
         height: 48px !important;
-        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+        .MuiOutlinedInput-notchedOutline {
           border: 1px solid #d4d6db;
           border-radius: 8px;
           height: 48px !important;
@@ -144,7 +144,7 @@
       }
     }
   }
-  .css-hlj6pa-MuiDialogActions-root {
+  .MuiDialogActions-root {
     justify-content: center;
     margin-bottom: 12px;
     .cancel-btn {
@@ -185,24 +185,24 @@
 
 @media only screen and (max-width: 480px) {
   .users-modal {
-    .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    .MuiDialog-paper {
       width: 100%;
       margin: 5px;
-    }
-    .css-d3d7qy-MuiFormControl-root {
-      min-width: unset;
-      width: 100%;
     }
     .modal-content {
       .divided-div {
         flex-direction: column;
+        .MuiFormControl-root {
+          min-width: unset;
+          width: 100%;
+        }
         .info-field {
           width: 100%;
         }
       }
     }
 
-    .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+    .MuiDialogTitle-root {
       .title-section {
         display: flex;
         flex-direction: row;

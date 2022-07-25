@@ -1,9 +1,9 @@
 .document-modal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  .MuiDialog-paper {
     width: 784px;
     max-width: 800px;
   }
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
       display: flex;
@@ -33,12 +33,11 @@
     flex-direction: row;
     justify-content: space-between;
   }
-  .MuiAutocomplete-hasPopupIcon.css-dd2h8b-MuiAutocomplete-root
-    .MuiOutlinedInput-root {
+  .MuiAutocomplete-hasPopupIcon {
     height: 48px;
     border-radius: 8px;
     padding-top: 6px;
-    .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    .MuiOutlinedInput-notchedOutline {
       border: 1px solid #d4d6db !important;
       border-radius: 8px !important;
     }
@@ -71,11 +70,11 @@
       .info-field {
         width: 100%;
         height: 100%;
-        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+        .MuiOutlinedInput-notchedOutline {
           border: 1px solid #d4d6db;
           border-radius: 8px;
         }
-        .css-fuin2p-MuiInputBase-root-MuiOutlinedInput-root {
+        .MuiInputBase-adornedEnd {
           padding-right: 0 !important;
         }
         input {
@@ -95,7 +94,7 @@
       }
     }
   }
-  .css-hlj6pa-MuiDialogActions-root {
+  .MuiDialogActions-root {
     justify-content: center;
     margin-bottom: 16px;
     .cancel-btn {
@@ -131,7 +130,7 @@
 }
 
 .search {
-  .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+  .MuiOutlinedInput-notchedOutline {
     border: 1px solid #d4d6db !important;
     border-radius: 8px !important;
   }
