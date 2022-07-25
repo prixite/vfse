@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from tkinter.messagebox import NO
 
 import dj_database_url
 import environ
@@ -50,6 +51,7 @@ env = environ.Env(
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
+    MY_PROJECT=(str, ''),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -204,8 +206,6 @@ REST_FRAMEWORK = {
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-LOGIN_REDIRECT_URL = "/"
-
 EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"
     if DEBUG and not env("EMAIL_BACKEND")
@@ -242,3 +242,13 @@ INFLUX_BUCKET = env("INFLUX_BUCKET")
 INFLUX_DB_URL = env("INFLUX_DB_URL")
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
+
+MY_PROJECT = env('MY_PROJECT', '')  # example; '/vfse'
+print(MY_PROJECT)
+if MY_PROJECT:
+    USE_X_FORWARDED_HOST = True
+    FORCE_SCRIPT_NAME = MY_PROJECT + "/"
+    SESSION_COOKIE_PATH = MY_PROJECT + "/"
+
+LOGIN_REDIRECT_URL = MY_PROJECT + "/"
+LOGOUT_REDIRECT_URL = MY_PROJECT + "/"
