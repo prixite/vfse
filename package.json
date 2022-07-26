@@ -22,7 +22,7 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.1.0",
-    "@mui/styles": "^5.8.6",
+    "@mui/styles": "^5.9.2",
     "@mui/x-data-grid": "^5.13.0",
     "@reduxjs/toolkit": "^1.8.3",
     "buffer": "^6.0.3",
