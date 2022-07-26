@@ -50,7 +50,6 @@ env = environ.Env(
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
-    PREFIX_URL=(str, ""),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -242,7 +241,7 @@ INFLUX_DB_URL = env("INFLUX_DB_URL")
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
 
-PREFIX_URL = env("PREFIX_URL", "")  # example; '/vfse'
+# PREFIX_URL = env("PREFIX_URL", "")  # example; '/vfse'
 
 # if PREFIX_URL:
 #     USE_X_FORWARDED_HOST = True
