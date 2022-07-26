@@ -30,8 +30,8 @@ services:
     build: ./nginx
     restart: always
     ports:
-      - 8010:80
-      - 443:443
+      - 80:80
+      # - 443:443
 
   db:
     image: postgres:13.4

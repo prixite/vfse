@@ -106,7 +106,7 @@ if NPLUSONE_RAISE:
         "nplusone.ext.django.NPlusOneMiddleware",
     ]
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
 
 STATIC_ROOT = BASE_DIR / "static"
 
@@ -244,10 +244,10 @@ OPENAI_API_KEY = env("OPENAI_API_KEY")
 
 PREFIX_URL = env("PREFIX_URL", "")  # example; '/vfse'
 
-if PREFIX_URL:
-    USE_X_FORWARDED_HOST = True
-    FORCE_SCRIPT_NAME = PREFIX_URL + "/"
-    SESSION_COOKIE_PATH = PREFIX_URL + "/"
+# if PREFIX_URL:
+#     USE_X_FORWARDED_HOST = True
+#     FORCE_SCRIPT_NAME = PREFIX_URL + "/"
+#     SESSION_COOKIE_PATH = PREFIX_URL + "/"
 
-LOGIN_REDIRECT_URL = PREFIX_URL + "/"
-LOGOUT_REDIRECT_URL = PREFIX_URL + "/"
+# LOGIN_REDIRECT_URL = PREFIX_URL + "/"
+# LOGOUT_REDIRECT_URL = PREFIX_URL + "/"
