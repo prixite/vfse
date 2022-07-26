@@ -312,63 +312,74 @@ export default function DocumentModal({
             <p className="errorText">{formik.errors.modelName}</p>
           </div>
           <div className="dropdown-wrapper">
-            <Grid item xs={6}>
-              <div className="info-section" style={{ marginRight: "8px" }}>
-                <p className="info-label">{product_model}</p>
-                {!isProductsModelsLoading && (
-                  <Autocomplete
-                    id="modal"
-                    sx={{ width: "100%" }}
-                    style={{ height: "48px" }}
-                    value={formik.values.modal}
-                    onChange={(e, item) => formik.setFieldValue("modal", item)} // eslint-disable-line
-                    options={productData ? productData : []}
-                    autoHighlight
-                    getOptionLabel={(option) => option?.name}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: "new-password", // disable autocomplete and autofill
-                        }}
-                      />
-                    )}
-                  />
-                )}
-              </div>
-            </Grid>
-            <Grid item xs={6}>
-              <div className="info-section" style={{ marginLeft: "8px" }}>
-                <p className="info-label">{modalities}</p>
-                <FormControl sx={{ minWidth: "100%" }}>
-                  <Select
-                    name="modality"
-                    value={formik.values.modality}
-                    displayEmpty
-                    disabled={!modalitiesList?.length}
-                    className="info-field"
-                    inputProps={{ "aria-label": "Without label" }}
-                    style={{
-                      height: "48px",
-                      marginRight: "15px",
-                      zIndex: "2000",
-                    }}
-                    MenuProps={dropdownStyles}
-                    onChange={formik.handleChange}
-                  >
-                    {modalitiesList?.map((item, index) => (
-                      <MenuItem
-                        key={index}
-                        value={item}
-                        onKeyDown={(e) => e.stopPropagation()}
-                      >
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={12} md={6} lg={6}>
+                <div className="info-section">
+                  <p className="info-label">{product_model}</p>
+                  {!isProductsModelsLoading && (
+                    <Autocomplete
+                      id="modal"
+                      sx={{ width: "100%" }}
+                      style={{ height: "48px" }}
+                      value={formik.values.modal}
+                      onChange={(e, item) =>
+                        formik.setFieldValue("modal", item)
+                      } // eslint-disable-line
+                      options={productData ? productData : []}
+                      autoHighlight
+                      getOptionLabel={(option) => option?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                    />
+                  )}
+                </div>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                sx={{ marginLeft: "auto" }}
+              >
+                <div className="info-section">
+                  <p className="info-label">{modalities}</p>
+                  <FormControl sx={{ minWidth: "100%" }}>
+                    <Select
+                      name="modality"
+                      value={formik.values.modality}
+                      displayEmpty
+                      disabled={!modalitiesList?.length}
+                      className="info-field"
+                      inputProps={{ "aria-label": "Without label" }}
+                      style={{
+                        height: "48px",
+                        marginRight: "15px",
+                        zIndex: "2000",
+                      }}
+                      MenuProps={dropdownStyles}
+                      onChange={formik.handleChange}
+                    >
+                      {modalitiesList?.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          value={item}
+                          onKeyDown={(e) => e.stopPropagation()}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+              </Grid>
             </Grid>
           </div>
         </div>
