@@ -312,7 +312,9 @@ const TopViewBtns = ({
         className={`${classes.AddClientsbtn} btn-add`}
       >
         <div className={classes.btnContent}>
-          <span style={{paddingTop: 6}}><AddIcon /></span>
+          <span style={{ paddingTop: 6 }}>
+            <AddIcon />
+          </span>
           <span className="show-hide">{btnAdd}</span>
         </div>
       </Button>
