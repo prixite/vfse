@@ -16,15 +16,14 @@ services:
     depends_on:
       - db
 
-  nginx-staging:
-    extends:
-      file: docker-compose.base.yml
-      service: nginx
+  nginx:
+    build: ./nginx-staging
+    restart: always
+    ports:
+      - 8001:80
     volumes:
       - static_volume:/opt/code/static
       - shm:/dev/shm
-    ports:
-      - 8001:80
 
   ping:
     extends:
