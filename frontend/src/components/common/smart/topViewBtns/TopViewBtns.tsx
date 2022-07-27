@@ -66,7 +66,6 @@ interface Props {
   setAction?: Dispatch<SetStateAction<string>>;
   hasData?: boolean;
 }
-
 const TopViewBtns = ({
   path,
   setOpen,
@@ -359,6 +358,11 @@ const TopViewBtns = ({
                     <InputLabel
                       id="networkInputLabel"
                       style={{ marginTop: "-3px" }}
+                      sx={{
+                        "&.Mui-focused": {
+                          color: `${buttonBackground}`,
+                        },
+                      }}
                     >
                       Filter by network
                     </InputLabel>
@@ -369,6 +373,17 @@ const TopViewBtns = ({
                       value={network}
                       onClick={handleClickNetwork}
                       style={{ width: "100%", height: "100%" }}
+                      sx={{
+                        "&& fieldset": {},
+                        "&:hover": {
+                          "&& fieldset": {
+                            border: `2px solid ${buttonBackground} !important`,
+                          },
+                        },
+                        "&.Mui-focused fieldset": {
+                          border: `2px solid ${buttonBackground} !important`,
+                        },
+                      }}
                       input={<OutlinedInput label="Filter by network" />}
                       renderValue={(selected) => selected}
                       MenuProps={dropdownStyles}
@@ -409,6 +424,11 @@ const TopViewBtns = ({
                     <InputLabel
                       id="siteInputlabel"
                       style={{ marginTop: "-3px" }}
+                      sx={{
+                        "&.Mui-focused": {
+                          color: `${buttonBackground}`,
+                        },
+                      }}
                     >
                       Filter by site
                     </InputLabel>
@@ -421,6 +441,21 @@ const TopViewBtns = ({
                       input={<OutlinedInput label="Filter by site" />}
                       renderValue={(selected) => selected}
                       MenuProps={dropdownStyles}
+                      sx={{
+                        "&& fieldset": {
+                          border: `0.25px solid grey !important`,
+                        },
+                        "&:hover": {
+                          "&& fieldset": {
+                            border: `2px solid ${buttonBackground} !important`,
+                          },
+                        },
+                        "&.Mui-focused": {
+                          "&& fieldset": {
+                            border: `2px solid ${buttonBackground} !important`,
+                          },
+                        },
+                      }}
                     >
                       <MenuItem
                         style={{ marginLeft: "-15px", display: "none" }}
@@ -498,6 +533,19 @@ const TopViewBtns = ({
                     <SearchIcon />
                   </InputAdornment>
                 ),
+              }}
+              sx={{
+                "&& fieldset": {
+                  border: `0.25px solid grey !important`,
+                },
+                "&:hover": {
+                  "&& fieldset": {
+                    border: `2px solid ${buttonBackground} !important`,
+                  },
+                },
+                "&.Mui-focused fieldset": {
+                  border: `2px solid ${buttonBackground}`,
+                },
               }}
             />
           </Box>
