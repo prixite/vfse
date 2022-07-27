@@ -37,10 +37,12 @@ jobs:
       
       - name: Start containers
         run: |
-          ssh staging 'cd vfse && ./start.sh'
-          ssh staging 'pwd && ls'
-          
+          ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml build'
+          ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml up -d'
+          ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml exec app ./manage.py migrate'
+          ssh staging 'cd vfse && docker-compose.staging.yml exec app npm run build'
+          ssh staging 'cd vfse && docker-compose.staging.yml exec app ./manage.py collectstatic --noinput'
         
       - name: Test the App
         run: |
-          ssh staging 'if [ $( docker ps -a | grep testapp_clietl_ | wc -l ) -gt 0 ]; then  echo "testContainer exists"; else   echo "testContainer does not exist" && raise error; fi'
+          ssh staging 'if [ $( docker ps -a | grep vfse | wc -l ) -gt 0 ]; then  echo "vfse exists"; else   echo "vfse does not exist" && raise error; fi'
