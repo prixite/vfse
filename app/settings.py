@@ -50,7 +50,7 @@ env = environ.Env(
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
-    SENDGRID_API_KEY=(str, None)
+    SENDGRID_API_KEY=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -245,9 +245,9 @@ INFLUX_DB_URL = env("INFLUX_DB_URL")
 OPENAI_API_KEY = env("OPENAI_API_KEY")
 
 SENDGRID_API_KEY = env("SENDGRID_API_KEY")
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "apikey"  # this is exactly the value 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
