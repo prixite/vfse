@@ -3,7 +3,7 @@ on:
   push:
     branches:
       # When someone push to `master` branch
-      - staging3
+      - master
 jobs:
   deploy:
     name: "Deploy to staging"
