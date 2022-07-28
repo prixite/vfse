@@ -17,7 +17,9 @@ services:
       - db
 
   nginx:
-    build: ./nginx/staging.Dockerfile
+    build:
+      context: ./nginx
+      dockerfile: staging.Dockerfile
     restart: always
     ports:
       - 8001:80
