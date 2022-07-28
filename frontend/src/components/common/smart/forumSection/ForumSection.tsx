@@ -10,14 +10,16 @@ import { parseLink } from "@src/helpers/paging";
 import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
+import { getTopicListArg } from "@src/types/interfaces";
 
 const { forum, title } = localizedData().Forum;
 export default function ForumSection() {
   const [page, setPage] = useState(1);
+  const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
   const {
     data: topicsList = { data: [], link: "" },
     // isLoading: isTopicsLoading,
-  } = api.useGetTopicsListQuery({ page }); //Arr1 Paginated
+  } = api.useGetTopicsListQuery({ page, ...topicListPayload });
 
   const [paginatedTopics, setPaginatedTopics] =
     useState<VfseTopicsListApiResponse>([]);
@@ -59,7 +61,9 @@ export default function ForumSection() {
         {/* ProfileTimeLine */}
         <ProfileTimeline
           paginatedTopics={paginatedTopics}
-          setPaginatedTopics={setPaginatedTopics}
+          setTopicListPayload={setTopicListPayload}
+          topicListPayload={topicListPayload}
+          setPage={setPage}
         />
         {/* Pagination */}
         {paginatedTopics?.length > 0 && (
@@ -71,6 +75,7 @@ export default function ForumSection() {
           >
             <Pagination
               defaultPage={1}
+              page={page}
               count={totalTopicPages}
               onChange={handlePagination}
               size="large"
