@@ -1,0 +1,49 @@
+version: "3.4"
+
+services:
+  db:
+    extends:
+      file: docker-compose.base.yml
+      service: db
+
+  app:
+    extends:
+      file: docker-compose.base.yml
+      service: prod_app
+    volumes:
+        - static_volume:/opt/code/static
+        - shm:/dev/shm
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: staging.Dockerfile
+    restart: always
+    ports:
+      - 8001:80
+    volumes:
+      - static_volume:/opt/code/static
+      - shm:/dev/shm
+
+  ping:
+    extends:
+      file: docker-compose.base.yml
+      service: ping
+
+  ssh:
+    extends:
+      file: docker-compose.base.yml
+      service: ssh
+    environment:
+      - SERVICE=app:8000
+    volumes:
+      - static_volume:/opt/code/static
+      - shm:/dev/shm
+    depends_on:
+      - app
+
+volumes:
+  static_volume:
+  shm:
