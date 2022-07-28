@@ -1,4 +1,3 @@
-
 name: deploy-to-staging
 on:
   push:
@@ -6,14 +5,10 @@ on:
       # When someone push to `master` branch
       - staging3
 jobs:
-  
-  # test:
-  #   ...
   deploy:
     name: "Deploy to staging"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/staging3'
-    # needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Configure SSH
         run: |
