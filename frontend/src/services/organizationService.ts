@@ -13,7 +13,7 @@ const updateOrganizationService = async (
   await updateOrganization({ id, organization })
     .unwrap()
     .then(async () => {
-      toast.success("Organization Updated.", {
+      toast.success("Organization successfully updated.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -48,7 +48,7 @@ const updateHealthNetworkService = async (
   await updateOrganization({ id, organization })
     .unwrap()
     .then(async (response) => {
-      toast.success("Health Network Updated.", {
+      toast.success("Health network successfully updated.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
