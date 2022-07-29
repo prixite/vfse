@@ -188,7 +188,7 @@ export function makeServer({ environment }) {
         return timeline_info;
       });
 
-      this.passthrough("https://vfse.s3-us-east-2.amazonaws.com");
+      this.passthrough(process.env.AWS_BUCKET_URL);
       this.passthrough();
     },
   });
