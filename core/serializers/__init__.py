@@ -71,12 +71,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
 
     name = serializers.CharField(
         max_length=32,
-        validators=[
-            UniqueValidator(
-                queryset=models.Organization.objects.all(),
-                message="Organization name must be unique",
-            )
-        ],
     )
 
     sites = MetaSiteSerializer(many=True, read_only=True)
@@ -90,6 +84,12 @@ class OrganizationSerializer(serializers.ModelSerializer):
             "appearance",
             "sites",
         ]
+
+    def validate_name(self, value):
+        if self.instance.is_customer or self.instance.is_default:
+            raise serializers.ValidationError("Organization name must be unique")
+        elif models.Organization.objects.filter(name=value).exists():
+            raise serializers.ValidationError("Health Network name must be unique")
 
 
 class MeSerializer(serializers.ModelSerializer):
