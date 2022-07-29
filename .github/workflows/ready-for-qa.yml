@@ -7,6 +7,10 @@ on:
   #   types: [opened]
   # project_card:
   #   types: [moved]
+  push:
+    branches:
+      # When someone push to `master` branch
+      - 213-pr-qa-action
 
 jobs:
   automate-issues-labels:
