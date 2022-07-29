@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React from "react";
 
 import { Box, Grid } from "@mui/material";
 import PropTypes from "prop-types";
@@ -8,7 +8,7 @@ import RecentActivity from "@src/components/common/presentational/recentActivity
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
+import { VfseTopicsListApiResponse } from "@src/store/reducers/api";
 import { getTopicListArg } from "@src/types/interfaces";
 
 function TabPanel(props) {
@@ -39,27 +39,24 @@ TabPanel.propTypes = {
 
 type Props = {
   paginatedTopics?: VfseTopicsListApiResponse;
-  setPaginatedTopics?: React.Dispatch<
-    React.SetStateAction<VfseTopicsListApiResponse>
-  >;
+  setTopicListPayload?: React.Dispatch<React.SetStateAction<getTopicListArg>>;
+  topicListPayload: getTopicListArg;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
-const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
+const ProfileTimeline = ({
+  paginatedTopics,
+  setTopicListPayload,
+  topicListPayload,
+  setPage,
+}: Props) => {
   const classes = useStyles();
-  const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
-  const { data: topicsList = [], isLoading } =
-    api.useGetTopicsListQuery(topicListPayload);
 
-  useEffect(() => {
-    if (topicsList && topicsList.length) {
-      setPaginatedTopics([...topicsList.slice(0, topicsList.length)]);
-    }
-  }, [topicsList]);
   return (
     <>
       <Box component="div" className={classes.timelineSection}>
         <Grid container spacing={2} className={classes.mainProfileGrid}>
           {/* ProfileTimeLine */}
-          {!isLoading ? (
+          {paginatedTopics ? (
             <Grid item xs={9} className={classes.profileTimeLine}>
               {paginatedTopics?.length > 0 ? (
                 <Grid container xs={12} item style={{ marginTop: "0px" }}>
@@ -98,7 +95,11 @@ const ProfileTimeline = ({ paginatedTopics, setPaginatedTopics }: Props) => {
           <Grid item xs={3} className={classes.recentActivity}>
             <div className={classes.timelineLeft}>
               <div>
-                <TopicToggler setTopicListPayload={setTopicListPayload} />
+                <TopicToggler
+                  setPage={setPage}
+                  topicListPayload={topicListPayload}
+                  setTopicListPayload={setTopicListPayload}
+                />
               </div>
             </div>
             <RecentActivity />
