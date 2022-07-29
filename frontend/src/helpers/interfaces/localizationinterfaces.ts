@@ -15,6 +15,7 @@ export interface PopUp {
   pageTrackerdesc1: string;
   pageTrackerdesc2: string;
   userFirstName: string;
+  btnToSave: string;
   userLastName: string;
   userEmail: string;
   userPhoneNumber: string;
