@@ -95,7 +95,7 @@ class ReplyViewSet(ModelViewSet):
         return models.Comment.objects.filter(parent_id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
-        topic = models.Topic.objects.get(id=self.request.data.get("topic"))
+        topic = models.Comment.objects.get(id=self.kwargs["pk"]).topic
         if topic.reply_email_notification and topic.user.id != self.request.user.id:
             send_mail(
                 self.request.user.first_name
