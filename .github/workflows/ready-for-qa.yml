@@ -15,8 +15,8 @@ on:
 jobs:
   label_issue:
     runs-on: ubuntu-latest
-    - uses: actions/checkout@v3
     steps:
+      - uses: actions/checkout@v3
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
