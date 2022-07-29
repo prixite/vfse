@@ -11,13 +11,9 @@ import { getTopicListArg } from "@src/types/interfaces";
 
 interface TopicTogglerInterface {
   setTopicListPayload: Dispatch<SetStateAction<getTopicListArg>>;
-  topicListPayload: getTopicListArg;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 export default function TopicToggler({
   setTopicListPayload,
-  topicListPayload,
-  setPage,
 }: TopicTogglerInterface) {
   const classes = useStyles();
   const [view, setView] = useState("allTopics");
@@ -31,11 +27,9 @@ export default function TopicToggler({
         setTopicListPayload({});
         break;
       case "followed":
-        if (!topicListPayload.followed) setPage(1); //reset page count on filter change
         setTopicListPayload({ followed: true });
         break;
       case "created":
-        if (!topicListPayload.created) setPage(1); //reset page count on filter change
         setTopicListPayload({ created: true });
         break;
     }
