@@ -45,7 +45,7 @@ module.exports = {
       AWS_STORAGE_BUCKET_NAME: "something",
       AWS_ACCESS_KEY_ID: "something",
       AWS_SECRET_ACCESS_KEY: "something",
-      AWS_DEFAULT_REGION: "something"
+      AWS_DEFAULT_REGION: "something",
     }),
   ],
   resolve: {
