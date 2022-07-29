@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework.generics import ListAPIView
@@ -5,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
+from app import settings
 from core import models as core_models
 from vfse import filters, models, pagination, serializers
 
@@ -67,6 +69,21 @@ class CommentViewset(ModelViewSet):
             .order_by("-id")
         )
 
+    def perform_create(self, serializer):
+        topic = models.Topic.objects.get(id=self.kwargs["pk"])
+        if topic.reply_email_notification and topic.user.id != self.request.user.id:
+            send_mail(
+                self.request.user.first_name
+                + " just commented on your post '"
+                + topic.title
+                + "'.",
+                "successfull reply.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[topic.user.username],
+                fail_silently=True,
+            )
+        return super().perform_create(serializer)
+
 
 class ReplyViewSet(ModelViewSet):
     serializer_class = serializers.CommentSerializer
@@ -78,6 +95,18 @@ class ReplyViewSet(ModelViewSet):
         return models.Comment.objects.filter(parent_id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
+        topic = models.Topic.objects.get(id=self.request.data.get("topic"))
+        if topic.reply_email_notification and topic.user.id != self.request.user.id:
+            send_mail(
+                self.request.user.first_name
+                + " just commented on your post '"
+                + topic.title
+                + "'.",
+                "successfull reply.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[topic.user.username],
+                fail_silently=True,
+            )
         serializer.save(parent_id=self.kwargs["pk"])
 
 
