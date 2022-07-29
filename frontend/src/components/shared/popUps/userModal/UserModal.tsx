@@ -406,19 +406,11 @@ export default function UserModal(props: Props) {
           setIsLoading(false);
         }, 500);
       })
-      .catch((error) => {
-        const metaError = error.data.meta
-          ? Object.keys(error.data.meta)[0] +
-            ": " +
-            error.data.meta[Object.keys(error.data.meta)[0]][0]
-          : null;
-        toast.error(
-          JSON.stringify(metaError || error.data.non_field_errors[0]),
-          {
-            autoClose: 2000,
-            pauseOnHover: false,
-          }
-        );
+      .catch(() => {
+        toast.error("User with this username already exists.", {
+          autoClose: 2000,
+          pauseOnHover: false,
+        });
         setIsLoading(false);
       });
   };
