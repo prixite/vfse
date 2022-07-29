@@ -66,6 +66,7 @@ export default function DocumentModal({
   const [isLoading, setIsLoading] = useState(false);
   const [addProductModel] = useProductsModelsCreateMutation();
   const [updateProductModel] = useProductsModelsPartialUpdateMutation();
+  const [onChangeValidation, setOnChangeValidation] = useState(false);
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -113,6 +114,7 @@ export default function DocumentModal({
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
+    validateOnChange: onChangeValidation,
     onSubmit: () => {
       if (action === "add") {
         handleAddDocument();
@@ -255,6 +257,7 @@ export default function DocumentModal({
 
   const resetModal = () => {
     formik.resetForm();
+    setOnChangeValidation(false);
     handleClose();
   };
 
@@ -417,7 +420,10 @@ export default function DocumentModal({
                 }
           }
           disabled={isLoading}
-          onClick={() => formik.handleSubmit()}
+          onClick={() => {
+            setOnChangeValidation(true);
+            formik.handleSubmit();
+          }}
         >
           {action === "add" ? btnSave : btnEdit}
         </Button>

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 import {
   useLocation,
   useParams,
@@ -20,7 +22,6 @@ import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
-import "@src/app.scss";
 import {
   updateButtonColor,
   updateSideBarColor,
@@ -30,7 +31,8 @@ import {
   updateFontTwo,
   updateSecondaryColor,
 } from "@src/store/reducers/themeStore";
-
+import useTheme from "@src/theme";
+import "@src/app.scss";
 export function withRouter(Component) {
   function ComponentWithRouterProp(props) {
     const location = useLocation();
@@ -40,19 +42,17 @@ export function withRouter(Component) {
   }
   return ComponentWithRouterProp;
 }
-
 const App = () => {
   const dispatch = useAppDispatch();
-
-  const { fontOne, fontTwo } = useAppSelector((state) => state.myTheme);
+  const { fontOne, fontTwo, buttonBackground } = useAppSelector(
+    (state) => state.myTheme
+  );
   const { pathname } = useLocation();
-
   const paramsId = matchPath("/clients/*", pathname);
   const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
   const { data, isFetching } = useOrganizationsMeReadQuery({
     id: paramsSingleId,
   });
-
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
       id: paramsSingleId,
@@ -133,7 +133,6 @@ const App = () => {
     setIsLoading,
     setIsFirstTimeRendered,
   ]);
-
   useEffect(() => {
     if (fontOne && document?.getElementById("container")) {
       document.getElementById("container").style.fontFamily = fontOne;
@@ -144,13 +143,15 @@ const App = () => {
     }
   }),
     [fontOne, fontTwo];
-
   return (
     <>
-      <ToastContainer />
-      <PageLayout>
-        <RoutesHOC isLoading={isLoading} />
-      </PageLayout>
+      <ThemeProvider theme={useTheme({ buttonBackground: buttonBackground })}>
+        <CssBaseline />
+        <ToastContainer />
+        <PageLayout>
+          <RoutesHOC isLoading={isLoading} />
+        </PageLayout>
+      </ThemeProvider>
     </>
   );
 };
