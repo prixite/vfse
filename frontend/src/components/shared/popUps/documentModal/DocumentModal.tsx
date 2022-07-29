@@ -424,7 +424,7 @@ export default function DocumentModal({
             formik.handleSubmit();
           }}
         >
-          {action === "add" ? btnSave : btnSave}
+          {action === "add" ? btnSave : "Save"}
         </Button>
       </DialogActions>
     </Dialog>
