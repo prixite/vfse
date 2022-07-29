@@ -49,10 +49,9 @@ const OrganizationSection = () => {
     Array<Organization>
   >([]);
   const selectedOrganization = useSelectedOrganization();
-  const { data: organizationList, isFetching: isOrgListFetching } =
-    useOrganizationsListQuery({
-      page: 1,
-    });
+  const { data: organizationList } = useOrganizationsListQuery({
+    page: 1,
+  });
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -204,20 +203,16 @@ const OrganizationSection = () => {
         )}
         {!showTabs() ? (
           <>
-            {!isOrgListFetching ? (
-              <TopViewBtns
-                path="organizations"
-                setAction={setAction}
-                setData={setOrganization}
-                setList={setOrganizationsList}
-                actualData={organizationList}
-                handleSearchQuery={handleSearchQuery}
-                searchText={searchText}
-                setSearchText={setSearchText}
-              />
-            ) : (
-              ""
-            )}
+            <TopViewBtns
+              path="organizations"
+              setAction={setAction}
+              setData={setOrganization}
+              setList={setOrganizationsList}
+              actualData={organizationList}
+              handleSearchQuery={handleSearchQuery}
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
             <Grid
               container
               spacing={2}
