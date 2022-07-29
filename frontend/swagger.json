@@ -2353,7 +2353,7 @@
                 }
             },
             "default": {
-                "profile_picture": "/static/assets/profile.png",
+                "profile_picture": "https://vfse-staging.s3.us-east-2.amazonaws.com/profile.png",
                 "title": ""
             }
         },
