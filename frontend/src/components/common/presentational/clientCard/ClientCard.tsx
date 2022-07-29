@@ -148,9 +148,11 @@ const ClientCard = ({
         </div>
       </Box>
       <Button
-        style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
+        style={{ borderColor: buttonBackground, color: "black" }}
         onClick={switchOrganization}
         className="add-btn"
+        size="small"
+        variant="outlined"
       >
         {switch_org}
       </Button>
