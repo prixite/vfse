@@ -86,10 +86,18 @@ class OrganizationSerializer(serializers.ModelSerializer):
         ]
 
     def validate_name(self, value):
-        if self.instance.is_customer or self.instance.is_default:
-            raise serializers.ValidationError("Organization name must be unique")
-        elif models.Organization.objects.filter(name=value).exists():
+        duplicate = models.Organization.objects.filter(name=value)
+        organization = True
+        if self.instance:
+            duplicate = duplicate.exclude(id=self.instance.id)
+            organization = self.instance.is_customer or self.instance.is_default
+
+        if duplicate.exists() and not organization:
             raise serializers.ValidationError("Health Network name must be unique")
+        elif duplicate.exists() and organization:
+            raise serializers.ValidationError("Organization name must be unique")
+        else:
+            return value
 
 
 class MeSerializer(serializers.ModelSerializer):
