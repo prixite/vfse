@@ -105,7 +105,7 @@ class OrganizationTestCase(BaseTestCase):
         self.client.force_login(self.customer_admin)
         response = self.client.get("/api/organizations/")
         self.assertEqual(response.status_code, 200)
-        logo_url = "https://vfse-staging.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
+        logo_url = "https://vfse-staging.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png" #noqa
         self.assertDictEqual(
             response.json()[0]["appearance"],
             {
