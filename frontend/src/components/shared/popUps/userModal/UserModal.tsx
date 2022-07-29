@@ -84,8 +84,8 @@ const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
 
 const validationSchema = yup.object({
   userProfileImage: yup.string().required("Image is required!"),
-  firstname: yup.string().matches(nameReg).required("FirstName is required!"),
-  lastname: yup.string().matches(nameReg).required("Lastname is required!"),
+  firstname: yup.string().required("FirstName is required!"),
+  lastname: yup.string().required("Lastname is required!"),
   email: yup
     .string()
     .matches(emailRegX, "Invalid E-mail!") //TODO
@@ -383,17 +383,17 @@ export default function UserModal(props: Props) {
   const handleEditUser = async () => {
     setIsLoading(true);
     if (formik.isValid) {
+      setIsLoading(false);
       if (!selectedImage.length && formik.values.userProfileImage?.length) {
-        performEditUser(formik.values.userProfileImage);
+        await performEditUser(formik.values.userProfileImage);
       } else {
         await uploadImageToS3(selectedImage[0]).then(
           async (data: S3Interface) => {
             performEditUser(data?.location);
           }
         );
+        setIsLoading(false);
       }
-    } else {
-      setIsLoading(false);
     }
   };
 
@@ -459,8 +459,8 @@ export default function UserModal(props: Props) {
         formik.setFieldValue("customer", props?.organizationData[0]?.id);
       }
     } else if (props?.action == "edit") {
-      populateEditableData();
       formik.resetForm();
+      populateEditableData();
       formik.setFieldValue("userProfileImage", selectedImage[0]);
     }
     props?.handleClose();
