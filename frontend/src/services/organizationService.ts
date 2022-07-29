@@ -72,7 +72,7 @@ const addNewHealthNetworkService = async (
   })
     .unwrap()
     .then(async (response) => {
-      toast.success("New health work successfully added", {
+      toast.success("New health work successfully added.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
