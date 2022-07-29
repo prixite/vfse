@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from app import settings
 from core.tests import factories
 from vfse.tests import factories as vfse_factories
 
@@ -170,9 +169,7 @@ class Command(BaseCommand):
         # Alira
         orgnization = factories.OrganizationFactory(
             name="Alira Health",
-            logo="https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/alirahealth.png",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/alirahealth.png",
             number_of_seats=10,
             is_customer=True,
             sites=True,
@@ -196,9 +193,7 @@ class Command(BaseCommand):
         # Conni
         orgnization = factories.OrganizationFactory(
             name="Conni Health",
-            logo="https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/connihealth.png",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/connihealth.png",
             number_of_seats=10,
             is_customer=True,
             sites=True,
@@ -219,9 +214,7 @@ class Command(BaseCommand):
         # Coventry
         orgnization = factories.OrganizationFactory(
             name="Conventry Health",
-            logo="https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/coventry.png",
+            logo="https://vfse.s3.us-east-2.amazonaws.com/coventry.png",
             number_of_seats=10,
             is_customer=True,
             sites=True,
@@ -242,9 +235,7 @@ class Command(BaseCommand):
         # Heart Beat
         orgnization = factories.OrganizationFactory(
             name="Heartbeat Health",
-            logo="https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/heartbeat.png",
+            logo=" https://vfse.s3.us-east-2.amazonaws.com/heartbeat.png",
             is_customer=True,
             number_of_seats=10,
             sites=True,

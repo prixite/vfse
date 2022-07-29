@@ -1,4 +1,3 @@
-from app import settings
 from core import models
 from core.tests import factories
 from core.tests.base import BaseTestCase
@@ -107,9 +106,7 @@ class OrganizationTestCase(BaseTestCase):
         response = self.client.get("/api/organizations/")
         self.assertEqual(response.status_code, 200)
         logo_url = (
-            "https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
+            "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
         )
         self.assertDictEqual(
             response.json()[0]["appearance"],
