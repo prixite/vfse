@@ -100,7 +100,7 @@ const addNewHealthNetworksService = async (
       });
     })
     .catch((error) => {
-      toast.error(error.data[Object.keys(error.data)[0]][0], {
+      toast.error(error.data[0], {
         autoClose: 1000,
         pauseOnHover: false,
       });
