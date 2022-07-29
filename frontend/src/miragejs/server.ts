@@ -187,8 +187,8 @@ export function makeServer({ environment }) {
       this.get("/api/mockuserposts", () => {
         return timeline_info;
       });
-
       this.passthrough("https://vfse.s3-us-east-2.amazonaws.com");
+      this.passthrough("https://vfse.s3-us-east-2.amazonaws.com/*");
       this.passthrough();
     },
   });

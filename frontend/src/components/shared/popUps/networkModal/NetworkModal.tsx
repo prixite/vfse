@@ -16,7 +16,10 @@ import DropzoneBox from "@src/components/common/presentational/dropzoneBox/Dropz
 import SiteSection from "@src/components/shared/popUps/networkModal/SiteSection";
 import { NetworkModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
-import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import {
+  deleteImageFromS3,
+  uploadImageToS3,
+} from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   addNewHealthNetworkService,
@@ -132,11 +135,12 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
+                .catch(async () => {
                   toast.error("HealthNetwork Update Failed", {
                     autoClose: 1000,
                     pauseOnHover: false,
                   });
+                  await deleteImageFromS3(selectedImage[0]);
                 });
             }
           }
@@ -190,20 +194,21 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
+                .catch(async () => {
                   toast.error("HealthNetwork Add Failed", {
                     autoClose: 1000,
                     pauseOnHover: false,
                   });
+                  await deleteImageFromS3(data?.key);
                 });
             }
           })
-          .catch(() =>
-            toast.error("Failed to upload Image", {
+          .catch(() => {
+            toast.error("Failed to upload image", {
               autoClose: 1000,
               pauseOnHover: false,
-            })
-          );
+            });
+          });
       }
     }
     setIsSiteDataPartiallyFilled(true);
