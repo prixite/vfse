@@ -183,8 +183,8 @@ export default function OrganizationModal({
               setOrganizationID
             )
               .then(() => setPage("2"))
-              .catch(() =>
-                toast.success("Error Occured", {
+              .catch((error) =>
+                toast.success(error.data[Object.keys(error.data)[0]][0], {
                   autoClose: 1000,
                   pauseOnHover: false,
                 })
@@ -223,8 +223,8 @@ export default function OrganizationModal({
               updateOrganization
             )
               .then(() => setPage("2"))
-              .catch(() =>
-                toast.success("Error Occured", {
+              .catch((error) =>
+                toast.success(error.data[Object.keys(error.data)[0]][0], {
                   autoClose: 1000,
                   pauseOnHover: false,
                 })
@@ -244,8 +244,8 @@ export default function OrganizationModal({
           updateOrganization
         )
           .then(() => setPage("2"))
-          .catch(() =>
-            toast.error("Error Occured", {
+          .catch((error) =>
+            toast.error(error.data[Object.keys(error.data)[0]][0], {
               autoClose: 1000,
               pauseOnHover: false,
             })

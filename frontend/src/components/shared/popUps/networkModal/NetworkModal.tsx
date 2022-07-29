@@ -132,8 +132,8 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
-                  toast.error("HealthNetwork Update Failed", {
+                .catch((error) => {
+                  toast.error(error.data[Object.keys(error.data)[0]][0], {
                     autoClose: 1000,
                     pauseOnHover: false,
                   });
@@ -155,8 +155,8 @@ export default function NetworkModal(props: Props) {
             .then(() => {
               resetModal();
             })
-            .catch(() => {
-              toast.error("HealthNetwork Update Failed", {
+            .catch((error) => {
+              toast.error(error.data[Object.keys(error.data)[0]][0], {
                 autoClose: 1000,
                 pauseOnHover: false,
               });
@@ -190,8 +190,8 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
-                  toast.error("HealthNetwork Add Failed", {
+                .catch((error) => {
+                  toast.error(error.data[Object.keys(error.data)[0]][0], {
                     autoClose: 1000,
                     pauseOnHover: false,
                   });
