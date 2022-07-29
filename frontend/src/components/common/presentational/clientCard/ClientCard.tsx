@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -146,7 +147,14 @@ const ClientCard = ({
           <img src={logo} />
         </div>
       </Box>
-      <div
+      <Button
+        style={{ backgroundColor: buttonBackground, color: buttonTextColor }}
+        onClick={switchOrganization}
+        className="add-btn"
+      >
+        {switch_org}
+      </Button>
+      {/* <div
         className="location-logo"
         onClick={switchOrganization}
         style={{ backgroundColor: buttonBackground }}
@@ -156,7 +164,7 @@ const ClientCard = ({
             {switch_org}
           </p>
         </div>
-      </div>
+      </div> */}
       <ConfirmationModal
         name={name}
         open={openModal}
