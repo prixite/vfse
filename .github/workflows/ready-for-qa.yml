@@ -13,11 +13,11 @@ on:
       - 213-pr-qa-action
 
 jobs:
-  automate-issues-labels:
+  label_issue:
     runs-on: ubuntu-latest
     steps:
-      - name: initial labeling
-        uses: andymckay/labeler@master
-        with:
-          add-labels: "test"
-          #remove-labels: "in progress"
+      - env:
+          GITHUB_TOKEN: ${{ secrets.MY_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue view 213
