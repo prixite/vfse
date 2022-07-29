@@ -103,6 +103,7 @@
             "product_model": "Product",
             "modalities": "Modalities",
             "btnSave": "Add",
+            "btnToSave": "Save",
             "btnEdit": "Edit",
             "btnCancel": "Cancel"
         }
