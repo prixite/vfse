@@ -9,7 +9,7 @@ on:
   #   types: [moved]
   push:
     branches:
-      # When someone push to `master` branch
+      # When someone push to `master` branch m
       - 213-pr-qa-action
 
 jobs:
@@ -21,4 +21,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_URL: ${{ github.event.issue.html_url }}
         run: |
-          gh issue view $ISSUE_URL
+          gh issue list --label "dev-ops"
