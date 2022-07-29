@@ -213,12 +213,7 @@ export default function OrganizationModal({
   };
   const handleUpdateOrganization = async () => {
     setIsLoading(true);
-    if (
-      formik.values.organizationName &&
-      formik.values.organizationSeats &&
-      selectedImage.length &&
-      formik.isValid
-    ) {
+    if (selectedImage.length && formik.isValid) {
       const organizationObject = getOrganizationObject();
       await uploadImageToS3(selectedImage[0]).then(
         async (data: S3Interface) => {
