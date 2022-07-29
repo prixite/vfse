@@ -1,4 +1,5 @@
-from app import settings
+from django.templatetags.static import static
+
 from core import models
 
 
@@ -58,9 +59,7 @@ class MriInfoDefault:
 class ProfileMetaDefault:
     def __call__(self):
         return {
-            "profile_picture": "https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/profile.png",
+            "profile_picture": static("assets/profile.png"),
             "title": "",
         }
 

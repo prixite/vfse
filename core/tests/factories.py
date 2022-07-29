@@ -1,8 +1,8 @@
 import factory
 from django.db.models.signals import post_save
+from django.templatetags.static import static
 from faker import Faker
 
-from app import settings
 from core import models
 
 fake = Faker()
@@ -110,11 +110,7 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         _add_member(obj, extracted, models.Role.CRYO_ADMIN)
 
     class Params:
-        logo = (
-            "https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
-        )
+        logo = "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png"
         sites = factory.Trait(
             site=factory.RelatedFactory(
                 "core.tests.factories.SiteFactory", factory_related_name="organization"
@@ -177,9 +173,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory, profile=None)
     is_one_time = False
     meta = {
-        "profile_picture": "https://"
-        + settings.AWS_STORAGE_BUCKET_NAME
-        + ".s3.us-east-2.amazonaws.com/profile.png",  # noqa
+        "profile_picture": static("assets/profile.png"),  # noqa
         "title": "",
     }
 

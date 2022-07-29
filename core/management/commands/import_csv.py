@@ -3,7 +3,6 @@ import csv
 from django.core.management import BaseCommand
 from django.db import transaction
 
-from app import settings
 from core import models, serializers
 
 
@@ -39,9 +38,7 @@ class Command(BaseCommand):
                     "font_two": "calibri",
                     "logo": row.get(
                         "Organization Logo URL",
-                        "https://"
-                        + settings.AWS_STORAGE_BUCKET_NAME
-                        + ".s3.us-east-2.amazonaws.com/m_vfse-3_preview_rev_1+1.png",
+                        "https://vfse.s3.us-east-2.amazonaws.com/m_vfse-3_preview.png",
                     ),
                     "banner": "http://example.com/image.jpg",
                     "icon": "http://example.com/icon.ico",
