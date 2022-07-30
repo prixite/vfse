@@ -1330,7 +1330,7 @@ export type System = {
   image?: number | null;
   software_version?: string | null;
   asset_number?: string | null;
-  ip_address?: string;
+  ip_address?: string | null;
   local_ae_title?: string | null;
   his_ris_info?: HisRisInfo;
   dicom_info?: HisRisInfo;

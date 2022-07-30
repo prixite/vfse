@@ -439,7 +439,9 @@ class SystemSerializer(serializers.ModelSerializer):
     product_model_detail = ProductModelSerializer(
         source="product_model", read_only=True
     )
-    ip_address = serializers.IPAddressField(allow_blank=True, allow_null=True, required=False)
+    ip_address = serializers.IPAddressField(
+        allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = models.System
