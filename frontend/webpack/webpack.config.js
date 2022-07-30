@@ -42,6 +42,10 @@ module.exports = {
       REQUEST_TOKEN: "fake",
       WEBSSH_SERVER: "http://localhost:8888/",
       WEBSSH_WS: "ws://localhost:8888/",
+      AWS_STORAGE_BUCKET_NAME: "something",
+      AWS_ACCESS_KEY_ID: "something",
+      AWS_SECRET_ACCESS_KEY: "something",
+      AWS_DEFAULT_REGION: "something",
     }),
   ],
   resolve: {

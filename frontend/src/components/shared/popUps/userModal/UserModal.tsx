@@ -154,8 +154,8 @@ export default function UserModal(props: Props) {
     btnCancel,
     btnNext,
     btnAddUser,
-    btnEditUser,
     userFirstName,
+    btnToSave,
     userLastName,
     userEmail,
     userPhoneNumber,
@@ -956,7 +956,7 @@ export default function UserModal(props: Props) {
             onClick={() => formik.handleSubmit()}
             className="add-btn"
           >
-            {props?.action == "add" ? btnAddUser : btnEditUser}
+            {props?.action == "add" ? btnAddUser : btnToSave}
           </Button>
         )}
       </DialogActions>

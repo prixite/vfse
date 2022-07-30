@@ -30,7 +30,7 @@ jobs:
       DUO_CLIENT_SECRET: "fake"
       DUO_API_HOSTNAME: "fake"
       DUO_REDIRECT_URI: "fake"
-      AWS_STORAGE_BUCKET_NAME: "vfse"
+      AWS_STORAGE_BUCKET_NAME: "vfse-staging"
     steps:
       - uses: actions/checkout@v3
         with:
