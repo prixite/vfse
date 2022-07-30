@@ -1,10 +1,10 @@
 import S3 from "react-aws-s3";
 
 const config = {
-  bucketName: "vfse",
-  region: "us-east-2",
-  accessKeyId: "AKIAUIJ6MUSTHFCSHH45",
-  secretAccessKey: "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",
+  bucketName: process.env.AWS_STORAGE_BUCKET_NAME,
+  region: process.env.AWS_DEFAULT_REGION,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 };
 
 const ReactS3Client = new S3(config);

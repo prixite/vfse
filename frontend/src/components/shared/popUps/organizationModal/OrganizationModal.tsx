@@ -54,6 +54,7 @@ const initialState: OrganizationModalFormState = {
 const validationSchema = yup.object({
   organizationName: yup.string().required("Name is required"),
   organizationLogo: yup.string().required("Image is not selected"),
+  organizationSeats: yup.string().required("Seats is not selected"),
 });
 export default function OrganizationModal({
   action,
@@ -61,6 +62,7 @@ export default function OrganizationModal({
   open,
   handleClose,
 }) {
+  const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [page, setPage] = useState("");
   const [organizationID, setOrganizationID] = useState();
   const [selectedImage, setSelectedImage] = useState([]);
@@ -85,6 +87,7 @@ export default function OrganizationModal({
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
+    validateOnChange: onChangeValidation,
     onSubmit: () => {
       if (action === "edit") {
         editClientModalActions();
@@ -94,6 +97,7 @@ export default function OrganizationModal({
     },
   });
   const resetModal = () => {
+    setOnChangeValidation(false);
     handleClose();
     formik.resetForm();
     setSelectedImage([]);
@@ -169,7 +173,7 @@ export default function OrganizationModal({
   };
   const handleSetNewOrganization = async () => {
     setIsLoading(true);
-    if (formik.values.organizationName && selectedImage.length) {
+    if (selectedImage.length && formik.isValid) {
       const organizationObject = getOrganizationObject();
       await uploadImageToS3(selectedImage[0]).then(
         async (data: S3Interface) => {
@@ -209,7 +213,7 @@ export default function OrganizationModal({
   };
   const handleUpdateOrganization = async () => {
     setIsLoading(true);
-    if (formik.values.organizationName && selectedImage.length) {
+    if (selectedImage.length && formik.isValid) {
       const organizationObject = getOrganizationObject();
       await uploadImageToS3(selectedImage[0]).then(
         async (data: S3Interface) => {
@@ -281,7 +285,7 @@ export default function OrganizationModal({
     }
   };
   const handleUpdateNetworks = async () => {
-    if (validateForm()) {
+    if (validateForm() && formik.isValid) {
       setIsLoading(true);
       const TempNetworks = formik.values.networks.filter(
         (network) => network?.name && network?.appearance?.logo !== ""
@@ -434,7 +438,7 @@ export default function OrganizationModal({
           {page === "1" ? (
             <>
               <div>
-                <p className="dropzone-title required">{newOrganizationLogo}</p>
+                <p className="dropzone-title">{newOrganizationLogo}</p>
                 <DropzoneBox
                   imgSrc={formik.values.organizationLogo}
                   setSelectedImage={setSelectedImage}
@@ -451,7 +455,7 @@ export default function OrganizationModal({
                 }
               >
                 <div className="info-section">
-                  <p className="info-label required">{newOrganizationName}</p>
+                  <p className="info-label">{newOrganizationName}</p>
                   <TextField
                     name="organizationName"
                     value={formik.values.organizationName}
@@ -474,7 +478,6 @@ export default function OrganizationModal({
                     {newOrganizationSeats}
                   </p>
                   <TextField
-                    error
                     name=""
                     value={formik.values.organizationSeats}
                     className="info-field"
@@ -482,6 +485,9 @@ export default function OrganizationModal({
                     placeholder="6"
                     onChange={handleOrganizationSeats}
                   />
+                  <p className="errorText" style={{ marginTop: "15px" }}>
+                    {formik.errors.organizationSeats}
+                  </p>
                   <div className="color-section">
                     <div className="color-pickers">
                       <div style={{ marginTop: "25px", marginRight: "24px" }}>
@@ -640,7 +646,10 @@ export default function OrganizationModal({
             backgroundColor: buttonBackground,
             color: buttonTextColor,
           }}
-          onClick={() => formik.handleSubmit()}
+          onClick={() => {
+            setOnChangeValidation(true);
+            formik.handleSubmit();
+          }}
           disabled={isLoading || isNetworkImageUploading}
           className="add-btn"
         >
