@@ -190,7 +190,9 @@ export function makeServer({ environment }) {
       this.passthrough(
         `https://${process.env.AWS_STORAGE_BUCKET_NAME}.s3-us-east-2.amazonaws.com`
       );
-      this.passthrough(`https:///${process.env.AWS_STORAGE_BUCKET_NAME}.s3-us-east-2.amazonaws.com/*`);
+      this.passthrough(
+        `https:///${process.env.AWS_STORAGE_BUCKET_NAME}.s3-us-east-2.amazonaws.com/*`
+      );
       this.passthrough();
     },
   });
