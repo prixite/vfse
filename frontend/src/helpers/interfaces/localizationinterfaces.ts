@@ -8,6 +8,8 @@ export interface PopUp {
   emailText: string;
   btnAdd: string;
   btnCancel: string;
+  btnSave: string;
+  btnToSave: string;
   btnNext: string;
   btnAddUser: string;
   btnEditUser: string;
@@ -111,8 +113,9 @@ export interface PopUp4 {
   upload_btn: string;
   model: string;
   product_model: string;
-  modalities: string;
   btnSave: string;
+  btnToSave: string;
+  modalities: string;
   btnEdit: string;
   btnCancel: string;
 }
