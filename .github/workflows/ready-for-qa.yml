@@ -1,0 +1,24 @@
+name: Label the issue and change assignee
+
+on:
+  issues:
+    types: [opened]
+  # pull_request:
+  #   types: [opened]
+  # project_card:
+  #   types: [moved]
+  push:
+    branches:
+      # When someone push to `master` branch m
+      - 213-pr-qa-action
+
+jobs:
+  label_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: |
+          gh issue edit 213 --add-label "test"
