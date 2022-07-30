@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 
 import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { toast } from "react-toastify";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
@@ -307,11 +308,19 @@ export default function UserSection() {
 
   const deactivateUser = async (id) => {
     await deactivateUserService(id, userDeactivateMutation);
+    toast.success("User is locked.", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
     handleActionClose();
   };
 
   const activateUser = async (id) => {
     await activateUserService(id, userActivateMutation);
+    toast.success("User is unlocked.", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
     handleActionClose();
   };
 

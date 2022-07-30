@@ -89,8 +89,8 @@ export default function DocumentModal({
     product_model,
     modalities,
     btnSave,
-    btnEdit,
     btnCancel,
+    btnToSave,
   } = localizedData().documentation.popUp;
 
   const dropdownStyles = {
@@ -425,7 +425,7 @@ export default function DocumentModal({
             formik.handleSubmit();
           }}
         >
-          {action === "add" ? btnSave : btnEdit}
+          {action === "add" ? btnSave : btnToSave}
         </Button>
       </DialogActions>
     </Dialog>

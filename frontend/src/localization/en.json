@@ -19,6 +19,7 @@
                 "pageTrackerdesc1": "Step",
                 "pageTrackerdesc2": "of 2",
                 "userFirstName": "First Name",
+                "btnToSave": "Save",
                 "userLastName": "Last Name",
                 "userEmail": "User Email",
                 "userPhoneNumber": "Phone Number",
@@ -103,6 +104,7 @@
             "product_model": "Product",
             "modalities": "Modalities",
             "btnSave": "Add",
+            "btnToSave": "Save",
             "btnEdit": "Edit",
             "btnCancel": "Cancel"
         }
@@ -143,7 +145,7 @@
         "grafana_link_txt": "Grafana Link"
     },
     "organization_menu_options": {
-        "switch_org": "Switch   >>",
+        "switch_org": "Select",
         "edit": "Edit appearance",
         "new_network": "Add new health network",
         "delete_org": "Delete"
