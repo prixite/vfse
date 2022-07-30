@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -55,9 +56,7 @@ const ClientCard = ({
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute, networkRoute } = constants;
 
-  const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
-  );
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
 
   const { switch_org, edit, new_network, delete_org } =
     localizedData().organization_menu_options;
@@ -146,17 +145,15 @@ const ClientCard = ({
           <img src={logo} />
         </div>
       </Box>
-      <div
-        className="location-logo"
+      <Button
+        style={{ borderColor: buttonBackground, color: "black" }}
         onClick={switchOrganization}
-        style={{ backgroundColor: buttonBackground }}
+        className="add-btn"
+        size="small"
+        variant="outlined"
       >
-        <div className="location-logo__content">
-          <p className="text" style={{ color: buttonTextColor }}>
-            {switch_org}
-          </p>
-        </div>
-      </div>
+        {switch_org}
+      </Button>
       <ConfirmationModal
         name={name}
         open={openModal}

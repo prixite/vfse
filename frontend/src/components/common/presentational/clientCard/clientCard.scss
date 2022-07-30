@@ -1,5 +1,12 @@
 .ClientCard {
   position: relative;
+  .add-btn {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   .card {
     width: inherit;
     height: 187px;

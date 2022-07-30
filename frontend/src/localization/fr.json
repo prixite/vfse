@@ -134,7 +134,7 @@
         "grafana_link_txt": "Grafana Link"
     },
     "organization_menu_options": {
-        "switch_org": "Switch   >>",
+        "switch_org": "Select",
         "edit": "Edit appearance",
         "new_network": "Add new health network",
         "delete_org": "Delete"
