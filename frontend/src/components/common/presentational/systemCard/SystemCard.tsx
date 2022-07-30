@@ -126,6 +126,11 @@ const SystemCard = ({
       system.id,
       deleteSystem
     );
+    toast.success("System successfully deleted.", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
+
     handleClose();
   };
   const onComment = () => {

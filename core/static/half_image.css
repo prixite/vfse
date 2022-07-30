@@ -87,15 +87,19 @@ form input:focus {
 }
 
 .first-half div.content-wrapper {
-  padding-left: 100px;
+  display: flex;
+  justify-content: center;
   padding-top: 20px;
 }
 
 .first-half img.logo {
+  position: absolute;
+  left: 10px;
   width: 80px;
 }
 
 .second-half {
+  height: 100vh;
   padding: 0;
   background-color: #49138a;
 }
@@ -139,6 +143,20 @@ form input:focus {
 .reset-done-page p,
 .alert {
   width: 400px;
+}
+
+@media only screen and (max-width: 480px) {
+  .login-page form,
+  .reset-password-page form,
+  .password-reset-confirm form,
+  .reset-password-page p,
+  .reset-done-page p,
+  .alert {
+    width: 100%;
+  }
+  .second-half {
+    display: none;
+  }
 }
 
 .login-page h2,
