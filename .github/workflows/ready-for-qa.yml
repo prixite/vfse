@@ -1,6 +1,6 @@
 # Once the PR is close, Add labels to the linked issue and assign to umairwaheed
 name: Ready For QA
-on: 
+on:
  pull_request:
     types:
       - closed
