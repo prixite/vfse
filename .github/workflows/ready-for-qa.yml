@@ -1,0 +1,30 @@
+# Once the PR is close, Add labels to the linked issue and assign to umairwaheed
+name: Ready For QA
+on:
+ pull_request:
+    types:
+      - closed
+
+jobs:
+  linked_issues:
+    runs-on: ubuntu-latest
+    name: Ready for QA
+    steps:
+      - name: Find Linked Issues
+        id: links
+        uses: hossainemruz/linked-issues@main
+        with:
+          pr_url: ${{github.event.pull_request.html_url}}
+          format: IssueNumber
+
+      - name: Output linked Issue list
+        run: echo "${{ steps.links.outputs.issues }}"
+      - uses: actions/checkout@v3
+      - env:
+          GITHUB_TOKEN: ${{ secrets.MGITHUB_TOKEN }}
+          -name: Upon Merge Approval Reasign to QA with Label
+        run: |
+          gh issue edit "${{ steps.links.outputs.issues }}" --remove-assignee "@me"
+          gh issue reopen "${{ steps.links.outputs.issues }}"
+          gh issue edit "${{ steps.links.outputs.issues }}" --add-label "testingLabel"
+          gh issue edit "${{ steps.links.outputs.issues }}" --add-assignee umairwaheed
