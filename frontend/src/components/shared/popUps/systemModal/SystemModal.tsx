@@ -158,7 +158,7 @@ const setErrors = (data: unknown) => {
   if (data.non_field_errors) {
     toast.error(data.non_field_errors[0]);
   }
-  toast.error("Error occurred while saving system");
+  toast.error(data[Object.keys(data)[0]][0]);
 };
 
 export default function SystemModal(props: SystemProps) {
@@ -188,11 +188,7 @@ export default function SystemModal(props: SystemProps) {
         toast.success("System successfully saved");
       } catch (error) {
         setDisableButton(false);
-        if (error?.status === 400) {
-          setErrors(error.data, formik);
-        } else {
-          toast.error("Error occurred while saving system");
-        }
+        setErrors(error.data, formik);
       } finally {
         handleClear();
       }
