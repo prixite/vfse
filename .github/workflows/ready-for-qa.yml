@@ -17,7 +17,7 @@ jobs:
           pr_url: ${{github.event.pull_request.html_url}}
           format: IssueNumber
 
-      - name: Output linked Issue list h
+      - name: Output linked Issue list ha
         run: echo "${{ steps.links.outputs.issues }}"
       - uses: actions/checkout@v3
       - env:
