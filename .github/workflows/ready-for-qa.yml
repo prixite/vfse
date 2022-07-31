@@ -10,15 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     name: Ready for QA
     steps:
-      - name: Find Linked Issue
-        id: linked-issue
-        run: echo "Finding linked issue number"
-      - uses: actions/checkout@v3
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr view
-          gh pr status --json
+      - name: if_pr
+      if: github.event.pull_request
+      run: |
+        echo A pull request was closed
+        echo ${{github.event.pull_request.number}}
+      # - name: Find Linked Issue
+      #   id: linked-issue
+      #   run: echo "Finding linked issue number"
+      # - uses: actions/checkout@v3
+      # - env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     gh pr view
+      #     gh pr status --json
  #     gh pr view
       #     gh pr status --json
 
