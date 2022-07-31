@@ -13,7 +13,6 @@ jobs:
       - name: Find Linked Issue
         id: linked-issue
         run: |
-          git status
           gh pr view
           gh pr status --json
 
