@@ -12,12 +12,15 @@ jobs:
     steps:
       - name: Find Linked Issue
         id: linked-issue
+        run: echo "Finding linked issue number"
       - uses: actions/checkout@v3
       - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr view
           gh pr status --json
+ #     gh pr view
+      #     gh pr status --json
 
       # - name: Output linked Issues list 
       #   run: echo "${{ steps.links.outputs.issues }}"
