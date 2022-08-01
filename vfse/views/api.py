@@ -70,8 +70,14 @@ class CommentViewset(ModelViewSet):
 
     def perform_create(self, serializer):
         topic = models.Topic.objects.get(id=self.kwargs["pk"])
-        send_topic_email(topic, self.request.user, serializer.validated_data["comment"], f"{self.request.scheme}://{self.request.META.get('HTTP_HOST')}")
+        send_topic_email(
+            topic,
+            self.request.user,
+            serializer.validated_data["comment"],
+            f"{self.request.scheme}://{self.request.META.get('HTTP_HOST')}",
+        )
         return super().perform_create(serializer)
+
 
 class ReplyViewSet(ModelViewSet):
     serializer_class = serializers.CommentSerializer
@@ -84,7 +90,12 @@ class ReplyViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         topic = models.Comment.objects.get(id=self.kwargs["pk"]).topic
-        send_topic_email(topic, self.request.user, serializer.validated_data["comment"], f"{self.request.scheme}://{self.request.META.get('HTTP_HOST')}")
+        send_topic_email(
+            topic,
+            self.request.user,
+            serializer.validated_data["comment"],
+            f"{self.request.scheme}://{self.request.META.get('HTTP_HOST')}",
+        )
         serializer.save(parent_id=self.kwargs["pk"])
 
 
