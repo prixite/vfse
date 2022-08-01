@@ -5,7 +5,7 @@ import { FormikProps } from "formik";
 
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 
-import usePrevious from "../../customHooks/usePrevious";
+import usePrevious from "@src/components/shared/customHooks/usePrevious";
 
 interface Props {
   isLoading: boolean;
