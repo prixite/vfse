@@ -13,7 +13,7 @@ def send_topic_email(topic, user, comment, path):
         msg_html = render_to_string(
             "core/emails/topic_notification.html",
             {
-                "topic_link": f"{path}/clients/{org_id[0] or 0}/forum/topic/{topic.id}",
+                "topic_link": f"{path}/clients/{org_id[0]}/forum/topic/{topic.id}",
                 "content": comment,
             },
         )
