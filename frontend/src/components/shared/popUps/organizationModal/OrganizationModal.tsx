@@ -38,7 +38,6 @@ import {
 
 import "@src/components/shared/popUps/organizationModal/organizationModal.scss";
 
-
 window.Buffer = window.Buffer || Buffer;
 const initialState: OrganizationModalFormState = {
   organizationName: "",

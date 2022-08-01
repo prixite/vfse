@@ -18,6 +18,7 @@ import { NetworkModalFormState } from "@src/components/shared/popUps/systemModal
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
@@ -30,7 +31,6 @@ import {
   useOrganizationsSitesUpdateMutation,
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/networkModal/networkModal.scss";
-import { toastAPIError } from "@src/helpers/utils/utils";
 
 interface Props {
   organization: Organization;

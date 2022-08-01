@@ -48,7 +48,11 @@ const isNonFieldError = (error: unknown): boolean => {
   return false;
 };
 
-const toastAPIError = (message: string, status: number | null, data: unknown) => {
+const toastAPIError = (
+  message: string,
+  status: number | null,
+  data: unknown
+) => {
   // eslint-disable-next-line
   const toast = require("react-toastify");
   if (status < 500)
