@@ -25,3 +25,4 @@ jobs:
           gh issue edit "$ISSUENO" --add-label "ready-for-qa"
           gh issue edit "$ISSUENO" --add-label "staging"
           gh issue edit "$ISSUENO" --add-assignee umairwaheed
+          
