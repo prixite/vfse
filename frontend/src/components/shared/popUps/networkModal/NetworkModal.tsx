@@ -134,7 +134,11 @@ export default function NetworkModal(props: Props) {
                   resetModal();
                 })
                 .catch((error) => {
-                  toastAPIError("Error occured while saving Health Network", error?.status, error.data);
+                  toastAPIError(
+                    "Error occured while saving Health Network",
+                    error?.status,
+                    error.data
+                  );
                 });
             }
           }
@@ -154,7 +158,11 @@ export default function NetworkModal(props: Props) {
               resetModal();
             })
             .catch((error) => {
-              toastAPIError("Error occured while saving Health Network", error?.status, error.data)
+              toastAPIError(
+                "Error occured while saving Health Network",
+                error?.status,
+                error.data
+              );
             });
         }
       }
@@ -186,7 +194,11 @@ export default function NetworkModal(props: Props) {
                   resetModal();
                 })
                 .catch((error) => {
-                  toastAPIError("Error occured while adding Health Network", error?.status, error.data)
+                  toastAPIError(
+                    "Error occured while adding Health Network",
+                    error?.status,
+                    error.data
+                  );
                 });
             }
           })

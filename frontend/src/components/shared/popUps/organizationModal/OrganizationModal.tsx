@@ -29,6 +29,7 @@ import {
 } from "@src/services/organizationService";
 import { useAppSelector } from "@src/store/hooks";
 import {
+  toastAPIError,
   useOrganizationsCreateMutation,
   useOrganizationsPartialUpdateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
@@ -36,7 +37,6 @@ import {
 } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/organizationModal/organizationModal.scss";
-import { toastAPIError } from "@src/helpers/utils/utils";
 
 window.Buffer = window.Buffer || Buffer;
 const initialState: OrganizationModalFormState = {
@@ -185,7 +185,11 @@ export default function OrganizationModal({
             )
               .then(() => setPage("2"))
               .catch((error) =>
-              toastAPIError("Error occured while adding Organization", error?.status, error.data)
+                toastAPIError(
+                  "Error occured while adding Organization",
+                  error?.status,
+                  error.data
+                )
               );
           }
         }
@@ -222,7 +226,11 @@ export default function OrganizationModal({
             )
               .then(() => setPage("2"))
               .catch((error) =>
-                toastAPIError("Error occured while saving Organization", error?.status, error.data)
+                toastAPIError(
+                  "Error occured while saving Organization",
+                  error?.status,
+                  error.data
+                )
               );
           }
         }
@@ -240,7 +248,11 @@ export default function OrganizationModal({
         )
           .then(() => setPage("2"))
           .catch((error) =>
-          toastAPIError("Error occured while saving Organization", error?.status, error.data)
+            toastAPIError(
+              "Error occured while saving Organization",
+              error?.status,
+              error.data
+            )
           );
       }
     }
