@@ -1,9 +1,25 @@
 import openai
+from django.core.mail import send_mail
 from django.conf import settings
 from influxdb_client import InfluxDBClient
 
 from core import models
+from django.template.loader import render_to_string
 
+from app import settings
+
+def send_topic_email(topic, user, comment, path):
+    if topic.reply_email_notification and topic.user.id != user.id:
+            org_id = topic.user.get_organizations()
+            msg_html = render_to_string('core/emails/topic_notification.html',{'topic_link': f"{path}/clients/{org_id[0] or 0}/forum/topic/{topic.id}", 'content': comment})
+            send_mail(
+                f"{user.get_full_name()} just commented on your post '{topic.title}'.",
+                None,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[topic.user.username],
+                fail_silently=True,
+                html_message=msg_html
+            )
 
 def get_chat_bot_response(question, prompt):
     openai.api_key = settings.OPENAI_API_KEY

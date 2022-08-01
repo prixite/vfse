@@ -1,14 +1,12 @@
-from django.core.mail import send_mail
 from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from django.template.loader import render_to_string
 
-from app import settings
 from core import models as core_models
+from core.utils import send_topic_email
 from vfse import filters, models, pagination, serializers
 
 
@@ -72,18 +70,8 @@ class CommentViewset(ModelViewSet):
 
     def perform_create(self, serializer):
         topic = models.Topic.objects.get(id=self.kwargs["pk"])
-        if topic.reply_email_notification and topic.user.id != self.request.user.id:
-            msg_html = render_to_string('core/emails/topic_notification.html',{'link': f"{settings.CSRF_TRUSTED_ORIGINS}/clients/{self.request}/forum/topic/{topic.id}", 'content': serializer.validated_data["comment"]})
-            send_mail(
-                f"{self.request.user.get_full_name()} just commented on your post '{topic.title}'.",
-                None,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[topic.user.username],
-                fail_silently=True,
-                html_message=msg_html
-            )
+        send_topic_email(topic, self.request.user, serializer.validated_data["comment"], f"{self.request.scheme}://{self.request.META.get('HTTP_HOST')}")
         return super().perform_create(serializer)
-
 
 class ReplyViewSet(ModelViewSet):
     serializer_class = serializers.CommentSerializer
@@ -96,16 +84,7 @@ class ReplyViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         topic = models.Comment.objects.get(id=self.kwargs["pk"]).topic
-        if topic.reply_email_notification and topic.user.id != self.request.user.id:
-            msg_html = render_to_string('core/emails/topic_notification.html',{'topic_link': f"{settings.CSRF_TRUSTED_ORIGINS}/clients/1/forum/topic/{topic.id}", 'content': serializer.validated_data["title"]})
-            send_mail(
-                f"{self.request.user.get_full_name()} just commented on your post '{topic.title}'.",
-                None,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[topic.user.username],
-                fail_silently=True,
-                html_message=msg_html
-            )
+        send_topic_email(topic, self.request.user, serializer.validated_data["comment"], f"{self.request.scheme}://{self.request.META.get('HTTP_HOST')}")
         serializer.save(parent_id=self.kwargs["pk"])
 
 
