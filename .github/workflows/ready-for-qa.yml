@@ -18,8 +18,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           -name: Upon Merge Approval Reasign to QA with Label
       run: |
-          gh pr view "${{github.event.pull_request.number}}" > tmp.txt
-          TEMP=$(grep -hnr "#" tmp.txt)
+          gh pr view "${{github.event.pull_request.number}}" > tmp.log
+          TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
           gh issue reopen "$ISSUENO"
