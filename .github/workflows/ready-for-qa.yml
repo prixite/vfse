@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  state_event_type:
+    runs-on: ubuntu-latest
+    steps:
+    - name: if_pr
+      if: github.event.pull_request
+      run: |
+        echo An pull request was closed
+        echo "${{github.event.pull_request.number}}"
+    - uses: actions/checkout@v3
+    - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          -name: Upon Merge Approval Reasign to QA with Label
+      run: |
+          gh pr view "${{github.event.pull_request.number}}" > tmp.txt
+          TEMP=$(grep -hnr "#" tmp.txt)
+          ISSUENO=${TEMP#*#}
+          printf -v ISSUENO '%s' $ISSUENO
+          gh issue reopen "$ISSUENO"
+          gh issue edit "$ISSUENO" --add-label "ready-for-qa"
+          gh issue edit "$ISSUENO" --add-label "staging"
+          gh issue edit "$ISSUENO" --add-assignee umairwaheed
