@@ -19,7 +19,7 @@ def send_topic_email(topic, user, comment):
         )
         send_mail(
             f"{user.get_full_name()} just commented on your post '{topic.title}'.",
-            f"{comment} \nclick on the link below. \n{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",  
+            f"{comment} \nclick on the link below. \n{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[topic.user.username],
             fail_silently=True,
