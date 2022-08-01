@@ -13,13 +13,13 @@ def send_topic_email(topic, user, comment):
         msg_html = render_to_string(
             "core/emails/topic_notification.html",
             {
-                "topic_link": f"{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",
+                "topic_link": f"{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}", # noqa
                 "content": comment,
             },
         )
         send_mail(
             f"{user.get_full_name()} just commented on your post '{topic.title}'.",
-            f"{comment} \nclick on the link below. \n{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",
+            f"{comment} \nclick on the link below. \n{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}", # noqa
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[topic.user.username],
             fail_silently=True,
