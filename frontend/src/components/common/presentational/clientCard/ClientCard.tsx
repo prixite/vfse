@@ -52,6 +52,7 @@ const ClientCard = ({
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [hoverColor, setHoverColor] = useState('transparent');
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute, networkRoute } = constants;
@@ -146,8 +147,10 @@ const ClientCard = ({
         </div>
       </Box>
       <Button
-        style={{ borderColor: buttonBackground, color: "black" }}
+        style={{ borderColor: buttonBackground, color: "black", backgroundColor: hoverColor }}
         onClick={switchOrganization}
+        onMouseOver={()=> setHoverColor(buttonBackground)}
+        onMouseLeave={()=> setHoverColor("transparent")}
         className="add-btn"
         size="small"
         variant="outlined"
