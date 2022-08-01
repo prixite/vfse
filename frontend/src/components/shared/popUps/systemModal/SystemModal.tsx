@@ -154,7 +154,6 @@ const getPayload = (values: FormState): System => {
   };
 };
 
-
 export default function SystemModal(props: SystemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [sites, setSites] = useState([]);
@@ -182,13 +181,14 @@ export default function SystemModal(props: SystemProps) {
         toast.success("System successfully saved");
       } catch (error) {
         setDisableButton(false);
-        if (error?.status < 500) toast.error(error.data[Object.keys(error.data)[0]][0]);
+        if (error?.status < 500)
+          toast.error(error.data[Object.keys(error.data)[0]][0]);
         else toast.error("Error occurred while saving system");
       } finally {
         handleClear();
       }
     },
-      enableReinitialize: true,
+    enableReinitialize: true,
   });
 
   const { data: modalityData = [], isLoading: isModalityLoading } =
