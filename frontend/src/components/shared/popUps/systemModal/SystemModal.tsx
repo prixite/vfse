@@ -188,7 +188,7 @@ export default function SystemModal(props: SystemProps) {
         toast.success("System successfully saved");
       } catch (error) {
         setDisableButton(false);
-        if(error.data) setErrors(error.data, formik);
+        if (error.data) setErrors(error.data, formik);
       } finally {
         handleClear();
       }
