@@ -1,3 +1,4 @@
+# If any PR is closed, find the related issue number, Add tags and assign to QA team
 on:
   pull_request:
     types:
