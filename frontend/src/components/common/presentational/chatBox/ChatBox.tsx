@@ -3,7 +3,7 @@ import { useState, Dispatch, SetStateAction } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
-import { Box, TextareaAutosize } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
 import { api } from "@src/store/reducers/api";
@@ -62,25 +62,32 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
           <p>{chatResponse}</p>
         </div>
       </Box>
-      <Box component="div" className="InputSection">
-        <TextareaAutosize
+      <Box
+        component="div"
+        className="InputSection"
+        style={{ paddingBottom: "40px" }}
+      >
+        <TextField
           onChange={(e) => {
             setYourQuery(e.target.value.toString());
           }}
+          fullWidth
           value={yourQuery}
           minRows={1}
           maxRows={3}
-          aria-label="maximum height"
+          aria-label="minimum height"
           placeholder={placeholder}
+          multiline
           style={{
             borderRadius: "7px",
-            padding: "10px",
             width: "270px",
             borderColor: "light-gray",
             userSelect: "text",
             cursor: "text",
+            padding: "10px 1px 20px",
           }}
           disabled={isLoading}
+          className="ChatField"
         />
         {!isLoading && yourQuery ? (
           <SendIcon

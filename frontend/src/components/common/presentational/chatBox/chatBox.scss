@@ -38,7 +38,15 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    .ChatField {
+      .MuiInputBase-root-MuiOutlinedInput-root {
+        height: 72px;
+        padding: 0px;
+      }
+    }
   }
 }
 .chatBotResponse {
