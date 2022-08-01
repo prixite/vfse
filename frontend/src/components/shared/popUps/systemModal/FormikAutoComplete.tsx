@@ -5,6 +5,8 @@ import { FormikProps } from "formik";
 
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 
+import usePrevious from "../../customHooks/usePrevious";
+
 interface Props {
   isLoading: boolean;
   options: Record<string, unknown>;
@@ -34,20 +36,14 @@ export default function FormikAutoComplete({
 }: Props) {
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState(null);
+  const preParent = usePrevious(formik.values[parent]);
 
   useEffect(() => {
-    if (parent && formik.touched[parent] && !formik.isSubmitting) {
-      formik.setFieldValue(field, "");
+    if (parent && formik.values[parent] !== preParent) {
       setValue(null);
       setInputValue("");
     }
-  }, [
-    formik.values[parent],
-    formik.touched[parent],
-    field,
-    parent,
-    formik.isSubmitting,
-  ]);
+  }, [formik.values[parent], parent]);
 
   useEffect(() => {
     const option = options.find((value) => value.id == formik.values[field]);

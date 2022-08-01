@@ -94,7 +94,7 @@ const validationSchema = yup.object({
   model: yup.string().required("Model is a required field"),
   name: yup.string().required("Name is a required field"),
   site: yup.string().required("Site is a required field"),
-  grafana: yup.string().url(),
+  grafana: yup.string().url().nullable(),
 });
 
 const getPayload = (values: FormState): System => {
