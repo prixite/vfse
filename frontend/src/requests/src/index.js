@@ -7,14 +7,14 @@ import { Provider } from "react-redux";
 
 import Registeration from "@src/requests/src/Registeration";
 import { store } from "@src/requests/src/store/store";
-import theme from "@src/requests/src/theme";
+import useTheme from "@src/requests/src/theme";
 
 import "@src/index.scss";
 
 ReactDOM.render(
   <Provider store={store}>
     <React.StrictMode>
-      <ThemeProvider theme={theme()}>
+      <ThemeProvider theme={useTheme()}>
         <CssBaseline />
         <Registeration />
       </ThemeProvider>
