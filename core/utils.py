@@ -7,19 +7,19 @@ from influxdb_client import InfluxDBClient
 from core import models
 
 
-def send_topic_email(topic, user, comment, path):
+def send_topic_email(topic, user, comment):
     if topic.reply_email_notification and topic.user.id != user.id:
         org_id = topic.user.get_organizations()
         msg_html = render_to_string(
             "core/emails/topic_notification.html",
             {
-                "topic_link": f"{path}/clients/{org_id[0]}/forum/topic/{topic.id}",
+                "topic_link": f"{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",
                 "content": comment,
             },
         )
         send_mail(
             f"{user.get_full_name()} just commented on your post '{topic.title}'.",
-            None,
+            f"comment: {comment} \nclick on the link below to view it. \n{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[topic.user.username],
             fail_silently=True,
