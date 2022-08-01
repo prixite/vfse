@@ -22,6 +22,5 @@ jobs:
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
           gh issue reopen "$ISSUENO"
-          gh issue edit "$ISSUENO" --remove-label "bug"
-          gh issue edit "$ISSUENO" --add-label "documentation"
-          gh issue edit "$ISSUENO" --add-assignee ali-saeed91
+          gh issue edit "$ISSUENO" --add-label "testingLabel"
+          gh issue edit "$ISSUENO" --add-assignee umairwaheed
