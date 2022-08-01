@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { ApiError } from "@src/types/interfaces";
 
 const validateIPaddress = (ipaddress: string) => {
@@ -53,8 +54,6 @@ const toastAPIError = (
   status: number | null,
   data: unknown
 ) => {
-  // eslint-disable-next-line
-  const toast = require("react-toastify");
   if (status < 500)
     toast.error(data[Object.keys(data)[0]][0], {
       autoClose: 1000,
