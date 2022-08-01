@@ -48,7 +48,21 @@ const isNonFieldError = (error: unknown): boolean => {
   return false;
 };
 
+const toastAPIError = (message: string, status: number | null, data: any) =>{
+  const toast = require("react-toastify");
+  if(status < 500)
+                  toast.error(data[Object.keys(data)[0]][0], {
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                  });
+                  else toast.error(message, {
+                    autoClose: 1000,
+                    pauseOnHover: false,
+                  });
+}
+
 export {
+  toastAPIError,
   validateIPaddress,
   returnSearchedOject,
   hexToRgb,

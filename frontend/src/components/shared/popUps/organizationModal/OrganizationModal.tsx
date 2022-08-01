@@ -36,6 +36,7 @@ import {
 } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/organizationModal/organizationModal.scss";
+import { toastAPIError } from "@src/helpers/utils/utils";
 
 window.Buffer = window.Buffer || Buffer;
 const initialState: OrganizationModalFormState = {
@@ -184,10 +185,7 @@ export default function OrganizationModal({
             )
               .then(() => setPage("2"))
               .catch((error) =>
-                toast.error(error.data[Object.keys(error.data)[0]][0], {
-                  autoClose: 1000,
-                  pauseOnHover: false,
-                })
+              toastAPIError("Error occured while adding Organization", error?.status, error.data)
               );
           }
         }
@@ -224,10 +222,7 @@ export default function OrganizationModal({
             )
               .then(() => setPage("2"))
               .catch((error) =>
-                toast.error(error.data[Object.keys(error.data)[0]][0], {
-                  autoClose: 1000,
-                  pauseOnHover: false,
-                })
+                toastAPIError("Error occured while saving Organization", error?.status, error.data)
               );
           }
         }
@@ -245,10 +240,7 @@ export default function OrganizationModal({
         )
           .then(() => setPage("2"))
           .catch((error) =>
-            toast.error(error.data[Object.keys(error.data)[0]][0], {
-              autoClose: 1000,
-              pauseOnHover: false,
-            })
+          toastAPIError("Error occured while saving Organization", error?.status, error.data)
           );
       }
     }

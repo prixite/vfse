@@ -30,6 +30,7 @@ import {
   useOrganizationsSitesUpdateMutation,
 } from "@src/store/reducers/api";
 import "@src/components/shared/popUps/networkModal/networkModal.scss";
+import { toastAPIError } from "@src/helpers/utils/utils";
 
 interface Props {
   organization: Organization;
@@ -133,10 +134,7 @@ export default function NetworkModal(props: Props) {
                   resetModal();
                 })
                 .catch((error) => {
-                  toast.error(error.data[Object.keys(error.data)[0]][0], {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                  toastAPIError("Error occured while saving Health Network", error?.status, error.data);
                 });
             }
           }
@@ -156,10 +154,7 @@ export default function NetworkModal(props: Props) {
               resetModal();
             })
             .catch((error) => {
-              toast.error(error.data[Object.keys(error.data)[0]][0], {
-                autoClose: 1000,
-                pauseOnHover: false,
-              });
+              toastAPIError("Error occured while saving Health Network", error?.status, error.data)
             });
         }
       }
@@ -191,10 +186,7 @@ export default function NetworkModal(props: Props) {
                   resetModal();
                 })
                 .catch((error) => {
-                  toast.error(error.data[Object.keys(error.data)[0]][0], {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                  toastAPIError("Error occured while adding Health Network", error?.status, error.data)
                 });
             }
           })
