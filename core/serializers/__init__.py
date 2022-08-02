@@ -93,7 +93,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
             organization = self.instance.is_customer or self.instance.is_default
 
         if duplicate.exists() and not organization:
-            raise serializers.ValidationError("Health Network name must be unique")
+            raise serializers.ValidationError("Health network name must be unique")
         elif duplicate.exists() and organization:
             raise serializers.ValidationError("Organization name must be unique")
         else:
