@@ -1,5 +1,6 @@
 from app import settings
 from core import models
+from django.templatetags.static import static
 
 
 class OrganizationAppearanceDefault:
@@ -58,9 +59,7 @@ class MriInfoDefault:
 class ProfileMetaDefault:
     def __call__(self):
         return {
-            "profile_picture": "https://"
-            + settings.AWS_STORAGE_BUCKET_NAME
-            + ".s3.us-east-2.amazonaws.com/profile.png",
+            "profile_picture":  f"{settings.DOMAIN_NAME}{static('assets/profile.png')}",
             "title": "",
         }
 
