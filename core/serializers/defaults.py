@@ -1,6 +1,7 @@
+from django.templatetags.static import static
+
 from app import settings
 from core import models
-from django.templatetags.static import static
 
 
 class OrganizationAppearanceDefault:
@@ -59,7 +60,7 @@ class MriInfoDefault:
 class ProfileMetaDefault:
     def __call__(self):
         return {
-            "profile_picture":  f"{settings.DOMAIN_NAME}{static('assets/profile.png')}",
+            "profile_picture": f"{settings.DOMAIN_NAME}{static('assets/profile.png')}",
             "title": "",
         }
 

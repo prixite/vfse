@@ -2351,10 +2351,6 @@
                     "type": "string",
                     "minLength": 1
                 }
-            },
-            "default": {
-                "profile_picture": "https://vfse-staging.s3.us-east-2.amazonaws.com/profile.png",
-                "title": ""
             }
         },
         "UserRequestAccess": {
