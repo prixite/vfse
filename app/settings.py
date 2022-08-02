@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "drf_yasg2",
     "drf_link_header_pagination",
     "django_filters",
+    'webpack_loader',
     # apps
     "core",
     "emailbackend",
@@ -244,3 +245,13 @@ INFLUX_DB_URL = env("INFLUX_DB_URL")
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
 DOMAIN_NAME = env("DOMAIN_NAME")
+
+WEBPACK_LOADER = {
+  'DEFAULT': {
+    'CACHE': not DEBUG,
+    'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    'POLL_INTERVAL': 0.1,
+    'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
+  }
+}
+
