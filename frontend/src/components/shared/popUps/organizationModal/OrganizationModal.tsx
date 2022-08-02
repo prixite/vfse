@@ -227,7 +227,7 @@ export default function OrganizationModal({
               .then(() => setPage("2"))
               .catch((error) =>
                 toastAPIError(
-                  "Error occured while saving Organization",
+                  "Error occured while saving organization",
                   error?.status,
                   error.data
                 )
