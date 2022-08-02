@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       boxSizing: "unset",
       flexGrow: "unset",
       flexBasis: "unset",
-      width:"100%",
+      width: "100%",
     },
   },
 }));

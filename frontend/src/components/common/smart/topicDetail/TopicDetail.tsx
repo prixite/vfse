@@ -33,6 +33,7 @@ const TopicDetail = () => {
           md={4}
           lg={3}
           className={classes.recentActivity}
+          style={{ paddingTop: "inherit" }}
         >
           <RecentActivity />
         </Grid>
