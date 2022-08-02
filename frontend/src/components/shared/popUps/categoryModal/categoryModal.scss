@@ -6,6 +6,12 @@
       padding: 20px 22px;
     }
   }
+  .required {
+    &:after {
+      content: " *";
+      color: red;
+    }
+  }
   .errorText {
     color: #ff1744;
     font-size: 0.8rem;
@@ -43,6 +49,7 @@
   .modal-content {
     display: flex;
     flex-direction: column;
+
     .dropzone-title {
       font-weight: 600;
       margin-bottom: 8px;

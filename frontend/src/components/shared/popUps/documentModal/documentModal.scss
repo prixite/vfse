@@ -50,6 +50,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+
     font-family: "ProximaNova-Regular" !important;
     .dropdown-wrapper {
       display: flex;
@@ -63,10 +64,6 @@
       .info-label {
         font-weight: 600;
         margin-bottom: 6px;
-        &:after {
-          content: " *";
-          color: red;
-        }
       }
       .info-field {
         width: 100%;
@@ -91,6 +88,12 @@
           color: black;
           margin-right: -4px;
           text-transform: capitalize;
+        }
+      }
+      .required {
+        &:after {
+          content: " *";
+          color: red;
         }
       }
       .MuiOutlinedInput-root {

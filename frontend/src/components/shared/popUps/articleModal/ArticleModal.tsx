@@ -169,7 +169,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">Title</p>
+                  <p className="info-label required">Title</p>
                   <TextField
                     name="title"
                     value={formik.values.title}
@@ -186,7 +186,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
               </Grid>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">Content</p>
+                  <p className="info-label required">Content</p>
                   <TextField
                     className="info-field"
                     multiline
