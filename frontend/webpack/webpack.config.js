@@ -1,9 +1,9 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
-const BundleTracker = require('webpack-bundle-tracker');
 
 const path = require("path");
 
 const { EnvironmentPlugin } = require("webpack");
+const BundleTracker = require("webpack-bundle-tracker");
 
 require("dotenv").config();
 
@@ -48,7 +48,7 @@ module.exports = {
       AWS_SECRET_ACCESS_KEY: "something",
       AWS_DEFAULT_REGION: "something",
     }),
-    new BundleTracker({filename: './webpack-stats.json'})
+    new BundleTracker({ filename: "./webpack-stats.json" }),
   ],
   resolve: {
     alias: {
