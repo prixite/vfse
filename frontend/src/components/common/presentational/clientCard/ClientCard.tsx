@@ -126,14 +126,12 @@ const ClientCard = ({
     ]);
   };
   return (
-    <div
-      className="ClientCard"
-      style={{
-        outline: `${selected ? `3px solid ${buttonBackground}` : ""}`,
-        outlineOffset: `${selected ? "-3px" : ""}`,
-      }}
-    >
+    <div className="ClientCard">
       <Box
+        style={{
+          outline: `${selected ? `2px solid ${buttonBackground}` : ""}`,
+          outlineOffset: `${selected ? "-2px" : ""}`,
+        }}
         component="div"
         className="card"
         onClick={handleUpdateSelectedOrganization}
