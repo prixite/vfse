@@ -1,12 +1,12 @@
-.git
-.gitignore
-.gitlab-ci.yml
 .coverage
 .coveragerc
 .django
 .dockerignore
 .eslintrc.json
 .flake8
+.git
+.gitignore
+.gitlab-ci.yml
 .isort.cfg
 .pre-commit-config.yaml
 node_modules
