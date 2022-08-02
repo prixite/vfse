@@ -163,7 +163,7 @@ const AppearanceSection = () => {
               <TextField
                 disabled
                 fullWidth
-                placeholder={selectedOrganization?.name}
+                label={selectedOrganization?.name}
                 variant="outlined"
               />
             </Grid>
