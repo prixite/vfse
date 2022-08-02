@@ -50,6 +50,7 @@ env = environ.Env(
     INFLUX_BUCKET=(str, None),
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
+    DOMAIN_NAME=(str, "https://app.vfse.io"),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -242,3 +243,4 @@ INFLUX_BUCKET = env("INFLUX_BUCKET")
 INFLUX_DB_URL = env("INFLUX_DB_URL")
 
 OPENAI_API_KEY = env("OPENAI_API_KEY")
+DOMAIN_NAME = env("DOMAIN_NAME")

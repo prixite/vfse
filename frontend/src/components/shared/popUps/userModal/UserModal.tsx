@@ -406,11 +406,20 @@ export default function UserModal(props: Props) {
           setIsLoading(false);
         }, 500);
       })
-      .catch(() => {
-        toast.error("User with this username already exists.", {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+      .catch((error) => {
+        if (error?.status < 500) {
+          const metaError = error.data.meta
+            ? Object.keys(error.data.meta)[0] +
+              ": " +
+              error.data.meta[Object.keys(error.data.meta)[0]][0]
+            : error.data[Object.keys(error.data)[0]][0];
+          toast.error(metaError, {
+            autoClose: 2000,
+            pauseOnHover: false,
+          });
+        } else {
+          toast.error("Error occurred while saving user");
+        }
         setIsLoading(false);
       });
   };
