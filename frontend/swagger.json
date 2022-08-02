@@ -2351,6 +2351,10 @@
                     "type": "string",
                     "minLength": 1
                 }
+            },
+            "default": {
+                "profile_picture": "http://localhost:8000/static/assets/profile.png",
+                "title": ""
             }
         },
         "UserRequestAccess": {
