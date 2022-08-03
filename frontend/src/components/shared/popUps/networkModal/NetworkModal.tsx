@@ -135,7 +135,7 @@ export default function NetworkModal(props: Props) {
                 })
                 .catch((error) => {
                   toastAPIError(
-                    "Error occured while saving Health Network",
+                    "Error occurred while saving health network",
                     error?.status,
                     error.data
                   );
