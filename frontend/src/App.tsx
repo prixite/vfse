@@ -23,14 +23,9 @@ import {
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
 import {
-  updateButtonColor,
-  updateSideBarColor,
-  updateButtonTextColor,
-  updateSideBarTextColor,
-  updateFontOne,
-  updateFontTwo,
-  updateSecondaryColor,
+  updateTheme
 } from "@src/store/reducers/themeStore";
+import { returnPayloadThemeObject } from "./helpers/utils/utils";
 import useTheme from "@src/theme";
 import "@src/app.scss";
 export function withRouter(Component) {
@@ -69,57 +64,19 @@ const App = () => {
         );
         if (organizationList) {
           const selectedOrganizationData = organizationList;
+          const themeObj = returnPayloadThemeObject(selectedOrganizationData);
           dispatch(
             setSelectedOrganization({
               selectedOrganization: selectedOrganizationData,
             })
           );
-          dispatch(
-            updateSideBarColor(
-              selectedOrganizationData.appearance.sidebar_color
-            )
-          );
-          dispatch(
-            updateButtonColor(selectedOrganizationData.appearance.primary_color)
-          );
-          dispatch(
-            updateSideBarTextColor(
-              selectedOrganizationData.appearance.sidebar_text
-            )
-          );
-          dispatch(
-            updateButtonTextColor(
-              selectedOrganizationData.appearance.button_text
-            )
-          );
-          dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
-          dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
-          dispatch(
-            updateSecondaryColor(
-              selectedOrganizationData?.appearance?.secondary_color
-            )
-          );
+         dispatch(updateTheme(themeObj));
         } else {
+          const themeObj = returnPayloadThemeObject(organizationData);
           dispatch(
             setSelectedOrganization({ selectedOrganization: organizationData })
           );
-          dispatch(
-            updateSideBarColor(organizationData.appearance.sidebar_color)
-          );
-          dispatch(
-            updateButtonColor(organizationData.appearance.primary_color)
-          );
-          dispatch(
-            updateSideBarTextColor(organizationData.appearance.sidebar_text)
-          );
-          dispatch(
-            updateButtonTextColor(organizationData.appearance.button_text)
-          );
-          dispatch(updateFontOne(organizationData.appearance.font_one));
-          dispatch(updateFontTwo(organizationData.appearance.font_two));
-          dispatch(
-            updateSecondaryColor(organizationData?.appearance?.secondary_color)
-          );
+          dispatch(updateTheme(themeObj));
         }
         setIsFirstTimeRendered(true);
         setIsLoading(false);
