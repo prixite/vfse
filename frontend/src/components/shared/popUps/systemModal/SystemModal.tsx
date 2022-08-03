@@ -94,7 +94,7 @@ const validationSchema = yup.object({
   model: yup.string().required("Model is a required field"),
   name: yup.string().required("Name is a required field"),
   site: yup.string().required("Site is a required field"),
-  grafana: yup.string().url(),
+  grafana: yup.string().url().nullable(),
 });
 
 const getPayload = (values: FormState): System => {
@@ -154,13 +154,6 @@ const getPayload = (values: FormState): System => {
   };
 };
 
-const setErrors = (data: unknown) => {
-  if (data.non_field_errors) {
-    toast.error(data.non_field_errors[0]);
-  }
-  toast.error("Error occurred while saving system");
-};
-
 export default function SystemModal(props: SystemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [sites, setSites] = useState([]);
@@ -188,11 +181,9 @@ export default function SystemModal(props: SystemProps) {
         toast.success("System successfully saved");
       } catch (error) {
         setDisableButton(false);
-        if (error?.status === 400) {
-          setErrors(error.data, formik);
-        } else {
-          toast.error("Error occurred while saving system");
-        }
+        if (error?.status < 500)
+          toast.error(error.data[Object.keys(error.data)[0]][0]);
+        else toast.error("Error occurred while saving system");
       } finally {
         handleClear();
       }
