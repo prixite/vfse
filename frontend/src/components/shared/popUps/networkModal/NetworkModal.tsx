@@ -136,7 +136,7 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch((error) => {
+                .catch(async (error) => {
                   toastAPIError(
                     "Error occurred while saving health network",
                     error?.status,
@@ -197,21 +197,13 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-<<<<<<< HEAD
-                .catch(async () => {
-                  toast.error("HealthNetwork Add Failed", {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
-                  await deleteImageFromS3(data?.key);
-=======
-                .catch((error) => {
+                .catch(async (error) => {
                   toastAPIError(
                     "Error occurred while adding health network",
                     error?.status,
                     error.data
                   );
->>>>>>> 9cc5e795aa646c925b006ba7de3bd3cdb078c2e9
+                  await deleteImageFromS3(data?.key);
                 });
             }
           })
