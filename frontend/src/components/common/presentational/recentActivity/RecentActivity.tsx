@@ -51,8 +51,8 @@ const RecentActivity = () => {
               </div>
               <div className="statusDetail">
                 <span className="username">{item?.user?.name}</span>
-                <p> {item?.action}</p>
-                <div className="postTime">
+                <span> {item?.action}</span>
+                <div className="postTime" style={{ padding: "5px 0px" }}>
                   {moment(item?.created_at).startOf("s").fromNow()}
                 </div>
               </div>
