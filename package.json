@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The frontend for vFSE",
   "scripts": {
-    "start": "webpack watch --config frontend/webpack/webpack.dev.config.js",
+    "dev": "webpack watch --config frontend/webpack/webpack.dev.config.js",
     "build": "webpack --config frontend/webpack/webpack.prod.config.js",
     "generate_api": "rtk-query-codegen-openapi frontend/openapi-config.ts"
   },
