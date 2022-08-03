@@ -52,7 +52,8 @@ const ClientCard = ({
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [hoverColor, setHoverColor] = useState("transparent");
+  const [hoverBgColor, setHoverBgColor] = useState("transparent");
+  const [hoverTextColor, setHoverTextColor] = useState("black");
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const defaultOrganizationData = useAppSelector(
@@ -60,7 +61,9 @@ const ClientCard = ({
   );
   const { organizationRoute, networkRoute } = constants;
 
-  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
 
   const { switch_org, edit, new_network, delete_org } =
     localizedData().organization_menu_options;
@@ -71,6 +74,11 @@ const ClientCard = ({
   };
   const handleModalClose = () => {
     setOpenModal(false);
+  };
+
+  const setColorOnHover = (bgColor: string, textColor: string) => {
+    setHoverBgColor(bgColor);
+    setHoverTextColor(textColor);
   };
   //const handleNetworkModalClose = () => setOpenNetworkModal(false);
 
@@ -153,12 +161,12 @@ const ClientCard = ({
       <Button
         style={{
           borderColor: buttonBackground,
-          color: "black",
-          backgroundColor: hoverColor,
+          color: hoverTextColor,
+          backgroundColor: hoverBgColor,
         }}
         onClick={() => switchOrganization(row)}
-        onMouseOver={() => setHoverColor(buttonBackground)}
-        onMouseLeave={() => setHoverColor("transparent")}
+        onMouseOver={() => setColorOnHover(buttonBackground, buttonTextColor)}
+        onMouseLeave={() => setColorOnHover("transparent", "black")}
         className="add-btn"
         size="small"
         variant="outlined"
