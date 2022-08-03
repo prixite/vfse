@@ -52,8 +52,12 @@ const ClientCard = ({
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [hoverColor, setHoverColor] = useState("transparent");
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
+  const defaultOrganizationData = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
   const { organizationRoute, networkRoute } = constants;
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
@@ -96,6 +100,9 @@ const ClientCard = ({
       autoClose: 1000,
       pauseOnHover: false,
     });
+    if (selected) {
+      switchOrganization(defaultOrganizationData);
+    }
   };
   const handleUpdateSelectedOrganization = () => {
     if (superuser) {
@@ -112,28 +119,26 @@ const ClientCard = ({
       });
     }
   };
-  const switchOrganization = async () => {
+  const switchOrganization = async (org) => {
     await Promise.all([
-      dispatch(setSelectedOrganization({ selectedOrganization: row })),
-      dispatch(updateSideBarColor(row.appearance.sidebar_color)),
-      dispatch(updateButtonColor(row.appearance.primary_color)),
-      dispatch(updateSideBarTextColor(row.appearance.sidebar_text)),
-      dispatch(updateButtonTextColor(row.appearance.button_text)),
-      dispatch(updateSecondaryColor(row.appearance.secondary_color)),
-      dispatch(updateFontOne(row.appearance.font_one)),
-      dispatch(updateFontTwo(row.appearance.font_two)),
-      navigate(`/${organizationRoute}/${id}/`, { replace: true }),
+      dispatch(setSelectedOrganization({ selectedOrganization: org })),
+      dispatch(updateSideBarColor(org.appearance.sidebar_color)),
+      dispatch(updateButtonColor(org.appearance.primary_color)),
+      dispatch(updateSideBarTextColor(org.appearance.sidebar_text)),
+      dispatch(updateButtonTextColor(org.appearance.button_text)),
+      dispatch(updateSecondaryColor(org.appearance.secondary_color)),
+      dispatch(updateFontOne(org.appearance.font_one)),
+      dispatch(updateFontTwo(org.appearance.font_two)),
+      navigate(`/${organizationRoute}/${org?.id}/`, { replace: true }),
     ]);
   };
   return (
-    <div
-      className="ClientCard"
-      style={{
-        outline: `${selected ? `3px solid ${buttonBackground}` : ""}`,
-        outlineOffset: `${selected ? "-3px" : ""}`,
-      }}
-    >
+    <div className="ClientCard">
       <Box
+        style={{
+          outline: `${selected ? `2px solid ${buttonBackground}` : ""}`,
+          outlineOffset: `${selected ? "-2px" : ""}`,
+        }}
         component="div"
         className="card"
         onClick={handleUpdateSelectedOrganization}
@@ -146,8 +151,14 @@ const ClientCard = ({
         </div>
       </Box>
       <Button
-        style={{ borderColor: buttonBackground, color: "black" }}
-        onClick={switchOrganization}
+        style={{
+          borderColor: buttonBackground,
+          color: "black",
+          backgroundColor: hoverColor,
+        }}
+        onClick={() => switchOrganization(row)}
+        onMouseOver={() => setHoverColor(buttonBackground)}
+        onMouseLeave={() => setHoverColor("transparent")}
         className="add-btn"
         size="small"
         variant="outlined"

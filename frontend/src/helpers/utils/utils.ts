@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import { ApiError } from "@src/types/interfaces";
 
 const validateIPaddress = (ipaddress: string) => {
@@ -48,7 +50,25 @@ const isNonFieldError = (error: unknown): boolean => {
   return false;
 };
 
+const toastAPIError = (
+  message: string,
+  status: number | null,
+  data: unknown
+) => {
+  if (status < 500)
+    toast.error(data[Object.keys(data)[0]][0], {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
+  else
+    toast.error(message, {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
+};
+
 export {
+  toastAPIError,
   validateIPaddress,
   returnSearchedOject,
   hexToRgb,

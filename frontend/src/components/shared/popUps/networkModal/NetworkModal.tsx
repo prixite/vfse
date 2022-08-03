@@ -21,6 +21,7 @@ import {
   uploadImageToS3,
 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
@@ -135,11 +136,12 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(async () => {
-                  toast.error("HealthNetwork Update Failed", {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                .catch((error) => {
+                  toastAPIError(
+                    "Error occurred while saving health network",
+                    error?.status,
+                    error.data
+                  );
                   await deleteImageFromS3(selectedImage[0]);
                 });
             }
@@ -159,11 +161,12 @@ export default function NetworkModal(props: Props) {
             .then(() => {
               resetModal();
             })
-            .catch(() => {
-              toast.error("HealthNetwork Update Failed", {
-                autoClose: 1000,
-                pauseOnHover: false,
-              });
+            .catch((error) => {
+              toastAPIError(
+                "Error occurred while saving health network",
+                error?.status,
+                error.data
+              );
             });
         }
       }
@@ -194,12 +197,21 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
+<<<<<<< HEAD
                 .catch(async () => {
                   toast.error("HealthNetwork Add Failed", {
                     autoClose: 1000,
                     pauseOnHover: false,
                   });
                   await deleteImageFromS3(data?.key);
+=======
+                .catch((error) => {
+                  toastAPIError(
+                    "Error occurred while adding health network",
+                    error?.status,
+                    error.data
+                  );
+>>>>>>> 9cc5e795aa646c925b006ba7de3bd3cdb078c2e9
                 });
             }
           })
