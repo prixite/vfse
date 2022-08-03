@@ -3,6 +3,7 @@
 const path = require("path");
 
 const { EnvironmentPlugin } = require("webpack");
+const BundleTracker = require("webpack-bundle-tracker");
 
 require("dotenv").config();
 
@@ -47,6 +48,7 @@ module.exports = {
       AWS_SECRET_ACCESS_KEY: "something",
       AWS_DEFAULT_REGION: "something",
     }),
+    new BundleTracker({ filename: "./webpack-stats.json" }),
   ],
   resolve: {
     alias: {
@@ -57,7 +59,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "../dist/"),
     publicPath: "/static/",
-    filename: "[name].bundle.js",
+    filename: "[name].[contenthash].js",
     clean: true,
   },
 };
