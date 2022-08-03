@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load render_bundle from webpack_loader %}
 {% load static %}
 
 {% block data_flags %}{{ user_data.flags|join:',' }}{% endblock %}
@@ -11,5 +12,5 @@
 {% endblock body %}
 
 {% block js_includes %}
-<script src="{% static '/requests.bundle.js' %}"></script>
+{% render_bundle 'requests' 'js' %}
 {% endblock %}
