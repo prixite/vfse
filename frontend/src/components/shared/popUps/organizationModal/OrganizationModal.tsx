@@ -415,7 +415,7 @@ export default function OrganizationModal({
                     }}
                   />
                   <Radio
-                    checked={page === "1"}
+                    checked={page === "2"}
                     onChange={handleChange}
                     disabled={!organizationID}
                     value="2"
