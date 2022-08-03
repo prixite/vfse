@@ -22,11 +22,10 @@ import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
-import {
-  updateTheme
-} from "@src/store/reducers/themeStore";
-import { returnPayloadThemeObject } from "./helpers/utils/utils";
+import { updateTheme } from "@src/store/reducers/themeStore";
 import useTheme from "@src/theme";
+
+import { returnPayloadThemeObject } from "./helpers/utils/utils";
 import "@src/app.scss";
 export function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -70,7 +69,7 @@ const App = () => {
               selectedOrganization: selectedOrganizationData,
             })
           );
-         dispatch(updateTheme(themeObj));
+          dispatch(updateTheme(themeObj));
         } else {
           const themeObj = returnPayloadThemeObject(organizationData);
           dispatch(

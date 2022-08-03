@@ -45,13 +45,13 @@ export const themeSlice = createSlice({
     updateFontTwo: (state, action: PayloadAction<string>) => {
       state.fontTwo = action.payload;
     },
-    updateTheme:(state, action: PayloadAction<ThemeColorState>)=>{
+    updateTheme: (state, action: PayloadAction<ThemeColorState>) => {
       state.sideBarBackground = action.payload.sideBarBackground;
       state.sideBarTextColor = action.payload.sideBarTextColor;
       state.buttonBackground = action.payload.buttonBackground;
       state.buttonTextColor = action.payload.buttonTextColor;
       state.secondaryColor = action.payload.secondaryColor;
-      state.fontOne= action.payload.fontOne;
+      state.fontOne = action.payload.fontOne;
       state.fontTwo = action.payload.fontTwo;
     },
   },

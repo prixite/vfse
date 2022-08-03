@@ -19,9 +19,7 @@ import {
 } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
-import {
-  updateTheme
-} from "@src/store/reducers/themeStore";
+import { updateTheme } from "@src/store/reducers/themeStore";
 
 interface ClientCardProps {
   setOrganization: Dispatch<SetStateAction<Organization>>;
@@ -104,12 +102,12 @@ const ClientCard = ({
       const themeObj = returnPayloadThemeObject(row);
       dispatch(setSelectedOrganization({ selectedOrganization: row }));
       dispatch(updateTheme(themeObj)),
-      navigate(`/${organizationRoute}/${id}/${networkRoute}/`, {
-        replace: true,
-      });
+        navigate(`/${organizationRoute}/${id}/${networkRoute}/`, {
+          replace: true,
+        });
     }
   };
-  const switchOrganization = async(org) => {
+  const switchOrganization = async (org) => {
     const themeObj = returnPayloadThemeObject(org);
     await Promise.all([
       dispatch(setSelectedOrganization({ selectedOrganization: org })),
