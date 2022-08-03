@@ -22,6 +22,7 @@ import { OrganizationModalFormState } from "@src/components/shared/popUps/system
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   updateOrganizationService,
   addNewOrganizationService,
@@ -187,11 +188,12 @@ export default function OrganizationModal({
               setOrganizationID
             )
               .then(() => setPage("2"))
-              .catch(() =>
-                toast.success("Error Occured", {
-                  autoClose: 1000,
-                  pauseOnHover: false,
-                })
+              .catch((error) =>
+                toastAPIError(
+                  "Error occurred while adding organization",
+                  error?.status,
+                  error.data
+                )
               );
           }
         }
@@ -227,11 +229,12 @@ export default function OrganizationModal({
               updateOrganization
             )
               .then(() => setPage("2"))
-              .catch(() =>
-                toast.success("Error Occured", {
-                  autoClose: 1000,
-                  pauseOnHover: false,
-                })
+              .catch((error) =>
+                toastAPIError(
+                  "Error occurred while saving organization",
+                  error?.status,
+                  error.data
+                )
               );
           }
         }
@@ -248,11 +251,12 @@ export default function OrganizationModal({
           updateOrganization
         )
           .then(() => setPage("2"))
-          .catch(() =>
-            toast.error("Error Occured", {
-              autoClose: 1000,
-              pauseOnHover: false,
-            })
+          .catch((error) =>
+            toastAPIError(
+              "Error occurred while saving organization",
+              error?.status,
+              error.data
+            )
           );
       }
     }

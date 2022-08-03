@@ -16,8 +16,12 @@ import DropzoneBox from "@src/components/common/presentational/dropzoneBox/Dropz
 import SiteSection from "@src/components/shared/popUps/networkModal/SiteSection";
 import { NetworkModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
-import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import {
+  deleteImageFromS3,
+  uploadImageToS3,
+} from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
@@ -132,11 +136,13 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
-                  toast.error("HealthNetwork Update Failed", {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                .catch(async (error) => {
+                  toastAPIError(
+                    "Error occurred while saving health network",
+                    error?.status,
+                    error.data
+                  );
+                  await deleteImageFromS3(selectedImage[0]);
                 });
             }
           }
@@ -155,11 +161,12 @@ export default function NetworkModal(props: Props) {
             .then(() => {
               resetModal();
             })
-            .catch(() => {
-              toast.error("HealthNetwork Update Failed", {
-                autoClose: 1000,
-                pauseOnHover: false,
-              });
+            .catch((error) => {
+              toastAPIError(
+                "Error occurred while saving health network",
+                error?.status,
+                error.data
+              );
             });
         }
       }
@@ -190,20 +197,22 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
-                  toast.error("HealthNetwork Add Failed", {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                .catch(async (error) => {
+                  toastAPIError(
+                    "Error occurred while adding health network",
+                    error?.status,
+                    error.data
+                  );
+                  await deleteImageFromS3(data?.key);
                 });
             }
           })
-          .catch(() =>
-            toast.error("Failed to upload Image", {
+          .catch(() => {
+            toast.error("Failed to upload image", {
               autoClose: 1000,
               pauseOnHover: false,
-            })
-          );
+            });
+          });
       }
     }
     setIsSiteDataPartiallyFilled(true);
