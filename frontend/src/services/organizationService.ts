@@ -13,7 +13,7 @@ const updateOrganizationService = async (
   await updateOrganization({ id, organization })
     .unwrap()
     .then(async () => {
-      toast.success("Organization Updated.", {
+      toast.success("Organization successfully updated.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -30,7 +30,7 @@ const addNewOrganizationService = async (
   })
     .unwrap()
     .then((response) => {
-      toast.success("Organization Updated.", {
+      toast.success("Organization created successfully.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -48,7 +48,7 @@ const updateHealthNetworkService = async (
   await updateOrganization({ id, organization })
     .unwrap()
     .then(async (response) => {
-      toast.success("Organization Updated.", {
+      toast.success("Health network successfully updated.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -72,7 +72,7 @@ const addNewHealthNetworkService = async (
   })
     .unwrap()
     .then(async (response) => {
-      toast.success("New HealthNetwork Added.", {
+      toast.success("Health network created successfully.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -99,8 +99,8 @@ const addNewHealthNetworksService = async (
         pauseOnHover: false,
       });
     })
-    .catch(() => {
-      toast.success("HealthNetworks Add Failed", {
+    .catch((error) => {
+      toast.error(error.data[0], {
         autoClose: 1000,
         pauseOnHover: false,
       });

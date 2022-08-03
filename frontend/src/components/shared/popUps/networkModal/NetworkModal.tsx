@@ -18,6 +18,7 @@ import { NetworkModalFormState } from "@src/components/shared/popUps/systemModal
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
@@ -132,11 +133,12 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
-                  toast.error("HealthNetwork Update Failed", {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                .catch((error) => {
+                  toastAPIError(
+                    "Error occurred while saving health network",
+                    error?.status,
+                    error.data
+                  );
                 });
             }
           }
@@ -155,11 +157,12 @@ export default function NetworkModal(props: Props) {
             .then(() => {
               resetModal();
             })
-            .catch(() => {
-              toast.error("HealthNetwork Update Failed", {
-                autoClose: 1000,
-                pauseOnHover: false,
-              });
+            .catch((error) => {
+              toastAPIError(
+                "Error occurred while saving health network",
+                error?.status,
+                error.data
+              );
             });
         }
       }
@@ -190,11 +193,12 @@ export default function NetworkModal(props: Props) {
                 .then(() => {
                   resetModal();
                 })
-                .catch(() => {
-                  toast.error("HealthNetwork Add Failed", {
-                    autoClose: 1000,
-                    pauseOnHover: false,
-                  });
+                .catch((error) => {
+                  toastAPIError(
+                    "Error occurred while adding health network",
+                    error?.status,
+                    error.data
+                  );
                 });
             }
           })
