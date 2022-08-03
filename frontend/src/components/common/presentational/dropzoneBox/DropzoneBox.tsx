@@ -4,10 +4,11 @@ import "@src/components/common/presentational/dropzoneBox/dropzoneBox.scss";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDropzone } from "react-dropzone";
-import { useAppSelector } from "@src/store/hooks";
+
 
 import UploadBtn from "@src/assets/svgs/upload-icon.svg";
 import { localizedData } from "@src/helpers/utils/language";
+import { useAppSelector } from "@src/store/hooks";
 interface DropzoneProps {
   setSelectedImage: Dispatch<SetStateAction<unknown[]>>;
   imgSrc?: string;
@@ -30,7 +31,9 @@ const DropzoneBox = ({
       ),
   });
   const constantData: object = localizedData()?.dropzone;
-  const { buttonBackground, buttonTextColor } = useAppSelector((state) => state.myTheme);
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const { heading, description, button, info } = constantData;
   const dropzoneOptions =
     acceptedFiles?.length || imgSrc
@@ -77,7 +80,15 @@ const DropzoneBox = ({
           {description}
         </p>
         <div>
-          <Button className="browse-btn" style={{backgroundColor: buttonBackground, color: buttonTextColor}}>{button}</Button>
+          <Button
+            className="browse-btn"
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
+          >
+            {button}
+          </Button>
         </div>
         <p className="file-info">{info}</p>
       </div>
