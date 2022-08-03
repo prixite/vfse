@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
-import AddBtn from "@src/assets/svgs/add.svg";
+import AddIcon from '@mui/icons-material/Add';
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import SiteSection from "@src/components/shared/popUps/networkModal/SiteSection";
@@ -312,11 +312,11 @@ export default function NetworkModal(props: Props) {
               AllSites={formik.values.sitePointer}
             />
           ))}
-          <div className="network-info">
-            <Button className="heading-btn" onClick={addSite}>
-              <img src={AddBtn} className="add-btn" />
-              {newNetworkAddSite}
+          <div className="network-info" style={{cursor: 'pointer', color: buttonBackground, height: '53px', width: '138px', padding: '10px'}} onClick={addSite}>
+            <Button className="heading-btn" style={{backgroundColor: buttonBackground, color: buttonTextColor}}>
+              <AddIcon style={{height: '30px', width: '30px'}}/>
             </Button>
+            {newNetworkAddSite}
           </div>
         </div>
       </DialogContent>
