@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDropzone } from "react-dropzone";
 
-
 import UploadBtn from "@src/assets/svgs/upload-icon.svg";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
