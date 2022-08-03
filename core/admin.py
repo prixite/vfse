@@ -29,12 +29,18 @@ class UserAdmin(CoreUserAdmin):
         "is_request_user",
     )
     fieldsets = CoreUserAdmin.fieldsets + (
-      ('More Permissions', {
-          'fields': ('is_supermanager', 'is_lambda_user', 'is_request_user', 'is_remote_user')
-      }),
+        (
+            "More Permissions",
+            {
+                "fields": (
+                    "is_supermanager",
+                    "is_lambda_user",
+                    "is_request_user",
+                    "is_remote_user",
+                )
+            },
+        ),
     )
- 
-
 
 
 @admin.register(models.UserModality)
