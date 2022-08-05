@@ -11,17 +11,9 @@ import { Comment } from "@src/store/reducers/generated";
 
 import TopicReply from "../topicReply/TopicReply";
 interface TopicCommentProps {
-  profile_picture: string;
-  first_name: string;
-  last_name: string;
   commentData: Comment;
 }
-const TopicComment = ({
-  profile_picture,
-  first_name,
-  last_name,
-  commentData,
-}: TopicCommentProps) => {
+const TopicComment = ({ commentData }: TopicCommentProps) => {
   const [replyChecked, setReplyChecked] = useState<boolean>(false);
   const [shared, setShared] = useState(false);
   const { number_of_replies: numberOfReplies } = commentData;
@@ -40,11 +32,11 @@ const TopicComment = ({
       <Box component="div" className="TopicCommentView">
         <div className="Comment">
           <div className="profileImage">
-            <img src={profile_picture} alt="profilePicture" />
+            <img src={commentData?.user_profile?.image} alt="profilePicture" />
           </div>
           <div className="commentDetail">
             <div className="headerInfo">
-              <p className="userName">{`${first_name} ${last_name}`}</p>
+              <p className="userName">{`${commentData?.user_profile?.name}`}</p>
               <p className="timeStamp">
                 {moment(commentData?.created_at).startOf("s").fromNow()}
               </p>
