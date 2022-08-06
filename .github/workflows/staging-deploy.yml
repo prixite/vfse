@@ -1,8 +1,9 @@
 name: deploy-to-staging
 on:
-  pull_request:
-    types:
-      - closed
+  push:
+    branches:
+      # When someone push to `master` branch
+      - master
 
 jobs:
   pre-commit_and_test:
@@ -43,6 +44,3 @@ jobs:
       - name: Test the App
         run: |
           ssh staging 'if [ $( docker ps -a | grep vfse | wc -l ) -gt 0 ]; then  echo "vfse exists"; else   echo "vfse does not exist" && raise error; fi'
-  ready-for-qa:
-    needs: deploy
-    uses: ./.github/workflows/ready-for-qa.yml

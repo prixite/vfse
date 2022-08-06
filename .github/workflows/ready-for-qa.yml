@@ -1,7 +1,9 @@
 # If any PR is closed, find the related issue number, Add tags and assign to QA team
 name: ready-for-qa
 on:
-  workflow_call:
+  pull_request:
+    types:
+      - closed
 
 jobs:
   add_qa_labels:
