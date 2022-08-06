@@ -1,20 +1,16 @@
 name: deploy-to-staging
 on:
-  push:
-    branches:
-      # When someone push to `master` branch
-      - master
+  pull_request:
+    types:
+      - closed
 
 jobs:
   pre-commit_and_test:
-    runs-on: self-hosted
-    steps:
-      - uses: ./.github/workflows/ci.yml
+    uses: ./.github/workflows/ci.yml
   deploy:
     needs: pre-commit_and_test
     name: "Deploy to staging"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
       - name: Configure SSH
         run: |
@@ -47,3 +43,6 @@ jobs:
       - name: Test the App
         run: |
           ssh staging 'if [ $( docker ps -a | grep vfse | wc -l ) -gt 0 ]; then  echo "vfse exists"; else   echo "vfse does not exist" && raise error; fi'
+  ready-for-qa:
+    needs: deploy
+    uses: ./.github/workflows/ready-for-qa.yml

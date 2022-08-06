@@ -1,13 +1,11 @@
 # If any PR is closed, find the related issue number, Add tags and assign to QA team
 name: ready-for-qa
 on:
-  workflow_run:
-    workflows: [deploy-to-staging]
-    types: [completed]
+  workflow_call:
 
 jobs:
   add_qa_labels:
-    if: github.event.workflow_run.conclusion == 'success' && github.actor != 'dependabot[bot]'
+    if: github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
     - name: if_pr
@@ -24,6 +22,7 @@ jobs:
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
+          gh issue close "$ISSUENO"
           gh issue reopen "$ISSUENO"
           gh issue edit "$ISSUENO" --add-label "ready-for-qa"
           gh issue edit "$ISSUENO" --add-label "staging"
