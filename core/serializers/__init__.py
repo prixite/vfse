@@ -368,7 +368,7 @@ class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
                 form.is_valid()
                 form.save(**opts)
         except SMTPException as e:
-            print('There was an error sending an email: ', e) 
+            print("There was an error sending an email: ", e)
         return usernames
 
 
