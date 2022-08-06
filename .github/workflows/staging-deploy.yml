@@ -4,9 +4,14 @@ on:
     branches:
       # When someone push to `master` branch
       - master
+  
 jobs:
+  pre-commit_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflows/ci.yml
   deploy:
-    needs: ready-for-qa
+    needs: pre-commit_and_test
     name: "Deploy to staging"
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'

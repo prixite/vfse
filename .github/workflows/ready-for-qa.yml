@@ -1,13 +1,13 @@
 # If any PR is closed, find the related issue number, Add tags and assign to QA team
+name: ready-for-qa
 on:
-  pull_request:
-    types:
-      - closed
+  workflow_run:
+    workflows: [deploy-to-staging]
+    types: [completed]
 
 jobs:
   add_qa_labels:
-    needs: [pre-commit, test]
-    if: "!contains(github.event.pull_request.user.login, 'dependabot')"
+    if: github.event.workflow_run.conclusion == 'success' && github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
     - name: if_pr

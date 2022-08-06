@@ -2,8 +2,7 @@ name: CI
 
 on:
   pull_request:
-  push:
-    branches: [master]
+  workflow_call:
 
 jobs:
   pre-commit:
@@ -22,7 +21,6 @@ jobs:
       - uses: pre-commit/action@v3.0.0
 
   test:
-    needs: pre-commit
     runs-on: self-hosted
     env:
       SECRET_KEY: "fake"
