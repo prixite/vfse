@@ -1,4 +1,5 @@
 import re
+from smtplib import SMTPException
 
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
@@ -361,10 +362,13 @@ class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
             "subject_template_name": "registration/password_reset_subject.txt",
             "request": self.context["request"],
         }
-        for email in usernames:
-            form = PasswordResetForm(data={"email": email})
-            form.is_valid()
-            form.save(**opts)
+        try:
+            for email in usernames:
+                form = PasswordResetForm(data={"email": email})
+                form.is_valid()
+                form.save(**opts)
+        except SMTPException as e:
+            print('There was an error sending an email: ', e) 
         return usernames
 
 
