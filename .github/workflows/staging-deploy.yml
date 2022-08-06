@@ -4,7 +4,7 @@ on:
     branches:
       # When someone push to `master` branch
       - master
-  
+
 jobs:
   pre-commit_and_test:
     runs-on: ubuntu-latest
