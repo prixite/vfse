@@ -752,8 +752,6 @@ class UserRolesView(ModelViewSet):
     serializer_class = serializers.RoleSerializer
 
     def list(self, request, *args, **kwargs):
-        if getattr(self, "swagger_fake_view", False):
-            return models.Note.objects.none()
         data = [{"value": item, "title": value} for item, value in models.Role.choices]
         serializer = self.serializer_class(data, many=True)
         return Response(serializer.data)
