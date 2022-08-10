@@ -38,7 +38,7 @@ const FolderDetailSection = () => {
   };
 
   useEffect(() => {
-    if (query.length > 2) {
+    if (query.length >= 2) {
       handleSearchQuery(query);
     } else {
       !!folderData.documents && setArticlesList(folderData.documents);
@@ -58,27 +58,27 @@ const FolderDetailSection = () => {
           actualData={folderData?.documents}
           setData={setArticlesList}
         />
-        <Grid container spacing={1} style={{ marginTop: "9px" }}>
-          {articlesList?.map((item, index) => (
-            <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
-              <KnowledgeTopCard
-                title={item?.title}
-                description={item?.text}
-                id={item?.id}
-              />
-            </Grid>
-          ))}
-
-          {!articlesList?.length && query?.length > 2 && (
-            <NoDataFound
-              search
-              setQuery={setQuery}
-              queryText={query}
-              title={noDataTitle}
-              description={noDataDescription}
-            />
-          )}
-        </Grid>
+        {folderData.documents.length ? (
+          <Grid container spacing={1} style={{ marginTop: "9px" }}>
+            {articlesList?.map((item, index) => (
+              <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
+                <KnowledgeTopCard
+                  title={item?.title}
+                  description={item?.text}
+                  id={item?.id}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <NoDataFound
+            search
+            setQuery={setQuery}
+            queryText={query}
+            title={noDataTitle}
+            description={noDataDescription}
+          />
+        )}
       </Box>
       <ArticleModal open={open} handleClose={handleClose} />
     </>
