@@ -5,6 +5,9 @@ services:
     extends:
       file: docker-compose.base.yml
       service: db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
 
   app:
     extends:
@@ -47,3 +50,4 @@ services:
 volumes:
   static_volume:
   shm:
+  pgdata:
