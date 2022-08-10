@@ -438,7 +438,7 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
                 is_superuser=False,
                 is_supermanager=False,
                 is_request_user=False,
-                is_remote_user=False
+                is_remote_user=False,
             )
             .prefetch_related("memberships")
             .select_related("profile")
