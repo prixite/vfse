@@ -207,14 +207,17 @@ export default function TopicModal({ open, handleClose }: Props) {
             <div className="notify-checkbox">
               <FormGroup>
                 <FormControlLabel
-                  value={formik.values.reply_email_notification}
-                  onChange={(e) =>
-                    formik.setFieldValue(
-                      "reply_email_notification",
-                      e.target.value
-                    )
+                  control={
+                    <Checkbox
+                      checked={formik.values.reply_email_notification}
+                      onChange={(e) =>
+                        formik.setFieldValue(
+                          "reply_email_notification",
+                          e.target.checked
+                        )
+                      }
+                    />
                   }
-                  control={<Checkbox />}
                   label="Notify me on follow-up replies via email"
                 />
               </FormGroup>
