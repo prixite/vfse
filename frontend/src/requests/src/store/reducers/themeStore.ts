@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface ThemeColorState {
   sideBarBackground: string;
@@ -23,8 +23,7 @@ const initialState: ThemeColorState = {
 export const themeSlice = createSlice({
   name: "themeColor",
   initialState,
-  reducers: {
-  },
+  reducers: {},
 });
 
 export default themeSlice.reducer;
