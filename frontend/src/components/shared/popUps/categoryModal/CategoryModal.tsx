@@ -112,7 +112,7 @@ export default function CategoryModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">Color Name</p>
+                  <p className="info-label required">Color Name</p>
                   <TextField
                     name="name"
                     className="info-field"

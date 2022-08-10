@@ -94,7 +94,7 @@ const validationSchema = yup.object({
   model: yup.string().required("Model is a required field"),
   name: yup.string().required("Name is a required field"),
   site: yup.string().required("Site is a required field"),
-  grafana: yup.string().url(),
+  grafana: yup.string().url().nullable(),
 });
 
 const getPayload = (values: FormState): System => {
@@ -154,13 +154,6 @@ const getPayload = (values: FormState): System => {
   };
 };
 
-const setErrors = (data: unknown) => {
-  if (data.non_field_errors) {
-    toast.error(data.non_field_errors[0]);
-  }
-  toast.error("Error occurred while saving system");
-};
-
 export default function SystemModal(props: SystemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [sites, setSites] = useState([]);
@@ -188,11 +181,9 @@ export default function SystemModal(props: SystemProps) {
         toast.success("System successfully saved");
       } catch (error) {
         setDisableButton(false);
-        if (error?.status === 400) {
-          setErrors(error.data, formik);
-        } else {
-          toast.error("Error occurred while saving system");
-        }
+        if (error?.status < 500)
+          toast.error(error.data[Object.keys(error.data)[0]][0]);
+        else toast.error("Error occurred while saving system");
       } finally {
         handleClear();
       }
@@ -613,8 +604,8 @@ export default function SystemModal(props: SystemProps) {
                 </div>
               </Grid>
             </Grid>
-            <div className="checkbox-container">
-              <div className="checkBox">
+            <Grid container className="checkbox-container">
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.vfse"
                   onClick={formik.handleChange}
@@ -626,8 +617,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.vfse}
                 />
                 <span className="text">vFSE [VNC OR OTHER]</span>
-              </div>
-              <div className="checkBox">
+              </Grid>
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.ssh"
                   onClick={formik.handleChange}
@@ -637,8 +628,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.ssh}
                 />
                 <span className="text">SSH [or terminal]</span>
-              </div>
-              <div className="checkBox">
+              </Grid>
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.web"
                   onClick={formik.handleChange}
@@ -648,8 +639,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.web}
                 />
                 <span className="text">Service web browser</span>
-              </div>
-              <div className="checkBox">
+              </Grid>
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.virtual"
                   onClick={formik.handleChange}
@@ -661,8 +652,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.virtual}
                 />
                 <span className="text">Virtual media control</span>
-              </div>
-            </div>
+              </Grid>
+            </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
