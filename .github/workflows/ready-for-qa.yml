@@ -21,7 +21,7 @@ jobs:
           -name: Upon Merge Approval Reasign to QA with Label
       run: |
           gh pr view "${{github.event.pull_request.number}}" > tmp.log
-          TEMP=$(grep -hnr "#" tmp.log)
+          TEMP=$(grep -hnr "number:" tmp.log)
           for i in $TEMP
           do
             :
@@ -38,9 +38,9 @@ jobs:
               gh issue view "$ISSUENO" > tmp.log
               if grep "Frontend" tmp.log
               then
-                echo "Umair J"
+                gh issue edit "$ISSUENO" --add-assignee umairjameelprixite
               else
-                echo "Umair W"
+                gh issue edit "$ISSUENO" --add-assignee umairwaheed
               fi
             fi
           done
