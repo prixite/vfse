@@ -7,14 +7,10 @@ on:
 jobs:
   pr_created:
     # if: github.event.action == 'opened' || github.event.action == 'reopened'
+    if: github.event.pull_request
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-    - name: if_pr
-      if: github.event.pull_request
-      run: |
-        echo An pull request was Opened
-        echo "${{github.event.pull_request.number}}"
     - uses: actions/checkout@v3
     - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
