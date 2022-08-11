@@ -22,11 +22,12 @@ jobs:
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           filterOutDraft: true
+          sha: ${{ github.event.pull_request.head.sha }}
     - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           -name: PR Opened austo add reviewer
       run: |
-          echo "from ${{ fromJSON(steps.PR.outputs.pr).pr_body }}" > tmp.log
+          echo "from ${{ steps.PR.outputs.pr_body }}" > tmp.log
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
