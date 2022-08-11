@@ -18,6 +18,7 @@ jobs:
           gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
+          printf -v ISSUENO '%s' $ISSUENO
           re='^[0-9]+$'
           if [[ $ISSUENO =~ $re ]]
           then

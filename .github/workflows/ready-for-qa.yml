@@ -26,10 +26,10 @@ jobs:
           do
             :
             ISSUENO=${i#*#}
+            printf -v ISSUENO '%s' $ISSUENO
             re='^[0-9]+$'
             if [[ $ISSUENO =~ $re ]]
             then
-              printf -v ISSUENO '%s' $ISSUENO
               gh issue close "$ISSUENO"
               gh issue reopen "$ISSUENO"
               gh issue edit "$ISSUENO" --add-label "ready-for-qa"
