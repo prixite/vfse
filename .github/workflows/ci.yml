@@ -7,9 +7,9 @@ on:
 jobs:
   pr_created:
     runs-on: self-hosted
+    if: github.event.action == "opened"
     steps:
       - name: PR Opened
-        if: github.event.action == "opened"
       - uses: actions/checkout@v3
       - env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
