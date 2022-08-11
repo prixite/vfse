@@ -17,11 +17,16 @@ jobs:
         echo An pull request was Opened
         echo "${{github.event.pull_request.number}}"
     - uses: actions/checkout@v3
+    - uses: 8BitJonny/gh-get-current-pr@2.1.0
+      id: PR
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          filterOutDraft: true
     - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           -name: PR Opened austo add reviewer
       run: |
-          gh pr view ${{github.event.pull_request.number}} > tmp.log
+          echo ${{ steps.PR.outputs.pr_body }} > tmp.log
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
