@@ -13,31 +13,31 @@ jobs:
     - name: if_pr
       if: github.event.pull_request
       run: |
-        echo An pull request was closed
+        echo An pull request was Opened
         echo "${{github.event.pull_request.number}}"
     - uses: actions/checkout@v3
     - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           -name: PR Opened auto add reviewer
       run: |
-          gh pr view "${{github.event.pull_request.number}}" > tmp.log
-          gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
-          TEMP=$(grep -hnr "#" tmp.log)
-          ISSUENO=${TEMP#*#}
-          printf -v ISSUENO '%s' $ISSUENO
-          re='^[0-9]+$'
-          if [[ $ISSUENO =~ $re ]]
+        gh pr view "${{github.event.pull_request.number}}" > tmp.log
+        gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
+        TEMP=$(grep -hnr "#" tmp.log)
+        ISSUENO=${TEMP#*#}
+        printf -v ISSUENO '%s' $ISSUENO
+        re='^[0-9]+$'
+        if [[ $ISSUENO =~ $re ]]
+        then
+          gh issue view "$ISSUENO" > tmp.log
+          LABELS=$(grep "labels:" tmp.log)
+          if [[ $LABELS == *"Frontend"* ]]
           then
-            gh issue view "$ISSUENO" > tmp.log
-            LABELS=$(grep "labels:" tmp.log)
-            if [[ $LABELS == *"Frontend"* ]]
-            then
-              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite
-              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
-            else
-              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
-            fi
+            gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite
+            gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
+          else
+            gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
           fi
+        fi
 
   pre-commit:
     runs-on: self-hosted
