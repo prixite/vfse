@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v3
     - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          -name: PR Opened add reviewer
+          -name: PR Opened auto add reviewer
       run: |
           gh pr view "${{github.event.pull_request.number}}" > tmp.log
           gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
