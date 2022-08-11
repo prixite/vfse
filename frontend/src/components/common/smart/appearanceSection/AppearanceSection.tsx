@@ -159,7 +159,7 @@ const AppearanceSection = () => {
         <Box component="div" sx={{ background: "#fff" }} m={1} p={4}>
           <Grid container>
             <Grid item>
-              <h4>Client Name</h4>
+              <h4 style={{ marginBottom: "3px" }}>Client Name</h4>
               <TextField
                 disabled
                 fullWidth
@@ -236,7 +236,7 @@ const AppearanceSection = () => {
             </Grid>
           </Grid>
 
-          <Grid container spacing={0.5} mt={3}>
+          <Grid container mt={3} rowSpacing={2}>
             <Grid item xs={12} sm={12} md={6} lg={4}>
               <Grid
                 container
@@ -245,7 +245,7 @@ const AppearanceSection = () => {
                 alignItems="center"
               >
                 <Grid item xs={6} md={6} lg={6}>
-                  <h4>{newOrganizationFont1}</h4>
+                  <h4 style={{ margin: "3px 0px" }}>{newOrganizationFont1}</h4>
                   <FormControl fullWidth>
                     <Select
                       value={formik.values.mainContentFont}
@@ -282,7 +282,7 @@ const AppearanceSection = () => {
                 alignItems="center"
               >
                 <Grid item xs={6} md={6} lg={6}>
-                  <h4>{newOrganizationFont2}</h4>
+                  <h4 style={{ margin: "3px 0px" }}>{newOrganizationFont2}</h4>
                   <FormControl fullWidth>
                     <Select
                       value={formik.values.sideBarFont}
