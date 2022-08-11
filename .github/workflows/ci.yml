@@ -6,7 +6,7 @@ on:
 
 jobs:
   pr_created:
-    if: github.event.action == "opened"
+    if: github.event.action == 'opened'
     runs-on: self-hosted
     steps:
     - uses: actions/checkout@v3
