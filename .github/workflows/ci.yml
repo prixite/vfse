@@ -24,10 +24,10 @@ jobs:
             LABELS=$(grep "labels:" tmp.log)
             if [[ $LABELS == *"Frontend"* ]]
             then
-              gh pr edit "$ISSUENO" --add-reviewer umairjameelprixite
-              gh pr edit "$ISSUENO" --add-reviewer umairwaheed
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
             else
-              gh pr edit "$ISSUENO" --add-reviewer umairwaheed
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
             fi
 
   pre-commit:
