@@ -245,7 +245,9 @@ const AppearanceSection = () => {
                 alignItems="center"
               >
                 <Grid item xs={6} md={6} lg={6}>
-                  <h4 style={{ margin: "5px 0px" }}>{newOrganizationFont1}</h4>
+                  <h4 style={{ marginBottom: "5px" }}>
+                    {newOrganizationFont1}
+                  </h4>
                   <FormControl fullWidth>
                     <Select
                       value={formik.values.mainContentFont}
@@ -282,7 +284,9 @@ const AppearanceSection = () => {
                 alignItems="center"
               >
                 <Grid item xs={6} md={6} lg={6}>
-                  <h4 style={{ margin: "5px 0px" }}>{newOrganizationFont2}</h4>
+                  <h4 style={{ marginBottom: "5px" }}>
+                    {newOrganizationFont2}
+                  </h4>
                   <FormControl fullWidth>
                     <Select
                       value={formik.values.sideBarFont}
