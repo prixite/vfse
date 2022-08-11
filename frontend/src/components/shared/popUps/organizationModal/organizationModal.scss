@@ -115,6 +115,12 @@
       .heading-btn {
         text-transform: capitalize;
         font-size: 16px;
+        height: 41px;
+        width: 41px;
+        min-width: 41px;
+        margin-right: 10px;
+        padding: 0;
+        border-radius: 50%;
         .add-btn {
           margin-right: 14px;
         }
