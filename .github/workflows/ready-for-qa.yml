@@ -22,11 +22,27 @@ jobs:
       run: |
           gh pr view "${{github.event.pull_request.number}}" > tmp.log
           TEMP=$(grep -hnr "#" tmp.log)
-          ISSUENO=${TEMP#*#}
-          printf -v ISSUENO '%s' $ISSUENO
-          gh issue close "$ISSUENO"
-          gh issue reopen "$ISSUENO"
-          gh issue edit "$ISSUENO" --add-label "ready-for-qa"
-          gh issue edit "$ISSUENO" --add-label "staging"
-          gh issue edit "$ISSUENO" --remove-assignee ${{ github.event.pull_request.user.login }}
-          gh issue edit "$ISSUENO" --add-assignee umairwaheed
+          for i in $TEMP
+          do
+            :
+            ISSUENO=${i#*#}
+            printf -v ISSUENO '%s' $ISSUENO
+            re='^[0-9]+$'
+            if [[ $ISSUENO =~ $re ]]
+            then
+              gh issue close "$ISSUENO"
+              gh issue reopen "$ISSUENO"
+              gh issue edit "$ISSUENO" --add-label "ready-for-qa"
+              gh issue edit "$ISSUENO" --add-label "staging"
+              gh issue edit "$ISSUENO" --remove-assignee ${{ github.event.pull_request.user.login }}
+              gh issue view "$ISSUENO" > tmp.log
+              LABELS=$(grep "labels:" tmp.log)
+              if [[ $LABELS == *"Frontend"* ]]
+              then
+                gh issue edit "$ISSUENO" --add-assignee umairjameelprixite
+                gh issue edit "$ISSUENO" --add-assignee umairwaheed
+              else
+                gh issue edit "$ISSUENO" --add-assignee umairwaheed
+              fi
+            fi
+          done
