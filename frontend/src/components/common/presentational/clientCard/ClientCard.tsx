@@ -10,6 +10,7 @@ import "@src/components/common/presentational/clientCard/clientCard.scss";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import { returnPayloadThemeObject } from "@src/helpers/utils/utils";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
@@ -18,15 +19,7 @@ import {
 } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
-import {
-  updateButtonColor,
-  updateSideBarColor,
-  updateButtonTextColor,
-  updateSideBarTextColor,
-  updateSecondaryColor,
-  updateFontOne,
-  updateFontTwo,
-} from "@src/store/reducers/themeStore";
+import { updateTheme } from "@src/store/reducers/themeStore";
 
 interface ClientCardProps {
   setOrganization: Dispatch<SetStateAction<Organization>>;
@@ -114,32 +107,23 @@ const ClientCard = ({
   };
   const handleUpdateSelectedOrganization = () => {
     if (superuser) {
+      const themeObj = returnPayloadThemeObject(row);
       dispatch(setSelectedOrganization({ selectedOrganization: row }));
-      dispatch(updateSideBarColor(row.appearance.sidebar_color));
-      dispatch(updateButtonColor(row.appearance.primary_color));
-      dispatch(updateSideBarTextColor(row.appearance.sidebar_text));
-      dispatch(updateButtonTextColor(row.appearance.button_text));
-      dispatch(updateSecondaryColor(row.appearance.secondary_color));
-      dispatch(updateFontOne(row.appearance.font_one));
-      dispatch(updateFontTwo(row.appearance.font_two));
-      navigate(`/${organizationRoute}/${id}/${networkRoute}/`, {
-        replace: true,
-      });
+      dispatch(updateTheme(themeObj)),
+        navigate(`/${organizationRoute}/${id}/${networkRoute}/`, {
+          replace: true,
+        });
     }
   };
   const switchOrganization = async (org) => {
+    const themeObj = returnPayloadThemeObject(org);
     await Promise.all([
       dispatch(setSelectedOrganization({ selectedOrganization: org })),
-      dispatch(updateSideBarColor(org.appearance.sidebar_color)),
-      dispatch(updateButtonColor(org.appearance.primary_color)),
-      dispatch(updateSideBarTextColor(org.appearance.sidebar_text)),
-      dispatch(updateButtonTextColor(org.appearance.button_text)),
-      dispatch(updateSecondaryColor(org.appearance.secondary_color)),
-      dispatch(updateFontOne(org.appearance.font_one)),
-      dispatch(updateFontTwo(org.appearance.font_two)),
+      dispatch(updateTheme(themeObj)),
       navigate(`/${organizationRoute}/${org?.id}/`, { replace: true }),
     ]);
   };
+
   return (
     <div className="ClientCard">
       <Box
