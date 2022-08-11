@@ -58,7 +58,7 @@ const FolderDetailSection = () => {
           actualData={folderData?.documents}
           setData={setArticlesList}
         />
-        {folderData.documents.length ? (
+        {folderData.documents.length && articlesList.length ? (
           <Grid container spacing={1} style={{ marginTop: "9px" }}>
             {articlesList?.map((item, index) => (
               <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
