@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           -name: PR Opened austo add reviewer
       run: |
-          echo ${{ steps.PR.outputs.pr_body }} > tmp.log
+          echo "from ${{ fromJSON(steps.PR.outputs.pr).pr_body }}" > tmp.log
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
