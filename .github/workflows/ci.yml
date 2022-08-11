@@ -23,7 +23,6 @@ jobs:
           -name: PR Opened auto add reviewer
       run: |
           gh pr view "${{github.event.pull_request.number}}" > tmp.log
-          gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           printf -v ISSUENO '%s' $ISSUENO
@@ -40,6 +39,7 @@ jobs:
               gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
             fi
           fi
+          gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
           echo "Process completed"
 
   pre-commit:
