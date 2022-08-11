@@ -26,6 +26,11 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
   const defaultOrganizationData = useAppSelector(
     (state) => state.organization.currentOrganization
   );
+
+  const selectedOrganizationData = useAppSelector(
+    (state) => state.organization.selectedOrganization
+  );
+
   const { organizationRoute } = constants;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -84,7 +89,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           className="ProfilePopOver__header"
           style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
         >
-          <p>{defaultOrganizationData?.name}</p>
+          <p>{selectedOrganizationData?.name}</p>
         </div>
         <div
           className="profile-item"
