@@ -23,15 +23,26 @@
       font-family: "ProximaNova-Regular";
       font-size: 13px;
       font-weight: 600;
-      color: #151e29;
       font-size: 16px;
       line-height: 24px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      word-wrap: break-word;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
     }
     .info {
       font-family: "ProximaNova-Regular";
       font-size: 12px;
       color: #696f77;
       margin-top: 7px;
+      .category {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        word-wrap: break-word;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+      }
     }
   }
   .dropdown {

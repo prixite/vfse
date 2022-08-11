@@ -293,7 +293,7 @@ const TopViewBtns = ({
         setList(newList);
       }
     }, 500),
-    []
+    [actualData]
   );
 
   useEffect(() => {

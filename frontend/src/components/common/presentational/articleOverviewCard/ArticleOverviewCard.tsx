@@ -6,7 +6,7 @@ interface ArticleOverviewCardProps {
 const ArticleOverviewCard = ({ htmlText }: ArticleOverviewCardProps) => {
   const [tableContents, setTableContents] = useState([]);
   const getHeadings = () => {
-    const stripedHeadings = htmlText.match(/<h[1-6]>(.*?)<\/h[1-6]>/g);
+    const stripedHeadings = htmlText.match(/<h[1-6].*?>(.*?)<\/h[1-6]>/g);
     if (stripedHeadings && stripedHeadings?.length) {
       //removing p tags from string
       const headingsText = stripedHeadings.map((heading) => {
@@ -35,7 +35,11 @@ const ArticleOverviewCard = ({ htmlText }: ArticleOverviewCardProps) => {
   }, [htmlText]);
   return (
     <div className="overview">
-      <div className="card">{renderHeadings()}</div>
+      {tableContents && tableContents.length ? (
+        <div className="card">{renderHeadings()}</div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

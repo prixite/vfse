@@ -276,7 +276,7 @@ export default function DocumentModal({
       <DialogContent>
         <div className="modal-content">
           <div className="info-section">
-            <p className="info-label">{link}</p>
+            <p className="info-label required">{link}</p>
             <TextField
               inputProps={{ readOnly: true }}
               value={formik.values.docLink ? formik.values.docLink : ""}
@@ -301,7 +301,7 @@ export default function DocumentModal({
             <p className="errorText">{formik.errors.docLink}</p>
           </div>
           <div className="info-section">
-            <p className="info-label">{model}</p>
+            <p className="info-label required">{model}</p>
             <TextField
               name="modelName"
               value={formik.values.modelName}

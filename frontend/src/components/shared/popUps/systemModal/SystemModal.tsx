@@ -604,8 +604,8 @@ export default function SystemModal(props: SystemProps) {
                 </div>
               </Grid>
             </Grid>
-            <div className="checkbox-container">
-              <div className="checkBox">
+            <Grid container className="checkbox-container">
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.vfse"
                   onClick={formik.handleChange}
@@ -617,8 +617,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.vfse}
                 />
                 <span className="text">vFSE [VNC OR OTHER]</span>
-              </div>
-              <div className="checkBox">
+              </Grid>
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.ssh"
                   onClick={formik.handleChange}
@@ -628,8 +628,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.ssh}
                 />
                 <span className="text">SSH [or terminal]</span>
-              </div>
-              <div className="checkBox">
+              </Grid>
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.web"
                   onClick={formik.handleChange}
@@ -639,8 +639,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.web}
                 />
                 <span className="text">Service web browser</span>
-              </div>
-              <div className="checkBox">
+              </Grid>
+              <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.virtual"
                   onClick={formik.handleChange}
@@ -652,8 +652,8 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.virtual}
                 />
                 <span className="text">Virtual media control</span>
-              </div>
-            </div>
+              </Grid>
+            </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">

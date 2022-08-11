@@ -620,7 +620,7 @@ export default function UserModal(props: Props) {
               </div>
               <div className="divided-div">
                 <div>
-                  <p className="info-label required">{userRole}</p>
+                  <p className="info-label">{userRole}</p>
                   <FormControl sx={{ minWidth: 356 }}>
                     <Select
                       name="role"
@@ -670,7 +670,7 @@ export default function UserModal(props: Props) {
                 </div>
               </div>
               <div>
-                <p className="info-label required">{userCustomer}</p>
+                <p className="info-label">{userCustomer}</p>
                 <FormControl sx={{ width: "100%" }}>
                   <Select
                     name="customer"

@@ -22,16 +22,10 @@ import {
   setCurrentOrganization,
   setSelectedOrganization,
 } from "@src/store/reducers/organizationStore";
-import {
-  updateButtonColor,
-  updateSideBarColor,
-  updateButtonTextColor,
-  updateSideBarTextColor,
-  updateFontOne,
-  updateFontTwo,
-  updateSecondaryColor,
-} from "@src/store/reducers/themeStore";
+import { updateTheme } from "@src/store/reducers/themeStore";
 import useTheme from "@src/theme";
+
+import { returnPayloadThemeObject } from "./helpers/utils/utils";
 import "@src/app.scss";
 export function withRouter(Component) {
   function ComponentWithRouterProp(props) {
@@ -49,13 +43,13 @@ const App = () => {
   );
   const { pathname } = useLocation();
   const paramsId = matchPath("/clients/*", pathname);
-  const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
+  const paramsSingleId = paramsId.params["*"].split("/");
   const { data, isFetching } = useOrganizationsMeReadQuery({
-    id: paramsSingleId,
+    id: paramsSingleId[0],
   });
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: paramsSingleId,
+      id: paramsSingleId[0],
     });
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstTimeRendered, setIsFirstTimeRendered] = useState(false);
@@ -69,57 +63,19 @@ const App = () => {
         );
         if (organizationList) {
           const selectedOrganizationData = organizationList;
+          const themeObj = returnPayloadThemeObject(selectedOrganizationData);
           dispatch(
             setSelectedOrganization({
               selectedOrganization: selectedOrganizationData,
             })
           );
-          dispatch(
-            updateSideBarColor(
-              selectedOrganizationData.appearance.sidebar_color
-            )
-          );
-          dispatch(
-            updateButtonColor(selectedOrganizationData.appearance.primary_color)
-          );
-          dispatch(
-            updateSideBarTextColor(
-              selectedOrganizationData.appearance.sidebar_text
-            )
-          );
-          dispatch(
-            updateButtonTextColor(
-              selectedOrganizationData.appearance.button_text
-            )
-          );
-          dispatch(updateFontOne(selectedOrganizationData.appearance.font_one));
-          dispatch(updateFontTwo(selectedOrganizationData.appearance.font_two));
-          dispatch(
-            updateSecondaryColor(
-              selectedOrganizationData?.appearance?.secondary_color
-            )
-          );
+          dispatch(updateTheme(themeObj));
         } else {
+          const themeObj = returnPayloadThemeObject(organizationData);
           dispatch(
             setSelectedOrganization({ selectedOrganization: organizationData })
           );
-          dispatch(
-            updateSideBarColor(organizationData.appearance.sidebar_color)
-          );
-          dispatch(
-            updateButtonColor(organizationData.appearance.primary_color)
-          );
-          dispatch(
-            updateSideBarTextColor(organizationData.appearance.sidebar_text)
-          );
-          dispatch(
-            updateButtonTextColor(organizationData.appearance.button_text)
-          );
-          dispatch(updateFontOne(organizationData.appearance.font_one));
-          dispatch(updateFontTwo(organizationData.appearance.font_two));
-          dispatch(
-            updateSecondaryColor(organizationData?.appearance?.secondary_color)
-          );
+          dispatch(updateTheme(themeObj));
         }
         setIsFirstTimeRendered(true);
         setIsLoading(false);
