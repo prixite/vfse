@@ -36,9 +36,11 @@ jobs:
               gh issue edit "$ISSUENO" --add-label "staging"
               gh issue edit "$ISSUENO" --remove-assignee ${{ github.event.pull_request.user.login }}
               gh issue view "$ISSUENO" > tmp.log
-              if grep "Frontend" tmp.log
+              LABELS=$(grep "labels:" tmp.log)
+              if [[ $LABELS == *"Frontend"* ]]
               then
                 gh issue edit "$ISSUENO" --add-assignee umairjameelprixite
+                gh issue edit "$ISSUENO" --add-assignee umairwaheed
               else
                 gh issue edit "$ISSUENO" --add-assignee umairwaheed
               fi
