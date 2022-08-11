@@ -6,30 +6,30 @@ on:
 
 jobs:
   pr_created:
-    runs-on: self-hosted
     if: github.event.action == "opened"
+    runs-on: self-hosted
     steps:
-      - name: PR Opened
-      - uses: actions/checkout@v3
-      - env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            -name: Add reviewer by reading issue
-        run: |
-            gh pr view "${{github.event.pull_request.number}}" > tmp.log
-            TEMP=$(grep -hnr "#" tmp.log)
-            ISSUENO=${TEMP#*#}
-            re='^[0-9]+$'
-            if [[ $ISSUENO =~ $re ]]
+    - uses: actions/checkout@v3
+    - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          -name: PR Opened add reviewer
+      run: |
+          gh pr view "${{github.event.pull_request.number}}" > tmp.log
+          TEMP=$(grep -hnr "#" tmp.log)
+          ISSUENO=${TEMP#*#}
+          re='^[0-9]+$'
+          if [[ $ISSUENO =~ $re ]]
+          then
+            gh issue view "$ISSUENO" > tmp.log
+            LABELS=$(grep "labels:" tmp.log)
+            if [[ $LABELS == *"Frontend"* ]]
             then
-              gh issue view "$ISSUENO" > tmp.log
-              LABELS=$(grep "labels:" tmp.log)
-              if [[ $LABELS == *"Frontend"* ]]
-              then
-                gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite
-                gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
-              else
-                gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
-              fi
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
+            else
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
+            fi
+          fi
 
   pre-commit:
     runs-on: self-hosted
