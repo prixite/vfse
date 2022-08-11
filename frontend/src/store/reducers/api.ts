@@ -16,8 +16,15 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     "Topics",
     "Favorite",
     "Reply",
+    "RecentActivity",
   ],
   endpoints: {
+    vfseUserActivityList: {
+      providesTags: ["RecentActivity", "Reply", "Comment", "Topics"],
+    },
+    vfseTopicsCommentsCreate: {
+      invalidatesTags: ["RecentActivity"],
+    },
     vfseCommentsRepliesList: {
       providesTags: (result = [], error, { id }) => {
         return [
