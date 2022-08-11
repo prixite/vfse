@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import AddIcon from "@mui/icons-material/Add";
 import { Box, TextField, Select, MenuItem, FormControl } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -13,7 +14,6 @@ import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
-import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
@@ -442,7 +442,7 @@ export default function OrganizationModal({
           {page === "1" ? (
             <>
               <div>
-                <p className="dropzone-title">{newOrganizationLogo}</p>
+                <p className="dropzone-title required">{newOrganizationLogo}</p>
                 <DropzoneBox
                   imgSrc={formik.values.organizationLogo}
                   setSelectedImage={setSelectedImage}
@@ -459,7 +459,7 @@ export default function OrganizationModal({
                 }
               >
                 <div className="info-section">
-                  <p className="info-label">{newOrganizationName}</p>
+                  <p className="info-label required">{newOrganizationName}</p>
                   <TextField
                     name="organizationName"
                     value={formik.values.organizationName}
@@ -472,7 +472,7 @@ export default function OrganizationModal({
                     {formik.errors.organizationName}
                   </p>
                   <p
-                    className="info-label"
+                    className="info-label required"
                     style={
                       formik.errors.organizationName
                         ? { marginTop: "10px" }
@@ -601,14 +601,26 @@ export default function OrganizationModal({
                 <span className="heading-txt">
                   {newOrganizationHealthNetworks}
                 </span>
-                <Button
-                  className="heading-btn"
-                  disabled={isNetworkImageUploading}
+                <div
+                  style={{
+                    cursor: "pointer",
+                    color: buttonBackground,
+                    height: "53px",
+                    width: "146px",
+                  }}
                   onClick={addNetworks}
                 >
-                  <img src={AddBtn} className="add-btn" />
+                  <Button
+                    className="heading-btn"
+                    style={{
+                      backgroundColor: buttonBackground,
+                      color: buttonTextColor,
+                    }}
+                  >
+                    <AddIcon style={{ height: "30px", width: "30px" }} />
+                  </Button>
                   {newOrganizationAddNetwork}
-                </Button>
+                </div>
               </div>
               {!isNetworkDataLoading ? (
                 formik.values.networks.map((network, index) => (

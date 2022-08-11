@@ -7,14 +7,18 @@ import TopicComment from "@src/components/common/presentational/topicComment/Top
 import { parseLink } from "@src/helpers/paging";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery, api } from "@src/store/reducers/api";
-import { VfseTopicsCommentsCreateApiArg } from "@src/store/reducers/generated";
+import {
+  VfseTopicsCommentsCreateApiArg,
+  VfseTopicsCommentsListApiResponse,
+} from "@src/store/reducers/generated";
 import "@src/components/common/smart/topicCommentSection/topicCommentSection.scss";
 
 const TopicCommentSection = () => {
   const selectedOrganization = useSelectedOrganization();
   const { topicId } = useParams<{ topicId: string }>();
   const [page, setPage] = useState(1);
-  const [comments, setCommentsData] = useState([]);
+  const [comments, setCommentsData] =
+    useState<VfseTopicsCommentsListApiResponse>([]);
   //POST PostTopicComment
   const [addComment] = api.usePostTopicCommentMutation();
   //GET GetTopicsCommentsList
@@ -101,12 +105,7 @@ const TopicCommentSection = () => {
         <>
           {comments.map((comment, key) => (
             <div key={key} style={{ width: "100%" }}>
-              <TopicComment
-                profile_picture={me?.profile_picture}
-                first_name={me?.first_name}
-                last_name={me?.last_name}
-                commentData={comment}
-              />
+              <TopicComment commentData={comment} />
             </div>
           ))}
           {totalPages ? (

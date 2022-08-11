@@ -49,13 +49,13 @@ const App = () => {
   );
   const { pathname } = useLocation();
   const paramsId = matchPath("/clients/*", pathname);
-  const paramsSingleId = paramsId.params["*"].replace(/[^\d.]/g, "");
+  const paramsSingleId = paramsId.params["*"].split("/");
   const { data, isFetching } = useOrganizationsMeReadQuery({
-    id: paramsSingleId,
+    id: paramsSingleId[0],
   });
   const { data: organizationList, isFetching: FetchingList } =
     useOrganizationsReadQuery({
-      id: paramsSingleId,
+      id: paramsSingleId[0],
     });
   const [isLoading, setIsLoading] = useState(true);
   const [isFirstTimeRendered, setIsFirstTimeRendered] = useState(false);

@@ -15,15 +15,15 @@ const useStyles = makeStyles(() => ({
     marginBottom: "16px",
   },
   imgStyling: {
-    height: "32px",
-    width: "32px",
+    height: "38px",
+    width: "38px",
     overflow: "hidden",
     display: "flex",
   },
   profilePic: {
-    width: "inherit",
-    height: "inherit",
-    objectFit: "contain",
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
   },
   cardTitle: {
     fontWeight: "600",

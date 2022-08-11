@@ -11,7 +11,7 @@ import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants } from "@src/helpers/utils/constants";
-import { useSelectedOrganization } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
 import "@src/components/common/presentational/knowledgeTopCard/knowledgeTopCard.scss";
@@ -38,7 +38,7 @@ const KnowledgeTopCard = ({
   const [cardText, setCardText] = useState("");
   const { organizationRoute } = constants;
   const location = useLocation();
-
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery(
     {
@@ -114,7 +114,10 @@ const KnowledgeTopCard = ({
         >
           <Box component="div" className="card">
             <img src={fileImage} />
-            <h2 className="title"> {title}</h2>
+            <h2 className="title" style={{ color: `${buttonBackground}` }}>
+              {" "}
+              {title}
+            </h2>
             <div className="info">
               <p className="category">{cardText}</p>
             </div>
