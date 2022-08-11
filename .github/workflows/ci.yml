@@ -38,6 +38,7 @@ jobs:
             gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
           fi
         fi
+        echo "${{github.event.pull_request.number}}"
 
   pre-commit:
     runs-on: self-hosted
