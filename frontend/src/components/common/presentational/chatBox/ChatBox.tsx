@@ -75,7 +75,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
           value={yourQuery}
           disabled={isLoading}
           sx={{
-            backgroundColor: "light-gray",
+            width: "inherit",
             "&:hover fieldset": {
               borderColor: "grey",
             },
