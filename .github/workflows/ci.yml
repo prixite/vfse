@@ -15,6 +15,7 @@ jobs:
           -name: PR Opened add reviewer
       run: |
           gh pr view "${{github.event.pull_request.number}}" > tmp.log
+          gh pr edit "${{github.event.pull_request.number}}" --add-assignee github.event.pull_request.user.login
           TEMP=$(grep -hnr "#" tmp.log)
           ISSUENO=${TEMP#*#}
           re='^[0-9]+$'
