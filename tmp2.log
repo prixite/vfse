@@ -1,0 +1,14 @@
+title:	fixes edit document functionality on mobile.
+state:	OPEN
+author:	abdullah4244
+labels:
+assignees:
+reviewers:	umairjameelprixite (Requested), umairwaheed (Requested)
+projects:
+milestone:
+number:	401
+url:	https://github.com/prixite/vfse/pull/401
+additions:	39
+deletions:	55
+--
+Fixes #302
