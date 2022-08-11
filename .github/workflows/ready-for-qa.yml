@@ -29,4 +29,10 @@ jobs:
           gh issue edit "$ISSUENO" --add-label "ready-for-qa"
           gh issue edit "$ISSUENO" --add-label "staging"
           gh issue edit "$ISSUENO" --remove-assignee ${{ github.event.pull_request.user.login }}
-          gh issue edit "$ISSUENO" --add-assignee umairwaheed
+          gh issue view "$ISSUENO" > tmp.log
+          if grep -Fxq "Frontend" tmp.log
+          then
+            gh issue edit "$ISSUENO" --add-assignee umairjameelprixite
+          else
+            gh issue edit "$ISSUENO" --add-assignee umairwaheed
+          fi
