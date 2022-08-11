@@ -87,7 +87,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
       >
         <div
           className="ProfilePopOver__header"
-          style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
+          style={{ padding: "8px 8px 4px 8px" }}
         >
           <p>{selectedOrganizationData?.name}</p>
         </div>
