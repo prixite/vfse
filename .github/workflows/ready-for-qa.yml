@@ -21,7 +21,7 @@ jobs:
           -name: Upon Merge Approval Reasign to QA with Label
       run: |
           gh pr view "${{github.event.pull_request.number}}" > tmp.log
-          TEMP=$(grep -hnr "number:" tmp.log)
+          TEMP=$(grep -hnr "#" tmp.log)
           for i in $TEMP
           do
             :
