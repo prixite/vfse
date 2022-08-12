@@ -85,7 +85,6 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
           <div
             className="sendIcon-Container"
             style={{
-              border: `2px solid ${buttonBackground}`,
               backgroundColor: `${buttonBackground}`,
             }}
           >
