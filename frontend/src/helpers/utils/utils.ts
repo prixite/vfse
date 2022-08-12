@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 
+import { Organization } from "@src/store/reducers/generated";
 import { ApiError } from "@src/types/interfaces";
 
 const validateIPaddress = (ipaddress: string) => {
@@ -12,6 +13,18 @@ const validateIPaddress = (ipaddress: string) => {
     return true;
   }
   return false;
+};
+
+const returnPayloadThemeObject = (org: Organization) => {
+  return {
+    sideBarBackground: org.appearance.sidebar_color,
+    buttonBackground: org.appearance.primary_color,
+    sideBarTextColor: org.appearance.sidebar_text,
+    buttonTextColor: org.appearance.button_text,
+    secondaryColor: org.appearance.secondary_color,
+    fontOne: org.appearance.font_one,
+    fontTwo: org.appearance.font_two,
+  };
 };
 
 const returnSearchedOject = (data, key) => {
@@ -76,4 +89,5 @@ export {
   isBadRequestError,
   getNonFieldError,
   isNonFieldError,
+  returnPayloadThemeObject,
 };

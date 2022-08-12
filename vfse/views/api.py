@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from core import models as core_models
+from core.utils import send_topic_email
 from vfse import filters, models, pagination, serializers
 
 
@@ -67,6 +68,11 @@ class CommentViewset(ModelViewSet):
             .order_by("-id")
         )
 
+    def perform_create(self, serializer):
+        topic = models.Topic.objects.get(id=self.kwargs["pk"])
+        send_topic_email(topic, self.request.user, serializer.validated_data["comment"])
+        return super().perform_create(serializer)
+
 
 class ReplyViewSet(ModelViewSet):
     serializer_class = serializers.CommentSerializer
@@ -78,6 +84,8 @@ class ReplyViewSet(ModelViewSet):
         return models.Comment.objects.filter(parent_id=self.kwargs["pk"])
 
     def perform_create(self, serializer):
+        topic = models.Comment.objects.get(id=self.kwargs["pk"]).topic
+        send_topic_email(topic, self.request.user, serializer.validated_data["comment"])
         serializer.save(parent_id=self.kwargs["pk"])
 
 

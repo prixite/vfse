@@ -20,7 +20,7 @@ const ColorPicker = ({ title, color, onChange }: ColorPickerProps) => {
 
   return (
     <>
-      <h4>{title}</h4>
+      <h4 style={{ paddingBottom: "5px" }}>{title}</h4>
       <div className="picker">
         <div className="picker__content">
           <div
