@@ -82,22 +82,23 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
           }}
         />
         {!isLoading && yourQuery ? (
-          <SendIcon
+          <div
+            className="sendIcon-Container"
             style={{
-              color: buttonBackground,
-              width: "34px",
-              height: "33px",
+              border: `2px solid ${buttonBackground}`,
             }}
-            onClick={() => handleChatting()}
-          />
+          >
+            <SendIcon className="sendIcon" onClick={() => handleChatting()} />
+          </div>
         ) : (
-          <SendIcon
+          <div
+            className="sendIcon-Container"
             style={{
-              color: "#94989E",
-              width: "34px",
-              height: "33px",
+              border: `2px solid #94989E`,
             }}
-          />
+          >
+            <SendIcon className="sendIcon" />
+          </div>
         )}
       </Box>
     </Box>
