@@ -521,7 +521,7 @@ const SystemSection = () => {
         />
         <CommentsDrawer />
       </Box>
-      {chatModal && (
+      {chatModal && browserWidth > mobileWidth && (
         <ChatBox
           // IsOpen={chatModal}
           setIsOpen={setChatModal}
