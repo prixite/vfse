@@ -39,6 +39,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    .sendIcon {
+      width: 34px;
+      height: 33px;
+    }
+    .sendIcon-Container {
+      height: 56px;
+      width: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 5px;
+    }
   }
 }
 .chatBotResponse {

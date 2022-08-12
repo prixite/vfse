@@ -3,9 +3,10 @@ import { useState, Dispatch, SetStateAction } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
-import { Box, TextareaAutosize } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
+import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { System } from "@src/store/reducers/generated";
 
@@ -14,6 +15,7 @@ interface ChatBoxInterface {
   system: System;
 }
 const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const [isLoading, setIsLoading] = useState(false);
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
@@ -63,42 +65,44 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         </div>
       </Box>
       <Box component="div" className="InputSection">
-        <TextareaAutosize
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          placeholder={placeholder}
           onChange={(e) => {
             setYourQuery(e.target.value.toString());
           }}
           value={yourQuery}
-          minRows={1}
-          maxRows={3}
-          aria-label="maximum height"
-          placeholder={placeholder}
-          style={{
-            borderRadius: "7px",
-            padding: "10px",
-            width: "270px",
-            borderColor: "light-gray",
-            userSelect: "text",
-            cursor: "text",
-          }}
           disabled={isLoading}
+          sx={{
+            width: "inherit",
+            "&:hover fieldset": {
+              borderColor: "grey",
+            },
+          }}
         />
         {!isLoading && yourQuery ? (
-          <SendIcon
+          <div
+            className="sendIcon-Container"
             style={{
-              color: "rgb(119, 60, 189)",
-              width: "34px",
-              height: "33px",
+              backgroundColor: `${buttonBackground}`,
             }}
-            onClick={() => handleChatting()}
-          />
+          >
+            <SendIcon
+              className="sendIcon"
+              onClick={() => handleChatting()}
+              style={{ color: "white" }}
+            />
+          </div>
         ) : (
-          <SendIcon
+          <div
+            className="sendIcon-Container"
             style={{
-              color: "#94989E",
-              width: "34px",
-              height: "33px",
+              border: `2px solid #94989E`,
             }}
-          />
+          >
+            <SendIcon className="sendIcon" style={{ color: `#94989E` }} />
+          </div>
         )}
       </Box>
     </Box>
