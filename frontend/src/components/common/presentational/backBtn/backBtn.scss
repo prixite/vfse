@@ -1,7 +1,11 @@
 .back-btn {
-  cursor: pointer;
   display: flex;
   flex-direction: row;
+  margin-bottom: 10px;
+  .back-btn-container {
+    cursor: pointer;
+    display: flex;
+  }
   .back-text {
     font-family: "ProximaNova-Regular";
     font-size: 16px;
