@@ -9,17 +9,17 @@ from core import models
 
 def send_topic_email(topic, user, comment):
     if topic.reply_email_notification and topic.user.id != user.id:
-        org_id = topic.user.get_organizations()
+        organization = topic.user.get_default_organization()
         msg_html = render_to_string(
             "core/emails/topic_notification.html",
             {
-                "topic_link": f"{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",  # noqa
+                "topic_link": f"{settings.DOMAIN_NAME}/clients/{organization.id}/forum/topic/{topic.id}/",  # noqa
                 "content": comment,
             },
         )
         send_mail(
             f"{user.get_full_name()} just commented on your post '{topic.title}'.",
-            f"{comment} \nclick on the link below. \n{settings.DOMAIN_NAME}/clients/{org_id[0]}/forum/topic/{topic.id}",  # noqa
+            f"{comment} \nclick on the link below. \n{settings.DOMAIN_NAME}/clients/{organization.id}/forum/topic/{topic.id}/",  # noqa
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[topic.user.username],
             fail_silently=True,
