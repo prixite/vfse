@@ -86,9 +86,14 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
             className="sendIcon-Container"
             style={{
               border: `2px solid ${buttonBackground}`,
+              backgroundColor: `${buttonBackground}`,
             }}
           >
-            <SendIcon className="sendIcon" onClick={() => handleChatting()} />
+            <SendIcon
+              className="sendIcon"
+              onClick={() => handleChatting()}
+              style={{ color: "white" }}
+            />
           </div>
         ) : (
           <div
@@ -97,7 +102,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
               border: `2px solid #94989E`,
             }}
           >
-            <SendIcon className="sendIcon" />
+            <SendIcon className="sendIcon" style={{ color: `#94989E` }} />
           </div>
         )}
       </Box>
