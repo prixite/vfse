@@ -43,8 +43,10 @@ const useTheme = ({ buttonBackground }) => {
       },
       MuiCheckbox: {
         styleOverrides: {
-          checked: {
-            color: `${buttonBackground} !important`,
+          root: {
+            "&.Mui-checked": {
+              color: `${buttonBackground} !important`,
+            },
           },
           colorPrimary: {
             color: `${buttonBackground} !important`,

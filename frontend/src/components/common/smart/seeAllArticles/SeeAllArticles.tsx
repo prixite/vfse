@@ -51,21 +51,22 @@ const SeeAllArticles = () => {
         actualData={topData}
       />
       <h2 className={classes.subHeading}>All Articles</h2>
-      <Grid container spacing={1}>
-        {articlesList.map((item, index) => (
-          <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
-            <KnowledgeTopCard
-              title={item?.title}
-              description={item?.text}
-              id={item?.id}
-              favourite={item?.favorite}
-              path="see-all"
-              article={item}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      {!articlesList?.length && query?.length > 2 && (
+      {articlesList.length ? (
+        <Grid container spacing={1}>
+          {articlesList.map((item, index) => (
+            <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
+              <KnowledgeTopCard
+                title={item?.title}
+                description={item?.text}
+                id={item?.id}
+                favourite={item?.favorite}
+                path="see-all"
+                article={item}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
         <NoDataFound
           search
           setQuery={setQuery}

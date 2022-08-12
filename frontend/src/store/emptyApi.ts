@@ -158,7 +158,7 @@ export const emptySplitApi = createApi({
         method: "post",
         body: document,
       }),
-      invalidatesTags: [{ type: "Article" }, "Category"],
+      invalidatesTags: [{ type: "Article" }, "Category", "Folder"],
     }),
     deleteArticle: builder.mutation<void, { id: number }>({
       query: ({ id }) => ({

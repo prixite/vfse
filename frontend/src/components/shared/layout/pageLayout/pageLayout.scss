@@ -25,6 +25,7 @@
     .main-content {
       margin-bottom: 110px;
       line-height: 1;
+      min-height: calc(100vh - 110px);
     }
   }
 }
