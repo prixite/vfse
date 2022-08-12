@@ -164,7 +164,7 @@ const Registeration = () => {
   }, [userRoles]);
   useEffect(() => {
     if (managers && managers.length) {
-      setManager(managers[1].id.toString());
+      setManager(managers[0].id.toString());
     }
   }, [managers]);
   const handleFirstName = (e) => {
