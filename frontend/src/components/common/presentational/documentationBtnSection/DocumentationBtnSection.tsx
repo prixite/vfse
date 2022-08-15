@@ -40,7 +40,7 @@ const Btn = ({
       onClick={handleClick}
     >
       {icon ? icon : icon}
-      <span>{btnText}</span>
+      {btnText}
     </Button>
   );
 };
@@ -58,7 +58,7 @@ const DocumentationBtnSection = ({
   const edit = () => handleEditText(true);
   const cancelEdit = () => handleEditText(false);
   return (
-    <Grid container spacing={2} style={{ marginBottom: "20px" }}>
+    <Grid container spacing={1} style={{ marginBottom: "20px" }}>
       <Grid item={true} xs={6}>
         {!editText ? (
           <Btn
