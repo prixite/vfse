@@ -38,8 +38,8 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         setChatResponse(responseText);
       })
       .catch((err) => {
-        toast.success(`Error occured ${err}`, {
-          autoClose: 300,
+        toast.error(`Error occured ${err?.error}`, {
+          autoClose: 1000,
           pauseOnHover: false,
         });
       })
