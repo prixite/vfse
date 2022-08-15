@@ -3,6 +3,7 @@ export const constants = {
   networkRoute: "networks",
   sitesRoute: "sites",
   systemsRoute: "systems",
+  userRoute: "user",
 };
 
 export const organizationTabs = ["Networks", "Sites"];

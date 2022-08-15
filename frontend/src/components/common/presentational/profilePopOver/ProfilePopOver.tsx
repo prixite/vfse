@@ -31,7 +31,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
     (state) => state.organization.selectedOrganization
   );
 
-  const { organizationRoute } = constants;
+  const { organizationRoute, userRoute } = constants;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -110,6 +110,16 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
         >
           {" "}
           <a style={{ textDecoration: "none" }}>Logout</a>
+        </div>
+        <div
+          onClick={() =>
+            (location.href = `/${organizationRoute}/${selectedOrganizationData?.id}/${userRoute}`)
+          }
+          className="profile-item"
+          style={{ padding: "4px 8px 8px 8px", cursor: "pointer" }}
+        >
+          {" "}
+          <a style={{ textDecoration: "none" }}>Profile settings</a>
         </div>
       </Popover>
     </div>
