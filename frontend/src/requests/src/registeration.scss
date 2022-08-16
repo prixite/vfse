@@ -130,3 +130,24 @@
     }
   }
 }
+@media only screen and (max-width: 600px) {
+  .Registeration {
+    &__Section {
+      width: 100%;
+      padding-left: unset;
+      padding-right: unset;
+      padding-top: unset;
+      padding: 10px;
+      .Form {
+        .info-section {
+          .dropzone-style {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+  .CoverSection {
+    display: none;
+  }
+}
