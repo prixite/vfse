@@ -26,13 +26,39 @@ const RecentActivity = () => {
     paginate(userActivityList, 4, page);
   }, [page, userActivityList]);
 
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const minSwipeDistance = 20;
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    if (isRightSwipe && page > 1) {
+      setPage((prevState) => (prevState = --prevState));
+    } else if (isLeftSwipe && page < Math.ceil(userActivityList.length / 4)) {
+      setPage((prevState) => (prevState = ++prevState));
+    }
+  };
   const handlePagination = (event: React.ChangeEvent<HTMLInputElement>) => {
     const pageNumber: number = +event.target.value;
     setPage(pageNumber);
     paginate(userActivityList, 4, pageNumber);
   };
   return (
-    <Box component="div" className="recentActivitycard">
+    <Box
+      component="div"
+      className="recentActivitycard"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       <div className="recentActivityTitle">
         <div className="allTopicImg">
           <img src={activityIcon} className="imgStylingMessage" />
