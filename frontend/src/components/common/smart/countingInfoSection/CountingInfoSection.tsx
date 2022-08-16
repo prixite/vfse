@@ -4,6 +4,7 @@ import "@src/components/common/smart/countingInfoSection/countingInfoSection.scs
 import allIcon from "@src/assets/svgs/all_dev.svg";
 import offlineIcon from "@src/assets/svgs/offline_dev.svg";
 import onlineIcon from "@src/assets/svgs/online_dev.svg";
+import systemIcon from "@src/assets/svgs/systemIcon.png";
 import usersIcon from "@src/assets/svgs/users_dev.svg";
 import CountingInfoCards from "@src/components/common/presentational/countingInfoCards/CountingInfoCards";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
@@ -64,6 +65,14 @@ const CountingInfoSection = () => {
                   {renderDashBoardCard(item)}
                 </Grid>
               ))}
+              <Grid item xl={2.4} md={4} xs={6}>
+                <CountingInfoCards
+                  // key={key}
+                  deviceNo={"0"}
+                  deviceStatus={"Work Orders"}
+                  deviceImage={systemIcon}
+                />
+              </Grid>
             </Grid>
           </div>
         </Box>
