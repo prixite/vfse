@@ -98,7 +98,7 @@ export default function SideBar() {
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = React.useState(pathRoute);
   const { organizationRoute } = constants;
-  const { sideBarBackground, sideBarTextColor, buttonBackground } =
+  const { sideBarBackground, sideBarTextColor, buttonBackground, fontOne } =
     useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
 
@@ -249,6 +249,7 @@ export default function SideBar() {
                         `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
                           ? {
                               backgroundColor: "rgba(255, 255, 255, 0.06)",
+                              fontStyle: fontOne,
                             }
                           : {}
                       }
