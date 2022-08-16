@@ -56,7 +56,30 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               )}
               <div className="card_footer">
                 <div className="profile_side">
-                  <div className="followerText">{`${topic.number_of_followers} followers`}</div>
+                  <div
+                    className="follower_img_container"
+                    style={{ height: "32px", width: "39px" }}
+                  >
+                    {topic?.followers.length > 0 &&
+                      topic?.followers
+                        ?.slice(0, 3)
+                        ?.map((item, key) => (
+                          <img
+                            key={key}
+                            src={`${item?.image}`}
+                            className="imgStylingProfiles"
+                          />
+                        ))}
+                    <div className="followerText" style={{ marginTop: "5px" }}>
+                      <p style={{ width: "100px" }}>
+                        {topic?.number_of_followers > 0
+                          ? `${topic?.number_of_followers} Followers`
+                          : topic?.number_of_followers === 1
+                          ? `${topic?.number_of_followers} Follower `
+                          : `No Followers`}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="message_side">
                   <div className="message_text_container">
