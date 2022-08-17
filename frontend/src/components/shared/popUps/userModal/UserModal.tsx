@@ -913,7 +913,7 @@ export default function UserModal(props: Props) {
           )}
         </div>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{padding: "20px 32px 20px 24px", justifyContent: "space-between"}}>
         <Button
           style={
             isLoading

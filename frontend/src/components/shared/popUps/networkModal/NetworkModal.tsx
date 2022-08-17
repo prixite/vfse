@@ -336,7 +336,7 @@ export default function NetworkModal(props: Props) {
           </div>
         </div>
       </DialogContent>
-      <DialogActions>
+      <DialogActions style={{padding: "20px 24px", justifyContent: "space-around"}}>
         <Button
           style={
             isLoading
