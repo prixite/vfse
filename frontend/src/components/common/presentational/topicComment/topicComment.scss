@@ -6,7 +6,7 @@
     align-items: flex-start;
     width: 100%;
     .profileImage {
-      width: 43px;
+      width: 40px;
       height: 40px;
       border-radius: 50%;
       img {
@@ -58,7 +58,7 @@
             margin-right: 6px;
           }
           .actionDescription {
-            color: #696f77;
+            color: #696f77 !important;
             font-weight: 600;
             font-size: 12px;
           }
@@ -71,7 +71,7 @@
             margin-right: 6px;
           }
           .actionDescription {
-            color: #661bc0;
+            color: #661bc0 !important;
             font-weight: 600;
             font-size: 12px;
           }
@@ -79,20 +79,6 @@
       }
       .replyIconElement {
         cursor: pointer;
-      }
-    }
-    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-      .headerInfo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        margin-bottom: 5px;
-      }
-
-      .timeStamp {
-        align-self: start;
-        margin-top: 5px;
       }
     }
   }

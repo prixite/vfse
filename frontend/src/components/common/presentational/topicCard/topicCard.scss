@@ -12,14 +12,14 @@
       padding: 24px;
       margin-bottom: 16px;
       .imgStyling {
-        height: 32px;
-        width: 32px;
-        overflow: hidden;
         display: flex;
+        height: 40px;
+        width: 40px;
+        overflow: hidden;
         .profilePic {
-          width: inherit;
-          height: inherit;
-          object-fit: contain;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
       .card_title {
