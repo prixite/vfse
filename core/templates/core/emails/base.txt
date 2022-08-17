@@ -1,5 +1,3 @@
-{% load static %}
-
 Hi {% firstof user.first_name user.email%}
 {% block content %}
 {%endblock%}
