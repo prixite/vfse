@@ -383,17 +383,27 @@ const Registeration = () => {
           )}
           <>
             {page === 1 ? (
-              <Box component="div" className="btn-group" style={{alignItems: "flex-end"}}>
-              <Button className="register-btn" onClick={moveToNextPage}>
-                Next
-              </Button>
-              <div>
-                <span>Already have an account?</span>
-                  <Button variant="text" className="login-btn" onClick={()=> window.location.replace("/accounts/login/?next=/")}>
+              <Box
+                component="div"
+                className="btn-group"
+                style={{ alignItems: "flex-end" }}
+              >
+                <Button className="register-btn" onClick={moveToNextPage}>
+                  Next
+                </Button>
+                <div>
+                  <span>Already have an account?</span>
+                  <Button
+                    variant="text"
+                    className="login-btn"
+                    onClick={() =>
+                      window.location.replace("/accounts/login/?next=/")
+                    }
+                  >
                     log in
                   </Button>
-              </div>
-            </Box>
+                </div>
+              </Box>
             ) : (
               <Box component="div" className="btn-group">
                 <Button className="register-btn" onClick={() => setPage(1)}>
