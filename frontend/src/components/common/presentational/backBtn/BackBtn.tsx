@@ -5,13 +5,11 @@ const BackBtn = () => {
   const navigate = useNavigate();
   return (
     <div className="back-btn">
-      <div className="back-btn-container">
+      <div className="back-btn-container" onClick={() => navigate(-1)}>
         <ArrowRightAltIcon
           style={{ transform: "rotate(180deg)", color: "rgb(0, 0, 0)" }}
         />
-        <p className="back-text" onClick={() => navigate(-1)}>
-          Back
-        </p>
+        <p className="back-text">Back</p>
       </div>
     </div>
   );
