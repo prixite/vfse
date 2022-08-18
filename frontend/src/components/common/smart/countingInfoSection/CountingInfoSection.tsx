@@ -82,6 +82,12 @@ const CountingInfoSection = () => {
             {Object.keys(dashBoardList).map((item, key) => (
               <div key={key}>{renderDashBoardCard(item)}</div>
             ))}
+            <CountingInfoCards
+              // key={key}
+              deviceNo={"0"}
+              deviceStatus={"Work Orders"}
+              deviceImage={systemIcon}
+            />
           </div>
         </Box>
       )}
