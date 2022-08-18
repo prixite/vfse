@@ -552,6 +552,7 @@ export default function UserModal(props: Props) {
               <div>
                 <p className="info-label required">{userFirstName}</p>
                 <TextField
+                  autoComplete="off"
                   name="firstname"
                   className="full-field"
                   value={formik.values.firstname}
@@ -567,6 +568,7 @@ export default function UserModal(props: Props) {
               <div>
                 <p className="info-label required">{userLastName}</p>
                 <TextField
+                  autoComplete="off"
                   name="lastname"
                   className="full-field"
                   type="text"
@@ -583,6 +585,7 @@ export default function UserModal(props: Props) {
                 <div>
                   <p className="info-label required">{userEmail}</p>
                   <TextField
+                    autoComplete="off"
                     name="email"
                     className="info-field"
                     type="email"
@@ -598,6 +601,7 @@ export default function UserModal(props: Props) {
                 <div>
                   <p className="info-label required">{userPhoneNumber}</p>
                   <TextField
+                    autoComplete="off"
                     name="phone"
                     className="info-field"
                     variant="outlined"
