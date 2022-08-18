@@ -383,12 +383,13 @@ export default function UserSection() {
                   {
                     field: "Role",
                     disableColumnMenu: true,
-                    sortable: false,    
+                    sortable: false,
                     width: 180,
                     hide: false,
-                    renderCell: (cellValues) => (
-                       usersRoles?.find(x => x?.value === cellValues?.row?.role[0]).title
-                    )
+                    renderCell: (cellValues) =>
+                      usersRoles?.find(
+                        (x) => x?.value === cellValues?.row?.role[0]
+                      ).title,
                   },
                   {
                     field: "Manager",
@@ -411,17 +412,18 @@ export default function UserSection() {
                         onClick={
                           cellValues?.row?.organizations?.length > 1
                             ? () =>
-                              handleModalClick(
-                                "Customers",
-                                cellValues?.row?.organizations
-                              )
+                                handleModalClick(
+                                  "Customers",
+                                  cellValues?.row?.organizations
+                                )
                             : undefined
                         }
                         style={{
-                          cursor: `${cellValues?.row?.organizations?.length > 1
+                          cursor: `${
+                            cellValues?.row?.organizations?.length > 1
                               ? "pointer"
                               : ""
-                            }`,
+                          }`,
                         }}
                       >
                         {renderCustomers(cellValues?.row?.organizations)}
@@ -448,15 +450,16 @@ export default function UserSection() {
                         onClick={
                           cellValues?.row?.sites?.length > 1
                             ? () =>
-                              handleModalClick(
-                                "Sites",
-                                cellValues?.row?.sites
-                              )
+                                handleModalClick(
+                                  "Sites",
+                                  cellValues?.row?.sites
+                                )
                             : undefined
                         }
                         style={{
-                          cursor: `${cellValues?.row?.sites?.length > 1 ? "pointer" : ""
-                            }`,
+                          cursor: `${
+                            cellValues?.row?.sites?.length > 1 ? "pointer" : ""
+                          }`,
                         }}
                       >
                         {renderCustomers(cellValues?.row?.sites)}
