@@ -72,14 +72,6 @@ const columns = [
     disableColumnMenu: true,
     sortable: false,
   },
-  {
-    field: "role",
-    headerName: "Role",
-    width: 100,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
   // {
   //   field: "manager",
   //   headerName: "Manager",
@@ -132,12 +124,8 @@ const headers = [
     sortable: false,
   },
   {
-    field: "role",
     headerName: "Role",
-    width: 100,
     hide: false,
-    disableColumnMenu: true,
-    sortable: false,
   },
   {
     headerName: "Manager",
@@ -253,7 +241,6 @@ export default function UserSection() {
       tableColumns[2],
       tableColumns[3],
       tableColumns[4],
-      tableColumns[5],
     ];
     setColumnHeaders(header);
   }, [tableColumns]);
@@ -394,6 +381,16 @@ export default function UserSection() {
                 columns={[
                   ...columnHeaders,
                   {
+                    field: "Role",
+                    disableColumnMenu: true,
+                    sortable: false,    
+                    width: 180,
+                    hide: false,
+                    renderCell: (cellValues) => (
+                       usersRoles?.find(x => x?.value === cellValues?.row?.role[0]).title
+                    )
+                  },
+                  {
                     field: "Manager",
                     hide: hideManager,
                     disableColumnMenu: true,
@@ -414,18 +411,17 @@ export default function UserSection() {
                         onClick={
                           cellValues?.row?.organizations?.length > 1
                             ? () =>
-                                handleModalClick(
-                                  "Customers",
-                                  cellValues?.row?.organizations
-                                )
+                              handleModalClick(
+                                "Customers",
+                                cellValues?.row?.organizations
+                              )
                             : undefined
                         }
                         style={{
-                          cursor: `${
-                            cellValues?.row?.organizations?.length > 1
+                          cursor: `${cellValues?.row?.organizations?.length > 1
                               ? "pointer"
                               : ""
-                          }`,
+                            }`,
                         }}
                       >
                         {renderCustomers(cellValues?.row?.organizations)}
@@ -452,16 +448,15 @@ export default function UserSection() {
                         onClick={
                           cellValues?.row?.sites?.length > 1
                             ? () =>
-                                handleModalClick(
-                                  "Sites",
-                                  cellValues?.row?.sites
-                                )
+                              handleModalClick(
+                                "Sites",
+                                cellValues?.row?.sites
+                              )
                             : undefined
                         }
                         style={{
-                          cursor: `${
-                            cellValues?.row?.sites?.length > 1 ? "pointer" : ""
-                          }`,
+                          cursor: `${cellValues?.row?.sites?.length > 1 ? "pointer" : ""
+                            }`,
                         }}
                       >
                         {renderCustomers(cellValues?.row?.sites)}
