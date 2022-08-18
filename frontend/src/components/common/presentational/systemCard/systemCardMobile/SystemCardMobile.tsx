@@ -155,6 +155,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
             <TextField
               className="copy-field"
               variant="outlined"
+              autoComplete="off"
               value={system.documentation}
               InputProps={{
                 startAdornment: (

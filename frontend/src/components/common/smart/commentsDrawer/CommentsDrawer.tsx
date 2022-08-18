@@ -94,6 +94,7 @@ const CommentsDrawer = () => {
       </div>
       <div className="AddComment">
         <TextField
+          autoComplete="off"
           multiline
           minRows={4}
           fullWidth

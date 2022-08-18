@@ -171,6 +171,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   <p className="info-label required">Title</p>
                   <TextField
+                    autoComplete="off"
                     name="title"
                     value={formik.values.title}
                     onChange={formik.handleChange}
@@ -188,6 +189,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   <p className="info-label required">Content</p>
                   <TextField
+                    autoComplete="off"
                     className="info-field"
                     multiline
                     minRows={4}
@@ -262,6 +264,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   <p className="info-label">Upload a document (optional)</p>
                   <TextField
+                    autoComplete="off"
                     inputProps={{ readOnly: true }}
                     value={formik.values.document_link || ""}
                     className="info-field"
