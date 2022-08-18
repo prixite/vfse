@@ -114,6 +114,7 @@ export default function CategoryModal({
                 <div className="info-section">
                   <p className="info-label required">Color Name</p>
                   <TextField
+                    autoComplete="off"
                     name="name"
                     className="info-field"
                     variant="outlined"

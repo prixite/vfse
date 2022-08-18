@@ -4,6 +4,7 @@ import { Box, Grid } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
@@ -42,8 +43,28 @@ const DocumentationDescription = () => {
     updateArticle({
       id: parseInt(docId),
       document: { ...articleData, text: htmlString, title: title },
-    }).unwrap();
-    setHtmlText(htmlString);
+    })
+      .unwrap()
+      .then(() => {
+        toast.success("Article Updated Successfully", {
+          autoClose: 3000,
+          pauseOnHover: false,
+        });
+        setHtmlText(htmlString);
+      })
+      .catch((err) => {
+        toast.error(
+          <div>
+            Status:{err?.status}
+            <br />
+            Some Error Occured
+          </div>,
+          {
+            autoClose: 3000,
+            pauseOnHover: false,
+          }
+        );
+      });
     setEditText(false);
   };
 

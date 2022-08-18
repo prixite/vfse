@@ -106,6 +106,7 @@ const HealthNetwork = ({
       <TextField
         className="info-field"
         variant="outlined"
+        autoComplete="off"
         placeholder="Advent Health"
         value={network?.name}
         onChange={handleNameChange}

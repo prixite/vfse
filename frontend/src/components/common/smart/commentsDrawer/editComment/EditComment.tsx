@@ -37,6 +37,7 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
       <div className="EditComment">
         <div className="AddComment">
           <TextField
+            autoComplete="off"
             multiline
             minRows={4}
             fullWidth

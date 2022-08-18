@@ -68,6 +68,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         <TextField
           id="outlined-basic"
           variant="outlined"
+          autoComplete="off"
           placeholder={placeholder}
           onChange={(e) => {
             setYourQuery(e.target.value.toString());
