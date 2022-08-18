@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "django.contrib.sites",
     # 3rd party apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -254,3 +255,5 @@ WEBPACK_LOADER = {
         "IGNORE": [r".+\.hot-update.js", r".+\.map"],
     }
 }
+
+SITE_ID = 1
