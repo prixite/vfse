@@ -72,14 +72,6 @@ const columns = [
     disableColumnMenu: true,
     sortable: false,
   },
-  {
-    field: "role",
-    headerName: "Role",
-    width: 100,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
   // {
   //   field: "manager",
   //   headerName: "Manager",
@@ -132,12 +124,8 @@ const headers = [
     sortable: false,
   },
   {
-    field: "role",
     headerName: "Role",
-    width: 100,
     hide: false,
-    disableColumnMenu: true,
-    sortable: false,
   },
   {
     headerName: "Manager",
@@ -253,7 +241,6 @@ export default function UserSection() {
       tableColumns[2],
       tableColumns[3],
       tableColumns[4],
-      tableColumns[5],
     ];
     setColumnHeaders(header);
   }, [tableColumns]);
@@ -393,6 +380,17 @@ export default function UserSection() {
                 autoHeight
                 columns={[
                   ...columnHeaders,
+                  {
+                    field: "Role",
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 180,
+                    hide: false,
+                    renderCell: (cellValues) =>
+                      usersRoles?.find(
+                        (x) => x?.value === cellValues?.row?.role[0]
+                      ).title,
+                  },
                   {
                     field: "Manager",
                     hide: hideManager,
