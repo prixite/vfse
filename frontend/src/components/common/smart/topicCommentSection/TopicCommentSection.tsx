@@ -4,7 +4,9 @@ import { Box, Input, Button, Avatar, Skeleton } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import TopicComment from "@src/components/common/presentational/topicComment/TopicComment";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { parseLink } from "@src/helpers/paging";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery, api } from "@src/store/reducers/api";
 import {
@@ -14,6 +16,7 @@ import {
 import "@src/components/common/smart/topicCommentSection/topicCommentSection.scss";
 
 const TopicCommentSection = () => {
+  const [browserWidth] = useWindowSize();
   const selectedOrganization = useSelectedOrganization();
   const { topicId } = useParams<{ topicId: string }>();
   const [page, setPage] = useState(1);
@@ -80,7 +83,19 @@ const TopicCommentSection = () => {
   }, [commentsData.data]);
 
   return (
-    <Box className="topicCommentSection" component="div">
+    <Box
+      className="topicCommentSection"
+      component="div"
+      style={
+        browserWidth < mobileWidth
+          ? {
+              boxShadow: "revert",
+              backgroundColor: "white",
+              padding: "0px",
+            }
+          : {}
+      }
+    >
       <Box component="div" className="commentActions">
         <div className="profileImage">
           <img src={me?.profile_picture} alt="profilePicture" />
@@ -96,7 +111,11 @@ const TopicCommentSection = () => {
           className="postBtn"
           disabled={!comment && isCommentPosting}
           onClick={addCommentHandler}
-          sx={{ height: 45, width: 125 }}
+          sx={{
+            height: 45,
+            width: 125,
+            display: { xs: "none", sm: "none", md: "flex" },
+          }}
         >
           {isCommentPosting ? "Posting..." : "Add reply"}
         </Button>

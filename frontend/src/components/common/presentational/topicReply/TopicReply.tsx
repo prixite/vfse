@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Avatar, Box, Button, Input, Skeleton } from "@mui/material";
+import { Avatar, Box, Button, Grid, Input, Skeleton } from "@mui/material";
 import "@src/components/common/presentational/topicReply/topicReply.scss";
 import moment from "moment";
 
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { parseLink } from "@src/helpers/paging";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { api, VfseCommentsRepliesCreateApiArg } from "@src/store/reducers/api";
 import { Comment } from "@src/store/reducers/generated";
 
@@ -14,6 +16,7 @@ type TopicReplyProps = {
 };
 
 function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
+  const [browserWidth] = useWindowSize();
   const [commentIDState, setCommentIDState] = useState<number>(commentData?.id);
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
   const [page, setPage] = useState(1);
@@ -92,21 +95,44 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
         {!isRepliesLoading ? (
           <div>
             {replies?.map((item, key) => (
-              <div key={key} className="Comment" style={{ margin: "5px" }}>
-                <div className="profileImage">
-                  <img src={item?.user_profile?.image} alt="profilePicture" />
-                </div>
-                <div className="commentDetail">
-                  <div className="headerInfo">
-                    <p className="userName">{`${item?.user_profile?.name}`}</p>
-                    <p className="timeStamp">
-                      {moment(item?.created_at).startOf("s").fromNow()}
-                    </p>
+              <>
+                <div key={key} className="Comment" style={{ margin: "5px" }}>
+                  <div className="profileImage">
+                    <img src={item?.user_profile?.image} alt="profilePicture" />
                   </div>
-                  <div className="commentDescription">{item.comment}</div>
-                  <div className="commentActions"></div>
+                  <div
+                    className="commentDetail"
+                    style={
+                      browserWidth < mobileWidth ? { marginTop: "10px" } : {}
+                    }
+                  >
+                    <div className="headerInfo">
+                      <p className="userName">{`${item?.user_profile?.name}`}</p>
+                      <p className="timeStamp">
+                        {moment(item?.created_at).startOf("s").fromNow()}
+                      </p>
+                    </div>
+                    <div
+                      className="commentDescription"
+                      style={
+                        browserWidth < mobileWidth ? { display: "none" } : {}
+                      }
+                    >
+                      {item.comment}
+                    </div>
+                    <div className="commentActions"></div>
+                  </div>
                 </div>
-              </div>
+                {browserWidth < mobileWidth ? (
+                  <Grid xs={12} sm={12} marginLeft={5} marginBottom={1}>
+                    <span style={{ wordBreak: "break-word" }}>
+                      {item.comment}
+                    </span>
+                  </Grid>
+                ) : (
+                  ""
+                )}
+              </>
             ))}
             {totalReplyPages ? (
               <div
@@ -168,7 +194,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
           className="postBtn"
           disabled={!reply && isReplyPosting}
           onClick={addReplyHandler}
-          sx={{ height: 45, width: 125 }}
+          sx={{ height: 45, width: 125, display: { xs: "none", md: "flex" } }}
         >
           {isReplyPosting ? "Posting..." : "Reply"}
         </Button>

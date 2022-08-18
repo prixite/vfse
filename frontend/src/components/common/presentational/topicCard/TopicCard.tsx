@@ -3,18 +3,33 @@ import moment from "moment";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import "@src/components/common/presentational/topicCard/topicCard.scss";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { TopicDetail } from "@src/store/reducers/generated";
 
 interface TopicCardProps {
   topic: TopicDetail;
 }
 const TopicCard = ({ topic }: TopicCardProps) => {
+  const [browserWidth] = useWindowSize();
   return (
     <Box component="div" className="topicCard">
       <>
         <div className="timelineInfo">
           <div className="timelineCards">
-            <Box component="div" className="card">
+            <Box
+              component="div"
+              className="card"
+              style={
+                browserWidth < mobileWidth
+                  ? {
+                      padding: "revert",
+                      backgroundColor: "white",
+                      boxShadow: "revert",
+                    }
+                  : {}
+              }
+            >
               <div className="card_header">
                 <div className="userInfoWrapper">
                   <div className="topic_updates_imags">
@@ -54,7 +69,10 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               ) : (
                 ""
               )}
-              <div className="card_footer">
+              <div
+                className="card_footer"
+                style={browserWidth < mobileWidth ? { marginLeft: "10px" } : {}}
+              >
                 <div className="profile_side">
                   <div
                     className="follower_img_container"

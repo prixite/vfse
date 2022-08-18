@@ -38,7 +38,10 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
           <div className="profileImage">
             <img src={commentData?.user_profile?.image} alt="profilePicture" />
           </div>
-          <div className="commentDetail">
+          <div
+            className="commentDetail"
+            style={browserWidth < mobileWidth ? { margin: "10px" } : {}}
+          >
             <div className="headerInfo">
               <p className="userName">{`${commentData?.user_profile?.name}`}</p>
               <p className="timeStamp">
@@ -102,92 +105,96 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
               style={{
                 margin: "5px 0px",
                 lineHeight: "1.5",
-                wordBreak: "break-all",
+                wordBreak: "break-word",
               }}
             >
               {commentData.comment}
             </Grid>
-            <Grid
-              container
-              xs={12}
-              sm={12}
-              md={12}
-              lg={12}
-              className="commentActions"
-              style={{ marginTop: "5px", marginBottom: "0px" }}
-            >
+            <Grid marginBottom={1}>
               <Grid
-                xs={4}
-                sm={4}
-                md={4}
-                lg={4}
-                className={!replyChecked ? "action" : "action-highlighted"}
-                onClick={handleReply}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "start",
-                }}
+                container
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                className="commentActions"
               >
-                <img
-                  src={messageIcon}
-                  alt="msgIcon"
-                  className="icon"
+                <Grid
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  lg={4}
+                  className={!replyChecked ? "action" : "action-highlighted"}
+                  onClick={handleReply}
                   style={{
-                    width: "30px",
-                    marginRight: "5px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "start",
                   }}
-                />
-                <span
-                  className="actionDescription"
-                  style={replyChecked ? { color: "#661bc0" } : {}}
                 >
-                  Reply
-                </span>
-              </Grid>
+                  <img
+                    src={messageIcon}
+                    alt="msgIcon"
+                    className="icon"
+                    style={{
+                      width: "30px",
+                      marginRight: "5px",
+                    }}
+                  />
+                  <span
+                    className="actionDescription"
+                    style={replyChecked ? { color: "#661bc0" } : {}}
+                  >
+                    Reply
+                  </span>
+                </Grid>
 
-              <Grid
-                xs={4}
-                sm={4}
-                md={4}
-                lg={4}
-                className={!shared ? "action" : "action-highlighted"}
-                onClick={handleShare}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "start",
-                }}
-              >
-                <img
-                  src={shareIcon}
+                <Grid
+                  xs={4}
+                  sm={4}
+                  md={4}
+                  lg={4}
+                  className={!shared ? "action" : "action-highlighted"}
+                  onClick={handleShare}
                   style={{
-                    width: "30px",
-                    marginRight: "5px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "start",
                   }}
-                  alt="msgIcon"
-                  className="icon"
-                />
-                <span className="actionDescription">
-                  {!shared ? "Share" : "Copied!"}
-                </span>
+                >
+                  <img
+                    src={shareIcon}
+                    style={{
+                      width: "30px",
+                      marginRight: "5px",
+                    }}
+                    alt="msgIcon"
+                    className="icon"
+                  />
+                  <span className="actionDescription">
+                    {!shared ? "Share" : "Copied!"}
+                  </span>
+                </Grid>
+                <Grid xs={4} sm={4} md={4} lg={4}></Grid>
               </Grid>
-              <Grid xs={4} sm={4} md={4} lg={4}></Grid>
+              {numberOfReplies > 0 && (
+                <Grid
+                  onClick={handleReply}
+                  className="replyIconElement"
+                  marginLeft={1}
+                >
+                  <img src={replyIcon} alt="replyIcon" />
+                  <span
+                    className="replyIconText"
+                    style={replyChecked ? { color: "#661bc0" } : {}}
+                  >
+                    {numberOfReplies > 1
+                      ? numberOfReplies + " Replies"
+                      : numberOfReplies + " Reply"}
+                  </span>
+                </Grid>
+              )}
             </Grid>
-            {numberOfReplies > 0 && (
-              <Grid
-                onClick={handleReply}
-                className="replyIconElement"
-                style={{ marginLeft: "5px" }}
-              >
-                <img src={replyIcon} alt="replyIcon" />
-                <span className="replyIconText">
-                  {numberOfReplies > 1
-                    ? numberOfReplies + " Replies"
-                    : numberOfReplies + " Reply"}
-                </span>
-              </Grid>
-            )}
             {replyChecked && (
               <TopicReply
                 replyChecked={replyChecked}
