@@ -141,6 +141,7 @@ export default function TopicModal({ open, handleClose }: Props) {
             <div className="modal-content-title">
               <p className="info-label required">Title</p>
               <TextField
+                autoComplete="off"
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}

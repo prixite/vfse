@@ -496,6 +496,7 @@ const SystemCard = ({
           <TextField
             className={classes.copyField}
             variant="outlined"
+            autoComplete="off"
             value={system.documentation}
             InputProps={{
               startAdornment: (

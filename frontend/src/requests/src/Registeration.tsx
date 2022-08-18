@@ -242,6 +242,7 @@ const Registeration = () => {
               <p className="errorText">{imageError}</p>
               <p className="info-label required">First Name</p>
               <TextField
+                autoComplete="off"
                 className="info-field"
                 variant="outlined"
                 placeholder="First Name"
@@ -251,6 +252,7 @@ const Registeration = () => {
               <p className="errorText">{firstnameError}</p>
               <p className="info-label required">Last Name</p>
               <TextField
+                autoComplete="off"
                 className="info-field"
                 variant="outlined"
                 placeholder="Last Name"
@@ -262,6 +264,7 @@ const Registeration = () => {
                 <div className="group">
                   <p className="info-label required">User Email</p>
                   <TextField
+                    autoComplete="off"
                     className="info-field"
                     type="email"
                     variant="outlined"
@@ -274,6 +277,7 @@ const Registeration = () => {
                 <div className="group">
                   <p className="info-label required">Phone Number</p>
                   <TextField
+                    autoComplete="off"
                     className="info-field"
                     variant="outlined"
                     type="number"
