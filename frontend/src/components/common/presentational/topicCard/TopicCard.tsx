@@ -71,7 +71,7 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               )}
               <div
                 className="card_footer"
-                style={browserWidth < mobileWidth ? { marginLeft: "10px" } : {}}
+                style={browserWidth < mobileWidth ? { marginLeft: "16px" } : {}}
               >
                 <div className="profile_side">
                   <div
@@ -101,7 +101,11 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                 </div>
                 <div className="message_side">
                   <div className="message_text_container">
-                    <img src={messageIcon} className="imgStylingMessage" />
+                    <img
+                      src={messageIcon}
+                      className="imgStylingMessage"
+                      style={{ width: "30px", height: "revert" }}
+                    />
                   </div>
                   <div className="messageText">{topic.number_of_comments}</div>
                 </div>

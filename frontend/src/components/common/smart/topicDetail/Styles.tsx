@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
       flexBasis: "unset",
       flexGrow: "unset",
       maxWidth: "100%",
+      paddingRight: "0px",
     },
   },
   recentActivity: {
