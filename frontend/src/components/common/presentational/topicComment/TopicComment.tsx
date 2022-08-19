@@ -103,14 +103,14 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
               lg={12}
               className="commentDescription"
               style={{
-                margin: "5px 0px",
+                margin: "8px 0px",
                 lineHeight: "1.5",
                 wordBreak: "break-word",
               }}
             >
               {commentData.comment}
             </Grid>
-            <Grid marginBottom={1}>
+            <Grid>
               <Grid
                 container
                 xs={12}
@@ -143,7 +143,19 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                   />
                   <span
                     className="actionDescription"
-                    style={replyChecked ? { color: "#661bc0" } : {}}
+                    style={
+                      replyChecked
+                        ? {
+                            color: "#661bc0",
+                            fontWeight: "600",
+                            fontSize: "1rem",
+                          }
+                        : {
+                            color: "gray",
+                            fontWeight: "600",
+                            fontSize: "1rem",
+                          }
+                    }
                   >
                     Reply
                   </span>
@@ -171,7 +183,22 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     alt="msgIcon"
                     className="icon"
                   />
-                  <span className="actionDescription">
+                  <span
+                    className="actionDescription"
+                    style={
+                      shared
+                        ? {
+                            color: "#661bc0",
+                            fontWeight: "600",
+                            fontSize: "1rem",
+                          }
+                        : {
+                            color: "gray",
+                            fontWeight: "600",
+                            fontSize: "1rem",
+                          }
+                    }
+                  >
                     {!shared ? "Share" : "Copied!"}
                   </span>
                 </Grid>
@@ -186,7 +213,9 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                   <img src={replyIcon} alt="replyIcon" />
                   <span
                     className="replyIconText"
-                    style={replyChecked ? { color: "#661bc0" } : {}}
+                    style={
+                      replyChecked ? { color: "#661bc0" } : { color: "gray" }
+                    }
                   >
                     {numberOfReplies > 1
                       ? numberOfReplies + " Replies"

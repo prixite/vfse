@@ -20,6 +20,7 @@
           width: 100%;
           height: 100%;
           object-fit: cover;
+          border-radius: 50%;
         }
       }
       .card_title {
@@ -109,6 +110,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        padding: "8px 0px";
         .userInfoWrapper {
           display: flex;
           .user_info {

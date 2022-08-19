@@ -23,9 +23,9 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               style={
                 browserWidth < mobileWidth
                   ? {
-                      padding: "revert",
+                      padding: "15px",
                       backgroundColor: "white",
-                      boxShadow: "revert",
+                      boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)",
                     }
                   : {}
               }
@@ -71,7 +71,11 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               )}
               <div
                 className="card_footer"
-                style={browserWidth < mobileWidth ? { marginLeft: "16px" } : {}}
+                style={
+                  browserWidth < mobileWidth
+                    ? { marginLeft: "16px", paddingBottom: "8px" }
+                    : {}
+                }
               >
                 <div className="profile_side">
                   <div
@@ -107,7 +111,16 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                       style={{ width: "30px", height: "revert" }}
                     />
                   </div>
-                  <div className="messageText">{topic.number_of_comments}</div>
+                  <div
+                    className="messageText"
+                    style={
+                      browserWidth < mobileWidth
+                        ? { color: "gray" }
+                        : { color: "inherit" }
+                    }
+                  >
+                    {topic.number_of_comments}
+                  </div>
                 </div>
               </div>
             </Box>

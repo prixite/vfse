@@ -1,7 +1,7 @@
 .TopicCommentView {
   width: 100%;
   margin-top: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   .Comment {
     display: flex;
     align-items: flex-start;
@@ -13,6 +13,7 @@
       img {
         object-fit: contain;
         width: inherit;
+        border-radius: 50%;
       }
     }
     .commentDetail {

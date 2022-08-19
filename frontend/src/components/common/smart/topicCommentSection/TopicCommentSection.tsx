@@ -89,9 +89,9 @@ const TopicCommentSection = () => {
       style={
         browserWidth < mobileWidth
           ? {
-              boxShadow: "revert",
+              boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)",
               backgroundColor: "white",
-              padding: "0px",
+              padding: "15px",
             }
           : {}
       }
