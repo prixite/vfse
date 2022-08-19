@@ -337,7 +337,9 @@ class Command(BaseCommand):
             categories=[category1, category2, category3, category4]
         )
 
-        vfse_factories.DocumentFactory.create_batch(10, folder=folder)
+        vfse_factories.DocumentFactory.create_batch(
+            10, folder=folder, categories=[category1, category2, category3, category4]
+        )
 
         topic_1 = vfse_factories.TopicFactory(
             user=super_user, followers=users[2:7], categories=[category1, category2]
