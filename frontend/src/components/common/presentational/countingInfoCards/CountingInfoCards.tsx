@@ -23,7 +23,7 @@ const CountingInfoCards = ({
           <Box component="div" className="card">
             <img src={deviceImage} className="imgStyling" />
             <div className="info">
-              <p className="number">{deviceNo}</p>
+              <p className="number">{deviceNo ? deviceNo : 0}</p>
               <p className="category">{deviceStatus}</p>
             </div>
           </Box>
