@@ -186,7 +186,7 @@ const AppearanceSection = () => {
               />
             </Grid>
             <Grid item xs={12} md={8} lg={8} mt={4}>
-              <Grid container spacing={1}>
+              <Grid container spacing={1} rowSpacing={2}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
                     title="Sidebar:"
