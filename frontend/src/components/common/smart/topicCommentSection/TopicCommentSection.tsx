@@ -91,7 +91,7 @@ const TopicCommentSection = () => {
           ? {
               boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)",
               backgroundColor: "white",
-              padding: "15px",
+              padding: "16px",
             }
           : {}
       }

@@ -23,7 +23,7 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               style={
                 browserWidth < mobileWidth
                   ? {
-                      padding: "15px",
+                      padding: "16px",
                       backgroundColor: "white",
                       boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)",
                     }
