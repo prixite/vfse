@@ -16,12 +16,12 @@ const TopicDetail = () => {
     <Box component="div" className="topicDetail">
       <BackBtn />
       <Grid container spacing={2} className={classes.mainGrid}>
-        <Grid item xs={8} sm={8} md={8} lg={9} className={classes.TimeLine}>
+        <Grid item xs={12} sm={12} md={8} lg={9} className={classes.TimeLine}>
           <Grid container xs={12} item style={{ marginTop: "0px" }}>
             <Grid item xs={12}>
               <TopicCard topic={topicData} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={12}>
               <TopicCommentSection />
             </Grid>
           </Grid>

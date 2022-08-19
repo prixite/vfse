@@ -3,18 +3,33 @@ import moment from "moment";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import "@src/components/common/presentational/topicCard/topicCard.scss";
+import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
+import { mobileWidth } from "@src/helpers/utils/config";
 import { TopicDetail } from "@src/store/reducers/generated";
 
 interface TopicCardProps {
   topic: TopicDetail;
 }
 const TopicCard = ({ topic }: TopicCardProps) => {
+  const [browserWidth] = useWindowSize();
   return (
     <Box component="div" className="topicCard">
       <>
         <div className="timelineInfo">
           <div className="timelineCards">
-            <Box component="div" className="card">
+            <Box
+              component="div"
+              className="card"
+              style={
+                browserWidth < mobileWidth
+                  ? {
+                      padding: "16px",
+                      backgroundColor: "white",
+                      boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)",
+                    }
+                  : {}
+              }
+            >
               <div className="card_header">
                 <div className="userInfoWrapper">
                   <div className="topic_updates_imags">
@@ -54,15 +69,58 @@ const TopicCard = ({ topic }: TopicCardProps) => {
               ) : (
                 ""
               )}
-              <div className="card_footer">
+              <div
+                className="card_footer"
+                style={
+                  browserWidth < mobileWidth
+                    ? { marginLeft: "16px", paddingBottom: "8px" }
+                    : {}
+                }
+              >
                 <div className="profile_side">
-                  <div className="followerText">{`${topic.number_of_followers} followers`}</div>
+                  <div
+                    className="follower_img_container"
+                    style={{ height: "32px", width: "39px" }}
+                  >
+                    {topic?.followers.length > 0 &&
+                      topic?.followers
+                        ?.slice(0, 3)
+                        ?.map((item, key) => (
+                          <img
+                            key={key}
+                            src={`${item?.image}`}
+                            className="imgStylingProfiles"
+                          />
+                        ))}
+                    <div className="followerText" style={{ marginTop: "5px" }}>
+                      <p style={{ width: "100px" }}>
+                        {topic?.number_of_followers > 0
+                          ? `${topic?.number_of_followers} Followers`
+                          : topic?.number_of_followers === 1
+                          ? `${topic?.number_of_followers} Follower `
+                          : `No Followers`}
+                      </p>
+                    </div>
+                  </div>
                 </div>
                 <div className="message_side">
                   <div className="message_text_container">
-                    <img src={messageIcon} className="imgStylingMessage" />
+                    <img
+                      src={messageIcon}
+                      className="imgStylingMessage"
+                      style={{ width: "30px", height: "revert" }}
+                    />
                   </div>
-                  <div className="messageText">{topic.number_of_comments}</div>
+                  <div
+                    className="messageText"
+                    style={
+                      browserWidth < mobileWidth
+                        ? { color: "gray" }
+                        : { color: "inherit" }
+                    }
+                  >
+                    {topic.number_of_comments}
+                  </div>
                 </div>
               </div>
             </Box>

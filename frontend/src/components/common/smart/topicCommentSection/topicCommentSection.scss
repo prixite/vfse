@@ -1,22 +1,29 @@
+@import "@src/styles/shared/_variables.scss";
+
 .topicCommentSection {
   width: 100%;
   background-color: #fff;
   border-radius: 8px;
   padding: 16px;
+
   .commentActions {
     display: flex;
     justify-content: start;
     align-items: center;
     flex-direction: row;
+    margin: "2px 0px";
     .profileImage {
       width: 40px;
-      height: 40px;
+      height: 100%;
       border-radius: 50%;
       img {
-        object-fit: contain;
-        width: inherit;
+        object-fit: cover;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
       }
     }
+
     .commentInput {
       width: 80%;
       font-family: unset !important;
@@ -30,10 +37,12 @@
       &::before {
         content: none;
       }
+
       &::after {
         content: none;
       }
     }
+
     .postBtn {
       display: flex;
       margin-left: 5px;
@@ -49,6 +58,16 @@
       color: #773cbd;
       text-transform: unset;
       font-family: unset;
+    }
+
+    @media only screen and (min-device-width: 0px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+      .postBtn {
+        display: none;
+      }
+
+      .commentInput {
+        width: 100%;
+      }
     }
   }
 }
