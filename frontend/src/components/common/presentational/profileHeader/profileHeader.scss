@@ -1,0 +1,54 @@
+$green-color: #92d509;
+$light-grey: #696f77;
+$dark-grey: #92d509;
+.header {
+  border-radius: 15px !important;
+  overflow: hidden;
+  background-color: white;
+  .headerTop {
+    background-image: url("@src/assets/images/headerTopBg.png");
+    background-size: cover !important;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    position: relative;
+
+    .profilePic {
+      position: absolute;
+      top: 80px;
+      left: 10px;
+    }
+
+    .editButton {
+      background-color: $green-color !important;
+      padding: 0.3rem 1.7rem;
+      box-shadow: none !important;
+      text-transform: none;
+      margin-bottom: 4rem;
+    }
+  }
+  .headerBottom {
+    padding: 1.5rem;
+    .iconsSec {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .roleText {
+        color: $light-grey;
+      }
+    }
+    .about {
+      justify-content: space-between;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .profilePic {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

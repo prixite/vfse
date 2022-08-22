@@ -332,7 +332,16 @@ export default function SideBar() {
                 </ListItemIcon>
               </ListItem>
               <ListItem button className="user-image">
-                <ListItemIcon>
+                <ListItemIcon
+                  onClick={() => {
+                    navigate(
+                      `/${organizationRoute}/${selectedOrganization?.id}/profile`
+                    );
+                    setCurrentRoute(
+                      `/${organizationRoute}/${selectedOrganization?.id}/profile`
+                    );
+                  }}
+                >
                   <ProfilePopOver
                     profilePicture={me?.profile_picture}
                     className="image"

@@ -51,6 +51,10 @@ const UserView = lazy(
   async () =>
     import(/* webpackChunkName: "UserView" */ "@src/views/user/UserView")
 );
+const ProfileView = lazy(
+  async () =>
+    import(/* webpackChunkName: "UserView" */ "@src/views/profile/ProfileView")
+);
 export const routes: routeItem[] = [
   {
     name: "vFSE",
@@ -92,6 +96,13 @@ export const routes: routeItem[] = [
     path: "/documentation/",
     component: Documentation,
     flag: "documentation",
+    icon: ArticleIcon,
+  },
+  {
+    name: "Profile",
+    path: "/profile/",
+    component: ProfileView,
+    flag: "profile",
     icon: ArticleIcon,
   },
 ];
