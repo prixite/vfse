@@ -915,7 +915,7 @@ export default function UserModal(props: Props) {
       </DialogContent>
       <DialogActions
         style={{
-          padding: "20px 22px 20px 24px",
+          padding: "20px 23px 20px 24px",
           justifyContent: "space-between",
         }}
       >

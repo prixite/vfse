@@ -337,7 +337,7 @@ export default function NetworkModal(props: Props) {
         </div>
       </DialogContent>
       <DialogActions
-        style={{ padding: "20px 24px", justifyContent: "space-around" }}
+        style={{ padding: "20px 17px", justifyContent: "space-around" }}
       >
         <Button
           style={
