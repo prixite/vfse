@@ -30,7 +30,7 @@ const RecentActivity = () => {
 
       {!isLoading ? (
         <Grid
-          style={{ width: "290px" }}
+          style={{ width: "100%", paddingLeft: "16px" }}
           marginBottom={1}
           paddingBottom={1}
           height="min-content"
