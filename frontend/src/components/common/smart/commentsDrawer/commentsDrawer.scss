@@ -23,12 +23,12 @@
     align-self: flex-end;
   }
   .AddCommentBtn {
-    width: 78px;
-    padding: 6px 14px 6px 14px;
+    width: max-content;
+    min-width: max-content;
+    padding: 0;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 16px;
-    max-width: 200px;
+    max-width: max-content;
   }
 }
 .CommentsSection {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
+import CommentIcon from "@mui/icons-material/Comment";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
 import { toast } from "react-toastify";
 
@@ -23,7 +24,7 @@ import { closeSystemDrawer } from "@src/store/reducers/appStore";
 const CommentsDrawer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [note, setNote] = useState("");
-  const { fontTwo, buttonBackground, buttonTextColor } = useAppSelector(
+  const { fontTwo, buttonBackground } = useAppSelector(
     (state) => state.myTheme
   );
   const { openSystemNotesDrawer, systemID } = useAppSelector(
@@ -98,6 +99,7 @@ const CommentsDrawer = () => {
           multiline
           minRows={4}
           fullWidth
+          placeholder="Edit comment...."
           value={note}
           onChange={SystemNoteHandler}
           InputProps={{
@@ -107,24 +109,21 @@ const CommentsDrawer = () => {
                   style={
                     isLoading
                       ? {
-                          backgroundColor: "lightgray",
-                          color: buttonTextColor,
+                          color: "lightgray",
                         }
                       : note
                       ? {
-                          backgroundColor: buttonBackground,
-                          color: buttonTextColor,
+                          color: buttonBackground,
                         }
                       : {
-                          backgroundColor: "lightgray",
-                          color: buttonTextColor,
+                          color: "lightgray",
                         }
                   }
                   disabled={isLoading ? true : !note}
                   className="AddCommentBtn"
                   onClick={addNewComment}
                 >
-                  Add
+                  <CommentIcon style={{ fontSize: "35px" }} />
                 </Button>
               </InputAdornment>
             ),
