@@ -1,3 +1,5 @@
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Avatar,
   AvatarGroup,
@@ -6,12 +8,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
-import women from "@src/assets/svgs/womenAvatar.svg";
+
 import avatarOne from "@src/assets/svgs/avatarOne.svg";
-import avatarTwo from "@src/assets/svgs/avatarTwo.svg";
 import avatarThree from "@src/assets/svgs/avatarThree.svg";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import avatarTwo from "@src/assets/svgs/avatarTwo.svg";
+import women from "@src/assets/svgs/womenAvatar.svg";
+
 import "@src/components/common/smart/topicSection/topicSection.scss";
 
 const TopicSection = () => {

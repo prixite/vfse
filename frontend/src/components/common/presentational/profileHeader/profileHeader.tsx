@@ -1,10 +1,11 @@
-import { Avatar, Box, Button, Typography, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import { Avatar, Box, Button, Typography, Stack } from "@mui/material";
+
 import user from "@src/assets/images/profile.png";
-import gmail from "@src/assets/svgs/gmail.svg";
 import calender from "@src/assets/svgs/g-calendar.svg";
-import slack from "@src/assets/svgs/slack.svg";
+import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
+import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
 
