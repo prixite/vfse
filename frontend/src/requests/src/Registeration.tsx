@@ -390,7 +390,7 @@ const Registeration = () => {
                 style={{ alignItems: "flex-end" }}
               >
                 <Grid container alignItems="center" spacing={2}>
-                  <Grid item={true} xs={12} lg={12} md={12} xl={6}>
+                  <Grid item={true} xs={12}>
                     <Button className="register-btn" onClick={moveToNextPage}>
                       Next
                     </Button>
@@ -398,9 +398,6 @@ const Registeration = () => {
                   <Grid
                     item={true}
                     xs={12}
-                    lg={12}
-                    md={12}
-                    xl={6}
                     className="login-section"
                   >
                     <span>Already have an account?</span>
