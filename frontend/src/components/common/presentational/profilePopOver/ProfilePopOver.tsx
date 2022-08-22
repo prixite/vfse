@@ -93,7 +93,19 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
         </div>
         <div
           className="profile-item"
-          style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
+          onClick={() =>
+            navigate(
+              `/${organizationRoute}/${defaultOrganizationData.id}/profile`
+            )
+          }
+          style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
+        >
+          {" "}
+          <a style={{ textDecoration: "none" }}>Profile</a>
+        </div>
+        <div
+          className="profile-item"
+          style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
           <a
