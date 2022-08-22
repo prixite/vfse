@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import {
   Box,
+  Grid,
   TextField,
   MenuItem,
   Select,
@@ -388,21 +389,32 @@ const Registeration = () => {
                 className="btn-group"
                 style={{ alignItems: "flex-end" }}
               >
-                <Button className="register-btn" onClick={moveToNextPage}>
-                  Next
-                </Button>
-                <div>
-                  <span>Already have an account?</span>
-                  <Button
-                    variant="text"
-                    className="login-btn"
-                    onClick={() =>
-                      window.location.replace("/accounts/login/?next=/")
-                    }
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item={true} xs={12} lg={12} md={12} xl={6}>
+                    <Button className="register-btn" onClick={moveToNextPage}>
+                      Next
+                    </Button>
+                  </Grid>
+                  <Grid
+                    item={true}
+                    xs={12}
+                    lg={12}
+                    md={12}
+                    xl={6}
+                    className="login-section"
                   >
-                    log in
-                  </Button>
-                </div>
+                    <span>Already have an account?</span>
+                    <Button
+                      variant="text"
+                      className="login-btn"
+                      onClick={() =>
+                        window.location.replace("/accounts/login/?next=/")
+                      }
+                    >
+                      log in
+                    </Button>
+                  </Grid>
+                </Grid>
               </Box>
             ) : (
               <Box component="div" className="btn-group">
