@@ -73,7 +73,7 @@ export const emptySplitApi = createApi({
     >({
       query: ({ title, description }) => ({
         url: `/vfse/topics/`,
-        method: "post",
+        method: "POST",
         body: { title: title, description: description },
       }),
       invalidatesTags: ["Topics", "Favorite"],
@@ -125,7 +125,7 @@ export const emptySplitApi = createApi({
     >({
       query: ({ sysId, query }) => ({
         url: `/systems/${sysId}/chatbot/`,
-        method: "post",
+        method: "POST",
         body: { query: query },
       }),
     }),
@@ -147,7 +147,7 @@ export const emptySplitApi = createApi({
     >({
       query: ({ id, document }) => ({
         url: `/vfse/documents/${id}/`,
-        method: "patch",
+        method: "PATCH",
         body: document,
       }),
       invalidatesTags: ["Article"],
@@ -155,7 +155,7 @@ export const emptySplitApi = createApi({
     addArticle: builder.mutation<Document, { document: Document }>({
       query: ({ document }) => ({
         url: "/vfse/documents/",
-        method: "post",
+        method: "POST",
         body: document,
       }),
       invalidatesTags: [{ type: "Article" }, "Category", "Folder"],
@@ -163,7 +163,7 @@ export const emptySplitApi = createApi({
     deleteArticle: builder.mutation<void, { id: number }>({
       query: ({ id }) => ({
         url: `/vfse/documents/${id}/`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: (result, error, { id }) => [
         "Article",
@@ -185,7 +185,7 @@ export const emptySplitApi = createApi({
     addCategory: builder.mutation<Category, { category: Category }>({
       query: ({ category }) => ({
         url: "/vfse/categories/",
-        method: "post",
+        method: "POST",
         body: category,
       }),
       invalidatesTags: ["Category"],
@@ -196,7 +196,7 @@ export const emptySplitApi = createApi({
     >({
       query: ({ id, category }) => ({
         url: `/vfse/categories/${id}/`,
-        method: "patch",
+        method: "PATCH",
         data: category,
       }),
       invalidatesTags: ["Category"],
@@ -222,7 +222,7 @@ export const emptySplitApi = createApi({
     updateFolder: builder.mutation<Folder, { id: number; folder: Folder }>({
       query: ({ id, folder }) => ({
         url: `/vfse/folders/${id}/`,
-        method: "patch",
+        method: "PATCH",
         data: folder,
       }),
       invalidatesTags: ["Folder"],
@@ -230,7 +230,7 @@ export const emptySplitApi = createApi({
     addFolder: builder.mutation<Folder, { folder: Folder }>({
       query: ({ folder }) => ({
         url: "/vfse/folders/",
-        method: "post",
+        method: "POST",
         body: folder,
       }),
       invalidatesTags: (result, error, { folder }) => [
@@ -241,7 +241,7 @@ export const emptySplitApi = createApi({
     deleteFolder: builder.mutation<void, { id: number }>({
       query: ({ id }) => ({
         url: `/vfse/folders/${id}/`,
-        method: "delete",
+        method: "DELETE",
       }),
       invalidatesTags: ["Folder"],
     }),
