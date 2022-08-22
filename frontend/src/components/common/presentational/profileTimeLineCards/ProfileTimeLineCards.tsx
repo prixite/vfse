@@ -162,9 +162,21 @@ const ProfileTimelineCards = ({
             <div className={classes.cardFooter}>
               <div className={classes.profileSide}>
                 <AvatarGroup max={3}>
-                  <Avatar alt="Remy Sharp" src={avatarOne} />
-                  <Avatar alt="Travis Howard" src={avatarTwo} />
-                  <Avatar alt="Cindy Baker" src={avatarThree} />
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={avatarOne}
+                    sx={{ width: 24, height: 24 }}
+                  />
+                  <Avatar
+                    alt="Travis Howard"
+                    sx={{ width: 24, height: 24 }}
+                    src={avatarTwo}
+                  />
+                  <Avatar
+                    alt="Cindy Baker"
+                    sx={{ width: 24, height: 24 }}
+                    src={avatarThree}
+                  />
                 </AvatarGroup>
                 <div className={classes.followerText}>
                   {" "}

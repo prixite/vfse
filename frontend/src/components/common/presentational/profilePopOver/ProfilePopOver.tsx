@@ -92,18 +92,20 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           <p>{selectedOrganizationData?.name}</p>
         </div>
         <div
-          onClick={() =>
-            (location.href = `/${organizationRoute}/${defaultOrganizationData.id}/profile`)
-          }
           className="profile-item"
-          style={{ padding: "4px 8px 8px 8px", cursor: "pointer" }}
+          onClick={() =>
+            navigate(
+              `/${organizationRoute}/${defaultOrganizationData.id}/profile`
+            )
+          }
+          style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
           <a style={{ textDecoration: "none" }}>Profile</a>
         </div>
         <div
           className="profile-item"
-          style={{ padding: "8px 8px 4px 8px", cursor: "pointer" }}
+          style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
           <a

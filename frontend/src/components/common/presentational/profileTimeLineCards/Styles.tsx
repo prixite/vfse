@@ -58,7 +58,7 @@ const useStyles = makeStyles(() => ({
   cardFooter: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "start",
+    justifyContent: "space-between",
     marginTop: "30px",
   },
   profileSide: {
