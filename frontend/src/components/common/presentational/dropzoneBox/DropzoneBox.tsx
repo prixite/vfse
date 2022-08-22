@@ -22,13 +22,19 @@ const DropzoneBox = ({
   isUploading,
 }: DropzoneProps) => {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles) =>
-      acceptedFiles.map((file) =>
+    useFsAccessApi: false, //permissions issue in linux (known bug)
+    accept: {
+      "image/png": [".jpg", ".jpeg", ".png", ".gif"],
+    },
+    onDrop: (acceptedFiles) => {
+      return acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
         })
-      ),
+      );
+    },
   });
+
   const constantData: object = localizedData()?.dropzone;
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
