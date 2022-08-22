@@ -226,7 +226,12 @@ export default function TopicModal({ open, handleClose }: Props) {
           </>
         </div>
       </DialogContent>
-      <DialogActions>
+      <DialogActions
+        style={{
+          padding: "21px 23px 20px 24px",
+          justifyContent: "space-between",
+        }}
+      >
         <Button
           style={{
             backgroundColor: secondaryColor,

@@ -128,9 +128,10 @@
     }
   }
   .MuiDialogActions-root {
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 2px;
     margin-bottom: 8px;
+    padding: 20px 42px 20px 30px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;
