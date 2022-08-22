@@ -395,11 +395,7 @@ const Registeration = () => {
                       Next
                     </Button>
                   </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className="login-section"
-                  >
+                  <Grid item={true} xs={12} className="login-section">
                     <span>Already have an account?</span>
                     <Button
                       variant="text"
