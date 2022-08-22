@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import { Box, Button } from "@mui/material";
+import { Avatar, AvatarGroup, Box, Button } from "@mui/material";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
+import avatarOne from "@src/assets/svgs/avatarOne.svg";
+import avatarThree from "@src/assets/svgs/avatarThree.svg";
+import avatarTwo from "@src/assets/svgs/avatarTwo.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
 import { constants } from "@src/helpers/utils/constants";
@@ -59,11 +62,11 @@ const ProfileTimelineCards = ({
   const [updateFollowUnfollowTopic] =
     useVfseTopicsFollowPartialUpdateMutation();
   const [isFollowing, setIsFollowing] = useState(
-    followers.some((follower) => follower?.id === me?.id)
+    followers?.some((follower) => follower?.id === me?.id)
   );
 
   useEffect(() => {
-    setIsFollowing(followers.some((follower) => follower?.id === me?.id));
+    setIsFollowing(followers?.some((follower) => follower?.id === me?.id));
   }, [followers]);
 
   const handleFollowToggler = (event) => {
@@ -158,6 +161,23 @@ const ProfileTimelineCards = ({
             )}
             <div className={classes.cardFooter}>
               <div className={classes.profileSide}>
+                <AvatarGroup max={3}>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src={avatarOne}
+                    sx={{ width: 24, height: 24 }}
+                  />
+                  <Avatar
+                    alt="Travis Howard"
+                    sx={{ width: 24, height: 24 }}
+                    src={avatarTwo}
+                  />
+                  <Avatar
+                    alt="Cindy Baker"
+                    sx={{ width: 24, height: 24 }}
+                    src={avatarThree}
+                  />
+                </AvatarGroup>
                 <div className={classes.followerText}>
                   {" "}
                   {number_of_followers > 0
