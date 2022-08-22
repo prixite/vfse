@@ -21,25 +21,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           -name: PR Opened austo add reviewer
       run: |
-          echo ${{ github.event.pull_request.body }} > tmp.log
-          TEMP=$(grep -hnr "#" tmp.log)
-          ISSUENO=${TEMP#*#}
-          printf -v ISSUENO '%s' $ISSUENO
-          re='^[0-9]+$'
+          echo "${{ github.event.pull_request.body }}" > tmp.log;
+          TEMP=$(grep -hnr "#" tmp.log);
+          ISSUENO=${TEMP#*#};
+          printf -v ISSUENO '%s' $ISSUENO;
+          re='^[0-9]+$';
           if [[ $ISSUENO =~ $re ]]
           then
             gh issue view "$ISSUENO" > tmp.log
             LABELS=$(grep "labels:" tmp.log)
             if [[ $LABELS == *"Frontend"* ]]
             then
-              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite
-              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairjameelprixite;
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed;
             else
-              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed
+              gh pr edit "${{github.event.pull_request.number}}" --add-reviewer umairwaheed;
             fi
           fi
-          gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }}
-          echo "Process completed"
+          gh pr edit "${{github.event.pull_request.number}}" --add-assignee ${{ github.event.pull_request.user.login }};
+          echo "Process completed";
 
   pre-commit:
     runs-on: self-hosted
