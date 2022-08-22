@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import {
   Box,
+  Grid,
   TextField,
   MenuItem,
   Select,
@@ -383,9 +384,31 @@ const Registeration = () => {
           )}
           <>
             {page === 1 ? (
-              <Button className="register-btn" onClick={moveToNextPage}>
-                Next
-              </Button>
+              <Box
+                component="div"
+                className="btn-group"
+                style={{ alignItems: "flex-end" }}
+              >
+                <Grid container alignItems="center" spacing={2}>
+                  <Grid item={true} xs={12}>
+                    <Button className="register-btn" onClick={moveToNextPage}>
+                      Next
+                    </Button>
+                  </Grid>
+                  <Grid item={true} xs={12} className="login-section">
+                    <span>Already have an account?</span>
+                    <Button
+                      variant="text"
+                      className="login-btn"
+                      onClick={() =>
+                        window.location.replace("/accounts/login/?next=/")
+                      }
+                    >
+                      log in
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
             ) : (
               <Box component="div" className="btn-group">
                 <Button className="register-btn" onClick={() => setPage(1)}>

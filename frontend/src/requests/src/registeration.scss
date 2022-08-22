@@ -94,16 +94,25 @@
           color: #efe1ff;
         }
       }
+      .login-section {
+        margin-top: -17px;
+        .login-btn {
+          text-transform: capitalize;
+          margin-top: 2px;
+          text-decoration: underline;
+          font-size: 15px;
+        }
+      }
       .btn-group {
+        margin-top: 5px;
         width: 100%;
         display: flex;
         justify-content: space-between;
         .register-btn {
           margin-top: 12px;
-
           background: #773cbd;
           color: #efe1ff;
-          width: 48%;
+          width: 100%;
           padding: 13px 20px;
           font-size: 16px;
           font-weight: 600;
@@ -130,6 +139,7 @@
     }
   }
 }
+
 @media only screen and (max-width: 600px) {
   .Registeration {
     &__Section {
