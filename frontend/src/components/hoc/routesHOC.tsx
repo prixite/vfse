@@ -67,7 +67,7 @@ interface Props {
   isLoading: boolean;
 }
 const RoutesHOC = ({ isLoading }: Props) => {
-  const { organizationRoute, networkRoute, sitesRoute, userRoute } = constants;
+  const { organizationRoute, networkRoute, sitesRoute } = constants;
   return (
     <Box
       sx={{
