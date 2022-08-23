@@ -109,10 +109,6 @@ export default function TopicModal({ open, handleClose }: Props) {
         });
       })
       .catch((err) => {
-        // toast.error(`Error occured ${err}`, {
-        //   autoClose: 3000,
-        //   pauseOnHover: false,
-        // });
         toastAPIError(`Error occured ${err}`, err?.status, err?.data);
       })
       .finally(() => {

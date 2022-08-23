@@ -101,12 +101,8 @@ const addNewHealthNetworksService = async (
         pauseOnHover: false,
       });
     })
-    .catch((error) => {
-      // toast.error(error.data[0], {
-      //   autoClose: 1000,
-      //   pauseOnHover: false,
-      // });
-      toastAPIError(`${error.data[0]}`, err?.status, err?.data);
+    .catch((err) => {
+      toastAPIError(`${err.data[0]}`, err?.status, err?.data);
     });
 };
 export {

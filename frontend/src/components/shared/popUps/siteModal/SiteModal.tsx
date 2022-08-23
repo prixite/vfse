@@ -158,10 +158,6 @@ export default function SiteModal(props: siteProps) {
           }, 500);
         })
         .catch((err) => {
-          // toast.error("Site with this name already exists.", {
-          //   autoClose: 2000,
-          //   pauseOnHover: false,
-          // });
           toastAPIError(
             "Site with this name already exists.",
             err?.status,

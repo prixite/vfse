@@ -366,13 +366,6 @@ export default function UserModal(props: Props) {
                 setIsLoading(false);
               }, 500);
             })
-            // .catch(() => {
-            //   toast.error("User with this username already exists.", {
-            //     autoClose: 2000,
-            //     pauseOnHover: false,
-            //   });
-            //   setIsLoading(false);
-            // });
             .catch((error) =>
               toastAPIError(
                 "User with this username already exists.",

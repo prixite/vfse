@@ -64,7 +64,7 @@ const isNonFieldError = (error: unknown): boolean => {
 };
 
 const toastAPIError = (
-  message: string | unknown,
+  message: string,
   status: number | null,
   data: unknown
 ) => {

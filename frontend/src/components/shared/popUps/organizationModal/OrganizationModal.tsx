@@ -294,11 +294,7 @@ export default function OrganizationModal({
         (network) => network?.name && network?.appearance?.logo !== ""
       );
       if (!TempNetworks.length) {
-        // toast.error("Add Networks first", {
-        //   autoClose: 1000,
-        //   pauseOnHover: false,
-        // });
-        toastAPIError("Add Networks first");
+        toastAPIError("Add Networks first", 0, {});
       } else {
         await addNewHealthNetworksService(
           organizationID,

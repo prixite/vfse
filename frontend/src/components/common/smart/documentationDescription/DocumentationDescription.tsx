@@ -53,19 +53,6 @@ const DocumentationDescription = () => {
         });
         setHtmlText(htmlString);
       })
-      // .catch((err) => {
-      //   toast.error(
-      //     <div>
-      //       Status:{err?.status}
-      //       <br />
-      //       Some Error Occured
-      //     </div>,
-      //     {
-      //       autoClose: 3000,
-      //       pauseOnHover: false,
-      //     }
-      //   );
-      // });
       .catch((err) => {
         toastAPIError("Some Error Occured", err?.status, err?.data);
       });

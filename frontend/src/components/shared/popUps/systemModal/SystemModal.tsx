@@ -182,21 +182,11 @@ export default function SystemModal(props: SystemProps) {
         toast.success("System successfully saved");
       } catch (err) {
         setDisableButton(false);
-        if (err?.status < 500) {
-          // toast.error(error.data[Object.keys(error.data)[0]][0]);
-          toastAPIError(
-            `${err.data[Object.keys(err.data)[0]][0]}`,
-            err?.status,
-            err?.data
-          );
-        } else {
-          // toast.error("Error occurred while saving system")
-          toastAPIError(
-            "Error occurred while saving system",
-            err?.status,
-            err?.data
-          );
-        }
+        toastAPIError(
+          "Error occurred while saving system",
+          err?.status,
+          err?.data
+        );
       } finally {
         handleClear();
       }

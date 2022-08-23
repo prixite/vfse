@@ -207,10 +207,6 @@ export default function NetworkModal(props: Props) {
             }
           })
           .catch((err) => {
-            // toast.error("Failed to upload image", {
-            //   autoClose: 1000,
-            //   pauseOnHover: false,
-            // });
             toastAPIError("Failed to upload image", err?.status, err?.data);
           });
       }

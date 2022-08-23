@@ -149,7 +149,6 @@ const AppearanceSection = () => {
       }).unwrap();
       toast.success("Client successfully updated");
     } catch (err) {
-      // toast.error("Error updating client");
       toastAPIError("Error updating client", err?.status, err?.data);
     }
   };
