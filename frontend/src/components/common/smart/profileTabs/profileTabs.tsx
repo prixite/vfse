@@ -1,11 +1,10 @@
 import * as React from "react";
 
-import { Pagination } from "@mui/material";
+import { Grid, Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/system";
 
 import women from "@src/assets/svgs/womenAvatar.svg";
 
@@ -109,14 +108,14 @@ const ProfileTabs = () => {
           user={{ name: "Jessie Hudson", image: women }}
           categories={[]}
         />
-        <Stack alignItems="center" mt={2}>
+        <Grid alignItems="center" mt={2}>
           <Pagination
             showFirstButton
             showLastButton
             count={10}
             color="primary"
           />
-        </Stack>
+        </Grid>
       </TabPanel>
     </Box>
   );

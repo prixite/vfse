@@ -11,7 +11,6 @@ import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -295,10 +294,7 @@ export default function OrganizationModal({
         (network) => network?.name && network?.appearance?.logo !== ""
       );
       if (!TempNetworks.length) {
-        toast.error("Add Networks first", {
-          autoClose: 1000,
-          pauseOnHover: false,
-        });
+        toastAPIError("Add Networks first", null, null);
       } else {
         await addNewHealthNetworksService(
           organizationID,

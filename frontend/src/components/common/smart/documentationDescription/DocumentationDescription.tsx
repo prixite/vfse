@@ -4,13 +4,13 @@ import { Box, Grid } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { api } from "@src/store/reducers/api";
 
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
@@ -53,18 +53,17 @@ const DocumentationDescription = () => {
         setHtmlText(htmlString);
       })
       .catch((err) => {
-        toast.error(
+        toastAPIError(
           <div>
             Status:{err?.status}
             <br />
             Some Error Occured
           </div>,
-          {
-            autoClose: 3000,
-            pauseOnHover: false,
-          }
+          err?.status,
+          err?.data
         );
       });
+
     setEditText(false);
   };
 

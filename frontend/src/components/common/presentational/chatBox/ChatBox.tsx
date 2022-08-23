@@ -4,8 +4,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
 import { Box, TextField } from "@mui/material";
-import { toast } from "react-toastify";
 
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { System } from "@src/store/reducers/generated";
@@ -37,12 +37,13 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
       .then(({ response_text: responseText }) => {
         setChatResponse(responseText);
       })
-      .catch((err) => {
-        toast.error(`Error occured ${err?.error}`, {
-          autoClose: 1000,
-          pauseOnHover: false,
-        });
-      })
+      .catch((error) =>
+        toastAPIError(
+          `Error occured ${error?.error}.`,
+          error?.status,
+          error?.data
+        )
+      )
       .finally(() => {
         resetQuery();
       });
