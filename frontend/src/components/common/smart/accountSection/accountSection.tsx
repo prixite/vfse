@@ -2,7 +2,7 @@ import { Box, Grid, TextField, Button } from "@mui/material";
 
 import { useAppSelector } from "@src/store/hooks";
 
-const ProfileSection = () => {
+const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -91,4 +91,4 @@ const ProfileSection = () => {
   );
 };
 
-export default ProfileSection;
+export default AccountSection;

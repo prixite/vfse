@@ -125,13 +125,13 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
         </div>
         <div
           onClick={() =>
-            (location.href = `/${organizationRoute}/${selectedOrganizationData?.id}/${userRoute}`)
+            (location.href = `/${organizationRoute}/${selectedOrganizationData?.id}/account`)
           }
           className="profile-item"
           style={{ padding: "4px 8px 8px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>Profile settings</a>
+          <a style={{ textDecoration: "none" }}>Account settings</a>
         </div>
       </Popover>
     </div>

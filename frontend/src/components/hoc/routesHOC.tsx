@@ -56,9 +56,9 @@ const SitesView = lazy(
     import(/* webpackChunkName: "SitesView" */ "@src/views/sites/SitesView")
 );
 
-const Profile = lazy(
+const Account = lazy(
   async () =>
-    import(/* webpackChunkName: "SitesView" */ "@src/views/profile/profile")
+    import(/* webpackChunkName: "SitesView" */ "@src/views/account/account")
 );
 
 import SystemsView from "../../views/systems/SystemsView";
@@ -119,10 +119,10 @@ const RoutesHOC = ({ isLoading }: Props) => {
             }
           />
           <Route
-            path={`/${organizationRoute}/:id/${userRoute}/`}
+            path={`/${organizationRoute}/:id/account/`}
             element={
               <Suspense fallback={<p>Loading...</p>}>
-                <Profile />
+                <Account />
               </Suspense>
             }
           />
