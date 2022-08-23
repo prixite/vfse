@@ -29,6 +29,7 @@ import DropzoneBox from "@src/components/common/presentational/dropzoneBox/Dropz
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewUserService,
   updateUserService,
@@ -45,7 +46,6 @@ import {
   useScopeUsersCreateMutation,
   useOrganizationsUsersListQuery,
 } from "@src/store/reducers/api";
-
 interface Props {
   open: boolean;
   handleClose: () => void;
@@ -366,13 +366,20 @@ export default function UserModal(props: Props) {
                 setIsLoading(false);
               }, 500);
             })
-            .catch(() => {
-              toast.error("User with this username already exists.", {
-                autoClose: 2000,
-                pauseOnHover: false,
-              });
-              setIsLoading(false);
-            });
+            // .catch(() => {
+            //   toast.error("User with this username already exists.", {
+            //     autoClose: 2000,
+            //     pauseOnHover: false,
+            //   });
+            //   setIsLoading(false);
+            // });
+            .catch((error) =>
+              toastAPIError(
+                "User with this username already exists.",
+                error?.status,
+                error?.data
+              )
+            );
         }
       );
     } else {

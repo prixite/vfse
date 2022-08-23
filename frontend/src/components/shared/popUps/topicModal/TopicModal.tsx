@@ -24,6 +24,7 @@ import DropzoneBox from "@src/components/common/presentational/dropzoneBox/Dropz
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { categories } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
 import { api } from "@src/store/reducers/api";
@@ -108,10 +109,11 @@ export default function TopicModal({ open, handleClose }: Props) {
         });
       })
       .catch((err) => {
-        toast.error(`Error occured ${err}`, {
-          autoClose: 3000,
-          pauseOnHover: false,
-        });
+        // toast.error(`Error occured ${err}`, {
+        //   autoClose: 3000,
+        //   pauseOnHover: false,
+        // });
+        toastAPIError(`Error occured ${err}`, err?.status, err?.data);
       })
       .finally(() => {
         setIsLoading(false);

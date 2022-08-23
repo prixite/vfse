@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Category } from "@src/store/reducers/generated";
@@ -66,11 +67,16 @@ export default function FolderModal({
           pauseOnHover: false,
         });
       })
-      .catch(() => {
-        toast.error("Error occured while adding Folder", {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+      .catch((err) => {
+        // toast.error("Error occured while adding Folder", {
+        //   autoClose: 2000,
+        //   pauseOnHover: false,
+        // });
+        toastAPIError(
+          "Error occured while adding Folder",
+          err?.status,
+          err?.data
+        );
       })
       .finally(() => {
         resetModal();
