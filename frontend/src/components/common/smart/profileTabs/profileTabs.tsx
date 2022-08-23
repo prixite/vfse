@@ -11,6 +11,12 @@ import women from "@src/assets/svgs/womenAvatar.svg";
 
 import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
 import "@src/components/common/smart/profileTabs/profileTabs.scss";
+import {
+  useOrganizationsMeReadQuery,
+  useVfseTopicsReadQuery,
+} from "@src/store/reducers/generated";
+import { useSelectedOrganization } from "@src/store/hooks";
+import { useEffect } from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,6 +57,13 @@ const ProfileTabs = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const { data: me, isError } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
+
+  const { data } = useVfseTopicsReadQuery({ id: "3" });
+  console.log("Topics:::::::", data);
 
   return (
     <Box sx={{ width: "100%", mt: 3 }}>
