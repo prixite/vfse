@@ -32,16 +32,9 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
   }, [comment?.note]);
 
   const handleNoteDelete = async () => {
-    await deleteSystemNoteService(comment?.id, deleteNote)
-      // .catch(() => {
-      //   toast.error("Comment Failed to Delete", {
-      //     autoClose: 1000,
-      //     pauseOnHover: true,
-      //   });
-      // });
-      .catch((error) =>
-        toastAPIError("Comment Failed to Delete.", error?.status, error?.data)
-      );
+    await deleteSystemNoteService(comment?.id, deleteNote).catch((error) =>
+      toastAPIError("Comment Failed to Delete.", error?.status, error?.data)
+    );
     handleClose();
   };
   return (

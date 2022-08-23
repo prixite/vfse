@@ -25,10 +25,6 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
   const editCommentHandler = async () => {
     setIsLoading(true);
     await updateSystemNoteService(noteId, editNote, updateNote).catch((err) => {
-      // toast.error("Failed to update comment", {
-      //   autoClose: 1000,
-      //   pauseOnHover: true,
-      // });
       toastAPIError("Failed to update comment", err?.status, err?.data);
     });
     setEditMode(false);

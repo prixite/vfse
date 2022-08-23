@@ -181,13 +181,6 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            // toast.error(
-            //   "Model with given name already exists for selected product",
-            //   {
-            //     autoClose: 2000,
-            //     pauseOnHover: false,
-            //   }
-            // );
             toastAPIError(
               "Model with given name already exists for selected product",
               err?.status,
@@ -218,13 +211,6 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            // toast.error(
-            //   "Model with given name already exists for selected product",
-            //   {
-            //     autoClose: 2000,
-            //     pauseOnHover: false,
-            //   }
-            // );
             toastAPIError(
               "Model with given name already exists for selected product",
               err?.status,

@@ -68,10 +68,6 @@ export default function FolderModal({
         });
       })
       .catch((err) => {
-        // toast.error("Error occured while adding Folder", {
-        //   autoClose: 2000,
-        //   pauseOnHover: false,
-        // });
         toastAPIError(
           "Error occured while adding Folder",
           err?.status,

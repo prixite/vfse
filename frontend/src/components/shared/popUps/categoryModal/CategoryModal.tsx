@@ -70,10 +70,6 @@ export default function CategoryModal({
         resetModal();
       })
       .catch((err) => {
-        // toast.error("Error occured while adding Category", {
-        //   autoClose: 2000,
-        //   pauseOnHover: false,
-        // });
         toastAPIError(
           "Error occured while adding Category",
           err?.status,

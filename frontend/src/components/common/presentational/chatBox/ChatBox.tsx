@@ -37,12 +37,6 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
       .then(({ response_text: responseText }) => {
         setChatResponse(responseText);
       })
-      // .catch((err) => {
-      //   toast.error(`Error occured ${err?.error}`, {
-      //     autoClose: 1000,
-      //     pauseOnHover: false,
-      //   });
-      // })
       .catch((error) =>
         toastAPIError(
           `Error occured ${error?.error}.`,

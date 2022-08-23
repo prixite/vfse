@@ -78,12 +78,6 @@ const KnowledgeTopCard = ({
         });
         handleModalClose();
       })
-      // .catch(() => {
-      //   toast.error("Problem occured while deleting Article", {
-      //     autoClose: 1000,
-      //     pauseOnHover: false,
-      //   });
-      // });
       .catch((error) =>
         toastAPIError(
           "Problem occured while deleting Article",
