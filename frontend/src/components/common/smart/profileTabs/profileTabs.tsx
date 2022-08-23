@@ -113,7 +113,7 @@ const ProfileTabs = () => {
           <Pagination
             showFirstButton
             showLastButton
-            count={10}
+            count={5}
             color="primary"
           />
         </Stack>
