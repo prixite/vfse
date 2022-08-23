@@ -22,7 +22,6 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "unset !important",
     background: "unset !important",
     border: "unset",
-    padding: "unset",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -31,11 +30,9 @@ const useStyles = makeStyles(() => ({
     backgroundColor: "unset !important",
     background: "unset !important",
     border: "unset",
-    padding: "unset",
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingBottom: "36px",
   },
   choiceDescription: {
     textTransform: "capitalize",
@@ -47,6 +44,7 @@ const useStyles = makeStyles(() => ({
   grouped: {
     display: "flex",
     alignItems: "center",
+    padding: "8px 0px",
   },
 }));
 
