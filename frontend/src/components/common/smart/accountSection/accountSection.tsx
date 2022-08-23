@@ -9,7 +9,7 @@ const AccountSection = () => {
 
   return (
     <div>
-      <Box component="div" p={4}>
+      <Box component="div">
         <h2>{"Account Settings"}</h2>
         <Box
           component="div"
