@@ -23,6 +23,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
@@ -179,11 +180,13 @@ export default function SystemModal(props: SystemProps) {
           system: getPayload(values),
         }).unwrap();
         toast.success("System successfully saved");
-      } catch (error) {
+      } catch (err) {
         setDisableButton(false);
-        if (error?.status < 500)
-          toast.error(error.data[Object.keys(error.data)[0]][0]);
-        else toast.error("Error occurred while saving system");
+        toastAPIError(
+          "Error occurred while saving system",
+          err?.status,
+          err?.data
+        );
       } finally {
         handleClear();
       }

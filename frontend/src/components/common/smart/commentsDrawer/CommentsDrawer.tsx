@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import CommentIcon from "@mui/icons-material/Comment";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
-import { toast } from "react-toastify";
 
 import CommentCard from "@src/components/common/presentational/commentCard/CommentCard";
 import NoCommentsFound from "@src/components/common/presentational/noCommentsFound/NoCommentsFound";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import {
   useAppSelector,
@@ -58,11 +58,7 @@ const CommentsDrawer = () => {
     setIsLoading(true);
     if (note) {
       await addNewSystemNoteService(me?.id, systemID, note, addNewNote).catch(
-        () =>
-          toast.error("Note not added", {
-            autoClose: 1000,
-            pauseOnHover: false,
-          })
+        (err) => toastAPIError("Note not added", err?.status, err?.data)
       );
     }
     resetNoteHandler();

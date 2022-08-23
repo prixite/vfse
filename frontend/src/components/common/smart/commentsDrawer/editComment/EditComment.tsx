@@ -2,8 +2,8 @@ import { useState, Dispatch, SetStateAction } from "react";
 
 import "@src/components/common/smart/commentsDrawer/editComment/editComment.scss";
 import { TextField, InputAdornment, Button } from "@mui/material";
-import { toast } from "react-toastify";
 
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { updateSystemNoteService } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
 import { useNotesPartialUpdateMutation } from "@src/store/reducers/api";
@@ -24,11 +24,8 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
   };
   const editCommentHandler = async () => {
     setIsLoading(true);
-    await updateSystemNoteService(noteId, editNote, updateNote).catch(() => {
-      toast.error("Failed to update comment", {
-        autoClose: 1000,
-        pauseOnHover: true,
-      });
+    await updateSystemNoteService(noteId, editNote, updateNote).catch((err) => {
+      toastAPIError("Failed to update comment", err?.status, err?.data);
     });
     setEditMode(false);
   };
