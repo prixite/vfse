@@ -1,36 +1,24 @@
-import { useEffect, useState } from "react";
-
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import moment from "moment";
+import { Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import activityIcon from "@src/assets/svgs/activity.svg";
 import profileIcon from "@src/assets/svgs/profilepic.svg";
 import "@src/components/common/presentational/recentActivity/style.scss";
 import { useVfseUserActivityListQuery } from "@src/store/reducers/generated";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const RecentActivity = () => {
   const { data: userActivityList = [], isLoading } =
     useVfseUserActivityListQuery();
 
-  const [page, setPage] = useState<number>(1);
-  const [paginatedArr, setPaginatedArr] = useState([]);
-
-  const paginate = (array, pageSize = 4, pageNumber = 1) => {
-    const tempArr = JSON.parse(JSON.stringify(array))
-      .reverse()
-      .slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
-    setPaginatedArr(tempArr);
+  const totalPageNumber = () => {
+    const totalPages = Math.ceil(userActivityList.length / 4);
+    return totalPages;
   };
 
-  useEffect(() => {
-    paginate(userActivityList, 4, page);
-  }, [page, userActivityList]);
-
-  const handlePagination = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const pageNumber: number = +event.target.value;
-    setPage(pageNumber);
-    paginate(userActivityList, 4, pageNumber);
-  };
   return (
     <Box component="div" className="recentActivitycard">
       <div className="recentActivityTitle">
@@ -39,37 +27,72 @@ const RecentActivity = () => {
         </div>
         <div className="topicHeading">Recent Activity</div>
       </div>
-      {!isLoading
-        ? paginatedArr.slice(0, 4).map((item, key) => (
-            <div className="userStatus" key={key}>
-              <div className="userImg">
-                <img
-                  className="imgStylingMessage"
-                  src={`${item?.user?.image}`}
-                  alt={profileIcon}
-                />
-              </div>
-              <div className="statusDetail">
-                <span className="username">{item?.user?.name}</span>
-                <span style={{ wordBreak: "break-word" }}> {item?.action}</span>
-                <div className="postTime" style={{ padding: "5px 0px" }}>
-                  {moment(item?.created_at).startOf("s").fromNow()}
-                </div>
-              </div>
-            </div>
-          ))
-        : ""}
-      <div className="pagtiondot" style={{ alignItems: "center" }}>
-        {userActivityList.slice(0, 3).map((item, index) => (
-          <div
-            onChange={handlePagination}
-            key={index}
-            style={{ margin: "4px" }}
+
+      {!isLoading ? (
+        <Grid
+          style={{ width: "100%", paddingLeft: "16px" }}
+          marginBottom={1}
+          paddingBottom={1}
+          height="min-content"
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+        >
+          <Swiper
+            pagination={{
+              dynamicBullets: true,
+            }}
+            modules={[Pagination]}
+            className="mySwiper"
           >
-            <input type="radio" value={index + 1} name="gender" />
-          </div>
-        ))}
-      </div>
+            {userActivityList.slice(0, totalPageNumber()).map((item, index) => (
+              <SwiperSlide
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  width: "200px",
+                }}
+                key={index}
+              >
+                {JSON.parse(JSON.stringify(userActivityList))
+                  ?.reverse()
+                  ?.slice((index + 1 - 1) * 4, (index + 1) * 4)
+                  .map((item, key) => (
+                    <div className="userStatus" key={key}>
+                      <div className="userImg">
+                        <img
+                          className="imgStylingMessage"
+                          src={`${item?.user?.image}`}
+                          alt={profileIcon}
+                        />
+                      </div>
+                      <Grid className="statusDetail">
+                        <span className="username">{item?.user?.name}</span>
+                        <span
+                          style={{ wordBreak: "break-word", textAlign: "left" }}
+                        >
+                          {" "}
+                          {item?.action}
+                        </span>
+                        <div
+                          className="postTime"
+                          style={{ padding: "5px 0px" }}
+                        >
+                          {moment(item?.created_at).startOf("s").fromNow()}
+                        </div>
+                      </Grid>
+                    </div>
+                  ))}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Grid>
+      ) : (
+        ""
+      )}
     </Box>
   );
 };
