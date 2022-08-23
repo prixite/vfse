@@ -4,6 +4,7 @@ import { Box, Grid } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
@@ -66,15 +67,7 @@ const DocumentationDescription = () => {
       //   );
       // });
       .catch((err) => {
-        toastAPIError(
-          <div>
-            Status:{err?.status}
-            <br />
-            Some Error Occured
-          </div>,
-          err?.status,
-          err?.data
-        );
+        toastAPIError("Some Error Occured", err?.status, err?.data);
       });
 
     setEditText(false);

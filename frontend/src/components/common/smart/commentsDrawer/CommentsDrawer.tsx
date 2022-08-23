@@ -58,12 +58,12 @@ const CommentsDrawer = () => {
     setIsLoading(true);
     if (note) {
       await addNewSystemNoteService(me?.id, systemID, note, addNewNote).catch(
-        () =>
+        (err) =>
           // toast.error("Note not added", {
           //   autoClose: 1000,
           //   pauseOnHover: false,
           // })
-          toastAPIError("Note not added")
+          toastAPIError("Note not added", err?.status, err?.data)
       );
     }
     resetNoteHandler();
