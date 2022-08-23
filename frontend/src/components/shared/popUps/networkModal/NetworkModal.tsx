@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -206,8 +207,11 @@ export default function NetworkModal(props: Props) {
                 });
             }
           })
-          .catch((err) => {
-            toastAPIError("Failed to upload image", err?.status, err?.data);
+          .catch(() => {
+            toast.error("Failed to upload image", {
+              autoClose: 1000,
+              pauseOnHover: false,
+            });
           });
       }
     }

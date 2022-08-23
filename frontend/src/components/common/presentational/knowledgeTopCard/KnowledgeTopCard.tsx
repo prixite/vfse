@@ -11,7 +11,6 @@ import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants } from "@src/helpers/utils/constants";
-import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
@@ -78,13 +77,12 @@ const KnowledgeTopCard = ({
         });
         handleModalClose();
       })
-      .catch((error) =>
-        toastAPIError(
-          "Problem occured while deleting Article",
-          error?.status,
-          error?.data
-        )
-      );
+      .catch(() => {
+        toast.error("Problem occured while deleting Article", {
+          autoClose: 1000,
+          pauseOnHover: false,
+        });
+      });
   };
   const toggleFavourite = (favourite) => {
     updateArticle({

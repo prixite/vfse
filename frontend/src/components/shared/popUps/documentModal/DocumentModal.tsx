@@ -16,6 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -23,7 +24,6 @@ import { DocumentationModalFormState } from "@src/components/shared/popUps/syste
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { toastAPIError } from "@src/helpers/utils/utils";
 import {
   addProductModelService,
   updateProductModelService,
@@ -180,11 +180,13 @@ export default function DocumentModal({
               setIsLoading(false);
             }, 500);
           })
-          .catch((err) => {
-            toastAPIError(
+          .catch(() => {
+            toast.error(
               "Model with given name already exists for selected product",
-              err?.status,
-              err?.data
+              {
+                autoClose: 2000,
+                pauseOnHover: false,
+              }
             );
             setIsLoading(false);
           });
@@ -210,11 +212,13 @@ export default function DocumentModal({
               setIsLoading(false);
             }, 500);
           })
-          .catch((err) => {
-            toastAPIError(
+          .catch(() => {
+            toast.error(
               "Model with given name already exists for selected product",
-              err?.status,
-              err?.data
+              {
+                autoClose: 2000,
+                pauseOnHover: false,
+              }
             );
             setIsLoading(false);
           });

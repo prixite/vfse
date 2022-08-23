@@ -68,17 +68,16 @@ const toastAPIError = (
   status: number | null,
   data: unknown
 ) => {
-  if (status < 500) {
+  if (status < 500)
     toast.error(data[Object.keys(data)[0]][0], {
       autoClose: 1000,
       pauseOnHover: false,
     });
-  } else {
+  else
     toast.error(message, {
       autoClose: 1000,
       pauseOnHover: false,
     });
-  }
 };
 
 export {
