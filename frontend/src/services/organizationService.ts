@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 
+import { toastAPIError } from "@src/helpers/utils/utils";
+
 const DeleteOrganizationService = async (id, deleteOrganization) => {
   await deleteOrganization({
     id: id.toString(),
@@ -100,10 +102,11 @@ const addNewHealthNetworksService = async (
       });
     })
     .catch((error) => {
-      toast.error(error.data[0], {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
+      // toast.error(error.data[0], {
+      //   autoClose: 1000,
+      //   pauseOnHover: false,
+      // });
+      toastAPIError(`${error.data[0]}`, err?.status, err?.data);
     });
 };
 export {

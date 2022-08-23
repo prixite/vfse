@@ -7,7 +7,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -17,6 +16,7 @@ import {
   returnSearchedOject,
   isNonFieldError,
   getNonFieldError,
+  toastAPIError,
 } from "@src/helpers/utils/utils";
 import {
   addNewSiteService,
@@ -107,15 +107,17 @@ export default function SiteModal(props: siteProps) {
       })
       .catch((error: unknown) => {
         if (isNonFieldError(error)) {
-          toast.error(getNonFieldError(error), {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
+          // toast.error(getNonFieldError(error), {
+          //   autoClose: 2000,
+          //   pauseOnHover: false,
+          // });
+          toastAPIError(`${getNonFieldError(error)}`);
         } else {
-          toast.error("Error occurred while saving site", {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
+          // toast.error("Error occurred while saving site", {
+          //   autoClose: 2000,
+          //   pauseOnHover: false,
+          // });
+          toastAPIError("Error occurred while saving site");
         }
       })
       .finally(() => setIsLoading(false));
@@ -168,11 +170,16 @@ export default function SiteModal(props: siteProps) {
             setIsLoading(false);
           }, 500);
         })
-        .catch(() => {
-          toast.error("Site with this name already exists.", {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
+        .catch((err) => {
+          // toast.error("Site with this name already exists.", {
+          //   autoClose: 2000,
+          //   pauseOnHover: false,
+          // });
+          toastAPIError(
+            "Site with this name already exists.",
+            err?.status,
+            err?.data
+          );
           setIsLoading(false);
         });
     } else {
