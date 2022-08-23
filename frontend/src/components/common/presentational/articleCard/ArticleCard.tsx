@@ -12,7 +12,6 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
-import { toastAPIError } from "@src/helpers/utils/utils";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/presentational/articleCard/articleCard.scss";
 interface props {
@@ -63,13 +62,12 @@ const ArticleCard = ({
         });
         handleModalClose();
       })
-      .catch((error) =>
-        toastAPIError(
-          "Problem occured while deleting Folder",
-          error?.status,
-          error?.data
-        )
-      );
+      .catch(() => {
+        toast.error("Problem occured while deleting Folder", {
+          autoClose: 1000,
+          pauseOnHover: false,
+        });
+      });
   };
   return (
     <>

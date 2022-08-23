@@ -12,7 +12,6 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
-import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import {
@@ -69,12 +68,11 @@ export default function CategoryModal({
         });
         resetModal();
       })
-      .catch((err) => {
-        toastAPIError(
-          "Error occured while adding Category",
-          err?.status,
-          err?.data
-        );
+      .catch(() => {
+        toast.error("Error occured while adding Category", {
+          autoClose: 2000,
+          pauseOnHover: false,
+        });
       })
       .finally(() => {
         resetModal();
