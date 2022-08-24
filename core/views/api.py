@@ -2,6 +2,7 @@ import json
 
 import boto3
 from django.conf import settings
+from django.contrib.auth import update_session_auth_hash
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
@@ -428,28 +429,14 @@ class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.User.objects.none()
 
-        if self.request.user.is_superuser or self.request.user.is_supermanager:
-            return models.User.objects.all()
-
-        return models.User.objects.filter(
-            id__in=models.Membership.objects.filter(
-                organization__in=self.request.user.get_organizations(),
-            ).values_list("user")
-        )
+        return models.User.objects.filter(id=self.request.user.id)
 
     def update(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid(raise_exception=True):
-            old_password = serializer.data["old_password"]
-            password = serializer.data["password"]
-            if not (
-                request.user.check_password(old_password) and password != old_password
-            ):
-                raise exceptions.ValidationError(
-                    "Password does not match and new password should not match to old password."  # noqa
-                )
-            request.user.set_password(password)
+            request.user.set_password(serializer.data["password"])
             request.user.save()
+            update_session_auth_hash(request, request.user)
         return Response(serializer.errors)
 
 
