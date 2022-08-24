@@ -41,6 +41,14 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/users/change_password/",
+        api.UserPasswordViewSet.as_view(
+            {
+                "patch": "partial_update",
+            }
+        ),
+    ),
+    path(
         "api/organizations/exists/",
         api.DistinctOrganizationViewSet.as_view(
             {

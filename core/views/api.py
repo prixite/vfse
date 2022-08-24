@@ -391,7 +391,6 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         )
 
     def update(self, request, *args, **kwargs):
-        # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
@@ -417,6 +416,40 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             self.add_modalities(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
+    def get_serializer_class(self):
+        return serializers.UpsertUserPasswordSerializer
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.User.objects.none()
+
+        if self.request.user.is_superuser or self.request.user.is_supermanager:
+            return models.User.objects.all()
+
+        return models.User.objects.filter(
+            id__in=models.Membership.objects.filter(
+                organization__in=self.request.user.get_organizations(),
+            ).values_list("user")
+        )
+
+    def update(self, request, *args, **kwargs):
+        # TODO: Add permission class to allow only self and user admin
+        serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
+        if serializer.is_valid(raise_exception=True):
+            old_password = serializer.data["old_password"]
+            password = serializer.data["password"]
+            if not (
+                request.user.check_password(old_password) and password != old_password
+            ):
+                raise exceptions.ValidationError(
+                    "Password does not match and new password should not match to old password."  # noqa
+                )
+            request.user.set_password(password)
+            request.user.save()
         return Response(serializer.errors)
 
 

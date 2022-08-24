@@ -274,6 +274,11 @@ class MetaSerialzer(serializers.Serializer):
     title = serializers.CharField(required=False)
 
 
+class UpsertUserPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=8, required=True)
+    old_password = serializers.CharField()
+
+
 class UpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()

@@ -466,6 +466,16 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/active_users/` }),
     }),
+    usersChangePasswordPartialUpdate: build.mutation<
+      UsersChangePasswordPartialUpdateApiResponse,
+      UsersChangePasswordPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/change_password/`,
+        method: "PATCH",
+        body: queryArg.upsertUserPassword,
+      }),
+    }),
     usersDeactivatePartialUpdate: build.mutation<
       UsersDeactivatePartialUpdateApiResponse,
       UsersDeactivatePartialUpdateApiArg
@@ -1019,6 +1029,11 @@ export type UsersActivatePartialUpdateApiArg = {
 };
 export type UsersActiveUsersListApiResponse = /** status 200  */ User[];
 export type UsersActiveUsersListApiArg = void;
+export type UsersChangePasswordPartialUpdateApiResponse =
+  /** status 200  */ UpsertUserPassword;
+export type UsersChangePasswordPartialUpdateApiArg = {
+  upsertUserPassword: UpsertUserPassword;
+};
 export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
 export type UsersDeactivatePartialUpdateApiArg = {
@@ -1469,6 +1484,10 @@ export type SystemAccess = {
 export type UserEnableDisable = {
   users: number[];
 };
+export type UpsertUserPassword = {
+  password: string;
+  old_password: string;
+};
 export type Role = {
   value: string;
   title: string;
@@ -1631,6 +1650,7 @@ export const {
   useSystemsChatbotCreateMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersActiveUsersListQuery,
+  useUsersChangePasswordPartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
