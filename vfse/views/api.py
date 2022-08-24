@@ -155,6 +155,16 @@ class TopicActivityViewSet(ListAPIView):
         )
 
 
+class MyTopicsViewSet(ListAPIView):
+    serializer_class = serializers.TopicSerializer
+    pagination_class = pagination.TopicPagination
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.RecentActivity.objects.none()
+        return self.request.user.topics.all()
+
+
 class WorkOrderViewset(ModelViewSet):
     serializer_class = serializers.WorkOrderSerializer
 
