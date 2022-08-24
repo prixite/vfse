@@ -38,7 +38,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         setChatResponse(responseText);
       })
       .catch((err) => {
-        toast.error(`Error occured ${err?.error}`, {
+        toast.error(err.originalStatus === 500 ? "We can not proceed ypur request at that time." : `Error occured ${err?.error}.`, {
           autoClose: 1000,
           pauseOnHover: false,
         });
