@@ -22,13 +22,18 @@
     max-height: unset;
     align-self: flex-end;
   }
+  .css-19vu3kl-MuiInputBase-root-MuiOutlinedInput-root {
+    padding: 8px 8px;
+    flex-direction: column;
+  }
   .AddCommentBtn {
-    width: max-content;
-    min-width: max-content;
+    width: 78px;
     padding: 0;
     border-radius: 6px;
     font-weight: 600;
-    max-width: max-content;
+    font-size: 16px;
+    height: 36px;
+    max-width: 200px;
   }
 }
 .CommentsSection {

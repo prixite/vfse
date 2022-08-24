@@ -30,7 +30,8 @@
       }
     }
     .userActions {
-      display: flex;
+      display: none;
+      align-self: baseline;
       .logo {
         cursor: pointer;
       }
@@ -44,10 +45,17 @@
     margin-top: 10px;
     font-size: 14px;
     color: #94989e;
+    width: 100%;
+    word-break: break-word;
     font-weight: normal;
     .read-or-hide {
       color: #773cbd;
       cursor: pointer;
     }
+  }
+}
+.CommentCard:hover {
+  .userActions {
+    display: flex;
   }
 }
