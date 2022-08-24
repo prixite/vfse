@@ -1,8 +1,5 @@
 import { Box, Grid, TextField, Button } from "@mui/material";
 
-import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
-import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
-
 const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -10,7 +7,7 @@ const AccountSection = () => {
 
   return (
     <div>
-      <Box component="div" p={4}>
+      <Box component="div">
         <h2>{"Account Settings"}</h2>
         <Box
           component="div"

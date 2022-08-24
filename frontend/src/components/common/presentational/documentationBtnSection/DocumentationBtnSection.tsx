@@ -3,6 +3,7 @@ import { Component } from "react";
 import InsertLinkOutlinedIcon from "@mui/icons-material/InsertLinkOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { Grid, Button } from "@mui/material";
+import { toast } from "react-toastify";
 
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
@@ -57,6 +58,13 @@ const DocumentationBtnSection = ({
   );
   const edit = () => handleEditText(true);
   const cancelEdit = () => handleEditText(false);
+  const copyLink = () => {
+    navigator?.clipboard?.writeText(window.location.href);
+    toast.success("Link Copied.", {
+      autoClose: 1000,
+      pauseOnHover: false,
+    });
+  };
   return (
     <Grid container spacing={1} style={{ marginBottom: "20px" }}>
       <Grid item={true} xs={6}>
@@ -86,6 +94,7 @@ const DocumentationBtnSection = ({
             bgColor={buttonBackground}
             btnTextColor={buttonTextColor}
             btnText={btnCopy}
+            handleClick={copyLink}
             icon={
               <InsertLinkOutlinedIcon
                 style={{ transform: "rotate(120deg)", marginRight: "10px" }}
