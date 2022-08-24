@@ -13,7 +13,7 @@ const AccountSection = () => {
         <h2>{"Account Settings"}</h2>
         <Box
           component="div"
-          sx={{ background: "#fff", borderRadius: "15px" }}
+          sx={{ background: "#fff", borderRadius: "8px" }}
           mt={3}
           mb={1}
           p={4}
@@ -47,7 +47,7 @@ const AccountSection = () => {
         </Box>
         <Box
           component="div"
-          sx={{ background: "#fff", borderRadius: "15px" }}
+          sx={{ background: "#fff", borderRadius: "8px" }}
           my={1}
           p={4}
           marginTop="20px"
