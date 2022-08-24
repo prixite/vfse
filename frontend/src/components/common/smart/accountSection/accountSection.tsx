@@ -26,9 +26,11 @@ const AccountSection = () => {
             direction="column"
             width={{ xs: "100%", lg: "40%" }}
           >
-            <Grid item xs={12}>
-              {/* <h4 style={{ marginBottom: "5px" }}>User name</h4> */}
-              <TextField fullWidth label={"Username"} variant="outlined" />
+            <Grid item xs={6}>
+              <TextField fullWidth label={"First Name"} variant="outlined" />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField fullWidth label={"Last Name"} variant="outlined" />
             </Grid>
             <Grid item xs={12} alignSelf="end">
               <Button

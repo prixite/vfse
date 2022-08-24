@@ -13,9 +13,13 @@
 }
 .AddComment {
   padding: 14px;
-  .css-ao4qq6-MuiInputBase-root-MuiOutlinedInput-root {
+  .MuiOutlinedInput-root {
     padding: 8px 12px;
     flex-direction: column;
+    background-color: #f7f7f7;
+  }
+  .Mui-focused {
+    background-color: #fff;
   }
   .css-1laqsz7-MuiInputAdornment-root {
     height: unset;
@@ -23,12 +27,13 @@
     align-self: flex-end;
   }
   .AddCommentBtn {
-    width: max-content;
-    min-width: max-content;
+    width: 78px;
     padding: 0;
     border-radius: 6px;
     font-weight: 600;
-    max-width: max-content;
+    font-size: 16px;
+    height: 36px;
+    max-width: 200px;
   }
 }
 .CommentsSection {
