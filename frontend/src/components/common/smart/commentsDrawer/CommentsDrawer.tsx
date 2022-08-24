@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import CommentIcon from "@mui/icons-material/Comment";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
 import { toast } from "react-toastify";
 
@@ -24,7 +23,7 @@ import { closeSystemDrawer } from "@src/store/reducers/appStore";
 const CommentsDrawer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [note, setNote] = useState("");
-  const { fontTwo, buttonBackground } = useAppSelector(
+  const { fontTwo, buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
   const { openSystemNotesDrawer, systemID } = useAppSelector(
@@ -99,7 +98,7 @@ const CommentsDrawer = () => {
           multiline
           minRows={4}
           fullWidth
-          placeholder="Edit comment...."
+          placeholder="Add a new comment"
           value={note}
           onChange={SystemNoteHandler}
           InputProps={{
@@ -109,21 +108,24 @@ const CommentsDrawer = () => {
                   style={
                     isLoading
                       ? {
-                          color: "lightgray",
+                          backgroundColor: "lightgray",
+                          color: buttonTextColor,
                         }
                       : note
                       ? {
-                          color: buttonBackground,
+                          backgroundColor: buttonBackground,
+                          color: buttonTextColor,
                         }
                       : {
-                          color: "lightgray",
+                          backgroundColor: "lightgray",
+                          color: buttonTextColor,
                         }
                   }
                   disabled={isLoading ? true : !note}
                   className="AddCommentBtn"
                   onClick={addNewComment}
                 >
-                  <CommentIcon style={{ fontSize: "35px" }} />
+                  Add
                 </Button>
               </InputAdornment>
             ),

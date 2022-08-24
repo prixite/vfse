@@ -76,7 +76,7 @@ const deleteSystemNoteService = async (NoteId, deleteNote) => {
   await deleteNote({
     id: NoteId,
   }).then(() => {
-    toast.success("Comment Deleted Successfully", {
+    toast.success("Comment deleted successfully.", {
       autoClose: 1000,
       pauseOnHover: false,
     });
@@ -89,7 +89,7 @@ const updateSystemNoteService = async (NoteId, note, updateNote) => {
   })
     .unwrap()
     .then(() => {
-      toast.success("Comment Updated Successfully", {
+      toast.success("Comment updated successfully.", {
         autoClose: 1000,
         pauseOnHover: false,
       });
