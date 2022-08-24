@@ -391,6 +391,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
         )
 
     def update(self, request, *args, **kwargs):
+        # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
@@ -437,7 +438,6 @@ class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
         )
 
     def update(self, request, *args, **kwargs):
-        # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
         if serializer.is_valid(raise_exception=True):
             old_password = serializer.data["old_password"]
