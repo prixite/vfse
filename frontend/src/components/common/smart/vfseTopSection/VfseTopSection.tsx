@@ -263,7 +263,7 @@ export default function VfseTopSection({
         mt={3}
         sx={{ flexWrap: "nowrap", margin: "0px", width: "100%" }}
       >
-        <Grid item sx={{ width: "20%" }} style={{ paddingLeft: "0px" }}>
+        <Grid item sx={{ width: "50%" }} style={{ paddingLeft: "0px" }}>
           <FormControl fullWidth size="small" sx={{ backgroundColor: "#fff" }}>
             <InputLabel id="sort-by-categoty">Sort By:</InputLabel>
             <Select
@@ -284,7 +284,7 @@ export default function VfseTopSection({
           </FormControl>
         </Grid>
 
-        <Grid item sx={{ width: "20%" }}>
+        <Grid item sx={{ width: "50%" }}>
           <FormControl sx={{ backgroundColor: "#fff" }} fullWidth size="small">
             <InputLabel id="filter-dropdown">Filter:</InputLabel>
             <Select
@@ -304,7 +304,7 @@ export default function VfseTopSection({
             </Select>
           </FormControl>
         </Grid>
-        <Grid item sx={{ width: "40%" }}>
+        <Grid item sx={{ width: "100%" }}>
           <TextField
             id="search-topicmargins"
             size="small"
