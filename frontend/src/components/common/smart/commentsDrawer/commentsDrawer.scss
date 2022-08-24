@@ -16,15 +16,15 @@
   .MuiOutlinedInput-root {
     padding: 8px 12px;
     flex-direction: column;
+    background-color: #f7f7f7;
+  }
+  .Mui-focused{
+    background-color: #fff;
   }
   .css-1laqsz7-MuiInputAdornment-root {
     height: unset;
     max-height: unset;
     align-self: flex-end;
-  }
-  .css-19vu3kl-MuiInputBase-root-MuiOutlinedInput-root {
-    padding: 8px 8px;
-    flex-direction: column;
   }
   .AddCommentBtn {
     width: 78px;
