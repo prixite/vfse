@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
@@ -29,6 +29,7 @@ import { FitAddon } from "xterm-addon-fit";
 import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
@@ -38,7 +39,7 @@ import {
 } from "@src/store/hooks";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
-import { System } from "@src/store/reducers/generated";
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -48,12 +49,6 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface SystemInterfaceProps {
-  system: System;
-  handleEdit?: (system: System) => void;
-  setSystem?: Dispatch<SetStateAction<string>>;
-  setIsOpen?: Dispatch<SetStateAction<boolean>>;
-}
 function getCookie(cookieName) {
   const cookie = {};
   document.cookie.split(";").forEach(function (el) {
@@ -67,6 +62,7 @@ const SystemCard = ({
   handleEdit,
   setSystem,
   setIsOpen,
+  canLeaveNotes,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -578,9 +574,11 @@ const SystemCard = ({
           <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>Edit</span>
           </MenuItem>
-          <MenuItem onClick={onComment}>
-            <span style={{ marginLeft: "12px" }}>Comments</span>
-          </MenuItem>
+          {canLeaveNotes && (
+            <MenuItem onClick={onComment}>
+              <span style={{ marginLeft: "12px" }}>Comments</span>
+            </MenuItem>
+          )}
           <MenuItem onClick={() => setModal(true)}>
             <span style={{ marginLeft: "12px" }}>Delete</span>
           </MenuItem>

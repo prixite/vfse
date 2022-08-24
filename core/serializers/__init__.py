@@ -105,6 +105,7 @@ class MeSerializer(serializers.ModelSerializer):
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
+    can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
 
     class Meta:
         model = models.User
@@ -117,6 +118,7 @@ class MeSerializer(serializers.ModelSerializer):
             "role",
             "profile_picture",
             "is_superuser",
+            "can_leave_notes",
         ]
 
     def get_role(self, obj):

@@ -1276,6 +1276,7 @@ export type Me = {
   role?: string;
   profile_picture: string;
   is_superuser?: boolean;
+  can_leave_notes: boolean;
 };
 export type Modality = {
   id?: number;
