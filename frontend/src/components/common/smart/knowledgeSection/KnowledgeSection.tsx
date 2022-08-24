@@ -6,13 +6,10 @@ import AllCategoriesSection from "@src/components/common/smart/allCategoriesSect
 import KnowledgeBaseHome from "@src/components/common/smart/knowledgeBaseHome/KnowledgeBaseHome";
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import SeeAllArticles from "@src/components/common/smart/seeAllArticles/SeeAllArticles";
-import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
-import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 
 const KnowledgeSection = () => {
-  const [browserWidth] = useWindowSize();
   const classes = useStyles();
   const constantData: LocalizationInterface = localizedData();
   const { title } = constantData.knowledgeBase;
@@ -42,8 +39,6 @@ const KnowledgeSection = () => {
         variant="scrollable"
         visibleScrollbar={false}
         orientation="horizontal"
-        scrollButtons="auto"
-        allowScrollButtonsMobile={browserWidth < mobileWidth ? true : false}
       >
         {" "}
         <Tab value="home" label="Home" className={classes.tabStyle} />
