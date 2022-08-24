@@ -93,11 +93,12 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
         </div>
         <div
           className="profile-item"
-          onClick={() =>
+          onClick={() => {
             navigate(
               `/${organizationRoute}/${defaultOrganizationData.id}/profile`
-            )
-          }
+            );
+            handleClose();
+          }}
           style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
@@ -105,11 +106,12 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
         </div>
         <div
           className="profile-item"
-          onClick={() =>
+          onClick={() => {
             navigate(
               `/${organizationRoute}/${defaultOrganizationData.id}/account`
-            )
-          }
+            );
+            handleClose();
+          }}
           style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
