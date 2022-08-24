@@ -178,7 +178,7 @@ const AppearanceSection = () => {
               mb={5}
               style={{ height: "163px" }}
             >
-              <h4>Logo</h4>
+              <h4 style={{ marginBottom: "6px" }}>Logo</h4>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
