@@ -2279,7 +2279,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Topic"
+                                "$ref": "#/definitions/TopicDetail"
                             }
                         }
                     }
@@ -2383,7 +2383,7 @@
                 }
             },
             "default": {
-                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
+                "profile_picture": "http://localhost:8000/static/assets/profile.png",
                 "title": ""
             }
         },

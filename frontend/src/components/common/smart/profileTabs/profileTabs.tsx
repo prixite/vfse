@@ -1,22 +1,10 @@
 import * as React from "react";
-
-import { Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/system";
-
-import women from "@src/assets/svgs/womenAvatar.svg";
-
-import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
+import MyTopics from "../myTopics/myTopics";
 import "@src/components/common/smart/profileTabs/profileTabs.scss";
-import {
-  useOrganizationsMeReadQuery,
-  useVfseTopicsReadQuery,
-} from "@src/store/reducers/generated";
-import { useSelectedOrganization } from "@src/store/hooks";
-import { useEffect } from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -58,13 +46,6 @@ const ProfileTabs = () => {
     setValue(newValue);
   };
 
-  const { data: me, isError } = useOrganizationsMeReadQuery({
-    id: useSelectedOrganization().id.toString(),
-  });
-
-  const { data } = useVfseTopicsReadQuery({ id: "3" });
-  console.log("Topics:::::::", data);
-
   return (
     <Box sx={{ width: "100%", mt: 3 }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -95,41 +76,7 @@ const ProfileTabs = () => {
         Activity
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProfileTimelineCards
-          id={1}
-          title="Clinical Specialist for MedTronics"
-          description="I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a 'lifestyle' in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and..."
-          number_of_comments={3}
-          number_of_followers={24}
-          user={{ name: "Jessie Hudson", image: women }}
-          categories={[]}
-        />
-        <ProfileTimelineCards
-          id={1}
-          title="Clinical Specialist for MedTronics"
-          description="I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a 'lifestyle' in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and..."
-          number_of_comments={3}
-          number_of_followers={24}
-          user={{ name: "Jessie Hudson", image: women }}
-          categories={[]}
-        />
-        <ProfileTimelineCards
-          id={1}
-          title="Clinical Specialist for MedTronics"
-          description="I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a 'lifestyle' in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and..."
-          number_of_comments={3}
-          number_of_followers={24}
-          user={{ name: "Jessie Hudson", image: women }}
-          categories={[]}
-        />
-        <Stack alignItems="center" mt={2}>
-          <Pagination
-            showFirstButton
-            showLastButton
-            count={5}
-            color="primary"
-          />
-        </Stack>
+        <MyTopics />
       </TabPanel>
     </Box>
   );
