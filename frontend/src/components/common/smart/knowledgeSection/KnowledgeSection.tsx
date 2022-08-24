@@ -36,6 +36,9 @@ const KnowledgeSection = () => {
         value={value}
         onChange={handleChange}
         aria-label="basic tabs example"
+        variant="scrollable"
+        visibleScrollbar={false}
+        orientation="horizontal"
       >
         {" "}
         <Tab value="home" label="Home" className={classes.tabStyle} />
