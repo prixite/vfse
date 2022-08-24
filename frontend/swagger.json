@@ -2260,6 +2260,36 @@
             },
             "parameters": []
         },
+        "/vfse/user/topic/": {
+            "get": {
+                "operationId": "vfse_user_topic_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Topic"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
         "/vfse/workorders/": {
             "get": {
                 "operationId": "vfse_workorders_list",
@@ -2353,7 +2383,7 @@
                 }
             },
             "default": {
-                "profile_picture": "http://localhost:8000/static/assets/profile.png",
+                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
                 "title": ""
             }
         },

@@ -730,6 +730,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/vfse/user/activity/` }),
     }),
+    vfseUserTopicList: build.query<
+      VfseUserTopicListApiResponse,
+      VfseUserTopicListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/topic/`,
+        params: { page: queryArg.page },
+      }),
+    }),
     vfseWorkordersList: build.query<
       VfseWorkordersListApiResponse,
       VfseWorkordersListApiArg
@@ -1143,6 +1152,11 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserActivityListApiArg = void;
+export type VfseUserTopicListApiResponse = /** status 200  */ Topic[];
+export type VfseUserTopicListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
 export type VfseWorkordersListApiResponse =
   /** status 200  */ WorkOrderDetail[];
 export type VfseWorkordersListApiArg = void;
@@ -1647,6 +1661,7 @@ export const {
   useVfseTopicsCommentsCreateMutation,
   useVfseTopicsFollowPartialUpdateMutation,
   useVfseUserActivityListQuery,
+  useVfseUserTopicListQuery,
   useVfseWorkordersListQuery,
   useVfseWorkordersCreateMutation,
   useVfseWorkordersReadQuery,
