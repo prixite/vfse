@@ -38,10 +38,15 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         setChatResponse(responseText);
       })
       .catch((err) => {
-        toast.error(err.originalStatus === 500 ? "We can not proceed ypur request at that time." : `Error occured ${err?.error}.`, {
-          autoClose: 1000,
-          pauseOnHover: false,
-        });
+        toast.error(
+          err.originalStatus === 500
+            ? "We can not proceed ypur request at that time."
+            : `Error occured ${err?.error}.`,
+          {
+            autoClose: 1000,
+            pauseOnHover: false,
+          }
+        );
       })
       .finally(() => {
         resetQuery();
