@@ -12,6 +12,7 @@
   position: relative;
   width: 100%;
   height: 100%;
+  border: 1px dashed #a7aeb2;
   &:hover {
     .hideOptions {
       display: inline-flex !important;
