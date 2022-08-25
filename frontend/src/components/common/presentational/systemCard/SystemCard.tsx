@@ -30,6 +30,7 @@ import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
+import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
@@ -123,7 +124,7 @@ const SystemCard = ({
       deleteSystem
     );
     toast.success("System successfully deleted.", {
-      autoClose: 1000,
+      autoClose: timeOut,
       pauseOnHover: false,
     });
 
@@ -507,7 +508,7 @@ const SystemCard = ({
                     onClick={() => {
                       navigator?.clipboard?.writeText(system.documentation);
                       toast.success("Link Copied.", {
-                        autoClose: 1000,
+                        autoClose: timeOut,
                         pauseOnHover: false,
                       });
                     }}

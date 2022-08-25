@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
-import { constants } from "@src/helpers/utils/constants";
+import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/presentational/articleCard/articleCard.scss";
@@ -56,8 +56,8 @@ const ArticleCard = ({
     deleteFolder({ id: folderId })
       .unwrap()
       .then(() => {
-        toast.success("Folder successfully deleted", {
-          autoClose: 1000,
+        toast.success("Folder successfully deleted.", {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
         handleModalClose();

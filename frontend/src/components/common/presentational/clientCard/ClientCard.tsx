@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 import "@src/components/common/presentational/clientCard/clientCard.scss";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { constants } from "@src/helpers/utils/constants";
+import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnPayloadThemeObject } from "@src/helpers/utils/utils";
 import { DeleteOrganizationService } from "@src/services/organizationService";
@@ -97,8 +97,8 @@ const ClientCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(id, deleteOrganization);
-    toast.success("Organization successfully deleted", {
-      autoClose: 1000,
+    toast.success("Organization successfully deleted.", {
+      autoClose: timeOut,
       pauseOnHover: false,
     });
     if (selected) {
