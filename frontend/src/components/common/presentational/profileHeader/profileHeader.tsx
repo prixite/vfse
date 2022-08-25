@@ -9,6 +9,7 @@ import zoom from "@src/assets/svgs/zoom.svg";
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
 import { useSelectedOrganization } from "@src/store/hooks";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
 
 const ProfileHeader = () => {
@@ -32,6 +33,7 @@ const ProfileHeader = () => {
             onClick={handleClickOpen}
             sx={{ width: 120, height: 120, cursor: "pointer" }}
           />
+          <CameraAltOutlinedIcon className="cameraIcon" />
           <EditProfilePicModal open={open} setOpen={setOpen} me={me} />
         </Box>
         <Box

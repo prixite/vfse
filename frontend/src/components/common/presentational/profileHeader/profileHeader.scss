@@ -20,6 +20,17 @@ $dark-grey: #92d509;
       top: 80px;
       left: 10px;
     }
+    .cameraIcon {
+      color: rgba(25, 25, 25, 0.87);
+      background-color: white;
+      border-radius: 50%;
+      padding: 2px;
+      position: absolute;
+      bottom: -45px;
+      left: 102px;
+      width: 30px;
+      height: 30px;
+    }
 
     .editButton {
       background-color: $green-color !important;
@@ -47,6 +58,12 @@ $dark-grey: #92d509;
 
 @media (max-width: 900px) {
   .profilePic {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cameraIcon {
     left: 0;
     right: 0;
     margin-left: auto;
