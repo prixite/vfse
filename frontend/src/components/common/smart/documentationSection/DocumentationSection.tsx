@@ -14,8 +14,8 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { localizedData } from "@src/helpers/utils/language";
 import { timeOut } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,

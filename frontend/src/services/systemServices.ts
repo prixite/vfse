@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { timeOut } from "@src/helpers/utils/constants";
 
+import { timeOut } from "@src/helpers/utils/constants";
 
 const addNewOrdanizationSystem = async (
   organizationId,

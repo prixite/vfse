@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import Machine from "@src/assets/images/system.png";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
@@ -27,7 +28,6 @@ import {
   useAppSelector,
   useSelectedOrganization,
 } from "@src/store/hooks";
-import { timeOut } from "@src/helpers/utils/constants";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 

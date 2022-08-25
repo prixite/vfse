@@ -22,8 +22,8 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
-import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { timeOut } from "@src/helpers/utils/constants";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Document, Folder } from "@src/store/reducers/generated";

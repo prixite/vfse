@@ -11,8 +11,8 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import { useAppSelector } from "@src/store/hooks";
 import { timeOut } from "@src/helpers/utils/constants";
+import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Category } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/folderModal/folderModal.scss";

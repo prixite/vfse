@@ -11,9 +11,8 @@ import ArticleOverviewCard from "@src/components/common/presentational/articleOv
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
-import { api } from "@src/store/reducers/api";
 import { timeOut } from "@src/helpers/utils/constants";
-
+import { api } from "@src/store/reducers/api";
 
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
 
