@@ -46,9 +46,32 @@ const activateUserService = async (id, userActivateMutation) => {
   }).unwrap();
 };
 
+const updateUserPassword = async (passwordObj, updateUserPassword) => {
+  await updateUserPassword({
+    upsertUserPassword: {
+      password: passwordObj?.password,
+      old_password: passwordObj?.old_password,
+    },
+  })
+    .unwrap()
+    .then(async () => {
+      toast.success("Password updated successfully.", {
+        autoClose: timeOut,
+        pauseOnHover: false,
+      });
+    })
+    .catch((err) => {
+      toast.error(err?.data?.non_field_errors[0], {
+        autoClose: timeOut,
+        pauseOnHover: true,
+      });
+    });
+};
+
 export {
   addNewUserService,
   updateUserService,
   deactivateUserService,
   activateUserService,
+  updateUserPassword,
 };

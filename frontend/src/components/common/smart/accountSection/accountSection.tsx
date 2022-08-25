@@ -4,11 +4,15 @@ import * as yup from "yup";
 import { useAppSelector } from "@src/store/hooks";
 import { useFormik } from "formik";
 import "@src/components/common/smart/accountSection/accountSection.scss";
+import { useUsersChangePasswordPartialUpdateMutation } from "@src/store/reducers/generated";
+import { updateUserPassword } from "@src/services/userService";
 
 const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+
+  const [updatePassword] = useUsersChangePasswordPartialUpdateMutation();
 
   const nameReg = /^[A-Za-z ]*$/;
   const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
@@ -34,10 +38,12 @@ const AccountSection = () => {
 
   const passwordFormik = useFormik({
     initialValues: {
+      oldPassword: "",
       password: "",
       confirmPassword: "",
     },
     validationSchema: yup.object({
+      oldPassword: yup.string().required("Password is required!"),
       password: yup
         .string()
         .required("Password is required!")
@@ -54,7 +60,15 @@ const AccountSection = () => {
       }),
     }),
     validateOnChange: true,
-    onSubmit: () => {},
+    onSubmit: async (values) => {
+      await updateUserPassword(
+        {
+          password: values?.password,
+          old_password: values?.oldPassword,
+        },
+        updatePassword
+      );
+    },
   });
 
   return (
@@ -142,13 +156,29 @@ const AccountSection = () => {
               <Grid item xs={12}>
                 <TextField
                   autoComplete="off"
+                  name="oldPassword"
+                  fullWidth
+                  value={passwordFormik.values.oldPassword}
+                  type="password"
+                  onChange={passwordFormik.handleChange}
+                  variant="outlined"
+                  placeholder="Old Password"
+                />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {passwordFormik.touched.oldPassword &&
+                    passwordFormik.errors.oldPassword}
+                </p>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="off"
                   name="password"
                   fullWidth
                   value={passwordFormik.values.password}
                   type="password"
                   onChange={passwordFormik.handleChange}
                   variant="outlined"
-                  placeholder="Password"
+                  placeholder="New Password"
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
                   {passwordFormik.touched.password &&
@@ -164,7 +194,7 @@ const AccountSection = () => {
                   type="password"
                   onChange={passwordFormik.handleChange}
                   variant="outlined"
-                  placeholder="Confirm Password"
+                  placeholder="Confirm New Password"
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
                   {passwordFormik.touched.confirmPassword &&
