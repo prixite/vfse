@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
-import { Box, Tab, Tabs } from "@mui/material";
+import Flicking from "@egjs/react-flicking";
+import { Box } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
@@ -368,13 +369,15 @@ const SystemSection = () => {
         {!isModalitiesLoading && index ? (
           <>
             <div className="modalities">
-              <Tabs
-                variant="scrollable"
-                visibleScrollbar={false}
-                orientation="horizontal"
-                centered={true}
+              <Flicking
+                defaultIndex={index - 1}
+                deceleration={0.0075}
+                horizontal
+                bound
+                gap={40}
+                style={{ height: "33px", msOverflowX: "scroll", width: "100%" }}
               >
-                <Tab
+                <span
                   className="modality"
                   style={{
                     color: `${modality === null ? buttonBackground : ""}`,
@@ -383,11 +386,11 @@ const SystemSection = () => {
                     }`,
                   }}
                   onClick={() => changeModality(null)}
-                  label="All"
-                />
-
+                >
+                  All
+                </span>
                 {modalitiesList?.map((item, key) => (
-                  <Tab
+                  <span
                     key={key}
                     className="modality"
                     style={{
@@ -401,10 +404,11 @@ const SystemSection = () => {
                       }`,
                     }}
                     onClick={() => changeModality(item)}
-                    label={item.name}
-                  />
+                  >
+                    {item.name}
+                  </span>
                 ))}
-              </Tabs>
+              </Flicking>
             </div>
             <hr
               style={{
