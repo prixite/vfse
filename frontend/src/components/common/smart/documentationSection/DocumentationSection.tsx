@@ -14,6 +14,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
+import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
@@ -214,7 +215,7 @@ export default function DocumentationSection() {
           onClick={() => {
             navigator?.clipboard?.writeText(link);
             toast.success("Link Copied.", {
-              autoClose: 1000,
+              autoClose: timeOut,
               pauseOnHover: false,
             });
           }}
@@ -249,8 +250,8 @@ export default function DocumentationSection() {
     handleModalClose();
     handleActionClose();
     await deleteProductModelService(currentDoc, deleteProductModel);
-    toast.success("Documentation successfully deleted", {
-      autoClose: 1000,
+    toast.success("Documentation successfully deleted.", {
+      autoClose: timeOut,
       pauseOnHover: false,
     });
   };

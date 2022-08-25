@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 
+import { timeOut } from "@src/helpers/utils/constants";
+
 const updateSitesService = async (id, sites, updateSites, type) => {
   await updateSites({
     id: id?.toString(),
@@ -14,7 +16,7 @@ const updateSitesService = async (id, sites, updateSites, type) => {
             : "Site updated successfully."
         }`,
         {
-          autoClose: 1000,
+          autoClose: timeOut,
           pauseOnHover: false,
         }
       );
@@ -29,7 +31,7 @@ const addNewSiteService = async (selectionID, siteObject, addNewSite) => {
     .unwrap()
     .then(async () => {
       toast.success("New Site Added.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });
