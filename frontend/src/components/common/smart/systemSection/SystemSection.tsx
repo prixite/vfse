@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
-import Flicking from "@egjs/react-flicking";
-import { Box } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
@@ -369,15 +368,13 @@ const SystemSection = () => {
         {!isModalitiesLoading && index ? (
           <>
             <div className="modalities">
-              <Flicking
-                defaultIndex={index - 1}
-                deceleration={0.0075}
-                horizontal
-                bound
-                gap={40}
-                style={{ height: "33px" }}
+              <Tabs
+                variant="scrollable"
+                visibleScrollbar={false}
+                orientation="horizontal"
+                centered={true}
               >
-                <span
+                <Tab
                   className="modality"
                   style={{
                     color: `${modality === null ? buttonBackground : ""}`,
@@ -386,11 +383,11 @@ const SystemSection = () => {
                     }`,
                   }}
                   onClick={() => changeModality(null)}
-                >
-                  All
-                </span>
+                  label="All"
+                />
+
                 {modalitiesList?.map((item, key) => (
-                  <span
+                  <Tab
                     key={key}
                     className="modality"
                     style={{
@@ -404,11 +401,10 @@ const SystemSection = () => {
                       }`,
                     }}
                     onClick={() => changeModality(item)}
-                  >
-                    {item.name}
-                  </span>
+                    label={item.name}
+                  />
                 ))}
-              </Flicking>
+              </Tabs>
             </div>
             <hr
               style={{
