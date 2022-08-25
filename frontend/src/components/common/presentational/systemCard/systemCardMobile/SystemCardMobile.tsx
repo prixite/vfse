@@ -27,6 +27,7 @@ import {
   useAppSelector,
   useSelectedOrganization,
 } from "@src/store/hooks";
+import { timeOut } from "@src/helpers/utils/constants";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
@@ -170,7 +171,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
                       onClick={() => {
                         navigator?.clipboard?.writeText(system.documentation);
                         toast.success("Link Copied.", {
-                          autoClose: 1000,
+                          autoClose: timeOut,
                           pauseOnHover: false,
                         });
                       }}

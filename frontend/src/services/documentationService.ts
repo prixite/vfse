@@ -1,11 +1,13 @@
 import { toast } from "react-toastify";
+import { timeOut } from "@src/helpers/utils/constants";
+
 
 const addProductModelService = async (ProductModelCreate, addProductModel) => {
   await addProductModel({ productModelCreate: ProductModelCreate })
     .unwrap()
     .then(async () => {
       toast.success("New User Added.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });
@@ -29,7 +31,7 @@ const updateProductModelService = async (
     .unwrap()
     .then(async () => {
       toast.success("Documentation updated successfully.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });

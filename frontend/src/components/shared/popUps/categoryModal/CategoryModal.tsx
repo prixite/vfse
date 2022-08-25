@@ -14,6 +14,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
+import { timeOut } from "@src/helpers/utils/constants";
 import {
   Category,
   // useVfseCategoriesListQuery, /* Api */
@@ -62,8 +63,8 @@ export default function CategoryModal({
     addNewCategory({ category: { ...formik.values } })
       .unwrap()
       .then(() => {
-        toast.success("Category Successfully added", {
-          autoClose: 2000,
+        toast.success("Category Successfully added.", {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
         resetModal();

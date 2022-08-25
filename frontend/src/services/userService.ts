@@ -1,4 +1,6 @@
 import { toast } from "react-toastify";
+import { timeOut } from "@src/helpers/utils/constants";
+
 
 const addNewUserService = async (id, userObject, addNewUser) => {
   await addNewUser({
@@ -8,7 +10,7 @@ const addNewUserService = async (id, userObject, addNewUser) => {
     .unwrap()
     .then(async () => {
       toast.success("New User Added.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });
@@ -22,7 +24,7 @@ const updateUserService = async (id, userObject, updateUser) => {
     .unwrap()
     .then(async () => {
       toast.success("User updated successfully.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });

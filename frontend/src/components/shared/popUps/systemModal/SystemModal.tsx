@@ -178,7 +178,7 @@ export default function SystemModal(props: SystemProps) {
           id: selectedOrganization.id.toString(),
           system: getPayload(values),
         }).unwrap();
-        toast.success("System successfully saved");
+        toast.success("System successfully saved.");
       } catch (error) {
         setDisableButton(false);
         if (error?.status < 500)

@@ -12,6 +12,7 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { useAppSelector } from "@src/store/hooks";
+import { timeOut } from "@src/helpers/utils/constants";
 import { api } from "@src/store/reducers/api";
 import { Category } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/folderModal/folderModal.scss";
@@ -61,8 +62,8 @@ export default function FolderModal({
     })
       .unwrap()
       .then(() => {
-        toast.success("Folder Successfully added", {
-          autoClose: 2000,
+        toast.success("Folder Successfully added.", {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
       })

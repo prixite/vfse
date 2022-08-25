@@ -1,4 +1,6 @@
 import { toast } from "react-toastify";
+import { timeOut } from "@src/helpers/utils/constants";
+
 
 const DeleteOrganizationService = async (id, deleteOrganization) => {
   await deleteOrganization({
@@ -14,7 +16,7 @@ const updateOrganizationService = async (
     .unwrap()
     .then(async () => {
       toast.success("Organization successfully updated.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });
@@ -31,7 +33,7 @@ const addNewOrganizationService = async (
     .unwrap()
     .then((response) => {
       toast.success("Organization created successfully.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
       setOrganizationID(response?.id);
@@ -49,7 +51,7 @@ const updateHealthNetworkService = async (
     .unwrap()
     .then(async (response) => {
       toast.success("Health network successfully updated.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
       await updateOrganizationSites({
@@ -73,7 +75,7 @@ const addNewHealthNetworkService = async (
     .unwrap()
     .then(async (response) => {
       toast.success("Health network created successfully.", {
-        autoClose: 1000,
+        autoClose: timeOut,
         pauseOnHover: false,
       });
       await updateOrganizationSites({
@@ -94,8 +96,8 @@ const addNewHealthNetworksService = async (
   })
     .unwrap()
     .then(() => {
-      toast.success("HealthNetwork Successfully Added", {
-        autoClose: 1000,
+      toast.success("HealthNetwork Successfully Added.", {
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     })

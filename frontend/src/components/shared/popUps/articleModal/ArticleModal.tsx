@@ -23,6 +23,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import { timeOut } from "@src/helpers/utils/constants";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Document, Folder } from "@src/store/reducers/generated";
@@ -88,8 +89,8 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     addNewDocument({ document: { ...payload } })
       .unwrap()
       .then(() => {
-        toast.success("Article Successfully added", {
-          autoClose: 2000,
+        toast.success("Article Successfully added.", {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
         resetModal();

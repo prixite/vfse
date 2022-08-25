@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { constants } from "@src/helpers/utils/constants";
+import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
@@ -64,8 +64,8 @@ const NetworkCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(networkId, deleteOrganization);
-    toast.success("Network successfully deleted", {
-      autoClose: 1000,
+    toast.success("Network successfully deleted.", {
+      autoClose: timeOut,
       pauseOnHover: false,
     });
   };
