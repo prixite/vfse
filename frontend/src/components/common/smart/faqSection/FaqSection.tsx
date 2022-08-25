@@ -36,9 +36,9 @@ export default function FaqSection() {
         md={12}
         lg={12}
         xl={12}
-        marginTop={3}
+        marginTop={2}
         paddingTop={1}
-        marginBottom={3}
+        marginBottom={2}
         paddingBottom={1}
       >
         <TopicUpdatesSection title={`Topic updates `} seeAll={``} />
