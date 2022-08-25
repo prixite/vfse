@@ -19,25 +19,46 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const [isLoading, setIsLoading] = useState(false);
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
-  const [chatResponse, setChatResponse] = useState<string>("");
   const [placeholder, setPlaceHolder] = useState<string>(
     "How may I answer your query..."
   );
 
+  const [arrayToDisplay, setArrayToDiplay] = useState<string[]>([]);
   const resetQuery = () => {
     setPlaceHolder("");
     setIsLoading(false);
     setYourQuery("");
   };
 
+  const keyPressEnter = (event) => {
+    if (event.key == "Enter") {
+      handleChatting();
+    }
+  };
+
   const handleChatting = () => {
+    setArrayToDiplay((oldArray) => [...oldArray, `${yourQuery}`]);
     setIsLoading(true);
     postChat({ sysId: system?.id, query: yourQuery })
       .unwrap()
       .then(({ response_text: responseText }) => {
-        setChatResponse(responseText);
+        setArrayToDiplay((oldArray) => [
+          ...oldArray,
+          `Response ${responseText}`,
+        ]);
       })
       .catch((err) => {
+        if (err?.status > 500) {
+          setArrayToDiplay((oldArray) => [
+            ...oldArray,
+            `I'm sorry, I don't understand. Could you say it again?`,
+          ]);
+        } else {
+          setArrayToDiplay((oldArray) => [
+            ...oldArray,
+            `Re-establish connection. Some Error ${err?.originalStatus} occured.`,
+          ]);
+        }
         toast.error(
           err.originalStatus === 500
             ? "We can not proceed ypur request at that time."
@@ -66,14 +87,23 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
       </Box>
       <Box component="div" className="chatSection">
         <div className="chatBotResponse">
-          <p>{chatResponse}</p>
+          {arrayToDisplay?.map((item) => {
+            return (
+              <div
+                key={item}
+                style={{ boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)" }}
+              >
+                <p>{item}</p>
+              </div>
+            );
+          })}
         </div>
       </Box>
       <Box component="div" className="InputSection">
         <TextField
           id="outlined-basic"
           variant="outlined"
-          autoComplete="off"
+          inputProps={{ autoComplete: "off" }}
           placeholder={placeholder}
           onChange={(e) => {
             setYourQuery(e.target.value.toString());
@@ -86,6 +116,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
               borderColor: "grey",
             },
           }}
+          onKeyPress={keyPressEnter}
         />
         {!isLoading && yourQuery ? (
           <div
