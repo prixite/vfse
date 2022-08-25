@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
-import { constants } from "@src/helpers/utils/constants";
+import { constants, timeOut } from "@src/helpers/utils/constants";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
@@ -71,8 +71,8 @@ const KnowledgeTopCard = ({
     deleteArticle({ id: id })
       .unwrap()
       .then(() => {
-        toast.success("Article successfully deleted", {
-          autoClose: 1000,
+        toast.success("Article successfully deleted.", {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
         handleModalClose();

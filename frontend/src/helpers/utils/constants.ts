@@ -5,6 +5,7 @@ export const constants = {
   systemsRoute: "systems",
   userRoute: "user",
 };
+export const timeOut = 2000;
 
 export const organizationTabs = ["Networks", "Sites"];
 export const superAdmin = "super_admin";
