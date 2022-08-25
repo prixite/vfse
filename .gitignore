@@ -16,3 +16,4 @@ Pipfile.lock
 nginx/vfse.626.healthcare/cert.pem
 nginx/vfse.626.healthcare/key.pem
 webpack-stats.json
+.vscode

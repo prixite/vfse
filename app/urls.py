@@ -185,6 +185,7 @@ api_urlpatterns = [
                 "patch": "partial_update",
             }
         ),
+        kwargs={"pk": None},
     ),
     path(
         "api/organizations/<int:pk>/modalities/",

@@ -2383,7 +2383,7 @@
                 }
             },
             "default": {
-                "profile_picture": "http://localhost:8000/static/assets/profile.png",
+                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
                 "title": ""
             }
         },
@@ -2396,12 +2396,8 @@
                 "phone",
                 "role",
                 "organization",
-                "fse_accessible",
-                "audit_enabled",
-                "can_leave_notes",
-                "view_only",
-                "is_one_time",
-                "documentation_url",
+                "sites",
+                "modalities",
                 "health_networks"
             ],
             "type": "object",
@@ -2869,7 +2865,9 @@
         "Me": {
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "required": [
-                "profile_picture"
+                "profile_picture",
+                "phone",
+                "manager"
             ],
             "type": "object",
             "properties": {
@@ -2911,6 +2909,16 @@
                     "title": "Superuser status",
                     "description": "Designates that this user has all permissions without explicitly assigning them.",
                     "type": "boolean"
+                },
+                "phone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "manager": {
+                    "title": "Manager",
+                    "type": "string",
+                    "minLength": 1
                 }
             }
         },
@@ -3521,12 +3529,8 @@
                 "phone",
                 "role",
                 "organization",
-                "fse_accessible",
-                "audit_enabled",
-                "can_leave_notes",
-                "view_only",
-                "is_one_time",
-                "documentation_url"
+                "sites",
+                "modalities"
             ],
             "type": "object",
             "properties": {

@@ -1191,14 +1191,14 @@ export type UserRequestAccess = {
     | "cryo-admin";
   manager?: number;
   organization: number;
-  sites?: number[];
-  modalities?: number[];
-  fse_accessible: boolean;
-  audit_enabled: boolean;
-  can_leave_notes: boolean;
-  view_only: boolean;
-  is_one_time: boolean;
-  documentation_url: boolean;
+  sites: number[];
+  modalities: number[];
+  fse_accessible?: boolean;
+  audit_enabled?: boolean;
+  can_leave_notes?: boolean;
+  view_only?: boolean;
+  is_one_time?: boolean;
+  documentation_url?: boolean;
   health_networks: number[];
 };
 export type HealthNetworkList = {
@@ -1276,6 +1276,8 @@ export type Me = {
   role?: string;
   profile_picture: string;
   is_superuser?: boolean;
+  phone: string;
+  manager: string;
 };
 export type Modality = {
   id?: number;
@@ -1423,14 +1425,14 @@ export type UpsertUser = {
     | "cryo-admin";
   manager?: number;
   organization: number;
-  sites?: number[];
-  modalities?: number[];
-  fse_accessible: boolean;
-  audit_enabled: boolean;
-  can_leave_notes: boolean;
-  view_only: boolean;
-  is_one_time: boolean;
-  documentation_url: boolean;
+  sites: number[];
+  modalities: number[];
+  fse_accessible?: boolean;
+  audit_enabled?: boolean;
+  can_leave_notes?: boolean;
+  view_only?: boolean;
+  is_one_time?: boolean;
+  documentation_url?: boolean;
 };
 export type OrganizationUpsertUser = {
   id?: number;

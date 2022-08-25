@@ -105,6 +105,8 @@ class MeSerializer(serializers.ModelSerializer):
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
+    phone = serializers.CharField(source="profile.phone")
+    manager = serializers.CharField(source="profile.manager")
 
     class Meta:
         model = models.User
@@ -117,6 +119,8 @@ class MeSerializer(serializers.ModelSerializer):
             "role",
             "profile_picture",
             "is_superuser",
+            "phone",
+            "manager",
         ]
 
     def get_role(self, obj):
@@ -291,21 +295,17 @@ class UpsertUserSerializer(serializers.Serializer):
         queryset=models.Organization.objects.all()
     )
     sites = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=models.Site.objects.all(),
-        required=False,
+        many=True, queryset=models.Site.objects.all(), allow_null=True
     )
     modalities = serializers.PrimaryKeyRelatedField(
-        many=True,
-        queryset=models.Modality.objects.all(),
-        required=False,
+        many=True, queryset=models.Modality.objects.all(), allow_null=True
     )
-    fse_accessible = serializers.BooleanField()
-    audit_enabled = serializers.BooleanField()
-    can_leave_notes = serializers.BooleanField()
-    view_only = serializers.BooleanField()
-    is_one_time = serializers.BooleanField()
-    documentation_url = serializers.BooleanField()
+    fse_accessible = serializers.BooleanField(required=False)
+    audit_enabled = serializers.BooleanField(required=False)
+    can_leave_notes = serializers.BooleanField(required=False)
+    view_only = serializers.BooleanField(required=False)
+    is_one_time = serializers.BooleanField(required=False)
+    documentation_url = serializers.BooleanField(required=False)
 
     def validate_phone(self, value):
         result = re.match(r"(?P<phUpsertUserSerializerone>\+1\d{10}$)", value)

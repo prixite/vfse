@@ -390,12 +390,14 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             ).values_list("user")
         )
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         # TODO: Add permission class to allow only self and user admin
-        serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
+        serializer = self.get_serializer(data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             models.User.objects.filter(id=kwargs["pk"]).update(
-                username=serializer.validated_data["email"],
+                username=serializer.validated_data["email"]
+                if request.user.is_superuser
+                else request.user,
                 **{
                     key: serializer.validated_data[key]
                     for key in ["first_name", "last_name", "email"]
@@ -409,12 +411,13 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
 
             self.update_profile(serializer.validated_data, kwargs["pk"])
 
-            models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
-            models.UserHealthNetwork.objects.filter(user_id=kwargs["pk"]).delete()
-            self.add_sites(serializer.validated_data, kwargs["pk"])
-
-            models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
-            self.add_modalities(serializer.validated_data, kwargs["pk"])
+            if serializer.validated_data.get("sites"):
+                models.UserSite.objects.filter(user_id=kwargs["pk"]).delete()
+                models.UserHealthNetwork.objects.filter(user_id=kwargs["pk"]).delete()
+                self.add_sites(serializer.validated_data, kwargs["pk"])
+            if serializer.validated_data.get("modalities"):
+                models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
+                self.add_modalities(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
         return Response(serializer.errors)
