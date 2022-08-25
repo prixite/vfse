@@ -1465,6 +1465,34 @@
             },
             "parameters": []
         },
+        "/users/change_password/": {
+            "patch": {
+                "operationId": "users_change_password_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpsertUserPassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/UpsertUserPassword"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
         "/users/deactivate/": {
             "patch": {
                 "operationId": "users_deactivate_partial_update",
@@ -3813,6 +3841,26 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                }
+            }
+        },
+        "UpsertUserPassword": {
+            "description": "",
+            "required": [
+                "password",
+                "old_password"
+            ],
+            "type": "object",
+            "properties": {
+                "password": {
+                    "title": "Password",
+                    "type": "string",
+                    "minLength": 8
+                },
+                "old_password": {
+                    "title": "Old password",
+                    "type": "string",
+                    "minLength": 1
                 }
             }
         },
