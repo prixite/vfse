@@ -51,7 +51,7 @@ const ProfileTimeline = ({
 }: Props) => {
   const classes = useStyles();
 
-  const [showNoDataFound, setShowNoDataFound] = useState<boolean>();
+  const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
 
   useEffect(() => {
     paginatedTopics.length === 0 &&

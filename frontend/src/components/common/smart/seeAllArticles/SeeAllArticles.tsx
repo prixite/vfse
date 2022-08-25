@@ -16,6 +16,7 @@ const SeeAllArticles = () => {
   const [articlesList, setArticlesList] = useState<Document[]>([]);
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
+  const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
   const { data: topData = [] } = api.useGetAllArticlesQuery();
   // eslint-disable-next-line
   const { noDataTitle, noDataDescription } = localizedData().systems;
@@ -40,6 +41,17 @@ const SeeAllArticles = () => {
       setArticlesList(topData);
     }
   }, [query, topData]);
+
+  useEffect(() => {
+    articlesList.length === 0 &&
+      setTimeout(() => {
+        setShowNoDataFound(true);
+      }, 1000);
+
+    return () => {
+      setShowNoDataFound(false);
+    };
+  }, []);
   return (
     <>
       <TopViewBtns
@@ -67,13 +79,17 @@ const SeeAllArticles = () => {
           ))}
         </Grid>
       ) : (
-        <NoDataFound
-          search
-          setQuery={setQuery}
-          queryText={query}
-          title={noDataTitle}
-          description={noDataDescription}
-        />
+        <>
+          {showNoDataFound && (
+            <NoDataFound
+              search
+              setQuery={setQuery}
+              queryText={query}
+              title={noDataTitle}
+              description={noDataDescription}
+            />
+          )}
+        </>
       )}
       <ArticleModal open={open} handleClose={handleClose} />
     </>
