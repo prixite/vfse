@@ -97,7 +97,6 @@ class ReplyViewSet(ModelViewSet):
 
 class TopicViewset(ModelViewSet):
     permission_classes = [permissions.ViewOnlyPermissions]
-    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.TopicSerializer
     filterset_class = filters.TopicFilterSet
     pagination_class = pagination.TopicPagination
