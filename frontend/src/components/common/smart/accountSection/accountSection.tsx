@@ -1,26 +1,41 @@
-import { useState } from "react";
+import { useEffect } from "react";
+
 import { Box, Grid, TextField, Button } from "@mui/material";
-import * as yup from "yup";
-import { useAppSelector } from "@src/store/hooks";
 import { useFormik } from "formik";
+import * as yup from "yup";
+
+import {
+  updateUserPassword,
+  updateUsernameService,
+} from "@src/services/userService";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
+import {
+  useOrganizationsMeReadQuery,
+  useUsersChangePasswordPartialUpdateMutation,
+  useUsersMePartialUpdateMutation,
+} from "@src/store/reducers/generated";
+
 import "@src/components/common/smart/accountSection/accountSection.scss";
-import { useUsersChangePasswordPartialUpdateMutation } from "@src/store/reducers/generated";
-import { updateUserPassword } from "@src/services/userService";
 
 const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
 
+  const { data: currentUser } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
+
   const [updatePassword] = useUsersChangePasswordPartialUpdateMutation();
+  const [updateUsername] = useUsersMePartialUpdateMutation();
 
   const nameReg = /^[A-Za-z ]*$/;
   const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
   const formik = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
+      firstname: currentUser?.first_name || "",
+      lastname: currentUser?.last_name || "",
     },
     validationSchema: yup.object({
       firstname: yup
@@ -33,8 +48,25 @@ const AccountSection = () => {
         .required("Last name is required!"),
     }),
     validateOnChange: true,
-    onSubmit: () => {},
+    onSubmit: async (values) => {
+      await updateUsernameService(
+        {
+          first_name: values?.firstname,
+          last_name: values?.lastname,
+          meta: {
+            profile_picture: currentUser?.profile_picture,
+            title: "Profile picture",
+          },
+        },
+        updateUsername
+      );
+    },
   });
+
+  useEffect(() => {
+    formik.setFieldValue("firstname", currentUser?.first_name);
+    formik.setFieldValue("lastname", currentUser?.last_name);
+  }, [currentUser]);
 
   const passwordFormik = useFormik({
     initialValues: {
@@ -43,7 +75,7 @@ const AccountSection = () => {
       confirmPassword: "",
     },
     validationSchema: yup.object({
-      oldPassword: yup.string().required("Password is required!"),
+      oldPassword: yup.string().required("Old password is required!"),
       password: yup
         .string()
         .required("Password is required!")
@@ -51,23 +83,26 @@ const AccountSection = () => {
           passwordReg,
           "Your password must be 8 characters long and a mixture of uppercase, lowercase and special characters"
         ),
-      confirmPassword: yup.string().when("password", {
-        is: (val) => (val && val.length > 0 ? true : false),
-        then: yup
-          .string()
-          .required("Confirm password is required!")
-          .oneOf([yup.ref("password")], "Passwords do not match!"),
-      }),
+      confirmPassword: yup
+        .string()
+        .required("Confirm password is required!")
+        .when("password", {
+          is: (val) => (val && val.length > 0 ? true : false),
+          then: yup
+            .string()
+
+            .oneOf([yup.ref("password")], "Passwords do not match!"),
+        }),
     }),
     validateOnChange: true,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       await updateUserPassword(
         {
           password: values?.password,
           old_password: values?.oldPassword,
         },
         updatePassword
-      );
+      ).then(() => resetForm());
     },
   });
 

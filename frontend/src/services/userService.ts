@@ -61,7 +61,38 @@ const updateUserPassword = async (passwordObj, updateUserPassword) => {
       });
     })
     .catch((err) => {
-      toast.error(err?.data?.non_field_errors[0], {
+      toast.error(err?.data?.non_field_errors[0] || "Something went wrong", {
+        autoClose: timeOut,
+        pauseOnHover: true,
+      });
+    });
+};
+
+const updateUsernameService = async (userObj, updateUsername) => {
+  await updateUsername({
+    meUpdate: {
+      first_name: userObj?.first_name,
+      last_name: userObj?.last_name,
+      meta: {
+        profile_picture: userObj?.meta?.profile_picture,
+        title: userObj?.meta?.title,
+      },
+    },
+  })
+    .unwrap()
+    .then(async () => {
+      toast.success("Username updated successfully.", {
+        autoClose: timeOut,
+        pauseOnHover: false,
+      });
+    })
+    .catch((err) => {
+      const metaErr =
+        err?.data?.meta?.profile_picture[0] ||
+        err?.data?.meta?.first_name[0] ||
+        err?.data?.meta?.last_name[0] ||
+        "Something went wrong";
+      toast.error(metaErr, {
         autoClose: timeOut,
         pauseOnHover: true,
       });
@@ -74,4 +105,5 @@ export {
   deactivateUserService,
   activateUserService,
   updateUserPassword,
+  updateUsernameService,
 };
