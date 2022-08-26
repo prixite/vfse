@@ -146,7 +146,7 @@ const AppearanceSection = () => {
         id: currentOrganiationDummyData.id.toString(),
         organization: currentOrganiationDummyData,
       }).unwrap();
-      toast.success("Client successfully updated");
+      toast.success("Client successfully updated.");
     } catch {
       toast.error("Error updating client");
     }
@@ -178,7 +178,7 @@ const AppearanceSection = () => {
               mb={5}
               style={{ height: "163px" }}
             >
-              <h4>Logo</h4>
+              <h4 style={{ marginBottom: "6px" }}>Logo</h4>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}

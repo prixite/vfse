@@ -100,6 +100,19 @@ class OrganizationSerializer(serializers.ModelSerializer):
             return value
 
 
+class MetaSerialzer(serializers.Serializer):
+    profile_picture = serializers.URLField(required=False)
+    title = serializers.CharField(required=False)
+
+
+class MeUpdateSerializer(serializers.ModelSerializer):
+    meta = MetaSerialzer(default=defaults.ProfileMetaDefault(), required=False)
+
+    class Meta:
+        model = models.User
+        fields = ["first_name", "last_name", "meta"]
+
+
 class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=defaults.URLOrganizationDefault())
     flags = serializers.SerializerMethodField()
@@ -269,9 +282,21 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
-class MetaSerialzer(serializers.Serializer):
-    profile_picture = serializers.URLField(required=False)
-    title = serializers.CharField(required=False)
+class UpsertUserPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=8, required=True)
+    old_password = serializers.CharField()
+
+    def validate(self, data):
+        old_password = data["old_password"]
+        password = data["password"]
+        if not (
+            self.context["request"].user.check_password(old_password)
+            and password != old_password
+        ):
+            raise serializers.ValidationError(
+                "Password does not match and new password should not match to old password."  # noqa
+            )
+        return data
 
 
 class UpsertUserSerializer(serializers.Serializer):

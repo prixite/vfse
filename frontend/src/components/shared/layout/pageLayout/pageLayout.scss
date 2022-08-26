@@ -2,6 +2,9 @@
 
 .Layout {
   display: flex;
+  .main-content {
+    width: 100%;
+  }
 }
 @media only screen and (min-width: $ipad) and (max-width: $ipad-pro) {
   .Layout {
@@ -16,11 +19,12 @@
     .main-content {
       margin-left: 58px;
       line-height: 1;
+      width: 100%;
     }
   }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 540px) {
   .Layout {
     .main-content {
       margin-bottom: 110px;

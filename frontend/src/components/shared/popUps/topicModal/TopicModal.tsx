@@ -22,7 +22,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
-import { categories } from "@src/helpers/utils/constants";
+import { categories, timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
@@ -102,8 +102,8 @@ export default function TopicModal({ open, handleClose }: Props) {
     })
       .unwrap()
       .then(() => {
-        toast.success(`Succesfully Created!`, {
-          autoClose: 2500,
+        toast.success(`Succesfully Created.`, {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
       })
@@ -228,8 +228,8 @@ export default function TopicModal({ open, handleClose }: Props) {
       </DialogContent>
       <DialogActions
         style={{
-          padding: "21px 23px 20px 24px",
-          justifyContent: "space-between",
+          padding: "21px 21px 20px 24px",
+          justifyContent: "flex-start",
         }}
       >
         <Button

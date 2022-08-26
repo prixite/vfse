@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { timeOut } from "@src/helpers/utils/constants";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Category } from "@src/store/reducers/generated";
@@ -61,8 +62,8 @@ export default function FolderModal({
     })
       .unwrap()
       .then(() => {
-        toast.success("Folder Successfully added", {
-          autoClose: 2000,
+        toast.success("Folder Successfully added.", {
+          autoClose: timeOut,
           pauseOnHover: false,
         });
       })

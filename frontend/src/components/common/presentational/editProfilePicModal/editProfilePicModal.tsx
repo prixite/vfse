@@ -6,16 +6,61 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton } from "@mui/material";
 import { GridCloseIcon } from "@mui/x-data-grid";
+import { toast } from "react-toastify";
+import {
+  deleteImageFromS3,
+  uploadImageToS3,
+} from "@src/helpers/utils/imageUploadUtils";
+import {
+  useOrganizationsMeReadQuery,
+  useUsersMePartialUpdateMutation,
+} from "@src/store/reducers/generated";
+import { useSelectedOrganization } from "@src/store/hooks";
+import { updateUsernameService } from "@src/services/userService";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import "@src/components/common/presentational/editProfilePicModal/editProfileModal.scss";
 
-const EditProfilePicModal = ({ open, setOpen, me }) => {
+const EditProfilePicModal = ({ open, setOpen }) => {
   const handleClose = () => {
     setOpen(false);
   };
 
-  const [selectedImage, setSelectedImage] = React.useState([]);
+  const { data: currentUser, refetch } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
 
+  const [updatePicture] = useUsersMePartialUpdateMutation();
+
+  const handleUpdate = async () => {
+    await uploadImageToS3(selectedImage[0])
+      .then(async (data) => {
+        await updateUsernameService(
+          {
+            first_name: currentUser?.first_name,
+            last_name: currentUser?.last_name,
+            meta: {
+              profile_picture: data?.location,
+              title: "Profile picture",
+            },
+          },
+          updatePicture
+        )
+          .then((data) => {
+            toast.success("Profile picture updated successfully");
+            setOpen(false);
+            refetch();
+          })
+          .catch(async (err) => {
+            toast.error("Something went wrong");
+            await deleteImageFromS3(selectedImage[0]);
+          });
+      })
+      .catch((err) => {
+        toast.error("Something went wrong");
+      });
+  };
+
+  const [selectedImage, setSelectedImage] = React.useState([]);
   const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
 
@@ -47,14 +92,14 @@ const EditProfilePicModal = ({ open, setOpen, me }) => {
       </BootstrapDialogTitle>
       <DialogContent>
         <DropzoneBox
-          imgSrc={me?.profile_picture}
+          imgSrc={currentUser?.profile_picture}
           setSelectedImage={setSelectedImage}
           selectedImage={selectedImage}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Update</Button>
+        <Button onClick={handleUpdate}>Update</Button>
       </DialogActions>
     </Dialog>
   );

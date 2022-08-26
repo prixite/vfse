@@ -34,7 +34,7 @@ const ProfileHeader = () => {
             sx={{ width: 120, height: 120, cursor: "pointer" }}
           />
           <CameraAltOutlinedIcon className="cameraIcon" />
-          <EditProfilePicModal open={open} setOpen={setOpen} me={me} />
+          <EditProfilePicModal open={open} setOpen={setOpen} />
         </Box>
         <Box
           className="headerBottom"

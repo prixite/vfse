@@ -14,7 +14,9 @@ const TopicUpdatesSection = ({ title, seeAll }: TopicUpdatesSection) => {
     <>
       <Box component="div" className="topic_updates_section">
         <div className="heading_section">
-          <h2 className="heading">{title}</h2>
+          <h2 className="heading" style={{ margin: "5px 0px" }}>
+            {title}
+          </h2>
           <h3 className="subheading">{seeAll}</h3>
         </div>
         <Box component="div" className="cardsSection">

@@ -13,7 +13,7 @@ const AccountSection = () => {
         <h2>{"Account Settings"}</h2>
         <Box
           component="div"
-          sx={{ background: "#fff", borderRadius: "15px" }}
+          sx={{ background: "#fff", borderRadius: "8px" }}
           mt={3}
           mb={1}
           p={4}
@@ -26,9 +26,11 @@ const AccountSection = () => {
             direction="column"
             width={{ xs: "100%", lg: "40%" }}
           >
-            <Grid item xs={12}>
-              {/* <h4 style={{ marginBottom: "5px" }}>User name</h4> */}
-              <TextField fullWidth label={"Username"} variant="outlined" />
+            <Grid item xs={6}>
+              <TextField fullWidth label={"First Name"} variant="outlined" />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField fullWidth label={"Last Name"} variant="outlined" />
             </Grid>
             <Grid item xs={12} alignSelf="end">
               <Button
@@ -47,7 +49,7 @@ const AccountSection = () => {
         </Box>
         <Box
           component="div"
-          sx={{ background: "#fff", borderRadius: "15px" }}
+          sx={{ background: "#fff", borderRadius: "8px" }}
           my={1}
           p={4}
           marginTop="20px"

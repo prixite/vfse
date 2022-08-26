@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 
+import { timeOut } from "@src/helpers/utils/constants";
+
 const addNewOrdanizationSystem = async (
   organizationId,
   systemObject,
@@ -13,8 +15,8 @@ const addNewOrdanizationSystem = async (
   })
     .unwrap()
     .then(() => {
-      toast.success("System Successfully Added", {
-        autoClose: 1000,
+      toast.success("System Successfully Added.", {
+        autoClose: timeOut,
         pauseOnHover: false,
         onClose: () => {
           handleClear();
@@ -40,8 +42,8 @@ const updateOrdanizationSystem = async (
   await updateSystem(OrganizationsSystemsPartialUpdateApiArg)
     .unwrap()
     .then(() => {
-      toast.success("System Successfully Updated", {
-        autoClose: 1000,
+      toast.success("System Successfully Updated.", {
+        autoClose: timeOut,
         pauseOnHover: false,
         onClose: () => {
           handleClear();
@@ -76,8 +78,8 @@ const deleteSystemNoteService = async (NoteId, deleteNote) => {
   await deleteNote({
     id: NoteId,
   }).then(() => {
-    toast.success("Comment Deleted Successfully", {
-      autoClose: 1000,
+    toast.success("Comment deleted successfully.", {
+      autoClose: timeOut,
       pauseOnHover: false,
     });
   });
@@ -89,8 +91,8 @@ const updateSystemNoteService = async (NoteId, note, updateNote) => {
   })
     .unwrap()
     .then(() => {
-      toast.success("Comment Updated Successfully", {
-        autoClose: 1000,
+      toast.success("Comment updated successfully.", {
+        autoClose: timeOut,
         pauseOnHover: false,
       });
     });

@@ -36,11 +36,8 @@ const useStyles = makeStyles((theme: Theme) => ({
       order: 1,
       display: "flex",
       flexDirection: "column-reverse",
-      maxWidth: "inherit",
+      maxWidth: "100%",
       padding: "1px",
-      boxSizing: "unset",
-      flexGrow: "unset",
-      flexBasis: "unset",
     },
   },
   timelineLeft: {

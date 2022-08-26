@@ -2,6 +2,7 @@ import json
 
 import boto3
 from django.conf import settings
+from django.contrib.auth import update_session_auth_hash
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
@@ -40,7 +41,21 @@ class ChatBotView(APIView):
         return Response(response)
 
 
-class MeViewSet(ModelViewSet):
+class MeUpdateViewSet(ModelViewSet, mixins.UserMixin):
+    serializer_class = serializers.MeUpdateSerializer
+
+    def get_queryset(self):
+        return models.User.objects.none()
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.update_user(serializer.validated_data, request.user)
+        self.update_profile(serializer.validated_data, request.user)
+        return Response(serializer.data)
+
+
+class MeViewSet(ModelViewSet, mixins.UserMixin):
     serializer_class = serializers.MeSerializer
 
     def get_queryset(self):
@@ -417,6 +432,25 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             self.add_modalities(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
+        return Response(serializer.errors)
+
+
+class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
+    def get_serializer_class(self):
+        return serializers.UpsertUserPasswordSerializer
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.User.objects.none()
+
+        return models.User.objects.filter(id=self.request.user.id)
+
+    def update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
+        if serializer.is_valid(raise_exception=True):
+            request.user.set_password(serializer.data["password"])
+            request.user.save()
+            update_session_auth_hash(request, request.user)
         return Response(serializer.errors)
 
 

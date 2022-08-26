@@ -466,6 +466,16 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/active_users/` }),
     }),
+    usersChangePasswordPartialUpdate: build.mutation<
+      UsersChangePasswordPartialUpdateApiResponse,
+      UsersChangePasswordPartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/change_password/`,
+        method: "PATCH",
+        body: queryArg.upsertUserPassword,
+      }),
+    }),
     usersDeactivatePartialUpdate: build.mutation<
       UsersDeactivatePartialUpdateApiResponse,
       UsersDeactivatePartialUpdateApiArg
@@ -474,6 +484,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/users/deactivate/`,
         method: "PATCH",
         body: queryArg.userEnableDisable,
+      }),
+    }),
+    usersMePartialUpdate: build.mutation<
+      UsersMePartialUpdateApiResponse,
+      UsersMePartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/me/`,
+        method: "PATCH",
+        body: queryArg.meUpdate,
       }),
     }),
     usersRolesList: build.query<
@@ -1019,10 +1039,19 @@ export type UsersActivatePartialUpdateApiArg = {
 };
 export type UsersActiveUsersListApiResponse = /** status 200  */ User[];
 export type UsersActiveUsersListApiArg = void;
+export type UsersChangePasswordPartialUpdateApiResponse =
+  /** status 200  */ UpsertUserPassword;
+export type UsersChangePasswordPartialUpdateApiArg = {
+  upsertUserPassword: UpsertUserPassword;
+};
 export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
 export type UsersDeactivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
+};
+export type UsersMePartialUpdateApiResponse = /** status 200  */ MeUpdate;
+export type UsersMePartialUpdateApiArg = {
+  meUpdate: MeUpdate;
 };
 export type UsersRolesListApiResponse = /** status 200  */ Role[];
 export type UsersRolesListApiArg = void;
@@ -1469,6 +1498,15 @@ export type SystemAccess = {
 export type UserEnableDisable = {
   users: number[];
 };
+export type UpsertUserPassword = {
+  password: string;
+  old_password: string;
+};
+export type MeUpdate = {
+  first_name?: string;
+  last_name?: string;
+  meta?: Meta;
+};
 export type Role = {
   value: string;
   title: string;
@@ -1631,7 +1669,9 @@ export const {
   useSystemsChatbotCreateMutation,
   useUsersActivatePartialUpdateMutation,
   useUsersActiveUsersListQuery,
+  useUsersChangePasswordPartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersMePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
   useVfseCategoriesListQuery,

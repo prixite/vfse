@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
 import PropTypes from "prop-types";
@@ -51,6 +51,19 @@ const ProfileTimeline = ({
 }: Props) => {
   const classes = useStyles();
 
+  const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
+
+  useEffect(() => {
+    paginatedTopics.length === 0 &&
+      setTimeout(() => {
+        setShowNoDataFound(true);
+      }, 1000);
+
+    return () => {
+      setShowNoDataFound(false);
+    };
+  }, []);
+
   return (
     <>
       <Box component="div" className={classes.timelineSection}>
@@ -81,11 +94,15 @@ const ProfileTimeline = ({
                   ))}
                 </Grid>
               ) : (
-                <NoDataFound
-                  search
-                  title={"No Data Found"}
-                  description={"No data found for popular topics"}
-                />
+                <>
+                  {showNoDataFound && (
+                    <NoDataFound
+                      search
+                      title={"No Data Found"}
+                      description={"No data found for popular topics"}
+                    />
+                  )}
+                </>
               )}
             </Grid>
           ) : (

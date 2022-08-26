@@ -4,8 +4,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 
-// import DeleteLogo from "@src/assets/svgs/delete.svg";
-// import EditLogo from "@src/assets/svgs/edit.svg";
+import DeleteLogo from "@src/assets/svgs/delete.svg";
+import EditLogo from "@src/assets/svgs/edit.svg";
 import EditComment from "@src/components/common/smart/commentsDrawer/editComment/EditComment";
 import DeleteNoteModal from "@src/components/shared/popUps/deleteNoteModal/DeleteNoteModal";
 import { deleteSystemNoteService } from "@src/services/systemServices";
@@ -56,7 +56,7 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
             <div className="userActions">
               {!editMode ? (
                 <>
-                  {/* <img
+                  <img
                     src={EditLogo}
                     className="logo deleteLogo"
                     onClick={() => setEditMode(true)}
@@ -65,7 +65,7 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
                     src={DeleteLogo}
                     className="logo deleteLogo"
                     onClick={() => setOpenModal(true)}
-                  /> */}
+                  />
                 </>
               ) : (
                 <CloseIcon

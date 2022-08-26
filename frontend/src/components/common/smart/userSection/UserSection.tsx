@@ -12,6 +12,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ListModal from "@src/components/shared/popUps/listModal/ListModal";
 import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
+import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import {
   deactivateUserService,
@@ -296,7 +297,7 @@ export default function UserSection() {
   const deactivateUser = async (id) => {
     await deactivateUserService(id, userDeactivateMutation);
     toast.success("User is locked.", {
-      autoClose: 1000,
+      autoClose: timeOut,
       pauseOnHover: false,
     });
     handleActionClose();
@@ -305,7 +306,7 @@ export default function UserSection() {
   const activateUser = async (id) => {
     await activateUserService(id, userActivateMutation);
     toast.success("User is unlocked.", {
-      autoClose: 1000,
+      autoClose: timeOut,
       pauseOnHover: false,
     });
     handleActionClose();

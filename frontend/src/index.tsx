@@ -8,6 +8,7 @@ import App from "@src/App";
 import { store } from "@src/store/store";
 
 import "@src/index.scss";
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 ReactDOM.render(
   <Provider store={store}>
