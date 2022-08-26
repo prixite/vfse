@@ -6,11 +6,13 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from core import models as core_models
+from core import permissions
 from core.utils import send_topic_email
 from vfse import filters, models, pagination, serializers
 
 
 class CategoryViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.CategorySerializer
     filterset_class = filters.CategoryFilterSet
 
@@ -19,6 +21,7 @@ class CategoryViewSet(ModelViewSet):
 
 
 class FolderViewset(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.FolderSerializer
     filterset_fields = ["categories"]
 
@@ -39,6 +42,7 @@ class FolderViewset(ModelViewSet):
 
 
 class DocumentViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.DocumentSerializer
     filterset_fields = ["folder", "favorite"]
 
@@ -50,6 +54,7 @@ class DocumentViewSet(ModelViewSet):
 
 
 class CommentViewset(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.CommentSerializer
     pagination_class = pagination.TopicPagination
 
@@ -75,6 +80,7 @@ class CommentViewset(ModelViewSet):
 
 
 class ReplyViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.CommentSerializer
     pagination_class = pagination.TopicPagination
 
@@ -90,6 +96,8 @@ class ReplyViewSet(ModelViewSet):
 
 
 class TopicViewset(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.TopicSerializer
     filterset_class = filters.TopicFilterSet
     pagination_class = pagination.TopicPagination
@@ -166,6 +174,7 @@ class MyTopicsViewSet(ListAPIView):
 
 
 class WorkOrderViewset(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.WorkOrderSerializer
 
     def get_queryset(self):
@@ -180,6 +189,7 @@ class WorkOrderViewset(ModelViewSet):
 
 
 class FollowtopicViewset(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.FollowUnfollowSerializer
 
     def get_queryset(self):

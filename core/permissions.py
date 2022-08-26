@@ -119,3 +119,14 @@ class SystemNotePermissions(BasePermission):
             return True
 
         return False
+
+
+class ViewOnlyPermissions(BasePermission):
+    def has_permission(self, request, view):
+        if request.user.is_superuser:
+            return True
+
+        if request.user.profile.is_view_only and request.method in SAFE_METHODS:
+            return True
+
+        return False
