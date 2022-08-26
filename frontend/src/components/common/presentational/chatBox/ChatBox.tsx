@@ -1,9 +1,9 @@
-import { useState, Dispatch, SetStateAction } from "react";
+import { useState, Dispatch, SetStateAction, useEffect } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
-import { Box, TextField } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
 import { useAppSelector } from "@src/store/hooks";
@@ -22,6 +22,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const [placeholder, setPlaceHolder] = useState<string>(
     "How may I answer your query..."
   );
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   const [arrayToDisplay, setArrayToDiplay] = useState<string[]>([]);
   const resetQuery = () => {
@@ -36,7 +37,14 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      setIsActive(false);
+    };
+  }, [isActive]);
+
   const handleChatting = () => {
+    setIsActive(true);
     setArrayToDiplay((oldArray) => [...oldArray, `${yourQuery}`]);
     setIsLoading(true);
     postChat({ sysId: system?.id, query: yourQuery })
@@ -87,14 +95,43 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
       </Box>
       <Box component="div" className="chatSection">
         <div className="chatBotResponse">
-          {arrayToDisplay?.map((item) => {
+          {arrayToDisplay?.map((item, index) => {
             return (
-              <div
+              <Grid
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                xl={12}
+                marginBottom={1}
                 key={item}
-                style={{ boxShadow: "3px 3px 12px rgb(10 35 83 / 8%)" }}
               >
-                <p>{item}</p>
-              </div>
+                <Box
+                  style={
+                    (index + 1) % 2 !== 0
+                      ? {
+                          // Odd
+                          border: `2px solid ${buttonBackground}`,
+                          width: "95%",
+                          marginRight: "auto",
+                          padding: "5px",
+                          borderRadius: "8px",
+                          boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                        }
+                      : {
+                          //Even
+                          border: "2px solid #fff",
+                          width: "95%",
+                          marginLeft: "auto",
+                          padding: "5px",
+                          borderRadius: "8px",
+                          boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                        }
+                  }
+                >
+                  <p style={{ wordBreak: "break-word" }}>{item}</p>
+                </Box>
+              </Grid>
             );
           })}
         </div>
@@ -118,7 +155,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
           }}
           onKeyPress={keyPressEnter}
         />
-        {!isLoading && yourQuery ? (
+        {!isLoading || isActive ? (
           <div
             className="sendIcon-Container"
             style={{
