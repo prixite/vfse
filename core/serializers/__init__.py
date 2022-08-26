@@ -100,6 +100,15 @@ class OrganizationSerializer(serializers.ModelSerializer):
             return value
 
 
+class MeUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = [
+            "first_name",
+            "last_name",
+        ]
+
+
 class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=defaults.URLOrganizationDefault())
     flags = serializers.SerializerMethodField()

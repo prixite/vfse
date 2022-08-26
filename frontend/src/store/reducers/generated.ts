@@ -174,6 +174,16 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/organizations/${queryArg.id}/me/` }),
     }),
+    organizationsMePartialUpdate: build.mutation<
+      OrganizationsMePartialUpdateApiResponse,
+      OrganizationsMePartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.id}/me/`,
+        method: "PATCH",
+        body: queryArg.meUpdate,
+      }),
+    }),
     organizationsModalitiesList: build.query<
       OrganizationsModalitiesListApiResponse,
       OrganizationsModalitiesListApiArg
@@ -868,6 +878,12 @@ export type OrganizationsMeReadApiResponse = /** status 200  */ Me;
 export type OrganizationsMeReadApiArg = {
   id: string;
 };
+export type OrganizationsMePartialUpdateApiResponse =
+  /** status 200  */ MeUpdate;
+export type OrganizationsMePartialUpdateApiArg = {
+  id: string;
+  meUpdate: MeUpdate;
+};
 export type OrganizationsModalitiesListApiResponse =
   /** status 200  */ Modality[];
 export type OrganizationsModalitiesListApiArg = {
@@ -1292,6 +1308,10 @@ export type Me = {
   profile_picture: string;
   is_superuser?: boolean;
 };
+export type MeUpdate = {
+  first_name?: string;
+  last_name?: string;
+};
 export type Modality = {
   id?: number;
   name: string;
@@ -1616,6 +1636,7 @@ export const {
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
   useOrganizationsMeReadQuery,
+  useOrganizationsMePartialUpdateMutation,
   useOrganizationsModalitiesListQuery,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
