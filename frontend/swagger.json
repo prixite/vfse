@@ -1521,6 +1521,34 @@
             },
             "parameters": []
         },
+        "/users/me/": {
+            "patch": {
+                "operationId": "users_me_partial_update",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/MeUpdate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/MeUpdate"
+                        }
+                    }
+                },
+                "tags": [
+                    "users"
+                ]
+            },
+            "parameters": []
+        },
         "/users/roles/": {
             "get": {
                 "operationId": "users_roles_list",
@@ -2411,7 +2439,7 @@
                 }
             },
             "default": {
-                "profile_picture": "http://localhost:8000/static/assets/profile.png",
+                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
                 "title": ""
             }
         },
@@ -3856,6 +3884,25 @@
                     "title": "Old password",
                     "type": "string",
                     "minLength": 1
+                }
+            }
+        },
+        "MeUpdate": {
+            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "title": "First name",
+                    "type": "string",
+                    "maxLength": 150
+                },
+                "last_name": {
+                    "title": "Last name",
+                    "type": "string",
+                    "maxLength": 150
+                },
+                "meta": {
+                    "$ref": "#/definitions/MetaSerialzer"
                 }
             }
         },
