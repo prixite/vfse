@@ -16,6 +16,8 @@ import {
 } from "@src/store/reducers/generated";
 
 import "@src/components/common/smart/accountSection/accountSection.scss";
+import { timeOut } from "@src/helpers/utils/constants";
+import { toast } from "react-toastify";
 
 const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -59,7 +61,24 @@ const AccountSection = () => {
           },
         },
         updateUsername
-      );
+      )
+        .then(async () => {
+          toast.success("Username updated successfully.", {
+            autoClose: timeOut,
+            pauseOnHover: false,
+          });
+        })
+        .catch((err) => {
+          const metaErr =
+            err?.data?.meta?.profile_picture[0] ||
+            err?.data?.meta?.first_name[0] ||
+            err?.data?.meta?.last_name[0] ||
+            "Something went wrong";
+          toast.error(metaErr, {
+            autoClose: timeOut,
+            pauseOnHover: true,
+          });
+        });
     },
   });
 
@@ -110,13 +129,7 @@ const AccountSection = () => {
     <div>
       <Box component="div">
         <h2>{"Account Settings"}</h2>
-        <Box
-          component="div"
-          sx={{ background: "#fff", borderRadius: "8px" }}
-          mt={3}
-          mb={1}
-          p={4}
-        >
+        <Box component="div" sx={{ background: "#fff" }} mt={3} mb={1} p={4}>
           <h3>{"Update Name"}</h3>
           <form onSubmit={formik.handleSubmit}>
             <Grid
@@ -174,7 +187,7 @@ const AccountSection = () => {
         </Box>
         <Box
           component="div"
-          sx={{ background: "#fff", borderRadius: "8px" }}
+          sx={{ background: "#fff" }}
           my={1}
           p={4}
           marginTop="20px"
