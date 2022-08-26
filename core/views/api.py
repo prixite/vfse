@@ -156,11 +156,11 @@ class HealthNetworkViewSet(ListAPIView):
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [
         IsAuthenticated,
+        permissions.ViewOnlyPermissions,
         permissions.OrganizationHealthNetworksPermission,
     ]
     authentication_classes = [
         SessionAuthentication,
-        permissions.ViewOnlyPermissions,
         TokenAuthentication,
     ]
 
@@ -243,7 +243,7 @@ class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
     permission_classes = [
         permissions.OrganizationSitesPermission,
-        permissions.ViewOnlyPermissions,
+        # permissions.ViewOnlyPermissions,
     ]
 
     def get_queryset(self):
@@ -473,10 +473,10 @@ class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
+    permission_classes = [permissions.ViewOnlyPermissions]
     authentication_classes = [
         SessionAuthentication,
         TokenAuthentication,
-        permissions.ViewOnlyPermissions,
     ]
 
     def get_serializer_class(self):
