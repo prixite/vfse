@@ -24,9 +24,10 @@ schema_view = get_schema_view(
 )
 
 api_urlpatterns = [
+    path("api/users/me/", api.MeUpdateViewSet.as_view({"patch": "partial_update"})),
     path(
         "api/organizations/<int:pk>/me/",
-        api.MeViewSet.as_view({"get": "retrieve", "patch": "partial_update"}),
+        api.MeViewSet.as_view({"get": "retrieve"}),
     ),
     path(
         "api/users/roles/",

@@ -174,16 +174,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/organizations/${queryArg.id}/me/` }),
     }),
-    organizationsMePartialUpdate: build.mutation<
-      OrganizationsMePartialUpdateApiResponse,
-      OrganizationsMePartialUpdateApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/organizations/${queryArg.id}/me/`,
-        method: "PATCH",
-        body: queryArg.meUpdate,
-      }),
-    }),
     organizationsModalitiesList: build.query<
       OrganizationsModalitiesListApiResponse,
       OrganizationsModalitiesListApiArg
@@ -494,6 +484,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/users/deactivate/`,
         method: "PATCH",
         body: queryArg.userEnableDisable,
+      }),
+    }),
+    usersMePartialUpdate: build.mutation<
+      UsersMePartialUpdateApiResponse,
+      UsersMePartialUpdateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/me/`,
+        method: "PATCH",
+        body: queryArg.meUpdate,
       }),
     }),
     usersRolesList: build.query<
@@ -878,12 +878,6 @@ export type OrganizationsMeReadApiResponse = /** status 200  */ Me;
 export type OrganizationsMeReadApiArg = {
   id: string;
 };
-export type OrganizationsMePartialUpdateApiResponse =
-  /** status 200  */ MeUpdate;
-export type OrganizationsMePartialUpdateApiArg = {
-  id: string;
-  meUpdate: MeUpdate;
-};
 export type OrganizationsModalitiesListApiResponse =
   /** status 200  */ Modality[];
 export type OrganizationsModalitiesListApiArg = {
@@ -1054,6 +1048,10 @@ export type UsersDeactivatePartialUpdateApiResponse =
   /** status 200  */ UserEnableDisable;
 export type UsersDeactivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
+};
+export type UsersMePartialUpdateApiResponse = /** status 200  */ MeUpdate;
+export type UsersMePartialUpdateApiArg = {
+  meUpdate: MeUpdate;
 };
 export type UsersRolesListApiResponse = /** status 200  */ Role[];
 export type UsersRolesListApiArg = void;
@@ -1308,11 +1306,6 @@ export type Me = {
   profile_picture: string;
   is_superuser?: boolean;
 };
-export type MeUpdate = {
-  first_name?: string;
-  last_name?: string;
-  meta?: Meta;
-};
 export type Modality = {
   id?: number;
   name: string;
@@ -1509,6 +1502,11 @@ export type UpsertUserPassword = {
   password: string;
   old_password: string;
 };
+export type MeUpdate = {
+  first_name?: string;
+  last_name?: string;
+  meta?: Meta;
+};
 export type Role = {
   value: string;
   title: string;
@@ -1637,7 +1635,6 @@ export const {
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsHealthNetworksUpdateMutation,
   useOrganizationsMeReadQuery,
-  useOrganizationsMePartialUpdateMutation,
   useOrganizationsModalitiesListQuery,
   useOrganizationsSeatsListQuery,
   useOrganizationsSeatsCreateMutation,
@@ -1674,6 +1671,7 @@ export const {
   useUsersActiveUsersListQuery,
   useUsersChangePasswordPartialUpdateMutation,
   useUsersDeactivatePartialUpdateMutation,
+  useUsersMePartialUpdateMutation,
   useUsersRolesListQuery,
   useUsersPartialUpdateMutation,
   useVfseCategoriesListQuery,

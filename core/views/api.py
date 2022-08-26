@@ -41,25 +41,28 @@ class ChatBotView(APIView):
         return Response(response)
 
 
+class MeUpdateViewSet(ModelViewSet, mixins.UserMixin):
+    serializer_class = serializers.MeUpdateSerializer
+
+    def get_queryset(self):
+        return models.User.objects.none()
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.update_user(serializer.validated_data, request.user)
+        self.update_profile(serializer.validated_data, request.user)
+        return Response(serializer.data)
+
+
 class MeViewSet(ModelViewSet, mixins.UserMixin):
-    # serializer_class = serializers.MeSerializer
-    def get_serializer_class(self, *args, **kwargs):
-        if self.action == "partial_update":
-            return serializers.MeUpdateSerializer
-        return serializers.MeSerializer
+    serializer_class = serializers.MeSerializer
 
     def get_queryset(self):
         return models.User.objects.none()
 
     def get_object(self):
         return self.request.user
-
-    def partial_update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.update_user(serializer.validated_data, request.user)
-        self.update_profile(serializer.validated_data.get("profile"), request.user)
-        return Response(serializer.data)
 
 
 class DistinctOrganizationViewSet(ModelViewSet):

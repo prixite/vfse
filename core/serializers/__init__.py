@@ -106,9 +106,7 @@ class MetaSerialzer(serializers.Serializer):
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
-    meta = MetaSerialzer(
-        default=defaults.ProfileMetaDefault(), source="profile.meta", required=False
-    )
+    meta = MetaSerialzer(default=defaults.ProfileMetaDefault(), required=False)
 
     class Meta:
         model = models.User
