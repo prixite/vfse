@@ -172,7 +172,8 @@ class MyTopicsViewSet(ModelViewSet):
             number_of_followers=Count("followers", distinct=True),
             number_of_comments=Count(
                 "comments", distinct=True, filter=Q(comments__parent__isnull=True)
-            )).all()
+            ),
+        ).all()
 
 
 class WorkOrderViewset(ModelViewSet):

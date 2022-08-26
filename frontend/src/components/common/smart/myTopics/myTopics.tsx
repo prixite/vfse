@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
+
 import { Pagination, Stack } from "@mui/material";
-import { useVfseUserTopicListQuery } from "@src/store/reducers/generated";
-import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
+
 import { parseLink } from "@src/helpers/paging";
+import { useVfseUserTopicListQuery } from "@src/store/reducers/generated";
+
+import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
 
 const MyTopics = () => {
   const [paginatedTopics, setPaginatedTopics] = useState([]);

@@ -1,15 +1,18 @@
 import { useState } from "react";
-import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, Box, Button, Typography, Stack } from "@mui/material";
+
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import { Avatar, Box, Typography, Stack } from "@mui/material";
+
 import calender from "@src/assets/svgs/g-calendar.svg";
 import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
-import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
-import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
 import { useSelectedOrganization } from "@src/store/hooks";
-import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
+
+import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
+
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
 
 const ProfileHeader = () => {
