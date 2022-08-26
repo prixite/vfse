@@ -375,7 +375,7 @@ const SystemSection = () => {
                 horizontal
                 bound
                 gap={40}
-                style={{ height: "33px" }}
+                style={{ height: "33px", msOverflowX: "scroll", width: "100%" }}
               >
                 <span
                   className="modality"
