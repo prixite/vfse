@@ -915,7 +915,7 @@ export default function UserModal(props: Props) {
       </DialogContent>
       <DialogActions
         style={{
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
         }}
       >
         <Button
