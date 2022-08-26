@@ -2,8 +2,10 @@ import { useEffect } from "react";
 
 import { Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
+import { timeOut } from "@src/helpers/utils/constants";
 import {
   updateUserPassword,
   updateUsernameService,
@@ -16,8 +18,6 @@ import {
 } from "@src/store/reducers/generated";
 
 import "@src/components/common/smart/accountSection/accountSection.scss";
-import { timeOut } from "@src/helpers/utils/constants";
-import { toast } from "react-toastify";
 
 const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
