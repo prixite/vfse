@@ -83,3 +83,8 @@ class UserMixin:
                 if key in data
             }
         )
+
+    def update_user(self, data, user_id):
+        models.User.objects.filter(username=user_id).update(
+            **{key: data[key] for key in ["first_name", "last_name"] if key in data}
+        )
