@@ -2980,6 +2980,9 @@
                     "title": "Last name",
                     "type": "string",
                     "maxLength": 150
+                },
+                "meta": {
+                    "$ref": "#/definitions/MetaSerialzer"
                 }
             }
         },

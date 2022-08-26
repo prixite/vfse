@@ -100,13 +100,19 @@ class OrganizationSerializer(serializers.ModelSerializer):
             return value
 
 
+class MetaSerialzer(serializers.Serializer):
+    profile_picture = serializers.URLField(required=False)
+    title = serializers.CharField(required=False)
+
+
 class MeUpdateSerializer(serializers.ModelSerializer):
+    meta = MetaSerialzer(
+        default=defaults.ProfileMetaDefault(), source="profile.meta", required=False
+    )
+
     class Meta:
         model = models.User
-        fields = [
-            "first_name",
-            "last_name",
-        ]
+        fields = ["first_name", "last_name", "meta"]
 
 
 class MeSerializer(serializers.ModelSerializer):
@@ -276,11 +282,6 @@ class UserSerializer(serializers.ModelSerializer):
             "image",
             "sites",
         ]
-
-
-class MetaSerialzer(serializers.Serializer):
-    profile_picture = serializers.URLField(required=False)
-    title = serializers.CharField(required=False)
 
 
 class UpsertUserPasswordSerializer(serializers.Serializer):

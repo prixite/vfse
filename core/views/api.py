@@ -58,6 +58,7 @@ class MeViewSet(ModelViewSet, mixins.UserMixin):
         serializer = self.get_serializer(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.update_user(serializer.validated_data, request.user)
+        self.update_profile(serializer.validated_data.get("profile"), request.user)
         return Response(serializer.data)
 
 

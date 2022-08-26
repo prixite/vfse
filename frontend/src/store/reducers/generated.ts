@@ -1311,6 +1311,7 @@ export type Me = {
 export type MeUpdate = {
   first_name?: string;
   last_name?: string;
+  meta?: Meta;
 };
 export type Modality = {
   id?: number;
