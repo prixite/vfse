@@ -156,7 +156,7 @@ const AppearanceSection = () => {
     <>
       <Box component="div">
         <h2>{selectedOrganization?.name}</h2>
-        <Box component="div" sx={{ background: "#fff" }} p={4}>
+        <Box component="div" sx={{ background: "#fff", mt: "23px" }} p={4}>
           <Grid container>
             <Grid item>
               <h4 style={{ marginBottom: "5px" }}>Client Name</h4>
