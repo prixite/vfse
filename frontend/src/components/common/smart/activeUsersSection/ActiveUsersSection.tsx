@@ -8,14 +8,10 @@ import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import {
-  useUsersActiveUsersListQuery,
-  User,
-} from "@src/store/reducers/api";
+import { useUsersActiveUsersListQuery, User } from "@src/store/reducers/api";
 
 import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
-
 
 const headers = [
   {
@@ -44,7 +40,7 @@ const headers = [
 export default function ActiveUserSection() {
   const [pageSize, setPageSize] = useState(14);
   const [tableColumns, setTableColumns] = useState(headers);
-  
+
   const [query, setQuery] = useState("");
   const [hasData, setHasData] = useState(false);
   const [browserWidth] = useWindowSize();
@@ -52,13 +48,12 @@ export default function ActiveUserSection() {
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
- 
-  const { data: items, isLoading: isUsersLoading } = useUsersActiveUsersListQuery();
-
+  const { data: items, isLoading: isUsersLoading } =
+    useUsersActiveUsersListQuery();
 
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
-  
+
   useEffect(() => {
     if (query?.trim()?.length > 2 && userList) {
       setHasData(true);
@@ -80,9 +75,7 @@ export default function ActiveUserSection() {
     const itemsToBeSet = [
       ...items.filter((user) => {
         return (
-          (
-            user?.first_name 
-          )
+          user?.first_name
             ?.trim()
             .toLowerCase()
             .search(searchQuery?.trim().toLowerCase()) != -1
@@ -119,73 +112,74 @@ export default function ActiveUserSection() {
               <DataGrid
                 rows={itemsList}
                 autoHeight
-                    columns={[
-                        {
-                          field: "user_name",
-                          headerName: "NAME",
-                          width: 200,
-                          hide: false,
-                          disableColumnMenu: true,
-                          sortable: false,
-                          minWidth: 100, flex: 1,
-                          renderCell: (cellValues) => (
-                            <span
-                              style={{
-                                color: "#111827",
-                                fontWeight: 600,
-                                fontStyle: "normal",
-                                fontSize: "14px",
-                              }}
-                            >
-                              {`${cellValues.row.first_name} ${cellValues.row.last_name}`}
-                            </span>
-                          ),
-                        },
-                        {
-                          field: "health_network",
-                          headerName: "HEALTH NETWORK",
-                          width: 200,
-                          hide: false,
-                          disableColumnMenu: true,
-                          sortable: false,
-                          minWidth: 100, flex: 1,
-                          renderCell: (cellValues) =>
-                            cellValues.row.health_networks?.map((name, index) => (
-                              <span
-                                key={index}
-                                style={{
-                                  color: "#6B7280",
-                                  fontWeight: "normal",
-                                  fontStyle: "normal",
-                                  fontSize: "14px",
-                                }}
-                              >
-                                {name}
-                              </span>
-                            )),
-                        },
-                        {
-                          field: "STATUS",
-                          disableColumnMenu: true,
-                          sortable: false,
-                          width: 100,
-                          minWidth: 100, flex: 1,
-                          renderCell: (cellValues) => (
-                            <div
-                              style={{
-                                color: `${
-                                  cellValues.row.status ? "#6B7280" : "red"
-                                }`,
-                                fontWeight: "normal",
-                                fontStyle: "normal",
-                                fontSize: "14px",
-                              }}
-                            >
-                              {cellValues.row.is_active ? "Active" : "Locked"}
-                            </div>
-                          ),
-                        },
-                      ]}
+                columns={[
+                  {
+                    field: "user_name",
+                    headerName: "NAME",
+                    width: 200,
+                    hide: false,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    minWidth: 100,
+                    flex: 1,
+                    renderCell: (cellValues) => (
+                      <span
+                        style={{
+                          color: "#111827",
+                          fontWeight: 600,
+                          fontStyle: "normal",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {`${cellValues.row.first_name} ${cellValues.row.last_name}`}
+                      </span>
+                    ),
+                  },
+                  {
+                    field: "health_network",
+                    headerName: "HEALTH NETWORK",
+                    width: 200,
+                    hide: false,
+                    disableColumnMenu: true,
+                    sortable: false,
+                    minWidth: 100,
+                    flex: 1,
+                    renderCell: (cellValues) =>
+                      cellValues.row.health_networks?.map((name, index) => (
+                        <span
+                          key={index}
+                          style={{
+                            color: "#6B7280",
+                            fontWeight: "normal",
+                            fontStyle: "normal",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {name}
+                        </span>
+                      )),
+                  },
+                  {
+                    field: "STATUS",
+                    disableColumnMenu: true,
+                    sortable: false,
+                    width: 100,
+                    minWidth: 100,
+                    flex: 1,
+                    renderCell: (cellValues) => (
+                      <div
+                        style={{
+                          color: `${cellValues.row.status ? "#6B7280" : "red"}`,
+                          fontWeight: "normal",
+                          fontStyle: "normal",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {cellValues.row.is_active ? "Active" : "Locked"}
+                      </div>
+                    ),
+                  },
+                ]}
                 loading={isUsersLoading}
                 pageSize={pageSize}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}

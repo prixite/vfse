@@ -504,9 +504,12 @@ const TopViewBtns = ({
             />
           </Box>
           {currentUser?.is_superuser &&
-            path === "organizations" && path !== "active-users" &&
+            path === "organizations" &&
+            path !== "active-users" &&
             createAddButton()}
-          {path !== "organizations" && path !== "active-users" && createAddButton()}
+          {path !== "organizations" &&
+            path !== "active-users" &&
+            createAddButton()}
         </Box>
       </Box>
     </>
