@@ -114,6 +114,8 @@ const TopViewBtns = ({
     constantData = localizedData()?.category;
   } else if (path == "knowledge-base-folder") {
     constantData = localizedData()?.folder;
+  } else if (path == "active-users") {
+    constantData = localizedData()?.users;
   }
   const { btnAdd } = constantData;
 
@@ -502,9 +504,9 @@ const TopViewBtns = ({
             />
           </Box>
           {currentUser?.is_superuser &&
-            path === "organizations" &&
+            path === "organizations" && path !== "active-users" &&
             createAddButton()}
-          {path !== "organizations" && createAddButton()}
+          {path !== "organizations" && path !== "active-users" && createAddButton()}
         </Box>
       </Box>
     </>

@@ -6,39 +6,16 @@ import UserSectionMobile from "@src/components/common/smart/activeUsersSection/u
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import { useSelectedOrganization } from "@src/store/hooks";
 import {
-  useOrganizationsModalitiesListQuery,
-  useOrganizationsListQuery,
-  useScopeUsersListQuery,
+  useUsersActiveUsersListQuery,
   User,
-  useUsersRolesListQuery,
 } from "@src/store/reducers/api";
 
 import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
 
-const columns = [
-  {
-    field: "first_name",
-    headerName: "First Name",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "last_name",
-    headerName: "Last Name",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-];
 
 const headers = [
   {
@@ -50,9 +27,8 @@ const headers = [
     sortable: false,
   },
   {
-    field: "last_name",
-    headerName: "Last Name",
-    width: 220,
+    field: "health_network",
+    headerName: "Health Network",
     hide: false,
     disableColumnMenu: true,
     sortable: false,
@@ -67,37 +43,22 @@ const headers = [
 
 export default function ActiveUserSection() {
   const [pageSize, setPageSize] = useState(14);
-  const { userAdministration } = localizedData().users;
-  const [open, setOpen] = useState(false);
   const [tableColumns, setTableColumns] = useState(headers);
-  // eslint-disable-next-line
-  const [columnHeaders, setColumnHeaders] = useState(columns);
+  
   const [query, setQuery] = useState("");
   const [hasData, setHasData] = useState(false);
-  // eslint-disable-next-line
-  const [hideStatus, setHideStatus] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
   const [browserWidth] = useWindowSize();
   const { searching } = localizedData().common;
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
-  const selectedOrganization = useSelectedOrganization();
-  const { data: items, isLoading: isUsersLoading } = useScopeUsersListQuery({
-    id: selectedOrganization?.id?.toString(),
-  });
+ 
+  const { data: items, isLoading: isUsersLoading } = useUsersActiveUsersListQuery();
 
-  const { data: usersRoles } = useUsersRolesListQuery();
-
-  const { data: modalitiesList } = useOrganizationsModalitiesListQuery(
-    { id: selectedOrganization?.id?.toString() },
-    { skip: !selectedOrganization }
-  );
-
-  const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
 
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
+  
   useEffect(() => {
     if (query?.trim()?.length > 2 && userList) {
       setHasData(true);
@@ -120,13 +81,7 @@ export default function ActiveUserSection() {
       ...items.filter((user) => {
         return (
           (
-            user?.first_name +
-            user?.last_name +
-            user?.username +
-            user?.email +
-            user?.phone +
-            user?.manager?.name +
-            user?.manager?.email
+            user?.first_name 
           )
             ?.trim()
             .toLowerCase()
@@ -139,22 +94,11 @@ export default function ActiveUserSection() {
     }
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    handleActionClose();
-  };
-
-  const handleActionClose = () => {
-    setAnchorEl(null);
-    setCurrentUser(null);
-  };
-
   return (
     <Fragment>
-      <h2>{userAdministration}</h2>
+      <h2>Active users</h2>
       <TopViewBtns
-        setOpen={setOpen}
-        path="users"
+        path="active-users"
         tableColumns={tableColumns}
         setTableColumns={setTableColumns}
         setList={setUserList}
@@ -164,19 +108,6 @@ export default function ActiveUserSection() {
         actualData={items}
         hasData={hasData}
       />
-
-      {open && !isUsersLoading && (
-        <UserModal
-          open={open}
-          handleClose={handleClose}
-          selectedUser={currentUser}
-          usersData={items}
-          roles={usersRoles}
-          action={currentUser ? "edit" : "add"}
-          organizationData={organizationData}
-          modalitiesList={modalitiesList}
-        />
-      )}
 
       <div
         style={{ marginTop: "32px", overflow: "hidden" }}
@@ -188,25 +119,73 @@ export default function ActiveUserSection() {
               <DataGrid
                 rows={itemsList}
                 autoHeight
-                columns={[
-                  ...columnHeaders,
-                  {
-                    field: "Status",
-                    hide: hideStatus,
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 100,
-                    renderCell: (cellValues) => (
-                      <span
-                        style={{
-                          color: `${cellValues.row.is_active ? "" : "red"}`,
-                        }}
-                      >
-                        {cellValues.row.is_active ? "Active" : "Locked"}
-                      </span>
-                    ),
-                  },
-                ]}
+                    columns={[
+                        {
+                          field: "user_name",
+                          headerName: "NAME",
+                          width: 200,
+                          hide: false,
+                          disableColumnMenu: true,
+                          sortable: false,
+                          minWidth: 100, flex: 1,
+                          renderCell: (cellValues) => (
+                            <span
+                              style={{
+                                color: "#111827",
+                                fontWeight: 600,
+                                fontStyle: "normal",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {`${cellValues.row.first_name} ${cellValues.row.last_name}`}
+                            </span>
+                          ),
+                        },
+                        {
+                          field: "health_network",
+                          headerName: "HEALTH NETWORK",
+                          width: 200,
+                          hide: false,
+                          disableColumnMenu: true,
+                          sortable: false,
+                          minWidth: 100, flex: 1,
+                          renderCell: (cellValues) =>
+                            cellValues.row.health_networks?.map((name, index) => (
+                              <span
+                                key={index}
+                                style={{
+                                  color: "#6B7280",
+                                  fontWeight: "normal",
+                                  fontStyle: "normal",
+                                  fontSize: "14px",
+                                }}
+                              >
+                                {name}
+                              </span>
+                            )),
+                        },
+                        {
+                          field: "STATUS",
+                          disableColumnMenu: true,
+                          sortable: false,
+                          width: 100,
+                          minWidth: 100, flex: 1,
+                          renderCell: (cellValues) => (
+                            <div
+                              style={{
+                                color: `${
+                                  cellValues.row.status ? "#6B7280" : "red"
+                                }`,
+                                fontWeight: "normal",
+                                fontStyle: "normal",
+                                fontSize: "14px",
+                              }}
+                            >
+                              {cellValues.row.is_active ? "Active" : "Locked"}
+                            </div>
+                          ),
+                        },
+                      ]}
                 loading={isUsersLoading}
                 pageSize={pageSize}
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
