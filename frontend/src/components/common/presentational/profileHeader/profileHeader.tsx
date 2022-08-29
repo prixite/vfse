@@ -36,7 +36,10 @@ const ProfileHeader = () => {
             onClick={handleClickOpen}
             sx={{ width: 120, height: 120, cursor: "pointer" }}
           />
-          <CameraAltOutlinedIcon className="cameraIcon" />
+          <CameraAltOutlinedIcon
+            onClick={handleClickOpen}
+            className="cameraIcon"
+          />
           <EditProfilePicModal open={open} setOpen={setOpen} />
         </Box>
         <Box
