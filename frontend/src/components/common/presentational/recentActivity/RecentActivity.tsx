@@ -47,16 +47,7 @@ const RecentActivity = () => {
             className="mySwiper"
           >
             {userActivityList.slice(0, totalPageNumber()).map((item, index) => (
-              <SwiperSlide
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  width: "200px",
-                }}
-                key={index}
-              >
+              <SwiperSlide className={`swiperSlide`} key={index}>
                 {JSON.parse(JSON.stringify(userActivityList))
                   ?.reverse()
                   ?.slice((index + 1 - 1) * 4, (index + 1) * 4)
@@ -68,6 +59,7 @@ const RecentActivity = () => {
                           src={`${item?.user?.image}`}
                           alt={profileIcon}
                         />
+                        <div className="username">{item?.user?.name}</div>
                       </div>
                       <Grid className="statusDetail">
                         <span className="username">{item?.user?.name}</span>
@@ -77,10 +69,7 @@ const RecentActivity = () => {
                           {" "}
                           {item?.action}
                         </span>
-                        <div
-                          className="postTime"
-                          style={{ padding: "5px 0px" }}
-                        >
+                        <div className="postTime">
                           {moment(item?.created_at).startOf("s").fromNow()}
                         </div>
                       </Grid>

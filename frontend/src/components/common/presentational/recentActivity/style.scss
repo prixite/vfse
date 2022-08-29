@@ -9,6 +9,13 @@
   justify-content: space-between;
   padding: 24px;
 
+  .swiperSlid {
+    display: flex;
+    flex-direction: "column";
+    align-items: center;
+    justify-content: flex-start;
+    width: 200px;
+  }
   .recentActivityTitle {
     display: flex;
     align-items: center;
@@ -22,6 +29,30 @@
     margin-top: 6px;
     margin-bottom: 6px;
     width: 100%;
+    .userImg {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      .username {
+        font-size: 16px;
+        font-weight: 600;
+        font-style: normal;
+        margin-left: 1rem;
+        color: #773cbd;
+        word-break: break-word;
+        font-family: "ProximaNova-Regular";
+        font-style: normal;
+        line-height: 20px;
+        text-align: start;
+      }
+      @media all and (max-width: 900px) {
+        .username {
+          display: none;
+          text-align: left;
+        }
+      }
+    }
     .statusDetail {
       margin-left: 0px;
       font-family: "ProximaNova-Regular";
@@ -38,6 +69,13 @@
         color: #773cbd;
         font-weight: 600;
         word-break: break-word;
+        text-align: left;
+      }
+      @media all and (min-width: 900px) {
+        .username {
+          text-align: left;
+          display: none;
+        }
       }
       .postTime {
         font-family: "ProximaNova-Regular";
@@ -47,6 +85,7 @@
         line-height: 18px;
         display: flex;
         align-items: center;
+        padding: 5px 0px;
       }
     }
   }
