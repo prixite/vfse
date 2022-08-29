@@ -7,6 +7,7 @@ import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastAc
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useUsersActiveUsersListQuery } from "@src/store/reducers/generated";
 
 const { lastActiveUser, seeAll } = localizedData().Faq;
@@ -14,6 +15,7 @@ const { lastActiveUser, seeAll } = localizedData().Faq;
 const LastActiveUser = () => {
   const [browserWidth] = useWindowSize();
   const { data, isLoading } = useUsersActiveUsersListQuery();
+  const { loading } = constantsData.common;
   return (
     <>
       {browserWidth > mobileWidth ? (
@@ -99,7 +101,7 @@ const LastActiveUser = () => {
               </div>
             </Box>
           ) : (
-            <p> Loading ...</p>
+            <p> {loading}</p>
           )}
         </>
       ) : (

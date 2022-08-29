@@ -7,6 +7,7 @@ import TopicComment from "@src/components/common/presentational/topicComment/Top
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { parseLink } from "@src/helpers/paging";
 import { mobileWidth } from "@src/helpers/utils/config";
+import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery, api } from "@src/store/reducers/api";
 import {
@@ -17,6 +18,8 @@ import "@src/components/common/smart/topicCommentSection/topicCommentSection.scs
 
 const TopicCommentSection = () => {
   const [browserWidth] = useWindowSize();
+  const { enterKey, posting, addReply, showMoreComments, showLessComments } =
+    constantsData.topicCommentSection;
   const selectedOrganization = useSelectedOrganization();
   const { topicId } = useParams<{ topicId: string }>();
   const [page, setPage] = useState(1);
@@ -69,7 +72,7 @@ const TopicCommentSection = () => {
   };
 
   const keyPressEnter = (event) => {
-    if (event.key == "Enter") {
+    if (event.key == enterKey) {
       addCommentHandler();
     }
   };
@@ -117,7 +120,7 @@ const TopicCommentSection = () => {
             display: { xs: "none", sm: "none", md: "flex" },
           }}
         >
-          {isCommentPosting ? "Posting..." : "Add reply"}
+          {isCommentPosting ? posting : addReply}
         </Button>
       </Box>
       {!isCommentsLoading ? (
@@ -133,7 +136,7 @@ const TopicCommentSection = () => {
               style={{ cursor: "pointer", margin: "5px" }}
               onClick={handlePagination}
             >
-              {totalPages > page ? "Show more comments" : "Show less comments"}{" "}
+              {totalPages > page ? showMoreComments : showLessComments}{" "}
             </div>
           ) : (
             ""

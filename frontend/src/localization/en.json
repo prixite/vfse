@@ -1,6 +1,7 @@
 {
     "common":{
-        "searching": "Searching ..."
+        "searching": "Searching ...",
+        "loading": "Loading ..."
     },
     "users":{
             "addUser": "Add User",
@@ -110,7 +111,8 @@
         }
     },
     "article" :  {
-        "btnAdd": "Add Article"
+        "btnAdd": "Add Article",
+        "allArticles": "All Articles"
     },
     "category" : {
         "btnAdd" : "Add Category"
@@ -157,6 +159,8 @@
         "noDataTitle": "Sorry! No results found. :(",
         "noDataDescription": "Try Again",
         "newHealthNetwork": " New Health Network",
+        "networksText": "networks",
+        "sitesText": "sites",
         "popUp":{
             "popUpNewOrganization": "New Organization",
             "newOrganizationPageTrackerdesc1": "Step",
@@ -201,7 +205,11 @@
         "heading" : "Drag & Drop",
         "description" : " files here or",
         "button" : "Browse",
-        "info" : "up to 20mb"
+        "info" : "up to 20mb",
+        "options": {
+            "uploadAndHide": "Uploadoptions hideOptions",
+            "upload": "Uploadoptions"
+        }
     },
     "healthNetwork" : {
         "name" : "Health Network Name",
@@ -209,7 +217,10 @@
         "color1" : "Color #1",
         "color2" : "Color #2",
         "color3" : "Color #3",
-        "color4" : "Color #4"
+        "color4" : "Color #4",
+        "nameRequired": "Name is required",
+        "imageRequired": "Image is required",
+        "networkDuplicateError": "Organization with this Name already exists"
     },
     "siteSection" : {
         "site": "Site Name #"
@@ -260,7 +271,9 @@
     },
     "knowledgeBase" : {
        "title" : "Knowledge base",
-       "subTitle" : "Top Help Articles"
+       "subTitle" : "Top Help Articles",
+       "delete": "Delete",
+       "seeAllFolders": "See All Folders"
     },
     "Faq": {
        "dashboard" : "Dashboard",
@@ -279,7 +292,8 @@
      },
     "articleCard" : {
         "numberTitle": "articles",
-        "explore": "Explore"
+        "explore": "Explore",
+        "deleteCard": "Delete"
     },
     "folderSection": {
         "backBtn": "Back to all"
@@ -295,5 +309,238 @@
         "title1": "Overview",
         "title2": "Getting started",
         "title3": "Start guide"
+    },
+    "toastData": {
+        "documentationBtnLinkCopy": "Link Copied",
+        "commentCardCommentFailed": "Comment Failed to Delete",
+        "clientCardOrgDeleteSuccess": "Organization successfully deleted.",
+        "articleCardFolderDeleteSuccess": "Folder successfully deleted.",
+        "articleCardFolderDeleteError": "Problem occured while deleting Folder",
+        "chatBoxReqProceedError": "We can not proceed ypur request at that time.",
+        "chatBoxErrorOcccured": "Error occured",
+        "knowledgeCardArticleDeleteSuccess": "Article successfully deleted.",
+        "knowledgeCardArticleDeleteError": "Problem occured while deleting Article",
+        "networkCardDeleteSuccess": "Network successfully deleted.",
+        "systemCardDeleteSuccess": "System successfully deleted.",
+        "systemCardConnectionError": "Could not connect.",
+        "systemCardLinkCopiedSuccess": "Link Copied.",
+        "accountSectionUsernameUpdateSuccess": "Username updated successfully.",
+        "appearanceSectionClientUpdateSuccess": "Client successfully updated.",
+        "appearanceSectionClientUpdateError": "Error updating client",
+        "commentsDrawerAddNoteError": "Note not added",
+        "editCommentUpdateError": "Failed to update comment",
+        "articleUpdateSuccess": "Article Updated Successfully.",
+        "documentationSectionLinkCopiedSuccess": "Link Copied",
+        "documentationSectionDeleteSuccess": "Documentation successfully deleted.",
+        "userSectionLocked": "User is locked.",
+        "userSectionUnlocked": "User is unlocked"
+    },
+    "noCommentFound": {
+        "noComments": "This system has no comments",
+        "share": "Start Sharing your thoughts"
+    },
+    "chatBox": {
+        "placeholderText": "How may I answer your query..."
+    },
+    "profilePopOver": {
+        "profile": "Profile",
+        "account": "Account",
+        "defaultOrganization": "Default Organization",
+        "logout": "Logout"
+    },
+    "profileTimeLineCard": {
+        "follow": "Follow",
+        "following": "Following"
+    },
+    "recentActivity": {
+        "title": "Recent Activity"
+    },
+    "systemCard": {
+        "loaded": "loaded",
+        "unloaded": "unloaded",
+        "fontFamily": "fontFamily",
+        "textDecoder_utf_8": "utf-8",
+        "organizationId": "organization_id",
+        "id": "system_id",
+        "port": "port",
+        "portNumber": "22",
+        "root": "root",
+        "color": "xterm-256color",
+        "username": "username",
+        "term": "term",
+        "xsrf": "_xsrf",
+        "sshTerminalText": "SSH Terminal",
+        "blank": "_blank",
+        "yes": "Yes",
+        "no": "No",
+        "format_l": "l",
+        "format_LT": "LT",
+        "support": "Support",
+        "edit": "Edit",
+        "comments": "Comments",
+        "deleteText": "Delete"
+    },
+    "topicCard": {
+        "followers": "Followers",
+        "follower": "Follower",
+        "noFollowers": "No Followers"
+    },
+    "topicComments": {
+        "reply": " Reply",
+        "sharedText": "Shared",
+        "copied": "Copied",
+        "replies": " Replies"
+    },
+    "topicReply": {
+        "enterKey": "Enter",
+        "showMoreReplies": "Show more replies",
+        "showLessReplies": "Show less replies",
+        "posting": "Posting...",
+        "replyText": "Reply"
+    },
+    "topicToggler": {
+        "allTopics": "allTopics",
+        "followed": "followed",
+        "created": "created",
+        "allTopicsText": "All topics",
+        "followedTopicsText": "Followed topics",
+        "createdTopicsText": "Created topics"
+    },
+    "topicUpdateCard": {
+        "follow": "Follow",
+        "following": "Following"
+    },
+    "vfsePopOver": {
+        "vfse_popover": "vfse-popover"
+    },
+    "accountSection": {
+        "firstNameRequired": "First name is required!",
+        "lastNameRequired": "Last name is required!",
+        "oldPasswordRequired": "Old password is required!",
+        "passwordRequired": "Password is required!",
+        "confirmPasswordRequired": "Confirm password is required!",
+        "passwordValidationError": "Your password must be 8 characters long and a mixture of uppercase, lowercase and special characters",
+        "profilePictureTitle": "Profile picture",
+        "somethingWrong": "Something went wrong",
+        "firstName": "firstname",
+        "lastName": "lastname",
+        "password": "password",
+        "passwordsDoNotMatch": "Passwords do not match!",
+        "accountSettings": "Account Settings",
+        "updateName": "Update Name",
+        "save": "Save",
+        "updatePasswordText": "Update Password"
+    },
+    "appearanceSection": {
+        "sidebarColor": "sidebarColor",
+        "sidebar_color": "sidebar_color",
+        "buttonColor": "buttonColor",
+        "primary_color": "primary_color",
+        "sidebarContentColor": "sidebarContentColor",
+        "sidebar_text": "sidebar_text",
+        "secondColor": "secondColor",
+        "secondary_color": "secondary_color",
+        "buttonContentColor": "buttonContentColor",
+        "button_text": "button_text",
+        "mainContentFont": "mainContentFont",
+        "font_one": "font_one",
+        "sideBarFont": "sideBarFont",
+        "font_two": "font_two",
+        "banner": "banner",
+        "logo": "logo",
+        "icon": "icon",
+        "clientNameText": "Client Name",
+        "logoText": "Logo",
+        "sidebar": "Sidebar",
+        "buttons": "Buttons",
+        "sidebarText": "Sidebar Text",
+        "buttonsText": "Buttons Text",
+        "secondaryColorText": "Secondary Color",
+        "helvetica": "Helvetica",
+        "calibiri": "Calibiri",
+        "proximaNova": "ProximaNova",
+        "AaBbCcDd": "AaBbCcDd",
+        "save": "Save"
+    },
+    "commentsDrawer": {
+        "commentsText": "Comments",
+        "add": "Add",
+        "save": "Save"
+    },
+
+    "countingInfoSection": {
+        "system_count": "system_count",
+        "allDevices": "all Devices",
+        "online_system_count": "online_system_count",
+        "devicesOnline": "Devices online",
+        "offline_system_count": "offline_system_count",
+        "devicesOffline": "Devices offline",
+        "last_month_logged_in_user": "last_month_logged_in_user",
+        "last_month_logged_in_user_text": "Last month Logged In User",
+        "workOrders": "Work Orders"
+    },
+
+    "documentationSection": {
+        "add": "add",
+        "edit": "edit",
+        "editText": "Edit",
+        "deleteText": "Delete"
+    },
+    "knowledgeSections": {
+        "home": "home",
+        "categories": "categories",
+        "articles": "articles",
+        "labelCategory": "See All Categories",
+        "labelArticle": "See All Articles"
+    },
+    "profileTabs": {
+        "activity": "Activity"
+    },
+    "systemSection": {
+        "networksText": "networks",
+        "sitesText": "sites",
+        "modalityText": "modality",
+        "siteText": "site",
+        "mri": "mri",
+        "organizationsSystemsList": "organizationsSystemsList",
+        "health_network": "health_network"
+    },
+    "topicCommentSection": {
+        "enterKey": "Enter",
+        "posting": "Posting...",
+        "addReply": "Add Reply",
+        "showMoreComments": "Show more comments",
+        "showLessComments": "Show less comments"
+    },
+    "topViewButtons": {
+        "modality": "modality",
+        "organizations": "organizations",
+        "sites": "sites",
+        "users": "users",
+        "systems": "systems",
+        "documentation": "documentation",
+        "description": "description",
+        "knowledge_base": "knowledge-base",
+        "knowledge_base_category": "knowledge-base-category",
+        "knowledge_base_folder": "knowledge-base-folder",
+        "health_network": "health_network",
+        "siteText": "site",
+        "filterByNetworkText": "Filter by network",
+        "filterBySiteText": "Filter by site",
+        "add": "add"
+    },
+    "userCard": {
+        "email": "Email",
+        "customer": "Customer",
+        "status": "Status"
+    },
+    "vfseTopSection": {
+        "sortBy": "Sort By",
+        "none": "None",
+        "updatedAt": "Updated At",
+        "createdAt": "Created At",
+        "filterText": "Filter",
+        "ascending": "Ascending",
+        "descending": "Descending"
     }
 }

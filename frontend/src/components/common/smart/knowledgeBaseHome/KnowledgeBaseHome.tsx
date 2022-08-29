@@ -11,6 +11,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { api, Category, Document } from "@src/store/reducers/api";
 const KnowledgeBaseHome = () => {
   const classes = useStyles();
@@ -21,6 +22,7 @@ const KnowledgeBaseHome = () => {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const { knowledgeBase } = constantsData;
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { organizationRoute } = constants;
   const { id } = useParams<{ id?: string }>();
@@ -70,7 +72,7 @@ const KnowledgeBaseHome = () => {
         setData={setCategoryListForSearch}
       />
       <h2 className={classes.subHeading} pt={5}>
-        Top Help Articles
+        {knowledgeBase.subTitle}
       </h2>
       <Grid container spacing={1} mt={3}>
         {articlesList.map((item, index) => (
@@ -91,7 +93,7 @@ const KnowledgeBaseHome = () => {
               className={classes.seeAll}
               to={`/${organizationRoute}/${id}/knowledge-base/category/${category?.id}`}
             >
-              See All Folders
+              {knowledgeBase.seeAllFolders}
             </Link>
           </div>
           <Grid container spacing={2}>

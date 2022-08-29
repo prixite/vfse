@@ -16,6 +16,7 @@ import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentM
 import { mobileWidth } from "@src/helpers/utils/config";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,
@@ -112,6 +113,7 @@ export default function DocumentationSection() {
   const openModal = Boolean(anchorEl);
   const [openConfModal, setOpenConfModal] = useState(false);
   const [browserWidth] = useWindowSize();
+  const { toastData, documentationSection } = constantsData;
 
   const [deleteProductModel] = useProductsModelsDeleteMutation();
 
@@ -214,7 +216,7 @@ export default function DocumentationSection() {
           src={LinkLogo}
           onClick={() => {
             navigator?.clipboard?.writeText(link);
-            toast.success("Link Copied.", {
+            toast.success(toastData.documentationSectionLinkCopiedSuccess, {
               autoClose: timeOut,
               pauseOnHover: false,
             });
@@ -242,7 +244,7 @@ export default function DocumentationSection() {
 
   const handleActionClose = () => {
     setAnchorEl(null);
-    setAction("add");
+    setAction(documentationSection.add);
     setCurrentProductModel(null);
   };
 
@@ -250,7 +252,7 @@ export default function DocumentationSection() {
     handleModalClose();
     handleActionClose();
     await deleteProductModelService(currentDoc, deleteProductModel);
-    toast.success("Documentation successfully deleted.", {
+    toast.success(toastData.documentationSectionDeleteSuccess, {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -265,7 +267,7 @@ export default function DocumentationSection() {
   };
 
   const editDocumentModal = async () => {
-    setAction("edit");
+    setAction(documentationSection.edit);
     setOpen(true);
     setAnchorEl(null);
   };
@@ -380,8 +382,12 @@ export default function DocumentationSection() {
         className="UserDropdownMenu"
         onClose={handleActionClose}
       >
-        <MenuItem onClick={() => editDocumentModal()}>Edit</MenuItem>
-        <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+        <MenuItem onClick={() => editDocumentModal()}>
+          {documentationSection.editText}
+        </MenuItem>
+        <MenuItem onClick={handleModalOpen}>
+          {documentationSection.deleteText}
+        </MenuItem>
       </Menu>
       <DocumentModal
         open={open}

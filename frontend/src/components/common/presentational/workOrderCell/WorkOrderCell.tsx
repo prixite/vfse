@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import "@src/components/common/presentational/workOrderCell/workOrderCell.scss";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsModalitiesListQuery,
@@ -18,7 +19,6 @@ import {
 const { connect } = localizedData().systems_card;
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -46,6 +46,7 @@ export default function WorkOrderCell() {
   const [value, setValue] = useState("");
   const selectedOrganization = useSelectedOrganization();
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const { loading } = constantsData.common;
   const { buttonTextColor, buttonBackground } = useAppSelector(
     (state) => state.myTheme
   );
@@ -132,7 +133,7 @@ export default function WorkOrderCell() {
               />
             )
           ) : (
-            <p>Loading ...</p>
+            <p>{loading}</p>
           )}
         </Box>
       </Box>

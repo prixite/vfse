@@ -7,6 +7,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import CardSkeleton from "@src/components/common/presentational/cardSkeleton/CardSkeleton";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { useSystemsImagesListQuery } from "@src/store/reducers/api";
 
@@ -62,6 +63,7 @@ const RenderImage = ({ src, imgIndex, index }: imgProps) => {
 
 const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
   const { data, isFetching } = useSystemsImagesListQuery();
+  const { loading } = constantsData.common;
 
   useEffect(() => {
     if (data?.length && systemImage === 0) {
@@ -120,7 +122,7 @@ const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
                   color: "#696f77",
                 }}
               >
-                Loading...
+                {loading}
               </h4>
             }
             scrollableTarget="scrollableDiv"
@@ -140,7 +142,7 @@ const SystemImageGallery = ({ setSystemImage, systemImage }: galleryProps) => {
           </InfiniteScroll>
         </ImageList>
       ) : (
-        <h3>loading</h3>
+        <h3>{loading}</h3>
       )}
     </div>
   );

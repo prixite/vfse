@@ -9,6 +9,7 @@ import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch } from "@src/store/hooks";
 import {
@@ -46,6 +47,7 @@ const NetworkCard = ({
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { id } = useParams();
+  const { toastData } = constantsData;
 
   const handleModalOpen = () => {
     setOpenModal(true);
@@ -64,7 +66,7 @@ const NetworkCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(networkId, deleteOrganization);
-    toast.success("Network successfully deleted.", {
+    toast.success(toastData.networkCardDeleteSuccess, {
       autoClose: timeOut,
       pauseOnHover: false,
     });

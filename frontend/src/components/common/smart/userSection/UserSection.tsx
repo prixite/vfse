@@ -14,6 +14,7 @@ import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import {
   deactivateUserService,
   activateUserService,
@@ -176,6 +177,8 @@ export default function UserSection() {
   const { searching } = localizedData().common;
   const [userDeactivateMutation] = useUsersDeactivatePartialUpdateMutation();
   const [userActivateMutation] = useUsersActivatePartialUpdateMutation();
+  const { toastData } = constantsData;
+  const { loading } = constantsData.common;
 
   const { noDataDescription, noDataTitle } = localizedData().organization;
 
@@ -296,7 +299,7 @@ export default function UserSection() {
 
   const deactivateUser = async (id) => {
     await deactivateUserService(id, userDeactivateMutation);
-    toast.success("User is locked.", {
+    toast.success(toastData.userSectionLocked, {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -305,7 +308,7 @@ export default function UserSection() {
 
   const activateUser = async (id) => {
     await activateUserService(id, userActivateMutation);
-    toast.success("User is unlocked.", {
+    toast.success(toastData.userSectionUnlocked, {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -534,7 +537,7 @@ export default function UserSection() {
               marginTop: "20%",
             }}
           >
-            <h2>{query?.trim().length > 2 ? searching : "Loading..."}</h2>
+            <h2>{query?.trim().length > 2 ? searching : loading}</h2>
           </div>
         ) : (
           ""

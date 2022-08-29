@@ -218,11 +218,16 @@ export interface Page505 {
   description: string;
 }
 
+export interface DropzoneOptions {
+  uploadAndHide: string;
+  upload: string;
+}
 export interface Dropzone {
   heading: string;
   description: string;
   button: string;
   info: string;
+  options: DropzoneOptions;
 }
 
 export interface HealthNetwork {
@@ -232,6 +237,9 @@ export interface HealthNetwork {
   color2: string;
   color3: string;
   color4: string;
+  nameRequired: string;
+  imageRequired: string;
+  networkDuplicateError: string;
 }
 
 export interface SiteSection {
@@ -293,6 +301,7 @@ export interface KnowledgeBase {
 export interface ArticleCard {
   numberTitle: string;
   explore: string;
+  deleteCard: string;
 }
 
 export interface folderSection {

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 import CommentCard from "@src/components/common/presentational/commentCard/CommentCard";
 import NoCommentsFound from "@src/components/common/presentational/noCommentsFound/NoCommentsFound";
+import constantsData from "@src/localization/en.json";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import {
   useAppSelector,
@@ -23,6 +24,7 @@ import { closeSystemDrawer } from "@src/store/reducers/appStore";
 const CommentsDrawer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [note, setNote] = useState("");
+  const { toastData, commentsDrawer } = constantsData;
   const { fontTwo, buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -58,7 +60,7 @@ const CommentsDrawer = () => {
     if (note) {
       await addNewSystemNoteService(me?.id, systemID, note, addNewNote).catch(
         () =>
-          toast.error("Note not added", {
+          toast.error(toastData.commentsDrawerAddNoteError, {
             autoClose: 1000,
             pauseOnHover: false,
           })
@@ -86,7 +88,7 @@ const CommentsDrawer = () => {
       onClose={() => dispatch(closeSystemDrawer())}
     >
       <div className="DrawerHeader">
-        <h3 className="title">Comments</h3>
+        <h3 className="title">{commentsDrawer.commentsText}</h3>
         <CloseIcon
           style={{ cursor: "pointer" }}
           onClick={() => dispatch(closeSystemDrawer())}
@@ -125,7 +127,7 @@ const CommentsDrawer = () => {
                   className="AddCommentBtn"
                   onClick={addNewComment}
                 >
-                  Add
+                  {commentsDrawer.add}
                 </Button>
               </InputAdornment>
             ),
