@@ -2335,7 +2335,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Topic"
+                                "$ref": "#/definitions/TopicDetail"
                             }
                         }
                     }
