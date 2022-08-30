@@ -618,7 +618,7 @@ class ProductModel(models.Model):
     model = models.CharField(max_length=50)
     modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     documentation = models.ForeignKey(
-        "Documentation", null=True, on_delete=models.SET_NULL
+        "Documentation", null=True, blank=True, on_delete=models.SET_NULL
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
