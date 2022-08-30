@@ -471,12 +471,17 @@ const SystemCard = ({
                   {system.asset_number || "-"}
                 </strong>
               </p>
-              <p className={classes.option}>
-                {helium_level} <br />
-                <strong className={classes.titleStrong}>
-                  {system.mri_embedded_parameters?.helium || "-"}
-                </strong>
-              </p>
+              {system.product_model_detail?.modality?.group.toLowerCase() ===
+              "mri" ? (
+                <p className={classes.option}>
+                  {helium_level} <br />
+                  <strong className={classes.titleStrong}>
+                    {system.mri_embedded_parameters?.helium || "-"}
+                  </strong>
+                </p>
+              ) : (
+                ""
+              )}
               <p className={classes.option}>
                 {mpc_status} <br />
                 <strong className={classes.titleStrong}>
