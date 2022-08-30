@@ -9,7 +9,7 @@ import { localizedData } from "@src/helpers/utils/language";
 const WorkOrderSection = () => {
   const { organizationRoute } = constants;
   const { id } = useParams<{ id?: string }>();
-  const { workOrders } = localizedData().Faq;
+  const { workOrders, seeAll } = localizedData().Faq;
   return (
     <>
       <Box component="div" className="WorkOrderSection">
@@ -19,7 +19,7 @@ const WorkOrderSection = () => {
             className="subheading"
             to={`/${organizationRoute}/${id}/systems/`}
           >
-            See All
+            {seeAll}
           </Link>
         </div>
         <div className="WorkOrderSectionBottom">

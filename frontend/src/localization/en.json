@@ -107,7 +107,15 @@
             "btnSave": "Add",
             "btnToSave": "Save",
             "btnEdit": "Edit",
-            "btnCancel": "Cancel"
+            "btnCancel": "Cancel",
+            "documentNotUploaded": "Document is not uploaded",
+        "modelNameRequired": "Model Name is required",
+        "addText": "add",
+        "docLinkText": "docLink",
+        "modalText": "modal",
+        "modalityText": "modality",
+        "editText": "edit",
+        "pdf": ".pdf"
         }
     },
     "article" :  {
@@ -178,7 +186,25 @@
             "newOrganizationFont1": "Main content:",
             "newOrganizationFont2": "Sidebar content:",
             "newOrganizationHealthNetworks": "Health networks",
-            "newOrganizationAddNetwork": "Add Network"
+            "newOrganizationAddNetwork": "Add Network",
+            "nameRequired": "Name is required",
+            "imageNotSelected":"Image is not selected",
+            "seatsNotSelected": "Seats is not selected",
+            "organizationSeats": "organizationSeats",
+            "sidebarColor": "sidebarColor",
+            "buttonColor": "ButtonColor",
+            "sidebarTextColor": "sidebarTextColor",
+            "btnTextColor": "ButtonTextColor",
+            "secondColor": "secondColor",
+            "networksText": "networks",
+            "organizationLogo": "organizationLogo",
+            "addClientText": "Add Client",
+            "helvetica": "Helvetica",
+            "calibri": "Calibri",
+            "proximaNova": "ProximaNova",
+            "AaBbCcDd": "AaBbCcDd",
+            "loadingHealthNetworks": "Loading Health Networks",
+            "loading": "Loading ..."
         },
         "deleteDialog" : {
             "dialogMessage" : "Are you sure you want to delete?",
@@ -230,7 +256,15 @@
         "fieldAddress": "Address",
         "btnAdd": "Add",
         "btnEdit": "Edit",
-        "btnCancel": "Cancel"
+        "btnCancel": "Cancel",
+        "popUp": {
+            "nameRequired":"Name is required",
+            "addressRequired": "Address is required",
+            "addText": "add",
+            "editText": "edit",
+            "addSite": "Add Site",
+            "editSite": "Edit Site"
+        }
     },
     "systemModal" : {
         "fieldName": "Name",
@@ -262,7 +296,24 @@
         "headdingAddInfo": "Add Info",
         "btnAdd": "Add",
         "btnEdit": "Edit",
-        "btnCancel": "Cancel"
+        "btnCancel": "Cancel",
+        "popUp": {
+            "imageRequired":"Image is a required field",
+            "modalityRequired": "Modality is a required field",
+            "manufacturerRequired": "Manufacturer is a required field",
+            "productRequired": "Product is a required field",
+            "modelRequired": "Model is a required field",
+            "nameRequired": "Name is a required field",
+            "siteRequired": "Site is a required field",
+            "mriText": "mri",
+            "siteText": "site",
+            "selectImage": "Select Image",
+            "systemImageText": "systemImage",
+            "vFSE": "vFSE",
+            "ssh": "SSH",
+            "serviceWebBrowser": "Service web browser",
+            "virtualMediaControl": "Virtual Media control"
+        }
     },
     "confirmSiteDialog" : {
         "dialogMessage" : "Sites do not exist for this organization, you have to create site first to create system.",
@@ -333,7 +384,24 @@
         "documentationSectionLinkCopiedSuccess": "Link Copied",
         "documentationSectionDeleteSuccess": "Documentation successfully deleted.",
         "userSectionLocked": "User is locked.",
-        "userSectionUnlocked": "User is unlocked"
+        "userSectionUnlocked": "User is unlocked",
+        "articleAddSuccess": "Article Successfully added.",
+        "articleAddError": "Error occured while adding Article",
+        "categoryAddSuccess": "Category Successfully added.",
+        "categoryAddError": "Error occured while adding Category",
+        "modalAlreadyExists": "Model with given name already exists for selected product",
+        "folderAddSuccess": "Folder Successfully added.",
+        "folderAddError": "Error occured while adding Folder",
+        "saveHealthNetworkError": "Error occurred while saving health network",
+        "addHealthNetworkError": "Error occurred while adding health network",
+        "uploadImageFailedError": "Failed to upload image",
+        "addOrganizationError": "Error occurred while adding organization",
+        "saveOrganizationError": "Error occurred while saving organization",
+        "addNetworksFirstError": "Add Networks first",
+        "saveSiteError": "Error occured while saving site",
+        "siteAlreadyExistsError": "Site with this name already exists.",
+        "systemSaveSuccess": "System successfully saved",
+        "systemSaveError": "Error occured while saving system"
     },
     "noCommentFound": {
         "noComments": "This system has no comments",
@@ -542,5 +610,55 @@
         "filterText": "Filter",
         "ascending": "Ascending",
         "descending": "Descending"
+    },
+    "sideBar": {
+        "knowledge_base": "knowledge-base",
+        "forum": "forum",
+        "faq": "faq",
+        "vFSE": "vFSE"
+    },
+    "articleModal": {
+        "titleRequired": "Title is required",
+        "textRequired": "Text is required",
+        "categoryRequired": "Category is required",
+        "pdf": ".pdf",
+        "document_link": "document_link",
+        "categories": "categories",
+        "folder": "folder",
+        "addArticleText": "Add Article",
+        "titleText": "Title",
+        "contentText": "content",
+        "categoryText": "Category",
+        "folderText": "Folder",
+        "uploadDocumentText": "Upload a document",
+        "uploadText": "upload",
+        "cancelText": "Cancel"
+    },
+    "categoryModal": {
+        "colorTextRequired": "Color Text is required!",
+        "colorRequired": "Color is required!",
+        "addCategoryText": "Add Category",
+        "colorNameText": "Color Name",
+        "cancelText": "Cancel"
+    },
+    "deleteNoteModal": {
+        "deleteThisComment": "Delete this comment?"
+    },
+    "folderModalPopUp": {
+        "nameRequired":"Name is required",
+        "addFolderText": "Add Folder",
+        "folderNameText": "Folder Name",
+        "folderCategoryText": "Folder Category",
+        "cancel": "Cancel"
+    },
+    "listModalPopUp": {
+        "close": "Close"
+    },
+    "networkModalPopUp": {
+        "nameRequired":"Name is required",
+        "imageNotSelected": "Image is not selected",
+        "editText": "edit",
+        "networkLogoText": "networkLogo",
+        "sitePointerText": "sitePointer"
     }
 }

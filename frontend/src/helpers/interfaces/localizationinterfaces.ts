@@ -118,6 +118,12 @@ export interface PopUp4 {
   modalities: string;
   btnEdit: string;
   btnCancel: string;
+  addText: string;
+  docLinkText: string;
+  modalText: string;
+  modalityText: string;
+  editText: string;
+  pdf: string;
 }
 
 export interface Documentation {

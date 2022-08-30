@@ -23,6 +23,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
@@ -87,13 +88,21 @@ const initialState: FormState = {
 };
 
 const validationSchema = yup.object({
-  systemImage: yup.string().required("Image is a required field"),
-  modality: yup.string().required("Modality is a required field"),
-  manufacturer: yup.string().required("Manufacturer is a required field"),
-  product: yup.string().required("Product is a required field"),
-  model: yup.string().required("Model is a required field"),
-  name: yup.string().required("Name is a required field"),
-  site: yup.string().required("Site is a required field"),
+  systemImage: yup
+    .string()
+    .required(constantsData.systemModal.popUp.imageRequired),
+  modality: yup
+    .string()
+    .required(constantsData.systemModal.popUp.modalityRequired),
+  manufacturer: yup
+    .string()
+    .required(constantsData.systemModal.popUp.manufacturerRequired),
+  product: yup
+    .string()
+    .required(constantsData.systemModal.popUp.productRequired),
+  model: yup.string().required(constantsData.systemModal.popUp.modelRequired),
+  name: yup.string().required(constantsData.systemModal.popUp.nameRequired),
+  site: yup.string().required(constantsData.systemModal.popUp.siteRequired),
   grafana: yup.string().url().nullable(),
 });
 
@@ -157,7 +166,17 @@ const getPayload = (values: FormState): System => {
 export default function SystemModal(props: SystemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [sites, setSites] = useState([]);
-
+  const {
+    mriText,
+    siteText,
+    selectImage,
+    systemImageText,
+    vFSE,
+    ssh,
+    serviceWebBrowser,
+    virtualMediaControl,
+  } = constantsData.systemModal.popUp;
+  const { toastData } = constantsData;
   const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
@@ -178,12 +197,12 @@ export default function SystemModal(props: SystemProps) {
           id: selectedOrganization.id.toString(),
           system: getPayload(values),
         }).unwrap();
-        toast.success("System successfully saved.");
+        toast.success(toastData.systemSaveSuccess);
       } catch (error) {
         setDisableButton(false);
         if (error?.status < 500)
           toast.error(error.data[Object.keys(error.data)[0]][0]);
-        else toast.error("Error occurred while saving system");
+        else toast.error(toastData.systemSaveError);
       } finally {
         handleClear();
       }
@@ -256,7 +275,7 @@ export default function SystemModal(props: SystemProps) {
       Boolean(
         modalityData.find(
           (value) =>
-            value.group === "mri" &&
+            value.group === mriText &&
             value.id === parseInt(formik.values.modality)
         )
       ),
@@ -395,7 +414,7 @@ export default function SystemModal(props: SystemProps) {
 
   useEffect(() => {
     if (sites.length && !props.system) {
-      formik.setFieldValue("site", sites[0].id);
+      formik.setFieldValue(siteText, sites[0].id);
     }
   }, [sites.length, Boolean(props.system)]);
 
@@ -413,10 +432,10 @@ export default function SystemModal(props: SystemProps) {
       </DialogTitle>
       <DialogContent>
         <div className="modal-content">
-          <p className="gallery-title required">Select Image</p>
+          <p className="gallery-title required">{selectImage}</p>
           <SystemImageGallery
             setSystemImage={(value) =>
-              formik.setFieldValue("systemImage", value)
+              formik.setFieldValue(systemImageText, value)
             }
             systemImage={formik.values.systemImage}
           />
@@ -623,7 +642,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.vfse}
                 />
-                <span className="text">vFSE [VNC OR OTHER]</span>
+                <span className="text">{vFSE} [VNC OR OTHER]</span>
               </Grid>
               <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -634,7 +653,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.ssh}
                 />
-                <span className="text">SSH [or terminal]</span>
+                <span className="text">{ssh}[or terminal]</span>
               </Grid>
               <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -645,7 +664,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.web}
                 />
-                <span className="text">Service web browser</span>
+                <span className="text">{serviceWebBrowser}</span>
               </Grid>
               <Grid xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -658,7 +677,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.virtual}
                 />
-                <span className="text">Virtual media control</span>
+                <span className="text">{virtualMediaControl}</span>
               </Grid>
             </Grid>
             <Grid container spacing={2}>
