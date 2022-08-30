@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
@@ -22,8 +22,6 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const [placeholder, setPlaceHolder] = useState<string>(
     "How may I answer your query..."
   );
-  const [isActive, setIsActive] = useState<boolean>(false);
-
   const [arrayToDisplay, setArrayToDiplay] = useState<string[]>([]);
   const resetQuery = () => {
     setPlaceHolder("");
@@ -37,23 +35,13 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
     }
   };
 
-  useEffect(() => {
-    return () => {
-      setIsActive(false);
-    };
-  }, [isActive]);
-
   const handleChatting = () => {
-    setIsActive(true);
-    setArrayToDiplay((oldArray) => [...oldArray, `${yourQuery}`]);
     setIsLoading(true);
+    setArrayToDiplay((oldArray) => [...oldArray, `${yourQuery}`]);
     postChat({ sysId: system?.id, query: yourQuery })
       .unwrap()
       .then(({ response_text: responseText }) => {
-        setArrayToDiplay((oldArray) => [
-          ...oldArray,
-          `Response ${responseText}`,
-        ]);
+        setArrayToDiplay((oldArray) => [...oldArray, `${responseText}`]);
       })
       .catch((err) => {
         if (err?.status > 500) {
@@ -97,41 +85,45 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         <div className="chatBotResponse">
           {arrayToDisplay?.map((item, index) => {
             return (
-              <Grid
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-                xl={12}
-                marginBottom={1}
-                key={item}
-              >
-                <Box
-                  style={
-                    (index + 1) % 2 !== 0
-                      ? {
-                          // Odd
-                          border: `2px solid ${buttonBackground}`,
-                          width: "95%",
-                          marginRight: "auto",
-                          padding: "5px",
-                          borderRadius: "8px",
-                          boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-                        }
-                      : {
-                          //Even
-                          border: "2px solid #fff",
-                          width: "95%",
-                          marginLeft: "auto",
-                          padding: "5px",
-                          borderRadius: "8px",
-                          boxShadow: "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-                        }
-                  }
+              <>
+                <Grid
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  marginBottom={1}
+                  key={item}
                 >
-                  <p style={{ wordBreak: "break-word" }}>{item}</p>
-                </Box>
-              </Grid>
+                  <Box
+                    style={
+                      (index + 1) % 2 !== 0
+                        ? {
+                            // Odd
+                            border: `2px solid ${buttonBackground}`,
+                            width: "95%",
+                            marginRight: "auto",
+                            padding: "5px",
+                            borderRadius: "8px",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                          }
+                        : {
+                            //Even
+                            border: "2px solid #fff",
+                            width: "95%",
+                            marginLeft: "auto",
+                            padding: "5px",
+                            borderRadius: "8px",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                          }
+                    }
+                  >
+                    <p style={{ wordBreak: "break-word" }}>{item}</p>
+                  </Box>
+                </Grid>
+              </>
             );
           })}
         </div>
@@ -155,7 +147,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
           }}
           onKeyPress={keyPressEnter}
         />
-        {!isLoading || isActive ? (
+        {!isLoading && yourQuery ? (
           <div
             className="sendIcon-Container"
             style={{
