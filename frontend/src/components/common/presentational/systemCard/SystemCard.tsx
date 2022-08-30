@@ -474,7 +474,10 @@ const SystemCard = ({
               <p className={classes.option}>
                 {helium_level} <br />
                 <strong className={classes.titleStrong}>
-                  {system.mri_embedded_parameters?.helium || "-"}
+                  {system?.product_model_detail?.modality?.name ===
+                  "Magnetic Resonance"
+                    ? system.mri_embedded_parameters?.helium
+                    : "-"}
                 </strong>
               </p>
               <p className={classes.option}>
