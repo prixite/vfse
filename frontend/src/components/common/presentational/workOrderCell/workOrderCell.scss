@@ -21,6 +21,25 @@
       height: 8px;
     }
   }
+  .modalities {
+    margin-top: 16px;
+    overflow-x: scroll;
+    z-index: 1000;
+    .modality {
+      flex-wrap: wrap;
+      margin-right: 40px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #696f77;
+      //max-height: 22px !important;
+      padding: 9px 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
   .tab-style {
     font-family: "ProximaNova-Regular";
     font-style: normal;
