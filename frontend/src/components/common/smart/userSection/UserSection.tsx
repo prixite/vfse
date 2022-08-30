@@ -393,7 +393,7 @@ export default function UserSection() {
                     renderCell: (cellValues) =>
                       usersRoles?.find(
                         (x) => x?.value === cellValues?.row?.role[0]
-                      ).title,
+                      )?.title,
                   },
                   {
                     field: "Manager",
