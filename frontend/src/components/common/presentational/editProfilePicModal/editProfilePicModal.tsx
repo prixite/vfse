@@ -11,6 +11,7 @@ import { GridCloseIcon } from "@mui/x-data-grid";
 import { toast } from "react-toastify";
 
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
+import { timeOut } from "@src/helpers/utils/constants";
 import {
   deleteImageFromS3,
   uploadImageToS3,
@@ -49,17 +50,26 @@ const EditProfilePicModal = ({ open, setOpen }) => {
           updatePicture
         )
           .then(() => {
-            toast.success("Profile picture updated successfully");
+            toast.success("Profile picture updated successfully.", {
+              autoClose: timeOut,
+              pauseOnHover: false,
+            });
             setOpen(false);
             refetch();
           })
           .catch(async () => {
-            toast.error("Something went wrong");
+            toast.error("Something went wrong.", {
+              autoClose: timeOut,
+              pauseOnHover: false,
+            });
             await deleteImageFromS3(selectedImage[0]);
           });
       })
       .catch(() => {
-        toast.error("Something went wrong");
+        toast.error("Something went wrong.", {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
       });
   };
 

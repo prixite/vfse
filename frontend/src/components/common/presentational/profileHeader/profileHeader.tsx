@@ -8,7 +8,7 @@ import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
-import { useSelectedOrganization } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
 
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
@@ -25,6 +25,8 @@ const ProfileHeader = () => {
     id: useSelectedOrganization().id.toString(),
   });
 
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+
   return (
     <>
       <Box className="header">
@@ -39,6 +41,11 @@ const ProfileHeader = () => {
           <CameraAltOutlinedIcon
             onClick={handleClickOpen}
             className="cameraIcon"
+            sx={{
+              "&:hover": {
+                color: `${buttonBackground} !important`,
+              },
+            }}
           />
           <EditProfilePicModal open={open} setOpen={setOpen} />
         </Box>
