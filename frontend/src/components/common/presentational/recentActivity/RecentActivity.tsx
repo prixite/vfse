@@ -22,7 +22,7 @@ const RecentActivity = () => {
   return (
     <Box component="div" className="recentActivitycard">
       <div className="recentActivityTitle">
-        <div className="allTopicImg" style={{ display: "flex" }}>
+        <div className="allTopicImg">
           <img src={activityIcon} className="imgStylingMessage" />
         </div>
         <div className="topicHeading">Recent Activity</div>
