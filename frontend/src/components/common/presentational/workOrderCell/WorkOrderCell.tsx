@@ -42,7 +42,7 @@ TabPanel.propTypes = {
 };
 
 export default function WorkOrderCell() {
-  const [modality, setModality] = useState();
+  const [modality, setModality] = useState(null);
   const selectedOrganization = useSelectedOrganization();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { buttonTextColor, buttonBackground } = useAppSelector(
