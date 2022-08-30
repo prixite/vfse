@@ -185,7 +185,7 @@ const AppearanceSection = () => {
                 imgSrc={selectedOrganization?.appearance?.logo}
               />
             </Grid>
-            <Grid item xs={12} md={8} lg={8} mt={4}>
+            <Grid item xs={12} md={8} lg={8} mt={2}>
               <Grid container spacing={1} rowSpacing={2}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
