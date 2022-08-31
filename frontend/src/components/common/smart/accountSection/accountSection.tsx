@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 import { Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
@@ -81,11 +79,6 @@ const AccountSection = () => {
         });
     },
   });
-
-  useEffect(() => {
-    formik.setFieldValue("firstname", currentUser?.first_name);
-    formik.setFieldValue("lastname", currentUser?.last_name);
-  }, [currentUser]);
 
   const passwordFormik = useFormik({
     initialValues: {
