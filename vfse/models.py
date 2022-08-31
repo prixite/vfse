@@ -24,7 +24,7 @@ class Document(models.Model):
     folder = models.ForeignKey(
         "Folder", on_delete=models.CASCADE, related_name="documents", null=True
     )
-    categories = models.ManyToManyField("Category", related_name="documents")
+    categories = models.ManyToManyField("Category", related_name="documents", default=1)
     title = models.CharField(max_length=255, default="", blank=True)
     text = models.TextField()
     created_by = models.ForeignKey(

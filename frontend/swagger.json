@@ -4067,8 +4067,7 @@
             "description": "Document(id, folder, title, text, created_by, favorite, document_link, created_at, updated_at)",
             "required": [
                 "title",
-                "text",
-                "categories"
+                "text"
             ],
             "type": "object",
             "properties": {

@@ -1544,7 +1544,7 @@ export type Document = {
   text: string;
   folder?: number | null;
   favorite?: boolean;
-  categories: number[];
+  categories?: number[];
   document_link?: string | null;
   created_by?: number;
 };
