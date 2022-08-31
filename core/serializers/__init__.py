@@ -100,11 +100,25 @@ class OrganizationSerializer(serializers.ModelSerializer):
             return value
 
 
+class MetaSerialzer(serializers.Serializer):
+    profile_picture = serializers.URLField(required=False)
+    title = serializers.CharField(required=False)
+
+
+class MeUpdateSerializer(serializers.ModelSerializer):
+    meta = MetaSerialzer(default=defaults.ProfileMetaDefault(), required=False)
+
+    class Meta:
+        model = models.User
+        fields = ["first_name", "last_name", "meta"]
+
+
 class MeSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(default=defaults.URLOrganizationDefault())
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
+    can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
 
     class Meta:
         model = models.User
@@ -117,6 +131,7 @@ class MeSerializer(serializers.ModelSerializer):
             "role",
             "profile_picture",
             "is_superuser",
+            "can_leave_notes",
         ]
 
     def get_role(self, obj):
@@ -267,11 +282,6 @@ class UserSerializer(serializers.ModelSerializer):
             "image",
             "sites",
         ]
-
-
-class MetaSerialzer(serializers.Serializer):
-    profile_picture = serializers.URLField(required=False)
-    title = serializers.CharField(required=False)
 
 
 class UpsertUserPasswordSerializer(serializers.Serializer):

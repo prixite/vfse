@@ -41,7 +41,21 @@ class ChatBotView(APIView):
         return Response(response)
 
 
-class MeViewSet(ModelViewSet):
+class MeUpdateViewSet(ModelViewSet, mixins.UserMixin):
+    serializer_class = serializers.MeUpdateSerializer
+
+    def get_queryset(self):
+        return models.User.objects.none()
+
+    def partial_update(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.update_user(serializer.validated_data, request.user)
+        self.update_profile(serializer.validated_data, request.user)
+        return Response(serializer.data)
+
+
+class MeViewSet(ModelViewSet, mixins.UserMixin):
     serializer_class = serializers.MeSerializer
 
     def get_queryset(self):
@@ -77,6 +91,10 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
             raise exceptions.ValidationError("Cannot delete default organization")
 
         models.System.objects.filter(site__organization=instance).delete()
+        models.Site.objects.filter(organization=instance).delete()
+        membership = models.Membership.objects.filter(organization=instance)
+        for item in membership:
+            models.User.objects.filter(pk=item.user.id).delete()
         instance.delete()
 
     def perform_update(self, serializer):
@@ -653,6 +671,7 @@ class ManfucturerViewSet(ModelViewSet):
 
 
 class SystemNoteViewSet(ModelViewSet):
+    permission_classes = [permissions.SystemNotePermissions]
     serializer_class = serializers.SystemNotesSerializer
 
     def get_queryset(self):

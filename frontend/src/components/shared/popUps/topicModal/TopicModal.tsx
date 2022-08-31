@@ -229,7 +229,7 @@ export default function TopicModal({ open, handleClose }: Props) {
       <DialogActions
         style={{
           padding: "21px 21px 20px 24px",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
         }}
       >
         <Button
