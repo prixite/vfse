@@ -705,5 +705,11 @@
         "labelText": "Notify me on follow-up replies via email",
         "cancel": "Cancel",
         "publish": "Publish"
+    },
+    "ManufacturerModal": {
+        "title": "Add manufacturer",
+        "addBtn": "Add",
+        "cancelBtn": "Cancel",
+        "subHeading": "Manufacturer name"
     }
 }
