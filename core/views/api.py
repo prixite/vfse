@@ -671,6 +671,7 @@ class ManfucturerViewSet(ModelViewSet):
 
 
 class SystemNoteViewSet(ModelViewSet):
+    permission_classes = [permissions.SystemNotePermissions]
     serializer_class = serializers.SystemNotesSerializer
 
     def get_queryset(self):
