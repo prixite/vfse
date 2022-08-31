@@ -28,6 +28,36 @@ export interface PopUp {
   userManager: string;
   userCustomer: string;
   newUser: string;
+  imageRequired: string;
+  firstNameRequired: string;
+  lastNameRequired: string;
+  invalidEmailText: string;
+  emailRequired: string;
+  phoneNumberValidation: string;
+  invalidPhoneFormat: string;
+  phoneRequired: string;
+  addText: string;
+  selectManager: string;
+  manager: string;
+  customer: string;
+  role: string;
+  edit: string;
+  userProfileImage: string;
+  phone: string;
+  selectedSites: string;
+  selectedModalities: string;
+  accessToFSEFunctions: string;
+  auditEnable: string;
+  possibilitytoLeave: string;
+  viewOnly: string;
+  oneTimeLinkCreation: string;
+  docLink: string;
+  userProfileImageText: string;
+  editUserText: string;
+  profileImageText: string;
+  sitesText: string;
+  organizationSitesText: string;
+  accessToModalities: string;
 }
 
 export interface Users {

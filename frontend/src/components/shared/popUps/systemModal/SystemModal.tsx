@@ -175,6 +175,7 @@ export default function SystemModal(props: SystemProps) {
     ssh,
     serviceWebBrowser,
     virtualMediaControl,
+    systemContactInfo
   } = constantsData.systemModal.popUp;
   const { toastData } = constantsData;
   const selectedOrganization = useSelectedOrganization();
@@ -683,7 +684,7 @@ export default function SystemModal(props: SystemProps) {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{"System contact info"}</p>
+                  <p className="info-label">{systemContactInfo}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"

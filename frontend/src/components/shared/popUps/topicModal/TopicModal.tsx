@@ -18,7 +18,7 @@ import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-
+import constantsData from "@src/localization/en.json";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
@@ -40,8 +40,8 @@ const initialState: Topic = {
   reply_email_notification: false,
 };
 const validationSchema = yup.object({
-  title: yup.string().required("Title is required"),
-  description: yup.string().required("Description is required"),
+  title: yup.string().required(constantsData.topicModal.titleRequired),
+  description: yup.string().required(constantsData.topicModal.descriptionRequired),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
@@ -59,7 +59,20 @@ export default function TopicModal({ open, handleClose }: Props) {
   const [postTopics] = api.useAddTopicMutation();
   const [selectedImage, setSelectedImage] = useState([]);
   const [isImageUploading, setIsImageUploading] = useState(false);
-
+  const {
+    categoriesText,
+    imageText,
+    createTopic,
+    titleText,
+    descriptionText,
+    chooseCategoriesMax,
+    imageOptional,
+    replyEmailNotification,
+    labelText,
+    cancel,
+    publish
+  } = constantsData.topicModal;
+  const { toastData } = constantsData;
   const { data: categoriesList = [] } = api.useGetCategoriesQuery();
 
   const formik = useFormik({
@@ -76,14 +89,14 @@ export default function TopicModal({ open, handleClose }: Props) {
   );
   const handleSelectedCategories = (event, newFormats) => {
     if (newFormats.length <= 3) {
-      formik.setFieldValue("categories", newFormats);
+      formik.setFieldValue(categoriesText, newFormats);
     }
   };
   const handleImageUploadChange = () => {
     setIsImageUploading(true);
     uploadImageToS3(selectedImage[0])
       .then(async (data: S3Interface) => {
-        formik.setFieldValue("image", data?.location);
+        formik.setFieldValue(imageText, data?.location);
       })
       .finally(() => {
         setIsImageUploading(false);
@@ -102,13 +115,13 @@ export default function TopicModal({ open, handleClose }: Props) {
     })
       .unwrap()
       .then(() => {
-        toast.success(`Succesfully Created.`, {
+        toast.success(`${toastData.topicCreatedSuccess}`, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
       })
       .catch((err) => {
-        toast.error(`Error occured ${err}`, {
+        toast.error(`${toastData.topicCreatedError} ${err}`, {
           autoClose: 3000,
           pauseOnHover: false,
         });
@@ -129,7 +142,7 @@ export default function TopicModal({ open, handleClose }: Props) {
     <Dialog className="topic-modal" open={open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section title-cross">
-          <span className="modal-header">Create Topic</span>
+          <span className="modal-header">{createTopic}</span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
@@ -139,7 +152,7 @@ export default function TopicModal({ open, handleClose }: Props) {
         <div className="modal-content">
           <>
             <div className="modal-content-title">
-              <p className="info-label required">Title</p>
+              <p className="info-label required">{titleText}</p>
               <TextField
                 autoComplete="off"
                 name="title"
@@ -156,7 +169,7 @@ export default function TopicModal({ open, handleClose }: Props) {
               )}
             </div>
             <div className="modal-content-description">
-              <p className="info-label required">Description</p>
+              <p className="info-label required">{descriptionText}</p>
               <TextField
                 className="full-field-desc"
                 type="text"
@@ -174,7 +187,7 @@ export default function TopicModal({ open, handleClose }: Props) {
             <div className="modal-content-header">
               {categories?.length && (
                 <p className="topics-header">
-                  <span className="info-label">Choose categories max(3)</span>
+                  <span className="info-label">{chooseCategoriesMax}(3)</span>
                 </p>
               )}
               <ToggleButtonGroup
@@ -198,7 +211,7 @@ export default function TopicModal({ open, handleClose }: Props) {
               </ToggleButtonGroup>
             </div>
             <div className="modal-content-label">
-              <p className="info-label">Image (optional)</p>
+              <p className="info-label">{imageOptional} (optional)</p>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
@@ -213,13 +226,13 @@ export default function TopicModal({ open, handleClose }: Props) {
                       checked={formik.values.reply_email_notification}
                       onChange={(e) =>
                         formik.setFieldValue(
-                          "reply_email_notification",
+                          replyEmailNotification,
                           e.target.checked
                         )
                       }
                     />
                   }
-                  label="Notify me on follow-up replies via email"
+                  label={labelText}
                 />
               </FormGroup>
             </div>
@@ -240,7 +253,7 @@ export default function TopicModal({ open, handleClose }: Props) {
           onClick={resetModal}
           className="cancel-btn"
         >
-          Cancel
+          {cancel}
         </Button>
         <Button
           style={{
@@ -254,7 +267,7 @@ export default function TopicModal({ open, handleClose }: Props) {
           className="add-btn"
           disabled={isLoading}
         >
-          Publish
+          {publish}
         </Button>
       </DialogActions>
     </Dialog>

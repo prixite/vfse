@@ -1,34 +1,64 @@
 {
-    "common":{
+    "common": {
         "searching": "Searching ...",
         "loading": "Loading ..."
     },
-    "users":{
-            "addUser": "Add User",
-            "userAdministration": "User Administration",
-            "btnFilter": "Filter",
-            "btnAdd": "Add User",
-            "popUp":{
-                "userNameText": "Username",
-                "emailText": "Email",
-                "btnAdd": "Add",
-                "btnCancel": "Cancel",
-                "btnNext": "Next",
-                "btnAddUser": "Add User",
-                "btnEditUser": "Edit User",
-                "addNewUser": "Add User",
-                "pageTrackerdesc1": "Step",
-                "pageTrackerdesc2": "of 2",
-                "userFirstName": "First Name",
-                "btnToSave": "Save",
-                "userLastName": "Last Name",
-                "userEmail": "User Email",
-                "userPhoneNumber": "Phone Number",
-                "userRole": "Role",
-                "userManager": "Manager",
-                "userCustomer": "Customer",
-                "newUser": "New User"
-            }
+    "users": {
+        "addUser": "Add User",
+        "userAdministration": "User Administration",
+        "btnFilter": "Filter",
+        "btnAdd": "Add User",
+        "popUp": {
+            "userNameText": "Username",
+            "emailText": "Email",
+            "btnAdd": "Add",
+            "btnCancel": "Cancel",
+            "btnNext": "Next",
+            "btnAddUser": "Add User",
+            "btnEditUser": "Edit User",
+            "addNewUser": "Add User",
+            "pageTrackerdesc1": "Step",
+            "pageTrackerdesc2": "of 2",
+            "userFirstName": "First Name",
+            "btnToSave": "Save",
+            "userLastName": "Last Name",
+            "userEmail": "User Email",
+            "userPhoneNumber": "Phone Number",
+            "userRole": "Role",
+            "userManager": "Manager",
+            "userCustomer": "Customer",
+            "newUser": "New User",
+            "imageRequired": "Image is required!",
+            "firstNameRequired": "First name is required!",
+            "lastNameRequired": "Last name is required!",
+            "invalidEmailText": "Invalid E-mail!",
+            "emailRequired": "Email is required!",
+            "phoneNumberValidation": "Phone number must not be greater than 10 digits",
+            "invalidPhoneFormat": "Invalid Phone Format",
+            "phoneRequired": "Phone is required!",
+            "addText": "add",
+            "selectManager": "Select Manager",
+            "manager": "manager",
+            "customer": "customer",
+            "role": "role",
+            "edit": "edit",
+            "userProfileImage": "userProfileImage",
+            "phone": "phone",
+            "selectedSites": "selectedSites",
+            "selectedModalities": "selectedModalities",
+            "accessToFSEFunctions": "accessToFSEFunctions",
+            "auditEnable": "auditEnable",
+            "possibilitytoLeave": "possibilitytoLeave",
+            "viewOnly": "viewOnly",
+            "oneTimeLinkCreation": "oneTimeLinkCreation",
+            "docLink": "docLink",
+            "userProfileImageText": "User Profile Image",
+            "editUserText": "Edit User",
+            "profileImageText": "Profile Image",
+            "sitesText": "Sites",
+            "organizationSitesText": "Organization Sites",
+            "accessToModalities": "Access to modalities"
+        }
     },
     "user_menu_options": {
         "lock": "Lock",
@@ -36,18 +66,17 @@
         "edit": "Edit",
         "delete_user": "Delete"
     },
-    "modalities":{
+    "modalities": {
         "title": "All Networks",
         "btnFilter": "Filter",
         "btnAdd": "Add Network",
         "noDataTitle": "Sorry! No results found. :(",
         "noDataDescription": "Try Again",
-        "cardPopUp":
-        {
-             "edit": "Edit",
-             "delete": "Delete"
+        "cardPopUp": {
+            "edit": "Edit",
+            "delete": "Delete"
         },
-        "popUp":{
+        "popUp": {
             "popUpNewNetwork": "Add Network",
             "newNetworkAddSite": "Add Site",
             "newNetworkLogo": "Logo",
@@ -55,14 +84,13 @@
             "newNetworkBtnSave": "Add",
             "newNetworkBtnCancel": "Cancel"
         },
-        "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete?",
-            "noButton" : "No",
-            "yesButton" : "Yes"
+        "deleteDialog": {
+            "dialogMessage": "Are you sure you want to delete?",
+            "noButton": "No",
+            "yesButton": "Yes"
         }
-
     },
-    "sites":{
+    "sites": {
         "title": "All Sites",
         "btnFilter": "Filter",
         "btnAdd": "Add Site",
@@ -70,7 +98,7 @@
         "noResultMsg": "no results found",
         "noDataTitle": "Sorry! No results found. :(",
         "noDataDescription": "Try Again",
-        "popUp":{
+        "popUp": {
             "popUpNewNetwork": "Add Network",
             "newNetworkAddSite": "Add Site",
             "newNetworkLogo": "Logo",
@@ -78,17 +106,15 @@
             "newNetworkBtnSave": "Add",
             "newNetworkBtnCancel": "Cancel"
         },
-        "cardPopUp":
-        {
-             "editSite": "Edit",
-             "deleteSite": "Delete"
+        "cardPopUp": {
+            "editSite": "Edit",
+            "deleteSite": "Delete"
         },
-        "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete?",
-            "noButton" : "No",
-            "yesButton" : "Yes"
+        "deleteDialog": {
+            "dialogMessage": "Are you sure you want to delete?",
+            "noButton": "No",
+            "yesButton": "Yes"
         }
-
     },
     "documentation": {
         "title": "Documentation database",
@@ -96,7 +122,7 @@
         "btnCol": "Columns",
         "btnAsset": "Sort by Asset #",
         "btnAdd": "Add Document",
-        "popUp":{
+        "popUp": {
             "title": "Add Documentation",
             "editTitle": "Edit Documentation",
             "link": "Documentation Link",
@@ -109,24 +135,24 @@
             "btnEdit": "Edit",
             "btnCancel": "Cancel",
             "documentNotUploaded": "Document is not uploaded",
-        "modelNameRequired": "Model Name is required",
-        "addText": "add",
-        "docLinkText": "docLink",
-        "modalText": "modal",
-        "modalityText": "modality",
-        "editText": "edit",
-        "pdf": ".pdf"
+            "modelNameRequired": "Model Name is required",
+            "addText": "add",
+            "docLinkText": "docLink",
+            "modalText": "modal",
+            "modalityText": "modality",
+            "editText": "edit",
+            "pdf": ".pdf"
         }
     },
-    "article" :  {
+    "article": {
         "btnAdd": "Add Article",
         "allArticles": "All Articles"
     },
-    "category" : {
-        "btnAdd" : "Add Category"
+    "category": {
+        "btnAdd": "Add Category"
     },
-    "folder" : {
-        "btnAdd" : "Add Folder"
+    "folder": {
+        "btnAdd": "Add Folder"
     },
     "systems": {
         "title": "Documentation database",
@@ -160,7 +186,7 @@
         "new_network": "Add new health network",
         "delete_org": "Delete"
     },
-    "organization":{
+    "organization": {
         "title": "Organization Administration",
         "btnFilter": "Filter",
         "btnAdd": "Add Organization",
@@ -169,13 +195,13 @@
         "newHealthNetwork": " New Health Network",
         "networksText": "networks",
         "sitesText": "sites",
-        "popUp":{
+        "popUp": {
             "popUpNewOrganization": "New Organization",
             "newOrganizationPageTrackerdesc1": "Step",
             "newOrganizationPageTrackerdesc2": "of 2",
             "newOrganizationName": "Client Name",
             "newOrganizationSeats": "Number of Seats",
-            "newOrganizationBtnNext" : "Next",
+            "newOrganizationBtnNext": "Next",
             "newOrganizationBtnSave": "Add",
             "newOrganizationBtnCancel": "Cancel",
             "newOrganizationLogo": "Logo",
@@ -188,7 +214,7 @@
             "newOrganizationHealthNetworks": "Health networks",
             "newOrganizationAddNetwork": "Add Network",
             "nameRequired": "Name is required",
-            "imageNotSelected":"Image is not selected",
+            "imageNotSelected": "Image is not selected",
             "seatsNotSelected": "Seats is not selected",
             "organizationSeats": "organizationSeats",
             "sidebarColor": "sidebarColor",
@@ -206,59 +232,58 @@
             "loadingHealthNetworks": "Loading Health Networks",
             "loading": "Loading ..."
         },
-        "deleteDialog" : {
-            "dialogMessage" : "Are you sure you want to delete?",
-            "noButton" : "No",
-            "yesButton" : "Yes"
+        "deleteDialog": {
+            "dialogMessage": "Are you sure you want to delete?",
+            "noButton": "No",
+            "yesButton": "Yes"
         }
-
     },
-    "page404" : {
-        "title" : "URL doesn't exist",
-        "description" : "Looks like you're followed a broken link or entered a URL that doesn't exist on this site.",
-        "backbtn" : "GO BACK"
+    "page404": {
+        "title": "URL doesn't exist",
+        "description": "Looks like you're followed a broken link or entered a URL that doesn't exist on this site.",
+        "backbtn": "GO BACK"
     },
-    "dataNotFound" : {
-        "title" : "Sorry! No results found. :(",
-        "description" : "Try Again",
-        "backbtn" : "GO BACK"
+    "dataNotFound": {
+        "title": "Sorry! No results found. :(",
+        "description": "Try Again",
+        "backbtn": "GO BACK"
     },
-    "page505" : {
-        "title" : "505 Server Error",
-        "description" : "Please, try again later or contact us  if the problem persists"
+    "page505": {
+        "title": "505 Server Error",
+        "description": "Please, try again later or contact us  if the problem persists"
     },
-    "dropzone" : {
-        "heading" : "Drag & Drop",
-        "description" : " files here or",
-        "button" : "Browse",
-        "info" : "up to 20mb",
+    "dropzone": {
+        "heading": "Drag & Drop",
+        "description": " files here or",
+        "button": "Browse",
+        "info": "up to 20mb",
         "options": {
             "uploadAndHide": "Uploadoptions hideOptions",
             "upload": "Uploadoptions"
         }
     },
-    "healthNetwork" : {
-        "name" : "Health Network Name",
-        "logo" : "Logo",
-        "color1" : "Color #1",
-        "color2" : "Color #2",
-        "color3" : "Color #3",
-        "color4" : "Color #4",
+    "healthNetwork": {
+        "name": "Health Network Name",
+        "logo": "Logo",
+        "color1": "Color #1",
+        "color2": "Color #2",
+        "color3": "Color #3",
+        "color4": "Color #4",
         "nameRequired": "Name is required",
         "imageRequired": "Image is required",
         "networkDuplicateError": "Organization with this Name already exists"
     },
-    "siteSection" : {
+    "siteSection": {
         "site": "Site Name #"
     },
-    "siteModal" : {
+    "siteModal": {
         "fieldName": "Name",
         "fieldAddress": "Address",
         "btnAdd": "Add",
         "btnEdit": "Edit",
         "btnCancel": "Cancel",
         "popUp": {
-            "nameRequired":"Name is required",
+            "nameRequired": "Name is required",
             "addressRequired": "Address is required",
             "addText": "add",
             "editText": "edit",
@@ -266,7 +291,7 @@
             "editSite": "Edit Site"
         }
     },
-    "systemModal" : {
+    "systemModal": {
         "fieldName": "Name",
         "fieldManufacturer": "Manufacturer",
         "fieldModality": "Modality",
@@ -298,7 +323,7 @@
         "btnEdit": "Edit",
         "btnCancel": "Cancel",
         "popUp": {
-            "imageRequired":"Image is a required field",
+            "imageRequired": "Image is a required field",
             "modalityRequired": "Modality is a required field",
             "manufacturerRequired": "Manufacturer is a required field",
             "productRequired": "Product is a required field",
@@ -312,36 +337,37 @@
             "vFSE": "vFSE",
             "ssh": "SSH",
             "serviceWebBrowser": "Service web browser",
-            "virtualMediaControl": "Virtual Media control"
+            "virtualMediaControl": "Virtual Media control",
+            "systemContactInfo": "System contact info"
         }
     },
-    "confirmSiteDialog" : {
-        "dialogMessage" : "Sites do not exist for this organization, you have to create site first to create system.",
-        "noButton" : "Cancel",
-        "yesButton" : "Add Site"
+    "confirmSiteDialog": {
+        "dialogMessage": "Sites do not exist for this organization, you have to create site first to create system.",
+        "noButton": "Cancel",
+        "yesButton": "Add Site"
     },
-    "knowledgeBase" : {
-       "title" : "Knowledge base",
-       "subTitle" : "Top Help Articles",
-       "delete": "Delete",
-       "seeAllFolders": "See All Folders"
+    "knowledgeBase": {
+        "title": "Knowledge base",
+        "subTitle": "Top Help Articles",
+        "delete": "Delete",
+        "seeAllFolders": "See All Folders"
     },
     "Faq": {
-       "dashboard" : "Dashboard",
-       "workOrders" : "Work Orders",
-       "seeAll" : "See All",
-       "lastActiveUser" : "Last active users",
-       "topicUpdates" : "Topic Updates",
-       "name" : "NAME",
-       "healthNetwork" : "HEALTH NETWORK",
-       "status" : "STATUS"
+        "dashboard": "Dashboard",
+        "workOrders": "Work Orders",
+        "seeAll": "See All",
+        "lastActiveUser": "Last active users",
+        "topicUpdates": "Topic Updates",
+        "name": "NAME",
+        "healthNetwork": "HEALTH NETWORK",
+        "status": "STATUS"
     },
     "Forum": {
-        "forum" : "Forum",
+        "forum": "Forum",
         "btnCreateTopic": "Create a topic",
         "title": "Popular topics"
-     },
-    "articleCard" : {
+    },
+    "articleCard": {
         "numberTitle": "articles",
         "explore": "Explore",
         "deleteCard": "Delete"
@@ -401,7 +427,11 @@
         "saveSiteError": "Error occured while saving site",
         "siteAlreadyExistsError": "Site with this name already exists.",
         "systemSaveSuccess": "System successfully saved",
-        "systemSaveError": "Error occured while saving system"
+        "systemSaveError": "Error occured while saving system",
+        "topicCreatedSuccess": "Successfully Created",
+        "topicCreatedError": "Error occured",
+        "userAlreadyExists": "User with this username already exists.",
+        "saveUserError": "Error occurred while saving user"
     },
     "noCommentFound": {
         "noComments": "This system has no comments",
@@ -535,7 +565,6 @@
         "add": "Add",
         "save": "Save"
     },
-
     "countingInfoSection": {
         "system_count": "system_count",
         "allDevices": "all Devices",
@@ -547,7 +576,6 @@
         "last_month_logged_in_user_text": "Last month Logged In User",
         "workOrders": "Work Orders"
     },
-
     "documentationSection": {
         "add": "add",
         "edit": "edit",
@@ -646,7 +674,7 @@
         "deleteThisComment": "Delete this comment?"
     },
     "folderModalPopUp": {
-        "nameRequired":"Name is required",
+        "nameRequired": "Name is required",
         "addFolderText": "Add Folder",
         "folderNameText": "Folder Name",
         "folderCategoryText": "Folder Category",
@@ -656,10 +684,25 @@
         "close": "Close"
     },
     "networkModalPopUp": {
-        "nameRequired":"Name is required",
+        "nameRequired": "Name is required",
         "imageNotSelected": "Image is not selected",
         "editText": "edit",
         "networkLogoText": "networkLogo",
         "sitePointerText": "sitePointer"
+    },
+    "topicModal": {
+        "titleRequired": "Title is required",
+        "descriptionRequired": "Description is required",
+        "categoriesText": "categories",
+        "imageText": "image",
+        "createTopic": "Create Topic",
+        "titleText": "Title",
+        "descriptionText": "Description",
+        "chooseCategoriesMax": "Choose categories max",
+        "imageOptional": "Image",
+        "replyEmailNotification": "reply_email_notification",
+        "labelText": "Notify me on follow-up replies via email",
+        "cancel": "Cancel",
+        "publish": "Publish"
     }
 }

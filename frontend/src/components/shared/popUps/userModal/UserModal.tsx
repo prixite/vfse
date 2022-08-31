@@ -22,7 +22,6 @@ import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
@@ -33,6 +32,7 @@ import {
   addNewUserService,
   updateUserService,
 } from "@src/services/userService";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/userModal/userModal.scss";
 import {
@@ -83,19 +83,19 @@ const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
 
 const validationSchema = yup.object({
-  userProfileImage: yup.string().required("Image is required!"),
-  firstname: yup.string().matches(nameReg).required("FirstName is required!"),
-  lastname: yup.string().matches(nameReg).required("Lastname is required!"),
+  userProfileImage: yup.string().required(constantsData.users.popUp.imageRequired),
+  firstname: yup.string().matches(nameReg).required(constantsData.users.popUp.firstNameRequired),
+  lastname: yup.string().matches(nameReg).required(constantsData.users.popUp.lastNameRequired),
   email: yup
     .string()
-    .matches(emailRegX, "Invalid E-mail!") //TODO
-    .required("Email is required!"),
+    .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
+    .required(constantsData.users.popUp.emailRequired),
   phone: yup
     .string()
-    .max(10, "Phone number must not be greater than 10 digits")
+    .max(10, constantsData.users.popUp.phoneNumberValidation)
     .matches(phoneReg)
-    .typeError("Invalid Phone Format") //TODO
-    .required("Phone is required!"),
+    .typeError(constantsData.users.popUp.invalidPhoneFormat) //TODO
+    .required(constantsData.users.popUp.phoneRequired),
 });
 
 window.Buffer = window.Buffer || Buffer;
@@ -162,6 +162,36 @@ export default function UserModal(props: Props) {
     userRole,
     userManager,
     userCustomer,
+    imageRequired,
+    firstNameRequired,
+    lastNameRequired,
+    invalidEmailText,
+    emailRequired,
+    phoneNumberValidation,
+    invalidPhoneFormat,
+    phoneRequired,
+    addText,
+    selectManager,
+    manager,
+    customer,
+    role,
+    edit,
+    userProfileImage,
+    phone,
+    selectedSites,
+    selectedModalities,
+    accessToFSEFunctions,
+    auditEnable,
+    possibilitytoLeave,
+    viewOnly,
+    oneTimeLinkCreation,
+    docLink,
+    userProfileImageText,
+    editUserText,
+    profileImageText,
+    sitesText,
+    organizationSitesText,
+    accessToModalities,
   } = constantData;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
