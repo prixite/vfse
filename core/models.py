@@ -135,7 +135,6 @@ class User(AbstractUser):
 
     def get_organization_systems(self, organization_pk):
         return System.objects.filter(
-            id__in=self.get_systems(),
             site__in=self.get_sites(),
         ).filter(
             Q(
