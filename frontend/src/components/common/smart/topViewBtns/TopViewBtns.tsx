@@ -105,6 +105,7 @@ const TopViewBtns = ({
     filterByNetworkText,
     filterBySiteText,
     add,
+    activeUsers
   } = constantsData.topViewButtons;
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location?.search);
@@ -132,7 +133,7 @@ const TopViewBtns = ({
     constantData = localizedData()?.category;
   } else if (path == knowledge_base_folder) {
     constantData = localizedData()?.folder;
-  } else if (path == "active-users") {
+  } else if (path == activeUsers) {
     constantData = localizedData()?.users;
   }
   const { btnAdd } = constantData;
@@ -523,10 +524,10 @@ const TopViewBtns = ({
           </Box>
           {currentUser?.is_superuser &&
             path === organizations &&
-            path !== "active-users" &&
+            path !== activeUsers &&
             createAddButton()}
-          {path !== "organizations" &&
-            path !== "active-users" &&
+          {path !== organizations &&
+            path !== activeUsers &&
             createAddButton()}
         </Box>
       </Box>

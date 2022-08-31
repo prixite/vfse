@@ -595,7 +595,8 @@
         "siteText": "site",
         "filterByNetworkText": "Filter by network",
         "filterBySiteText": "Filter by site",
-        "add": "add"
+        "add": "add",
+        "activeUsers": "active-users"
     },
     "userCard": {
         "email": "Email",
