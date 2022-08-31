@@ -95,6 +95,10 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
             raise exceptions.ValidationError("Cannot delete default organization")
 
         models.System.objects.filter(site__organization=instance).delete()
+        models.Site.objects.filter(organization=instance).delete()
+        membership = models.Membership.objects.filter(organization=instance)
+        for item in membership:
+            models.User.objects.filter(pk=item.user.id).delete()
         instance.delete()
 
     def perform_update(self, serializer):
@@ -699,7 +703,7 @@ class ManfucturerViewSet(ModelViewSet):
 
 
 class SystemNoteViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [permissions.ViewOnlyPermissions, permissions.SystemNotePermissions]
     serializer_class = serializers.SystemNotesSerializer
 
     def get_queryset(self):

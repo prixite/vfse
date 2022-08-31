@@ -97,7 +97,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
             <SendIcon
               className="sendIcon"
               onClick={() => handleChatting()}
-              style={{ color: "white" }}
+              style={{ color: "white", cursor: "pointer" }}
             />
           </div>
         ) : (
