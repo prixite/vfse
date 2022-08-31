@@ -34,7 +34,10 @@ import {
   useOrganizationsSystemsUpdateFromInfluxMutation,
   api,
 } from "@src/store/reducers/api";
-import { System } from "@src/store/reducers/generated";
+import {
+  System,
+  useOrganizationsMeReadQuery,
+} from "@src/store/reducers/generated";
 
 import "@src/components/common/smart/systemSection/systemSection.scss";
 
@@ -53,6 +56,7 @@ const SystemSection = () => {
   const { loading } = constantsData.common;
 
   const dispatch = useAppDispatch();
+
   const queryParams = new URLSearchParams(location?.search);
   const paramModality = queryParams?.get(modalityText);
   const [sites, setSites] = useState([]);
@@ -92,6 +96,9 @@ const SystemSection = () => {
     );
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
+  const { data: me } = useOrganizationsMeReadQuery({
+    id: selectedOrganization?.id.toString(),
+  });
 
   const { data: allSites, isLoading: isAllSitesLoading } =
     useOrganizationsAssociatedSitesListQuery(
@@ -486,13 +493,18 @@ const SystemSection = () => {
                   setSystem={setChatBoxSystem}
                   IsOpen={chatModal}
                   setIsOpen={setChatModal}
+                  canLeaveNotes={me?.can_leave_notes}
                 />
               </div>
             ))
           ) : (
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
-                <SystemCardMobile system={item} handleEdit={handleEdit} />
+                <SystemCardMobile
+                  system={item}
+                  handleEdit={handleEdit}
+                  canLeaveNotes={me?.can_leave_notes}
+                />
               </div>
             ))
           )
@@ -531,7 +543,7 @@ const SystemSection = () => {
           open={openConfirmModal}
           handleClose={() => setOpenConfirmModal(false)}
         />
-        <CommentsDrawer />
+        {me?.can_leave_notes && <CommentsDrawer />}
       </Box>
       {chatModal && browserWidth > mobileWidth && (
         <ChatBox

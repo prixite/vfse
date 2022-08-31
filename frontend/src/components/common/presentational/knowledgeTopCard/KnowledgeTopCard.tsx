@@ -42,6 +42,7 @@ const KnowledgeTopCard = ({
   const { knowledgeBase, toastData } = constantsData;
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
+  const [isFavouriteDisabled, setFavouriteButtonDisabled] = useState(false);
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -87,11 +88,24 @@ const KnowledgeTopCard = ({
       });
   };
   const toggleFavourite = (favourite) => {
+    setFavouriteButtonDisabled(true);
     updateArticle({
       id: id,
       document: { ...article, favorite: favourite },
-    }).unwrap();
+    })
+      .unwrap()
+      .then(() => {
+        const message = favourite
+          ? "added to your Favourite list."
+          : "removed from Favourite list.";
+        toast.success(`Article has been ${message}`, {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+        setFavouriteButtonDisabled(false);
+      });
   };
+
   useEffect(() => {
     if (description) {
       //this is for extracting text containing p tags
@@ -129,7 +143,10 @@ const KnowledgeTopCard = ({
           <>
             {!favourite ? (
               <Tooltip title="Mark article as favourite" className="favIcon">
-                <IconButton onClick={() => toggleFavourite(true)}>
+                <IconButton
+                  disabled={isFavouriteDisabled}
+                  onClick={() => toggleFavourite(true)}
+                >
                   <StarOutlineIcon style={{ color: "#6b7280" }} />
                 </IconButton>
               </Tooltip>
@@ -138,7 +155,10 @@ const KnowledgeTopCard = ({
                 title="Unmark article from favourites"
                 className="favIcon"
               >
-                <IconButton onClick={() => toggleFavourite(false)}>
+                <IconButton
+                  disabled={isFavouriteDisabled}
+                  onClick={() => toggleFavourite(false)}
+                >
                   <StarIcon style={{ color: "#773CBD" }} />
                 </IconButton>
               </Tooltip>

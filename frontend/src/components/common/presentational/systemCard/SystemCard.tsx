@@ -1,4 +1,4 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
@@ -29,6 +29,7 @@ import { FitAddon } from "xterm-addon-fit";
 import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
@@ -40,7 +41,7 @@ import {
 } from "@src/store/hooks";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
-import { System } from "@src/store/reducers/generated";
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -50,12 +51,6 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-interface SystemInterfaceProps {
-  system: System;
-  handleEdit?: (system: System) => void;
-  setSystem?: Dispatch<SetStateAction<string>>;
-  setIsOpen?: Dispatch<SetStateAction<boolean>>;
-}
 function getCookie(cookieName) {
   const cookie = {};
   document.cookie.split(";").forEach(function (el) {
@@ -69,6 +64,7 @@ const SystemCard = ({
   handleEdit,
   setSystem,
   setIsOpen,
+  canLeaveNotes,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -499,12 +495,17 @@ const SystemCard = ({
                   {system.asset_number || "-"}
                 </strong>
               </p>
-              <p className={classes.option}>
-                {helium_level} <br />
-                <strong className={classes.titleStrong}>
-                  {system.mri_embedded_parameters?.helium || "-"}
-                </strong>
-              </p>
+              {system.product_model_detail?.modality?.group.toLowerCase() ===
+              "mri" ? (
+                <p className={classes.option}>
+                  {helium_level} <br />
+                  <strong className={classes.titleStrong}>
+                    {system.mri_embedded_parameters?.helium || "-"}
+                  </strong>
+                </p>
+              ) : (
+                ""
+              )}
               <p className={classes.option}>
                 {mpc_status} <br />
                 <strong className={classes.titleStrong}>
@@ -607,9 +608,11 @@ const SystemCard = ({
           <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>{edit}</span>
           </MenuItem>
-          <MenuItem onClick={onComment}>
-            <span style={{ marginLeft: "12px" }}>{comments}</span>
-          </MenuItem>
+          {canLeaveNotes && (
+            <MenuItem onClick={onComment}>
+              <span style={{ marginLeft: "12px" }}>{comments}</span>
+            </MenuItem>
+          )}
           <MenuItem onClick={() => setModal(true)}>
             <span style={{ marginLeft: "12px" }}>{deleteText}</span>
           </MenuItem>

@@ -1,3 +1,7 @@
+import { Dispatch, SetStateAction } from "react";
+
+import { Modality, System } from "@src/store/reducers/generated";
+
 export interface Common {
   searching: string;
   Forum: string;
@@ -9,7 +13,6 @@ export interface PopUp {
   btnAdd: string;
   btnCancel: string;
   btnSave: string;
-  btnToSave: string;
   btnNext: string;
   btnAddUser: string;
   btnEditUser: string;
@@ -361,4 +364,12 @@ export interface LocalizationInterface {
   folderSection: folderSection;
   document: document;
   articleDescription: articleDescription;
+}
+
+export interface SystemInterfaceProps {
+  system: Modality;
+  handleEdit?: (system: System) => void;
+  setSystem?: Dispatch<SetStateAction<System>>;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+  canLeaveNotes: boolean;
 }

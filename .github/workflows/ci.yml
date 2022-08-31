@@ -7,6 +7,8 @@ on:
 jobs:
   pre-commit:
     runs-on: self-hosted
+    env:
+      DOMAIN_NAME: "https://app.vfse.io"
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

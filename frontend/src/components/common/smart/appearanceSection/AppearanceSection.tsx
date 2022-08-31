@@ -188,8 +188,8 @@ const AppearanceSection = () => {
   return (
     <>
       <Box component="div">
-        <h2 style={{ paddingLeft: "7px" }}>{selectedOrganization?.name}</h2>
-        <Box component="div" sx={{ background: "#fff" }} m={1} p={4}>
+        <h2>{selectedOrganization?.name}</h2>
+        <Box component="div" sx={{ background: "#fff", mt: "23px" }} p={4}>
           <Grid container>
             <Grid item>
               <h4 style={{ marginBottom: "5px" }}>{clientNameText}</h4>
@@ -218,7 +218,7 @@ const AppearanceSection = () => {
                 imgSrc={selectedOrganization?.appearance?.logo}
               />
             </Grid>
-            <Grid item xs={12} md={8} lg={8} mt={4}>
+            <Grid item xs={12} md={8} lg={8} mt={2}>
               <Grid container spacing={1} rowSpacing={2}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker

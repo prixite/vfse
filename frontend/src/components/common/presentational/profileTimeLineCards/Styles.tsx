@@ -84,7 +84,7 @@ const useStyles = makeStyles(() => ({
     width: "35px",
     height: "32px",
     borderRadius: "50%",
-    marginLeft: "-5px",
+    marginLeft: "-10px",
   },
   messageSide: {
     display: "flex",
@@ -168,6 +168,10 @@ const useStyles = makeStyles(() => ({
     color: "#773cbd",
     fontWeight: "600",
     fontSize: "12px",
+  },
+  follower_img_container: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
 

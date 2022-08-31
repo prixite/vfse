@@ -2,10 +2,12 @@ import "@src/components/common/smart/lastActiveUser/lastActiveUser.scss";
 
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { Link, useParams } from "react-router-dom";
 
 import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastActiveMobile/LastActiveMobile";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
+import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
 import { useUsersActiveUsersListQuery } from "@src/store/reducers/generated";
@@ -14,6 +16,8 @@ const { lastActiveUser, seeAll } = localizedData().Faq;
 
 const LastActiveUser = () => {
   const [browserWidth] = useWindowSize();
+  const { id } = useParams();
+  const { organizationRoute } = constants;
   const { data, isLoading } = useUsersActiveUsersListQuery();
   const { loading } = constantsData.common;
   return (
@@ -24,7 +28,13 @@ const LastActiveUser = () => {
             <Box component="div" className="last_active_users">
               <div className="heading_section">
                 <h2 className="heading">{lastActiveUser}</h2>
-                <h3 className="subheading">{seeAll}</h3>
+                <Link
+                  to={`/${organizationRoute}/${id}/active-users`}
+                  key={id}
+                  style={{ textDecoration: "none" }}
+                >
+                  <h3 className="subheading">{seeAll}</h3>
+                </Link>
               </div>
               <div className="last_active_user_table">
                 {/* <LastActiveUserCells /> */}

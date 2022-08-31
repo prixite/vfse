@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
@@ -32,7 +32,11 @@ import {
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
+const SystemCardMobile = ({
+  system,
+  handleEdit,
+  canLeaveNotes,
+}: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
   );
@@ -252,9 +256,11 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
           <MenuItem onClick={onEdit}>
             <span style={{ marginLeft: "12px" }}>{edit}</span>
           </MenuItem>
-          <MenuItem onClick={onComment}>
-            <span style={{ marginLeft: "12px" }}>{comments}</span>
-          </MenuItem>
+          {canLeaveNotes && (
+            <MenuItem onClick={onComment}>
+              <span style={{ marginLeft: "12px" }}>{comments}</span>
+            </MenuItem>
+          )}
           <MenuItem onClick={() => setModal(true)}>
             <span style={{ marginLeft: "12px" }}>{deleteText}</span>
           </MenuItem>
