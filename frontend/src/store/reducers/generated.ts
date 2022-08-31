@@ -1181,7 +1181,7 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserActivityListApiArg = void;
-export type VfseUserTopicListApiResponse = /** status 200  */ Topic[];
+export type VfseUserTopicListApiResponse = /** status 200  */ TopicDetail[];
 export type VfseUserTopicListApiArg = {
   /** A page number within the paginated result set. */
   page?: number;
@@ -1305,6 +1305,7 @@ export type Me = {
   role?: string;
   profile_picture: string;
   is_superuser?: boolean;
+  can_leave_notes: boolean;
 };
 export type Modality = {
   id?: number;

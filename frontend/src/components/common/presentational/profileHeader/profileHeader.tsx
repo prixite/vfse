@@ -1,15 +1,32 @@
-import EditIcon from "@mui/icons-material/Edit";
-import { Avatar, Box, Button, Typography, Stack } from "@mui/material";
+import { useState } from "react";
 
-import user from "@src/assets/images/profile.png";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import { Avatar, Box, Typography, Stack } from "@mui/material";
+
 import calender from "@src/assets/svgs/g-calendar.svg";
 import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
+
+import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
+
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
 
 const ProfileHeader = () => {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    me && setOpen(true);
+  };
+
+  const { data: me } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
+
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+
   return (
     <>
       <Box className="header">
@@ -17,16 +34,20 @@ const ProfileHeader = () => {
           <Avatar
             alt="Profile"
             className="profilePic"
-            src={user}
-            sx={{ width: 120, height: 120 }}
+            src={me?.profile_picture}
+            onClick={handleClickOpen}
+            sx={{ width: 120, height: 120, cursor: "pointer" }}
           />
-          <Button
-            variant="contained"
-            className="editButton"
-            startIcon={<EditIcon />}
-          >
-            {"Edit"}
-          </Button>
+          <CameraAltOutlinedIcon
+            onClick={handleClickOpen}
+            className="cameraIcon"
+            sx={{
+              "&:hover": {
+                color: `${buttonBackground} !important`,
+              },
+            }}
+          />
+          <EditProfilePicModal open={open} setOpen={setOpen} />
         </Box>
         <Box
           className="headerBottom"
@@ -37,10 +58,12 @@ const ProfileHeader = () => {
             fontWeight="bold"
             textAlign={{ xs: "center", md: "left" }}
           >
-            {"Jessie Hudson"}
+            {`${me?.first_name} ${me?.last_name}` || "Jessie Hudson"}
           </Typography>
           <Stack className="iconsSec" direction={{ xs: "column", md: "row" }}>
-            <Typography className="roleText">{"Admin"}</Typography>
+            <Typography className="roleText">
+              {`${me?.role}` || "Admin"}
+            </Typography>
             <Stack
               className="icons"
               direction="row"
@@ -71,7 +94,9 @@ const ProfileHeader = () => {
               <Typography fontWeight={400}>{"Company"}</Typography>
               <Stack direction="row" gap={1} alignItems="center">
                 <img src={msg} />
-                <Typography>{"Nova Healthcare"}</Typography>
+                <Typography>
+                  {`${me?.organization?.name}` || "Nova Healthcare"}
+                </Typography>
               </Stack>
             </Stack>
             <Stack gap={{ xs: 0, lg: 1 }}>
