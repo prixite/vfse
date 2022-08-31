@@ -8,11 +8,14 @@ import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import SeeAllArticles from "@src/components/common/smart/seeAllArticles/SeeAllArticles";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 
 const KnowledgeSection = () => {
   const classes = useStyles();
   const constantData: LocalizationInterface = localizedData();
   const { title } = constantData.knowledgeBase;
+  const { home, categories, articles, labelArticle, labelCategory } =
+    constantsData.knowledgeSections;
   const [value, setValue] = useState("home");
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -20,11 +23,11 @@ const KnowledgeSection = () => {
 
   const renderSelectedTab = () => {
     switch (value) {
-      case "home":
+      case home:
         return <KnowledgeBaseHome />;
-      case "categories":
+      case categories:
         return <AllCategoriesSection />;
-      case "articles":
+      case articles:
         return <SeeAllArticles />;
     }
   };
@@ -44,12 +47,12 @@ const KnowledgeSection = () => {
         <Tab value="home" label="Home" className={classes.tabStyle} />
         <Tab
           value="categories"
-          label="See All Categories"
+          label={labelCategory}
           className={classes.tabStyle}
         />
         <Tab
           value="articles"
-          label="See All Articles"
+          label={labelArticle}
           className={classes.tabStyle}
         />
       </Tabs>

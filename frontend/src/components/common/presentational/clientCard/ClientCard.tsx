@@ -11,6 +11,7 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnPayloadThemeObject } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
@@ -53,6 +54,7 @@ const ClientCard = ({
     (state) => state.organization.currentOrganization
   );
   const { organizationRoute, networkRoute } = constants;
+  const { toastData } = constantsData;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -97,7 +99,7 @@ const ClientCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(id, deleteOrganization);
-    toast.success("Organization successfully deleted.", {
+    toast.success(toastData.clientCardOrgDeleteSuccess, {
       autoClose: timeOut,
       pauseOnHover: false,
     });

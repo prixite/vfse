@@ -6,6 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 
 import ModalIcon from "@src/assets/modalicon.png";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/deleteNoteModal/deleteNoteModal.scss";
@@ -21,13 +22,14 @@ const DeleteNoteModal = ({ open, handleClose, handleNoteDelete }: Props) => {
     (state) => state.myTheme
   );
   const { noButton, yesButton } = localizedData().organization.deleteDialog;
+  const { deleteThisComment } = constantsData.deleteNoteModal;
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ConfirmationModal">
         <DialogContent className="ConfirmationModal__Content">
           <img src={ModalIcon} style={{ marginBottom: "16px" }} />
           <DialogContentText className="DialogueMessage">
-            Delete this comment?
+            {deleteThisComment}
           </DialogContentText>
         </DialogContent>
         <DialogActions className="ConfirmationModal__Actions">

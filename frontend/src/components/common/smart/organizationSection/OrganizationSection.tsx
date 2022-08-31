@@ -18,6 +18,7 @@ import OrganizationModal from "@src/components/shared/popUps/organizationModal/O
 import { constants, organizationTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/smart/organizationSection/organizationSection.scss";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import {
   useAppDispatch,
   useAppSelector,
@@ -32,6 +33,7 @@ import { closeAddModal } from "@src/store/reducers/appStore";
 
 const OrganizationSection = () => {
   const [tabValue, setTabValue] = React.useState(0);
+  const { common, organization: organizationData } = constantsData;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -100,8 +102,9 @@ const OrganizationSection = () => {
     const pathUrl = location.pathname.split("/");
     return (
       (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) ==
-        "networks" ||
-      (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) == "sites"
+        organizationData.networksText ||
+      (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) ==
+        organizationData.sitesText
     );
   };
   const handleSearchQuery = async (searchQuery: string) => {
@@ -120,7 +123,7 @@ const OrganizationSection = () => {
     }
   };
   useEffect(() => {
-    if (location.pathname.includes("sites")) {
+    if (location.pathname.includes(organizationData.sitesText)) {
       setTabValue(1);
     }
   }, []);
@@ -149,8 +152,8 @@ const OrganizationSection = () => {
 
   return (
     <>
-      {location.pathname.includes("networks") ||
-      location.pathname.includes("sites") ? (
+      {location.pathname.includes(organizationData.networksText) ||
+      location.pathname.includes(organizationData.sitesText) ? (
         <BreadCrumb
           breadCrumbList={[
             {
@@ -267,7 +270,7 @@ const OrganizationSection = () => {
                         color: "#696f77",
                       }}
                     >
-                      Loading...
+                      {common.loading}
                     </h4>
                   }
                 >

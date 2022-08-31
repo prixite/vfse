@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import messageIcon from "@src/assets/svgs/message.svg";
 import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
 import { constants } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
@@ -45,6 +46,7 @@ const ProfileTimelineCards = ({
 }: ProfileTimelineCards) => {
   const classes = useStyles();
   const selectedOrganization = useSelectedOrganization();
+  const { profileTimeLineCard } = constantsData;
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -123,11 +125,11 @@ const ProfileTimelineCards = ({
                         style={{ color: "#568000", marginRight: "9px" }}
                       />
                       <p className={classes.text} style={{ color: "#568000" }}>
-                        Following
+                        {profileTimeLineCard.following}
                       </p>
                     </>
                   ) : (
-                    <p className={classes.text}>Follow</p>
+                    <p className={classes.text}>{profileTimeLineCard.follow}</p>
                   )}
                 </Button>
               ) : (
