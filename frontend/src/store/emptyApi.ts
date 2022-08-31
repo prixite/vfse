@@ -243,7 +243,7 @@ export const emptySplitApi = createApi({
         url: `/vfse/folders/${id}/`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Folder"],
+      invalidatesTags: ["Folder", "Category"],
     }),
     getWorkOrders: builder.query<WorkOrder[], void>({
       query: () => ({ url: "/vfse/workorders/", method: "get" }),
