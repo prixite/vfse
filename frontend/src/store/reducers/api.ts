@@ -17,6 +17,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     "Favorite",
     "Reply",
     "RecentActivity",
+    "UserProfile",
   ],
   endpoints: {
     vfseUserActivityList: {
@@ -315,6 +316,12 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         { type: "Folder", id: `Folder-${id}` },
         "Folder",
       ],
+    },
+    organizationsMeRead: {
+      providesTags: ["UserProfile"],
+    },
+    usersMePartialUpdate: {
+      invalidatesTags: ["UserProfile"],
     },
   },
 });
