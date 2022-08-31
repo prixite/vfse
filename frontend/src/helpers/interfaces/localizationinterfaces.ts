@@ -56,6 +56,7 @@ export interface PopUp {
   editUserText: string;
   profileImageText: string;
   sitesText: string;
+  healthNetworkAccessText: string;
   organizationSitesText: string;
   accessToModalities: string;
 }

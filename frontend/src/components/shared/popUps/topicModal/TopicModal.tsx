@@ -18,12 +18,13 @@ import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-import constantsData from "@src/localization/en.json";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { categories, timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
 import { api } from "@src/store/reducers/api";
@@ -41,7 +42,9 @@ const initialState: Topic = {
 };
 const validationSchema = yup.object({
   title: yup.string().required(constantsData.topicModal.titleRequired),
-  description: yup.string().required(constantsData.topicModal.descriptionRequired),
+  description: yup
+    .string()
+    .required(constantsData.topicModal.descriptionRequired),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
@@ -70,7 +73,7 @@ export default function TopicModal({ open, handleClose }: Props) {
     replyEmailNotification,
     labelText,
     cancel,
-    publish
+    publish,
   } = constantsData.topicModal;
   const { toastData } = constantsData;
   const { data: categoriesList = [] } = api.useGetCategoriesQuery();

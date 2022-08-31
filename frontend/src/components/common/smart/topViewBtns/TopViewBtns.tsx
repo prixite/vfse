@@ -105,7 +105,7 @@ const TopViewBtns = ({
     filterByNetworkText,
     filterBySiteText,
     add,
-    activeUsers
+    activeUsers,
   } = constantsData.topViewButtons;
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location?.search);
@@ -526,9 +526,7 @@ const TopViewBtns = ({
             path === organizations &&
             path !== activeUsers &&
             createAddButton()}
-          {path !== organizations &&
-            path !== activeUsers &&
-            createAddButton()}
+          {path !== organizations && path !== activeUsers && createAddButton()}
         </Box>
       </Box>
     </>

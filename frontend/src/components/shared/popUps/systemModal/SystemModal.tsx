@@ -175,7 +175,7 @@ export default function SystemModal(props: SystemProps) {
     ssh,
     serviceWebBrowser,
     virtualMediaControl,
-    systemContactInfo
+    systemContactInfo,
   } = constantsData.systemModal.popUp;
   const { toastData } = constantsData;
   const selectedOrganization = useSelectedOrganization();

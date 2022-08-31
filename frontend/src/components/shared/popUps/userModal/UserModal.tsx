@@ -22,17 +22,18 @@ import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import {
   addNewUserService,
   updateUserService,
 } from "@src/services/userService";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/shared/popUps/userModal/userModal.scss";
 import {
@@ -83,9 +84,17 @@ const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
 
 const validationSchema = yup.object({
-  userProfileImage: yup.string().required(constantsData.users.popUp.imageRequired),
-  firstname: yup.string().matches(nameReg).required(constantsData.users.popUp.firstNameRequired),
-  lastname: yup.string().matches(nameReg).required(constantsData.users.popUp.lastNameRequired),
+  userProfileImage: yup
+    .string()
+    .required(constantsData.users.popUp.imageRequired),
+  firstname: yup
+    .string()
+    .matches(nameReg)
+    .required(constantsData.users.popUp.firstNameRequired),
+  lastname: yup
+    .string()
+    .matches(nameReg)
+    .required(constantsData.users.popUp.lastNameRequired),
   email: yup
     .string()
     .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
@@ -104,7 +113,47 @@ export default function UserModal(props: Props) {
   const [page, setPage] = useState("1");
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { toastData } = constantsData;
   const constantData = localizedData()?.users?.popUp;
+  const {
+    addNewUser,
+    pageTrackerdesc1,
+    pageTrackerdesc2,
+    btnCancel,
+    btnNext,
+    btnAddUser,
+    userFirstName,
+    btnToSave,
+    userLastName,
+    userEmail,
+    userPhoneNumber,
+    userRole,
+    userManager,
+    userCustomer,
+    addText,
+    selectManager,
+    manager,
+    customer,
+    role,
+    edit,
+    userProfileImage,
+    phone,
+    selectedSites,
+    selectedModalities,
+    accessToFSEFunctions,
+    auditEnable,
+    possibilitytoLeave,
+    viewOnly,
+    oneTimeLinkCreation,
+    docLink,
+    userProfileImageText,
+    editUserText,
+    profileImageText,
+    sitesText,
+    healthNetworkAccessText,
+    organizationSitesText,
+    accessToModalities,
+  } = constantData;
 
   const [onChangeValidation, setOnChangeValidation] = useState(false);
 
@@ -113,7 +162,7 @@ export default function UserModal(props: Props) {
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (props?.action === "add") {
+      if (props?.action === addText) {
         handleAddUser();
       } else {
         handleEditUser();
@@ -147,52 +196,6 @@ export default function UserModal(props: Props) {
     }
   );
 
-  const {
-    addNewUser,
-    pageTrackerdesc1,
-    pageTrackerdesc2,
-    btnCancel,
-    btnNext,
-    btnAddUser,
-    userFirstName,
-    btnToSave,
-    userLastName,
-    userEmail,
-    userPhoneNumber,
-    userRole,
-    userManager,
-    userCustomer,
-    imageRequired,
-    firstNameRequired,
-    lastNameRequired,
-    invalidEmailText,
-    emailRequired,
-    phoneNumberValidation,
-    invalidPhoneFormat,
-    phoneRequired,
-    addText,
-    selectManager,
-    manager,
-    customer,
-    role,
-    edit,
-    userProfileImage,
-    phone,
-    selectedSites,
-    selectedModalities,
-    accessToFSEFunctions,
-    auditEnable,
-    possibilitytoLeave,
-    viewOnly,
-    oneTimeLinkCreation,
-    docLink,
-    userProfileImageText,
-    editUserText,
-    profileImageText,
-    sitesText,
-    organizationSitesText,
-    accessToModalities,
-  } = constantData;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -203,31 +206,31 @@ export default function UserModal(props: Props) {
   const selectedOrganization = useSelectedOrganization();
 
   const usersData = Array.from(props?.usersData);
-  usersData?.unshift({ id: -1, username: "Select Manager" });
+  usersData?.unshift({ id: -1, username: selectManager });
 
   useEffect(() => {
-    if (props?.action == "add") {
+    if (props?.action == addText) {
       if (usersData?.length) {
-        formik.setFieldValue("manager", usersData[0]?.id);
+        formik.setFieldValue(manager, usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
-        formik.setFieldValue("customer", props?.organizationData[0]?.id);
+        formik.setFieldValue(customer, props?.organizationData[0]?.id);
       }
       if (props?.roles?.length) {
-        formik.setFieldValue("role", props?.roles[0].value);
+        formik.setFieldValue(role, props?.roles[0].value);
       }
     }
   }, []);
 
   useEffect(() => {
-    if (props?.selectedUser && props?.action == "edit") {
+    if (props?.selectedUser && props?.action == edit) {
       populateEditableData();
     }
   }, [props?.selectedUser, networksData, organizationSitesData]);
 
   useEffect(() => {
     if (selectedImage?.length) {
-      formik.setFieldValue("userProfileImage", selectedImage[0]);
+      formik.setFieldValue(userProfileImage, selectedImage[0]);
     }
   }, [selectedImage]);
 
@@ -244,26 +247,26 @@ export default function UserModal(props: Props) {
         email: editedUser?.email,
       });
       if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
-        formik.setFieldValue("phone", editedUser?.phone?.substring(2));
+        formik.setFieldValue(phone, editedUser?.phone?.substring(2));
       }
       if (editedUser?.role?.length) {
-        formik.setFieldValue("role", editedUser.role[0]);
+        formik.setFieldValue(role, editedUser.role[0]);
       }
       if (editedUser?.manager) {
         formik.setFieldValue(
-          "manager",
+          manager,
           usersData?.filter(
             (user) => user?.email == editedUser?.manager?.email
           )[0]?.id
         );
       } else {
         if (usersData?.length) {
-          formik.setFieldValue("manager", usersData[0]?.id);
+          formik.setFieldValue(manager, usersData[0]?.id);
         }
       }
       if (editedUser?.organizations?.length) {
         formik.setFieldValue(
-          "customer",
+          customer,
           props?.organizationData?.filter((org) => {
             return (
               org?.name?.toString() == editedUser?.organizations[0]?.toString()
@@ -291,7 +294,7 @@ export default function UserModal(props: Props) {
           });
         });
         if (sites_ids?.length == editedUser?.sites?.length) {
-          formik.setFieldValue("selectedSites", sites_ids);
+          formik.setFieldValue(selectedSites, sites_ids);
         }
       }
       if (editedUser?.modalities?.length) {
@@ -302,28 +305,25 @@ export default function UserModal(props: Props) {
         filterModalities?.forEach((mod) => {
           mod_ids.push(mod?.id);
         });
-        formik.setFieldValue("selectedModalities", mod_ids);
+        formik.setFieldValue(selectedModalities, mod_ids);
       }
       if (editedUser?.fse_accessible) {
-        formik.setFieldValue(
-          "accessToFSEFunctions",
-          editedUser?.fse_accessible
-        );
+        formik.setFieldValue(accessToFSEFunctions, editedUser?.fse_accessible);
       }
       if (editedUser?.audit_enabled) {
-        formik.setFieldValue("auditEnable", editedUser?.audit_enabled);
+        formik.setFieldValue(auditEnable, editedUser?.audit_enabled);
       }
       if (editedUser?.can_leave_notes) {
-        formik.setFieldValue("possibilitytoLeave", editedUser?.can_leave_notes);
+        formik.setFieldValue(possibilitytoLeave, editedUser?.can_leave_notes);
       }
       if (editedUser?.view_only) {
-        formik.setFieldValue("viewOnly", editedUser?.view_only);
+        formik.setFieldValue(viewOnly, editedUser?.view_only);
       }
       if (editedUser?.is_one_time) {
-        formik.setFieldValue("oneTimeLinkCreation", editedUser?.is_one_time);
+        formik.setFieldValue(oneTimeLinkCreation, editedUser?.is_one_time);
       }
       if (editedUser?.documentation_url) {
-        formik.setFieldValue("docLink", editedUser?.documentation_url);
+        formik.setFieldValue(docLink, editedUser?.documentation_url);
       }
     }
   };
@@ -343,9 +343,9 @@ export default function UserModal(props: Props) {
         formik.values.selectedSites?.indexOf(val),
         1
       );
-      formik.setFieldValue("selectedSites", [...formik.values.selectedSites]);
+      formik.setFieldValue(selectedSites, [...formik.values.selectedSites]);
     } else {
-      formik.setFieldValue("selectedSites", [
+      formik.setFieldValue(selectedSites, [
         ...formik.values.selectedSites,
         val,
       ]);
@@ -353,7 +353,7 @@ export default function UserModal(props: Props) {
   };
 
   const handleSelectedModalities = (event, newFormats) => {
-    formik.setFieldValue("selectedModalities", newFormats);
+    formik.setFieldValue(selectedModalities, newFormats);
   };
 
   const sitesLength = () => {
@@ -397,7 +397,7 @@ export default function UserModal(props: Props) {
               }, 500);
             })
             .catch(() => {
-              toast.error("User with this username already exists.", {
+              toast.error(toastData.userAlreadyExists, {
                 autoClose: 2000,
                 pauseOnHover: false,
               });
@@ -448,7 +448,7 @@ export default function UserModal(props: Props) {
             pauseOnHover: false,
           });
         } else {
-          toast.error("Error occurred while saving user");
+          toast.error(toastData.saveUserError);
         }
         setIsLoading(false);
       });
@@ -464,7 +464,7 @@ export default function UserModal(props: Props) {
     const obj = {
       meta: {
         profile_picture: imageUrl,
-        title: "User Profile Image",
+        title: userProfileImageText,
       },
       first_name: formik.values.firstname,
       last_name: formik.values.lastname,
@@ -488,19 +488,19 @@ export default function UserModal(props: Props) {
   };
 
   const resetModal = () => {
-    if (props?.action == "add") {
+    if (props?.action == addText) {
       formik.resetForm();
-      formik.setFieldValue("userProfileImage", selectedImage[0]);
+      formik.setFieldValue(userProfileImage, selectedImage[0]);
       if (usersData?.length) {
-        formik.setFieldValue("manager", usersData[0]?.id);
+        formik.setFieldValue(manager, usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
-        formik.setFieldValue("customer", props?.organizationData[0]?.id);
+        formik.setFieldValue(customer, props?.organizationData[0]?.id);
       }
-    } else if (props?.action == "edit") {
+    } else if (props?.action == edit) {
       populateEditableData();
       formik.resetForm();
-      formik.setFieldValue("userProfileImage", selectedImage[0]);
+      formik.setFieldValue(userProfileImage, selectedImage[0]);
     }
     props?.handleClose();
   };
@@ -519,7 +519,7 @@ export default function UserModal(props: Props) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {!props?.selectedUser ? addNewUser : "Edit User"}
+            {!props?.selectedUser ? addNewUser : editUserText}
           </span>
           <span className="dialog-page">
             <span className="pg-number">
@@ -567,7 +567,7 @@ export default function UserModal(props: Props) {
           {page === "1" ? (
             <>
               <div>
-                <p className="info-label required">Profile Image</p>
+                <p className="info-label required">{profileImageText}</p>
                 <DropzoneBox
                   imgSrc={formik.values.userProfileImage}
                   setSelectedImage={setSelectedImage}
@@ -729,7 +729,7 @@ export default function UserModal(props: Props) {
               <div>
                 {sitesLength() > 0 ? (
                   <p className="modalities-header">
-                    <span className="info-label">Sites</span>
+                    <span className="info-label">{sitesText}</span>
                     <span className="checked-ratio">{`${
                       formik.values.selectedSites?.length
                     }/${sitesLength()}`}</span>
@@ -740,7 +740,7 @@ export default function UserModal(props: Props) {
                 {getNetworkSitesLength() > 0 ? (
                   <p className="modalities-header">
                     <span style={{ fontWeight: "600" }}>
-                      Health Network Access
+                      {healthNetworkAccessText}
                     </span>
                   </p>
                 ) : (
@@ -788,7 +788,7 @@ export default function UserModal(props: Props) {
                   <>
                     <p className="modalities-header">
                       <span style={{ fontWeight: "600" }}>
-                        Organization Sites
+                        {organizationSitesText}
                       </span>
                     </p>
                     <div className="network-details">
@@ -823,7 +823,7 @@ export default function UserModal(props: Props) {
               <div>
                 {props?.modalitiesList?.length ? (
                   <p className="modalities-header">
-                    <span className="info-label">Access to modalities</span>
+                    <span className="info-label">{accessToModalities}</span>
                     <span className="checked-ratio">{`${formik.values.selectedModalities?.length}/${props?.modalitiesList?.length}`}</span>
                   </p>
                 ) : (
