@@ -8,6 +8,7 @@ import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
 
@@ -15,6 +16,7 @@ const SeeAllArticles = () => {
   const classes = useStyles();
   const [articlesList, setArticlesList] = useState<Document[]>([]);
   const [query, setQuery] = useState("");
+  const { article } = constantsData;
   const [open, setOpen] = useState(false);
   const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
   const { data: topData = [] } = api.useGetAllArticlesQuery();
@@ -62,7 +64,7 @@ const SeeAllArticles = () => {
         setData={setArticlesList}
         actualData={topData}
       />
-      <h2 className={classes.subHeading}>All Articles</h2>
+      <h2 className={classes.subHeading}>{article.allArticles}</h2>
       {articlesList.length ? (
         <Grid container spacing={1}>
           {articlesList.map((item, index) => (

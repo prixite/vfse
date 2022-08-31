@@ -13,6 +13,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import { timeOut } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import {
@@ -32,8 +33,16 @@ const initialState: Category = {
 };
 
 const validationSchema = yup.object({
-  name: yup.string().min(1).max(20).required("Color Text is required!"),
-  color: yup.string().min(1).max(10).required("Color is required!"),
+  name: yup
+    .string()
+    .min(1)
+    .max(20)
+    .required(constantsData.categoryModal.colorTextRequired),
+  color: yup
+    .string()
+    .min(1)
+    .max(10)
+    .required(constantsData.categoryModal.colorRequired),
 });
 
 export default function CategoryModal({
@@ -48,6 +57,9 @@ export default function CategoryModal({
   const [isLoading, setIsLoading] = useState(false);
   //API
   const [addNewCategory] = api.useAddCategoryMutation();
+  const { addCategoryText, colorNameText, cancelText } =
+    constantsData.categoryModal;
+  const { toastData } = constantsData;
 
   const formik = useFormik({
     initialValues: initialState,
@@ -63,14 +75,14 @@ export default function CategoryModal({
     addNewCategory({ category: { ...formik.values } })
       .unwrap()
       .then(() => {
-        toast.success("Category Successfully added.", {
+        toast.success(toastData.categoryAddSuccess, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
         resetModal();
       })
       .catch(() => {
-        toast.error("Error occured while adding Category", {
+        toast.error(toastData.categoryAddError, {
           autoClose: 2000,
           pauseOnHover: false,
         });
@@ -96,7 +108,7 @@ export default function CategoryModal({
     <Dialog className="category-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">Add Category</span>
+          <span className="modal-header">{addCategoryText}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -113,7 +125,7 @@ export default function CategoryModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">Color Name</p>
+                  <p className="info-label required">{colorNameText}</p>
                   <TextField
                     autoComplete="off"
                     name="name"
@@ -150,7 +162,7 @@ export default function CategoryModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          Cancel
+          {cancelText}
         </Button>
         <Button
           className="add-btn"
@@ -164,7 +176,7 @@ export default function CategoryModal({
           }}
           disabled={isLoading}
         >
-          Add Category
+          {addCategoryText}
         </Button>
       </DialogActions>
     </Dialog>

@@ -31,7 +31,8 @@ const HealthNetwork = ({
   allNetworks,
 }: HealthNetworkProps) => {
   const constantData = localizedData()?.healthNetwork;
-  const { name, logo } = constantData;
+  const { name, logo, nameRequired, imageRequired, networkDuplicateError } =
+    constantData;
   const [selectedImage, setSelectedImage] = useState([]);
   const [networkNameErr, setNetworkNameErr] = useState("");
   const [networkDuplicationErr, setNetworkDuplicationErr] = useState("");
@@ -77,14 +78,14 @@ const HealthNetwork = ({
     if (isDataPartiallyfilled) {
       if (network?.name === "" && network?.appearance?.logo !== "") {
         setNetworkImageErr("");
-        setNetworkNameErr("Name is required");
+        setNetworkNameErr(nameRequired);
       }
       if (network?.name !== "" && network?.appearance?.logo === "") {
-        setNetworkImageErr("Image is required");
+        setNetworkImageErr(imageRequired);
         setNetworkNameErr("");
       }
       if (network?.name === organizationName) {
-        setNetworkDuplicationErr("Organization with this Name already exists");
+        setNetworkDuplicationErr(networkDuplicateError);
       }
       if (
         (network?.name === "" && network?.appearance?.logo === "") ||

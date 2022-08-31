@@ -9,6 +9,7 @@ import shareIcon from "@src/assets/svgs/share.svg";
 import "@src/components/common/presentational/topicComment/topicComment.scss";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
+import constantsData from "@src/localization/en.json";
 import { Comment } from "@src/store/reducers/generated";
 
 import TopicReply from "../topicReply/TopicReply";
@@ -20,6 +21,8 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
   const [replyChecked, setReplyChecked] = useState<boolean>(false);
   const [shared, setShared] = useState(false);
   const { number_of_replies: numberOfReplies } = commentData;
+  const { topicComments } = constantsData;
+  const { replies, reply, sharedText, copied } = topicComments;
   const handleShare = () => {
     setShared(true);
     navigator.clipboard.writeText(commentData?.comment);
@@ -57,7 +60,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     onClick={handleReply}
                   >
                     <img src={messageIcon} alt="msgIcon" className="icon" />
-                    <span className="actionDescription">Reply</span>
+                    <span className="actionDescription">{reply}</span>
                   </div>
 
                   <div
@@ -66,7 +69,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                   >
                     <img src={shareIcon} alt="msgIcon" className="icon" />
                     <span className="actionDescription">
-                      {!shared ? "Share" : "Copied!"}
+                      {!shared ? sharedText : copied}
                     </span>
                   </div>
                 </div>
@@ -75,8 +78,8 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     <img src={replyIcon} alt="replyIcon" />
                     <span className="replyIconText">
                       {numberOfReplies > 1
-                        ? numberOfReplies + " Replies"
-                        : numberOfReplies + " Reply"}
+                        ? numberOfReplies + replies
+                        : numberOfReplies + reply}
                     </span>
                   </div>
                 )}
@@ -157,7 +160,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                           }
                     }
                   >
-                    Reply
+                    {reply}
                   </span>
                 </Grid>
 
@@ -199,7 +202,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                           }
                     }
                   >
-                    {!shared ? "Share" : "Copied!"}
+                    {!shared ? sharedText : copied}
                   </span>
                 </Grid>
                 <Grid xs={4} sm={4} md={4} lg={4}></Grid>
@@ -218,8 +221,8 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     }
                   >
                     {numberOfReplies > 1
-                      ? numberOfReplies + " Replies"
-                      : numberOfReplies + " Reply"}
+                      ? numberOfReplies + replies
+                      : numberOfReplies + reply}
                   </span>
                 </Grid>
               )}

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import {} from "@mui/icons-material";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 
 interface btnProps {
@@ -53,6 +54,7 @@ const DocumentationBtnSection = ({
 }: btnProps) => {
   const localization: LocalizationInterface = localizedData();
   const { btnEdit, btnCopy } = localization.document;
+  const { toastData } = constantsData;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -60,7 +62,7 @@ const DocumentationBtnSection = ({
   const cancelEdit = () => handleEditText(false);
   const copyLink = () => {
     navigator?.clipboard?.writeText(window.location.href);
-    toast.success("Link Copied.", {
+    toast.success(toastData.documentationBtnLinkCopy, {
       autoClose: 1000,
       pauseOnHover: false,
     });

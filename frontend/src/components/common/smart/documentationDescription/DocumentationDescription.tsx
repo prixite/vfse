@@ -12,8 +12,8 @@ import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import { timeOut } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
-
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
 
 const DocumentationDescription = () => {
@@ -21,6 +21,7 @@ const DocumentationDescription = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlText, setHtmlText] = useState("");
   const { docId } = useParams<{ docId: string }>();
+  const { toastData } = constantsData;
   const { data: articleData } = api.useGetArticleQuery({ id: parseInt(docId) });
   const [updateArticle] = api.useUpdateArticleMutation();
 
@@ -47,7 +48,7 @@ const DocumentationDescription = () => {
     })
       .unwrap()
       .then(() => {
-        toast.success("Article Updated Successfully.", {
+        toast.success(toastData.articleUpdateSuccess, {
           autoClose: timeOut,
           pauseOnHover: false,
         });

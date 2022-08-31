@@ -1,11 +1,13 @@
 import EditLogo from "@src/assets/svgs/edit.svg";
 import "@src/components/common/smart/userSection/userCard/userCard.scss";
+import constantsData from "@src/localization/en.json";
 import { User } from "@src/store/reducers/api";
 interface UserCardProps {
   user: User;
   handleClick: (event: unknown, id: number, active: boolean) => void;
 }
 const UserCard = ({ user, handleClick }: UserCardProps) => {
+  const { userCard } = constantsData;
   return (
     <div className="UserCard">
       <div className="user">
@@ -16,15 +18,15 @@ const UserCard = ({ user, handleClick }: UserCardProps) => {
         />
       </div>
       <div className="userInfo">
-        <h3 className="name">Email</h3>
+        <h3 className="name">{userCard.email}</h3>
         <p className="name">{user?.email}</p>
       </div>
       <div className="userInfo">
-        <h3 className="name">Customer</h3>
+        <h3 className="name">{userCard.customer}</h3>
         <p className="name">{user?.organizations}</p>
       </div>
       <div className="userInfo">
-        <h3 className="name">Status</h3>
+        <h3 className="name">{userCard.status}</h3>
         <p className="name" style={user?.is_active ? {} : { color: "red" }}>
           {user?.is_active ? "Active" : "Locked"}
         </p>

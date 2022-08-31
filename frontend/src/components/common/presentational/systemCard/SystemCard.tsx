@@ -32,6 +32,7 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
   useAppDispatch,
@@ -74,6 +75,7 @@ const SystemCard = ({
   );
   const selectedOrganization: unknown = useSelectedOrganization();
   const dispatch = useAppDispatch();
+  const { toastData, systemCard } = constantsData;
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const [openModal, setOpenModal] = useState(false);
 
@@ -95,6 +97,32 @@ const SystemCard = ({
     connect,
     grafana_link_txt,
   } = localizedData().systems_card;
+
+  const {
+    loaded,
+    unloaded,
+    fontFamily,
+    textDecoder_utf_8,
+    organizationId,
+    id,
+    port,
+    portNumber,
+    root,
+    color,
+    username,
+    term,
+    xsrf,
+    sshTerminalText,
+    blank,
+    yes,
+    no,
+    format_l,
+    format_LT,
+    support,
+    edit,
+    comments,
+    deleteText,
+  } = systemCard;
 
   const handleModalClose = () => {
     setOpenModal(false);
@@ -123,7 +151,7 @@ const SystemCard = ({
       system.id,
       deleteSystem
     );
-    toast.success("System successfully deleted.", {
+    toast.success(toastData.systemCardDeleteSuccess, {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -154,7 +182,7 @@ const SystemCard = ({
       const title_element: unknown = {};
       const url_opts_data: unknown = {};
       const style: unknown = {};
-      const encoding = "utf-8";
+      const encoding = textDecoder_utf_8;
       const decoder = window.TextDecoder
         ? new window.TextDecoder(encoding)
         : encoding;
@@ -186,10 +214,10 @@ const SystemCard = ({
         sock.send(JSON.stringify({ data: data }));
       });
       const custom_font_is_loaded = () => {
-        if (custom_font.status === "loaded") {
+        if (custom_font.status === loaded) {
           return true;
         }
-        if (custom_font.status === "unloaded") {
+        if (custom_font.status === unloaded) {
           return false;
         }
       };
@@ -199,12 +227,12 @@ const SystemCard = ({
         }
 
         if (!default_fonts) {
-          default_fonts = term.getOption("fontFamily");
+          default_fonts = term.getOption(fontFamily);
         }
 
         if (custom_font_is_loaded()) {
           const new_fonts = custom_font.family + ", " + default_fonts;
-          term.setOption("fontFamily", new_fonts);
+          term.setOption(fontFamily, new_fonts);
           term.font_family_updated = true;
         }
       };
@@ -213,7 +241,7 @@ const SystemCard = ({
         const reader = new window.FileReader();
 
         if (encoding === undefined) {
-          encoding = "utf-8";
+          encoding = textDecoder_utf_8;
         }
 
         reader.onload = function () {
@@ -228,7 +256,7 @@ const SystemCard = ({
         const reader = new window.FileReader();
 
         if (decoder === undefined) {
-          decoder = new window.TextDecoder("utf-8", { fatal: true });
+          decoder = new window.TextDecoder(textDecoder_utf_8, { fatal: true });
         }
 
         reader.onload = function () {
@@ -334,14 +362,14 @@ const SystemCard = ({
       if (!response.status === 200) {
         throw new Error(`Error! status: ${response.status}`);
       } else {
-        const xsrfToken = getCookie("_xsrf");
+        const xsrfToken = getCookie(xsrf);
         const data = new FormData();
-        data.append("organization_id", selectedOrganization?.id);
-        data.append("system_id", systemId);
-        data.append("port", "22");
-        data.append("username", "root");
-        data.append("term", "xterm-256color");
-        data.append("_xsrf", xsrfToken);
+        data.append(organizationId, selectedOrganization?.id);
+        data.append(id, systemId);
+        data.append(port, portNumber);
+        data.append(username, root);
+        data.append(term, color);
+        data.append(xsrf, xsrfToken);
 
         fetch(url, {
           credentials: "include",
@@ -354,7 +382,7 @@ const SystemCard = ({
       }
     } catch (error) {
       setLoginProgress(false);
-      toast.error("Could not connect.", {
+      toast.error(toastData.systemCardConnectionError, {
         autoClose: 1000,
         pauseOnHover: false,
       });
@@ -380,7 +408,7 @@ const SystemCard = ({
                 <CloseIcon />
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                SSH Terminal
+                {sshTerminalText}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -417,7 +445,7 @@ const SystemCard = ({
               <Button
                 variant="contained"
                 className={classes.linkBtn}
-                onClick={() => window?.open(system.grafana_link, "_blank")}
+                onClick={() => window?.open(system.grafana_link, blank)}
               >
                 <div className="btn-content">
                   <AttachFileIcon className={classes.icon} />
@@ -456,7 +484,7 @@ const SystemCard = ({
               <p className={classes.option}>
                 {is_online} <br />
                 <strong className={classes.titleStrong}>
-                  {system.is_online ? "Yes" : "No"}
+                  {system.is_online ? yes : no}
                 </strong>
               </p>
             </div>
@@ -488,8 +516,8 @@ const SystemCard = ({
                 <p className={classes.option}>
                   {latest_ping} <br />
                   <strong className={classes.titleStrong}>
-                    {moment(system.last_successful_ping_at).format("l")}{" "}
-                    {moment(system.last_successful_ping_at).format("LT")}
+                    {moment(system.last_successful_ping_at).format(format_l)}{" "}
+                    {moment(system.last_successful_ping_at).format(format_LT)}
                   </strong>
                 </p>
               )}
@@ -512,7 +540,7 @@ const SystemCard = ({
                     className={classes.copyBtn}
                     onClick={() => {
                       navigator?.clipboard?.writeText(system.documentation);
-                      toast.success("Link Copied.", {
+                      toast.success(toastData.systemCardLinkCopiedSuccess, {
                         autoClose: timeOut,
                         pauseOnHover: false,
                       });
@@ -575,18 +603,18 @@ const SystemCard = ({
           onClose={handleClose}
         >
           <MenuItem onClick={() => onSupport()}>
-            <span style={{ marginLeft: "12px" }}>Support</span>
+            <span style={{ marginLeft: "12px" }}>{support}</span>
           </MenuItem>
           <MenuItem onClick={onEdit}>
-            <span style={{ marginLeft: "12px" }}>Edit</span>
+            <span style={{ marginLeft: "12px" }}>{edit}</span>
           </MenuItem>
           {canLeaveNotes && (
             <MenuItem onClick={onComment}>
-              <span style={{ marginLeft: "12px" }}>Comments</span>
+              <span style={{ marginLeft: "12px" }}>{comments}</span>
             </MenuItem>
           )}
           <MenuItem onClick={() => setModal(true)}>
-            <span style={{ marginLeft: "12px" }}>Delete</span>
+            <span style={{ marginLeft: "12px" }}>{deleteText}</span>
           </MenuItem>
         </Menu>
       </div>

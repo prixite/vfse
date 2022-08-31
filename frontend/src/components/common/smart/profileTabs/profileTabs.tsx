@@ -5,6 +5,8 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 
+import constantsData from "@src/localization/en.json";
+
 import MyTopics from "../myTopics/myTopics";
 import "@src/components/common/smart/profileTabs/profileTabs.scss";
 
@@ -43,6 +45,7 @@ function a11yProps(index: number) {
 
 const ProfileTabs = () => {
   const [value, setValue] = React.useState(0);
+  const { profileTabs } = constantsData;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -75,7 +78,7 @@ const ProfileTabs = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Activity
+        {profileTabs.activity}
       </TabPanel>
       <TabPanel value={value} index={1}>
         <MyTopics />
