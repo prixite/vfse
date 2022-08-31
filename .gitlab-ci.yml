@@ -22,6 +22,8 @@ variables:
   DUO_CLIENT_SECRET: "fake"
   DUO_API_HOSTNAME: "fake"
   DUO_REDIRECT_URI: "fake"
+  AWS_STORAGE_BUCKET_NAME: "vfse-staging"
+  DOMAIN_NAME: "https://app.vfse.io"
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
   PRE_COMMIT_HOME: "$CI_PROJECT_DIR/.cache/pre-commit"
 

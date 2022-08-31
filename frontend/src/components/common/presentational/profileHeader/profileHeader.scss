@@ -1,6 +1,7 @@
 $green-color: #92d509;
 $light-grey: #696f77;
 $dark-grey: #92d509;
+$primary-purple: #773cbd;
 .header {
   border-radius: 15px !important;
   overflow: hidden;
@@ -13,11 +14,24 @@ $dark-grey: #92d509;
     justify-content: flex-end;
     align-items: flex-start;
     position: relative;
+    padding: 4.5rem;
 
     .profilePic {
       position: absolute;
       top: 80px;
       left: 10px;
+    }
+    .cameraIcon {
+      color: rgba(58, 58, 58, 0.87);
+      background-color: white;
+      border-radius: 50%;
+      padding: 2px;
+      position: absolute;
+      bottom: -45px;
+      left: 102px;
+      width: 30px;
+      cursor: pointer;
+      height: 30px;
     }
 
     .editButton {
@@ -46,6 +60,12 @@ $dark-grey: #92d509;
 
 @media (max-width: 900px) {
   .profilePic {
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cameraIcon {
     left: 0;
     right: 0;
     margin-left: auto;

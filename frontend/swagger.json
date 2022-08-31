@@ -2335,7 +2335,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Topic"
+                                "$ref": "#/definitions/TopicDetail"
                             }
                         }
                     }
@@ -2925,7 +2925,8 @@
         "Me": {
             "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "required": [
-                "profile_picture"
+                "profile_picture",
+                "can_leave_notes"
             ],
             "type": "object",
             "properties": {
@@ -2966,6 +2967,10 @@
                 "is_superuser": {
                     "title": "Superuser status",
                     "description": "Designates that this user has all permissions without explicitly assigning them.",
+                    "type": "boolean"
+                },
+                "can_leave_notes": {
+                    "title": "Can leave notes",
                     "type": "boolean"
                 }
             }
