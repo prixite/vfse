@@ -111,10 +111,14 @@ class OrganizationPermission(BasePermission):
 
 
 class SystemNotePermissions(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.profile.can_leave_notes
+
     def has_object_permission(self, request, view, obj):
         if request.user.is_superuser and request.method != "PATCH":
             return True
-
+        elif not request.user.profile.can_leave_notes:
+            return False
         elif request.user == obj.author:
             return True
 

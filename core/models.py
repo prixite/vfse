@@ -134,10 +134,7 @@ class User(AbstractUser):
         return UserSystem.objects.filter(user=self).values_list("system")
 
     def get_organization_systems(self, organization_pk):
-        return System.objects.filter(
-            id__in=self.get_systems(),
-            site__in=self.get_sites(),
-        ).filter(
+        return System.objects.filter(site__in=self.get_sites(),).filter(
             Q(
                 site__organization__in=self.get_organization_health_networks(
                     organization_pk
@@ -618,7 +615,7 @@ class ProductModel(models.Model):
     model = models.CharField(max_length=50)
     modality = models.ForeignKey("Modality", on_delete=models.CASCADE)
     documentation = models.ForeignKey(
-        "Documentation", null=True, on_delete=models.SET_NULL
+        "Documentation", null=True, blank=True, on_delete=models.SET_NULL
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

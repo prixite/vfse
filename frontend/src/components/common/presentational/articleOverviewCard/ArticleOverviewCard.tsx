@@ -21,9 +21,17 @@ const ArticleOverviewCard = ({ htmlText }: ArticleOverviewCardProps) => {
   const renderHeadings = () => {
     return tableContents.map((content, i) => {
       if (i === 0) {
-        return <h1 className="heading">{content?.toLowerCase()}</h1>;
+        return (
+          <h1 key={i} className="heading">
+            {content?.toLowerCase()}
+          </h1>
+        );
       } else {
-        return <p className="description">{content?.toLowerCase()}</p>;
+        return (
+          <p key={i} className="description">
+            {content?.toLowerCase()}
+          </p>
+        );
       }
     });
   };
