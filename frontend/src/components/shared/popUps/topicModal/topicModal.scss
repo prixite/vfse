@@ -183,6 +183,8 @@
   .MuiDialogActions-root {
     justify-content: center;
     margin-bottom: 12px;
+    margin-right: 22px;
+    margin-left: 13px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;
@@ -259,6 +261,10 @@
           }
         }
       }
+    }
+    .MuiDialogActions-root {
+      margin-left: 15px;
+      margin-right: 15px
     }
   }
 }
