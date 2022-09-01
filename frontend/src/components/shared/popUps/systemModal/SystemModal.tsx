@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   TextField,
   Grid,
@@ -21,6 +22,7 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
+import AddManufacturerModal from "@src/components/shared/popUps/addManufacturerModal/AddManufacturerModal";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
@@ -178,6 +180,8 @@ export default function SystemModal(props: SystemProps) {
     systemContactInfo,
   } = constantsData.systemModal.popUp;
   const { toastData } = constantsData;
+  const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
+
   const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
   const [updateSystem] = useOrganizationsSystemsPartialUpdateMutation();
@@ -465,6 +469,21 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Manufacturer"
                     parent="modality"
                   />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "10px",
+                      cursor: "pointer",
+                      marginLeft: "3px",
+                    }}
+                    onClick={() => setOpenManufacturerModal(true)}
+                  >
+                    <span>Add manufacturer</span>
+                    <AddCircleIcon
+                      style={{ marginLeft: "5px", color: buttonBackground }}
+                    />
+                  </div>
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -912,6 +931,10 @@ export default function SystemModal(props: SystemProps) {
             {props.system ? btnEdit : btnAdd}
           </Button>
         </DialogActions>
+        <AddManufacturerModal
+          open={openManufacturerModal}
+          handleClose={() => setOpenManufacturerModal(false)}
+        />
       </form>
     </Dialog>
   );

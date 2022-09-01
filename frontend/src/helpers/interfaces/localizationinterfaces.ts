@@ -69,6 +69,14 @@ export interface Users {
   popUp: PopUp;
 }
 
+export interface ManufacturerInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
+
 export interface UserMenuOptions {
   lock: string;
   unlock: string;
@@ -395,6 +403,7 @@ export interface LocalizationInterface {
   folderSection: folderSection;
   document: document;
   articleDescription: articleDescription;
+  ManufacturerModal: ManufacturerInterface;
 }
 
 export interface SystemInterfaceProps {
