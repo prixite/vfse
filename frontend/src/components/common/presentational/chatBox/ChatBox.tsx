@@ -3,7 +3,7 @@ import { useState, Dispatch, SetStateAction } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
-import { Box, TextField } from "@mui/material";
+import { Box, Grid, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
 import constants from "@src/localization/en.json";
@@ -21,25 +21,42 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const [isLoading, setIsLoading] = useState(false);
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
-  const [chatResponse, setChatResponse] = useState<string>("");
   const [placeholder, setPlaceHolder] = useState<string>(
     chatBox.placeholderText
   );
-
+  const [arrayToDisplay, setArrayToDiplay] = useState<string[]>([]);
   const resetQuery = () => {
     setPlaceHolder("");
     setIsLoading(false);
     setYourQuery("");
   };
 
+  const keyPressEnter = (event) => {
+    if (event.key == "Enter") {
+      handleChatting();
+    }
+  };
+
   const handleChatting = () => {
     setIsLoading(true);
+    setArrayToDiplay((oldArray) => [...oldArray, `${yourQuery}`]);
     postChat({ sysId: system?.id, query: yourQuery })
       .unwrap()
       .then(({ response_text: responseText }) => {
-        setChatResponse(responseText);
+        setArrayToDiplay((oldArray) => [...oldArray, `${responseText}`]);
       })
       .catch((err) => {
+        if (err?.status > 500) {
+          setArrayToDiplay((oldArray) => [
+            ...oldArray,
+            `I'm sorry, I don't understand. Could you say it again?`,
+          ]);
+        } else {
+          setArrayToDiplay((oldArray) => [
+            ...oldArray,
+            `Re-establish connection. Some Error ${err?.originalStatus} occured.`,
+          ]);
+        }
         toast.error(
           err.originalStatus === 500
             ? `${toastData.chatBoxReqProceedError}`
@@ -68,14 +85,56 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
       </Box>
       <Box component="div" className="chatSection">
         <div className="chatBotResponse">
-          <p>{chatResponse}</p>
+          {arrayToDisplay?.map((item, index) => {
+            return (
+              <>
+                <Grid
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  marginBottom={1}
+                  key={item}
+                >
+                  <Box
+                    style={
+                      (index + 1) % 2 !== 0
+                        ? {
+                            // Odd
+                            border: `2px solid ${buttonBackground}`,
+                            width: "95%",
+                            marginRight: "auto",
+                            padding: "5px",
+                            borderRadius: "8px",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                          }
+                        : {
+                            //Even
+                            border: "2px solid #fff",
+                            width: "95%",
+                            marginLeft: "auto",
+                            padding: "5px",
+                            borderRadius: "8px",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                          }
+                    }
+                  >
+                    <p style={{ wordBreak: "break-word" }}>{item}</p>
+                  </Box>
+                </Grid>
+              </>
+            );
+          })}
         </div>
       </Box>
       <Box component="div" className="InputSection">
         <TextField
           id="outlined-basic"
           variant="outlined"
-          autoComplete="off"
+          inputProps={{ autoComplete: "off" }}
           placeholder={placeholder}
           onChange={(e) => {
             setYourQuery(e.target.value.toString());
@@ -88,6 +147,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
               borderColor: "grey",
             },
           }}
+          onKeyPress={keyPressEnter}
         />
         {!isLoading && yourQuery ? (
           <div
