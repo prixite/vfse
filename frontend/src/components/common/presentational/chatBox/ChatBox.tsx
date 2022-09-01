@@ -6,6 +6,7 @@ import "@src/components/common/presentational/chatBox/chatBox.scss";
 import { Box, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
+import constants from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { System } from "@src/store/reducers/generated";
@@ -16,12 +17,13 @@ interface ChatBoxInterface {
 }
 const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
+  const { chatBox, toastData } = constants;
   const [isLoading, setIsLoading] = useState(false);
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
   const [chatResponse, setChatResponse] = useState<string>("");
   const [placeholder, setPlaceHolder] = useState<string>(
-    "How may I answer your query..."
+    chatBox.placeholderText
   );
 
   const resetQuery = () => {
@@ -40,8 +42,8 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
       .catch((err) => {
         toast.error(
           err.originalStatus === 500
-            ? "We can not proceed ypur request at that time."
-            : `Error occured ${err?.error}.`,
+            ? `${toastData.chatBoxReqProceedError}`
+            : `${toastData.chatBoxErrorOcccured} ${err?.error}.`,
           {
             autoClose: 1000,
             pauseOnHover: false,

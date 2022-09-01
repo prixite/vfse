@@ -2,6 +2,7 @@ import Popover from "@mui/material/Popover";
 import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { vfseRoutes } from "@src/routes";
 import { useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/common/presentational/profilePopOver/profilePopOver.scss";
@@ -16,12 +17,13 @@ const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
   const navigate = useNavigate();
   const selectedOrganization = useSelectedOrganization();
   const { organizationRoute } = constants;
+  const { vfse_popover } = constantsData.vfsePopOver;
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "vfse-popover" : undefined;
+  const id = open ? vfse_popover : undefined;
 
   return (
     <Popover
