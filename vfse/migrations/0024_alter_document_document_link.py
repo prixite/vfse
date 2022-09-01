@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vfse', '0023_alter_comment_options'),
+        ("vfse", "0023_alter_comment_options"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='document',
-            name='document_link',
+            model_name="document",
+            name="document_link",
             field=models.URLField(blank=True, null=True),
         ),
     ]
