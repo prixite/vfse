@@ -182,6 +182,7 @@
   }
   .MuiDialogActions-root {
     margin-bottom: 12px;
+    margin-right: 14px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;
@@ -219,6 +220,9 @@
 
 @media only screen and (max-width: 480px) {
   .topic-modal {
+    .MuiDialogActions-root {
+      margin-right: 0px;
+    }
     .MuiDialog-paper {
       width: 100%;
       margin: 5px;

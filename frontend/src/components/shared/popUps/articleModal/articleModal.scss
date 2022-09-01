@@ -141,3 +141,12 @@
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .article-modal {
+    .MuiDialogActions-root {
+      margin-left: 7px;
+      margin-right: 10px;
+    }
+  }
+}

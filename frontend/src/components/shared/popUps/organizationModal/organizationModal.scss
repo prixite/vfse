@@ -131,7 +131,7 @@
     justify-content: space-between;
     margin-top: 2px;
     margin-bottom: 8px;
-    padding: 20px 44px 20px 31px;
+    padding: 20px 48px 20px 31px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;
@@ -166,6 +166,9 @@
 
 @media only screen and (max-width: 480px) {
   .organization-modal {
+    .MuiDialogActions-root {
+      margin-right: -18px;
+    }
     .MuiDialog-paper {
       width: 100%;
       margin: 5px;
