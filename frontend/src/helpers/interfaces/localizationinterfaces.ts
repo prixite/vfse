@@ -70,6 +70,7 @@ export interface Users {
 }
 
 export interface ManufacturerInterface {
+  nameRequired: string;
   title: string;
   addBtn: string;
   cancelBtn: string;

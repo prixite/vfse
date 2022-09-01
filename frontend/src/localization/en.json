@@ -707,6 +707,7 @@
         "publish": "Publish"
     },
     "ManufacturerModal": {
+        "nameRequired": "Name is required!",
         "title": "Add manufacturer",
         "addBtn": "Add",
         "cancelBtn": "Cancel",

@@ -30,11 +30,11 @@ const initialState: Category = {
   name: "",
 };
 
-const { title, addBtn, cancelBtn, subHeading } =
+const { nameRequired, title, addBtn, cancelBtn, subHeading } =
   localizedData().ManufacturerModal;
 
 const validationSchema = yup.object({
-  name: yup.string().min(1).max(20).required("Color Text is required!"),
+  name: yup.string().min(1).max(20).required(nameRequired),
 });
 
 export default function AddManufacturerModal({

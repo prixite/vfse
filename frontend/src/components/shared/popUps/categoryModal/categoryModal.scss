@@ -142,3 +142,12 @@
     }
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .category-modal {
+    .MuiDialogActions-root {
+      padding-left: 21px;
+      padding-right: 23px;
+    }
+  }
+}
