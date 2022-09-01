@@ -4,16 +4,18 @@ from django.db import migrations
 
 
 def default_categories(apps, schema_editor):
-    Document = apps.get_model('vfse', 'Document')
+    Document = apps.get_model("vfse", "Document")
+    Category = apps.get_model("vfse", "Category")
+    category = Category.objects.first()
     for document in Document.objects.all():
-        person.name = '%s %s' % (person.first_name, person.last_name)
-        person.save()
+        if not document.categories:
+            document.categories = category
+            document.save()
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('vfse', '0023_alter_comment_options'),
+        ("vfse", "0023_alter_comment_options"),
     ]
 
     operations = [
