@@ -19,9 +19,10 @@ import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { SystemInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
   useAppDispatch,
@@ -31,7 +32,11 @@ import {
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
+const SystemCardMobile = ({
+  system,
+  handleEdit,
+  canLeaveNotes,
+}: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
   );
@@ -58,6 +63,9 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
     connect,
     grafana_link_txt,
   } = localizedData().systems_card;
+  const { toastData } = constantsData;
+  const { yes, no, format_LT, format_l, blank, edit, comments, deleteText } =
+    constantsData.systemCard;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -126,7 +134,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
             </div>
             <div className="option">
               <h3 className="title">{is_online}</h3>
-              <h3 className="value">{system.is_online ? "Yes" : "No"}</h3>
+              <h3 className="value">{system.is_online ? yes : no}</h3>
             </div>
             <div className="option">
               <h3 className="title">{asset_txt}</h3>
@@ -148,8 +156,8 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
               <div className="option">
                 <h3 className="title">{latest_ping}</h3>
                 <h3 className="value">
-                  {moment(system.last_successful_ping_at).format("l")}{" "}
-                  {moment(system.last_successful_ping_at).format("LT")}
+                  {moment(system.last_successful_ping_at).format(format_l)}{" "}
+                  {moment(system.last_successful_ping_at).format(format_LT)}
                 </h3>
               </div>
             )}
@@ -170,7 +178,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
                       className="copy-btn"
                       onClick={() => {
                         navigator?.clipboard?.writeText(system.documentation);
-                        toast.success("Link Copied.", {
+                        toast.success(toastData.systemCardLinkCopiedSuccess, {
                           autoClose: timeOut,
                           pauseOnHover: false,
                         });
@@ -215,7 +223,7 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
               <Button
                 variant="contained"
                 className="link-btn"
-                onClick={() => window?.open(system.grafana_link, "_blank")}
+                onClick={() => window?.open(system.grafana_link, blank)}
               >
                 <div className="btn-content">
                   <AttachFileIcon className="icon" />
@@ -246,13 +254,15 @@ const SystemCardMobile = ({ system, handleEdit }: SystemInterface) => {
           onClose={handleClose}
         >
           <MenuItem onClick={onEdit}>
-            <span style={{ marginLeft: "12px" }}>Edit</span>
+            <span style={{ marginLeft: "12px" }}>{edit}</span>
           </MenuItem>
-          <MenuItem onClick={onComment}>
-            <span style={{ marginLeft: "12px" }}>Comments</span>
-          </MenuItem>
+          {canLeaveNotes && (
+            <MenuItem onClick={onComment}>
+              <span style={{ marginLeft: "12px" }}>{comments}</span>
+            </MenuItem>
+          )}
           <MenuItem onClick={() => setModal(true)}>
-            <span style={{ marginLeft: "12px" }}>Delete</span>
+            <span style={{ marginLeft: "12px" }}>{deleteText}</span>
           </MenuItem>
         </Menu>
       </div>

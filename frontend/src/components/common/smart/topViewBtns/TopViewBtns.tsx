@@ -23,6 +23,7 @@ import ColumnSelector from "@src/components/common/presentational/columnSelector
 import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import {
   useAppDispatch,
   useAppSelector,
@@ -88,32 +89,52 @@ const TopViewBtns = ({
     id: useSelectedOrganization().id.toString(),
   });
   const classes = useStyles();
+  const {
+    modality,
+    organizations,
+    sites,
+    users,
+    systems,
+    documentation,
+    description,
+    knowledge_base,
+    knowledge_base_category,
+    knowledge_base_folder,
+    health_network,
+    siteText,
+    filterByNetworkText,
+    filterBySiteText,
+    add,
+    activeUsers,
+  } = constantsData.topViewButtons;
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
   const [network, setNetwork] = useState([]);
   const [site, setSite] = useState([]);
   let constantData: { btnFilter: string; btnAdd: string };
-  if (path === "modality") {
+  if (path === modality) {
     constantData = localizedData()?.modalities;
-  } else if (path === "organizations") {
+  } else if (path === organizations) {
     constantData = localizedData()?.organization;
-  } else if (path === "sites") {
+  } else if (path === sites) {
     constantData = localizedData()?.sites;
-  } else if (path == "users") {
+  } else if (path == users) {
     constantData = localizedData()?.users;
-  } else if (path == "systems") {
+  } else if (path == systems) {
     constantData = localizedData()?.systems;
-  } else if (path == "documentation") {
+  } else if (path == documentation) {
     constantData = localizedData()?.documentation;
-  } else if (path == "description") {
+  } else if (path == description) {
     constantData = localizedData()?.documentation;
-  } else if (path == "knowledge-base") {
+  } else if (path == knowledge_base) {
     constantData = localizedData()?.article;
-  } else if (path == "knowledge-base-category") {
+  } else if (path == knowledge_base_category) {
     constantData = localizedData()?.category;
-  } else if (path == "knowledge-base-folder") {
+  } else if (path == knowledge_base_folder) {
     constantData = localizedData()?.folder;
+  } else if (path == activeUsers) {
+    constantData = localizedData()?.users;
   }
   const { btnAdd } = constantData;
 
@@ -139,7 +160,7 @@ const TopViewBtns = ({
 
   useEffect(() => {
     if (!isNetworkDataLoading && !networkId) {
-      const networkParam = queryParams?.get("health_network");
+      const networkParam = queryParams?.get(health_network);
       if (networkParam !== null && network.length == 0) {
         networkFilter(
           networksData?.filter((item) => networkParam == item?.id.toString())[0]
@@ -156,7 +177,7 @@ const TopViewBtns = ({
 
   useEffect(() => {
     if (!isSitesFetching && !siteId) {
-      const siteParam = queryParams?.get("site");
+      const siteParam = queryParams?.get(siteText);
       if (siteParam !== null && site.length == 0) {
         const list = sitesData?.filter(
           (item) => siteParam == item?.id.toString()
@@ -173,28 +194,28 @@ const TopViewBtns = ({
   };
 
   const handleModal = () => {
-    if (path === "users") {
+    if (path === users) {
       setOpen(true);
       // setData(null);
-    } else if (path === "modality") {
+    } else if (path === modality) {
       dispatch(openNetworkModal());
-      setAction("add");
+      setAction(add);
       setData(null);
-    } else if (path === "systems") {
+    } else if (path === systems) {
       setOpen(true);
       setData(null);
-    } else if (path === "organizations") {
-      setAction("add");
+    } else if (path === organizations) {
+      setAction(add);
       dispatch(openAddModal());
       setData(null);
-    } else if (path === "documentation") {
+    } else if (path === documentation) {
       setOpen(true);
       // setData(null);
-    } else if (path === "knowledge-base") {
+    } else if (path === knowledge_base) {
       setOpen(true);
-    } else if (path === "knowledge-base-folder") {
+    } else if (path === knowledge_base_folder) {
       setOpen(true);
-    } else if (path === "knowledge-base-category") {
+    } else if (path === knowledge_base_category) {
       setOpen(true);
     } else {
       setOpen(true);
@@ -218,7 +239,7 @@ const TopViewBtns = ({
       if (network?.length && event?.target?.outerText == network) {
         setNetwork([]);
         networkFilter({});
-        queryParams.delete("health_network");
+        queryParams.delete(health_network);
         navigate(
           {
             search: queryParams.toString(),
@@ -226,7 +247,7 @@ const TopViewBtns = ({
           { replace: true }
         );
       } else {
-        queryParams.delete("health_network");
+        queryParams.delete(health_network);
         setNetwork([event?.target?.outerText]);
         networkFilter(
           networksData?.filter((item) => event.target.outerText == item.name)[0]
@@ -242,7 +263,7 @@ const TopViewBtns = ({
       if (site?.length && event?.target?.outerText == site) {
         setSite([]);
         siteFilter({});
-        queryParams.delete("site");
+        queryParams.delete(siteText);
         navigate(
           {
             search: queryParams.toString(),
@@ -266,10 +287,10 @@ const TopViewBtns = ({
     debounce((searchQuery: string) => {
       if (searchQuery?.length >= 1) {
         if (
-          path === "users" ||
-          path === "organizations" ||
-          path === "modality" ||
-          path === "sites"
+          path === users ||
+          path === organizations ||
+          path === modality ||
+          path === sites
         ) {
           handleSearchQuery(searchQuery);
         }
@@ -281,9 +302,9 @@ const TopViewBtns = ({
             product: { name: string };
             name: string;
           }) => {
-            return path === "users"
+            return path === users
               ? data?.username?.toLowerCase().trim().search(searchQuery) != -1
-              : path === "documentation"
+              : path === documentation
               ? data?.product?.name?.toLowerCase().trim().search(searchQuery) !=
                 -1
               : data?.name?.toLowerCase().search(searchQuery) != -1;
@@ -344,7 +365,7 @@ const TopViewBtns = ({
           }}
         >
           <Box component="div" style={{ display: "flex", width: "100%" }}>
-            {path === "systems" ? (
+            {path === systems ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (
                   <FormControl
@@ -360,7 +381,7 @@ const TopViewBtns = ({
                       id="networkInputLabel"
                       style={{ marginTop: "-3px" }}
                     >
-                      Filter by network
+                      {filterByNetworkText}
                     </InputLabel>
                     <Select
                       labelId="networks-dropdown"
@@ -369,7 +390,7 @@ const TopViewBtns = ({
                       value={network}
                       onClick={handleClickNetwork}
                       style={{ width: "100%", height: "100%" }}
-                      input={<OutlinedInput label="Filter by network" />}
+                      input={<OutlinedInput label={filterByNetworkText} />}
                       renderValue={(selected) => selected}
                       MenuProps={dropdownStyles}
                     >
@@ -410,7 +431,7 @@ const TopViewBtns = ({
                       id="siteInputlabel"
                       style={{ marginTop: "-3px" }}
                     >
-                      Filter by site
+                      {filterBySiteText}
                     </InputLabel>
                     <Select
                       labelId="site-dropdown"
@@ -418,7 +439,7 @@ const TopViewBtns = ({
                       value={site}
                       onClick={handleClickSite}
                       style={{ width: "100%", height: "100%" }}
-                      input={<OutlinedInput label="Filter by site" />}
+                      input={<OutlinedInput label={filterBySiteText} />}
                       renderValue={(selected) => selected}
                       MenuProps={dropdownStyles}
                     >
@@ -472,7 +493,7 @@ const TopViewBtns = ({
               ""
             )}
 
-            {path === "users" || (path === "documentation" && hasData) ? (
+            {path === users || (path === documentation && hasData) ? (
               <ColumnSelector
                 className="columnSelector"
                 tableColumns={tableColumns}
@@ -502,9 +523,10 @@ const TopViewBtns = ({
             />
           </Box>
           {currentUser?.is_superuser &&
-            path === "organizations" &&
+            path === organizations &&
+            path !== activeUsers &&
             createAddButton()}
-          {path !== "organizations" && createAddButton()}
+          {path !== organizations && path !== activeUsers && createAddButton()}
         </Box>
       </Box>
     </>

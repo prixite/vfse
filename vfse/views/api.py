@@ -155,14 +155,25 @@ class TopicActivityViewSet(ListAPIView):
         )
 
 
-class MyTopicsViewSet(ListAPIView):
+class MyTopicsViewSet(ModelViewSet):
     serializer_class = serializers.TopicSerializer
     pagination_class = pagination.TopicPagination
+
+    def get_serializer_class(self):
+        if self.action in ["list"]:
+            return serializers.TopicDetailSerializer
+        return super().get_serializer_class()
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.RecentActivity.objects.none()
-        return self.request.user.topics.all()
+
+        return self.request.user.topics.annotate(
+            number_of_followers=Count("followers", distinct=True),
+            number_of_comments=Count(
+                "comments", distinct=True, filter=Q(comments__parent__isnull=True)
+            ),
+        ).all()
 
 
 class WorkOrderViewset(ModelViewSet):

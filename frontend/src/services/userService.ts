@@ -45,7 +45,6 @@ const activateUserService = async (id, userActivateMutation) => {
     },
   }).unwrap();
 };
-
 const updateUserPassword = async (passwordObj, updateUserPassword) => {
   await updateUserPassword({
     upsertUserPassword: {
@@ -61,13 +60,12 @@ const updateUserPassword = async (passwordObj, updateUserPassword) => {
       });
     })
     .catch((err) => {
-      toast.error(err?.data?.non_field_errors[0] || "Something went wrong", {
+      toast.error(err?.data?.non_field_errors[0] || "Something went wrong.", {
         autoClose: timeOut,
-        pauseOnHover: true,
+        pauseOnHover: false,
       });
     });
 };
-
 const updateUsernameService = async (userObj, updateUsername) => {
   await updateUsername({
     meUpdate: {

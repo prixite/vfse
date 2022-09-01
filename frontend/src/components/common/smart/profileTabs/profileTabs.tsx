@@ -1,15 +1,13 @@
 import * as React from "react";
 
-import { Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/system";
 
-import women from "@src/assets/svgs/womenAvatar.svg";
+import constantsData from "@src/localization/en.json";
 
-import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
+import MyTopics from "../myTopics/myTopics";
 import "@src/components/common/smart/profileTabs/profileTabs.scss";
 
 interface TabPanelProps {
@@ -47,6 +45,7 @@ function a11yProps(index: number) {
 
 const ProfileTabs = () => {
   const [value, setValue] = React.useState(0);
+  const { profileTabs } = constantsData;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -79,44 +78,10 @@ const ProfileTabs = () => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Activity
+        {profileTabs.activity}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProfileTimelineCards
-          id={1}
-          title="Clinical Specialist for MedTronics"
-          description="I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a 'lifestyle' in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and..."
-          number_of_comments={3}
-          number_of_followers={24}
-          user={{ name: "Jessie Hudson", image: women }}
-          categories={[]}
-        />
-        <ProfileTimelineCards
-          id={1}
-          title="Clinical Specialist for MedTronics"
-          description="I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a 'lifestyle' in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and..."
-          number_of_comments={3}
-          number_of_followers={24}
-          user={{ name: "Jessie Hudson", image: women }}
-          categories={[]}
-        />
-        <ProfileTimelineCards
-          id={1}
-          title="Clinical Specialist for MedTronics"
-          description="I am currently applying for a Clinical Specialist position with Medtronic and am curious if there are any current Clinical Specialists that could tell me a little bit more about their role? The recruiter I spoke with said that the job is more of a 'lifestyle' in that you are essentially on call to go to clinics between 7 a.m. and 6 p.m. and..."
-          number_of_comments={3}
-          number_of_followers={24}
-          user={{ name: "Jessie Hudson", image: women }}
-          categories={[]}
-        />
-        <Stack alignItems="center" mt={2}>
-          <Pagination
-            showFirstButton
-            showLastButton
-            count={5}
-            color="primary"
-          />
-        </Stack>
+        <MyTopics />
       </TabPanel>
     </Box>
   );

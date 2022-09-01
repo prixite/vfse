@@ -1,14 +1,14 @@
 import { useState } from "react";
 
+import Flicking from "@egjs/react-flicking";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
 import PropTypes from "prop-types";
 
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import "@src/components/common/presentational/workOrderCell/workOrderCell.scss";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsModalitiesListQuery,
@@ -18,7 +18,6 @@ import {
 const { connect } = localizedData().systems_card;
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -43,9 +42,10 @@ TabPanel.propTypes = {
 };
 
 export default function WorkOrderCell() {
-  const [value, setValue] = useState("");
+  const [modality, setModality] = useState(null);
   const selectedOrganization = useSelectedOrganization();
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const { loading } = constantsData.common;
   const { buttonTextColor, buttonBackground } = useAppSelector(
     (state) => state.myTheme
   );
@@ -56,44 +56,67 @@ export default function WorkOrderCell() {
   const { data: systemsData = [], isLoading: isSystemsLoading } =
     api.useGetWorkOrdersQuery();
 
-  const handleChange = (_, newValue) => {
-    setValue(newValue);
+  const changeModality = (item) => {
+    if (item == null) {
+      setModality(null);
+    } else {
+      setModality(item?.id.toString());
+    }
   };
 
   return (
     <>
       <Box className="upper_class" sx={{ width: "100%" }}>
         <Box>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab
-              key="All"
-              label="All"
-              value=""
-              sx={{
-                "&.Mui-selected": {
-                  color: "#0000FF",
-                },
+          <div className="modalities">
+            <Flicking
+              defaultIndex={0}
+              deceleration={0.0075}
+              horizontal
+              bound
+              gap={20}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "33px",
+                msOverflowX: "scroll",
+                width: "100%",
+                margin: "10px 0px",
               }}
-              className="tab-style"
-            />
-            {modalitiesList.map((modality) => (
-              <Tab
-                key={modality?.id}
-                value={modality?.id}
-                label={modality?.name}
-                sx={{
-                  "&.Mui-selected": {
-                    color: "#0000FF",
-                  },
+            >
+              <span
+                className="modality"
+                style={{
+                  color: `${modality === null ? buttonBackground : ""}`,
+                  borderBottom: `${
+                    modality === null ? `2px solid ${buttonBackground}` : ""
+                  }`,
                 }}
-                className="tab-style"
-              />
-            ))}
-          </Tabs>
+                onClick={() => changeModality(null)}
+              >
+                All
+              </span>
+              {modalitiesList?.map((item, key) => (
+                <span
+                  key={key}
+                  className="modality"
+                  style={{
+                    color: `${
+                      modality === item?.id.toString() ? buttonBackground : ""
+                    }`,
+                    borderBottom: `${
+                      modality === item?.id.toString()
+                        ? `2px solid ${buttonBackground}`
+                        : ""
+                    }`,
+                  }}
+                  onClick={() => changeModality(item)}
+                >
+                  {item.name}
+                </span>
+              ))}
+            </Flicking>
+          </div>
         </Box>
         <Box component="div" className="systems">
           {!isSystemsLoading ? (
@@ -132,7 +155,7 @@ export default function WorkOrderCell() {
               />
             )
           ) : (
-            <p>Loading ...</p>
+            <p>{loading}</p>
           )}
         </Box>
       </Box>

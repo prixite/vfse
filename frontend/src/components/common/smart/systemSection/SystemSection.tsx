@@ -18,6 +18,7 @@ import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import {
   useAppDispatch,
   useAppSelector,
@@ -33,17 +34,31 @@ import {
   useOrganizationsSystemsUpdateFromInfluxMutation,
   api,
 } from "@src/store/reducers/api";
-import { System } from "@src/store/reducers/generated";
+import {
+  System,
+  useOrganizationsMeReadQuery,
+} from "@src/store/reducers/generated";
 
 import "@src/components/common/smart/systemSection/systemSection.scss";
 
 const SystemSection = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const {
+    networksText,
+    sitesText,
+    modalityText,
+    siteText,
+    mri,
+    organizationsSystemsList,
+    health_network,
+  } = constantsData.systemSection;
+  const { loading } = constantsData.common;
 
   const dispatch = useAppDispatch();
+
   const queryParams = new URLSearchParams(location?.search);
-  const paramModality = queryParams?.get("modality");
+  const paramModality = queryParams?.get(modalityText);
   const [sites, setSites] = useState([]);
   const [networkFilter, setNetworkFilter] = useState({});
   const [siteFilter, setSiteFilter] = useState({});
@@ -81,6 +96,9 @@ const SystemSection = () => {
     );
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
+  const { data: me } = useOrganizationsMeReadQuery({
+    id: selectedOrganization?.id.toString(),
+  });
 
   const { data: allSites, isLoading: isAllSitesLoading } =
     useOrganizationsAssociatedSitesListQuery(
@@ -130,11 +148,11 @@ const SystemSection = () => {
 
   const returnSiteName = () => {
     if (
-      location.pathname.includes("networks") &&
-      location.pathname.includes("sites")
+      location.pathname.includes(networksText) &&
+      location.pathname.includes(sitesText)
     ) {
       return returnSearchedOject(organization?.sites, siteId)[0]?.name;
-    } else if (location.pathname.includes("sites")) {
+    } else if (location.pathname.includes(sitesText)) {
       return returnSearchedOject(sites, siteId)[0]?.name;
     }
     return selectedOrganization?.name;
@@ -149,7 +167,7 @@ const SystemSection = () => {
       delete TempArgs?.modality;
       setApiArgData({ ...TempArgs });
       setModality(null);
-      queryParams.delete("modality");
+      queryParams.delete(modalityText);
       navigate(
         {
           search: queryParams.toString(),
@@ -159,7 +177,7 @@ const SystemSection = () => {
     } else {
       setModality(item?.id.toString());
       setApiArgData({ ...apiArgData, modality: item?.id.toString() });
-      queryParams.set("modality", item?.id.toString());
+      queryParams.set(modalityText, item?.id.toString());
       navigate(
         {
           pathname: location.pathname,
@@ -174,7 +192,7 @@ const SystemSection = () => {
     if (firstRender && systemsData && selectedOrganization) {
       Promise.all(
         systemsData.map(async (system) => {
-          if (system.product_model_detail.modality.group !== "mri") {
+          if (system.product_model_detail.modality.group !== mri) {
             return system;
           }
 
@@ -193,7 +211,7 @@ const SystemSection = () => {
         // send request to backend.
         dispatch(
           api.util.updateQueryData(
-            "organizationsSystemsList", // TODO: See if we can avoid hard-coding.
+            organizationsSystemsList, // TODO: See if we can avoid hard-coding.
             { id: selectedOrganization.id.toString() },
             (draftSystems) => {
               Object.assign(draftSystems, systems);
@@ -231,20 +249,20 @@ const SystemSection = () => {
     if (!networkId) {
       if (
         Object.keys(networkFilter).length !== 0 &&
-        (queryParams.get("health_network") == null ||
-          queryParams.get("health_network") !== null)
+        (queryParams.get(health_network) == null ||
+          queryParams.get(health_network) !== null)
       ) {
         setApiArgData((prevState) => {
           return { ...prevState, healthNetwork: networkFilter?.id };
         });
-        queryParams.set("health_network", networkFilter?.id?.toString());
+        queryParams.set(health_network, networkFilter?.id?.toString());
         navigate({
           pathname: location.pathname,
           search: queryParams.toString(),
         });
       } else if (
         Object.keys(networkFilter).length === 0 &&
-        queryParams.get("health_network") === null
+        queryParams.get(health_network) === null
       ) {
         const TempArgs = {
           ...apiArgData,
@@ -254,11 +272,11 @@ const SystemSection = () => {
       }
       if (
         apiArgData.healthNetwork == undefined &&
-        queryParams.get("health_network") !== null
+        queryParams.get(health_network) !== null
       ) {
         const TempNetwork = Object.keys(networkFilter).length
           ? networkFilter?.id
-          : queryParams.get("health_network");
+          : queryParams.get(health_network);
         setApiArgData((prevState) => {
           return { ...prevState, healthNetwork: TempNetwork };
         });
@@ -275,17 +293,18 @@ const SystemSection = () => {
     if (!siteId) {
       if (
         Object.keys(siteFilter).length !== 0 &&
-        (queryParams.get("site") == null || queryParams.get("site") !== null)
+        (queryParams.get(siteText) == null ||
+          queryParams.get(siteText) !== null)
       ) {
         setApiArgData({ ...apiArgData, site: siteFilter?.id });
-        queryParams.set("site", siteFilter?.id?.toString());
+        queryParams.set(siteText, siteFilter?.id?.toString());
         navigate({
           pathname: location.pathname,
           search: queryParams.toString(),
         });
       } else if (
         Object.keys(siteFilter).length === 0 &&
-        queryParams.get("site") === null
+        queryParams.get(siteText) === null
       ) {
         const TempArg = {
           ...apiArgData,
@@ -294,10 +313,10 @@ const SystemSection = () => {
         delete TempArg.site;
         setApiArgData({ ...TempArg });
       }
-      if (apiArgData.site == undefined && queryParams.get("site") !== null) {
+      if (apiArgData.site == undefined && queryParams.get(siteText) !== null) {
         const tempSite = Object.keys(siteFilter).length
           ? siteFilter?.id
-          : queryParams.get("site");
+          : queryParams.get(siteText);
         setApiArgData((prevState) => {
           return { ...prevState, site: tempSite };
         });
@@ -316,9 +335,9 @@ const SystemSection = () => {
 
   const addBreadcrumbs = () => {
     if (
-      location.pathname.includes("sites") &&
+      location.pathname.includes(sitesText) &&
       !fetching &&
-      location.pathname.includes("networks")
+      location.pathname.includes(networksText)
     ) {
       return (
         <BreadCrumb
@@ -341,7 +360,7 @@ const SystemSection = () => {
           ]}
         />
       );
-    } else if (location.pathname.includes("sites") && !fetching) {
+    } else if (location.pathname.includes(sitesText) && !fetching) {
       return (
         <BreadCrumb
           breadCrumbList={[
@@ -474,13 +493,18 @@ const SystemSection = () => {
                   setSystem={setChatBoxSystem}
                   IsOpen={chatModal}
                   setIsOpen={setChatModal}
+                  canLeaveNotes={me?.can_leave_notes}
                 />
               </div>
             ))
           ) : (
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
-                <SystemCardMobile system={item} handleEdit={handleEdit} />
+                <SystemCardMobile
+                  system={item}
+                  handleEdit={handleEdit}
+                  canLeaveNotes={me?.can_leave_notes}
+                />
               </div>
             ))
           )
@@ -502,7 +526,7 @@ const SystemSection = () => {
               marginTop: "20%",
             }}
           >
-            <h2>{searchText.length > 2 ? searching : "Loading...."}</h2>
+            <h2>{searchText.length > 2 ? searching : loading}</h2>
           </div>
         )}
         {open ? (
@@ -519,7 +543,7 @@ const SystemSection = () => {
           open={openConfirmModal}
           handleClose={() => setOpenConfirmModal(false)}
         />
-        <CommentsDrawer />
+        {me?.can_leave_notes && <CommentsDrawer />}
       </Box>
       {chatModal && browserWidth > mobileWidth && (
         <ChatBox

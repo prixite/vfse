@@ -19,6 +19,7 @@ import { AppearanceFormState } from "@src/components/shared/popUps/systemModalIn
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import {
   useAppSelector,
   useAppDispatch,
@@ -56,6 +57,38 @@ const AppearanceSection = () => {
   const [selectedImage, setSelectedImage] = useState([]);
   const { newOrganizationFont1, newOrganizationFont2 } =
     localizedData().organization.popUp;
+  const {
+    sidebarColor,
+    sidebar_color,
+    buttonColor,
+    primary_color,
+    sidebarContentColor,
+    sidebar_text,
+    secondColor,
+    secondary_color,
+    buttonContentColor,
+    button_text,
+    mainContentFont,
+    font_one,
+    sideBarFont,
+    font_two,
+    banner,
+    logo,
+    icon,
+    clientNameText,
+    logoText,
+    sidebar,
+    buttons,
+    sidebarText,
+    buttonsText,
+    secondaryColorText,
+    helvetica,
+    calibiri,
+    proximaNova,
+    AaBbCcDd,
+    save,
+  } = constantsData.appearanceSection;
+  const { toastData } = constantsData;
   const dispatch = useAppDispatch();
 
   const selectedOrganization = useSelectedOrganization();
@@ -103,13 +136,13 @@ const AppearanceSection = () => {
     );
 
     [
-      ["sidebarColor", "sidebar_color"],
-      ["buttonColor", "primary_color"],
-      ["sidebarContentColor", "sidebar_text"],
-      ["secondColor", "secondary_color"],
-      ["buttonContentColor", "button_text"],
-      ["mainContentFont", "font_one"],
-      ["sideBarFont", "font_two"],
+      [sidebarColor, sidebar_color],
+      [buttonColor, primary_color],
+      [sidebarContentColor, sidebar_text],
+      [secondColor, secondary_color],
+      [buttonContentColor, button_text],
+      [mainContentFont, font_one],
+      [sideBarFont, font_two],
     ].forEach(
       ([formField, color]) =>
         (currentOrganiationDummyData.appearance[color] =
@@ -128,9 +161,9 @@ const AppearanceSection = () => {
           const tempData = JSON.parse(
             JSON.stringify(currentOrganiationDummyData)
           );
-          tempData.appearance["banner"] = data?.location;
-          tempData.appearance["logo"] = data?.location;
-          tempData.appearance["icon"] = data?.location;
+          tempData.appearance[banner] = data?.location;
+          tempData.appearance[logo] = data?.location;
+          tempData.appearance[icon] = data?.location;
           dispatch(
             setSelectedOrganization({
               selectedOrganization: tempData,
@@ -146,20 +179,20 @@ const AppearanceSection = () => {
         id: currentOrganiationDummyData.id.toString(),
         organization: currentOrganiationDummyData,
       }).unwrap();
-      toast.success("Client successfully updated.");
+      toast.success(toastData.appearanceSectionClientUpdateSuccess);
     } catch {
-      toast.error("Error updating client");
+      toast.error(toastData.appearanceSectionClientUpdateError);
     }
   };
 
   return (
     <>
       <Box component="div">
-        <h2 style={{ paddingLeft: "7px" }}>{selectedOrganization?.name}</h2>
-        <Box component="div" sx={{ background: "#fff" }} m={1} p={4}>
+        <h2>{selectedOrganization?.name}</h2>
+        <Box component="div" sx={{ background: "#fff", mt: "23px" }} p={4}>
           <Grid container>
             <Grid item>
-              <h4 style={{ marginBottom: "5px" }}>Client Name</h4>
+              <h4 style={{ marginBottom: "5px" }}>{clientNameText}</h4>
               <TextField
                 disabled
                 fullWidth
@@ -178,57 +211,57 @@ const AppearanceSection = () => {
               mb={5}
               style={{ height: "163px" }}
             >
-              <h4 style={{ marginBottom: "6px" }}>Logo</h4>
+              <h4 style={{ marginBottom: "6px" }}>{logoText}</h4>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
                 imgSrc={selectedOrganization?.appearance?.logo}
               />
             </Grid>
-            <Grid item xs={12} md={8} lg={8} mt={4}>
+            <Grid item xs={12} md={8} lg={8} mt={2}>
               <Grid container spacing={1} rowSpacing={2}>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
-                    title="Sidebar:"
+                    title={`${sidebar}:`}
                     color={formik.values.sidebarColor}
                     onChange={(color) =>
-                      formik.setFieldValue("sidebarColor", color)
+                      formik.setFieldValue(sidebarColor, color)
                     }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
-                    title="Buttons:"
+                    title={`${buttons}:`}
                     color={formik.values.buttonColor}
                     onChange={(color) =>
-                      formik.setFieldValue("buttonColor", color)
+                      formik.setFieldValue(buttonColor, color)
                     }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
-                    title="Sidebar Text:"
+                    title={`${sidebarText}:`}
                     color={formik.values.sidebarContentColor}
                     onChange={(color) =>
-                      formik.setFieldValue("sidebarContentColor", color)
+                      formik.setFieldValue(sidebarContentColor, color)
                     }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
-                    title="Buttons Text:"
+                    title={`${buttonsText}:`}
                     color={formik.values.buttonContentColor}
                     onChange={(color) =>
-                      formik.setFieldValue("buttonContentColor", color)
+                      formik.setFieldValue(buttonContentColor, color)
                     }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6} lg={6}>
                   <ColorPicker
-                    title="Secondary Color:"
+                    title={`${secondaryColorText}:`}
                     color={formik.values.secondColor}
                     onChange={(color) =>
-                      formik.setFieldValue("secondColor", color)
+                      formik.setFieldValue(secondColor, color)
                     }
                   />
                 </Grid>
@@ -256,10 +289,10 @@ const AppearanceSection = () => {
                       onChange={formik.handleChange}
                       inputProps={{ "aria-label": "Without label" }}
                     >
-                      <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                      <MenuItem value={"calibri"}>Calibiri</MenuItem>
+                      <MenuItem value={"helvetica"}>{helvetica}</MenuItem>
+                      <MenuItem value={"calibri"}>{calibiri}</MenuItem>
                       <MenuItem value={"ProximaNova-Regular"}>
-                        ProximaNova
+                        {proximaNova}
                       </MenuItem>
                     </Select>
                   </FormControl>
@@ -271,7 +304,7 @@ const AppearanceSection = () => {
                       paddingTop: "17px",
                     }}
                   >
-                    AaBbCcDd
+                    {AaBbCcDd}
                   </h2>
                 </Grid>
               </Grid>
@@ -295,10 +328,10 @@ const AppearanceSection = () => {
                       onChange={formik.handleChange}
                       inputProps={{ "aria-label": "Without label" }}
                     >
-                      <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                      <MenuItem value={"calibri"}>Calibri</MenuItem>
+                      <MenuItem value={"helvetica"}>{helvetica}</MenuItem>
+                      <MenuItem value={"calibri"}>{calibiri}</MenuItem>
                       <MenuItem value={"ProximaNova-Regular"}>
-                        ProximaNova
+                        {proximaNova}
                       </MenuItem>
                     </Select>
                   </FormControl>
@@ -310,7 +343,7 @@ const AppearanceSection = () => {
                       paddingTop: "17px",
                     }}
                   >
-                    AaBbCcDd
+                    {AaBbCcDd}
                   </h2>
                 </Grid>
               </Grid>
@@ -339,7 +372,7 @@ const AppearanceSection = () => {
                   variant="contained"
                   disabled={isLoading}
                 >
-                  Save
+                  {save}
                 </Button>
               </form>
             </Grid>

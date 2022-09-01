@@ -11,6 +11,7 @@ import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
@@ -38,8 +39,10 @@ const KnowledgeTopCard = ({
   const [cardText, setCardText] = useState("");
   const { organizationRoute } = constants;
   const location = useLocation();
+  const { knowledgeBase, toastData } = constantsData;
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
+  const [isFavouriteDisabled, setFavouriteButtonDisabled] = useState(false);
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -71,25 +74,38 @@ const KnowledgeTopCard = ({
     deleteArticle({ id: id })
       .unwrap()
       .then(() => {
-        toast.success("Article successfully deleted.", {
+        toast.success(toastData.knowledgeCardArticleDeleteSuccess, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
         handleModalClose();
       })
       .catch(() => {
-        toast.error("Problem occured while deleting Article", {
+        toast.error(toastData.knowledgeCardArticleDeleteError, {
           autoClose: 1000,
           pauseOnHover: false,
         });
       });
   };
   const toggleFavourite = (favourite) => {
+    setFavouriteButtonDisabled(true);
     updateArticle({
       id: id,
       document: { ...article, favorite: favourite },
-    }).unwrap();
+    })
+      .unwrap()
+      .then(() => {
+        const message = favourite
+          ? "added to your Favourite list."
+          : "removed from Favourite list.";
+        toast.success(`Article has been ${message}`, {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+        setFavouriteButtonDisabled(false);
+      });
   };
+
   useEffect(() => {
     if (description) {
       //this is for extracting text containing p tags
@@ -127,7 +143,10 @@ const KnowledgeTopCard = ({
           <>
             {!favourite ? (
               <Tooltip title="Mark article as favourite" className="favIcon">
-                <IconButton onClick={() => toggleFavourite(true)}>
+                <IconButton
+                  disabled={isFavouriteDisabled}
+                  onClick={() => toggleFavourite(true)}
+                >
                   <StarOutlineIcon style={{ color: "#6b7280" }} />
                 </IconButton>
               </Tooltip>
@@ -136,7 +155,10 @@ const KnowledgeTopCard = ({
                 title="Unmark article from favourites"
                 className="favIcon"
               >
-                <IconButton onClick={() => toggleFavourite(false)}>
+                <IconButton
+                  disabled={isFavouriteDisabled}
+                  onClick={() => toggleFavourite(false)}
+                >
                   <StarIcon style={{ color: "#773CBD" }} />
                 </IconButton>
               </Tooltip>
@@ -167,7 +189,9 @@ const KnowledgeTopCard = ({
             className="dropdownMenu"
             onClose={handleClose}
           >
-            <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+            <MenuItem onClick={handleModalOpen}>
+              {knowledgeBase.delete}
+            </MenuItem>
           </Menu>
         </div>
       </div>

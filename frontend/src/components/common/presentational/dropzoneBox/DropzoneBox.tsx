@@ -39,11 +39,11 @@ const DropzoneBox = ({
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const { heading, description, button, info } = constantData;
+  const { heading, description, button, info, options } = constantData;
   const dropzoneOptions =
     acceptedFiles?.length || imgSrc
-      ? "Uploadoptions hideOptions"
-      : "Uploadoptions";
+      ? `${options.uploadAndHide}`
+      : `${options.upload}`;
 
   useEffect(() => {
     if (acceptedFiles && acceptedFiles?.length) {

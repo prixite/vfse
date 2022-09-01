@@ -8,9 +8,9 @@ import DeleteLogo from "@src/assets/svgs/delete.svg";
 import EditLogo from "@src/assets/svgs/edit.svg";
 import EditComment from "@src/components/common/smart/commentsDrawer/editComment/EditComment";
 import DeleteNoteModal from "@src/components/shared/popUps/deleteNoteModal/DeleteNoteModal";
+import constants from "@src/localization/en.json";
 import { deleteSystemNoteService } from "@src/services/systemServices";
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
-
 import "@src/components/common/presentational/commentCard/commentCard.scss";
 
 interface CommentProps {
@@ -23,6 +23,7 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [deleteNote] = useNotesDeleteMutation();
+  const { toastData } = constants;
   const handleClose = () => {
     setOpenModal(false);
   };
@@ -34,7 +35,7 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
 
   const handleNoteDelete = async () => {
     await deleteSystemNoteService(comment?.id, deleteNote).catch(() => {
-      toast.error("Comment Failed to Delete", {
+      toast.error(toastData.commentCardCommentFailed, {
         autoClose: 1000,
         pauseOnHover: true,
       });

@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import { Avatar, AvatarGroup, Box, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-import avatarOne from "@src/assets/svgs/avatarOne.svg";
-import avatarThree from "@src/assets/svgs/avatarThree.svg";
-import avatarTwo from "@src/assets/svgs/avatarTwo.svg";
 import messageIcon from "@src/assets/svgs/message.svg";
 import useStyles from "@src/components/common/presentational/profileTimeLineCards/Styles";
 import { constants } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
@@ -48,6 +46,7 @@ const ProfileTimelineCards = ({
 }: ProfileTimelineCards) => {
   const classes = useStyles();
   const selectedOrganization = useSelectedOrganization();
+  const { profileTimeLineCard } = constantsData;
   const { data: me } = useOrganizationsMeReadQuery(
     {
       id: selectedOrganization?.id.toString(),
@@ -126,11 +125,11 @@ const ProfileTimelineCards = ({
                         style={{ color: "#568000", marginRight: "9px" }}
                       />
                       <p className={classes.text} style={{ color: "#568000" }}>
-                        Following
+                        {profileTimeLineCard.following}
                       </p>
                     </>
                   ) : (
-                    <p className={classes.text}>Follow</p>
+                    <p className={classes.text}>{profileTimeLineCard.follow}</p>
                   )}
                 </Button>
               ) : (
@@ -161,23 +160,35 @@ const ProfileTimelineCards = ({
             )}
             <div className={classes.cardFooter}>
               <div className={classes.profileSide}>
-                <AvatarGroup max={3}>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src={avatarOne}
-                    sx={{ width: 24, height: 24 }}
-                  />
-                  <Avatar
-                    alt="Travis Howard"
-                    sx={{ width: 24, height: 24 }}
-                    src={avatarTwo}
-                  />
-                  <Avatar
-                    alt="Cindy Baker"
-                    sx={{ width: 24, height: 24 }}
-                    src={avatarThree}
-                  />
-                </AvatarGroup>
+                {/* <AvatarGroup
+                  max={4}
+                  spacing={1}
+                  componentsProps={{
+                    additionalAvatar: {
+                      sx: { display: "none" },
+                    },
+                  }}
+                >
+                  {followers?.map((item) => {
+                    return (
+                      <Avatar
+                        alt={item?.name}
+                        src={item?.image}
+                        sx={{ width: 35, height: 32 }}
+                      />
+                    );
+                  })}
+                </AvatarGroup> */}
+                {followers.length > 0 &&
+                  followers
+                    ?.slice(0, 3)
+                    ?.map((item, key) => (
+                      <img
+                        key={key}
+                        src={`${item?.image}`}
+                        className={classes.imgStylingProfiles}
+                      />
+                    ))}
                 <div className={classes.followerText}>
                   {" "}
                   {number_of_followers > 0
