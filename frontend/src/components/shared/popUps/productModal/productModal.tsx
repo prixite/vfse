@@ -7,18 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
-import { api } from "@src/store/reducers/api";
-import {
-  Category, useProductsCreateMutation, useProductsListQuery,
-  // useVfseCategoriesListQuery, /* Api */
-} from "@src/store/reducers/generated";
+import { Category } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/productModal/productModal.scss";
 
 interface ProductModalProps {
@@ -30,23 +24,18 @@ const initialState: Category = {
   name: "",
 };
 
-const { title, addBtn, cancelBtn, subHeading } =
-  localizedData().ProductModal;
+const { title, addBtn, cancelBtn, subHeading } = localizedData().ProductModal;
 
 const validationSchema = yup.object({
   name: yup.string().min(1).max(20).required("Product Name is required!"),
 });
 
-export default function ProductModal({
-  open,
-  handleClose,
-}: ProductModalProps) {
+export default function ProductModal({ open, handleClose }: ProductModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
 
   const [onChangeValidation, setOnChangeValidation] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   //API
 
   const formik = useFormik({
@@ -59,7 +48,7 @@ export default function ProductModal({
   });
 
   const handleCategorySubmit = () => {
-        handleClose();
+    handleClose();
   };
 
   const resetModal = () => {
@@ -128,7 +117,6 @@ export default function ProductModal({
             setOnChangeValidation(true);
             formik.handleSubmit();
           }}
-          disabled={isLoading}
         >
           {addBtn}
         </Button>
