@@ -118,6 +118,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         })),
         { type: "Site", id: `Sites-${id}` },
         "Site",
+        "Organization",
       ],
     },
     organizationsAssociatedSitesList: {
@@ -128,6 +129,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         })),
         { type: "Site", id: `Sites-${id}` },
         "Site",
+        "Organization",
       ],
     },
     organizationsRead: {
