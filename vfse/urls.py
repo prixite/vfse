@@ -18,6 +18,7 @@ urlpatterns = [
             {
                 "patch": "partial_update",
                 "get": "retrieve",
+                "delete": "destroy",
             }
         ),
     ),

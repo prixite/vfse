@@ -547,6 +547,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.category,
       }),
     }),
+    vfseCategoriesDelete: build.mutation<
+      VfseCategoriesDeleteApiResponse,
+      VfseCategoriesDeleteApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/categories/${queryArg.id}/`,
+        method: "DELETE",
+      }),
+    }),
     vfseCommentsRepliesList: build.query<
       VfseCommentsRepliesListApiResponse,
       VfseCommentsRepliesListApiArg
@@ -1077,6 +1086,10 @@ export type VfseCategoriesPartialUpdateApiResponse =
 export type VfseCategoriesPartialUpdateApiArg = {
   id: string;
   category: Category;
+};
+export type VfseCategoriesDeleteApiResponse = unknown;
+export type VfseCategoriesDeleteApiArg = {
+  id: string;
 };
 export type VfseCommentsRepliesListApiResponse = /** status 200  */ Comment[];
 export type VfseCommentsRepliesListApiArg = {
@@ -1679,6 +1692,7 @@ export const {
   useVfseCategoriesCreateMutation,
   useVfseCategoriesReadQuery,
   useVfseCategoriesPartialUpdateMutation,
+  useVfseCategoriesDeleteMutation,
   useVfseCommentsRepliesListQuery,
   useVfseCommentsRepliesCreateMutation,
   useVfseDashboardListQuery,

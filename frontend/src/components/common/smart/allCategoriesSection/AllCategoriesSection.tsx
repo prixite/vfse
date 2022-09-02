@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 
 import { Grid } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
-import useStyles from "@src/components/common/smart/knowledgeSection/Styles.tsx";
+import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
-import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
+
+import CategoryOptionsSection from "../categoryOptionsSection/categoryOptionsSection";
 
 const AllCategoriesSection = () => {
   const classes = useStyles();
@@ -18,7 +19,6 @@ const AllCategoriesSection = () => {
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
-  const { organizationRoute } = constants;
   const { id } = useParams<{ id?: string }>();
   const handleClose = () => {
     setOpen(false);
@@ -60,12 +60,7 @@ const AllCategoriesSection = () => {
         <div key={index}>
           <div className={classes.seeAllDiv}>
             <h2 className={classes.subHeading}>{category?.name}</h2>
-            <Link
-              className={classes.seeAll}
-              to={`/${organizationRoute}/${id}/knowledge-base/category/${category?.id}`}
-            >
-              See All Folders
-            </Link>
+            <CategoryOptionsSection category={category} id={id} />
           </div>
           <Grid container spacing={2}>
             {category?.folders?.map((item, index) => (

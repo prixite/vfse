@@ -23,6 +23,16 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "ProximaNova-Extrabold",
     fontSize: "22px",
   },
+  optionsDiv: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  optionsIcon: {
+    color: "rgb(119, 60, 189)",
+    marginRight: "1.3rem",
+    cursor: "pointer",
+  },
   seeAllDiv: {
     display: "flex",
     justifyContent: "space-between",
