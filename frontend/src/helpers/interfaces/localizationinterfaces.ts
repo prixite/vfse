@@ -97,7 +97,13 @@ export interface PopUp2 {
   newNetworkBtnSave: string;
   newNetworkBtnCancel: string;
 }
-
+export interface ProductInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
 export interface DeleteDialog {
   dialogMessage: string;
   noButton: string;
@@ -404,6 +410,7 @@ export interface LocalizationInterface {
   document: document;
   articleDescription: articleDescription;
   ManufacturerModal: ManufacturerInterface;
+  ProductModal: ProductInterface;
 }
 
 export interface SystemInterfaceProps {

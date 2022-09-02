@@ -135,6 +135,13 @@
         .MuiOutlinedInput-root .MuiAutocomplete-input {
           padding: 1px 4px 7.5px 6px;
         }
+        .modal-btn-styling {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          margin-left: 3px;
+          cursor: pointer;
+        }
       }
       .box-heading {
         margin-top: 20px;

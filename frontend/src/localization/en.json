@@ -716,5 +716,12 @@
     "addBtn": "Add",
     "cancelBtn": "Cancel",
     "subHeading": "Manufacturer name"
-  }
+  },
+  "ProductModal": {
+    "nameRequired": "Product Name is required!",
+    "title": "Add product",
+    "addBtn": "Add",
+    "cancelBtn": "Cancel",
+    "subHeading": "Product name"
+}
 }
