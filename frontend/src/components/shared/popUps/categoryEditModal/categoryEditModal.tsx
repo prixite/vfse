@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint react/prop-types: 0 */
+import { useState, useEffect } from "react";
 
 import { TextField, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -21,7 +22,6 @@ import {
   useVfseCategoriesReadQuery,
 } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/categoryEditModal/categoryEditModal.scss";
-import { useEffect } from "react";
 
 const validationSchema = yup.object({
   name: yup

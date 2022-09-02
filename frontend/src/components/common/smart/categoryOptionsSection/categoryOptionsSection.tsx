@@ -1,17 +1,18 @@
+/* eslint react/prop-types: 0 */
 import { useState } from "react";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-import { useVfseCategoriesDeleteMutation } from "@src/store/reducers/generated";
-import constantsData from "@src/localization/en.json";
-import { constants, timeOut } from "@src/helpers/utils/constants";
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
-import { Category } from "@src/store/reducers/api";
 import CategoryEditModal from "@src/components/shared/popUps/categoryEditModal/categoryEditModal";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import { constants, timeOut } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
+import { Category } from "@src/store/reducers/api";
+import { useVfseCategoriesDeleteMutation } from "@src/store/reducers/generated";
 
 const CategoryOptionsSection = ({ category, id }) => {
   const classes = useStyles();
