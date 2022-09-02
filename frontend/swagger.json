@@ -1703,6 +1703,19 @@
                     "vfse"
                 ]
             },
+            "delete": {
+                "operationId": "vfse_categories_delete",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
             "parameters": [
                 {
                     "name": "id",
@@ -2439,7 +2452,7 @@
                 }
             },
             "default": {
-                "profile_picture": "http://localhost:8000/static/assets/profile.png",
+                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
                 "title": ""
             }
         },
