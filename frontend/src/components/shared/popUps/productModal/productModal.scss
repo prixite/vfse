@@ -1,0 +1,143 @@
+.product-modal {
+  .MuiDialog-paper {
+    width: 500px;
+    max-width: 500px;
+    .MuiDialogContent-root {
+      padding: 20px 22px;
+    }
+  }
+  .required {
+    &:after {
+      content: " *";
+      color: red;
+    }
+  }
+  .errorText {
+    color: #ff1744;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+  .MuiOutlinedInput-input {
+    height: 1.8em;
+  }
+  #title-cross {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .MuiDialogTitle-root {
+    border-bottom: 1px solid #d9dbdd;
+    .title-section {
+      .modal-header {
+        font-weight: 600;
+      }
+      .dialog-page {
+        font-size: 16px;
+        .pg-number {
+          padding: 7px 30px;
+        }
+        .cross-btn {
+          width: 15px;
+          height: 15px;
+          margin-left: 12px;
+          margin-top: 8px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+
+    .dropzone-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .article-info {
+      width: 100%;
+      .add-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+        margin-top: 30px;
+        .add-btn {
+          height: 40px;
+          width: 40px;
+          border-radius: 50%;
+          background-color: #773cbd;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .text {
+          margin-left: 20px;
+          font-size: 16px;
+          color: #773cbd;
+        }
+      }
+      .info-section {
+        .copy-btn {
+          width: 96px;
+          background: #d9dbdd;
+          border-radius: 6px;
+          height: 32px;
+          font-size: 13px;
+          color: black;
+          margin-right: -4px;
+          text-transform: capitalize;
+        }
+        .info-label {
+          font-weight: 600;
+          margin-bottom: 6px;
+        }
+        .info-field {
+          width: 100%;
+          height: 100%;
+          .MuiOutlinedInput-notchedOutline {
+            border: 1px solid #d4d6db;
+            border-radius: 8px;
+          }
+          input {
+            border-radius: 8px;
+          }
+        }
+      }
+    }
+  }
+  .MuiDialogActions-root {
+    justify-content: space-between;
+    margin-top: 2px;
+    margin-bottom: 12px;
+    padding: 8px 22px;
+    .cancel-btn {
+      background: #efe1ff;
+      color: #773cbd;
+      width: 49%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-transform: capitalize;
+      &:hover {
+        background: #efe1ff;
+        color: #773cbd;
+      }
+    }
+    .add-btn {
+      color: #fff;
+      background: #773cbd;
+      width: 49%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-transform: capitalize;
+      &:hover {
+        color: #fff;
+        background: #773cbd;
+      }
+    }
+  }
+}
