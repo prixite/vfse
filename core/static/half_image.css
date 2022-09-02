@@ -158,9 +158,6 @@ form input:focus {
   .second-half {
     display: none;
   }
-  .card-body {
-    display: block !important;
-  }
 }
 
 .login-page h2,
@@ -193,4 +190,19 @@ form input:focus {
 
 .password-reset-confirm span {
   font-size: 16px;
+}
+.col {
+  padding: 6px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .card-body {
+    display: block !important;
+  }
+  .first-half div.content-wrapper {
+    display: block !important;
+  }
+  .welcome-page a.btn {
+    width: 100%;
+  }
 }
