@@ -23,6 +23,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
 import AddManufacturerModal from "@src/components/shared/popUps/addManufacturerModal/AddManufacturerModal";
+import ProductModal from "@src/components/shared/popUps/productModal/productModal";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
@@ -181,6 +182,7 @@ export default function SystemModal(props: SystemProps) {
   } = constantsData.systemModal.popUp;
   const { toastData } = constantsData;
   const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
+  const [openProductModal, setOpenProductModal] = useState(false);
 
   const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
@@ -470,13 +472,7 @@ export default function SystemModal(props: SystemProps) {
                     parent="modality"
                   />
                   <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginTop: "10px",
-                      cursor: "pointer",
-                      marginLeft: "3px",
-                    }}
+                    className="modal-btn-styling"
                     onClick={() => setOpenManufacturerModal(true)}
                   >
                     <span>Add manufacturer</span>
@@ -497,6 +493,15 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Product"
                     parent="manufacturer"
                   />
+                  <div
+                    className="modal-btn-styling"
+                    onClick={() => setOpenProductModal(true)}
+                  >
+                    <span>Add product</span>
+                    <AddCircleIcon
+                      style={{ marginLeft: "5px", color: buttonBackground }}
+                    />
+                  </div>
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -651,7 +656,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
             </Grid>
             <Grid container className="checkbox-container">
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.vfse"
                   onClick={formik.handleChange}
@@ -664,7 +669,7 @@ export default function SystemModal(props: SystemProps) {
                 />
                 <span className="text">{vFSE} [VNC OR OTHER]</span>
               </Grid>
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.ssh"
                   onClick={formik.handleChange}
@@ -675,7 +680,7 @@ export default function SystemModal(props: SystemProps) {
                 />
                 <span className="text">{ssh}[or terminal]</span>
               </Grid>
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.web"
                   onClick={formik.handleChange}
@@ -686,7 +691,7 @@ export default function SystemModal(props: SystemProps) {
                 />
                 <span className="text">{serviceWebBrowser}</span>
               </Grid>
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.virtual"
                   onClick={formik.handleChange}
@@ -934,6 +939,10 @@ export default function SystemModal(props: SystemProps) {
         <AddManufacturerModal
           open={openManufacturerModal}
           handleClose={() => setOpenManufacturerModal(false)}
+        />
+        <ProductModal
+          open={openProductModal}
+          handleClose={() => setOpenProductModal(false)}
         />
       </form>
     </Dialog>

@@ -76,6 +76,13 @@ export interface ManufacturerInterface {
   cancelBtn: string;
   subHeading: string;
 }
+export interface ProductInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
 
 export interface UserMenuOptions {
   lock: string;
@@ -404,6 +411,7 @@ export interface LocalizationInterface {
   document: document;
   articleDescription: articleDescription;
   ManufacturerModal: ManufacturerInterface;
+  ProductModal: ProductInterface;
 }
 
 export interface SystemInterfaceProps {
