@@ -130,15 +130,15 @@ export default function FolderModal({
                 </div>
               </Grid>
 
-              <Grid item xs={6}>
-                <div>
-                  <p className="info-label required"> {folderCategoryText} </p>
-                  <FormControl sx={{ minWidth: 356 }}>
+              <Grid item xs={12}>
+                <div className="category-selector">
+                  <p className="info-label"> {folderCategoryText} </p>
+                  <FormControl>
                     <Select
                       name="role"
                       value={categoryData.id}
+                      className="select-cls"
                       inputProps={{ "aria-label": "Without label" }}
-                      style={{ height: "43px", borderRadius: "8px" }}
                       onChange={formik.handleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       // disabled={!props?.roles?.length}
