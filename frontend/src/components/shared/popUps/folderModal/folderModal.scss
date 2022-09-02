@@ -1,3 +1,4 @@
+@import "@src/styles/shared/_variables.scss";
 .folder-modal {
   .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
     width: 500px;
@@ -73,6 +74,10 @@
           color: #773cbd;
         }
       }
+      .info-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
       .info-section {
         .copy-btn {
           width: 96px;
@@ -83,10 +88,6 @@
           color: black;
           margin-right: -4px;
           text-transform: capitalize;
-        }
-        .info-label {
-          font-weight: 600;
-          margin-bottom: 6px;
         }
         .info-field {
           width: 100%;
@@ -100,10 +101,21 @@
           }
         }
       }
+      .category-selector {
+        .css-d3d7qy-MuiFormControl-root {
+          width: 100%;
+        }
+        .select-cls {
+          height: 43px;
+          border-radius: 8px;
+          width: 457px;
+        }
+      }
     }
   }
   .css-hlj6pa-MuiDialogActions-root {
-    justify-content: center;
+    justify-content: space-between;
+    padding: 20px 22px;
     margin-top: 2px;
     margin-bottom: 12px;
     .cancel-btn {
@@ -128,11 +140,36 @@
       font-size: 16px;
       font-weight: 600;
       border-radius: 8px;
-      margin-left: 16px !important;
       text-transform: capitalize;
       &:hover {
         color: #fff;
         background: #773cbd;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 480px) {
+  .folder-modal {
+    .modal-content {
+      .article-info {
+        .category-selector {
+          .select-cls {
+            width: 282px;
+          }
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 375px) {
+  .folder-modal {
+    .modal-content {
+      .article-info {
+        .category-selector {
+          .select-cls {
+            width: 265px;
+          }
+        }
       }
     }
   }
