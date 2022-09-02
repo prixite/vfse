@@ -150,7 +150,7 @@ export const emptySplitApi = createApi({
         method: "PATCH",
         body: document,
       }),
-      invalidatesTags: ["Article"],
+      invalidatesTags: ["Article", "Favorite"],
     }),
     addArticle: builder.mutation<Document, { document: Document }>({
       query: ({ document }) => ({

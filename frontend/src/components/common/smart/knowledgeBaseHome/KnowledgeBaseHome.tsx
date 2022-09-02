@@ -28,6 +28,7 @@ const KnowledgeBaseHome = () => {
   const { id } = useParams<{ id?: string }>();
   //APIs
   const { data: topData = [] } = api.useGetTopArticlesQuery();
+
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();

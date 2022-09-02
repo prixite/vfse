@@ -4122,7 +4122,6 @@
                     "type": "string",
                     "format": "uri",
                     "maxLength": 200,
-                    "minLength": 1,
                     "x-nullable": true
                 },
                 "created_by": {
