@@ -90,6 +90,7 @@ form input:focus {
   display: flex;
   justify-content: center;
   padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .first-half img.logo {
@@ -156,6 +157,9 @@ form input:focus {
   }
   .second-half {
     display: none;
+  }
+  .card-body {
+    display: block !important;
   }
 }
 
