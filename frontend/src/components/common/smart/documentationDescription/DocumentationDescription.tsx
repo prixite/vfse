@@ -12,6 +12,7 @@ import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import { timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { api } from "@src/store/reducers/api";
 
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
@@ -54,17 +55,7 @@ const DocumentationDescription = () => {
         setHtmlText(htmlString);
       })
       .catch((err) => {
-        toast.error(
-          <div>
-            Status:{err?.status}
-            <br />
-            Some Error Occured
-          </div>,
-          {
-            autoClose: 3000,
-            pauseOnHover: false,
-          }
-        );
+        toastAPIError("Some Error Occured", err.status, err.data);
       });
     setEditText(false);
   };
