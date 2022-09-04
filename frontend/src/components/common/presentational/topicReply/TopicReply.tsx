@@ -7,6 +7,7 @@ import moment from "moment";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { parseLink } from "@src/helpers/paging";
 import { mobileWidth } from "@src/helpers/utils/config";
+import constantsData from "@src/localization/en.json";
 import { api, VfseCommentsRepliesCreateApiArg } from "@src/store/reducers/api";
 import { Comment } from "@src/store/reducers/generated";
 
@@ -21,6 +22,8 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
   const [page, setPage] = useState(1);
   const [replies, setRepliesData] = useState([]);
+  const { enterKey, showMoreReplies, showLessReplies, posting, replyText } =
+    constantsData.topicReply;
   //GET vfseCommentsRepliesCreate
   const {
     data: repliesData = { data: [], link: "" },
@@ -74,7 +77,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
   };
 
   const keyPressEnter = (event) => {
-    if (event.key == "Enter") {
+    if (event.key == enterKey) {
       addReplyHandler();
     }
   };
@@ -140,9 +143,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
                 style={{ cursor: "pointer" }}
                 onClick={handlePagination}
               >
-                {totalReplyPages > page
-                  ? "Show more replies"
-                  : "Show less replies"}
+                {totalReplyPages > page ? showMoreReplies : showLessReplies}
               </div>
             ) : (
               ""
@@ -196,7 +197,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
           onClick={addReplyHandler}
           sx={{ height: 45, width: 125, display: { xs: "none", md: "flex" } }}
         >
-          {isReplyPosting ? "Posting..." : "Reply"}
+          {isReplyPosting ? posting : replyText}
         </Button>
       </Box>
     </Box>

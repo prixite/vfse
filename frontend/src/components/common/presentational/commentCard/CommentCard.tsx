@@ -10,7 +10,6 @@ import DeleteNoteModal from "@src/components/shared/popUps/deleteNoteModal/Delet
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { deleteSystemNoteService } from "@src/services/systemServices";
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
-
 import "@src/components/common/presentational/commentCard/commentCard.scss";
 
 interface CommentProps {

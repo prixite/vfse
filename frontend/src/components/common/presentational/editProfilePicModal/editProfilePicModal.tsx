@@ -17,7 +17,7 @@ import {
   uploadImageToS3,
 } from "@src/helpers/utils/imageUploadUtils";
 import { updateUsernameService } from "@src/services/userService";
-import { useSelectedOrganization } from "@src/store/hooks";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsMeReadQuery,
   useUsersMePartialUpdateMutation,
@@ -98,6 +98,9 @@ const EditProfilePicModal = ({ open, setOpen }) => {
     );
   };
 
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   return (
     <Dialog open={open} onClose={handleClose} className="profile-pic-modal">
       <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
@@ -111,8 +114,27 @@ const EditProfilePicModal = ({ open, setOpen }) => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleUpdate}>Update</Button>
+        <Button
+          style={{
+            backgroundColor: secondaryColor,
+            color: buttonTextColor,
+          }}
+          className="cancel-btn"
+          onClick={handleClose}
+        >
+          {"Cancel"}
+        </Button>
+        <Button
+          style={{
+            backgroundColor: buttonBackground,
+            color: buttonTextColor,
+          }}
+          onClick={handleUpdate}
+          disabled={!selectedImage[0]}
+          className="add-btn"
+        >
+          {"Update"}
+        </Button>
       </DialogActions>
     </Dialog>
   );

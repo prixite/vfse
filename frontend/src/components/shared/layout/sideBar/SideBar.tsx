@@ -27,6 +27,7 @@ import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import { routes, vfseRoutes } from "@src/routes";
 import {
   useAppSelector,
@@ -101,6 +102,7 @@ export default function SideBar() {
   const { sideBarBackground, sideBarTextColor, buttonBackground, fontOne } =
     useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
+  const { knowledge_base, forum, faq, vFSE } = constantsData.sideBar;
 
   const { data: me } = useOrganizationsMeReadQuery(
     {
@@ -140,9 +142,9 @@ export default function SideBar() {
 
   useEffect(() => {
     if (
-      currentRoute?.includes("knowledge-base") ||
-      currentRoute?.includes("forum") ||
-      currentRoute?.includes("faq")
+      currentRoute?.includes(knowledge_base) ||
+      currentRoute?.includes(forum) ||
+      currentRoute?.includes(faq)
     ) {
       setOpenVfse(true);
     } else {
@@ -152,9 +154,9 @@ export default function SideBar() {
 
   const checkVfseRoutes = () => {
     if (
-      currentRoute?.includes("knowledge-base") ||
-      currentRoute?.includes("forum") ||
-      currentRoute?.includes("faq")
+      currentRoute?.includes(knowledge_base) ||
+      currentRoute?.includes(forum) ||
+      currentRoute?.includes(faq)
     ) {
       return true;
     }
@@ -167,7 +169,7 @@ export default function SideBar() {
       return routes
         .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
         .map((prop: routeItem, key) => {
-          return prop.name !== "vFSE" ? (
+          return prop.name !== vFSE ? (
             <Fragment key={key}>
               <ListItem
                 button

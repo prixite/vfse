@@ -150,7 +150,7 @@ export const emptySplitApi = createApi({
         method: "PATCH",
         body: document,
       }),
-      invalidatesTags: ["Article"],
+      invalidatesTags: ["Article", "Favorite"],
     }),
     addArticle: builder.mutation<Document, { document: Document }>({
       query: ({ document }) => ({
@@ -243,7 +243,7 @@ export const emptySplitApi = createApi({
         url: `/vfse/folders/${id}/`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Folder"],
+      invalidatesTags: ["Folder", "Category"],
     }),
     getWorkOrders: builder.query<WorkOrder[], void>({
       query: () => ({ url: "/vfse/workorders/", method: "get" }),

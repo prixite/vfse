@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import { constants } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
@@ -36,6 +37,7 @@ const TopicUpdatesCards = ({
 }: TopicUpdatesCards) => {
   const navigate = useNavigate();
   const { organizationRoute } = constants;
+  const { follow, following } = constantsData.topicUpdateCard;
   const [isFollowing, setIsFollowing] = useState(
     followers.some((follower) => follower?.id === me?.id)
   );
@@ -112,11 +114,11 @@ const TopicUpdatesCards = ({
                       style={{ color: "#568000", marginRight: "9px" }}
                     />
                     <p className="text" style={{ color: "#568000" }}>
-                      Following
+                      {following}
                     </p>
                   </>
                 ) : (
-                  <p className="text"> Follow </p>
+                  <p className="text"> {follow} </p>
                 )}
               </Button>
             </div>

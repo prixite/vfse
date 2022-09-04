@@ -17,6 +17,8 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     "Favorite",
     "Reply",
     "RecentActivity",
+    "UserProfile",
+    "Category",
   ],
   endpoints: {
     vfseUserActivityList: {
@@ -314,6 +316,27 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
       invalidatesTags: (result, error, { id }) => [
         { type: "Folder", id: `Folder-${id}` },
         "Folder",
+      ],
+    },
+    organizationsMeRead: {
+      providesTags: ["UserProfile"],
+    },
+    usersMePartialUpdate: {
+      invalidatesTags: ["UserProfile"],
+    },
+    vfseCategoriesList: {
+      providesTags: ["Category"],
+    },
+    vfseCategoriesPartialUpdate: {
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Category", id: `Category-${id}` },
+        "Category",
+      ],
+    },
+    vfseCategoriesDelete: {
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Category", id: `Category-${id}` },
+        "Category",
       ],
     },
   },

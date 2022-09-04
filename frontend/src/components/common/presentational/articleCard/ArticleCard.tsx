@@ -13,6 +13,7 @@ import { LocalizationInterface } from "@src/helpers/interfaces/localizationinter
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/presentational/articleCard/articleCard.scss";
 
@@ -36,6 +37,7 @@ const ArticleCard = ({
   const constantData: LocalizationInterface = localizedData();
   const { explore, numberTitle } = constantData.articleCard;
   const { organizationRoute } = constants;
+  const { toastData, articleCard } = constantsData;
   const { id } = useParams();
   const [deleteFolder] = api.useDeleteFolderMutation();
   const open = Boolean(anchorEl);
@@ -58,7 +60,7 @@ const ArticleCard = ({
     deleteFolder({ id: folderId })
       .unwrap()
       .then(() => {
-        toast.success("Folder successfully deleted.", {
+        toast.success(toastData.articleCardFolderDeleteSuccess, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -129,7 +131,9 @@ const ArticleCard = ({
             className="dropdownMenu"
             onClose={handleClose}
           >
-            <MenuItem onClick={handleModalOpen}>Delete</MenuItem>
+            <MenuItem onClick={handleModalOpen}>
+              {articleCard.deleteCard}
+            </MenuItem>
           </Menu>
         </div>
       </div>

@@ -28,6 +28,37 @@ export interface PopUp {
   userManager: string;
   userCustomer: string;
   newUser: string;
+  imageRequired: string;
+  firstNameRequired: string;
+  lastNameRequired: string;
+  invalidEmailText: string;
+  emailRequired: string;
+  phoneNumberValidation: string;
+  invalidPhoneFormat: string;
+  phoneRequired: string;
+  addText: string;
+  selectManager: string;
+  manager: string;
+  customer: string;
+  role: string;
+  edit: string;
+  userProfileImage: string;
+  phone: string;
+  selectedSites: string;
+  selectedModalities: string;
+  accessToFSEFunctions: string;
+  auditEnable: string;
+  possibilitytoLeave: string;
+  viewOnly: string;
+  oneTimeLinkCreation: string;
+  docLink: string;
+  userProfileImageText: string;
+  editUserText: string;
+  profileImageText: string;
+  sitesText: string;
+  healthNetworkAccessText: string;
+  organizationSitesText: string;
+  accessToModalities: string;
 }
 
 export interface Users {
@@ -36,6 +67,14 @@ export interface Users {
   btnFilter: string;
   btnAdd: string;
   popUp: PopUp;
+}
+
+export interface ManufacturerInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
 }
 
 export interface UserMenuOptions {
@@ -58,7 +97,13 @@ export interface PopUp2 {
   newNetworkBtnSave: string;
   newNetworkBtnCancel: string;
 }
-
+export interface ProductInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
 export interface DeleteDialog {
   dialogMessage: string;
   noButton: string;
@@ -121,6 +166,12 @@ export interface PopUp4 {
   modalities: string;
   btnEdit: string;
   btnCancel: string;
+  addText: string;
+  docLinkText: string;
+  modalText: string;
+  modalityText: string;
+  editText: string;
+  pdf: string;
 }
 
 export interface Documentation {
@@ -221,11 +272,16 @@ export interface Page505 {
   description: string;
 }
 
+export interface DropzoneOptions {
+  uploadAndHide: string;
+  upload: string;
+}
 export interface Dropzone {
   heading: string;
   description: string;
   button: string;
   info: string;
+  options: DropzoneOptions;
 }
 
 export interface HealthNetwork {
@@ -235,6 +291,9 @@ export interface HealthNetwork {
   color2: string;
   color3: string;
   color4: string;
+  nameRequired: string;
+  imageRequired: string;
+  networkDuplicateError: string;
 }
 
 export interface SiteSection {
@@ -296,6 +355,7 @@ export interface KnowledgeBase {
 export interface ArticleCard {
   numberTitle: string;
   explore: string;
+  deleteCard: string;
 }
 
 export interface folderSection {
@@ -349,6 +409,8 @@ export interface LocalizationInterface {
   folderSection: folderSection;
   document: document;
   articleDescription: articleDescription;
+  ManufacturerModal: ManufacturerInterface;
+  ProductModal: ProductInterface;
 }
 
 export interface SystemInterfaceProps {

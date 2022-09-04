@@ -11,9 +11,8 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import { timeOut } from "@src/helpers/utils/constants";
-import constantsData from "@src/localization/en.json";
+import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import {
@@ -29,23 +28,16 @@ interface CategoryModalProps {
 
 const initialState: Category = {
   name: "",
-  color: "#FFFF",
 };
 
+const { nameRequired, title, addBtn, cancelBtn, subHeading } =
+  localizedData().ManufacturerModal;
+
 const validationSchema = yup.object({
-  name: yup
-    .string()
-    .min(1)
-    .max(20)
-    .required(constantsData.categoryModal.colorTextRequired),
-  color: yup
-    .string()
-    .min(1)
-    .max(10)
-    .required(constantsData.categoryModal.colorRequired),
+  name: yup.string().min(1).max(20).required(nameRequired),
 });
 
-export default function CategoryModal({
+export default function AddManufacturerModal({
   open,
   handleClose,
 }: CategoryModalProps) {
@@ -56,10 +48,7 @@ export default function CategoryModal({
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   //API
-  const [addNewCategory] = api.useAddCategoryMutation();
-  const { addCategoryText, colorNameText, cancelText } =
-    constantsData.categoryModal;
-  const { toastData } = constantsData;
+  const [addNewManufacturer] = api.useManufacturersCreateMutation();
 
   const formik = useFormik({
     initialValues: initialState,
@@ -72,17 +61,17 @@ export default function CategoryModal({
 
   const handleCategorySubmit = () => {
     setIsLoading(true);
-    addNewCategory({ category: { ...formik.values } })
+    addNewManufacturer({ manufacturer: { ...formik.values } })
       .unwrap()
       .then(() => {
-        toast.success(toastData.categoryAddSuccess, {
+        toast.success("Category Successfully added.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
         resetModal();
       })
       .catch(() => {
-        toast.error(toastData.categoryAddError, {
+        toast.error("Error occured while adding Category", {
           autoClose: 2000,
           pauseOnHover: false,
         });
@@ -100,15 +89,11 @@ export default function CategoryModal({
     handleClose();
   };
 
-  const changeColor = (color: string) => {
-    formik.setFieldValue("color", color);
-  };
-
   return (
     <Dialog className="category-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">{addCategoryText}</span>
+          <span className="modal-header">{title}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -125,30 +110,20 @@ export default function CategoryModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{colorNameText}</p>
+                  <p className="info-label required">{subHeading}</p>
                   <TextField
                     autoComplete="off"
                     name="name"
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder="Type in Color"
+                    placeholder="Manufacturer name"
                     value={formik.values.name}
                     onChange={formik.handleChange}
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.name}
                   </p>
-                </div>
-              </Grid>
-
-              <Grid item xs={6}>
-                <div className="info-section">
-                  <ColorPicker
-                    title={"Color"}
-                    color={formik.values.color}
-                    onChange={changeColor}
-                  />
                 </div>
               </Grid>
             </Grid>
@@ -162,7 +137,7 @@ export default function CategoryModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelText}
+          {cancelBtn}
         </Button>
         <Button
           className="add-btn"
@@ -176,7 +151,7 @@ export default function CategoryModal({
           }}
           disabled={isLoading}
         >
-          {addCategoryText}
+          {addBtn}
         </Button>
       </DialogActions>
     </Dialog>

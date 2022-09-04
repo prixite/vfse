@@ -12,6 +12,7 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { timeOut } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Category } from "@src/store/reducers/generated";
@@ -28,7 +29,11 @@ const initialState = {
 };
 
 const validationSchema = yup.object({
-  name: yup.string().min(1).max(50).required("name is required!"),
+  name: yup
+    .string()
+    .min(1)
+    .max(50)
+    .required(constantsData.folderModalPopUp.nameRequired),
 });
 
 export default function FolderModal({
@@ -42,6 +47,9 @@ export default function FolderModal({
 
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { addFolderText, folderNameText, folderCategoryText, cancel } =
+    constantsData.folderModalPopUp;
+  const { toastData } = constantsData;
 
   //API
   const [addNewFolder] = api.useAddFolderMutation();
@@ -62,13 +70,13 @@ export default function FolderModal({
     })
       .unwrap()
       .then(() => {
-        toast.success("Folder Successfully added.", {
+        toast.success(toastData.folderAddSuccess, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
       })
       .catch(() => {
-        toast.error("Error occured while adding Folder", {
+        toast.error(toastData.folderAddError, {
           autoClose: 2000,
           pauseOnHover: false,
         });
@@ -89,7 +97,7 @@ export default function FolderModal({
     <Dialog className="folder-modal" open={open}>
       <DialogTitle>
         <div className="title-section title-cross">
-          <span className="modal-header">Add Folder</span>
+          <span className="modal-header">{addFolderText}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -106,7 +114,7 @@ export default function FolderModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">Folder Name </p>
+                  <p className="info-label">{folderNameText} </p>
                   <TextField
                     name="name"
                     className="info-field"
@@ -122,15 +130,15 @@ export default function FolderModal({
                 </div>
               </Grid>
 
-              <Grid item xs={6}>
-                <div>
-                  <p className="info-label required"> Folder Category </p>
-                  <FormControl sx={{ minWidth: 356 }}>
+              <Grid item xs={12}>
+                <div className="category-selector">
+                  <p className="info-label"> {folderCategoryText} </p>
+                  <FormControl>
                     <Select
                       name="role"
                       value={categoryData.id}
+                      className="select-cls"
                       inputProps={{ "aria-label": "Without label" }}
-                      style={{ height: "43px", borderRadius: "8px" }}
                       onChange={formik.handleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       // disabled={!props?.roles?.length}
@@ -153,7 +161,7 @@ export default function FolderModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          Cancel
+          {cancel}
         </Button>
         <Button
           className="add-btn"
@@ -167,7 +175,7 @@ export default function FolderModal({
           }}
           disabled={isLoading}
         >
-          Add Folder
+          {addFolderText}
         </Button>
       </DialogActions>
     </Dialog>

@@ -135,6 +135,13 @@
         .MuiOutlinedInput-root .MuiAutocomplete-input {
           padding: 1px 4px 7.5px 6px;
         }
+        .modal-btn-styling {
+          display: flex;
+          align-items: center;
+          margin-top: 10px;
+          margin-left: 3px;
+          cursor: pointer;
+        }
       }
       .box-heading {
         margin-top: 20px;
@@ -171,7 +178,6 @@
     justify-content: center;
     margin-top: 2px;
     margin-bottom: 16px;
-    padding: 8px 20px 8px 7px;
     .cancel-btn {
       background: #efe1ff;
       color: #773cbd;
@@ -220,6 +226,10 @@
     .MuiDialog-paper {
       width: 100%;
       margin: 5px;
+    }
+    .MuiDialogActions-root {
+      padding-left: 20px;
+      padding-right: 20px;
     }
   }
 }

@@ -8,6 +8,7 @@ import RecentActivity from "@src/components/common/presentational/recentActivity
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import constantsData from "@src/localization/en.json";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/api";
 import { getTopicListArg } from "@src/types/interfaces";
 
@@ -50,6 +51,7 @@ const ProfileTimeline = ({
   setPage,
 }: Props) => {
   const classes = useStyles();
+  const { loading } = constantsData.common;
 
   const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
 
@@ -106,7 +108,7 @@ const ProfileTimeline = ({
               )}
             </Grid>
           ) : (
-            <p>Loading ...</p>
+            <p>{loading}</p>
           )}
           {/* RecentActivity */}
           <Grid item xs={3} className={classes.recentActivity}>

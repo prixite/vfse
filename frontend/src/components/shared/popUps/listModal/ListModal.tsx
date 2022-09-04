@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/listModal/listModal.scss";
@@ -19,6 +20,7 @@ const ListModal = ({ open, handleClose, name, list }: Props) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
+  const { close } = constantsData.listModalPopUp;
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ListModal">
@@ -43,7 +45,7 @@ const ListModal = ({ open, handleClose, name, list }: Props) => {
             className="btnModal"
             onClick={handleClose}
           >
-            Close
+            {close}
           </Button>
         </DialogActions>
       </Dialog>

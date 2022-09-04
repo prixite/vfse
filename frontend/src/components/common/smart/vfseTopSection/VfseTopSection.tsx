@@ -12,6 +12,7 @@ import debouce from "lodash.debounce";
 import TopicUpdatesCards from "@src/components/common/presentational/topicUpdatesCards/TopicUpdatesCard";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
 
@@ -50,6 +51,15 @@ export default function VfseTopSection({
   );
   const [sort, setSort] = useState<number>(0);
   const [filter, setfilter] = useState<number>(0);
+  const {
+    sortBy,
+    none,
+    updatedAt,
+    createdAt,
+    filterText,
+    ascending,
+    descending,
+  } = constantsData.vfseTopSection;
 
   useEffect(() => {
     setListData(popularTopicData);
@@ -265,7 +275,7 @@ export default function VfseTopSection({
       >
         <Grid item sx={{ width: "50%" }} style={{ paddingLeft: "0px" }}>
           <FormControl fullWidth size="small" sx={{ backgroundColor: "#fff" }}>
-            <InputLabel id="sort-by-categoty">Sort By:</InputLabel>
+            <InputLabel id="sort-by-categoty">{sortBy}:</InputLabel>
             <Select
               labelId="sort-by-category-label"
               id="demo-controlled-open-select"
@@ -277,16 +287,16 @@ export default function VfseTopSection({
               onChange={sortSetter}
               defaultValue=""
             >
-              <MenuItem value={30}>None</MenuItem>
-              <MenuItem value={20}>Updated At</MenuItem>
-              <MenuItem value={10}>Created At</MenuItem>
+              <MenuItem value={30}>{none}</MenuItem>
+              <MenuItem value={20}>{updatedAt}</MenuItem>
+              <MenuItem value={10}>{createdAt}</MenuItem>
             </Select>
           </FormControl>
         </Grid>
 
         <Grid item sx={{ width: "50%" }}>
           <FormControl sx={{ backgroundColor: "#fff" }} fullWidth size="small">
-            <InputLabel id="filter-dropdown">Filter:</InputLabel>
+            <InputLabel id="filter-dropdown">{filterText}:</InputLabel>
             <Select
               labelId="filter-dropdown-label"
               id="filter-dropdown-select"
@@ -298,9 +308,9 @@ export default function VfseTopSection({
               onChange={filterSetter}
               defaultValue=""
             >
-              <MenuItem value={30}>None</MenuItem>
-              <MenuItem value={10}>Ascending</MenuItem>
-              <MenuItem value={20}>Descending</MenuItem>
+              <MenuItem value={30}>{none}</MenuItem>
+              <MenuItem value={10}>{ascending}</MenuItem>
+              <MenuItem value={20}>{descending}</MenuItem>
             </Select>
           </FormControl>
         </Grid>
