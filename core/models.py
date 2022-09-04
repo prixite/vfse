@@ -292,7 +292,6 @@ class Profile(models.Model):
     fse_accessible = models.BooleanField(default=False)
     audit_enabled = models.BooleanField(default=True)
     can_leave_notes = models.BooleanField(default=True)
-    is_view_only = models.BooleanField(default=False)
     is_one_time = models.BooleanField(default=True)
     view_only = models.BooleanField(default=False)
     documentation_url = models.BooleanField(default=False)

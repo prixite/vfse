@@ -130,7 +130,7 @@ class ViewOnlyPermissions(BasePermission):
         if request.user.is_superuser:
             return True
 
-        elif request.user.profile.is_view_only and request.method not in SAFE_METHODS:
+        elif request.user.profile.view_only and request.method not in SAFE_METHODS:
             return False
 
         return True
