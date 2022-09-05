@@ -315,7 +315,7 @@ class OrganizationAllSitesViewSet(ListAPIView):
 
         return self.request.user.get_organization_sites(
             self.kwargs["pk"]
-        ).select_related("systems")
+        ).select_related("organization")
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
@@ -340,9 +340,11 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
-
         queryset = models.System.objects.filter(
-            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
+            id__in=self.request.user.get_organization_systems(self.kwargs["pk"]),
+            product_model__modality__in=models.Modality.objects.filter(
+                name__in=self.request.user.modalities
+            ),
         )
 
         if (
