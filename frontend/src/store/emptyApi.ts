@@ -131,7 +131,7 @@ export const emptySplitApi = createApi({
     }),
     getTopArticles: builder.query<Document[], void>({
       query: () => ({ url: "/vfse/documents/?favorite=true", method: "get" }),
-      providesTags: ["Favorite"],
+      providesTags: ["Favorite", "Article"],
     }),
     getArticle: builder.query<Document, { id: number }>({
       query: ({ id }) => ({ url: `/vfse/documents/${id}/`, method: "get" }),
