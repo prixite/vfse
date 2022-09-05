@@ -340,6 +340,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
+
         queryset = models.System.objects.filter(
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
         )
