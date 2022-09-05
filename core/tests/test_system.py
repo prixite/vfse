@@ -61,6 +61,9 @@ class SystemTestCase(BaseTestCase):
         models.UserSite.objects.create(
             user=self.fse, site=self.site, organization=self.organization
         )
+        models.UserModality.objects.create(
+            user=self.fse, modality=self.modality, organization=self.organization
+        )
         response = self.client.get(
             f"/api/organizations/{self.organization.id}/systems/"
         )
