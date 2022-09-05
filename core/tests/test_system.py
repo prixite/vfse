@@ -64,7 +64,7 @@ class SystemTestCase(BaseTestCase):
         response = self.client.get(
             f"/api/organizations/{self.organization.id}/systems/"
         )
-        self.assertEqual(len(response.json()), 1)
+        self.assertEqual(len(response.json()), 0)
 
     def test_post_system(self):
         self.client.force_login(self.super_admin)

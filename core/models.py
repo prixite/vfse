@@ -136,7 +136,9 @@ class User(AbstractUser):
     def get_organization_systems(self, organization_pk):
         return System.objects.filter(
             site__in=self.get_sites(),
-            product_model__modality__name__in=self.modalities,
+            product_model__modality__in=self.usermodality_set.all().values_list(
+                "modality"
+            ),
         ).filter(
             Q(
                 site__organization__in=self.get_organization_health_networks(
