@@ -315,7 +315,7 @@ class OrganizationAllSitesViewSet(ListAPIView):
 
         return self.request.user.get_organization_sites(
             self.kwargs["pk"]
-        ).select_related("systems")
+        ).select_related("organization")
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
