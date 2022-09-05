@@ -134,7 +134,10 @@ class User(AbstractUser):
         return UserSystem.objects.filter(user=self).values_list("system")
 
     def get_organization_systems(self, organization_pk):
-        return System.objects.filter(site__in=self.get_sites(),).filter(
+        return System.objects.filter(
+            site__in=self.get_sites(),
+            product_model__modality__name__in=self.modalities,
+        ).filter(
             Q(
                 site__organization__in=self.get_organization_health_networks(
                     organization_pk
