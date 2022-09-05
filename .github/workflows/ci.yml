@@ -32,6 +32,7 @@ jobs:
       DUO_API_HOSTNAME: "fake"
       DUO_REDIRECT_URI: "fake"
       AWS_STORAGE_BUCKET_NAME: "vfse-staging"
+      DOMAIN_NAME: "https://app.vfse.io"
     steps:
       - uses: actions/checkout@v3
         with:
