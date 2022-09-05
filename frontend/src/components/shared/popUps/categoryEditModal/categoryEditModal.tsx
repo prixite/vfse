@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint react/prop-types: 0 */
+import { useState, useEffect } from "react";
 
 import { TextField, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -15,22 +16,12 @@ import ColorPicker from "@src/components/common/presentational/colorPicker/Color
 import { timeOut } from "@src/helpers/utils/constants";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
-import { api } from "@src/store/reducers/api";
 import {
   Category,
-  // useVfseCategoriesListQuery, /* Api */
+  useVfseCategoriesPartialUpdateMutation,
+  useVfseCategoriesReadQuery,
 } from "@src/store/reducers/generated";
-import "@src/components/shared/popUps/categoryModal/categoryModal.scss";
-
-interface CategoryModalProps {
-  open: boolean;
-  handleClose: () => void;
-}
-
-const initialState: Category = {
-  name: "",
-  color: "#FFFF",
-};
+import "@src/components/shared/popUps/categoryEditModal/categoryEditModal.scss";
 
 const validationSchema = yup.object({
   name: yup
@@ -45,10 +36,15 @@ const validationSchema = yup.object({
     .required(constantsData.categoryModal.colorRequired),
 });
 
-export default function CategoryModal({
-  open,
-  handleClose,
-}: CategoryModalProps) {
+export default function CategoryEditModal({ open, handleClose, id }) {
+  const { data: category } = useVfseCategoriesReadQuery({ id });
+  const [editCategory] = useVfseCategoriesPartialUpdateMutation();
+
+  const initialState: Category = {
+    name: "",
+    color: "#FFFF",
+  };
+
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -56,9 +52,7 @@ export default function CategoryModal({
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   //API
-  const [addNewCategory] = api.useAddCategoryMutation();
-  const { addCategoryText, colorNameText, cancelText } =
-    constantsData.categoryModal;
+  const { colorNameText, cancelText } = constantsData.categoryModal;
   const { toastData } = constantsData;
 
   const formik = useFormik({
@@ -66,36 +60,37 @@ export default function CategoryModal({
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      handleCategorySubmit();
+      handleCategoryEdit();
     },
   });
 
-  const handleCategorySubmit = () => {
+  useEffect(() => {
+    formik.setFieldValue("name", category?.name);
+    formik.setFieldValue("color", category?.color);
+  }, [category]);
+
+  const handleCategoryEdit = () => {
     setIsLoading(true);
-    addNewCategory({ category: { ...formik.values } })
+    editCategory({ id, category: { ...formik.values } })
       .unwrap()
       .then(() => {
-        toast.success(toastData.categoryAddSuccess, {
+        toast.success(toastData.categoryEditSuccess, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
+        setIsLoading(false);
         resetModal();
       })
       .catch(() => {
-        toast.error(toastData.categoryAddError, {
+        setIsLoading(false);
+        toast.error(toastData.categoryEditError, {
           autoClose: 2000,
           pauseOnHover: false,
         });
-      })
-      .finally(() => {
-        resetModal();
-        setIsLoading(false);
-        handleClose();
       });
   };
 
   const resetModal = () => {
-    formik.resetForm();
     setOnChangeValidation(false);
     handleClose();
   };
@@ -108,7 +103,7 @@ export default function CategoryModal({
     <Dialog className="category-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">{addCategoryText}</span>
+          <span className="modal-header">{"Edit Category"}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -176,7 +171,7 @@ export default function CategoryModal({
           }}
           disabled={isLoading}
         >
-          {addCategoryText}
+          {"Update"}
         </Button>
       </DialogActions>
     </Dialog>

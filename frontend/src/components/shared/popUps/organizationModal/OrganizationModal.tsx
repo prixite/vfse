@@ -23,6 +23,7 @@ import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import {
   updateOrganizationService,
   addNewOrganizationService,
@@ -53,9 +54,15 @@ const initialState: OrganizationModalFormState = {
   fonttwo: "",
 };
 const validationSchema = yup.object({
-  organizationName: yup.string().required("Name is required"),
-  organizationLogo: yup.string().required("Image is not selected"),
-  organizationSeats: yup.string().required("Seats is not selected"),
+  organizationName: yup
+    .string()
+    .required(constantsData.organization.popUp.nameRequired),
+  organizationLogo: yup
+    .string()
+    .required(constantsData.organization.popUp.imageNotSelected),
+  organizationSeats: yup
+    .string()
+    .required(constantsData.organization.popUp.seatsNotSelected),
 });
 export default function OrganizationModal({
   action,
@@ -64,6 +71,24 @@ export default function OrganizationModal({
   handleClose,
 }) {
   const [onChangeValidation, setOnChangeValidation] = useState(false);
+  const {
+    organizationSeats,
+    sidebarColor,
+    buttonColor,
+    sidebarTextColor,
+    btnTextColor,
+    secondColor,
+    networksText,
+    organizationLogo,
+    addClientText,
+    helvetica,
+    calibri,
+    proximaNova,
+    AaBbCcDd,
+    loadingHealthNetworks,
+    loading,
+  } = constantsData.organization.popUp;
+  const { toastData } = constantsData;
   const [page, setPage] = useState("");
   const [organizationID, setOrganizationID] = useState();
   const [selectedImage, setSelectedImage] = useState([]);
@@ -168,7 +193,7 @@ export default function OrganizationModal({
 
   const handleOrganizationSeats = (event) => {
     formik.setFieldValue(
-      "organizationSeats",
+      organizationSeats,
       event.target.value.replace(/[^0-9]/g, "")
     );
   };
@@ -190,7 +215,7 @@ export default function OrganizationModal({
               .then(() => setPage("2"))
               .catch((error) =>
                 toastAPIError(
-                  "Error occurred while adding organization",
+                  toastData.addOrganizationError,
                   error?.status,
                   error.data
                 )
@@ -231,7 +256,7 @@ export default function OrganizationModal({
               .then(() => setPage("2"))
               .catch((error) =>
                 toastAPIError(
-                  "Error occurred while saving organization",
+                  toastData.saveOrganizationError,
                   error?.status,
                   error.data
                 )
@@ -253,7 +278,7 @@ export default function OrganizationModal({
           .then(() => setPage("2"))
           .catch((error) =>
             toastAPIError(
-              "Error occurred while saving organization",
+              toastData.saveOrganizationError,
               error?.status,
               error.data
             )
@@ -295,7 +320,7 @@ export default function OrganizationModal({
         (network) => network?.name && network?.appearance?.logo !== ""
       );
       if (!TempNetworks.length) {
-        toast.error("Add Networks first", {
+        toast.error(toastData.addNetworksFirstError, {
           autoClose: 1000,
           pauseOnHover: false,
         });
@@ -327,22 +352,22 @@ export default function OrganizationModal({
   };
 
   const changeSideBarColor = (color: string) =>
-    formik.setFieldValue("sidebarColor", color);
+    formik.setFieldValue(sidebarColor, color);
 
   const changeButtonColor = (color: string) =>
-    formik.setFieldValue("ButtonColor", color);
+    formik.setFieldValue(buttonColor, color);
 
   const changeSideBarTextColor = (color: string) =>
-    formik.setFieldValue("sidebarTextColor", color);
+    formik.setFieldValue(sidebarTextColor, color);
 
   const changeButtonTextColor = (color: string) =>
-    formik.setFieldValue("ButtonTextColor", color);
+    formik.setFieldValue(btnTextColor, color);
 
   const changeSecondaryColor = (color: string) =>
-    formik.setFieldValue("secondColor", color);
+    formik.setFieldValue(secondColor, color);
 
   const addNetworks = () => {
-    formik.setFieldValue("networks", [
+    formik.setFieldValue(networksText, [
       ...formik.values.networks,
       { name: "", appearance: { logo: "" } },
     ]);
@@ -369,7 +394,7 @@ export default function OrganizationModal({
   };
   useEffect(() => {
     if (selectedImage?.length) {
-      formik.setFieldValue("organizationLogo", selectedImage[0]);
+      formik.setFieldValue(organizationLogo, selectedImage[0]);
     }
   }, [selectedImage]);
 
@@ -377,10 +402,10 @@ export default function OrganizationModal({
     if (open) {
       if (!isNetworkDataLoading && !error) {
         if (networksData && networksData.length && open) {
-          formik.setFieldValue("networks", [...networksData]);
+          formik.setFieldValue(networksText, [...networksData]);
         }
         if (!(networksData && networksData.length) && open) {
-          formik.setFieldValue("networks", [
+          formik.setFieldValue(networksText, [
             { name: "", appearance: { logo: "" } },
           ]);
         }
@@ -393,7 +418,7 @@ export default function OrganizationModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {organization?.name ?? "Add Client"}
+            {organization?.name ?? addClientText}
           </span>
           <span className="dialog-page">
             {action !== "new" ? (
@@ -550,10 +575,10 @@ export default function OrganizationModal({
                           style={{ height: "48px", marginRight: "15px" }}
                           onChange={formik.handleChange}
                         >
-                          <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                          <MenuItem value={"calibri"}>Calibri</MenuItem>
+                          <MenuItem value={"helvetica"}>{helvetica}</MenuItem>
+                          <MenuItem value={"calibri"}>{calibri}</MenuItem>
                           <MenuItem value={"ProximaNova-Regular"}>
-                            ProximaNova
+                            {proximaNova}
                           </MenuItem>
                         </Select>
                       </FormControl>
@@ -562,7 +587,7 @@ export default function OrganizationModal({
                       className="font-demo"
                       style={{ fontFamily: formik.values.fontone }}
                     >
-                      AaBbCcDd
+                      {AaBbCcDd}
                     </span>
                   </div>
                   <h4 className="labels">{newOrganizationFont2}</h4>
@@ -577,10 +602,10 @@ export default function OrganizationModal({
                           style={{ height: "48px", marginRight: "15px" }}
                           onChange={formik.handleChange}
                         >
-                          <MenuItem value={"helvetica"}>Helvetica</MenuItem>
-                          <MenuItem value={"calibri"}>Calibri</MenuItem>
+                          <MenuItem value={"helvetica"}>{helvetica}</MenuItem>
+                          <MenuItem value={"calibri"}>{calibri}</MenuItem>
                           <MenuItem value={"ProximaNova-Regular"}>
-                            ProximaNova
+                            {proximaNova}
                           </MenuItem>
                         </Select>
                       </FormControl>
@@ -589,7 +614,7 @@ export default function OrganizationModal({
                       className="font-demo"
                       style={{ fontFamily: formik.values.fonttwo }}
                     >
-                      AaBbCcDd
+                      {AaBbCcDd}
                     </span>
                   </div>
                 </div>
@@ -634,12 +659,12 @@ export default function OrganizationModal({
                     setIsNetworkImageUploading={setIsNetworkImageUploading}
                     index={index}
                     setNetworks={(args) =>
-                      formik.setFieldValue("networks", [...args])
+                      formik.setFieldValue(networksText, [...args])
                     }
                   />
                 ))
               ) : (
-                <p>Loading Health Networks</p>
+                <p>{loadingHealthNetworks}</p>
               )}
             </>
           )}
@@ -670,7 +695,7 @@ export default function OrganizationModal({
           className="add-btn"
         >
           {isLoading
-            ? "Loading..."
+            ? loading
             : action === "edit"
             ? page === "1"
               ? newOrganizationBtnNext

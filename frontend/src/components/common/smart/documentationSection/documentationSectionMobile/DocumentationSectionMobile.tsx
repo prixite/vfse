@@ -5,6 +5,7 @@ import { Box } from "@mui/material";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import DocumentationCard from "@src/components/common/smart/documentationSection/documentationCard/DocumentationCard";
+import constantsData from "@src/localization/en.json";
 
 interface DocumentationSectionMobileProps {
   docList: {
@@ -27,6 +28,7 @@ const DocumentationSectionMobile = ({
   const [slicePointer, setSlicePointer] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [paginatedDocs, setPaginatedDocs] = useState([]);
+  const { common } = constantsData;
   const fetchMoreSection = () => {
     setSlicePointer((prevState) => prevState + 2);
     if (slicePointer + 2 >= docList.length) {
@@ -51,7 +53,7 @@ const DocumentationSectionMobile = ({
         hasMore={hasMore}
         loader={
           <h4 style={{ width: "100%", textAlign: "center", color: "#696f77" }}>
-            Loading...
+            {common.loading}
           </h4>
         }
       >

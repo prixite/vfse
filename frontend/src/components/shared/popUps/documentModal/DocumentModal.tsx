@@ -24,6 +24,7 @@ import { DocumentationModalFormState } from "@src/components/shared/popUps/syste
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import {
   addProductModelService,
   updateProductModelService,
@@ -52,8 +53,12 @@ const initialState: DocumentationModalFormState = {
   modality: null,
 };
 const validationSchema = yup.object({
-  docLink: yup.string().required("Document is not uploaded"),
-  modelName: yup.string().required("Model Name is required"),
+  docLink: yup
+    .string()
+    .required(constantsData.documentation.popUp.documentNotUploaded),
+  modelName: yup
+    .string()
+    .required(constantsData.documentation.popUp.modelNameRequired),
 });
 
 export default function DocumentModal({
@@ -67,6 +72,7 @@ export default function DocumentModal({
   const [addProductModel] = useProductsModelsCreateMutation();
   const [updateProductModel] = useProductsModelsPartialUpdateMutation();
   const [onChangeValidation, setOnChangeValidation] = useState(false);
+  const { toastData } = constantsData;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -91,6 +97,12 @@ export default function DocumentModal({
     btnSave,
     btnCancel,
     btnToSave,
+    addText,
+    docLinkText,
+    modalText,
+    modalityText,
+    editText,
+    pdf,
   } = localizedData().documentation.popUp;
 
   const dropdownStyles = {
@@ -103,7 +115,7 @@ export default function DocumentModal({
   };
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: ".pdf",
+    accept: pdf,
     onDrop: (acceptedFiles) =>
       acceptedFiles.map((file) =>
         Object.assign(file, {
@@ -116,7 +128,7 @@ export default function DocumentModal({
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (action === "add") {
+      if (action === addText) {
         handleAddDocument();
       } else {
         handleEditDocument();
@@ -130,7 +142,7 @@ export default function DocumentModal({
         setIsLoading(true);
         await uploadImageToS3(acceptedFiles[0]).then(
           async (data: S3Interface) => {
-            formik.setFieldValue("docLink", data?.location);
+            formik.setFieldValue(docLinkText, data?.location);
             setIsLoading(false);
           }
         );
@@ -140,18 +152,18 @@ export default function DocumentModal({
 
   useEffect(() => {
     if (productData?.length) {
-      formik.setFieldValue("modal", productData[0]);
+      formik.setFieldValue(modalText, productData[0]);
     }
   }, [productData]);
 
   useEffect(() => {
     if (modalitiesList?.length) {
-      formik.setFieldValue("modality", modalitiesList[0]);
+      formik.setFieldValue(modalityText, modalitiesList[0]);
     }
   }, [modalitiesList]);
 
   useEffect(() => {
-    if (selectedDoc && action === "edit") {
+    if (selectedDoc && action === editText) {
       populateEditableData();
     }
   }, [selectedDoc, action]);
@@ -181,13 +193,10 @@ export default function DocumentModal({
             }, 500);
           })
           .catch(() => {
-            toast.error(
-              "Model with given name already exists for selected product",
-              {
-                autoClose: 2000,
-                pauseOnHover: false,
-              }
-            );
+            toast.error(toastData.modalAlreadyExists, {
+              autoClose: 2000,
+              pauseOnHover: false,
+            });
             setIsLoading(false);
           });
       }
@@ -213,13 +222,10 @@ export default function DocumentModal({
             }, 500);
           })
           .catch(() => {
-            toast.error(
-              "Model with given name already exists for selected product",
-              {
-                autoClose: 2000,
-                pauseOnHover: false,
-              }
-            );
+            toast.error(toastData.modalAlreadyExists, {
+              autoClose: 2000,
+              pauseOnHover: false,
+            });
             setIsLoading(false);
           });
       }
@@ -428,7 +434,7 @@ export default function DocumentModal({
             formik.handleSubmit();
           }}
         >
-          {action === "add" ? btnSave : btnToSave}
+          {action === addText ? btnSave : btnToSave}
         </Button>
       </DialogActions>
     </Dialog>

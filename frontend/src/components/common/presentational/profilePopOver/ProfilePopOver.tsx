@@ -4,6 +4,7 @@ import Popover from "@mui/material/Popover";
 import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
@@ -23,6 +24,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { profilePopOver } = constantsData;
   const defaultOrganizationData = useAppSelector(
     (state) => state.organization.currentOrganization
   );
@@ -102,7 +104,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>Profile</a>
+          <a style={{ textDecoration: "none" }}>{profilePopOver.profile}</a>
         </div>
         <div
           className="profile-item"
@@ -115,7 +117,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>Account</a>
+          <a style={{ textDecoration: "none" }}>{profilePopOver.account}</a>
         </div>
         <div
           className="profile-item"
@@ -126,7 +128,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
             style={{ textDecoration: "none" }}
             onClick={(e) => setDefaultOrganization(e)}
           >
-            Default Organization
+            {profilePopOver.defaultOrganization}
           </a>
         </div>
         <div
@@ -135,7 +137,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           style={{ padding: "4px 8px 8px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>Logout</a>
+          <a style={{ textDecoration: "none" }}>{profilePopOver.logout}</a>
         </div>
       </Popover>
     </div>

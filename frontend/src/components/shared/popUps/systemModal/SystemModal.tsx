@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   TextField,
   Grid,
@@ -21,8 +22,11 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
+import AddManufacturerModal from "@src/components/shared/popUps/addManufacturerModal/AddManufacturerModal";
+import ProductModal from "@src/components/shared/popUps/productModal/productModal";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
@@ -87,13 +91,21 @@ const initialState: FormState = {
 };
 
 const validationSchema = yup.object({
-  systemImage: yup.string().required("Image is a required field"),
-  modality: yup.string().required("Modality is a required field"),
-  manufacturer: yup.string().required("Manufacturer is a required field"),
-  product: yup.string().required("Product is a required field"),
-  model: yup.string().required("Model is a required field"),
-  name: yup.string().required("Name is a required field"),
-  site: yup.string().required("Site is a required field"),
+  systemImage: yup
+    .string()
+    .required(constantsData.systemModal.popUp.imageRequired),
+  modality: yup
+    .string()
+    .required(constantsData.systemModal.popUp.modalityRequired),
+  manufacturer: yup
+    .string()
+    .required(constantsData.systemModal.popUp.manufacturerRequired),
+  product: yup
+    .string()
+    .required(constantsData.systemModal.popUp.productRequired),
+  model: yup.string().required(constantsData.systemModal.popUp.modelRequired),
+  name: yup.string().required(constantsData.systemModal.popUp.nameRequired),
+  site: yup.string().required(constantsData.systemModal.popUp.siteRequired),
   grafana: yup.string().url().nullable(),
 });
 
@@ -157,6 +169,20 @@ const getPayload = (values: FormState): System => {
 export default function SystemModal(props: SystemProps) {
   const [disableButton, setDisableButton] = useState(false);
   const [sites, setSites] = useState([]);
+  const {
+    mriText,
+    siteText,
+    selectImage,
+    systemImageText,
+    vFSE,
+    ssh,
+    serviceWebBrowser,
+    virtualMediaControl,
+    systemContactInfo,
+  } = constantsData.systemModal.popUp;
+  const { toastData } = constantsData;
+  const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
+  const [openProductModal, setOpenProductModal] = useState(false);
 
   const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
@@ -178,12 +204,12 @@ export default function SystemModal(props: SystemProps) {
           id: selectedOrganization.id.toString(),
           system: getPayload(values),
         }).unwrap();
-        toast.success("System successfully saved.");
+        toast.success(toastData.systemSaveSuccess);
       } catch (error) {
         setDisableButton(false);
         if (error?.status < 500)
           toast.error(error.data[Object.keys(error.data)[0]][0]);
-        else toast.error("Error occurred while saving system");
+        else toast.error(toastData.systemSaveError);
       } finally {
         handleClear();
       }
@@ -256,7 +282,7 @@ export default function SystemModal(props: SystemProps) {
       Boolean(
         modalityData.find(
           (value) =>
-            value.group === "mri" &&
+            value.group === mriText &&
             value.id === parseInt(formik.values.modality)
         )
       ),
@@ -395,7 +421,7 @@ export default function SystemModal(props: SystemProps) {
 
   useEffect(() => {
     if (sites.length && !props.system) {
-      formik.setFieldValue("site", sites[0].id);
+      formik.setFieldValue(siteText, sites[0].id);
     }
   }, [sites.length, Boolean(props.system)]);
 
@@ -413,10 +439,10 @@ export default function SystemModal(props: SystemProps) {
       </DialogTitle>
       <DialogContent>
         <div className="modal-content">
-          <p className="gallery-title required">Select Image</p>
+          <p className="gallery-title required">{selectImage}</p>
           <SystemImageGallery
             setSystemImage={(value) =>
-              formik.setFieldValue("systemImage", value)
+              formik.setFieldValue(systemImageText, value)
             }
             systemImage={formik.values.systemImage}
           />
@@ -445,6 +471,15 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Manufacturer"
                     parent="modality"
                   />
+                  <div
+                    className="modal-btn-styling"
+                    onClick={() => setOpenManufacturerModal(true)}
+                  >
+                    <span>Add manufacturer</span>
+                    <AddCircleIcon
+                      style={{ marginLeft: "5px", color: buttonBackground }}
+                    />
+                  </div>
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -458,6 +493,15 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Product"
                     parent="manufacturer"
                   />
+                  <div
+                    className="modal-btn-styling"
+                    onClick={() => setOpenProductModal(true)}
+                  >
+                    <span>Add Product</span>
+                    <AddCircleIcon
+                      style={{ marginLeft: "5px", color: buttonBackground }}
+                    />
+                  </div>
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -612,7 +656,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
             </Grid>
             <Grid container className="checkbox-container">
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.vfse"
                   onClick={formik.handleChange}
@@ -623,9 +667,9 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.vfse}
                 />
-                <span className="text">vFSE [VNC OR OTHER]</span>
+                <span className="text">{vFSE} [VNC OR OTHER]</span>
               </Grid>
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.ssh"
                   onClick={formik.handleChange}
@@ -634,9 +678,9 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.ssh}
                 />
-                <span className="text">SSH [or terminal]</span>
+                <span className="text">{ssh}[or terminal]</span>
               </Grid>
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.web"
                   onClick={formik.handleChange}
@@ -645,9 +689,9 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.web}
                 />
-                <span className="text">Service web browser</span>
+                <span className="text">{serviceWebBrowser}</span>
               </Grid>
-              <Grid xs={12} md={4} lg={4} className="checkBox">
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
                   name="connection.virtual"
                   onClick={formik.handleChange}
@@ -658,13 +702,13 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.virtual}
                 />
-                <span className="text">Virtual media control</span>
+                <span className="text">{virtualMediaControl}</span>
               </Grid>
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{"System contact info"}</p>
+                  <p className="info-label">{systemContactInfo}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -892,6 +936,14 @@ export default function SystemModal(props: SystemProps) {
             {props.system ? btnEdit : btnAdd}
           </Button>
         </DialogActions>
+        <AddManufacturerModal
+          open={openManufacturerModal}
+          handleClose={() => setOpenManufacturerModal(false)}
+        />
+        <ProductModal
+          open={openProductModal}
+          handleClose={() => setOpenProductModal(false)}
+        />
       </form>
     </Dialog>
   );

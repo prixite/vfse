@@ -22,6 +22,7 @@ import {
 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
@@ -47,8 +48,12 @@ const initialState: NetworkModalFormState = {
   sitePointer: [{ name: "", address: "" }],
 };
 const validationSchema = yup.object({
-  networkName: yup.string().required("Name is required"),
-  networkLogo: yup.string().required("Image is not selected"),
+  networkName: yup
+    .string()
+    .required(constantsData.networkModalPopUp.nameRequired),
+  networkLogo: yup
+    .string()
+    .required(constantsData.networkModalPopUp.imageNotSelected),
 });
 
 export default function NetworkModal(props: Props) {
@@ -59,6 +64,9 @@ export default function NetworkModal(props: Props) {
   const [updateOrganizationSites] = useOrganizationsSitesUpdateMutation();
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { toastData } = constantsData;
+  const { editText, networkLogoText, sitePointerText } =
+    constantsData.networkModalPopUp;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -76,7 +84,7 @@ export default function NetworkModal(props: Props) {
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: () => {
-      if (props.action === "edit") {
+      if (props.action === editText) {
         handleEditOrganization();
       } else {
         handleAddNewHealthNetwork();
@@ -96,7 +104,7 @@ export default function NetworkModal(props: Props) {
 
   useEffect(() => {
     if (selectedImage.length) {
-      formik.setFieldValue("networkLogo", selectedImage[0]);
+      formik.setFieldValue(networkLogoText, selectedImage[0]);
     }
   }, [selectedImage.length]);
 
@@ -138,7 +146,7 @@ export default function NetworkModal(props: Props) {
                 })
                 .catch(async (error) => {
                   toastAPIError(
-                    "Error occurred while saving health network",
+                    toastData.saveHealthNetworkError,
                     error?.status,
                     error.data
                   );
@@ -163,7 +171,7 @@ export default function NetworkModal(props: Props) {
             })
             .catch((error) => {
               toastAPIError(
-                "Error occurred while saving health network",
+                toastData.saveHealthNetworkError,
                 error?.status,
                 error.data
               );
@@ -199,7 +207,7 @@ export default function NetworkModal(props: Props) {
                 })
                 .catch(async (error) => {
                   toastAPIError(
-                    "Error occurred while adding health network",
+                    toastData.addHealthNetworkError,
                     error?.status,
                     error.data
                   );
@@ -208,7 +216,7 @@ export default function NetworkModal(props: Props) {
             }
           })
           .catch(() => {
-            toast.error("Failed to upload image", {
+            toast.error(toastData.uploadImageFailedError, {
               autoClose: 1000,
               pauseOnHover: false,
             });
@@ -243,7 +251,7 @@ export default function NetworkModal(props: Props) {
   };
 
   const addSite = () => {
-    formik.setFieldValue("sitePointer", [
+    formik.setFieldValue(sitePointerText, [
       ...formik.values.sitePointer,
       { name: "", address: "" },
     ]);
@@ -258,7 +266,7 @@ export default function NetworkModal(props: Props) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {props?.action === "edit"
+            {props?.action === editText
               ? `Edit ${props?.organization?.name} Network`
               : "Add Network"}
           </span>
@@ -305,7 +313,7 @@ export default function NetworkModal(props: Props) {
               index={index}
               sitee={site}
               setSites={(args) =>
-                formik.setFieldValue("sitePointer", [...args])
+                formik.setFieldValue(sitePointerText, [...args])
               }
               isSiteDataPartiallyFilled={isSiteDataPartiallyFilled}
               setIsSiteDataPartiallyFilled={setIsSiteDataPartiallyFilled}

@@ -18,6 +18,7 @@ import {
   isNonFieldError,
   getNonFieldError,
 } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import {
   addNewSiteService,
   updateSitesService,
@@ -52,13 +53,17 @@ const initialState: SiteModalFormState = {
   siteAddress: "",
 };
 const validationSchema = yup.object({
-  siteName: yup.string().required("Name is required"),
-  siteAddress: yup.string().required("Address is required"),
+  siteName: yup.string().required(constantsData.siteModal.popUp.nameRequired),
+  siteAddress: yup
+    .string()
+    .required(constantsData.siteModal.popUp.addressRequired),
 });
 export default function SiteModal(props: siteProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [reset, setReset] = useState(true);
-
+  const { addText, editText, addSite, editSite } =
+    constantsData.siteModal.popUp;
+  const { toastData } = constantsData;
   const [addNewSite] = useOrganizationsSitesCreateMutation();
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const dispatch = useAppDispatch();
@@ -79,7 +84,7 @@ export default function SiteModal(props: siteProps) {
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: () => {
-      if (props?.action === "add") {
+      if (props?.action === addText) {
         handleAddSite();
       } else {
         handleEditSite();
@@ -112,7 +117,7 @@ export default function SiteModal(props: siteProps) {
             pauseOnHover: false,
           });
         } else {
-          toast.error("Error occurred while saving site", {
+          toast.error(toastData.saveSiteError, {
             autoClose: 2000,
             pauseOnHover: false,
           });
@@ -159,7 +164,7 @@ export default function SiteModal(props: siteProps) {
         props?.selectionID,
         updatedSites,
         updateSite,
-        "edit"
+        editText
       )
         .then(() => {
           setTimeout(() => {
@@ -169,7 +174,7 @@ export default function SiteModal(props: siteProps) {
           }, 500);
         })
         .catch(() => {
-          toast.error("Site with this name already exists.", {
+          toast.error(toastData.siteAlreadyExistsError, {
             autoClose: 2000,
             pauseOnHover: false,
           });
@@ -198,7 +203,7 @@ export default function SiteModal(props: siteProps) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {props?.action == "add" ? "Add Site" : "Edit Site"}
+            {props?.action == addText ? addSite : editSite}
           </span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
@@ -283,7 +288,7 @@ export default function SiteModal(props: siteProps) {
             disabled={isLoading}
             type="submit"
           >
-            {props?.action == "add" ? btnAdd : btnEdit}
+            {props?.action == addText ? btnAdd : btnEdit}
           </Button>
         </DialogActions>
       </form>

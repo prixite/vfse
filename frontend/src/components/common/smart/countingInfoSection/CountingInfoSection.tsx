@@ -9,46 +9,58 @@ import usersIcon from "@src/assets/svgs/users_dev.svg";
 import CountingInfoCards from "@src/components/common/presentational/countingInfoCards/CountingInfoCards";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
+import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
 
 const CountingInfoSection = () => {
   const [browserWidth] = useWindowSize();
   const { data: dashBoardList } = api.useGetDashboardListQuery();
+  const {
+    system_count,
+    allDevices,
+    online_system_count,
+    devicesOffline,
+    devicesOnline,
+    offline_system_count,
+    last_month_logged_in_user,
+    last_month_logged_in_user_text,
+    workOrders,
+  } = constantsData.countingInfoSection;
   const renderDashBoardCard = (key) => {
     switch (key) {
-      case "system_count":
+      case system_count:
         return (
           <CountingInfoCards
             key={key}
             deviceNo={dashBoardList[key]}
-            deviceStatus={"all Devices"}
+            deviceStatus={allDevices}
             deviceImage={allIcon}
           />
         );
-      case "online_system_count":
+      case online_system_count:
         return (
           <CountingInfoCards
             key={key}
             deviceNo={dashBoardList[key]}
-            deviceStatus={"Devices online"}
+            deviceStatus={devicesOnline}
             deviceImage={onlineIcon}
           />
         );
-      case "offline_system_count":
+      case offline_system_count:
         return (
           <CountingInfoCards
             key={key}
             deviceNo={dashBoardList[key]}
-            deviceStatus={"Devices offline"}
+            deviceStatus={devicesOffline}
             deviceImage={offlineIcon}
           />
         );
-      case "last_month_logged_in_user":
+      case last_month_logged_in_user:
         return (
           <CountingInfoCards
             key={key}
             deviceNo={dashBoardList[key]}
-            deviceStatus={"Last month Logged In User"}
+            deviceStatus={last_month_logged_in_user_text}
             deviceImage={usersIcon}
           />
         );
@@ -69,7 +81,7 @@ const CountingInfoSection = () => {
                 <CountingInfoCards
                   // key={key}
                   deviceNo={"0"}
-                  deviceStatus={"Work Orders"}
+                  deviceStatus={workOrders}
                   deviceImage={systemIcon}
                 />
               </Grid>
@@ -85,7 +97,7 @@ const CountingInfoSection = () => {
             <CountingInfoCards
               // key={key}
               deviceNo={"0"}
-              deviceStatus={"Work Orders"}
+              deviceStatus={workOrders}
               deviceImage={systemIcon}
             />
           </div>

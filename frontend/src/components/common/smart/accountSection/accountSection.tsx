@@ -1,11 +1,10 @@
-import { useEffect } from "react";
-
 import { Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import { timeOut } from "@src/helpers/utils/constants";
+import constantsData from "@src/localization/en.json";
 import {
   updateUserPassword,
   updateUsernameService,
@@ -24,6 +23,24 @@ const AccountSection = () => {
     (state) => state.myTheme
   );
 
+  const { toastData } = constantsData;
+  const {
+    firstNameRequired,
+    lastNameRequired,
+    profilePictureTitle,
+    oldPasswordRequired,
+    passwordRequired,
+    confirmPasswordRequired,
+    passwordValidationError,
+    somethingWrong,
+    password,
+    passwordsDoNotMatch,
+    accountSettings,
+    updateName,
+    save,
+    updatePasswordText,
+  } = constantsData.accountSection;
+
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
@@ -40,14 +57,8 @@ const AccountSection = () => {
       lastname: currentUser?.last_name || "",
     },
     validationSchema: yup.object({
-      firstname: yup
-        .string()
-        .matches(nameReg)
-        .required("First name is required!"),
-      lastname: yup
-        .string()
-        .matches(nameReg)
-        .required("Last name is required!"),
+      firstname: yup.string().matches(nameReg).required(firstNameRequired),
+      lastname: yup.string().matches(nameReg).required(lastNameRequired),
     }),
     validateOnChange: true,
     onSubmit: async (values) => {
@@ -57,13 +68,13 @@ const AccountSection = () => {
           last_name: values?.lastname,
           meta: {
             profile_picture: currentUser?.profile_picture,
-            title: "Profile picture",
+            title: profilePictureTitle,
           },
         },
         updateUsername
       )
         .then(async () => {
-          toast.success("Username updated successfully.", {
+          toast.success(toastData.accountSectionUsernameUpdateSuccess, {
             autoClose: timeOut,
             pauseOnHover: false,
           });
@@ -73,7 +84,7 @@ const AccountSection = () => {
             err?.data?.meta?.profile_picture[0] ||
             err?.data?.meta?.first_name[0] ||
             err?.data?.meta?.last_name[0] ||
-            "Something went wrong";
+            somethingWrong;
           toast.error(metaErr, {
             autoClose: timeOut,
             pauseOnHover: true,
@@ -82,11 +93,6 @@ const AccountSection = () => {
     },
   });
 
-  useEffect(() => {
-    formik.setFieldValue("firstname", currentUser?.first_name);
-    formik.setFieldValue("lastname", currentUser?.last_name);
-  }, [currentUser]);
-
   const passwordFormik = useFormik({
     initialValues: {
       oldPassword: "",
@@ -94,23 +100,20 @@ const AccountSection = () => {
       confirmPassword: "",
     },
     validationSchema: yup.object({
-      oldPassword: yup.string().required("Old password is required!"),
+      oldPassword: yup.string().required(oldPasswordRequired),
       password: yup
         .string()
-        .required("Password is required!")
-        .matches(
-          passwordReg,
-          "Your password must be 8 characters long and a mixture of uppercase, lowercase and special characters"
-        ),
+        .required(passwordRequired)
+        .matches(passwordReg, passwordValidationError),
       confirmPassword: yup
         .string()
-        .required("Confirm password is required!")
-        .when("password", {
+        .required(confirmPasswordRequired)
+        .when(password, {
           is: (val) => (val && val.length > 0 ? true : false),
           then: yup
             .string()
 
-            .oneOf([yup.ref("password")], "Passwords do not match!"),
+            .oneOf([yup.ref(password)], passwordsDoNotMatch),
         }),
     }),
     validateOnChange: true,
@@ -128,9 +131,9 @@ const AccountSection = () => {
   return (
     <div>
       <Box component="div">
-        <h2>{"Account Settings"}</h2>
+        <h2>{accountSettings}</h2>
         <Box component="div" sx={{ background: "#fff" }} mt={3} mb={1} p={4}>
-          <h3>{"Update Name"}</h3>
+          <h3>{updateName}</h3>
           <form onSubmit={formik.handleSubmit}>
             <Grid
               container
@@ -179,7 +182,7 @@ const AccountSection = () => {
                     color: buttonTextColor,
                   }}
                 >
-                  Save
+                  {save}
                 </Button>
               </Grid>
             </Grid>
@@ -192,7 +195,7 @@ const AccountSection = () => {
           p={4}
           marginTop="20px"
         >
-          <h3>{"Update Password"}</h3>
+          <h3>{updatePasswordText}</h3>
           <form onSubmit={passwordFormik.handleSubmit}>
             <Grid
               container
@@ -259,7 +262,7 @@ const AccountSection = () => {
                     color: buttonTextColor,
                   }}
                 >
-                  Save
+                  {save}
                 </Button>
               </Grid>
             </Grid>
