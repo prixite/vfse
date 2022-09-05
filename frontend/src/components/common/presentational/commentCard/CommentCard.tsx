@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
-import { toast } from "react-toastify";
 
 import DeleteLogo from "@src/assets/svgs/delete.svg";
 import EditLogo from "@src/assets/svgs/edit.svg";
 import EditComment from "@src/components/common/smart/commentsDrawer/editComment/EditComment";
 import DeleteNoteModal from "@src/components/shared/popUps/deleteNoteModal/DeleteNoteModal";
-import constants from "@src/localization/en.json";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { deleteSystemNoteService } from "@src/services/systemServices";
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
 import "@src/components/common/presentational/commentCard/commentCard.scss";
@@ -23,7 +22,6 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
   const [openModal, setOpenModal] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [deleteNote] = useNotesDeleteMutation();
-  const { toastData } = constants;
   const handleClose = () => {
     setOpenModal(false);
   };
@@ -34,11 +32,8 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
   }, [comment?.note]);
 
   const handleNoteDelete = async () => {
-    await deleteSystemNoteService(comment?.id, deleteNote).catch(() => {
-      toast.error(toastData.commentCardCommentFailed, {
-        autoClose: 1000,
-        pauseOnHover: true,
-      });
+    await deleteSystemNoteService(comment?.id, deleteNote).catch((error) => {
+      toastAPIError("Comment Failed to Delete", error.status, error.data);
     });
     handleClose();
   };

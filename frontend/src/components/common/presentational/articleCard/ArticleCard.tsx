@@ -12,9 +12,11 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/presentational/articleCard/articleCard.scss";
+
 interface props {
   color: string;
   title: string;
@@ -64,11 +66,12 @@ const ArticleCard = ({
         });
         handleModalClose();
       })
-      .catch(() => {
-        toast.error(toastData.articleCardFolderDeleteError, {
-          autoClose: 1000,
-          pauseOnHover: false,
-        });
+      .catch((error) => {
+        toastAPIError(
+          "Problem occured while deleting Folder",
+          error.status,
+          error.data
+        );
       });
   };
   return (

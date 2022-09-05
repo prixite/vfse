@@ -24,6 +24,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -114,11 +115,12 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
         });
         resetModal();
       })
-      .catch(() => {
-        toast.success(toastData.articleAddError, {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+      .catch((error) => {
+        toastAPIError(
+          "Error occured while adding Article",
+          error.status,
+          error.data
+        );
       })
       .finally(() => {
         setIsLoading(false);

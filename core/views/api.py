@@ -78,7 +78,11 @@ class DistinctOrganizationViewSet(ModelViewSet):
 
 class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.OrganizationSerializer
-    permission_classes = [IsAuthenticated, permissions.OrganizationDetailPermission]
+    permission_classes = [
+        IsAuthenticated,
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationDetailPermission,
+    ]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -123,7 +127,10 @@ class OrganizationViewSet(ModelViewSet, mixins.UserOganizationMixin):
 class CustomerViewSet(OrganizationViewSet):
     filterset_class = filters.OrganizationNameFilter
     authentication_classes = [SessionAuthentication, TokenAuthentication]
-    permission_classes = [permissions.OrganizationPermission]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationPermission,
+    ]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -153,9 +160,13 @@ class HealthNetworkViewSet(ListAPIView):
 class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [
         IsAuthenticated,
+        permissions.ViewOnlyPermissions,
         permissions.OrganizationHealthNetworksPermission,
     ]
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    authentication_classes = [
+        SessionAuthentication,
+        TokenAuthentication,
+    ]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -234,7 +245,10 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
 
 class OrganizationSiteViewSet(ModelViewSet, mixins.UserOganizationMixin):
     serializer_class = serializers.SiteSerializer
-    permission_classes = [permissions.OrganizationSitesPermission]
+    permission_classes = [
+        permissions.OrganizationSitesPermission,
+        # permissions.ViewOnlyPermissions,
+    ]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -319,6 +333,7 @@ class OrganizationAllSitesViewSet(ListAPIView):
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters
 
@@ -368,6 +383,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class SystemViewSet(OrganizationSystemViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     lookup_url_kwarg = "system_pk"
 
     def update_from_influx(self, request, *args, **kwargs):
@@ -393,6 +409,8 @@ class SystemAccessViewSet(ModelViewSet):
 
 
 class UserViewSet(ModelViewSet, mixins.UserMixin):
+    permission_classes = [permissions.ViewOnlyPermissions]
+
     def get_serializer_class(self):
         return serializers.UpsertUserSerializer
 
@@ -459,7 +477,11 @@ class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
-    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [permissions.ViewOnlyPermissions]
+    authentication_classes = [
+        SessionAuthentication,
+        TokenAuthentication,
+    ]
 
     def get_serializer_class(self):
         if self.action == "create":
@@ -515,6 +537,8 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class OrganizationUserViewSet(ScopedUserViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
+
     def get_queryset(self):
         queryset = super().get_queryset()
         if getattr(self, "swagger_fake_view", False):
@@ -525,6 +549,8 @@ class OrganizationUserViewSet(ScopedUserViewSet):
 
 
 class OrganizationSeatViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
+
     def get_serializer_class(self):
         if self.action == "create":
             return serializers.OrganizationSeatSeriazlier
@@ -560,6 +586,8 @@ class OrganizationSeatViewSet(ModelViewSet):
 
 
 class UserDeactivateViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
+
     def get_serializer_class(self):
         return serializers.UserEnableDisableSerializer
 
@@ -585,6 +613,8 @@ class UserDeactivateViewSet(ModelViewSet):
 
 
 class UserActivateViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
+
     def get_serializer_class(self):
         return serializers.UserEnableDisableSerializer
 
@@ -648,6 +678,7 @@ class ModalityManufacturerViewSet(ModelViewSet):
 
 
 class ProductModelViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     filterset_class = filters.ProductModelFilter
 
     def get_queryset(self):
@@ -664,6 +695,7 @@ class ProductModelViewSet(ModelViewSet):
 
 
 class ManfucturerViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.ManufacturerSerializer
 
     def get_queryset(self):
@@ -671,7 +703,10 @@ class ManfucturerViewSet(ModelViewSet):
 
 
 class SystemNoteViewSet(ModelViewSet):
-    permission_classes = [permissions.SystemNotePermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.SystemNotePermissions,
+    ]
     serializer_class = serializers.SystemNotesSerializer
 
     def get_queryset(self):
@@ -691,6 +726,7 @@ class SystemNoteViewSet(ModelViewSet):
 
 
 class NoteViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.NoteSerialier
     permission_classes = [IsAuthenticated, permissions.SystemNotePermissions]
 
@@ -699,6 +735,7 @@ class NoteViewSet(ModelViewSet):
 
 
 class SystemImageViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.SystemImageSerializer
 
     def get_queryset(self):
@@ -706,6 +743,7 @@ class SystemImageViewSet(ModelViewSet):
 
 
 class ManufacturerImagesViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.ManufacturerImageSerializer
 
     def get_queryset(self):
@@ -713,6 +751,7 @@ class ManufacturerImagesViewSet(ModelViewSet):
 
 
 class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.UserRequestAccessSerializer
     authentication_classes = [TokenAuthentication]
 
@@ -742,6 +781,7 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class ProductViewSet(ModelViewSet):
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.ProductSerializer
     filterset_class = filters.ProductFilter
 
@@ -790,6 +830,12 @@ class LambdaView(ViewSet):
 class UserRolesView(ModelViewSet):
     authentication_classes = [SessionAuthentication, TokenAuthentication]
     serializer_class = serializers.RoleSerializer
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.Role.choices
+
+        return models.Role.choices
 
     def list(self, request, *args, **kwargs):
         data = [{"value": item, "title": value} for item, value in models.Role.choices]
