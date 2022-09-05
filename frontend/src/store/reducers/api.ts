@@ -121,6 +121,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         { type: "Site", id: `Sites-${id}` },
         "Site",
         "Organization",
+        "System",
       ],
     },
     organizationsAssociatedSitesList: {
@@ -158,6 +159,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     organizationsSystemsCreate: {
       invalidatesTags: (result, error, { id }) => [
         { type: "System", id: `Systems-${id}` },
+        "System",
       ],
     },
     organizationsSystemsPartialUpdate: {

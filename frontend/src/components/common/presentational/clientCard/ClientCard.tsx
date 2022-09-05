@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
   Organization,
   useOrganizationsDeleteMutation,
+  useOrganizationsListQuery,
 } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
@@ -50,9 +51,6 @@ const ClientCard = ({
   const [hoverTextColor, setHoverTextColor] = useState("black");
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
-  const defaultOrganizationData = useAppSelector(
-    (state) => state.organization.currentOrganization
-  );
   const { organizationRoute, networkRoute } = constants;
   const { toastData } = constantsData;
 
@@ -95,6 +93,7 @@ const ClientCard = ({
     setOrganization(row);
     handleClose();
   };
+  const { data: organizationList } = useOrganizationsListQuery({});
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
@@ -103,8 +102,9 @@ const ClientCard = ({
       autoClose: timeOut,
       pauseOnHover: false,
     });
+
     if (selected) {
-      switchOrganization(defaultOrganizationData);
+      organizationList && switchOrganization(organizationList[0]);
     }
   };
   const handleUpdateSelectedOrganization = () => {

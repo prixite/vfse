@@ -264,8 +264,11 @@ export default function SystemModal(props: SystemProps) {
       }
     );
 
-  const { siteId, networkId, id } =
-    useParams<{ siteId: string; networkId: string; id: string }>();
+  const { siteId, networkId, id } = useParams<{
+    siteId: string;
+    networkId: string;
+    id: string;
+  }>();
 
   const selectedID = networkId || id;
   const { data: healthNetwork } = useOrganizationsReadQuery(
