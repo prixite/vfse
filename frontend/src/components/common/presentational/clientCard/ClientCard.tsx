@@ -61,6 +61,8 @@ const ClientCard = ({
   const { switch_org, edit, new_network, delete_org } =
     localizedData().organization_menu_options;
 
+  const { data: organizationList, isLoading } = useOrganizationsListQuery({});
+
   const handleModalOpen = () => {
     setOpenModal(true);
     handleClose();
@@ -93,7 +95,6 @@ const ClientCard = ({
     setOrganization(row);
     handleClose();
   };
-  const { data: organizationList } = useOrganizationsListQuery({});
 
   const handleDeleteOrganization = async () => {
     handleModalClose();
@@ -103,8 +104,8 @@ const ClientCard = ({
       pauseOnHover: false,
     });
 
-    if (selected) {
-      organizationList && switchOrganization(organizationList[0]);
+    if (selected && !isLoading && organizationList.length > 0) {
+      switchOrganization(organizationList[0]);
     }
   };
   const handleUpdateSelectedOrganization = () => {
