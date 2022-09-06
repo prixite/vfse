@@ -16,6 +16,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
+import "@src/components/shared/popUps/categoryModal/categoryModal.scss";
 
 interface CategoryModalProps {
   open: boolean;
