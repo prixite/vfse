@@ -41,6 +41,7 @@ import {
 } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/systemModal/systemModal.scss";
+import AddProductModelDialog from "../addProductModelDialog/AddProductModelDialog";
 import FormikAutoComplete from "./FormikAutoComplete";
 
 interface SystemProps {
@@ -183,6 +184,8 @@ export default function SystemModal(props: SystemProps) {
   const { toastData } = constantsData;
   const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
   const [openProductModal, setOpenProductModal] = useState(false);
+  const [openAddProductModelDialog, setOpenAddProductModelDialog] =
+    useState(false);
 
   const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
@@ -524,6 +527,19 @@ export default function SystemModal(props: SystemProps) {
                     parent="product"
                     optionLabel="model"
                   />
+                  {formik.values.product ? (
+                    <div
+                      className="modal-btn-styling"
+                      onClick={() => setOpenAddProductModelDialog(true)}
+                    >
+                      <span>Add Product Model</span>
+                      <AddCircleIcon
+                        style={{ marginLeft: "5px", color: buttonBackground }}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -960,6 +976,15 @@ export default function SystemModal(props: SystemProps) {
           }
           open={openProductModal}
           handleClose={() => setOpenProductModal(false)}
+        />
+        <AddProductModelDialog
+          product={parseInt(formik.values.product)}
+          modality={parseInt(formik.values.modality)}
+          setProductValue={(productModelDialog) =>
+            formik.setFieldValue("productModelDialog", productModelDialog)
+          }
+          open={openAddProductModelDialog}
+          handleClose={() => setOpenAddProductModelDialog(false)}
         />
       </form>
     </Dialog>
