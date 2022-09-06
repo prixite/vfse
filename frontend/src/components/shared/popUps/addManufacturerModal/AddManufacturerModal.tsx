@@ -87,7 +87,6 @@ export default function AddManufacturerModal({
           documentation: { url: "http://example.com" },
         },
       }).unwrap();
-      setModalityValue(modality.toString());
       toast.success("Manufacturer Successfully added.", {
         autoClose: timeOut,
         pauseOnHover: false,
@@ -95,6 +94,7 @@ export default function AddManufacturerModal({
     } catch (error) {
       toastAPIError("Something went wrong", error.status, error.data);
     } finally {
+      setModalityValue(modality.toString());
       resetModal();
       setIsLoading(false);
       handleClose();
