@@ -22,7 +22,7 @@ interface AddProductModelDialogProps {
   handleClose: () => void;
   modality: number;
   product: number;
-  setProductValue: (arg0: string) => void;
+  setProductAndModalityValue: (arg0: string, arg1: string) => void;
 }
 
 const initialState = {
@@ -38,7 +38,7 @@ const validationSchema = yup.object({
 export default function AddProductModelDialog({
   open,
   handleClose,
-  setProductValue,
+  setProductAndModalityValue,
   modality,
   product,
 }: AddProductModelDialogProps) {
@@ -62,7 +62,7 @@ export default function AddProductModelDialog({
   const handleCategorySubmit = async () => {
     setIsLoading(true);
     try {
-      setProductValue(null);
+      setProductAndModalityValue(null, null);
       await addNewProductModelDialog({
         productModelCreate: {
           model: formik.values.model,
@@ -71,7 +71,6 @@ export default function AddProductModelDialog({
           product: product,
         },
       }).unwrap();
-      setProductValue(modality.toString());
       toast.success("Product Model Successfully Added.", {
         autoClose: timeOut,
         pauseOnHover: false,
@@ -79,6 +78,7 @@ export default function AddProductModelDialog({
     } catch (error) {
       toastAPIError("Something went wrong", error.status, error.data);
     } finally {
+      setProductAndModalityValue(product.toString(), modality.toString());
       resetModal();
       setIsLoading(false);
       handleClose();

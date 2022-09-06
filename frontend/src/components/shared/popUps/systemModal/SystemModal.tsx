@@ -987,9 +987,10 @@ export default function SystemModal(props: SystemProps) {
         <AddProductModelDialog
           product={parseInt(formik.values.product)}
           modality={parseInt(formik.values.modality)}
-          setProductValue={(productModelDialog) =>
-            formik.setFieldValue("productModelDialog", productModelDialog)
-          }
+          setProductAndModalityValue={(product, modality) => {
+            formik.setFieldValue("product", product);
+            formik.setFieldValue("modality", modality);
+          }}
           open={openAddProductModelDialog}
           handleClose={() => setOpenAddProductModelDialog(false)}
         />
