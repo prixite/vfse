@@ -177,6 +177,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory, profile=None)
     is_one_time = False
     view_only = False
+    fse_accessible = True
     meta = {
         "profile_picture": "https://"
         + settings.AWS_STORAGE_BUCKET_NAME

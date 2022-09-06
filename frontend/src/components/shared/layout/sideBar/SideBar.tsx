@@ -201,74 +201,80 @@ export default function SideBar() {
             </Fragment>
           ) : (
             <Fragment key={key}>
-              <ListItem
-                button
-                key={prop.path}
-                style={
-                  checkVfseRoutes()
-                    ? {
-                        borderRadius: "4px",
-                        backgroundColor: hexToRgb(buttonBackground, 0.5),
-                      }
-                    : openVfse
-                    ? {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)",
-                      }
-                    : {}
-                }
-                onClick={handleVfseClick}
-              >
-                <ListItemIcon
-                  style={{ color: sideBarTextColor, marginRight: "10px" }}
-                >
-                  <prop.icon />
-                </ListItemIcon>
-                <ListItemText primary={prop.name} />
-                {openVfse ? (
-                  <ExpandLessIcon style={{ color: sideBarTextColor }} />
-                ) : (
-                  <ExpandMoreIcon style={{ color: sideBarTextColor }} />
-                )}
-              </ListItem>
-              <Collapse
-                in={openVfse}
-                timeout="auto"
-                unmountOnExit
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.04)",
-                }}
-              >
-                <List component="div" disablePadding>
-                  {vfseRoutes?.map((route: routeItem) => (
-                    <ListItem
-                      button
-                      sx={{ pl: 4 }}
-                      component={Link}
-                      key={route.path}
-                      to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
-                      style={
-                        currentRoute ===
-                        `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
-                          ? {
-                              backgroundColor: "rgba(255, 255, 255, 0.06)",
-                              fontStyle: fontOne,
-                            }
-                          : {}
-                      }
-                      onClick={() =>
-                        setCurrentRoute(
-                          `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
-                        )
-                      }
+              {me?.is_superuser || me?.fse_accessible ? (
+                <>
+                  <ListItem
+                    button
+                    key={prop.path}
+                    style={
+                      checkVfseRoutes()
+                        ? {
+                            borderRadius: "4px",
+                            backgroundColor: hexToRgb(buttonBackground, 0.5),
+                          }
+                        : openVfse
+                        ? {
+                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                          }
+                        : {}
+                    }
+                    onClick={handleVfseClick}
+                  >
+                    <ListItemIcon
+                      style={{ color: sideBarTextColor, marginRight: "10px" }}
                     >
-                      <ListItemText
-                        style={{ paddingLeft: "16px" }}
-                        primary={route.name}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
+                      <prop.icon />
+                    </ListItemIcon>
+                    <ListItemText primary={prop.name} />
+                    {openVfse ? (
+                      <ExpandLessIcon style={{ color: sideBarTextColor }} />
+                    ) : (
+                      <ExpandMoreIcon style={{ color: sideBarTextColor }} />
+                    )}
+                  </ListItem>
+                  <Collapse
+                    in={openVfse}
+                    timeout="auto"
+                    unmountOnExit
+                    style={{
+                      backgroundColor: "rgba(255, 255, 255, 0.04)",
+                    }}
+                  >
+                    <List component="div" disablePadding>
+                      {vfseRoutes?.map((route: routeItem) => (
+                        <ListItem
+                          button
+                          sx={{ pl: 4 }}
+                          component={Link}
+                          key={route.path}
+                          to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
+                          style={
+                            currentRoute ===
+                            `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                              ? {
+                                  backgroundColor: "rgba(255, 255, 255, 0.06)",
+                                  fontStyle: fontOne,
+                                }
+                              : {}
+                          }
+                          onClick={() =>
+                            setCurrentRoute(
+                              `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                            )
+                          }
+                        >
+                          <ListItemText
+                            style={{ paddingLeft: "16px" }}
+                            primary={route.name}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Collapse>
+                </>
+              ) : (
+                ""
+              )}
             </Fragment>
           );
         });
