@@ -16,7 +16,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -24,6 +23,7 @@ import { DocumentationModalFormState } from "@src/components/shared/popUps/syste
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   addProductModelService,
@@ -192,11 +192,8 @@ export default function DocumentModal({
               setIsLoading(false);
             }, 500);
           })
-          .catch(() => {
-            toast.error(toastData.modalAlreadyExists, {
-              autoClose: 2000,
-              pauseOnHover: false,
-            });
+          .catch((err) => {
+            toastAPIError(toastData.modalAlreadyExists, err.originalStatus);
             setIsLoading(false);
           });
       }
@@ -221,11 +218,8 @@ export default function DocumentModal({
               setIsLoading(false);
             }, 500);
           })
-          .catch(() => {
-            toast.error(toastData.modalAlreadyExists, {
-              autoClose: 2000,
-              pauseOnHover: false,
-            });
+          .catch((err) => {
+            toastAPIError(toastData.modalAlreadyExists, err.originalStatus);
             setIsLoading(false);
           });
       }

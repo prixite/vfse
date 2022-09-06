@@ -11,6 +11,7 @@ import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
@@ -80,11 +81,11 @@ const KnowledgeTopCard = ({
         });
         handleModalClose();
       })
-      .catch(() => {
-        toast.error(toastData.knowledgeCardArticleDeleteError, {
-          autoClose: 1000,
-          pauseOnHover: false,
-        });
+      .catch((err) => {
+        toastAPIError(
+          toastData.knowledgeCardArticleDeleteError,
+          err.originalStatus
+        );
       });
   };
   const toggleFavourite = (favourite) => {

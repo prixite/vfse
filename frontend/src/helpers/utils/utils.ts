@@ -65,24 +65,31 @@ const isNonFieldError = (error: unknown): boolean => {
 
 const toastAPIError = (
   message: string,
-  status: number | null,
-  data: unknown
+  originalStatus?: number
+  // data?: unknown | null
 ) => {
-  if (status === 403) {
-    toast.error(data?.detail, {
-      autoClose: 1000,
+  if (originalStatus === 403) {
+    toast.error(`Your access to the requested resource(s) is forbidden.`, {
+      autoClose: 2000,
       pauseOnHover: false,
     });
-  } else if (status < 500)
-    toast.error(data[Object.keys(data)[0]][0], {
-      autoClose: 1000,
-      pauseOnHover: false,
-    });
-  else
+  } else if (originalStatus === 500) {
+    toast.error(
+      `
+      We cannot process your request at the moment.
+      Some Server Error ${originalStatus} has Occured.
+    `,
+      {
+        autoClose: 2000,
+        pauseOnHover: false,
+      }
+    );
+  } else {
     toast.error(message, {
-      autoClose: 1000,
+      autoClose: 2000,
       pauseOnHover: false,
     });
+  }
 };
 
 export {

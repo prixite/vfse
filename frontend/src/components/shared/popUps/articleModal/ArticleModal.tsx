@@ -118,8 +118,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       .catch((error) => {
         toastAPIError(
           "Error occured while adding Article",
-          error.status,
-          error.data
+          error.originalStatus
         );
       })
       .finally(() => {

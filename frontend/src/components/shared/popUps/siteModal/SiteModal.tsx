@@ -7,7 +7,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -17,6 +16,7 @@ import {
   returnSearchedOject,
   isNonFieldError,
   getNonFieldError,
+  toastAPIError,
 } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
@@ -110,17 +110,11 @@ export default function SiteModal(props: siteProps) {
         resetModal();
         setReset(false);
       })
-      .catch((error: unknown) => {
+      .catch((error) => {
         if (isNonFieldError(error)) {
-          toast.error(getNonFieldError(error), {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
+          toastAPIError(getNonFieldError(error), error.originalStatus);
         } else {
-          toast.error(toastData.saveSiteError, {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
+          toastAPIError(toastData.saveSiteError, error.originalStatus);
         }
       })
       .finally(() => setIsLoading(false));
@@ -173,11 +167,8 @@ export default function SiteModal(props: siteProps) {
             setIsLoading(false);
           }, 500);
         })
-        .catch(() => {
-          toast.error(toastData.siteAlreadyExistsError, {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
+        .catch((err) => {
+          toastAPIError(toastData.siteAlreadyExistsError, err.originalStatus);
           setIsLoading(false);
         });
     } else {

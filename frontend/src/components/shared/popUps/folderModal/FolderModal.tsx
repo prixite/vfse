@@ -12,6 +12,7 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -75,11 +76,8 @@ export default function FolderModal({
           pauseOnHover: false,
         });
       })
-      .catch(() => {
-        toast.error(toastData.folderAddError, {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+      .catch((err) => {
+        toastAPIError(toastData.folderAddError, err.originalStatus);
       })
       .finally(() => {
         resetModal();

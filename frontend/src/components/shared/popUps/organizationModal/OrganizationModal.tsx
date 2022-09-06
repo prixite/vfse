@@ -11,7 +11,6 @@ import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import PropTypes from "prop-types";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -216,8 +215,7 @@ export default function OrganizationModal({
               .catch((error) =>
                 toastAPIError(
                   toastData.addOrganizationError,
-                  error?.status,
-                  error.data
+                  error?.originalStatus
                 )
               );
           }
@@ -257,8 +255,7 @@ export default function OrganizationModal({
               .catch((error) =>
                 toastAPIError(
                   toastData.saveOrganizationError,
-                  error?.status,
-                  error.data
+                  error?.originalStatus
                 )
               );
           }
@@ -279,8 +276,7 @@ export default function OrganizationModal({
           .catch((error) =>
             toastAPIError(
               toastData.saveOrganizationError,
-              error?.status,
-              error.data
+              error?.originalStatus
             )
           );
       }
@@ -320,10 +316,7 @@ export default function OrganizationModal({
         (network) => network?.name && network?.appearance?.logo !== ""
       );
       if (!TempNetworks.length) {
-        toast.error(toastData.addNetworksFirstError, {
-          autoClose: 1000,
-          pauseOnHover: false,
-        });
+        toastAPIError(toastData.addNetworksFirstError);
       } else {
         await addNewHealthNetworksService(
           organizationID,

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
-import { toast } from "react-toastify";
 
 import CommentCard from "@src/components/common/presentational/commentCard/CommentCard";
 import NoCommentsFound from "@src/components/common/presentational/noCommentsFound/NoCommentsFound";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import {
@@ -59,11 +59,11 @@ const CommentsDrawer = () => {
     setIsLoading(true);
     if (note) {
       await addNewSystemNoteService(me?.id, systemID, note, addNewNote).catch(
-        () =>
-          toast.error(toastData.commentsDrawerAddNoteError, {
-            autoClose: 1000,
-            pauseOnHover: false,
-          })
+        (err) =>
+          toastAPIError(
+            toastData.commentsDrawerAddNoteError,
+            err.originalStatus
+          )
       );
     }
     resetNoteHandler();

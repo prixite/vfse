@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 
 import { timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 
 const addNewUserService = async (id, userObject, addNewUser) => {
   await addNewUser({
@@ -60,10 +61,10 @@ const updateUserPassword = async (passwordObj, updateUserPassword) => {
       });
     })
     .catch((err) => {
-      toast.error(err?.data?.non_field_errors[0] || "Something went wrong.", {
-        autoClose: timeOut,
-        pauseOnHover: false,
-      });
+      toastAPIError(
+        "Unable to update password successfully.",
+        err.originalStatus
+      );
     });
 };
 const updateUsernameService = async (userObj, updateUsername) => {

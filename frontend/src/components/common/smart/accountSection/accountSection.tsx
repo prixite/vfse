@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import { timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   updateUserPassword,
@@ -85,10 +86,7 @@ const AccountSection = () => {
             err?.data?.meta?.first_name[0] ||
             err?.data?.meta?.last_name[0] ||
             somethingWrong;
-          toast.error(metaErr, {
-            autoClose: timeOut,
-            pauseOnHover: true,
-          });
+          toastAPIError(metaErr, err.originalStatus);
         });
     },
   });

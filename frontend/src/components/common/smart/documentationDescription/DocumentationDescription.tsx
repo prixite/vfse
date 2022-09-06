@@ -56,7 +56,7 @@ const DocumentationDescription = () => {
         setHtmlText(htmlString);
       })
       .catch((err) => {
-        toastAPIError("Some Error Occured", err.status, err.data);
+        toastAPIError("Some Error Occured", err.originalStatus);
       });
     setEditText(false);
   };

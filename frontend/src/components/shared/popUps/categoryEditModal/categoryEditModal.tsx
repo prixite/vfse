@@ -14,6 +14,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import { timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import {
@@ -81,12 +82,9 @@ export default function CategoryEditModal({ open, handleClose, id }) {
         setIsLoading(false);
         resetModal();
       })
-      .catch(() => {
+      .catch((err) => {
         setIsLoading(false);
-        toast.error(toastData.categoryEditError, {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+        toastAPIError(toastData.categoryEditError, err.originalStatus);
       });
   };
 
