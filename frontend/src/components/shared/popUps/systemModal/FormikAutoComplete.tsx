@@ -54,7 +54,7 @@ export default function FormikAutoComplete({
   return (
     <Autocomplete
       sx={{ width: "100%" }}
-      style={{ height: "48px" }}
+      style={{ height: "58px" }}
       loading={isLoading}
       loadingText={<Loader />}
       options={options}
@@ -73,7 +73,14 @@ export default function FormikAutoComplete({
         <TextField
           {...params}
           error={formik.touched[field] && Boolean(formik.errors[field])}
-          helperText={formik.touched[field] && formik.errors[field]}
+          helperText={
+            formik.touched[field] &&
+            formik.errors[field] && (
+              <span style={{ marginLeft: "-13px" }}>
+                {formik.errors[field]}
+              </span>
+            )
+          }
           inputProps={{
             ...params.inputProps,
             autoComplete: "password", // disable autocomplete and autofill

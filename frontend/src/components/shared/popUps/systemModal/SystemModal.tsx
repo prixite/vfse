@@ -553,7 +553,14 @@ export default function SystemModal(props: SystemProps) {
                     name="name"
                     placeholder="System1"
                     error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
+                    helperText={
+                      formik.touched.name &&
+                      formik.errors.name && (
+                        <span style={{ marginLeft: "-13px" }}>
+                          {formik.errors.name}
+                        </span>
+                      )
+                    }
                     value={formik.values.name}
                     onChange={formik.handleChange}
                   />
