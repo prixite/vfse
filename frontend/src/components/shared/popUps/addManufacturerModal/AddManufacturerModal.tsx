@@ -13,33 +13,37 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import {
-  Category,
-  // useVfseCategoriesListQuery, /* Api */
-} from "@src/store/reducers/generated";
-import "@src/components/shared/popUps/categoryModal/categoryModal.scss";
 
 interface CategoryModalProps {
   open: boolean;
   handleClose: () => void;
+  modality: number;
+  setModalityValue: (arg0: string) => void;
 }
 
-const initialState: Category = {
-  name: "",
+const initialState = {
+  manufacturerName: "",
+  productName: "",
+  model: "",
 };
 
 const { nameRequired, title, addBtn, cancelBtn, subHeading } =
   localizedData().ManufacturerModal;
 
 const validationSchema = yup.object({
-  name: yup.string().min(1).max(20).required(nameRequired),
+  manufacturerName: yup.string().min(1).max(20).required(nameRequired),
+  productName: yup.string().min(1).max(20).required(nameRequired),
+  model: yup.string().min(1).max(20).required(nameRequired),
 });
 
 export default function AddManufacturerModal({
   open,
   handleClose,
+  modality,
+  setModalityValue,
 }: CategoryModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -49,6 +53,8 @@ export default function AddManufacturerModal({
   const [isLoading, setIsLoading] = useState(false);
   //API
   const [addNewManufacturer] = api.useManufacturersCreateMutation();
+  const [addNewProduct] = api.useProductsCreateMutation();
+  const [addNewProductModal] = api.useProductsModelsCreateMutation();
 
   const formik = useFormik({
     initialValues: initialState,
@@ -59,28 +65,39 @@ export default function AddManufacturerModal({
     },
   });
 
-  const handleCategorySubmit = () => {
+  const handleCategorySubmit = async () => {
     setIsLoading(true);
-    addNewManufacturer({ manufacturer: { ...formik.values } })
-      .unwrap()
-      .then(() => {
-        toast.success("Category Successfully added.", {
-          autoClose: timeOut,
-          pauseOnHover: false,
-        });
-        resetModal();
-      })
-      .catch(() => {
-        toast.error("Error occured while adding Category", {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
-      })
-      .finally(() => {
-        resetModal();
-        setIsLoading(false);
-        handleClose();
+    try {
+      setModalityValue(null);
+      const manufacturer = await addNewManufacturer({
+        manufacturer: { name: formik.values.manufacturerName },
+      }).unwrap();
+      const product = await addNewProduct({
+        productCreate: {
+          manufacturer: manufacturer.id,
+          name: formik.values.productName,
+        },
+      }).unwrap();
+      await addNewProductModal({
+        productModelCreate: {
+          model: formik.values.model,
+          product: product.id,
+          modality,
+          documentation: { url: "http://example.com" },
+        },
+      }).unwrap();
+      setModalityValue(modality.toString());
+      toast.success("Manufacturer Successfully added.", {
+        autoClose: timeOut,
+        pauseOnHover: false,
       });
+    } catch (error) {
+      toastAPIError("Something went wrong", error.status, error.data);
+    } finally {
+      resetModal();
+      setIsLoading(false);
+      handleClose();
+    }
   };
 
   const resetModal = () => {
@@ -113,16 +130,44 @@ export default function AddManufacturerModal({
                   <p className="info-label required">{subHeading}</p>
                   <TextField
                     autoComplete="off"
-                    name="name"
+                    name="manufacturerName"
                     className="info-field"
                     variant="outlined"
                     size="small"
                     placeholder="Manufacturer name"
-                    value={formik.values.name}
+                    value={formik.values.manufacturerName}
                     onChange={formik.handleChange}
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {formik.errors.name}
+                    {formik.errors.manufacturerName}
+                  </p>
+                  <p className="info-label required">Product Name</p>
+                  <TextField
+                    autoComplete="off"
+                    name="productName"
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Product name"
+                    value={formik.values.productName}
+                    onChange={formik.handleChange}
+                  />
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {formik.errors.productName}
+                  </p>
+                  <p className="info-label required">Product Model Name</p>
+                  <TextField
+                    autoComplete="off"
+                    name="model"
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Product Model name"
+                    value={formik.values.model}
+                    onChange={formik.handleChange}
+                  />
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {formik.errors.model}
                   </p>
                 </div>
               </Grid>
