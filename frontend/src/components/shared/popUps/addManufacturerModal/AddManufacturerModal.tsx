@@ -16,6 +16,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
+import "@src/components/shared/popUps/categoryModal/categoryModal.scss";
 
 interface CategoryModalProps {
   open: boolean;
@@ -86,7 +87,6 @@ export default function AddManufacturerModal({
           documentation: { url: "http://example.com" },
         },
       }).unwrap();
-      setModalityValue(modality.toString());
       toast.success("Manufacturer Successfully added.", {
         autoClose: timeOut,
         pauseOnHover: false,
@@ -94,6 +94,7 @@ export default function AddManufacturerModal({
     } catch (error) {
       toastAPIError("Something went wrong", error.status, error.data);
     } finally {
+      setModalityValue(modality.toString());
       resetModal();
       setIsLoading(false);
       handleClose();

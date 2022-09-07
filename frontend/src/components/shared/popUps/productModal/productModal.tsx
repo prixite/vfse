@@ -78,14 +78,14 @@ export default function ProductModal({
           documentation: { url: "http://example.com" },
         },
       }).unwrap();
-      setProductValue(modality.toString());
-      toast.success("Manufacturer Successfully added.", {
+      toast.success("Product Successfully added.", {
         autoClose: timeOut,
         pauseOnHover: false,
       });
     } catch (error) {
       toastAPIError("Something went wrong", error.status, error.data);
     } finally {
+      setProductValue(modality.toString());
       resetModal();
       setIsLoading(false);
       handleClose();

@@ -244,7 +244,7 @@ export default function VfseTopSection({
             <h3 className="subheading">{seeAll}</h3>
           </div>
           <Box component="div" className="cardsSection" mt={2}>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
               {listData?.map((item, key) => (
                 <Grid key={key} item lg={6} xl={3} md={4} sm={12} xs={12}>
                   <TopicUpdatesCards

@@ -1,7 +1,7 @@
-boto3==1.24.62
+boto3==1.24.66
 coverage==6.4.4
 dj-database-url==1.0.0
-Django==4.1
+Django==4.1.1
 django-environ==0.9.0
 django-extensions==3.2.0
 django-filter==22.1
