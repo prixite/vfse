@@ -712,16 +712,23 @@
   },
   "ManufacturerModal": {
     "nameRequired": "Name is required!",
-    "title": "Add manufacturer",
+    "title": "Add Manufacturer",
     "addBtn": "Add",
     "cancelBtn": "Cancel",
-    "subHeading": "Manufacturer name"
+    "subHeading": "Manufacturer Name"
   },
   "ProductModal": {
     "nameRequired": "Product Name is required!",
     "title": "Add product",
     "addBtn": "Add",
     "cancelBtn": "Cancel",
-    "subHeading": "Product name"
-}
+    "subHeading": "Product Name"
+},
+  "addProductModelDialog": {
+    "nameRequired": "Product Model is required!",
+    "title": "Add Product Model",
+    "addBtn": "Add",
+    "cancelBtn": "Cancel",
+    "subHeading": "Product Model Name"
+  }
 }
