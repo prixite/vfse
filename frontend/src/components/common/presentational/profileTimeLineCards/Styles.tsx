@@ -64,7 +64,6 @@ const useStyles = makeStyles(() => ({
   profileSide: {
     display: "flex",
     flexDirection: "row",
-    marginLeft: "10px",
   },
 
   followerImgContainer: {

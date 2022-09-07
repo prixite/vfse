@@ -23,19 +23,15 @@
     flex-direction: row;
     justify-content: space-between;
 
-    .profile_side {
+    .follower_img_container {
       display: flex;
-      flex-direction: row;
-      .follower_img_container {
-        display: flex;
-        align-items: center;
-      }
+      justify-content: space-between;
+      width: 50%;
       .followerText {
         font-weight: normal;
         font-size: 12px;
         line-height: 18px;
         font-style: normal;
-        margin-left: 18px;
         display: flex;
         align-items: center;
         color: #696f77;
@@ -47,7 +43,6 @@
         margin-right: -10px;
       }
     }
-
     .message_side {
       display: flex;
       flex-direction: row;
