@@ -474,15 +474,19 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Manufacturer"
                     parent="modality"
                   />
-                  <div
-                    className="modal-btn-styling"
-                    onClick={() => setOpenManufacturerModal(true)}
-                  >
-                    <span>Add manufacturer</span>
-                    <AddCircleIcon
-                      style={{ marginLeft: "5px", color: buttonBackground }}
-                    />
-                  </div>
+                  {formik.values.modality ? (
+                    <div
+                      className="modal-btn-styling"
+                      onClick={() => setOpenManufacturerModal(true)}
+                    >
+                      <span>Add manufacturer</span>
+                      <AddCircleIcon
+                        style={{ marginLeft: "5px", color: buttonBackground }}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -496,15 +500,19 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Product"
                     parent="manufacturer"
                   />
-                  <div
-                    className="modal-btn-styling"
-                    onClick={() => setOpenProductModal(true)}
-                  >
-                    <span>Add Product</span>
-                    <AddCircleIcon
-                      style={{ marginLeft: "5px", color: buttonBackground }}
-                    />
-                  </div>
+                  {formik.values.manufacturer ? (
+                    <div
+                      className="modal-btn-styling"
+                      onClick={() => setOpenProductModal(true)}
+                    >
+                      <span>Add Product</span>
+                      <AddCircleIcon
+                        style={{ marginLeft: "5px", color: buttonBackground }}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -940,10 +948,19 @@ export default function SystemModal(props: SystemProps) {
           </Button>
         </DialogActions>
         <AddManufacturerModal
+          setModalityValue={(modality) =>
+            formik.setFieldValue("modality", modality)
+          }
+          modality={parseInt(formik.values.modality)}
           open={openManufacturerModal}
           handleClose={() => setOpenManufacturerModal(false)}
         />
         <ProductModal
+          manufacturer={parseInt(formik.values.manufacturer)}
+          modality={parseInt(formik.values.modality)}
+          setProductValue={(product) =>
+            formik.setFieldValue("product", product)
+          }
           open={openProductModal}
           handleClose={() => setOpenProductModal(false)}
         />
