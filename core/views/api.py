@@ -802,7 +802,7 @@ class ProductViewSet(ModelViewSet):
                     modality__in=self.request.user.usermodality_set.all().values_list(
                         "modality"
                     )
-                )
+                ).values_list("product")
             )
         if self.action == "list":
             return queryset.select_related("manufacturer")
