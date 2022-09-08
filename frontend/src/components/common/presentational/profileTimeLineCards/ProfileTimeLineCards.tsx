@@ -179,18 +179,17 @@ const ProfileTimelineCards = ({
                     );
                   })}
                 </AvatarGroup> */}
-                <div className="person-follower-img">
-                  {followers.length > 0 &&
-                    followers
-                      ?.slice(0, 3)
-                      ?.map((item, key) => (
-                        <img
-                          key={key}
-                          src={`${item?.image}`}
-                          className={classes.imgStylingProfiles}
-                        />
-                      ))}
-                </div>
+                {followers.length > 0 && (
+                  <div className="person-follower-img">
+                    {followers?.slice(0, 3)?.map((item, key) => (
+                      <img
+                        key={key}
+                        src={`${item?.image}`}
+                        className={classes.imgStylingProfiles}
+                      />
+                    ))}
+                  </div>
+                )}
                 <div className={classes.followerText}>
                   {" "}
                   {number_of_followers > 0
