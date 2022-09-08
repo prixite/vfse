@@ -477,7 +477,10 @@ class UserPasswordViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.CreateUserPermissions,
+    ]
     authentication_classes = [
         SessionAuthentication,
         TokenAuthentication,
@@ -683,6 +686,12 @@ class ProductModelViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = models.ProductModel.objects.all()
+        if not self.request.user.is_superuser:
+            queryset = models.ProductModel.objects.filter(
+                modality__in=self.request.user.usermodality_set.all().values_list(
+                    "modality"
+                )
+            )
         if self.action == "list":
             return queryset.select_related("product", "modality", "documentation")
 
@@ -787,6 +796,14 @@ class ProductViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = models.Product.objects.all()
+        if not self.request.user.is_superuser:
+            queryset = models.Product.objects.filter(
+                id__in=models.ProductModel.objects.filter(
+                    modality__in=self.request.user.usermodality_set.all().values_list(
+                        "modality"
+                    )
+                ).values_list("product")
+            )
         if self.action == "list":
             return queryset.select_related("manufacturer")
         return queryset
@@ -798,7 +815,7 @@ class ProductViewSet(ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        models.Product.objects.create(
+        serializer.save(
             name=serializer.validated_data["name"],
             manufacturer=serializer.validated_data["manufacturer"],
         )

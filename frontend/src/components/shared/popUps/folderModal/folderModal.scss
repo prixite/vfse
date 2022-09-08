@@ -1,9 +1,9 @@
 @import "@src/styles/shared/_variables.scss";
 .folder-modal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  .MuiDialog-paper {
     width: 500px;
     max-width: 500px;
-    .css-ypiqx9-MuiDialogContent-root {
+    .MuiDialogContent-root {
       padding: 20px 22px;
     }
   }
@@ -12,10 +12,7 @@
     font-size: 0.8rem;
     margin-top: 5px;
   }
-  .css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input {
-    height: 1.8em;
-  }
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  .MuiDialogTitle-root {
     border-bottom: 1px solid #d9dbdd;
     .title-section {
       display: flex;
@@ -113,7 +110,7 @@
       }
     }
   }
-  .css-hlj6pa-MuiDialogActions-root {
+  .MuiDialogActions-root {
     justify-content: space-between;
     padding: 20px 22px;
     margin-top: 2px;

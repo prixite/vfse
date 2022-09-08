@@ -135,3 +135,12 @@ class ViewOnlyPermissions(BasePermission):
 class FSEAccessPermissions(BasePermission):
     def has_permission(self, request, view):
         return request.user.profile.fse_accessible or request.user.is_superuser
+
+
+class CreateUserPermissions(BasePermission):
+    def has_permission(self, request, view):
+        org_id = view.kwargs.get("pk", request.user.get_default_organization().id)
+        return (
+            request.user.is_superuser
+            or models.Role.USER_ADMIN == request.user.get_organization_role(org_id)
+        )
