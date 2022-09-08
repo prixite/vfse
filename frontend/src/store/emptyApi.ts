@@ -105,7 +105,7 @@ export const emptySplitApi = createApi({
       ): TopicListResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: ["Topics", "Favorite"],
