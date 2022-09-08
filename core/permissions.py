@@ -110,6 +110,17 @@ class OrganizationPermission(BasePermission):
         return True
 
 
+class OrganizationIsAdminPermission(BasePermission):
+    def has_permission(self, request, view):
+        if request.method.lower() in ["post", "patch", "delete"]:
+            if request.user.is_superuser:
+                return True
+
+            return False
+
+        return True
+
+
 class SystemNotePermissions(BasePermission):
     def has_permission(self, request, view):
         return request.user.profile.can_leave_notes

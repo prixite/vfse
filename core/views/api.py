@@ -333,7 +333,10 @@ class OrganizationAllSitesViewSet(ListAPIView):
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters
 
@@ -383,7 +386,10 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class SystemViewSet(OrganizationSystemViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     lookup_url_kwarg = "system_pk"
 
     def update_from_influx(self, request, *args, **kwargs):
