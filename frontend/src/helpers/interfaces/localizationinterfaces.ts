@@ -104,6 +104,14 @@ export interface ProductInterface {
   cancelBtn: string;
   subHeading: string;
 }
+
+export interface AddProductModelDialogInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
 export interface DeleteDialog {
   dialogMessage: string;
   noButton: string;
@@ -411,6 +419,7 @@ export interface LocalizationInterface {
   articleDescription: articleDescription;
   ManufacturerModal: ManufacturerInterface;
   ProductModal: ProductInterface;
+  addProductModelDialog: AddProductModelDialogInterface;
 }
 
 export interface SystemInterfaceProps {

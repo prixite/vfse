@@ -798,7 +798,7 @@ class ProductViewSet(ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        models.Product.objects.create(
+        serializer.save(
             name=serializer.validated_data["name"],
             manufacturer=serializer.validated_data["manufacturer"],
         )
