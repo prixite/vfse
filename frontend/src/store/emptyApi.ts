@@ -23,6 +23,8 @@ import {
   VfseUserActivityListApiArg,
   VfseUserMeActivityListApiResponse,
   VfseUserMeActivityListApiArg,
+  VfseUserTopicListApiArg,
+  VfseUserTopicListApiResponse,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
@@ -127,6 +129,24 @@ export const emptySplitApi = createApi({
         };
       },
       providesTags: ["Topics", "Favorite"],
+    }),
+    vfseUserTopicList: builder.query<
+      TopicUserListResponse,
+      VfseUserTopicListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/topic/`,
+        params: { page: queryArg.page },
+      }),
+      transformResponse: (
+        response: VfseUserTopicListApiResponse,
+        meta
+      ): TopicUserListResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.get("link"),
+        };
+      },
     }),
     vfseUserMeActivityList: builder.query<
       MyActivityResponse,

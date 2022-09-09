@@ -2498,7 +2498,7 @@
                 }
             },
             "default": {
-                "profile_picture": "https://vfse.demo.prixite.com/static/assets/profile.png",
+                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
                 "title": ""
             }
         },
