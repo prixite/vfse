@@ -204,7 +204,7 @@ const KnowledgeTopCard = ({
                 state={{ edit: true }}
               >
                 {" "}
-                Update Article
+                Update
               </Link>
             </MenuItem>
           </Menu>
