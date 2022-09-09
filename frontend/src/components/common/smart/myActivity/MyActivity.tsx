@@ -1,26 +1,43 @@
-import { Box, Grid } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
+
+import { Box, Grid, Pagination } from "@mui/material";
+import { Stack } from "@mui/system";
 import moment from "moment";
+import "swiper/css/pagination";
+import "swiper/css";
 
 import activityIcon from "@src/assets/svgs/activity.svg";
 import profileIcon from "@src/assets/svgs/profilepic.svg";
-import "@src/components/common/presentational/recentActivity/style.scss";
+import { parseLink } from "@src/helpers/paging";
 import constantsData from "@src/localization/en.json";
-import {
-  useOrganizationsMeReadQuery,
-  useVfseUserActivityListQuery,
-} from "@src/store/reducers/generated";
-import "swiper/css";
-import "swiper/css/pagination";
-import { useSelectedOrganization } from "@src/store/hooks";
+import { api } from "@src/store/reducers/api";
+import "@src/components/common/presentational/recentActivity/style.scss";
 
 const MyActivity = () => {
-  const { data: userActivityList = [], isLoading } =
-    useVfseUserActivityListQuery();
+  const [paginatedActivity, setPaginatedActivity] = useState([]);
+
+  const [page, setPage] = useState(1);
+
+  const { data: myActivityList = { data: [], link: "" }, isLoading } =
+    api.useVfseUserMeActivityListQuery({ page });
   const { recentActivity } = constantsData;
 
-  const { data: currentUser } = useOrganizationsMeReadQuery({
-    id: useSelectedOrganization().id.toString(),
-  });
+  useEffect(() => {
+    setPaginatedActivity(myActivityList?.data);
+  }, [myActivityList]);
+
+  const handlePagination = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    event.preventDefault();
+    setPage(value);
+  };
+
+  const totalTopicPages = useMemo(
+    () => parseLink(myActivityList?.link) || 1,
+    [myActivityList]
+  );
 
   return (
     <Box component="div" className="recentActivitycard">
@@ -32,19 +49,18 @@ const MyActivity = () => {
       </div>
 
       {!isLoading ? (
-        <Grid
-          style={{ width: "100%" }}
-          marginBottom={1}
-          paddingBottom={1}
-          height="min-content"
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-        >
-          {userActivityList
-            .filter((item) => item?.user?.id === currentUser?.id)
-            .map((item, key) => (
+        <>
+          <Grid
+            style={{ width: "100%" }}
+            marginBottom={1}
+            paddingBottom={1}
+            height="min-content"
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+          >
+            {paginatedActivity?.map((item, key) => (
               <div className="userStatus" key={key}>
                 <div className="userImg">
                   <img
@@ -65,7 +81,24 @@ const MyActivity = () => {
                 </Grid>
               </div>
             ))}
-        </Grid>
+          </Grid>
+          {paginatedActivity?.length > 0 && (
+            <Stack
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Pagination
+                defaultPage={1}
+                page={page}
+                count={totalTopicPages}
+                onChange={handlePagination}
+                size="large"
+              />
+            </Stack>
+          )}
+        </>
       ) : (
         ""
       )}

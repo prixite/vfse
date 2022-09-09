@@ -22,6 +22,7 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from core import filters, models, permissions, serializers, utils
 from core.views import mixins
+from vfse import pagination
 
 
 class ChatBotView(APIView):
@@ -845,6 +846,7 @@ class UserRolesView(ModelViewSet):
 
 class ActiveUsersViewSet(ListAPIView):
     serializer_class = serializers.UserSerializer
+    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         return models.User.objects.filter(

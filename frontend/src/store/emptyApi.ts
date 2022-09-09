@@ -19,11 +19,25 @@ import {
   VfseTopicsCommentsListApiArg,
   VfseCommentsRepliesListApiResponse,
   VfseCommentsRepliesListApiArg,
+  VfseUserActivityListApiResponse,
+  VfseUserActivityListApiArg,
+  VfseUserMeActivityListApiResponse,
+  VfseUserMeActivityListApiArg,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
 type TopicListResponse = {
   data: VfseTopicsListApiResponse;
+  link: string;
+};
+
+type MyActivityResponse = {
+  data: VfseUserMeActivityListApiResponse;
+  link: string;
+};
+
+type UserActivityResponse = {
+  data: VfseUserActivityListApiResponse;
   link: string;
 };
 
@@ -105,12 +119,51 @@ export const emptySplitApi = createApi({
       ): TopicListResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: ["Topics", "Favorite"],
     }),
-
+    vfseUserMeActivityList: builder.query<
+      MyActivityResponse,
+      VfseUserMeActivityListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/me/activity/`,
+        params: {
+          page: queryArg.page,
+        },
+      }),
+      transformResponse: (
+        response: VfseUserMeActivityListApiResponse,
+        meta
+      ): MyActivityResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.get("link"),
+        };
+      },
+    }),
+    vfseUserActivityList: builder.query<
+      UserActivityResponse,
+      VfseUserActivityListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/activity/`,
+        params: {
+          page: queryArg.page,
+        },
+      }),
+      transformResponse: (
+        response: VfseUserActivityListApiResponse,
+        meta
+      ): UserActivityResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.get("link"),
+        };
+      },
+    }),
     getTopic: builder.query<VfseTopicsReadApiResponse, VfseTopicsReadApiArg>({
       query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/` }),
       providesTags: (result, error, queryArg) => [

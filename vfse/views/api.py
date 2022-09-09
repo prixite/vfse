@@ -154,6 +154,7 @@ class DashboardView(APIView):
 
 class TopicActivityViewSet(ListAPIView):
     serializer_class = serializers.RecentActivitySerializer
+    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -162,6 +163,18 @@ class TopicActivityViewSet(ListAPIView):
             Q(topic__in=self.request.user.topics.all().values_list("id"))
             | Q(topic__in=self.request.user.followed_topics.all().values_list("id"))
         )
+
+
+class MyTopicActivityViewSet(ListAPIView):
+    serializer_class = serializers.RecentActivitySerializer
+    pagination_class = pagination.TopicPagination
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.RecentActivity.objects.none()
+        return models.RecentActivity.objects.filter(user=self.request.user).order_by(
+            "-id"
+        )[:50]
 
 
 class MyTopicsViewSet(ModelViewSet):

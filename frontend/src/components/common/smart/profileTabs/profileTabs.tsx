@@ -5,9 +5,9 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 
+import MyActivity from "../myActivity/MyActivity";
 import MyTopics from "../myTopics/myTopics";
 import "@src/components/common/smart/profileTabs/profileTabs.scss";
-import MyActivity from "../myActivity/MyActivity";
 
 interface TabPanelProps {
   children?: React.ReactNode;
