@@ -30,6 +30,10 @@ type TopicListResponse = {
   data: VfseTopicsListApiResponse;
   link: string;
 };
+type TopicUserListResponse = {
+  data: VfseTopicsListApiResponse;
+  link: string;
+};
 
 type MyActivityResponse = {
   data: VfseUserMeActivityListApiResponse;
@@ -333,7 +337,7 @@ export const emptySplitApi = createApi({
       ): TopicCommentsResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: (result, error, queryArg) => [
@@ -354,7 +358,7 @@ export const emptySplitApi = createApi({
       ): CommentRepliesResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: (result, error, queryArg) => [

@@ -44,6 +44,7 @@ const RecentActivity = () => {
           <Swiper
             pagination={{
               dynamicBullets: true,
+              clickable: true,
             }}
             modules={[Pagination]}
             className="mySwiper"
