@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
@@ -18,7 +18,8 @@ import { api } from "@src/store/reducers/api";
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
 
 const DocumentationDescription = () => {
-  const [editText, setEditText] = useState(false);
+  const { state } = useLocation();
+  const [editText, setEditText] = useState(state?.edit);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlText, setHtmlText] = useState("");
   const { docId } = useParams<{ docId: string }>();
@@ -82,7 +83,7 @@ const DocumentationDescription = () => {
           md={7}
           style={{ paddingTop: "8px" }}
         >
-          {editText ? (
+          {editText && htmlText ? (
             <TextEditor
               htmlText={htmlText}
               editorState={editorState}
