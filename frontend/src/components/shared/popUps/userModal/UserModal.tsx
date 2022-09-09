@@ -81,7 +81,8 @@ const nameReg = /^[A-Za-z ]*$/;
 // eslint-disable-next-line
 const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 // eslint-disable-next-line
-const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+const phoneReg =
+  /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
 
 const validationSchema = yup.object({
   userProfileImage: yup
@@ -102,7 +103,7 @@ const validationSchema = yup.object({
   phone: yup
     .string()
     .max(10, constantsData.users.popUp.phoneNumberValidation)
-    .matches(phoneReg)
+    .matches(phoneReg, constantsData.users.popUp.invalidPhoneFormat)
     .typeError(constantsData.users.popUp.invalidPhoneFormat) //TODO
     .required(constantsData.users.popUp.phoneRequired),
 });
