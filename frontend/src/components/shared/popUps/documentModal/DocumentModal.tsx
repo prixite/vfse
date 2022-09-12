@@ -193,7 +193,7 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            toastAPIError(toastData.modalAlreadyExists, err.originalStatus);
+            toastAPIError(toastData.modalAlreadyExists, err.status, err.data);
             setIsLoading(false);
           });
       }
@@ -219,7 +219,11 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            toastAPIError(toastData.modalAlreadyExists, err.originalStatus);
+            toastAPIError(
+              toastData.modalAlreadyExists,
+              err.originalStatus,
+              err.data
+            );
             setIsLoading(false);
           });
       }

@@ -83,7 +83,7 @@ export default function CategoryModal({
         resetModal();
       })
       .catch((err) => {
-        toastAPIError(toastData.categoryAddError, err.originalStatus);
+        toastAPIError(toastData.categoryAddError, err.status, err.data);
       })
       .finally(() => {
         resetModal();

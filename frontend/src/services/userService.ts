@@ -63,7 +63,8 @@ const updateUserPassword = async (passwordObj, updateUserPassword) => {
     .catch((err) => {
       toastAPIError(
         "Unable to update password successfully.",
-        err.originalStatus
+        err.status,
+        err.data
       );
     });
 };

@@ -125,7 +125,7 @@ export default function TopicModal({ open, handleClose }: Props) {
         });
       })
       .catch((err) => {
-        toastAPIError(toastData.topicCreatedError, err?.originalStatus);
+        toastAPIError(toastData.topicCreatedError, err?.status, err.data);
       })
       .finally(() => {
         setIsLoading(false);

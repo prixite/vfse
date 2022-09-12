@@ -184,7 +184,8 @@ const AppearanceSection = () => {
     } catch (err) {
       toastAPIError(
         toastData.appearanceSectionClientUpdateError,
-        err.originalStatus
+        err.status,
+        err.data
       );
     }
   };

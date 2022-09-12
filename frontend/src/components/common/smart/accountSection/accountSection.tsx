@@ -86,7 +86,7 @@ const AccountSection = () => {
             err?.data?.meta?.first_name[0] ||
             err?.data?.meta?.last_name[0] ||
             somethingWrong;
-          toastAPIError(metaErr, err.originalStatus);
+          toastAPIError(metaErr, err.status, err.data);
         });
     },
   });

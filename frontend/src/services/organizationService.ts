@@ -103,7 +103,7 @@ const addNewHealthNetworksService = async (
       });
     })
     .catch((err) => {
-      toastAPIError("Unable to add HealthNetwork.", err.originalStatus);
+      toastAPIError("Unable to add HealthNetwork.", err.status, err.data);
     });
 };
 export {

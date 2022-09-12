@@ -51,13 +51,13 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
             ...oldArray,
             `I'm sorry, I don't understand. Could you say it again?`,
           ]);
-          toastAPIError(toastData.chatBoxReqProceedError, err.originalStatus);
+          toastAPIError(toastData.chatBoxReqProceedError, err.status, err.data);
         } else {
           setArrayToDiplay((oldArray) => [
             ...oldArray,
             `Re-establish connection. Some Error ${err?.originalStatus} occured.`,
           ]);
-          toastAPIError(toastData.chatBoxErrorOcccured, err.originalStatus);
+          toastAPIError(toastData.chatBoxErrorOcccured, err.status, err.data);
         }
       })
       .finally(() => {

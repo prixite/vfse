@@ -92,7 +92,7 @@ export default function AddManufacturerModal({
         pauseOnHover: false,
       });
     } catch (error) {
-      toastAPIError("Something went wrong", error.originalStatus);
+      toastAPIError("Something went wrong", error.status, error.data);
     } finally {
       setModalityValue(modality.toString());
       resetModal();

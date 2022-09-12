@@ -214,10 +214,11 @@ export default function SystemModal(props: SystemProps) {
         if (error?.originalStatus < 500)
           toastAPIError(
             error.data[Object.keys(error.data)[0]][0],
-            error.originalStatus
+            error.status,
+            error.data
           );
         else {
-          toastAPIError(toastData.systemSaveError, error.originalStatus);
+          toastAPIError(toastData.systemSaveError, error.status, error.data);
         }
       } finally {
         handleClear();

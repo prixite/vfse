@@ -112,9 +112,9 @@ export default function SiteModal(props: siteProps) {
       })
       .catch((error) => {
         if (isNonFieldError(error)) {
-          toastAPIError(getNonFieldError(error), error.originalStatus);
+          toastAPIError(getNonFieldError(error), error.status, error.data);
         } else {
-          toastAPIError(toastData.saveSiteError, error.originalStatus);
+          toastAPIError(toastData.saveSiteError, error.status, error.data);
         }
       })
       .finally(() => setIsLoading(false));
@@ -168,7 +168,11 @@ export default function SiteModal(props: siteProps) {
           }, 500);
         })
         .catch((err) => {
-          toastAPIError(toastData.siteAlreadyExistsError, err.originalStatus);
+          toastAPIError(
+            toastData.siteAlreadyExistsError,
+            err.originalStatus,
+            err.data
+          );
           setIsLoading(false);
         });
     } else {

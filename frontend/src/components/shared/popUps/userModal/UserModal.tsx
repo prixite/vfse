@@ -397,7 +397,11 @@ export default function UserModal(props: Props) {
               }, 500);
             })
             .catch((err) => {
-              toastAPIError(toastData.userAlreadyExists, err.originalStatus);
+              toastAPIError(
+                toastData.userAlreadyExists,
+                err.originalStatus,
+                err.data
+              );
               setIsLoading(false);
             });
         }
@@ -440,9 +444,9 @@ export default function UserModal(props: Props) {
               ": " +
               error.data.meta[Object.keys(error.data.meta)[0]][0]
             : error.data[Object.keys(error.data)[0]][0];
-          toastAPIError(metaError, error.originalStatus);
+          toastAPIError(metaError, error.status, error.data);
         } else {
-          toastAPIError(toastData.saveUserError, error.originalStatus);
+          toastAPIError(toastData.saveUserError, error.status, error.data);
         }
         setIsLoading(false);
       });

@@ -59,12 +59,12 @@ const EditProfilePicModal = ({ open, setOpen }) => {
             refetch();
           })
           .catch(async (err) => {
-            toastAPIError("Something went wrong.", err.originalStatus);
+            toastAPIError("Something went wrong.", err.status, err.data);
             await deleteImageFromS3(selectedImage[0]);
           });
       })
       .catch((err) => {
-        toastAPIError("Something went wrong", err.originalStatus);
+        toastAPIError("Something went wrong", err.status, err.data);
       });
   };
 

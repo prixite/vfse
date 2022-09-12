@@ -48,7 +48,7 @@ const CategoryOptionsSection = ({ category, id }) => {
         handleCloseDeleteCategoryModal();
       })
       .catch((err) => {
-        toastAPIError(toastData.categoryDeleteError, err.originalStatus);
+        toastAPIError(toastData.categoryDeleteError, err.status, err.data);
         handleCloseDeleteCategoryModal();
       });
   };

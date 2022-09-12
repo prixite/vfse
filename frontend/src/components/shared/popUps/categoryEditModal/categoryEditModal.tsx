@@ -84,7 +84,7 @@ export default function CategoryEditModal({ open, handleClose, id }) {
       })
       .catch((err) => {
         setIsLoading(false);
-        toastAPIError(toastData.categoryEditError, err.originalStatus);
+        toastAPIError(toastData.categoryEditError, err.status, err.data);
       });
   };
 

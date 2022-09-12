@@ -394,7 +394,7 @@
     "clientCardOrgDeleteSuccess": "Organization successfully deleted.",
     "articleCardFolderDeleteSuccess": "Folder successfully deleted.",
     "articleCardFolderDeleteError": "Problem occured while deleting Folder",
-    "chatBoxReqProceedError": "We cannot process your request at the moment.",
+    "chatBoxReqProceedError": "We cannot process your request at the moment",
     "chatBoxErrorOcccured": "Error occured",
     "knowledgeCardArticleDeleteSuccess": "Article successfully deleted.",
     "knowledgeCardArticleDeleteError": "Problem occured while deleting Article",

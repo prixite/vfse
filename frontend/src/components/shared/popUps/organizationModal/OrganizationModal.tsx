@@ -215,7 +215,8 @@ export default function OrganizationModal({
               .catch((error) =>
                 toastAPIError(
                   toastData.addOrganizationError,
-                  error?.originalStatus
+                  error?.status,
+                  error.data
                 )
               );
           }
@@ -255,7 +256,8 @@ export default function OrganizationModal({
               .catch((error) =>
                 toastAPIError(
                   toastData.saveOrganizationError,
-                  error?.originalStatus
+                  error?.status,
+                  error.data
                 )
               );
           }
@@ -276,7 +278,8 @@ export default function OrganizationModal({
           .catch((error) =>
             toastAPIError(
               toastData.saveOrganizationError,
-              error?.originalStatus
+              error?.status,
+              error.data
             )
           );
       }

@@ -84,7 +84,8 @@ const KnowledgeTopCard = ({
       .catch((err) => {
         toastAPIError(
           toastData.knowledgeCardArticleDeleteError,
-          err.originalStatus
+          err.status,
+          err.data
         );
       });
   };

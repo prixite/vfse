@@ -77,7 +77,7 @@ export default function FolderModal({
         });
       })
       .catch((err) => {
-        toastAPIError(toastData.folderAddError, err.originalStatus);
+        toastAPIError(toastData.folderAddError, err.status, err.data);
       })
       .finally(() => {
         resetModal();

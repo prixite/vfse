@@ -380,7 +380,7 @@ const SystemCard = ({
       }
     } catch (err) {
       setLoginProgress(false);
-      toastAPIError(toastData.systemCardConnectionError, err.originalStatus);
+      toastAPIError(toastData.systemCardConnectionError, err.status, err.data);
     }
   };
   return (

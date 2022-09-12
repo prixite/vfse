@@ -62,7 +62,8 @@ const CommentsDrawer = () => {
         (err) =>
           toastAPIError(
             toastData.commentsDrawerAddNoteError,
-            err.originalStatus
+            err.status,
+            err.data
           )
       );
     }

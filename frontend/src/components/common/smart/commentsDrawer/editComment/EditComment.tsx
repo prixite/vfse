@@ -27,7 +27,7 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
   const editCommentHandler = async () => {
     setIsLoading(true);
     await updateSystemNoteService(noteId, editNote, updateNote).catch((err) => {
-      toastAPIError(toastData.editCommentUpdateError, err.originalStatus);
+      toastAPIError(toastData.editCommentUpdateError, err.status, err.data);
     });
     setEditMode(false);
   };

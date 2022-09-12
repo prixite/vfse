@@ -69,7 +69,8 @@ const ArticleCard = ({
       .catch((error) => {
         toastAPIError(
           "Problem occured while deleting Folder",
-          error.originalStatus
+          error.status,
+          error?.data
         );
       });
   };

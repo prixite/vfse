@@ -146,7 +146,8 @@ export default function NetworkModal(props: Props) {
                 .catch(async (error) => {
                   toastAPIError(
                     toastData.saveHealthNetworkError,
-                    error?.originalStatus
+                    error?.status,
+                    error.data
                   );
                   await deleteImageFromS3(selectedImage[0]);
                 });
@@ -170,7 +171,8 @@ export default function NetworkModal(props: Props) {
             .catch((error) => {
               toastAPIError(
                 toastData.saveHealthNetworkError,
-                error?.originalStatus
+                error?.originalStatus,
+                error.data
               );
             });
         }
@@ -205,14 +207,19 @@ export default function NetworkModal(props: Props) {
                 .catch(async (error) => {
                   toastAPIError(
                     toastData.addHealthNetworkError,
-                    error?.originalStatus
+                    error?.originalStatus,
+                    error.data
                   );
                   await deleteImageFromS3(data?.key);
                 });
             }
           })
           .catch((err) => {
-            toastAPIError(toastData.uploadImageFailedError, err.originalStatus);
+            toastAPIError(
+              toastData.uploadImageFailedError,
+              err.originalStatus,
+              err.data
+            );
           });
       }
     }
