@@ -6,7 +6,6 @@ import { Routes, Route } from "react-router-dom";
 import { constants } from "@src/helpers/utils/constants";
 import constantsData from "@src/localization/en.json";
 import { routes, vfseRoutes } from "@src/routes";
-import { Me } from "@src/store/reducers/generated";
 
 const OrganizationView = lazy(
   async () =>
@@ -74,9 +73,8 @@ import SystemsView from "../../views/systems/SystemsView";
 
 interface Props {
   isLoading: boolean;
-  me: Me;
 }
-const RoutesHOC = ({ isLoading, me }: Props) => {
+const RoutesHOC = ({ isLoading }: Props) => {
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   const { loading } = constantsData.common;
   return (
@@ -102,18 +100,17 @@ const RoutesHOC = ({ isLoading, me }: Props) => {
               key={key}
             />
           ))}
-          {(me.is_superuser || me.fse_accessible) &&
-            vfseRoutes.map((route, key) => (
-              <Route
-                path={`/${organizationRoute}/:id${route.path}`}
-                element={
-                  <Suspense fallback={<>{loading}</>}>
-                    <route.component />
-                  </Suspense>
-                }
-                key={key}
-              />
-            ))}
+          {vfseRoutes.map((route, key) => (
+            <Route
+              path={`/${organizationRoute}/:id${route.path}`}
+              element={
+                <Suspense fallback={<>{loading}</>}>
+                  <route.component />
+                </Suspense>
+              }
+              key={key}
+            />
+          ))}
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/`}
             element={

@@ -190,11 +190,11 @@ class User(AbstractUser):
             Role.FSE_ADMIN: {vfse_flag, modality_flag},
             Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag, appearance_flag},
             Role.FSE_ADMIN: {vfse_flag, modality_flag},
-            Role.CUSTOMER_ADMIN: {organization_flag, modality_flag},
-            Role.USER_ADMIN: {user_flag},
+            Role.CUSTOMER_ADMIN: {vfse_flag, organization_flag, modality_flag},
+            Role.USER_ADMIN: {vfse_flag, user_flag},
             Role.FSE: {vfse_flag},
-            Role.END_USER: {modality_flag},
-            Role.VIEW_ONLY: {modality_flag},
+            Role.END_USER: {vfse_flag, modality_flag},
+            Role.VIEW_ONLY: {vfse_flag, modality_flag},
             Role.ONE_TIME: {vfse_flag},
         }
 
