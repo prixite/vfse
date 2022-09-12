@@ -83,7 +83,7 @@ export default function FormikAutoComplete({
           }
           inputProps={{
             ...params.inputProps,
-            autoComplete: "password", // disable autocomplete and autofill
+            autoComplete: "off", // disable autocomplete and autofill
             placeholder: placeholder,
           }}
         />
