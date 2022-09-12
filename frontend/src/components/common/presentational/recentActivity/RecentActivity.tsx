@@ -17,7 +17,7 @@ const RecentActivity = () => {
   const { recentActivity } = constantsData;
 
   const totalPageNumber = () => {
-    const totalPages = Math.ceil(userActivityList?.data?.length / 4);
+    const totalPages = Math.ceil(userActivityList?.length / 4);
     return totalPages;
   };
 
@@ -49,7 +49,7 @@ const RecentActivity = () => {
             modules={[Pagination]}
             className="mySwiper"
           >
-            {userActivityList?.data
+            {userActivityList
               ?.slice(0, totalPageNumber())
               .map((item, index) => (
                 <SwiperSlide
@@ -62,7 +62,7 @@ const RecentActivity = () => {
                   }}
                   key={index}
                 >
-                  {JSON.parse(JSON.stringify(userActivityList?.data))
+                  {JSON.parse(JSON.stringify(userActivityList))
                     ?.reverse()
                     ?.slice((index + 1 - 1) * 4, (index + 1) * 4)
                     .map((item, key) => (

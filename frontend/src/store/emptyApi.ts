@@ -19,8 +19,6 @@ import {
   VfseTopicsCommentsListApiArg,
   VfseCommentsRepliesListApiResponse,
   VfseCommentsRepliesListApiArg,
-  VfseUserActivityListApiResponse,
-  VfseUserActivityListApiArg,
   VfseUserMeActivityListApiResponse,
   VfseUserMeActivityListApiArg,
   VfseUserTopicListApiArg,
@@ -39,11 +37,6 @@ type TopicUserListResponse = {
 
 type MyActivityResponse = {
   data: VfseUserMeActivityListApiResponse;
-  link: string;
-};
-
-type UserActivityResponse = {
-  data: VfseUserActivityListApiResponse;
   link: string;
 };
 
@@ -162,26 +155,6 @@ export const emptySplitApi = createApi({
         response: VfseUserMeActivityListApiResponse,
         meta
       ): MyActivityResponse => {
-        return {
-          data: response,
-          link: meta.response.headers.get("link"),
-        };
-      },
-    }),
-    vfseUserActivityList: builder.query<
-      UserActivityResponse,
-      VfseUserActivityListApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/vfse/user/activity/`,
-        params: {
-          page: queryArg.page,
-        },
-      }),
-      transformResponse: (
-        response: VfseUserActivityListApiResponse,
-        meta
-      ): UserActivityResponse => {
         return {
           data: response,
           link: meta.response.headers.get("link"),

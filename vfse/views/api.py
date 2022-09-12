@@ -154,7 +154,6 @@ class DashboardView(APIView):
 
 class TopicActivityViewSet(ListAPIView):
     serializer_class = serializers.RecentActivitySerializer
-    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
