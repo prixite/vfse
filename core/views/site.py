@@ -113,7 +113,7 @@ class WelcomeView(TemplateView):
             flags.remove("vfse")
         elif self.request.user.profile.fse_accessible and "vfse" not in flags:
             flags.append("vfse")
-        print(flags)
+
         if not flags or len(flags) > 1:
             return super().get(request, *args, **kwargs)
 
