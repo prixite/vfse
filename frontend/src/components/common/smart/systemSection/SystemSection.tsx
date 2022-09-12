@@ -80,8 +80,11 @@ const SystemSection = () => {
 
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
-  const { siteId, networkId, id } =
-    useParams<{ siteId: string; networkId: string; id: string }>();
+  const { siteId, networkId, id } = useParams<{
+    siteId: string;
+    networkId: string;
+    id: string;
+  }>();
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const selectedID = networkId || id;
@@ -494,6 +497,7 @@ const SystemSection = () => {
                   IsOpen={chatModal}
                   setIsOpen={setChatModal}
                   canLeaveNotes={me?.can_leave_notes}
+                  currentUser={me}
                 />
               </div>
             ))

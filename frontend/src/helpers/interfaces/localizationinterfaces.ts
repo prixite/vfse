@@ -428,4 +428,5 @@ export interface SystemInterfaceProps {
   setSystem?: Dispatch<SetStateAction<System>>;
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
   canLeaveNotes: boolean;
+  currentUser: object;
 }

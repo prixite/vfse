@@ -523,10 +523,14 @@ const TopViewBtns = ({
             />
           </Box>
           {currentUser?.is_superuser &&
+            currentUser?.role !== "end-user" &&
             path === organizations &&
             path !== activeUsers &&
             createAddButton()}
-          {path !== organizations && path !== activeUsers && createAddButton()}
+          {path !== organizations &&
+            currentUser?.role !== "end-user" &&
+            path !== activeUsers &&
+            createAddButton()}
         </Box>
       </Box>
     </>
