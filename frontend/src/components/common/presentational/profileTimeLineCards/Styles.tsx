@@ -64,7 +64,8 @@ const useStyles = makeStyles(() => ({
   profileSide: {
     display: "flex",
     flexDirection: "row",
-    marginLeft: "10px",
+    justifyContent: "space-between",
+    width: "140px",
   },
 
   followerImgContainer: {
@@ -76,7 +77,6 @@ const useStyles = makeStyles(() => ({
     fontSize: "12px",
     lineHeight: "18px",
     fontStyle: "normal",
-    marginLeft: "4px",
     display: "flex",
     alignItems: "center",
     color: "#696f77",

@@ -41,6 +41,7 @@ import {
 } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/systemModal/systemModal.scss";
+import AddProductModelDialog from "../addProductModelDialog/AddProductModelDialog";
 import FormikAutoComplete from "./FormikAutoComplete";
 
 interface SystemProps {
@@ -183,6 +184,8 @@ export default function SystemModal(props: SystemProps) {
   const { toastData } = constantsData;
   const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
   const [openProductModal, setOpenProductModal] = useState(false);
+  const [openAddProductModelDialog, setOpenAddProductModelDialog] =
+    useState(false);
 
   const selectedOrganization = useSelectedOrganization();
   const [addSystem] = useOrganizationsSystemsCreateMutation();
@@ -474,15 +477,19 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Manufacturer"
                     parent="modality"
                   />
-                  <div
-                    className="modal-btn-styling"
-                    onClick={() => setOpenManufacturerModal(true)}
-                  >
-                    <span>Add manufacturer</span>
-                    <AddCircleIcon
-                      style={{ marginLeft: "5px", color: buttonBackground }}
-                    />
-                  </div>
+                  {formik.values.modality ? (
+                    <div
+                      className="modal-btn-styling"
+                      onClick={() => setOpenManufacturerModal(true)}
+                    >
+                      <span>Add manufacturer</span>
+                      <AddCircleIcon
+                        style={{ marginLeft: "5px", color: buttonBackground }}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -496,15 +503,19 @@ export default function SystemModal(props: SystemProps) {
                     placeholder="Select Product"
                     parent="manufacturer"
                   />
-                  <div
-                    className="modal-btn-styling"
-                    onClick={() => setOpenProductModal(true)}
-                  >
-                    <span>Add Product</span>
-                    <AddCircleIcon
-                      style={{ marginLeft: "5px", color: buttonBackground }}
-                    />
-                  </div>
+                  {formik.values.manufacturer ? (
+                    <div
+                      className="modal-btn-styling"
+                      onClick={() => setOpenProductModal(true)}
+                    >
+                      <span>Add Product</span>
+                      <AddCircleIcon
+                        style={{ marginLeft: "5px", color: buttonBackground }}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -519,6 +530,19 @@ export default function SystemModal(props: SystemProps) {
                     parent="product"
                     optionLabel="model"
                   />
+                  {formik.values.product ? (
+                    <div
+                      className="modal-btn-styling"
+                      onClick={() => setOpenAddProductModelDialog(true)}
+                    >
+                      <span>Add Product Model</span>
+                      <AddCircleIcon
+                        style={{ marginLeft: "5px", color: buttonBackground }}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -532,7 +556,14 @@ export default function SystemModal(props: SystemProps) {
                     name="name"
                     placeholder="System1"
                     error={formik.touched.name && Boolean(formik.errors.name)}
-                    helperText={formik.touched.name && formik.errors.name}
+                    helperText={
+                      formik.touched.name &&
+                      formik.errors.name && (
+                        <span style={{ marginLeft: "-13px" }}>
+                          {formik.errors.name}
+                        </span>
+                      )
+                    }
                     value={formik.values.name}
                     onChange={formik.handleChange}
                   />
@@ -940,12 +971,31 @@ export default function SystemModal(props: SystemProps) {
           </Button>
         </DialogActions>
         <AddManufacturerModal
+          setModalityValue={(modality) =>
+            formik.setFieldValue("modality", modality)
+          }
+          modality={parseInt(formik.values.modality)}
           open={openManufacturerModal}
           handleClose={() => setOpenManufacturerModal(false)}
         />
         <ProductModal
+          manufacturer={parseInt(formik.values.manufacturer)}
+          modality={parseInt(formik.values.modality)}
+          setProductValue={(product) =>
+            formik.setFieldValue("product", product)
+          }
           open={openProductModal}
           handleClose={() => setOpenProductModal(false)}
+        />
+        <AddProductModelDialog
+          product={parseInt(formik.values.product)}
+          modality={parseInt(formik.values.modality)}
+          setProductAndModalityValue={(product, modality) => {
+            formik.setFieldValue("product", product);
+            formik.setFieldValue("modality", modality);
+          }}
+          open={openAddProductModelDialog}
+          handleClose={() => setOpenAddProductModelDialog(false)}
         />
       </form>
     </Dialog>

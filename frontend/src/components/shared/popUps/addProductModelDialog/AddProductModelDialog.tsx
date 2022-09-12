@@ -16,46 +16,39 @@ import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import "@src/components/shared/popUps/categoryModal/categoryModal.scss";
 
-interface CategoryModalProps {
+interface AddProductModelDialogProps {
   open: boolean;
   handleClose: () => void;
   modality: number;
-  setModalityValue: (arg0: string) => void;
+  product: number;
+  setProductAndModalityValue: (arg0: string, arg1: string) => void;
 }
 
 const initialState = {
-  manufacturerName: "",
-  productName: "",
   model: "",
 };
 
-const { nameRequired, title, addBtn, cancelBtn, subHeading } =
-  localizedData().ManufacturerModal;
+const { title, addBtn, cancelBtn } = localizedData().addProductModelDialog;
 
 const validationSchema = yup.object({
-  manufacturerName: yup.string().min(1).max(20).required(nameRequired),
-  productName: yup.string().min(1).max(20).required(nameRequired),
-  model: yup.string().min(1).max(20).required(nameRequired),
+  model: yup.string().min(1).max(20).required("Product Model is required!"),
 });
 
-export default function AddManufacturerModal({
+export default function AddProductModelDialog({
   open,
   handleClose,
+  setProductAndModalityValue,
   modality,
-  setModalityValue,
-}: CategoryModalProps) {
+  product,
+}: AddProductModelDialogProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-
-  const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  //API
-  const [addNewManufacturer] = api.useManufacturersCreateMutation();
-  const [addNewProduct] = api.useProductsCreateMutation();
-  const [addNewProductModal] = api.useProductsModelsCreateMutation();
+  const [onChangeValidation, setOnChangeValidation] = useState(false);
+
+  const [addNewProductModelDialog] = api.useProductsModelsCreateMutation();
 
   const formik = useFormik({
     initialValues: initialState,
@@ -69,32 +62,23 @@ export default function AddManufacturerModal({
   const handleCategorySubmit = async () => {
     setIsLoading(true);
     try {
-      setModalityValue(null);
-      const manufacturer = await addNewManufacturer({
-        manufacturer: { name: formik.values.manufacturerName },
-      }).unwrap();
-      const product = await addNewProduct({
-        productCreate: {
-          manufacturer: manufacturer.id,
-          name: formik.values.productName,
-        },
-      }).unwrap();
-      await addNewProductModal({
+      setProductAndModalityValue(null, null);
+      await addNewProductModelDialog({
         productModelCreate: {
           model: formik.values.model,
-          product: product.id,
-          modality,
           documentation: { url: "http://example.com" },
+          modality,
+          product: product,
         },
       }).unwrap();
-      toast.success("Manufacturer Successfully added.", {
+      toast.success("Product Model Successfully Added.", {
         autoClose: timeOut,
         pauseOnHover: false,
       });
     } catch (error) {
       toastAPIError("Something went wrong", error.status, error.data);
     } finally {
-      setModalityValue(modality.toString());
+      setProductAndModalityValue(product.toString(), modality.toString());
       resetModal();
       setIsLoading(false);
       handleClose();
@@ -108,7 +92,7 @@ export default function AddManufacturerModal({
   };
 
   return (
-    <Dialog className="category-modal" open={open}>
+    <Dialog className="product-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
           <span className="modal-header">{title}</span>
@@ -128,42 +112,14 @@ export default function AddManufacturerModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{subHeading}</p>
-                  <TextField
-                    autoComplete="off"
-                    name="manufacturerName"
-                    className="info-field"
-                    variant="outlined"
-                    size="small"
-                    placeholder="Manufacturer name"
-                    value={formik.values.manufacturerName}
-                    onChange={formik.handleChange}
-                  />
-                  <p className="errorText" style={{ marginTop: "5px" }}>
-                    {formik.errors.manufacturerName}
-                  </p>
-                  <p className="info-label required">Product Name</p>
-                  <TextField
-                    autoComplete="off"
-                    name="productName"
-                    className="info-field"
-                    variant="outlined"
-                    size="small"
-                    placeholder="Product name"
-                    value={formik.values.productName}
-                    onChange={formik.handleChange}
-                  />
-                  <p className="errorText" style={{ marginTop: "5px" }}>
-                    {formik.errors.productName}
-                  </p>
-                  <p className="info-label required">Product Model Name</p>
+                  <p className="info-label required">Product Model</p>
                   <TextField
                     autoComplete="off"
                     name="model"
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder="Product Model name"
+                    placeholder="Product Model"
                     value={formik.values.model}
                     onChange={formik.handleChange}
                   />
@@ -191,11 +147,11 @@ export default function AddManufacturerModal({
             backgroundColor: buttonBackground,
             color: buttonTextColor,
           }}
+          disabled={isLoading}
           onClick={() => {
             setOnChangeValidation(true);
             formik.handleSubmit();
           }}
-          disabled={isLoading}
         >
           {addBtn}
         </Button>

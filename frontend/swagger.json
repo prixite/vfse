@@ -2452,7 +2452,9 @@
                 }
             },
             "default": {
-                "profile_picture": "http://localhost:8000/static/assets/profile.png",
+
+                "profile_picture": "https://vfse.demo.prixite.com/static/assets/profile.png",
+
                 "title": ""
             }
         },

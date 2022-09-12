@@ -19,10 +19,16 @@ import {
   VfseTopicsCommentsListApiArg,
   VfseCommentsRepliesListApiResponse,
   VfseCommentsRepliesListApiArg,
+  VfseUserTopicListApiResponse,
+  VfseUserTopicListApiArg,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
 type TopicListResponse = {
+  data: VfseTopicsListApiResponse;
+  link: string;
+};
+type TopicUserListResponse = {
   data: VfseTopicsListApiResponse;
   link: string;
 };
@@ -105,10 +111,28 @@ export const emptySplitApi = createApi({
       ): TopicListResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: ["Topics", "Favorite"],
+    }),
+    vfseUserTopicList: builder.query<
+      TopicUserListResponse,
+      VfseUserTopicListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/topic/`,
+        params: { page: queryArg.page },
+      }),
+      transformResponse: (
+        response: VfseUserTopicListApiResponse,
+        meta
+      ): TopicUserListResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.get("link"),
+        };
+      },
     }),
 
     getTopic: builder.query<VfseTopicsReadApiResponse, VfseTopicsReadApiArg>({
@@ -280,7 +304,7 @@ export const emptySplitApi = createApi({
       ): TopicCommentsResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: (result, error, queryArg) => [
@@ -301,7 +325,7 @@ export const emptySplitApi = createApi({
       ): CommentRepliesResponse => {
         return {
           data: response,
-          link: meta.response.headers.map?.link,
+          link: meta.response.headers.get("link"),
         };
       },
       providesTags: (result, error, queryArg) => [

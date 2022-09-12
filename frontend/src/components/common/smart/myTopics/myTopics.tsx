@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Pagination, Stack } from "@mui/material";
 
 import { parseLink } from "@src/helpers/paging";
-import { useVfseUserTopicListQuery } from "@src/store/reducers/generated";
+import { useVfseUserTopicListQuery } from "@src/store/reducers/api";
 
 import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
 
@@ -15,7 +15,7 @@ const MyTopics = () => {
   });
 
   useEffect(() => {
-    setPaginatedTopics(topicsList);
+    setPaginatedTopics(topicsList?.data);
   }, [topicsList]);
 
   const handlePagination = (
@@ -26,7 +26,10 @@ const MyTopics = () => {
     setPage(value);
   };
 
-  const totalTopicPages = useMemo(() => parseLink("") || 1, [topicsList]);
+  const totalTopicPages = useMemo(
+    () => parseLink(topicsList?.link) || 1,
+    [topicsList]
+  );
 
   return (
     <>
