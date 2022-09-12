@@ -130,30 +130,24 @@ const TopicUpdatesCards = ({
           {cardTitle}
         </div>
         <Box component="div" className="card_footer">
-          <div className="profile_side">
-            <div
-              className="follower_img_container"
-              style={{ height: "32px", width: "39px" }}
-            >
-              {followers.length > 0 &&
-                followers
-                  ?.slice(0, 3)
-                  ?.map((item, key) => (
-                    <img
-                      key={key}
-                      src={`${item?.image}`}
-                      className="imgStylingProfiles"
-                    />
-                  ))}
-              <div className="followerText" style={{ marginTop: "5px" }}>
-                <p style={{ width: "100px" }}>
-                  {numberOfFollowers > 0
-                    ? `${numberOfFollowers} Followers`
-                    : numberOfFollowers === 1
-                    ? `${numberOfFollowers} Follower `
-                    : `No Followers`}
-                </p>
+          <div className="follower_img_container">
+            {followers.length > 0 && (
+              <div className="follower-img">
+                {followers?.slice(0, 3)?.map((item, key) => (
+                  <img
+                    key={key}
+                    src={`${item?.image}`}
+                    className="imgStylingProfiles"
+                  />
+                ))}
               </div>
+            )}
+            <div className="followerText">
+              {numberOfFollowers > 0
+                ? `${numberOfFollowers} Followers`
+                : numberOfFollowers === 1
+                ? `${numberOfFollowers} Follower `
+                : `No Followers`}
             </div>
           </div>
           <div className="message_side" style={{ cursor: "pointer" }}>

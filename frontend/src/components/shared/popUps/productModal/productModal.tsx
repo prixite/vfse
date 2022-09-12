@@ -133,7 +133,7 @@ export default function ProductModal({
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.name}
                   </p>
-                  <p className="info-label required">Product Modal</p>
+                  <p className="info-label required">Product Model</p>
                   <TextField
                     autoComplete="off"
                     name="model"

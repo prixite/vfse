@@ -12,6 +12,7 @@ import { useUsersActiveUsersListQuery, User } from "@src/store/reducers/api";
 
 import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
+import BackBtn from "../../presentational/backBtn/BackBtn";
 
 const headers = [
   {
@@ -89,6 +90,7 @@ export default function ActiveUserSection() {
 
   return (
     <Fragment>
+      <BackBtn />
       <h2>Active users</h2>
       <TopViewBtns
         path="active-users"

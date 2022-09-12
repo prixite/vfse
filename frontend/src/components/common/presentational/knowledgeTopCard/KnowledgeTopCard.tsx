@@ -193,6 +193,21 @@ const KnowledgeTopCard = ({
             <MenuItem onClick={handleModalOpen}>
               {knowledgeBase.delete}
             </MenuItem>
+            <MenuItem>
+              <Link
+                className="knowledge-top-card"
+                style={{
+                  textDecoration: "none",
+                  height: "100%",
+                  color: "#111827",
+                }}
+                to={{ pathname: `documentation/${id}/` }}
+                state={{ edit: true }}
+              >
+                {" "}
+                Update
+              </Link>
+            </MenuItem>
           </Menu>
         </div>
       </div>
