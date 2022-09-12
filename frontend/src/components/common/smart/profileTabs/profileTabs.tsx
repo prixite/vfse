@@ -5,8 +5,8 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import Typography from "@mui/material/Typography";
 
-import MyActivity from "../myActivity/MyActivity";
-import MyTopics from "../myTopics/myTopics";
+import MyActivity from "@src/components/common/smart/myActivity/MyActivity";
+import MyTopics from "@src/components/common/smart/myTopics/MyTopics";
 import "@src/components/common/smart/profileTabs/profileTabs.scss";
 
 interface TabPanelProps {

@@ -10,7 +10,7 @@ import ProfileTimelineCards from "../../presentational/profileTimeLineCards/Prof
 const MyTopics = () => {
   const [paginatedTopics, setPaginatedTopics] = useState([]);
   const [page, setPage] = useState(1);
-  const { data: topicsList } = api.useVfseUserTopicListQuery({
+  const { data: topicsList, isLoading } = api.useVfseUserTopicListQuery({
     page,
   });
 
@@ -31,7 +31,7 @@ const MyTopics = () => {
     [topicsList]
   );
 
-  return (
+  return !isLoading ? (
     <>
       {paginatedTopics?.map((item) => {
         return (
@@ -68,6 +68,8 @@ const MyTopics = () => {
         </Stack>
       )}
     </>
+  ) : (
+    ""
   );
 };
 
