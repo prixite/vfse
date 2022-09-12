@@ -1,0 +1,151 @@
+.recentActivitycard {
+  margin-top: 16px;
+  height: auto;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 24px;
+
+  .recentActivityTitle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-left: -7px;
+    .allTopicImg {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .topicHeading {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 1px;
+      margin-left: 8px;
+    }
+  }
+  .userStatus {
+    display: flex;
+    flex-direction: column;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    width: 100%;
+    .statusDetail {
+      margin-left: 0px;
+      font-family: "ProximaNova-Regular";
+      font-style: normal;
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 20px;
+      color: #696f77;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-direction: column;
+      .username {
+        color: #773cbd;
+        font-weight: 600;
+        word-break: break-word;
+        text-align: left;
+      }
+      .postTime {
+        font-family: "ProximaNova-Regular";
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  .createTopics {
+    display: flex;
+    .createTopicHading {
+      margin-left: 8px;
+    }
+  }
+  .pagtiondot {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  .imgStylingMessage {
+    height: 34px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  input[type="radio"]:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: "";
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+  }
+
+  input[type="radio"]:checked:after {
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #9e9e9e;
+    content: "";
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid white;
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .swiper-slide img {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
+
+  .swiper-slide swiper-slide-active {
+    width: 200px;
+  }
+  .swiper-backface-hidden .swiper-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}

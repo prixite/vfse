@@ -2319,15 +2319,7 @@
             "get": {
                 "operationId": "vfse_user_activity_list",
                 "description": "",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "A page number within the paginated result set.",
-                        "required": false,
-                        "type": "integer"
-                    }
-                ],
+                "parameters": [],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2498,7 +2490,7 @@
                 }
             },
             "default": {
-                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
+                "profile_picture": "http://localhost:8000/static/assets/profile.png",
                 "title": ""
             }
         },

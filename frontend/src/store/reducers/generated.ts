@@ -760,10 +760,7 @@ const injectedRtkApi = api.injectEndpoints({
       VfseUserActivityListApiResponse,
       VfseUserActivityListApiArg
     >({
-      query: (queryArg) => ({
-        url: `/vfse/user/activity/`,
-        params: { page: queryArg.page },
-      }),
+      query: () => ({ url: `/vfse/user/activity/` }),
     }),
     vfseUserMeActivityList: build.query<
       VfseUserMeActivityListApiResponse,
@@ -1211,10 +1208,7 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 };
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
-export type VfseUserActivityListApiArg = {
-  /** A page number within the paginated result set. */
-  page?: number;
-};
+export type VfseUserActivityListApiArg = void;
 export type VfseUserMeActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserMeActivityListApiArg = {

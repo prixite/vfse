@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 
 const RecentActivity = () => {
   const { data: userActivityList, isLoading } =
-    api.useVfseUserActivityListQuery({});
+    api.useVfseUserActivityListQuery();
   const { recentActivity } = constantsData;
 
   const totalPageNumber = () => {
