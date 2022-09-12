@@ -396,6 +396,38 @@ class SystemTestCase(BaseTestCase):
         )
         self.assertEqual(response.status_code, 403)
 
+    def test_add_manufacturer_name_by_end_user_is_unaccesible(self):
+        self.client.force_login(self.end_user)
+        response = self.client.post(
+            "/api/manufacturers/", data={"name": "manufacturers-36"}
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_product_name_by_end_user_is_unaccesible(self):
+        self.client.force_login(self.end_user)
+        manufacuturer_obj = factories.ManufacturerFactory(name="New manufactuere")
+        response = self.client.post(
+            "/api/manufacturers/",
+            data={
+                "name": "manufacturers-36",
+                "manufacturer": manufacuturer_obj.id,
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_proudct_model_by_end_user_is_unaccesible(self):
+        self.client.force_login(self.end_user)
+        response = self.client.post(
+            "/api/products/models/",
+            data={
+                "model": "test model",
+                "product": self.product.id,
+                "modality": self.modality.id,
+                "documentation": {"url": "http://example.com/doc.pdf"},
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
 
 class SystemSSHTestCase(BaseTestCase):
     def setUp(self):
