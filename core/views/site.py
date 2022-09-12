@@ -103,16 +103,6 @@ class WelcomeView(TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
         flags = list(context["user_data"]["flags"])
-        if (
-            not (
-                self.request.user.is_superuser
-                or self.request.user.profile.fse_accessible
-            )
-            and "vfse" in flags
-        ):
-            flags.remove("vfse")
-        elif self.request.user.profile.fse_accessible and "vfse" not in flags:
-            flags.append("vfse")
 
         if not flags or len(flags) > 1:
             return super().get(request, *args, **kwargs)

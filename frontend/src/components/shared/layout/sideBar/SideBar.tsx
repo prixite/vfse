@@ -168,12 +168,8 @@ export default function SideBar() {
     if (me?.flags) {
       // eslint-disable-next-line no-unsafe-optional-chaining
       const flags = [...me?.flags];
-      if (
-        !me?.is_superuser &&
-        !me?.fse_accessible &&
-        me?.role !== "fse-admin"
-      ) {
-        flags.splice(flags.length - 1, 1);
+      if (me?.fse_accessible && !flags.includes("vfse")) {
+        flags.push("vfse");
       }
       return routes
         .filter((item) => flags?.indexOf(item.flag) !== -1)
