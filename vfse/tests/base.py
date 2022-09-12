@@ -1,5 +1,6 @@
 from django.test import TestCase
 
+from core import models
 from core.tests import client
 from core.tests import factories as core_app_factories
 from vfse.tests import factories
@@ -11,6 +12,7 @@ class BaseTestCase(TestCase):
 
         self.super_user = core_app_factories.UserWithPasswordFactory(is_superuser=True)
         self.follower = core_app_factories.UserFactory()
+        self.fse_follower = core_app_factories.UserFactory()
         self.topic_owner = core_app_factories.UserFactory()
         self.category = factories.CategoryFactory()
         self.folder = factories.FolderFactory(categories=[self.category])
@@ -32,11 +34,21 @@ class BaseTestCase(TestCase):
             comment="This is the first reply",
             parent=self.comment,
         )
+        organization = core_app_factories.OrganizationFactory(
+            is_default=True,
+            name="626",
+            number_of_seats=10,
+        )
 
         self.work_order = factories.WorkOrderFactory(
             system=core_app_factories.SystemFactory(
-                site=core_app_factories.SiteFactory(
-                    organization=core_app_factories.OrganizationFactory()
-                )
+                site=core_app_factories.SiteFactory(organization=organization)
             )
+        )
+
+        core_app_factories._add_member(
+            organization, [self.follower, self.topic_owner], models.Role.FSE_ADMIN
+        )
+        core_app_factories._add_member(
+            organization, [self.fse_follower], models.Role.FSE
         )
