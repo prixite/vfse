@@ -7,36 +7,52 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
-import { Category } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/productModal/productModal.scss";
+import { api } from "@src/store/reducers/api";
 
 interface ProductModalProps {
   open: boolean;
   handleClose: () => void;
+  manufacturer: number;
+  modality: number;
+  setProductValue: (arg0: string) => void;
 }
 
-const initialState: Category = {
+const initialState = {
   name: "",
+  model: "",
 };
 
 const { title, addBtn, cancelBtn, subHeading } = localizedData().ProductModal;
 
 const validationSchema = yup.object({
   name: yup.string().min(1).max(20).required("Product Name is required!"),
+  model: yup.string().min(1).max(20).required("Product Model is required!"),
 });
 
-export default function ProductModal({ open, handleClose }: ProductModalProps) {
+export default function ProductModal({
+  open,
+  handleClose,
+  setProductValue,
+  modality,
+  manufacturer,
+}: ProductModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-
+  const [isLoading, setIsLoading] = useState(false);
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   //API
+  const [addNewProduct] = api.useProductsCreateMutation();
+  const [addNewProductModal] = api.useProductsModelsCreateMutation();
 
   const formik = useFormik({
     initialValues: initialState,
@@ -47,8 +63,33 @@ export default function ProductModal({ open, handleClose }: ProductModalProps) {
     },
   });
 
-  const handleCategorySubmit = () => {
-    handleClose();
+  const handleCategorySubmit = async () => {
+    setIsLoading(true);
+    try {
+      setProductValue(null);
+      const product = await addNewProduct({
+        productCreate: { manufacturer, name: formik.values.name },
+      }).unwrap();
+      await addNewProductModal({
+        productModelCreate: {
+          model: formik.values.model,
+          product: product.id,
+          modality,
+          documentation: { url: "http://example.com" },
+        },
+      }).unwrap();
+      toast.success("Product Successfully added.", {
+        autoClose: timeOut,
+        pauseOnHover: false,
+      });
+    } catch (error) {
+      toastAPIError("Something went wrong", error.status, error.data);
+    } finally {
+      setProductValue(modality.toString());
+      resetModal();
+      setIsLoading(false);
+      handleClose();
+    }
   };
 
   const resetModal = () => {
@@ -92,6 +133,20 @@ export default function ProductModal({ open, handleClose }: ProductModalProps) {
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.name}
                   </p>
+                  <p className="info-label required">Product Model</p>
+                  <TextField
+                    autoComplete="off"
+                    name="model"
+                    className="info-field"
+                    variant="outlined"
+                    size="small"
+                    placeholder="Product Model"
+                    value={formik.values.model}
+                    onChange={formik.handleChange}
+                  />
+                  <p className="errorText" style={{ marginTop: "5px" }}>
+                    {formik.errors.model}
+                  </p>
                 </div>
               </Grid>
             </Grid>
@@ -113,6 +168,7 @@ export default function ProductModal({ open, handleClose }: ProductModalProps) {
             backgroundColor: buttonBackground,
             color: buttonTextColor,
           }}
+          disabled={isLoading}
           onClick={() => {
             setOnChangeValidation(true);
             formik.handleSubmit();

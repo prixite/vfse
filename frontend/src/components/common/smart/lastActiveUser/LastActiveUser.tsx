@@ -39,6 +39,16 @@ const LastActiveUser = () => {
               <div className="last_active_user_table">
                 {/* <LastActiveUserCells /> */}
                 <DataGrid
+                  sx={{
+                    "& .MuiDataGrid-row": {
+                      "&:nth-child(2n)": { backgroundColor: "#F5F6F7" },
+                    },
+                    "& .MuiDataGrid-columnHeaders": {
+                      backgroundColor: "#F5F6F7",
+                    },
+                    backgroundColor: "white",
+                    border: "none",
+                  }}
                   rows={data}
                   rowHeight={58}
                   headerHeight={49}

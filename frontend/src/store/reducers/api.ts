@@ -19,6 +19,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     "RecentActivity",
     "UserProfile",
     "Category",
+    "Manufacturer",
   ],
   endpoints: {
     vfseUserActivityList: {
@@ -180,6 +181,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
     organizationsUsersList: {
       providesTags: (result, error, { id }) => [
         { type: "User", id: `User-${id}` },
+        "Organization",
       ],
     },
     organizationsUsersCreate: {
@@ -194,6 +196,7 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
           id: `User-${id}`,
         })),
         { type: "User", id: `User-${id}` },
+        "Organization",
       ],
     },
     scopeUsersCreate: {
@@ -342,6 +345,12 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
         { type: "Category", id: `Category-${id}` },
         "Category",
       ],
+    },
+    manufacturersCreate: {
+      invalidatesTags: ["Manufacturer"],
+    },
+    modalitiesManufacturersList: {
+      providesTags: ["Manufacturer"],
     },
   },
 });
