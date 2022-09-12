@@ -464,7 +464,10 @@ const injectedRtkApi = api.injectEndpoints({
       UsersActiveUsersListApiResponse,
       UsersActiveUsersListApiArg
     >({
-      query: () => ({ url: `/users/active_users/` }),
+      query: (queryArg) => ({
+        url: `/users/active_users/`,
+        params: { page: queryArg.page },
+      }),
     }),
     usersChangePasswordPartialUpdate: build.mutation<
       UsersChangePasswordPartialUpdateApiResponse,
@@ -759,6 +762,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/vfse/user/activity/` }),
     }),
+    vfseUserMeActivityList: build.query<
+      VfseUserMeActivityListApiResponse,
+      VfseUserMeActivityListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/me/activity/`,
+        params: { page: queryArg.page },
+      }),
+    }),
     vfseUserTopicList: build.query<
       VfseUserTopicListApiResponse,
       VfseUserTopicListApiArg
@@ -1047,7 +1059,10 @@ export type UsersActivatePartialUpdateApiArg = {
   userEnableDisable: UserEnableDisable;
 };
 export type UsersActiveUsersListApiResponse = /** status 200  */ User[];
-export type UsersActiveUsersListApiArg = void;
+export type UsersActiveUsersListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
 export type UsersChangePasswordPartialUpdateApiResponse =
   /** status 200  */ UpsertUserPassword;
 export type UsersChangePasswordPartialUpdateApiArg = {
@@ -1194,6 +1209,12 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserActivityListApiArg = void;
+export type VfseUserMeActivityListApiResponse =
+  /** status 200  */ RecentActivity[];
+export type VfseUserMeActivityListApiArg = {
+  /** A page number within the paginated result set. */
+  page?: number;
+};
 export type VfseUserTopicListApiResponse = /** status 200  */ TopicDetail[];
 export type VfseUserTopicListApiArg = {
   /** A page number within the paginated result set. */
@@ -1716,6 +1737,7 @@ export const {
   useVfseTopicsCommentsCreateMutation,
   useVfseTopicsFollowPartialUpdateMutation,
   useVfseUserActivityListQuery,
+  useVfseUserMeActivityListQuery,
   useVfseUserTopicListQuery,
   useVfseWorkordersListQuery,
   useVfseWorkordersCreateMutation,

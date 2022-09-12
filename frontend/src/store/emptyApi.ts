@@ -19,8 +19,10 @@ import {
   VfseTopicsCommentsListApiArg,
   VfseCommentsRepliesListApiResponse,
   VfseCommentsRepliesListApiArg,
-  VfseUserTopicListApiResponse,
+  VfseUserMeActivityListApiResponse,
+  VfseUserMeActivityListApiArg,
   VfseUserTopicListApiArg,
+  VfseUserTopicListApiResponse,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
@@ -30,6 +32,11 @@ type TopicListResponse = {
 };
 type TopicUserListResponse = {
   data: VfseTopicsListApiResponse;
+  link: string;
+};
+
+type MyActivityResponse = {
+  data: VfseUserMeActivityListApiResponse;
   link: string;
 };
 
@@ -134,7 +141,26 @@ export const emptySplitApi = createApi({
         };
       },
     }),
-
+    vfseUserMeActivityList: builder.query<
+      MyActivityResponse,
+      VfseUserMeActivityListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/vfse/user/me/activity/`,
+        params: {
+          page: queryArg.page,
+        },
+      }),
+      transformResponse: (
+        response: VfseUserMeActivityListApiResponse,
+        meta
+      ): MyActivityResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.get("link"),
+        };
+      },
+    }),
     getTopic: builder.query<VfseTopicsReadApiResponse, VfseTopicsReadApiArg>({
       query: (queryArg) => ({ url: `/vfse/topics/${queryArg.id}/` }),
       providesTags: (result, error, queryArg) => [
