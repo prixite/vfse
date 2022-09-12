@@ -402,7 +402,7 @@
     "systemCardDeleteSuccess": "System successfully deleted.",
     "systemCardConnectionError": "Could not connect.",
     "systemCardLinkCopiedSuccess": "Link Copied.",
-    "accountSectionUsernameUpdateSuccess": "Username updated successfully.",
+    "accountSectionUsernameUpdateSuccess": "Name successfully updated.",
     "appearanceSectionClientUpdateSuccess": "Client successfully updated.",
     "appearanceSectionClientUpdateError": "Error updating client",
     "commentsDrawerAddNoteError": "Note not added",
