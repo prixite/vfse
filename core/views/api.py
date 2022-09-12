@@ -713,7 +713,10 @@ class ProductModelViewSet(ModelViewSet):
 
 
 class ManfucturerViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.ManufacturerSerializer
 
     def get_queryset(self):
