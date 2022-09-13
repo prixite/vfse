@@ -107,7 +107,6 @@ export default function UserModal(props: Props) {
   const [page, setPage] = useState("1");
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isPhoneState, setIsPhoneState] = useState("");
   const [isPhoneError, setIsPhoneError] = useState("");
   const { toastData } = constantsData;
   const constantData = localizedData()?.users?.popUp;
@@ -503,7 +502,6 @@ export default function UserModal(props: Props) {
 
   const moveToNextPage = async () => {
     const phoneValue = `+1${formik.values.phone}`;
-    setIsPhoneState(phoneValue);
     const errors = await formik.validateForm();
     if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
       await setPage("2");
