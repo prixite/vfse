@@ -81,8 +81,7 @@ const nameReg = /^[A-Za-z ]*$/;
 // eslint-disable-next-line
 const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 // eslint-disable-next-line
-const phoneReg =
-  /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+const phoneReg = /^[0-9]{10}$/;
 
 const validationSchema = yup.object({
   userProfileImage: yup
@@ -510,11 +509,12 @@ export default function UserModal(props: Props) {
     const errors = await formik.validateForm();
     if (!Object.keys(errors).length) {
       await setPage("2");
+    } else if (!formik.values.phone.match(phone)) {
+      setOnChangeValidation(true);
     } else {
       setOnChangeValidation(true);
     }
   };
-
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
