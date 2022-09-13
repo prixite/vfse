@@ -45,6 +45,7 @@ import {
   useUsersPartialUpdateMutation,
   useScopeUsersCreateMutation,
   useOrganizationsUsersListQuery,
+  useOrganizationsSystemsListQuery,
 } from "@src/store/reducers/api";
 
 interface Props {
@@ -69,6 +70,7 @@ const initialState = {
   customer: undefined,
   selectedModalities: [],
   selectedSites: [],
+  selectedSystems: [],
   docLink: false,
   possibilitytoLeave: false,
   accessToFSEFunctions: false,
@@ -139,6 +141,7 @@ export default function UserModal(props: Props) {
     userProfileImage,
     phone,
     selectedSites,
+    selectedSystems,
     selectedModalities,
     accessToFSEFunctions,
     auditEnable,
@@ -297,6 +300,13 @@ export default function UserModal(props: Props) {
           formik.setFieldValue(selectedSites, sites_ids);
         }
       }
+      if (editedUser?.systems?.length) {
+        const sys_ids: Array<number> = [];
+        editedUser?.systems?.forEach((system) => {
+          sys_ids.push(system?.id);
+        });
+        formik.setFieldValue(selectedSystems, sys_ids);
+      }
       if (editedUser?.modalities?.length) {
         const filterModalities = props?.modalitiesList?.filter((modality) => {
           return editedUser?.modalities?.includes(modality?.name?.toString());
@@ -347,6 +357,22 @@ export default function UserModal(props: Props) {
     } else {
       formik.setFieldValue(selectedSites, [
         ...formik.values.selectedSites,
+        val,
+      ]);
+    }
+  };
+
+  const handleSystemSelection = (e) => {
+    const val = parseInt(e.target.value);
+    if (formik.values.selectedSystems.indexOf(val) > -1) {
+      formik.values.selectedSystems?.splice(
+        formik.values.selectedSystems?.indexOf(val),
+        1
+      );
+      formik.setFieldValue(selectedSystems, [...formik.values.selectedSystems]);
+    } else {
+      formik.setFieldValue(selectedSystems, [
+        ...formik.values.selectedSystems,
         val,
       ]);
     }
@@ -473,6 +499,7 @@ export default function UserModal(props: Props) {
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
+      systems: formik.values.selectedSystems,
       modalities: formik.values.selectedModalities,
       fse_accessible: formik.values.accessToFSEFunctions,
       audit_enabled: formik.values.auditEnable,
@@ -513,6 +540,11 @@ export default function UserModal(props: Props) {
       setOnChangeValidation(true);
     }
   };
+
+  const { data: systemsList, isLoading: systemsListLoading } =
+    useOrganizationsSystemsListQuery({
+      id: useSelectedOrganization()?.id?.toString(),
+    });
 
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
@@ -792,28 +824,70 @@ export default function UserModal(props: Props) {
                       </span>
                     </p>
                     <div className="network-details">
-                      {organizationSitesData?.map((site, key) => (
-                        <FormGroup
-                          key={key}
-                          style={{ marginLeft: "20px" }}
-                          className="options"
-                        >
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                onChange={handleSitesSelection}
-                                checked={formik.values.selectedSites.includes(
-                                  site?.id
-                                )}
-                                value={site?.id}
-                                name={site?.address}
-                                color="primary"
-                              />
-                            }
-                            label={site?.address}
-                          />
-                        </FormGroup>
-                      ))}
+                      {!systemsListLoading &&
+                        organizationSitesData?.map((site, key) => {
+                          const systems = systemsList?.filter(
+                            (item) => item?.site === site?.id
+                          );
+                          if (systems && systems?.length > 0) {
+                            return (
+                              <div key={key}>
+                                <details className="network-details">
+                                  <summary
+                                    className="header"
+                                    style={{ cursor: "pointer" }}
+                                  >
+                                    <span className="title">{site?.name}</span>
+                                  </summary>
+                                  {systems?.map((system, key) => (
+                                    <FormGroup
+                                      key={key}
+                                      style={{ marginLeft: "20px" }}
+                                      className="options"
+                                    >
+                                      <FormControlLabel
+                                        control={
+                                          <Checkbox
+                                            onChange={handleSystemSelection}
+                                            checked={formik.values.selectedSystems.includes(
+                                              system?.id
+                                            )}
+                                            value={system?.id}
+                                            name={system?.name}
+                                            color="primary"
+                                          />
+                                        }
+                                        label={system?.name}
+                                      />
+                                    </FormGroup>
+                                  ))}
+                                </details>
+                              </div>
+                            );
+                          } else
+                            return (
+                              <FormGroup
+                                key={key}
+                                style={{ marginLeft: "20px" }}
+                                className="options"
+                              >
+                                <FormControlLabel
+                                  control={
+                                    <Checkbox
+                                      onChange={handleSitesSelection}
+                                      checked={formik.values.selectedSites.includes(
+                                        site?.id
+                                      )}
+                                      value={site?.id}
+                                      name={site?.name}
+                                      color="primary"
+                                    />
+                                  }
+                                  label={site?.name}
+                                />
+                              </FormGroup>
+                            );
+                        })}
                     </div>
                   </>
                 ) : (
