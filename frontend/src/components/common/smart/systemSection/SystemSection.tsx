@@ -508,6 +508,7 @@ const SystemSection = () => {
                   system={item}
                   handleEdit={handleEdit}
                   canLeaveNotes={me?.can_leave_notes}
+                  currentUser={me}
                 />
               </div>
             ))
