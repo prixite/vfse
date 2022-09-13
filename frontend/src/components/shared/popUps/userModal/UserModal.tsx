@@ -505,6 +505,7 @@ export default function UserModal(props: Props) {
     const errors = await formik.validateForm();
     if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
       await setPage("2");
+      setIsPhoneError("");
     } else {
       setIsPhoneError(constantsData.users.popUp.invalidPhoneFormat);
       setOnChangeValidation(true);
