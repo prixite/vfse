@@ -465,7 +465,7 @@ export default function UserModal(props: Props) {
       first_name: formik.values.firstname,
       last_name: formik.values.lastname,
       email: formik.values.email,
-      phone: isPhoneState,
+      phone: `+1${formik.values.phone}`,
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
