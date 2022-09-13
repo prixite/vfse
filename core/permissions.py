@@ -112,13 +112,11 @@ class OrganizationPermission(BasePermission):
 
 class OrganizationIsAdminPermission(BasePermission):
     def has_permission(self, request, view):
-        if request.method.lower() in ["post", "patch", "delete"]:
-            if request.user.is_superuser:
-                return True
-
-            return False
-
-        return True
+        org_id = view.kwargs.get("pk", request.user.get_default_organization().id)
+        return not (
+            models.Role.END_USER == request.user.get_organization_role(org_id)
+            and request.method not in SAFE_METHODS
+        )
 
 
 class SystemNotePermissions(BasePermission):

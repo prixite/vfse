@@ -687,7 +687,10 @@ class ModalityManufacturerViewSet(ModelViewSet):
 
 
 class ProductModelViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     filterset_class = filters.ProductModelFilter
 
     def get_queryset(self):
@@ -710,7 +713,10 @@ class ProductModelViewSet(ModelViewSet):
 
 
 class ManfucturerViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.ManufacturerSerializer
 
     def get_queryset(self):
@@ -796,7 +802,10 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class ProductViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.ProductSerializer
     filterset_class = filters.ProductFilter
 
