@@ -136,14 +136,11 @@ class FSEAccessPermissions(BasePermission):
     def has_permission(self, request, view):
         org_id = request.user.get_default_organization().id
         curr_role = request.user.get_organization_role(org_id)
-        if models.Role.END_USER == curr_role:
-            return (
-                request.user.profile.fse_accessible and request.method in SAFE_METHODS
-            )
+
         return (
             request.user.is_superuser
             or models.Role.FSE_ADMIN == curr_role
-            or request.method in SAFE_METHODS
+            or (request.user.profile.fse_accessible and request.method in SAFE_METHODS)
         )
 
 
