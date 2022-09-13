@@ -342,6 +342,13 @@ const TopViewBtns = ({
     );
   };
 
+  const renderAddConditionally = () => {
+    if (path === organizations && currentUser?.is_superuser) return true;
+    if (path === "systems" && currentUser?.role !== "end-user") return true;
+    if (path !== activeUsers && currentUser?.role !== "end-user") return true;
+    return false;
+  };
+
   return (
     <>
       <Box
@@ -522,15 +529,7 @@ const TopViewBtns = ({
               }}
             />
           </Box>
-          {currentUser?.is_superuser &&
-            currentUser?.role !== "end-user" &&
-            path === organizations &&
-            path !== activeUsers &&
-            createAddButton()}
-          {path !== organizations &&
-            currentUser?.role !== "end-user" &&
-            path !== activeUsers &&
-            createAddButton()}
+          {renderAddConditionally() && createAddButton()}
         </Box>
       </Box>
     </>
