@@ -409,7 +409,7 @@ class SystemTestCase(BaseTestCase):
         response = self.client.post(
             "/api/products/",
             data={
-                "name": "manufacturers-36",
+                "name": "product-36",
                 "manufacturer": manufacuturer_obj.id,
             },
         )
