@@ -61,7 +61,7 @@
     "@babel/preset-typescript": "^7.18.6",
     "@rtk-query/codegen-openapi": "^1.0.0",
     "babel-loader": "^8.2.5",
-    "core-js": "^3.25.0",
+    "core-js": "^3.25.1",
     "css-loader": "^6.7.1",
     "miragejs": "^0.1.45",
     "openapi-typescript": "^5.4.1",
