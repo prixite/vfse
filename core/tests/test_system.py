@@ -407,7 +407,7 @@ class SystemTestCase(BaseTestCase):
         self.client.force_login(self.end_user)
         manufacuturer_obj = factories.ManufacturerFactory(name="New manufactuere")
         response = self.client.post(
-            "/api/manufacturers/",
+            "/api/products/",
             data={
                 "name": "manufacturers-36",
                 "manufacturer": manufacuturer_obj.id,
