@@ -65,20 +65,47 @@ const isNonFieldError = (error: unknown): boolean => {
 
 const toastAPIError = (message: string, status?: number, data?: unknown) => {
   switch (true) {
-    case status === 400:
-      toast.error(`${status} The server was unable to understand the request`, {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
+    case status === 400: {
+      const errorOnePrint = data[Object.keys(data)[0]]; // For const dummyOne = { phone: ['text1'] }
+      const errorTwoPrint =
+        data[Object.keys(data)[0]][0][
+          Object.keys(data[Object.keys(data)[0]][0])[0]
+        ]; // For const dummyTwo = { membership: [ { phone: ['text2'] } ] }
+      if (
+        errorOnePrint[0].length !== 0 &&
+        errorOnePrint[0] !== "" &&
+        Array.isArray(errorOnePrint)
+      ) {
+        toast.error(`${errorOnePrint[0]}`, {
+          autoClose: 3000,
+          pauseOnHover: false,
+        });
+      } else if (Array.isArray(errorTwoPrint) && errorTwoPrint[0].length) {
+        toast.error(`${errorTwoPrint[0]}`, {
+          autoClose: 3000,
+          pauseOnHover: false,
+        });
+      } else {
+        toast.error(
+          `${status} The server was unable to understand the request`,
+          {
+            autoClose: 3000,
+            pauseOnHover: false,
+          }
+        );
+      }
       break;
-    case status === 401:
+    }
+
+    case status === 401: {
       toast.error(`${status} Unauthorized Request`, {
         autoClose: 3000,
         pauseOnHover: false,
       });
       break;
+    }
 
-    case status === 403:
+    case status === 403: {
       if (data?.detail && data.detail.length) {
         toast.error(`${data.detail}`);
       } else {
@@ -91,76 +118,22 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
         );
       }
       break;
+    }
 
-    case status === 404:
+    case status === 404: {
       toast.error(`${status} Requested resoure not found`, {
         autoClose: 3000,
         pauseOnHover: false,
       });
       break;
-
-    case status === 405:
-      toast.error(`${status} This method of request is not allowed`, {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      break;
-
-    case status === 406:
-      toast.error(`${status} Not acceptable`, {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      break;
-
-    case status === 407:
-      toast.error(`${status} Proxy Authentication Required`, {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      break;
-
-    case status === 412:
-      toast.error(`${status} Prerequisites Failed`, {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      break;
-
-    case status === 414:
-      toast.error(`${status} Request-uri too long`, {
-        autoClose: 3000,
-        pauseOnHover: false,
-      });
-      break;
-
-    case status < 500: {
-      const errorPrint = data[Object.keys(data)[0]][0]; //referentially equal
-      if (
-        errorPrint &&
-        errorPrint.length !== 0 &&
-        errorPrint !== "" &&
-        Object.keys(errorPrint).length !== 0 && // FalsyObject check
-        !Array.isArray(errorPrint) // Array Type
-      ) {
-        toast.error(`${data[Object.keys(data)[0]][0]}`, {
-          autoClose: 3000,
-          pauseOnHover: false,
-        });
-      } else {
-        toast.error(`Ran 2 ${message}`, {
-          autoClose: 3000,
-          pauseOnHover: false,
-        });
-      }
-      break;
     }
 
-    default:
+    default: {
       toast.error(message, {
         autoClose: 3000,
         pauseOnHover: false,
       });
+    }
   }
 };
 

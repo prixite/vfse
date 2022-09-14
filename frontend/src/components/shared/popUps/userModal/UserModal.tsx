@@ -392,11 +392,7 @@ export default function UserModal(props: Props) {
               }, 500);
             })
             .catch((err) => {
-              toastAPIError(
-                toastData.userAlreadyExists,
-                err.originalStatus,
-                err.data
-              );
+              toastAPIError(toastData.userAlreadyExists, err.status, err.data);
               setIsLoading(false);
             });
         }
@@ -433,7 +429,7 @@ export default function UserModal(props: Props) {
         }, 500);
       })
       .catch((error) => {
-        if (error?.originalStatus < 500) {
+        if (error?.status < 500) {
           const metaError = error.data.meta
             ? Object.keys(error.data.meta)[0] +
               ": " +
