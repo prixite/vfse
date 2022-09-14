@@ -72,16 +72,19 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
           Object.keys(data[Object.keys(data)[0]][0])[0]
         ]; // For const dummyTwo = { membership: [ { phone: ['text2'] } ] }
       if (
-        errorOnePrint[0].length !== 0 &&
-        errorOnePrint[0] !== "" &&
-        Array.isArray(errorOnePrint)
+        Array.isArray(errorTwoPrint) &&
+        errorTwoPrint[0].length !== 0 &&
+        errorTwoPrint[0] !== ""
       ) {
-        toast.error(`${errorOnePrint[0]}`, {
+        toast.error(`${errorTwoPrint[0]}`, {
           autoClose: 3000,
           pauseOnHover: false,
         });
-      } else if (Array.isArray(errorTwoPrint) && errorTwoPrint[0].length) {
-        toast.error(`${errorTwoPrint[0]}`, {
+      } else if (
+        Array.isArray(errorOnePrint) &&
+        errorOnePrint[0].length !== 0
+      ) {
+        toast.error(`${errorOnePrint[0]}`, {
           autoClose: 3000,
           pauseOnHover: false,
         });
