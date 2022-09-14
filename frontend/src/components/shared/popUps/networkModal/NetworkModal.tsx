@@ -171,7 +171,7 @@ export default function NetworkModal(props: Props) {
             .catch((error) => {
               toastAPIError(
                 toastData.saveHealthNetworkError,
-                error?.originalStatus,
+                error?.status,
                 error.data
               );
             });
@@ -207,7 +207,7 @@ export default function NetworkModal(props: Props) {
                 .catch(async (error) => {
                   toastAPIError(
                     toastData.addHealthNetworkError,
-                    error?.originalStatus,
+                    error?.status,
                     error.data
                   );
                   await deleteImageFromS3(data?.key);
@@ -217,7 +217,7 @@ export default function NetworkModal(props: Props) {
           .catch((err) => {
             toastAPIError(
               toastData.uploadImageFailedError,
-              err.originalStatus,
+              err.status,
               err.data
             );
           });

@@ -168,11 +168,7 @@ export default function SiteModal(props: siteProps) {
           }, 500);
         })
         .catch((err) => {
-          toastAPIError(
-            toastData.siteAlreadyExistsError,
-            err.originalStatus,
-            err.data
-          );
+          toastAPIError(toastData.siteAlreadyExistsError, err.status, err.data);
           setIsLoading(false);
         });
     } else {

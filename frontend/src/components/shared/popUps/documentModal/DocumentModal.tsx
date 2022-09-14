@@ -219,11 +219,7 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            toastAPIError(
-              toastData.modalAlreadyExists,
-              err.originalStatus,
-              err.data
-            );
+            toastAPIError(toastData.modalAlreadyExists, err.status, err.data);
             setIsLoading(false);
           });
       }

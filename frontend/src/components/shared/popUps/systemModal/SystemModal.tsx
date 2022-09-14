@@ -211,15 +211,7 @@ export default function SystemModal(props: SystemProps) {
         toast.success(toastData.systemSaveSuccess);
       } catch (error) {
         setDisableButton(false);
-        if (error?.originalStatus < 500)
-          toastAPIError(
-            error.data[Object.keys(error.data)[0]][0],
-            error.status,
-            error.data
-          );
-        else {
-          toastAPIError(toastData.systemSaveError, error.status, error.data);
-        }
+        toastAPIError(toastData.systemSaveError, error.status, error.data);
       } finally {
         handleClear();
       }

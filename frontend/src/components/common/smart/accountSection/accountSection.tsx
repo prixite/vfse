@@ -81,12 +81,7 @@ const AccountSection = () => {
           });
         })
         .catch((err) => {
-          const metaErr =
-            err?.data?.meta?.profile_picture[0] ||
-            err?.data?.meta?.first_name[0] ||
-            err?.data?.meta?.last_name[0] ||
-            somethingWrong;
-          toastAPIError(metaErr, err.status, err.data);
+          toastAPIError(somethingWrong, err.status, err.data);
         });
     },
   });
