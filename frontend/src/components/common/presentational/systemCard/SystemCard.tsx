@@ -66,6 +66,7 @@ const SystemCard = ({
   setSystem,
   setIsOpen,
   canLeaveNotes,
+  currentUser,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -600,17 +601,21 @@ const SystemCard = ({
           <MenuItem onClick={() => onSupport()}>
             <span style={{ marginLeft: "12px" }}>{support}</span>
           </MenuItem>
-          <MenuItem onClick={onEdit}>
-            <span style={{ marginLeft: "12px" }}>{edit}</span>
-          </MenuItem>
+          {currentUser?.role !== "end-user" && (
+            <MenuItem onClick={onEdit}>
+              <span style={{ marginLeft: "12px" }}>{edit}</span>
+            </MenuItem>
+          )}
           {canLeaveNotes && (
             <MenuItem onClick={onComment}>
               <span style={{ marginLeft: "12px" }}>{comments}</span>
             </MenuItem>
           )}
-          <MenuItem onClick={() => setModal(true)}>
-            <span style={{ marginLeft: "12px" }}>{deleteText}</span>
-          </MenuItem>
+          {currentUser?.role !== "end-user" && (
+            <MenuItem onClick={() => setModal(true)}>
+              <span style={{ marginLeft: "12px" }}>{deleteText}</span>
+            </MenuItem>
+          )}
         </Menu>
       </div>
       <ConfirmationModal

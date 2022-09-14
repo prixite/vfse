@@ -81,7 +81,7 @@ const nameReg = /^[A-Za-z ]*$/;
 // eslint-disable-next-line
 const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 // eslint-disable-next-line
-const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+const phoneReg = /^(\+1)[0-9]{10}$/;
 
 const validationSchema = yup.object({
   userProfileImage: yup
@@ -99,12 +99,6 @@ const validationSchema = yup.object({
     .string()
     .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
     .required(constantsData.users.popUp.emailRequired),
-  phone: yup
-    .string()
-    .max(10, constantsData.users.popUp.phoneNumberValidation)
-    .matches(phoneReg)
-    .typeError(constantsData.users.popUp.invalidPhoneFormat) //TODO
-    .required(constantsData.users.popUp.phoneRequired),
 });
 
 window.Buffer = window.Buffer || Buffer;
@@ -113,6 +107,7 @@ export default function UserModal(props: Props) {
   const [page, setPage] = useState("1");
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPhoneError, setIsPhoneError] = useState("");
   const { toastData } = constantsData;
   const constantData = localizedData()?.users?.popUp;
   const {
@@ -467,7 +462,7 @@ export default function UserModal(props: Props) {
       first_name: formik.values.firstname,
       last_name: formik.values.lastname,
       email: formik.values.email,
-      phone: "+1" + formik.values.phone,
+      phone: `+1${formik.values.phone}`,
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
@@ -504,14 +499,16 @@ export default function UserModal(props: Props) {
   };
 
   const moveToNextPage = async () => {
+    const phoneValue = `+1${formik.values.phone}`;
     const errors = await formik.validateForm();
-    if (!Object.keys(errors).length) {
+    if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
       await setPage("2");
+      setIsPhoneError("");
     } else {
+      setIsPhoneError(constantsData.users.popUp.invalidPhoneFormat);
       setOnChangeValidation(true);
     }
   };
-
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
@@ -646,7 +643,7 @@ export default function UserModal(props: Props) {
                     }}
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {formik.errors.phone}
+                    {isPhoneError}
                   </p>
                 </div>
               </div>

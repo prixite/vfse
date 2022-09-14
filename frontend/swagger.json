@@ -1447,7 +1447,15 @@
             "get": {
                 "operationId": "users_active_users_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2329,6 +2337,36 @@
             },
             "parameters": []
         },
+        "/vfse/user/me/activity/": {
+            "get": {
+                "operationId": "vfse_user_me_activity_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/RecentActivity"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "vfse"
+                ]
+            },
+            "parameters": []
+        },
         "/vfse/user/topic/": {
             "get": {
                 "operationId": "vfse_user_topic_list",
@@ -2452,7 +2490,7 @@
                 }
             },
             "default": {
-                "profile_picture": "https://vfse.demo.prixite.com/static/assets/profile.png",
+                "profile_picture": "https://app.vfse.io/static/assets/profile.png",
                 "title": ""
             }
         },

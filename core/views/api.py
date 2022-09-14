@@ -22,6 +22,7 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from core import filters, models, permissions, serializers, utils
 from core.views import mixins
+from vfse import pagination
 
 
 class ChatBotView(APIView):
@@ -333,7 +334,10 @@ class OrganizationAllSitesViewSet(ListAPIView):
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters
 
@@ -383,7 +387,10 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 
 
 class SystemViewSet(OrganizationSystemViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     lookup_url_kwarg = "system_pk"
 
     def update_from_influx(self, request, *args, **kwargs):
@@ -681,7 +688,10 @@ class ModalityManufacturerViewSet(ModelViewSet):
 
 
 class ProductModelViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     filterset_class = filters.ProductModelFilter
 
     def get_queryset(self):
@@ -704,7 +714,10 @@ class ProductModelViewSet(ModelViewSet):
 
 
 class ManfucturerViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.ManufacturerSerializer
 
     def get_queryset(self):
@@ -790,7 +803,10 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 
 
 class ProductViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationIsAdminPermission,
+    ]
     serializer_class = serializers.ProductSerializer
     filterset_class = filters.ProductFilter
 
@@ -862,6 +878,7 @@ class UserRolesView(ModelViewSet):
 
 class ActiveUsersViewSet(ListAPIView):
     serializer_class = serializers.UserSerializer
+    pagination_class = pagination.TopicPagination
 
     def get_queryset(self):
         return models.User.objects.filter(

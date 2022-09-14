@@ -3,14 +3,14 @@ import { useEffect, useMemo, useState } from "react";
 import { Pagination, Stack } from "@mui/material";
 
 import { parseLink } from "@src/helpers/paging";
-import { useVfseUserTopicListQuery } from "@src/store/reducers/api";
+import { api } from "@src/store/reducers/api";
 
 import ProfileTimelineCards from "../../presentational/profileTimeLineCards/ProfileTimeLineCards";
 
 const MyTopics = () => {
   const [paginatedTopics, setPaginatedTopics] = useState([]);
   const [page, setPage] = useState(1);
-  const { data: topicsList } = useVfseUserTopicListQuery({
+  const { data: topicsList, isLoading } = api.useVfseUserTopicListQuery({
     page,
   });
 
@@ -31,7 +31,7 @@ const MyTopics = () => {
     [topicsList]
   );
 
-  return (
+  return !isLoading ? (
     <>
       {paginatedTopics?.map((item) => {
         return (
@@ -68,6 +68,8 @@ const MyTopics = () => {
         </Stack>
       )}
     </>
+  ) : (
+    ""
   );
 };
 

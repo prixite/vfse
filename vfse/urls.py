@@ -89,6 +89,7 @@ urlpatterns = [
         ),
     ),
     path("user/activity/", api.TopicActivityViewSet.as_view()),
+    path("user/me/activity/", api.MyTopicActivityViewSet.as_view()),
     path("user/topic/", api.MyTopicsViewSet.as_view({"get": "list"})),
     path("dashboard/", api.DashboardView.as_view()),
     path("topics/popular/", api.PopularTopicsViewset.as_view({"get": "list"})),
