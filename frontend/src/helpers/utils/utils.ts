@@ -73,7 +73,7 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
         ]; // For const dummyTwo = { membership: [ { phone: ['text2'] } ] }
       if (
         Array.isArray(errorTwoPrint) &&
-        errorTwoPrint[0].length !== 0 &&
+        errorTwoPrint[0].length &&
         errorTwoPrint[0] !== ""
       ) {
         toast.error(`${errorTwoPrint[0]}`, {
@@ -82,7 +82,8 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
         });
       } else if (
         Array.isArray(errorOnePrint) &&
-        errorOnePrint[0].length !== 0
+        errorOnePrint[0].length &&
+        errorOnePrint[0] !== ""
       ) {
         toast.error(`${errorOnePrint[0]}`, {
           autoClose: 3000,
