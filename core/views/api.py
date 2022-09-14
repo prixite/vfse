@@ -537,6 +537,7 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(data, user.id)
             self.add_sites(data, user.id)
             self.add_modalities(data, user.id)
+            self.add_user_systems(data, user.id)
         serializer.save()
 
 

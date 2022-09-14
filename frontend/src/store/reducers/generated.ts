@@ -1255,6 +1255,7 @@ export type UserRequestAccess = {
   manager?: number;
   organization: number;
   sites?: number[];
+  user_systems?: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
@@ -1488,6 +1489,7 @@ export type UpsertUser = {
   manager?: number;
   organization: number;
   sites?: number[];
+  user_systems?: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;

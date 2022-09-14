@@ -2568,6 +2568,13 @@
                     },
                     "uniqueItems": true
                 },
+                "user_systems": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
                 "modalities": {
                     "type": "array",
                     "items": {
@@ -3691,6 +3698,13 @@
                     "type": "integer"
                 },
                 "sites": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "uniqueItems": true
+                },
+                "user_systems": {
                     "type": "array",
                     "items": {
                         "type": "integer"
