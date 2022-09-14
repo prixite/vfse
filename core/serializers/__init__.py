@@ -322,6 +322,11 @@ class UpsertUserSerializer(serializers.Serializer):
         queryset=models.Site.objects.all(),
         required=False,
     )
+    user_systems = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=models.UserSystem.objects.all(),
+        required=False,
+    )
     modalities = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=models.Modality.objects.all(),

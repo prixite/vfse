@@ -55,12 +55,14 @@ class UserMixin:
                 ).distinct()
             ]
         )
+
+    def add_user_systems(self, data, user_id):
         models.UserSystem.objects.bulk_create(
             [
                 models.UserSystem(
                     user_id=user_id, organization=data["organization"], system=system
                 )
-                for system in data["systems"]
+                for system in data["user_systems"]
             ]
         )
 
