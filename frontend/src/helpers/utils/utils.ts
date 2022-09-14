@@ -63,29 +63,24 @@ const isNonFieldError = (error: unknown): boolean => {
   return false;
 };
 
+function iterateDeepObj(obj: unknown) {
+  if (typeof obj === "string") {
+    return obj;
+  }
+  if (obj[Object.keys(obj)[0]]) {
+    return iterateDeepObj(obj[Object.keys(obj)[0]]);
+  }
+  return obj;
+}
+
 const toastAPIError = (message: string, status?: number, data?: unknown) => {
-  switch (true) {
-    case status === 400: {
-      const errorOnePrint = data[Object.keys(data)[0]]; // For const dummyOne = { phone: ['text1'] }
-      const errorTwoPrint =
-        data[Object.keys(data)[0]][0][
-          Object.keys(data[Object.keys(data)[0]][0])[0]
-        ]; // For const dummyTwo = { membership: [ { phone: ['text2'] } ] }
-      if (
-        Array.isArray(errorTwoPrint) &&
-        errorTwoPrint[0].length &&
-        errorTwoPrint[0] !== ""
-      ) {
-        toast.error(`${errorTwoPrint[0]}`, {
-          autoClose: 3000,
-          pauseOnHover: false,
-        });
-      } else if (
-        Array.isArray(errorOnePrint) &&
-        errorOnePrint[0].length &&
-        errorOnePrint[0] !== ""
-      ) {
-        toast.error(`${errorOnePrint[0]}`, {
+  switch (status) {
+    case 400: {
+      // For const dummyTwo = { membership: [ { phone: ['text2'] } ] }
+      // For const dummyOne = { phone: ['text1'] }
+      const errorToPrint = iterateDeepObj(data);
+      if (errorToPrint) {
+        toast.error(errorToPrint, {
           autoClose: 3000,
           pauseOnHover: false,
         });
@@ -101,7 +96,7 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
       break;
     }
 
-    case status === 401: {
+    case 401: {
       toast.error(`${status} Unauthorized Request`, {
         autoClose: 3000,
         pauseOnHover: false,
@@ -109,7 +104,7 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
       break;
     }
 
-    case status === 403: {
+    case 403: {
       if (data?.detail && data.detail.length) {
         toast.error(`${data.detail}`);
       } else {
@@ -124,7 +119,7 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
       break;
     }
 
-    case status === 404: {
+    case 404: {
       toast.error(`${status} Requested resoure not found`, {
         autoClose: 3000,
         pauseOnHover: false,
