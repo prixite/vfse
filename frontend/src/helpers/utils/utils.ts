@@ -105,17 +105,13 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
     }
 
     case 403: {
-      if (data?.detail && data.detail.length) {
-        toast.error(`${data.detail}`);
-      } else {
-        toast.error(
-          `Forbidden Request: Execution of access to this resource is forbidden.`,
-          {
-            autoClose: 3000,
-            pauseOnHover: false,
-          }
-        );
-      }
+      toast.error(
+        `Forbidden Request: Execution of access to this resource is forbidden.`,
+        {
+          autoClose: 3000,
+          pauseOnHover: false,
+        }
+      );
       break;
     }
 
