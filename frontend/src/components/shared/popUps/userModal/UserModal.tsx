@@ -20,7 +20,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -30,6 +29,7 @@ import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   addNewUserService,
@@ -84,7 +84,7 @@ const nameReg = /^[A-Za-z ]*$/;
 // eslint-disable-next-line
 const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 // eslint-disable-next-line
-const phoneReg = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g;
+const phoneReg = /^(\+1)[0-9]{10}$/;
 
 const validationSchema = yup.object({
   userProfileImage: yup
@@ -102,12 +102,6 @@ const validationSchema = yup.object({
     .string()
     .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
     .required(constantsData.users.popUp.emailRequired),
-  phone: yup
-    .string()
-    .max(10, constantsData.users.popUp.phoneNumberValidation)
-    .matches(phoneReg)
-    .typeError(constantsData.users.popUp.invalidPhoneFormat) //TODO
-    .required(constantsData.users.popUp.phoneRequired),
 });
 
 window.Buffer = window.Buffer || Buffer;
@@ -116,6 +110,7 @@ export default function UserModal(props: Props) {
   const [page, setPage] = useState("1");
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPhoneError, setIsPhoneError] = useState("");
   const { toastData } = constantsData;
   const constantData = localizedData()?.users?.popUp;
   const {
@@ -457,11 +452,8 @@ export default function UserModal(props: Props) {
                 setIsLoading(false);
               }, 500);
             })
-            .catch(() => {
-              toast.error(toastData.userAlreadyExists, {
-                autoClose: 2000,
-                pauseOnHover: false,
-              });
+            .catch((err) => {
+              toastAPIError(toastData.userAlreadyExists, err.status, err.data);
               setIsLoading(false);
             });
         }
@@ -498,19 +490,7 @@ export default function UserModal(props: Props) {
         }, 500);
       })
       .catch((error) => {
-        if (error?.status < 500) {
-          const metaError = error.data.meta
-            ? Object.keys(error.data.meta)[0] +
-              ": " +
-              error.data.meta[Object.keys(error.data.meta)[0]][0]
-            : error.data[Object.keys(error.data)[0]][0];
-          toast.error(metaError, {
-            autoClose: 2000,
-            pauseOnHover: false,
-          });
-        } else {
-          toast.error(toastData.saveUserError);
-        }
+        toastAPIError(toastData.saveUserError, error.status, error.data);
         setIsLoading(false);
       });
   };
@@ -530,7 +510,7 @@ export default function UserModal(props: Props) {
       first_name: formik.values.firstname,
       last_name: formik.values.lastname,
       email: formik.values.email,
-      phone: "+1" + formik.values.phone,
+      phone: `+1${formik.values.phone}`,
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
@@ -568,19 +548,20 @@ export default function UserModal(props: Props) {
   };
 
   const moveToNextPage = async () => {
+    const phoneValue = `+1${formik.values.phone}`;
     const errors = await formik.validateForm();
-    if (!Object.keys(errors).length) {
+    if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
       await setPage("2");
+      setIsPhoneError("");
     } else {
+      setIsPhoneError(constantsData.users.popUp.invalidPhoneFormat);
       setOnChangeValidation(true);
     }
   };
-
   const { data: systemsList, isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
       id: useSelectedOrganization()?.id?.toString(),
     });
-
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
@@ -715,7 +696,7 @@ export default function UserModal(props: Props) {
                     }}
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {formik.errors.phone}
+                    {isPhoneError}
                   </p>
                 </div>
               </div>

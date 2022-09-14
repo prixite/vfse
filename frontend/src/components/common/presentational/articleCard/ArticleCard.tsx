@@ -70,7 +70,7 @@ const ArticleCard = ({
         toastAPIError(
           "Problem occured while deleting Folder",
           error.status,
-          error.data
+          error?.data
         );
       });
   };

@@ -26,6 +26,7 @@ import AddManufacturerModal from "@src/components/shared/popUps/addManufacturerM
 import ProductModal from "@src/components/shared/popUps/productModal/productModal";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
@@ -210,9 +211,7 @@ export default function SystemModal(props: SystemProps) {
         toast.success(toastData.systemSaveSuccess);
       } catch (error) {
         setDisableButton(false);
-        if (error?.status < 500)
-          toast.error(error.data[Object.keys(error.data)[0]][0]);
-        else toast.error(toastData.systemSaveError);
+        toastAPIError(toastData.systemSaveError, error.status, error.data);
       } finally {
         handleClear();
       }

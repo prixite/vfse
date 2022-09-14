@@ -4,8 +4,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
 import { Box, Grid, TextField } from "@mui/material";
-import { toast } from "react-toastify";
 
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constants from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -46,26 +46,19 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
         setArrayToDiplay((oldArray) => [...oldArray, `${responseText}`]);
       })
       .catch((err) => {
-        if (err?.status > 500) {
+        if (err?.originalStatus === 500) {
           setArrayToDiplay((oldArray) => [
             ...oldArray,
             `I'm sorry, I don't understand. Could you say it again?`,
           ]);
+          toastAPIError(toastData.chatBoxReqProceedError, err.status, err.data);
         } else {
           setArrayToDiplay((oldArray) => [
             ...oldArray,
             `Re-establish connection. Some Error ${err?.originalStatus} occured.`,
           ]);
+          toastAPIError(toastData.chatBoxErrorOcccured, err.status, err.data);
         }
-        toast.error(
-          err.originalStatus === 500
-            ? `${toastData.chatBoxReqProceedError}`
-            : `${toastData.chatBoxErrorOcccured} ${err?.error}.`,
-          {
-            autoClose: 1000,
-            pauseOnHover: false,
-          }
-        );
       })
       .finally(() => {
         resetQuery();

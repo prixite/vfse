@@ -36,6 +36,7 @@ const SystemCardMobile = ({
   system,
   handleEdit,
   canLeaveNotes,
+  currentUser,
 }: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
@@ -253,17 +254,21 @@ const SystemCardMobile = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
-          <MenuItem onClick={onEdit}>
-            <span style={{ marginLeft: "12px" }}>{edit}</span>
-          </MenuItem>
+          {currentUser?.role !== "end-user" && (
+            <MenuItem onClick={onEdit}>
+              <span style={{ marginLeft: "12px" }}>{edit}</span>
+            </MenuItem>
+          )}
           {canLeaveNotes && (
             <MenuItem onClick={onComment}>
               <span style={{ marginLeft: "12px" }}>{comments}</span>
             </MenuItem>
           )}
-          <MenuItem onClick={() => setModal(true)}>
-            <span style={{ marginLeft: "12px" }}>{deleteText}</span>
-          </MenuItem>
+          {currentUser?.role !== "end-user" && (
+            <MenuItem onClick={() => setModal(true)}>
+              <span style={{ marginLeft: "12px" }}>{deleteText}</span>
+            </MenuItem>
+          )}
         </Menu>
       </div>
       <ConfirmationModal

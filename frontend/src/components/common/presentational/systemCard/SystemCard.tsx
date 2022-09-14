@@ -32,6 +32,7 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
@@ -65,6 +66,7 @@ const SystemCard = ({
   setSystem,
   setIsOpen,
   canLeaveNotes,
+  currentUser,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -170,10 +172,7 @@ const SystemCard = ({
 
   const webSSHConnection = (msg: { id: string; status: string }) => {
     if (msg.id === null) {
-      toast.error(msg.status, {
-        autoClose: 2000,
-        pauseOnHover: true,
-      });
+      toastAPIError(msg.status);
       setLoginProgress(false);
     } else {
       setLoginProgress(false);
@@ -380,12 +379,9 @@ const SystemCard = ({
           .then((res) => res.json())
           .then((res) => webSSHConnection(res));
       }
-    } catch (error) {
+    } catch (err) {
       setLoginProgress(false);
-      toast.error(toastData.systemCardConnectionError, {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
+      toastAPIError(toastData.systemCardConnectionError, err.status, err.data);
     }
   };
   return (
@@ -605,17 +601,21 @@ const SystemCard = ({
           <MenuItem onClick={() => onSupport()}>
             <span style={{ marginLeft: "12px" }}>{support}</span>
           </MenuItem>
-          <MenuItem onClick={onEdit}>
-            <span style={{ marginLeft: "12px" }}>{edit}</span>
-          </MenuItem>
+          {currentUser?.role !== "end-user" && (
+            <MenuItem onClick={onEdit}>
+              <span style={{ marginLeft: "12px" }}>{edit}</span>
+            </MenuItem>
+          )}
           {canLeaveNotes && (
             <MenuItem onClick={onComment}>
               <span style={{ marginLeft: "12px" }}>{comments}</span>
             </MenuItem>
           )}
-          <MenuItem onClick={() => setModal(true)}>
-            <span style={{ marginLeft: "12px" }}>{deleteText}</span>
-          </MenuItem>
+          {currentUser?.role !== "end-user" && (
+            <MenuItem onClick={() => setModal(true)}>
+              <span style={{ marginLeft: "12px" }}>{deleteText}</span>
+            </MenuItem>
+          )}
         </Menu>
       </div>
       <ConfirmationModal
