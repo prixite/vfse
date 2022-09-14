@@ -12,12 +12,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { SiteModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
-import {
-  returnSearchedOject,
-  isNonFieldError,
-  getNonFieldError,
-  toastAPIError,
-} from "@src/helpers/utils/utils";
+import { returnSearchedOject, toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   addNewSiteService,
@@ -111,11 +106,7 @@ export default function SiteModal(props: siteProps) {
         setReset(false);
       })
       .catch((error) => {
-        if (isNonFieldError(error)) {
-          toastAPIError(getNonFieldError(error), error.status, error.data);
-        } else {
-          toastAPIError(toastData.saveSiteError, error.status, error.data);
-        }
+        toastAPIError(toastData.saveSiteError, error.status, error.data);
       })
       .finally(() => setIsLoading(false));
   };

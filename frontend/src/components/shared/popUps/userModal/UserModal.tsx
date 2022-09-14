@@ -429,16 +429,7 @@ export default function UserModal(props: Props) {
         }, 500);
       })
       .catch((error) => {
-        if (error?.status < 500) {
-          const metaError = error.data.meta
-            ? Object.keys(error.data.meta)[0] +
-              ": " +
-              error.data.meta[Object.keys(error.data.meta)[0]][0]
-            : error.data[Object.keys(error.data)[0]][0];
-          toastAPIError(metaError, error.status, error.data);
-        } else {
-          toastAPIError(toastData.saveUserError, error.status, error.data);
-        }
+        toastAPIError(toastData.saveUserError, error.status, error.data);
         setIsLoading(false);
       });
   };
