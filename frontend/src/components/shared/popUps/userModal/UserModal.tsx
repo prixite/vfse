@@ -26,6 +26,7 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
+import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
@@ -241,6 +242,7 @@ export default function UserModal(props: Props) {
     const editedUser: User = usersData?.filter((user) => {
       return user?.id == props?.selectedUser;
     })[0];
+
     if (editedUser?.image?.length) {
       formik.setValues({
         ...formik.values,
@@ -347,7 +349,23 @@ export default function UserModal(props: Props) {
   };
 
   const handleSitesSelection = (e) => {
-    const val = parseInt(e.target.value);
+    const val = parseInt(e?.target?.value || e);
+
+    const systems = systemsList
+      ?.filter((item) => item?.site === val)
+      .map((item) => item?.id);
+
+    if (e.target.checked) {
+      systems.forEach((item) => {
+        if (!formik.values.selectedSystems.includes(item)) {
+          formik.setFieldValue("selectedSystems", [
+            ...formik.values.selectedSystems,
+            item,
+          ]);
+        }
+      });
+    }
+
     if (formik.values.selectedSites.indexOf(val) > -1) {
       formik.values.selectedSites?.splice(
         formik.values.selectedSites?.indexOf(val),
@@ -362,7 +380,11 @@ export default function UserModal(props: Props) {
     }
   };
 
-  const handleSystemSelection = (e) => {
+  const handleSystemSelection = (e, site) => {
+    if (e.target.checked && !formik.values.selectedSites.includes(site)) {
+      handleSitesSelection(site);
+    }
+
     const val = parseInt(e.target.value);
     if (formik.values.selectedSystems.indexOf(val) > -1) {
       formik.values.selectedSystems?.splice(
@@ -371,10 +393,23 @@ export default function UserModal(props: Props) {
       );
       formik.setFieldValue(selectedSystems, [...formik.values.selectedSystems]);
     } else {
-      formik.setFieldValue(selectedSystems, [
+      formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
         val,
       ]);
+    }
+    const systems = systemsList?.filter((item) => item?.site === site);
+
+    const systemExists = systems.some((item) =>
+      formik.values.selectedSystems.includes(item?.id)
+    );
+
+    if (
+      !e.target.checked &&
+      formik.values.selectedSites.includes(site) &&
+      !systemExists
+    ) {
+      handleSitesSelection(site);
     }
   };
 
@@ -829,64 +864,16 @@ export default function UserModal(props: Props) {
                           const systems = systemsList?.filter(
                             (item) => item?.site === site?.id
                           );
-                          if (systems && systems?.length > 0) {
-                            return (
-                              <div key={key}>
-                                <details className="network-details">
-                                  <summary
-                                    className="header"
-                                    style={{ cursor: "pointer" }}
-                                  >
-                                    <span className="title">{site?.name}</span>
-                                  </summary>
-                                  {systems?.map((system, key) => (
-                                    <FormGroup
-                                      key={key}
-                                      style={{ marginLeft: "20px" }}
-                                      className="options"
-                                    >
-                                      <FormControlLabel
-                                        control={
-                                          <Checkbox
-                                            onChange={handleSystemSelection}
-                                            checked={formik.values.selectedSystems.includes(
-                                              system?.id
-                                            )}
-                                            value={system?.id}
-                                            name={system?.name}
-                                            color="primary"
-                                          />
-                                        }
-                                        label={system?.name}
-                                      />
-                                    </FormGroup>
-                                  ))}
-                                </details>
-                              </div>
-                            );
-                          } else
-                            return (
-                              <FormGroup
-                                key={key}
-                                style={{ marginLeft: "20px" }}
-                                className="options"
-                              >
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      onChange={handleSitesSelection}
-                                      checked={formik.values.selectedSites.includes(
-                                        site?.id
-                                      )}
-                                      value={site?.id}
-                                      name={site?.name}
-                                      color="primary"
-                                    />
-                                  }
-                                  label={site?.name}
-                                />
-                              </FormGroup>
-                            );
+                          return (
+                            <SitesMenu
+                              key={key}
+                              site={site}
+                              systems={systems}
+                              formik={formik}
+                              handleSitesSelection={handleSitesSelection}
+                              handleSystemSelection={handleSystemSelection}
+                            />
+                          );
                         })}
                     </div>
                   </>

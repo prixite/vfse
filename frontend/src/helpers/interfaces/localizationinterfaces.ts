@@ -45,6 +45,7 @@ export interface PopUp {
   userProfileImage: string;
   phone: string;
   selectedSites: string;
+  selectedSystems: string;
   selectedModalities: string;
   accessToFSEFunctions: string;
   auditEnable: string;
