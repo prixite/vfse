@@ -19,6 +19,7 @@ import { AppearanceFormState } from "@src/components/shared/popUps/systemModalIn
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   useAppSelector,
@@ -180,8 +181,12 @@ const AppearanceSection = () => {
         organization: currentOrganiationDummyData,
       }).unwrap();
       toast.success(toastData.appearanceSectionClientUpdateSuccess);
-    } catch {
-      toast.error(toastData.appearanceSectionClientUpdateError);
+    } catch (err) {
+      toastAPIError(
+        toastData.appearanceSectionClientUpdateError,
+        err.status,
+        err.data
+      );
     }
   };
 

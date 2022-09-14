@@ -16,6 +16,7 @@ import {
   deleteImageFromS3,
   uploadImageToS3,
 } from "@src/helpers/utils/imageUploadUtils";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import { updateUsernameService } from "@src/services/userService";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
@@ -57,19 +58,13 @@ const EditProfilePicModal = ({ open, setOpen }) => {
             setOpen(false);
             refetch();
           })
-          .catch(async () => {
-            toast.error("Something went wrong.", {
-              autoClose: timeOut,
-              pauseOnHover: false,
-            });
+          .catch(async (err) => {
+            toastAPIError("Something went wrong.", err.status, err.data);
             await deleteImageFromS3(selectedImage[0]);
           });
       })
-      .catch(() => {
-        toast.error("Something went wrong.", {
-          autoClose: timeOut,
-          pauseOnHover: false,
-        });
+      .catch((err) => {
+        toastAPIError("Something went wrong", err.status, err.data);
       });
   };
 

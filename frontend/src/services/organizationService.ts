@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 
 import { timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 
 const DeleteOrganizationService = async (id, deleteOrganization) => {
   await deleteOrganization({
@@ -101,11 +102,8 @@ const addNewHealthNetworksService = async (
         pauseOnHover: false,
       });
     })
-    .catch((error) => {
-      toast.error(error.data[0], {
-        autoClose: 1000,
-        pauseOnHover: false,
-      });
+    .catch((err) => {
+      toastAPIError("Unable to add HealthNetwork.", err.status, err.data);
     });
 };
 export {

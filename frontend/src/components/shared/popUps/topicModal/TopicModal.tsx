@@ -24,6 +24,7 @@ import DropzoneBox from "@src/components/common/presentational/dropzoneBox/Dropz
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { categories, timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
@@ -124,10 +125,7 @@ export default function TopicModal({ open, handleClose }: Props) {
         });
       })
       .catch((err) => {
-        toast.error(`${toastData.topicCreatedError} ${err}`, {
-          autoClose: 3000,
-          pauseOnHover: false,
-        });
+        toastAPIError(toastData.topicCreatedError, err?.status, err.data);
       })
       .finally(() => {
         setIsLoading(false);

@@ -10,6 +10,7 @@ import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import CategoryEditModal from "@src/components/shared/popUps/categoryEditModal/categoryEditModal";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { constants, timeOut } from "@src/helpers/utils/constants";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { Category } from "@src/store/reducers/api";
 import { useVfseCategoriesDeleteMutation } from "@src/store/reducers/generated";
@@ -46,11 +47,8 @@ const CategoryOptionsSection = ({ category, id }) => {
         });
         handleCloseDeleteCategoryModal();
       })
-      .catch(() => {
-        toast.error(toastData.categoryDeleteError, {
-          autoClose: 2000,
-          pauseOnHover: false,
-        });
+      .catch((err) => {
+        toastAPIError(toastData.categoryDeleteError, err.status, err.data);
         handleCloseDeleteCategoryModal();
       });
   };
