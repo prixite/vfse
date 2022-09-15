@@ -93,7 +93,7 @@ class UserTestCase(BaseTestCase):
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, False)
 
-    def test_user_deactivate_saad(self):
+    def test_user_deactivate_by_view_only_is_unaccesible(self):
         for user in [self.view_only]:
             self.client.force_login(user)
 
@@ -119,7 +119,7 @@ class UserTestCase(BaseTestCase):
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, True)
 
-    def test_user_activate_saad(self):
+    def test_user_activate_by_view_only_is_unaccesible(self):
         for user in [self.view_only]:
             self.client.force_login(user)
 
