@@ -166,13 +166,8 @@ export default function SideBar() {
   // this function creates the links and collapses that appear in the sidebar (left menu)
   const createLinks = () => {
     if (me?.flags) {
-      // eslint-disable-next-line no-unsafe-optional-chaining
-      const flags = [...me?.flags];
-      if (me?.fse_accessible && !flags.includes("vfse")) {
-        flags.push("vfse");
-      }
       return routes
-        .filter((item) => flags?.indexOf(item.flag) !== -1)
+        .filter((item) => me?.flags?.indexOf(item.flag) !== -1)
         .map((prop: routeItem, key) => {
           return prop.name !== vFSE ? (
             <Fragment key={key}>

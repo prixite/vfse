@@ -67,7 +67,6 @@ class DocumentViewSet(ModelViewSet):
 class CommentViewset(ModelViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.FSEAccessPermissions,
     ]
     serializer_class = serializers.CommentSerializer
     pagination_class = pagination.TopicPagination
@@ -96,7 +95,6 @@ class CommentViewset(ModelViewSet):
 class ReplyViewSet(ModelViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.FSEAccessPermissions,
     ]
     serializer_class = serializers.CommentSerializer
     pagination_class = pagination.TopicPagination
@@ -113,10 +111,7 @@ class ReplyViewSet(ModelViewSet):
 
 
 class TopicViewset(ModelViewSet):
-    permission_classes = [
-        permissions.ViewOnlyPermissions,
-        permissions.FSEAccessPermissions,
-    ]
+    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.TopicSerializer
     filterset_class = filters.TopicFilterSet
     pagination_class = pagination.TopicPagination
@@ -129,7 +124,18 @@ class TopicViewset(ModelViewSet):
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Topic.objects.none()
-        return models.Topic.objects.annotate(
+        topics = models.Topic.objects.filter(user=self.request.user)
+        curr_role = self.request.user.get_organization_role(
+            self.request.user.get_default_organization().id
+        )
+        if (
+            self.request.user.is_superuser
+            or core_models.Role.FSE_ADMIN == curr_role
+            or self.action in ["list", "retrieve"]
+        ):
+            topics = models.Topic.objects.all()
+
+        return topics.annotate(
             number_of_followers=Count("followers", distinct=True),
             number_of_comments=Count(
                 "comments", distinct=True, filter=Q(comments__parent__isnull=True)
