@@ -202,34 +202,64 @@ class UserTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), users)
 
-    # def test_scope_user_post(self):
-    #     self.client.force_login(self.super_admin)
-    #     user = factories.UserFactory()
-    #     user_data = {
-    #                 "memberships": [
-    #                     {
-    #                     "meta": {
-    #                         "profile_picture": "http://example.com/profilepic.jpg",
-    #                         "title": "Mr.",
-    #                     },
-    #                     "first_name": "string",
-    #                     "last_name": "string",
-    #                     "email": "user@example.com",
-    #                     "phone": "string",
-    #                     "role": models.Role.FSE,
-    #                     "manager": self.customer_admin.id,
-    #                     "organization": self.organization.id,
-    #                     "sites": [self.site.id],
-    #                     "modalities": [self.modality.id],
-    #                     "fse_accessible": "false",
-    #                     "audit_enabled": "false",
-    #                     "can_leave_notes": "false",
-    #                     "view_only": "false",
-    #                     "is_one_time": "false",
-    #                     "documentation_url": "true"
-    #                     }
-    #                 ]
-    #                 }
-    #     response = self.client.patch(f"/api/scope/{user.id}/users/", data=user_data)
-    #     print(response.json)
-    #     self.assertEqual(response.status_code, 201)
+    def test_scope_user_post(self):
+        self.client.force_login(self.super_admin)
+        user = factories.UserFactory()
+        user_data = {
+            "memberships": [
+                {
+                    "meta": {
+                        "profile_picture": "http://example.com/profilepic.jpg",
+                        "title": "Mr.",
+                    },
+                    "first_name": "string",
+                    "last_name": "string",
+                    "email": "user@example.com",
+                    "phone": "+12895980520",
+                    "role": models.Role.FSE,
+                    "manager": self.customer_admin.id,
+                    "organization": self.organization.id,
+                    "sites": [self.site.id],
+                    "modalities": [self.modality.id],
+                    "fse_accessible": "false",
+                    "audit_enabled": "false",
+                    "can_leave_notes": "false",
+                    "view_only": "false",
+                    "is_one_time": "false",
+                    "documentation_url": "true",
+                }
+            ]
+        }
+        response = self.client.post(f"/api/scope/{user.id}/users/", data=user_data)
+        self.assertEqual(response.status_code, 201)
+
+    def test_scope_user_post_read_only(self):
+        self.client.force_login(self.view_only)
+        user = factories.UserFactory()
+        user_data = {
+            "memberships": [
+                {
+                    "meta": {
+                        "profile_picture": "http://example.com/profilepic.jpg",
+                        "title": "Mr.",
+                    },
+                    "first_name": "string",
+                    "last_name": "string",
+                    "email": "user@example.com",
+                    "phone": "+12895980520",
+                    "role": models.Role.FSE,
+                    "manager": self.customer_admin.id,
+                    "organization": self.organization.id,
+                    "sites": [self.site.id],
+                    "modalities": [self.modality.id],
+                    "fse_accessible": "false",
+                    "audit_enabled": "false",
+                    "can_leave_notes": "false",
+                    "view_only": "false",
+                    "is_one_time": "false",
+                    "documentation_url": "true",
+                }
+            ]
+        }
+        response = self.client.post(f"/api/scope/{user.id}/users/", data=user_data)
+        self.assertEqual(response.status_code, 403)
