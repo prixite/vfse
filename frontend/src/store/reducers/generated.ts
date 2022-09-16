@@ -1340,6 +1340,7 @@ export type Me = {
   profile_picture: string;
   is_superuser?: boolean;
   can_leave_notes: boolean;
+  fse_accessible: boolean;
 };
 export type Modality = {
   id?: number;

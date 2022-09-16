@@ -205,6 +205,8 @@ class User(AbstractUser):
         ):
             flags |= to_modules[membership.role]
 
+        if self.profile.fse_accessible:
+            flags.add(vfse_flag)
         return sorted(flags)
 
     def get_site_systems(self, site_pk):
