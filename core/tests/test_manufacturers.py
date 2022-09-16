@@ -25,6 +25,13 @@ class ManufacturerTestCase(BaseTestCase):
             models.Manufacturer.objects.filter(name="Philips").exists(), True
         )
 
+    def test_manufacturer_post_by_end_user_is_unaccesible(self):
+        self.client.force_login(self.end_user)
+        response = self.client.post(
+            "/api/manufacturers/", data={"name": "manufacturers-36"}
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_list_manufacturer_images(self):
         self.client.force_login(self.super_admin)
         response = self.client.get("/api/manufacturers/images/")
