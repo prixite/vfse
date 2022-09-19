@@ -71,7 +71,7 @@ class UserMixin:
             models.UserModality(
                 user_id=user_id, modality=modality, organization=data["organization"]
             )
-            for modality in data["modalities"]
+            for modality in data["user_systems"]
         ]
         models.UserModality.objects.bulk_create(modalities)
 
