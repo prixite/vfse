@@ -335,7 +335,22 @@ export default function UserModal(props: Props) {
 
   const handleSitesSelection = (e) => {
     const val = parseInt(e?.target?.value || e);
+    const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
+    if (!systemInSiteExists) {
+      formik.setFieldValue("selectedSystems", [
+        ...formik.values.selectedSystems,
+        ...systemsSiteList.map((x) => x.id),
+      ]);
+    } else {
+      const selectedSystemsInSite = formik.values.selectedSystems.filter(
+        (x) => !systemsSiteList.some((j) => x === j.id)
+      );
+      formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
+    }
+    modifySelectedSiteList(val);
+  };
 
+  const modifySelectedSiteList = (val) => {
     const siteIndex = formik.values.selectedSites.indexOf(val);
     if (siteIndex > -1) {
       formik.values.selectedSites?.splice(siteIndex, 1);
@@ -348,17 +363,21 @@ export default function UserModal(props: Props) {
     }
   };
 
-  const handleSystemSelection = (e, site) => {
-    if (e.target.checked && !formik.values.selectedSites.includes(site)) {
-      handleSitesSelection(site);
-    }
+  const handelSitesOfSystem = (site) => {
+    const systemsSiteList = systemsList?.filter((item) => item?.site === site);
 
+    const systemInSiteExists = systemsSiteList.some((item) =>
+      formik.values.selectedSystems.includes(item?.id)
+    );
+
+    return { systemsSiteList, systemInSiteExists };
+  };
+
+  const handleSystemSelection = (e, site) => {
     const val = parseInt(e.target.value);
-    if (formik.values.selectedSystems.indexOf(val) > -1) {
-      formik.values.selectedSystems?.splice(
-        formik.values.selectedSystems?.indexOf(val),
-        1
-      );
+    const selectedSystemIndex = formik.values.selectedSystems.indexOf(val);
+    if (selectedSystemIndex > -1) {
+      formik.values.selectedSystems?.splice(selectedSystemIndex, 1);
       formik.setFieldValue(selectedSystems, [...formik.values.selectedSystems]);
     } else {
       formik.setFieldValue("selectedSystems", [
@@ -366,18 +385,19 @@ export default function UserModal(props: Props) {
         val,
       ]);
     }
-    const systems = systemsList?.filter((item) => item?.site === site);
 
-    const systemExists = systems.some((item) =>
-      formik.values.selectedSystems.includes(item?.id)
-    );
-
+    const { systemInSiteExists } = handelSitesOfSystem(site);
     if (
-      !e.target.checked &&
-      formik.values.selectedSites.includes(site) &&
-      !systemExists
+      !e.target.checked && //uncheck
+      formik.values.selectedSites.includes(site) && //site checked
+      !systemInSiteExists //system does not exist
     ) {
-      handleSitesSelection(site);
+      modifySelectedSiteList(site);
+    } else if (
+      e.target.checked &&
+      !formik.values.selectedSites.includes(site)
+    ) {
+      modifySelectedSiteList(site);
     }
   };
 
