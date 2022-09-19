@@ -336,7 +336,7 @@ class OrganizationAllSitesViewSet(ListAPIView):
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.OrganizationIsAdminPermission,
+        permissions.OrganizationEndUserReadOnlyPermission,
     ]
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters
@@ -389,7 +389,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 class SystemViewSet(OrganizationSystemViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.OrganizationIsAdminPermission,
+        permissions.OrganizationEndUserReadOnlyPermission,
     ]
     lookup_url_kwarg = "system_pk"
 
@@ -690,7 +690,7 @@ class ModalityManufacturerViewSet(ModelViewSet):
 class ProductModelViewSet(ModelViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.OrganizationIsAdminPermission,
+        permissions.EndUserReadOnlyPermission,
     ]
     filterset_class = filters.ProductModelFilter
 
@@ -716,7 +716,7 @@ class ProductModelViewSet(ModelViewSet):
 class ManfucturerViewSet(ModelViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.OrganizationIsAdminPermission,
+        permissions.EndUserReadOnlyPermission,
     ]
     serializer_class = serializers.ManufacturerSerializer
 
@@ -805,7 +805,7 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
 class ProductViewSet(ModelViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.OrganizationIsAdminPermission,
+        permissions.EndUserReadOnlyPermission,
     ]
     serializer_class = serializers.ProductSerializer
     filterset_class = filters.ProductFilter
