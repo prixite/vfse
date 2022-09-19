@@ -47,14 +47,17 @@ import {
   useScopeUsersCreateMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsSystemsListQuery,
+  Role,
 } from "@src/store/reducers/api";
+
+import useUserSite from "./useUserSites";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
   selectedUser?: number;
   usersData?: Array<User>;
-  roles: unknown;
+  roles: Role[];
   organizationData?: Array<Organization>;
   modalitiesList?: Array<Modality>;
   action: string;
@@ -129,7 +132,6 @@ export default function UserModal(props: Props) {
     userManager,
     userCustomer,
     addText,
-    selectManager,
     manager,
     customer,
     role,
@@ -185,6 +187,15 @@ export default function UserModal(props: Props) {
       skip: !formik.values.customer,
     }
   );
+  const editedUser = props?.usersData?.find((user) => {
+    return user?.id == props?.selectedUser;
+  });
+
+  const userSitesMap = useUserSite({
+    networksData,
+    organizationSitesData,
+    userSites: editedUser?.sites,
+  });
 
   const { data: managers = [] } = useOrganizationsUsersListQuery(
     {
@@ -204,8 +215,7 @@ export default function UserModal(props: Props) {
 
   const selectedOrganization = useSelectedOrganization();
 
-  const usersData = Array.from(props?.usersData);
-  usersData?.unshift({ id: -1, username: selectManager });
+  const { usersData } = props;
 
   useEffect(() => {
     if (props?.action == addText) {
@@ -234,10 +244,6 @@ export default function UserModal(props: Props) {
   }, [selectedImage]);
 
   const populateEditableData = () => {
-    const editedUser: User = usersData?.filter((user) => {
-      return user?.id == props?.selectedUser;
-    })[0];
-
     if (editedUser?.image?.length) {
       formik.setValues({
         ...formik.values,
@@ -275,35 +281,19 @@ export default function UserModal(props: Props) {
         );
       }
       if (editedUser?.sites) {
-        const sites_ids: Array<number> = [];
-        networksData?.forEach((item) => {
-          item?.sites?.length &&
-            item?.sites?.forEach((site) => {
-              editedUser?.sites?.forEach((newSite) => {
-                if (newSite == site?.name) {
-                  sites_ids.push(site?.id);
-                }
-              });
-            });
-        });
-        organizationSitesData?.forEach((site) => {
-          editedUser?.sites?.forEach((newSite) => {
-            if (newSite == site?.name) {
-              sites_ids.push(site?.id);
-            }
-          });
-        });
+        const sites_ids: Array<number> = Array.from(userSitesMap.keys());
+
         if (sites_ids?.length == editedUser?.sites?.length) {
           formik.setFieldValue(selectedSites, sites_ids);
         }
       }
-      if (editedUser?.systems?.length) {
-        const sys_ids: Array<number> = [];
-        editedUser?.systems?.forEach((system) => {
-          sys_ids.push(system?.id);
-        });
-        formik.setFieldValue(selectedSystems, sys_ids);
-      }
+      // if (editedUser?.user_systems?.length) {
+      //   const sys_ids: Array<number> = [];
+      //   editedUser?.user_systems?.forEach((system) => {
+      //     sys_ids.push(system?.id);
+      //   });
+      //   formik.setFieldValue(selectedSystems, sys_ids);
+      // }
       if (editedUser?.modalities?.length) {
         const filterModalities = props?.modalitiesList?.filter((modality) => {
           return editedUser?.modalities?.includes(modality?.name?.toString());
@@ -346,26 +336,9 @@ export default function UserModal(props: Props) {
   const handleSitesSelection = (e) => {
     const val = parseInt(e?.target?.value || e);
 
-    const systems = systemsList
-      ?.filter((item) => item?.site === val)
-      .map((item) => item?.id);
-
-    if (e.target.checked) {
-      systems.forEach((item) => {
-        if (!formik.values.selectedSystems.includes(item)) {
-          formik.setFieldValue("selectedSystems", [
-            ...formik.values.selectedSystems,
-            item,
-          ]);
-        }
-      });
-    }
-
-    if (formik.values.selectedSites.indexOf(val) > -1) {
-      formik.values.selectedSites?.splice(
-        formik.values.selectedSites?.indexOf(val),
-        1
-      );
+    const siteIndex = formik.values.selectedSites.indexOf(val);
+    if (siteIndex > -1) {
+      formik.values.selectedSites?.splice(siteIndex, 1);
       formik.setFieldValue(selectedSites, [...formik.values.selectedSites]);
     } else {
       formik.setFieldValue(selectedSites, [
@@ -514,7 +487,7 @@ export default function UserModal(props: Props) {
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
-      systems: formik.values.selectedSystems,
+      user_systems: formik.values.selectedSystems,
       modalities: formik.values.selectedModalities,
       fse_accessible: formik.values.accessToFSEFunctions,
       audit_enabled: formik.values.auditEnable,
