@@ -113,9 +113,15 @@ class OrganizationPermission(BasePermission):
 class EndUserReadOnlyPermission(BasePermission):
     def has_permission(self, request, view):
         org_id = request.user.get_default_organization().id
-        if "organizations" in request.path:
-            org_id = view.kwargs.get("pk", org_id)
+        return not (
+            models.Role.END_USER == request.user.get_organization_role(org_id)
+            and request.method not in SAFE_METHODS
+        )
 
+
+class OrganizationEndUserReadOnlyPermission(BasePermission):
+    def has_permission(self, request, view):
+        org_id = view.kwargs.get("pk", request.user.get_default_organization().id)
         return not (
             models.Role.END_USER == request.user.get_organization_role(org_id)
             and request.method not in SAFE_METHODS

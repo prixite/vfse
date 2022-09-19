@@ -336,7 +336,7 @@ class OrganizationAllSitesViewSet(ListAPIView):
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.EndUserReadOnlyPermission,
+        permissions.OrganizationEndUserReadOnlyPermission,
     ]
     serializer_class = serializers.SystemSerializer
     filterset_class = filters.SystemFilters
@@ -389,7 +389,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
 class SystemViewSet(OrganizationSystemViewSet):
     permission_classes = [
         permissions.ViewOnlyPermissions,
-        permissions.EndUserReadOnlyPermission,
+        permissions.OrganizationEndUserReadOnlyPermission,
     ]
     lookup_url_kwarg = "system_pk"
 
