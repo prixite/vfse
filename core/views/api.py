@@ -458,7 +458,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             self.add_sites(serializer.validated_data, kwargs["pk"])
 
             # models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
-            # self.add_modalities(serializer.validated_data, kwargs["pk"])
+            self.add_modalities(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
         return Response(serializer.errors)
@@ -543,7 +543,7 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(data, user.id)
             self.add_sites(data, user.id)
             self.add_modalities(data, user.id)
-            self.add_user_systems(data, user.id)
+            # self.add_user_systems(data, user.id)
         serializer.save()
 
 
