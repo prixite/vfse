@@ -70,10 +70,19 @@ const ProfileHeader = () => {
               gap={2}
               mt={{ xs: "1rem", md: 0 }}
             >
-              <img src={gmail} />
-              <img src={calender} />
-              <img src={zoom} />
-              <img src={slack} />
+              <img
+                onClick={() => window.open("https://mail.google.com/mail")}
+                src={gmail}
+              />
+              <img
+                onClick={() => window.open("https://calendar.google.com")}
+                src={calender}
+              />
+              <img onClick={() => window.open("https://zoom.us/")} src={zoom} />
+              <img
+                onClick={() => window.open("https://slack.com/")}
+                src={slack}
+              />
             </Stack>
           </Stack>
           <Stack
@@ -87,7 +96,7 @@ const ProfileHeader = () => {
               <Typography fontWeight={400}>{"Email"}</Typography>
               <Stack direction="row" gap={1} alignItems="center">
                 <img src={msg} />
-                <Typography>{"jessiehudson@gmail.com"}</Typography>
+                <Typography>{me?.email}</Typography>
               </Stack>
             </Stack>
             <Stack gap={{ xs: 0, lg: 1 }}>

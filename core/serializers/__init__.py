@@ -134,6 +134,7 @@ class MeSerializer(serializers.ModelSerializer):
             "is_superuser",
             "can_leave_notes",
             "fse_accessible",
+            "email",
         ]
 
     def get_role(self, obj):

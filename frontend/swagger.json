@@ -3028,6 +3028,12 @@
                 "fse_accessible": {
                     "title": "Fse accessible",
                     "type": "boolean"
+                },
+                "email": {
+                    "title": "Email address",
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 254
                 }
             }
         },
