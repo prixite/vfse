@@ -63,17 +63,23 @@ const AllCategoriesSection = () => {
             <CategoryOptionsSection category={category} id={id} />
           </div>
           <Grid container spacing={2}>
-            {category?.folders?.map((item, index) => (
+            {category?.folders?.length ? (
+              category?.folders?.map((item, index) => (
+                <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
+                  <ArticleCard
+                    color={category?.color}
+                    title={item?.name}
+                    articleNo={item?.document_count}
+                    id={item.id}
+                    categoryID={category?.id}
+                  />
+                </Grid>
+              ))
+            ) : (
               <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
-                <ArticleCard
-                  color={category?.color}
-                  title={item?.name}
-                  articleNo={item?.document_count}
-                  id={item.id}
-                  categoryID={category?.id}
-                />
+                <p>Sorry we dont have a folders against this cateogory</p>
               </Grid>
-            ))}
+            )}
           </Grid>
         </div>
       ))}
