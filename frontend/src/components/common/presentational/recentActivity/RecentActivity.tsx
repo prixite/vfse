@@ -12,7 +12,6 @@ import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import {
   api,
-  RecentActivity,
   TopicDetail,
   useOrganizationsMeReadQuery,
 } from "@src/store/reducers/api";
@@ -20,7 +19,10 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 
-const RecentActivity = (topicData?: TopicDetail) => {
+interface RecentActivityProps {
+  topicData?: TopicDetail;
+}
+export default function RecentActivity({ topicData }: RecentActivityProps) {
   const { data: userActivityList, isLoading } =
     api.useVfseUserActivityListQuery();
   const { recentActivity } = constantsData;
@@ -162,6 +164,4 @@ const RecentActivity = (topicData?: TopicDetail) => {
       )}
     </Box>
   );
-};
-
-export default RecentActivity;
+}
