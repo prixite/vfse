@@ -672,7 +672,7 @@
     "colorTextRequired": "Color Text is required!",
     "colorRequired": "Color is required!",
     "addCategoryText": "Add Category",
-    "colorNameText": "Color Name",
+    "colorNameText": "Name",
     "cancelText": "Cancel"
   },
   "deleteNoteModal": {
@@ -723,7 +723,7 @@
     "addBtn": "Add",
     "cancelBtn": "Cancel",
     "subHeading": "Product Name"
-},
+  },
   "addProductModelDialog": {
     "nameRequired": "Product Model is required!",
     "title": "Add Product Model",

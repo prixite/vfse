@@ -30,7 +30,7 @@ interface CategoryModalProps {
 
 const initialState: Category = {
   name: "",
-  color: "#FFFF",
+  color: "#28D4AB",
 };
 
 const validationSchema = yup.object({
@@ -130,7 +130,7 @@ export default function CategoryModal({
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder="Type in Color"
+                    placeholder="Name"
                     value={formik.values.name}
                     onChange={formik.handleChange}
                   />
