@@ -10,6 +10,7 @@ const SitesMenu = ({
   handleSystemSelection,
   handleSitesSelection,
 }) => {
+  // console.log("systems", systems);
   const children = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
       {systems?.map((item, key) => {
@@ -32,6 +33,19 @@ const SitesMenu = ({
     </Box>
   );
 
+  const isIntermediate = () => {
+    if (
+      systems.every((item) => formik.values.selectedSystems.includes(item?.id))
+    ) {
+      return false;
+    }
+    if (
+      systems.some((item) => formik.values.selectedSystems.includes(item?.id))
+    ) {
+      return true;
+    }
+  };
+
   return (
     <details className="network-details">
       <summary className="header" style={{ cursor: "pointer" }}>
@@ -40,6 +54,7 @@ const SitesMenu = ({
           sx={{ ml: "3px" }}
           control={
             <Checkbox
+              indeterminate={isIntermediate()}
               onChange={handleSitesSelection}
               checked={formik.values.selectedSites.includes(site?.id)}
               value={site?.id}

@@ -553,7 +553,7 @@ export default function UserModal(props: Props) {
   };
   const { data: systemsList, isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
-      id: useSelectedOrganization()?.id?.toString(),
+      id: formik?.values?.customer,
     });
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
@@ -797,28 +797,21 @@ export default function UserModal(props: Props) {
                         >
                           <span className="title">{item?.name}</span>
                         </summary>
-                        {item?.sites?.map((site, key) => (
-                          <FormGroup
-                            key={key}
-                            style={{ marginLeft: "20px" }}
-                            className="options"
-                          >
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  onChange={handleSitesSelection}
-                                  checked={formik.values.selectedSites.includes(
-                                    site?.id
-                                  )}
-                                  value={site?.id}
-                                  name={site?.address}
-                                  color="primary"
-                                />
-                              }
-                              label={site?.address}
+                        {item?.sites?.map((site, key) => {
+                          const systems = systemsList?.filter(
+                            (item) => item?.site === site?.id
+                          );
+                          return (
+                            <SitesMenu
+                              key={key}
+                              site={site}
+                              systems={systems}
+                              formik={formik}
+                              handleSitesSelection={handleSitesSelection}
+                              handleSystemSelection={handleSystemSelection}
                             />
-                          </FormGroup>
-                        ))}
+                          );
+                        })}
                       </details>
                     </div>
                   ) : (
