@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Pagination } from "@mui/material";
 import PropTypes from "prop-types";
 
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
@@ -43,12 +43,18 @@ type Props = {
   setTopicListPayload?: React.Dispatch<React.SetStateAction<getTopicListArg>>;
   topicListPayload: getTopicListArg;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  page: number;
+  count: number;
+  onChange: (event: React.ChangeEvent<unknown>, value: number) => void;
 };
 const ProfileTimeline = ({
   paginatedTopics,
   setTopicListPayload,
   topicListPayload,
   setPage,
+  page,
+  count,
+  onChange,
 }: Props) => {
   const classes = useStyles();
   const { loading } = constantsData.common;
@@ -74,7 +80,15 @@ const ProfileTimeline = ({
           {paginatedTopics ? (
             <Grid item xs={9} className={classes.profileTimeLine}>
               {paginatedTopics?.length > 0 ? (
-                <Grid container xs={12} item style={{ marginTop: "0px" }}>
+                <Grid
+                  container
+                  xs={12}
+                  item
+                  style={{
+                    marginTop: "0px",
+                    justifyContent: "center",
+                  }}
+                >
                   {paginatedTopics?.map((item, key) => (
                     <Grid key={key} item xs={12}>
                       <ProfileTimeLineCards
@@ -94,6 +108,16 @@ const ProfileTimeline = ({
                       />
                     </Grid>
                   ))}
+                  {paginatedTopics?.length > 0 && (
+                    <Pagination
+                      className={classes.paginationStyles}
+                      defaultPage={1}
+                      page={page}
+                      count={count}
+                      onChange={onChange}
+                      size="large"
+                    />
+                  )}
                 </Grid>
               ) : (
                 <>
