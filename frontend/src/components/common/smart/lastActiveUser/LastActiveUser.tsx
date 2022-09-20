@@ -18,7 +18,7 @@ const LastActiveUser = () => {
   const [browserWidth] = useWindowSize();
   const { id } = useParams();
   const { organizationRoute } = constants;
-  const { data, isLoading } = useUsersActiveUsersListQuery({page:1});
+  const { data, isLoading } = useUsersActiveUsersListQuery({ page: 1 });
   const { loading } = constantsData.common;
   return (
     <>
