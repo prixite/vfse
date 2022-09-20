@@ -35,7 +35,7 @@ const TopicDetail = () => {
           className={classes.recentActivity}
           style={{ paddingTop: "inherit" }}
         >
-          <RecentActivity />
+          <RecentActivity topicData={topicData} />
         </Grid>
       </Grid>
     </Box>
