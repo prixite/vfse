@@ -18,7 +18,7 @@ const LastActiveUser = () => {
   const [browserWidth] = useWindowSize();
   const { id } = useParams();
   const { organizationRoute } = constants;
-  const { data, isLoading } = useUsersActiveUsersListQuery();
+  const { data, isLoading } = useUsersActiveUsersListQuery(1);
   const { loading } = constantsData.common;
   return (
     <>
@@ -41,7 +41,7 @@ const LastActiveUser = () => {
                 <DataGrid
                   sx={{
                     "& .MuiDataGrid-row": {
-                      "&:nth-child(2n)": { backgroundColor: "#F5F6F7" },
+                      "&:nth-of-child(2n)": { backgroundColor: "#F5F6F7" },
                     },
                     "& .MuiDataGrid-columnHeaders": {
                       backgroundColor: "#F5F6F7",
