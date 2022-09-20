@@ -20,10 +20,7 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 
-type RecentActivityProps = {
-  topicData?: TopicDetail;
-};
-const RecentActivity = ({ topicData }: RecentActivityProps) => {
+const RecentActivity = (topicData?: TopicDetail) => {
   const { data: userActivityList, isLoading } =
     api.useVfseUserActivityListQuery();
   const { recentActivity } = constantsData;
