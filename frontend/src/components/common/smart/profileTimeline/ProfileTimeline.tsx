@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, Grid, Pagination } from "@mui/material";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { Box, Grid, Pagination, PaginationItem } from "@mui/material";
 import PropTypes from "prop-types";
 
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
@@ -116,6 +118,15 @@ const ProfileTimeline = ({
                       count={count}
                       onChange={onChange}
                       size="large"
+                      renderItem={(item) => (
+                        <PaginationItem
+                          components={{
+                            previous: ArrowLeftIcon,
+                            next: ArrowRightIcon,
+                          }}
+                          {...item}
+                        />
+                      )}
                     />
                   )}
                 </Grid>
