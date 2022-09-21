@@ -31,6 +31,7 @@ export default function FaqSection() {
 
       {/* Topic update Section  */}
       <Grid
+        item
         xs={12}
         sm={12}
         md={12}
