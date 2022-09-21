@@ -181,6 +181,7 @@ class DashboardView(APIView):
 class TopicActivityViewSet(ListAPIView):
     serializer_class = serializers.RecentActivitySerializer
     permission_classes = [permissions.FSEAccessPermissions]
+    filterset_class = filters.TopicActivityFilterSet
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):

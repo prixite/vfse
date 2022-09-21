@@ -2319,7 +2319,15 @@
             "get": {
                 "operationId": "vfse_user_activity_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
