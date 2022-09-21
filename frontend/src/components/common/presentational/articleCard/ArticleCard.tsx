@@ -1,13 +1,13 @@
 import { useState } from "react";
 
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
-import { Box, Menu, MenuItem } from "@mui/material";
+import { Box, Grid, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import FolderIcon from "@src/assets/svgs/Folder.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
@@ -84,7 +84,23 @@ const ArticleCard = ({
         >
           <Box component="div" className="card">
             <div className="general-info">
-              <FolderRoundedIcon style={{ color: color, fontSize: "2.2em" }} />
+              <Grid
+                display="flex"
+                alignItems="center"
+                justifyContent="flex-start"
+              >
+                <img
+                  src={FolderIcon}
+                  alt="FolderIcon"
+                  style={{
+                    color: `${color}`,
+                    fill: "red",
+                    fontSize: "2.2em",
+                    height: "inherit",
+                    width: "inherit",
+                  }}
+                />
+              </Grid>
               <div className="heading">
                 <h2 className="title">{title}</h2>
               </div>

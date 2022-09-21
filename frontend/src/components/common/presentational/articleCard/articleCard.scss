@@ -58,6 +58,9 @@
           color: #773cbd;
           font-weight: 600;
         }
+        &:hover {
+          transform: translateX(3%);
+        }
       }
     }
   }
