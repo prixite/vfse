@@ -18,21 +18,22 @@ const ArticleOverviewCard = ({ htmlText }: ArticleOverviewCardProps) => {
     }
   };
 
+  useEffect(() => {
+    location.href = location.pathname + `#0`;
+  }, []);
+
   const renderHeadings = () => {
-    return tableContents.map((content, i) => {
-      if (i === 0) {
-        return (
-          <h1 key={i} className="heading">
-            {content?.toLowerCase()}
-          </h1>
-        );
-      } else {
-        return (
-          <p key={i} className="description">
-            {content?.toLowerCase()}
-          </p>
-        );
-      }
+    return tableContents.map((content, index) => {
+      const active = location.href.includes(`#${index}`);
+      return (
+        <a
+          href={location.pathname + `#${index}`}
+          key={index}
+          className={active ? "heading active" : "heading"}
+        >
+          {content?.toLowerCase()}
+        </a>
+      );
     });
   };
 

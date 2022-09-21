@@ -7,6 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
+import ArticleMetaCard from "@src/components/common/presentational/articleMetaCard/articleMetaCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
@@ -39,14 +40,36 @@ const DocumentationDescription = () => {
     }
   };
 
-  const saveText = () => {
-    const htmlString = draftToHtml(
-      convertToRaw(editorState.getCurrentContent())
+  const addIdToHeadings = (htmlString: string): string => {
+    let index = 0;
+
+    const str = htmlString.replace(
+      /<h[1-6]>/g,
+      (item) => `<h${item[2]} id='${index++}' >`
     );
+
+    return str;
+  };
+
+  const [category, setCategory] = useState<number>(0);
+  const [folder, setFolder] = useState<number>(0);
+
+  const saveText = () => {
+    let htmlString = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+
+    htmlString = addIdToHeadings(htmlString);
+
     const title = getTitle(htmlString);
+
     updateArticle({
       id: parseInt(docId),
-      document: { ...articleData, text: htmlString, title: title },
+      document: {
+        ...articleData,
+        folder: folder,
+        categories: [category],
+        text: htmlString,
+        title: title,
+      },
     })
       .unwrap()
       .then(() => {
@@ -106,7 +129,17 @@ const DocumentationDescription = () => {
             editText={editText}
             saveText={saveText}
           />
-          <ArticleOverviewCard htmlText={htmlText} />
+          {editText && htmlText ? (
+            <ArticleMetaCard
+              articleData={articleData}
+              category={category}
+              folder={folder}
+              setCategory={setCategory}
+              setFolder={setFolder}
+            />
+          ) : (
+            <ArticleOverviewCard htmlText={htmlText} />
+          )}
         </Grid>
       </Grid>
     </Box>

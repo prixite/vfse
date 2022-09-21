@@ -3,8 +3,10 @@ import { useEffect, Dispatch, SetStateAction } from "react";
 import { EditorState, ContentState } from "draft-js";
 import htmlToDraft from "html-to-draftjs";
 import { Editor } from "react-draft-wysiwyg";
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "@src/components/common/smart/textEditor/textEditor.scss";
+import { useAppSelector } from "@src/store/hooks";
 
 interface text {
   htmlText: string;
@@ -28,6 +30,24 @@ const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
     }
   }, []);
 
+  const { secondaryColor, buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
+
+  //setting scss variable via js
+  document.documentElement.style.setProperty(
+    "--richTextIconBackground",
+    secondaryColor
+  );
+  document.documentElement.style.setProperty(
+    "--buttonBackground",
+    buttonBackground
+  );
+  document.documentElement.style.setProperty(
+    "--buttonTextColor",
+    buttonTextColor
+  );
+
   return (
     <Editor
       editorState={editorState}
@@ -43,11 +63,26 @@ const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
           "link",
           "image",
         ],
-        inline: { options: ["bold", "italic", "underline", "strikethrough"] },
+        inline: {
+          options: ["bold", "italic", "underline", "strikethrough"],
+          className: "richTextIcon",
+        },
         list: { options: ["unordered", "ordered"] },
         link: { options: ["link"] },
         fontFamily: {
           options: ["Proxima Nova", "Calibri"],
+        },
+        image: {
+          urlEnabled: true,
+          uploadEnabled: true,
+          alignmentEnabled: true,
+          // uploadCallback: () => {}, TODO
+          previewImage: true,
+          inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
+          defaultSize: {
+            height: "auto",
+            width: "auto",
+          },
         },
       }}
     />
