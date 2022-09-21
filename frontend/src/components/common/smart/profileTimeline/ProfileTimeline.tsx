@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import { Box, Grid, Pagination, PaginationItem } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import PropTypes from "prop-types";
 
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
+import CustomPagination from "@src/components/shared/layout/customPagination/CustomPagination";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import constantsData from "@src/localization/en.json";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/api";
@@ -111,22 +110,10 @@ const ProfileTimeline = ({
                     </Grid>
                   ))}
                   {paginatedTopics?.length > 0 && (
-                    <Pagination
-                      className={classes.paginationStyles}
-                      defaultPage={1}
+                    <CustomPagination
                       page={page}
                       count={count}
                       onChange={onChange}
-                      size="large"
-                      renderItem={(item) => (
-                        <PaginationItem
-                          components={{
-                            previous: ArrowLeftIcon,
-                            next: ArrowRightIcon,
-                          }}
-                          {...item}
-                        />
-                      )}
                     />
                   )}
                 </Grid>
