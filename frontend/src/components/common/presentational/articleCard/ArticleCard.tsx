@@ -8,6 +8,7 @@ import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import EditFolderModal from "@src/components/shared/popUps/editFolderModal/editFolderModal";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
@@ -34,6 +35,7 @@ const ArticleCard = ({
 }: props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const constantData: LocalizationInterface = localizedData();
   const { explore, numberTitle } = constantData.articleCard;
   const { organizationRoute } = constants;
@@ -52,8 +54,18 @@ const ArticleCard = ({
     setOpenModal(true);
     handleClose();
   };
+  const handleEditModalOpen = () => {
+    setOpenEditModal(true);
+    handleClose();
+  };
   const handleModalClose = () => {
     setOpenModal(false);
+  };
+  const handleEditModalClose = () => {
+    setOpenEditModal(false);
+  };
+  const handleEditClose = () => {
+    setOpenEditModal(false);
   };
 
   const handleDeleteFolder = () => {
@@ -134,6 +146,9 @@ const ArticleCard = ({
             <MenuItem onClick={handleModalOpen}>
               {articleCard.deleteCard}
             </MenuItem>
+            <MenuItem onClick={handleEditModalOpen}>
+              {articleCard.editCard}
+            </MenuItem>
           </Menu>
         </div>
       </div>
@@ -142,6 +157,11 @@ const ArticleCard = ({
         open={openModal}
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteFolder}
+      />
+       <EditFolderModal
+        open={openEditModal}
+        handleClose={handleEditClose}
+        // categoryData={categoryData}
       />
     </>
   );

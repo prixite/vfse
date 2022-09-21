@@ -371,7 +371,8 @@
   "articleCard": {
     "numberTitle": "articles",
     "explore": "Explore",
-    "deleteCard": "Delete"
+    "deleteCard": "Delete",
+    "editCard": "Edit"
   },
   "folderSection": {
     "backBtn": "Back to all"
@@ -683,7 +684,8 @@
     "addFolderText": "Add Folder",
     "folderNameText": "Folder Name",
     "folderCategoryText": "Folder Category",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "editFolderText":"Edit Folder"
   },
   "listModalPopUp": {
     "close": "Close"
