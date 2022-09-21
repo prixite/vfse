@@ -14,6 +14,8 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Buffer } from "buffer";
+import { convertToRaw, EditorState } from "draft-js";
+import draftjsToHtml from "draftjs-to-html";
 import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
 import { useParams } from "react-router";
@@ -21,14 +23,17 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { toastAPIError } from "@src/helpers/utils/utils";
+import { addIdToHeadings, toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Document, Folder } from "@src/store/reducers/generated";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import "@src/components/common/smart/textEditor/textEditor.scss";
 import "@src/components/shared/popUps/articleModal/articleModal.scss";
 
 window.Buffer = window.Buffer || Buffer;
@@ -77,8 +82,10 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     api.useGetCategoriesQuery();
   const [folderList, setFolderList] = useState<Folder[]>([]);
   const [addNewDocument] = api.useAddArticleMutation();
-  const { categoryId, folderId } =
-    useParams<{ categoryId: string; folderId: string }>();
+  const { categoryId, folderId } = useParams<{
+    categoryId: string;
+    folderId: string;
+  }>();
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
@@ -87,6 +94,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       handleAddNewDocument();
     },
   });
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: pdf,
     onDrop: (acceptedFiles) =>
@@ -98,13 +108,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   });
   const handleAddNewDocument = () => {
     setIsLoading(true);
-    const convertTextToHtml = `
-    <h2 style="margin-bottom: 20px"><br>    <span style="font-size: 24px; color:#773cbd">${formik.values.title}</span><br></h2>
-    <p> <span style=font-size: 18px> ${formik.values.text} </span></p>
-    `;
+
     const payload: Document = {
       ...formik.values,
-      text: convertTextToHtml,
     };
     addNewDocument({ document: { ...payload } })
       .unwrap()
@@ -145,6 +151,22 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     }
   }, [acceptedFiles]);
 
+  const handleOnClick = () => {
+    let htmlString = draftjsToHtml(
+      convertToRaw(editorState.getCurrentContent())
+    );
+
+    htmlString = addIdToHeadings(htmlString);
+
+    formik
+      .setFieldValue("text", htmlString)
+      .then(() => {
+        setOnChangeValidation(true);
+        formik.handleSubmit();
+      })
+      .catch();
+  };
+
   useEffect(() => {
     if (categoriesList && categoriesList.length && open) {
       if (categoryId) {
@@ -175,6 +197,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       formik.setFieldValue(folder, folderId);
     }
   }, [folderId, open]);
+
   return (
     <Dialog className="article-modal" open={open}>
       <DialogTitle>
@@ -210,7 +233,12 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
               <Grid item xs={12}>
                 <div className="info-section">
                   <p className="info-label required">{contentText}</p>
-                  <TextField
+                  <TextEditor
+                    htmlText={formik.values.text}
+                    editorState={editorState}
+                    setEditorState={setEditorState}
+                  />
+                  {/* <TextField
                     autoComplete="off"
                     className="info-field"
                     multiline
@@ -221,7 +249,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                     onChange={formik.handleChange}
                     size="small"
                     placeholder="Type or paste text here"
-                  />
+                  /> */}
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.text}
                   </p>
@@ -328,10 +356,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
             backgroundColor: buttonBackground,
             color: buttonTextColor,
           }}
-          onClick={() => {
-            setOnChangeValidation(true);
-            formik.handleSubmit();
-          }}
+          onClick={handleOnClick}
           disabled={isLoading}
         >
           {addArticleText}

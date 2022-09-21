@@ -56,6 +56,17 @@ const getNonFieldError = (error: unknown) => {
   }
 };
 
+const addIdToHeadings = (htmlString: string): string => {
+  let index = 0;
+
+  const str = htmlString.replace(
+    /<h[1-6]>/g,
+    (item) => `<h${item[2]} id='${index++}' >`
+  );
+
+  return str;
+};
+
 const isNonFieldError = (error: unknown): boolean => {
   if (isApiError(error)) {
     return isBadRequestError(error) && "non_field_errors" in error.data;
@@ -142,4 +153,5 @@ export {
   getNonFieldError,
   isNonFieldError,
   returnPayloadThemeObject,
+  addIdToHeadings,
 };

@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 
-import { MenuItem, Select } from "@mui/material";
+import { MenuItem, Select, TextField } from "@mui/material";
 
 import constantsData from "@src/localization/en.json";
 import { api, Folder, Document } from "@src/store/reducers/api";
@@ -8,9 +8,11 @@ import "@src/components/common/presentational/articleMetaCard/articleMetaCard.sc
 
 interface ArticleMetaCardProps {
   articleData: Document;
+  title: string;
   category: number;
   folder: number;
   setFolder: React.Dispatch<React.SetStateAction<number>>;
+  setTitle: React.Dispatch<React.SetStateAction<string>>;
   setCategory: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -19,11 +21,13 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   category,
   folder,
   setFolder,
+  title,
+  setTitle,
   setCategory,
 }) => {
   const [folderList, setFolderList] = useState<Folder[]>([]);
 
-  const { categoryText, folderText } = constantsData.articleModal;
+  const { categoryText, folderText, titleText } = constantsData.articleModal;
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
 
@@ -32,8 +36,6 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
       categoriesList.forEach((category) => {
         if (category?.id === articleData.categories[0]) {
           setFolderList([...category.folders]);
-          setFolder(articleData?.folder);
-          setCategory(articleData?.categories[0]);
         }
       });
     }
@@ -79,6 +81,19 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
               </Select>
             </>
           )}
+          <>
+            <p className="info-label">{titleText}</p>
+            <TextField
+              autoComplete="off"
+              name="title"
+              fullWidth
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="info-field"
+              variant="outlined"
+              size="small"
+            />
+          </>
         </div>
       ) : (
         ""
