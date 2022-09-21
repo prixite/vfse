@@ -237,6 +237,7 @@ class UserSerializer(serializers.ModelSerializer):
     sites = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
+    systems = serializers.ListField(child=serializers.IntegerField(), read_only=True)
     image = serializers.CharField(source="profile.meta.profile_picture", read_only=True)
     phone = serializers.CharField(source="profile.phone", read_only=True)
     role = serializers.SlugRelatedField(
@@ -281,6 +282,7 @@ class UserSerializer(serializers.ModelSerializer):
             "manager",
             "image",
             "sites",
+            "systems",
         ]
 
 
@@ -322,11 +324,7 @@ class UpsertUserSerializer(serializers.Serializer):
         queryset=models.Site.objects.all(),
         required=False,
     )
-    # user_systems = serializers.PrimaryKeyRelatedField(
-    #     many=True,
-    #     queryset=models.UserSystem.objects.all(),
-    #     required=False,
-    # )
+    systems = serializers.ListField(child=serializers.IntegerField())
     modalities = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=models.Modality.objects.all(),

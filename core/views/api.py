@@ -532,7 +532,6 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
 
     @transaction.atomic
     def perform_create(self, serializer):
-        # TODO: Add permission class to allow only user admin
         for data in serializer.validated_data["memberships"]:
             user = models.User.objects.create_user(
                 username=data["email"],
@@ -543,7 +542,7 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(data, user.id)
             self.add_sites(data, user.id)
             self.add_modalities(data, user.id)
-            # self.add_user_systems(data, user.id)
+            self.add_user_systems(data, user.id)
         serializer.save()
 
 

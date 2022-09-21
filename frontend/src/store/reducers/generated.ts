@@ -1255,6 +1255,7 @@ export type UserRequestAccess = {
   manager?: number;
   organization: number;
   sites?: number[];
+  systems: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
@@ -1467,6 +1468,7 @@ export type User = {
   manager?: Manager;
   image?: string;
   sites?: string[];
+  systems?: number[];
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -1488,6 +1490,7 @@ export type UpsertUser = {
   manager?: number;
   organization: number;
   sites?: number[];
+  systems: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;

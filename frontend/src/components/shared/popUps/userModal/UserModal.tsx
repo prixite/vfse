@@ -287,13 +287,7 @@ export default function UserModal(props: Props) {
           formik.setFieldValue(selectedSites, sites_ids);
         }
       }
-      // if (editedUser?.user_systems?.length) {
-      //   const sys_ids: Array<number> = [];
-      //   editedUser?.user_systems?.forEach((system) => {
-      //     sys_ids.push(system?.id);
-      //   });
-      //   formik.setFieldValue(selectedSystems, sys_ids);
-      // }
+
       if (editedUser?.modalities?.length) {
         const filterModalities = props?.modalitiesList?.filter((modality) => {
           return editedUser?.modalities?.includes(modality?.name?.toString());
@@ -507,7 +501,7 @@ export default function UserModal(props: Props) {
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
-      user_systems: formik.values.selectedSystems,
+      systems: formik.values.selectedSystems,
       modalities: formik.values.selectedModalities,
       fse_accessible: formik.values.accessToFSEFunctions,
       audit_enabled: formik.values.auditEnable,
