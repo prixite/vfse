@@ -38,6 +38,21 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  cardDiv: {
+    minWidth: "275px",
+    height: "168px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "8px",
+    boxShadow: "3px 3px 12px rgba(10, 35, 83, 0.08)",
+  },
+  errorDiv: {
+    fontFamily: "ProximaNova-Extrabold",
+    fontSize: "20px",
+    fontWeight: "semibold",
+    color: "#696f77",
+  },
   seeAll: {
     textDecoration: "none",
     color: "rgb(119, 60, 189)",

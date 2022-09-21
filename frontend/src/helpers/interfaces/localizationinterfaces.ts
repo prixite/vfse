@@ -369,6 +369,9 @@ export interface ArticleCard {
 export interface folderSection {
   backBtn: string;
 }
+export interface allCategoriesSection {
+  errorMsg: string;
+}
 
 export interface ConfirmSiteModal {
   dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
@@ -420,6 +423,7 @@ export interface LocalizationInterface {
   ManufacturerModal: ManufacturerInterface;
   ProductModal: ProductInterface;
   addProductModelDialog: AddProductModelDialogInterface;
+  allCategoriesSection: allCategoriesSection;
 }
 
 export interface SystemInterfaceProps {

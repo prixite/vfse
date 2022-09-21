@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Grid } from "@mui/material";
+import { Grid, Card, CardContent, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
@@ -24,6 +24,7 @@ const AllCategoriesSection = () => {
     setOpen(false);
   };
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const { Error } = localizedData().allCategoriesSection;
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
@@ -76,8 +77,14 @@ const AllCategoriesSection = () => {
                 </Grid>
               ))
             ) : (
-              <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
-                <p>Sorry we dont have a folders against this cateogory</p>
+              <Grid item={true} xs={12} xl={12} md={12} lg={12} key={index}>
+                <Card className={classes.cardDiv}>
+                  <CardContent>
+                    <Typography className={classes.errorDiv} gutterBottom>
+                      {Error}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Grid>
             )}
           </Grid>
