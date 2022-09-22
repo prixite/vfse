@@ -2,7 +2,7 @@ interface SvgIconType {
   color: string;
 }
 
-const SvgIcon = ({ color }: SvgIconType) => {
+const FolderSVG = ({ color }: SvgIconType) => {
   return (
     <svg
       fill="none"
@@ -26,4 +26,4 @@ const SvgIcon = ({ color }: SvgIconType) => {
   );
 };
 
-export default SvgIcon;
+export default FolderSVG;

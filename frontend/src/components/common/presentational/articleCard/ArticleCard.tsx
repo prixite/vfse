@@ -7,7 +7,7 @@ import { Box, Grid, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import SvgIcon from "@src/components/common/presentational/articleCard/SvgIcon";
+import FolderSVG from "@src/components/common/presentational/articleCard/FolderSVG";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
@@ -86,7 +86,7 @@ const ArticleCard = ({
           <Box component="div" className="card">
             <div className="general-info">
               <Grid className="folderIcon-Grid">
-                <SvgIcon color={color} />
+                <FolderSVG color={color} />
               </Grid>
               <div className="heading">
                 <h2 className="title">{title}</h2>
