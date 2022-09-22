@@ -7,6 +7,9 @@ on:
       slack_message:
         required: true
         type: string
+    secrets:
+      SLACK_WEBHOOK:
+        required: true
 
 jobs:
   send_message_to_slack:
