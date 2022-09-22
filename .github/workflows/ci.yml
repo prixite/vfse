@@ -7,6 +7,9 @@ on:
 jobs:
   pre-commit:
     runs-on: self-hosted
+    outputs:
+      output1: ${{ steps.preCommitOutput.outputs.test }}
+
     env:
       DOMAIN_NAME: "https://app.vfse.io"
     steps:
@@ -21,9 +24,8 @@ jobs:
           cache: pip
       - run: npm ci
       - uses: pre-commit/action@v3.0.0
-      - uses: ./.github/workflows/slack-action.yml
-        with:
-          slack_message: "GitHub Action CI result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      - id: preCommitOutput
+        run: echo "::set-output name=test::${{ job.status }}"
 
   test:
     runs-on: self-hosted
@@ -67,3 +69,12 @@ jobs:
         run: python manage.py makemigrations --check --dry-run
       - name: Run Tests
         run: python manage.py test
+      - id: test
+        run: echo "::set-output name=test::${{ job.status }}"
+
+  job_status_send:
+    needs: [pre-commit, test]
+    if: ${{github.event.pull_request}} && ${{ always() }}
+    uses: ./.github/workflows/slack-action.yml
+    with:
+      slack_message: "GitHub Action CI result: ${{ needs.pre-commit.outputs.output1 }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
