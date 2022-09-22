@@ -55,7 +55,7 @@ jobs:
 
   job_status_send:
       needs: deploy
-      if: ${{github.event.pull_request}} && ${{ always() }}
+      if: ${{ always() }}
       uses: ./.github/workflows/slack-action.yml
       with:
         slack_message: "GitHub Action Deploy result: ${{ needs.deploy.outputs.output1 }} ${{ github.event.head_commit.url }}"
