@@ -84,21 +84,12 @@ const ArticleCard = ({
         >
           <Box component="div" className="card">
             <div className="general-info">
-              <Grid
-                display="flex"
-                alignItems="center"
-                justifyContent="flex-start"
-              >
+              <Grid className="folderIcon-Grid">
                 <img
+                  className="folderSvg"
                   src={FolderIcon}
                   alt="FolderIcon"
-                  style={{
-                    color: `${color}`,
-                    fill: "red",
-                    fontSize: "2.2em",
-                    height: "inherit",
-                    width: "inherit",
-                  }}
+                  style={{ color: `${color}` }}
                 />
               </Grid>
               <div className="heading">
