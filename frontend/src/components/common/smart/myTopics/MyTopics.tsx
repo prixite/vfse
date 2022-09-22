@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Pagination, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 
+import CustomPagination from "@src/components/shared/layout/customPagination/CustomPagination";
 import { parseLink } from "@src/helpers/paging";
 import { api } from "@src/store/reducers/api";
 
@@ -58,12 +59,10 @@ const MyTopics = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Pagination
-            defaultPage={1}
+          <CustomPagination
             page={page}
             count={totalTopicPages}
             onChange={handlePagination}
-            size="large"
           />
         </Stack>
       )}
