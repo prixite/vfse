@@ -7,7 +7,9 @@ import { Box, Grid, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import FolderIcon from "@src/assets/svgs/Folder.svg";
+import FolderIconBlue from "@src/assets/svgs/folderIconBlue.svg";
+import FolderIconGreen from "@src/assets/svgs/folderIconGreen.svg";
+import FolderIconPink from "@src/assets/svgs/folderIconPink.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
@@ -87,9 +89,17 @@ const ArticleCard = ({
               <Grid className="folderIcon-Grid">
                 <img
                   className="folderSvg"
-                  src={FolderIcon}
-                  alt="FolderIcon"
                   style={{ color: `${color}` }}
+                  src={
+                    categoryID === 1
+                      ? FolderIconBlue
+                      : categoryID === 2
+                      ? FolderIconGreen
+                      : categoryID === 3
+                      ? FolderIconPink
+                      : FolderIconBlue
+                  }
+                  alt="FolderIcon"
                 />
               </Grid>
               <div className="heading">
