@@ -7,9 +7,7 @@ import { Box, Grid, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import FolderIconBlue from "@src/assets/svgs/folderIconBlue.svg";
-import FolderIconGreen from "@src/assets/svgs/folderIconGreen.svg";
-import FolderIconPink from "@src/assets/svgs/folderIconPink.svg";
+import SvgIcon from "@src/components/common/presentational/articleCard/SvgIcon";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
@@ -17,6 +15,7 @@ import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
+
 import "@src/components/common/presentational/articleCard/articleCard.scss";
 
 interface props {
@@ -87,20 +86,7 @@ const ArticleCard = ({
           <Box component="div" className="card">
             <div className="general-info">
               <Grid className="folderIcon-Grid">
-                <img
-                  className="folderSvg"
-                  style={{ color: `${color}` }}
-                  src={
-                    categoryID === 1
-                      ? FolderIconBlue
-                      : categoryID === 2
-                      ? FolderIconGreen
-                      : categoryID === 3
-                      ? FolderIconPink
-                      : FolderIconBlue
-                  }
-                  alt="FolderIcon"
-                />
+                <SvgIcon color={color} />
               </Grid>
               <div className="heading">
                 <h2 className="title">{title}</h2>
