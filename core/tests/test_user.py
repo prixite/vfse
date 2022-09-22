@@ -67,6 +67,7 @@ class UserTestCase(BaseTestCase):
             "view_only": "false",
             "documentation_url": "true",
             "health_networks": [self.health_network.id],
+            "systems": [self.system.id],
         }
         user = factories.UserWithPasswordFactory(is_request_user=True)
         models.Token.objects.create(user=user)

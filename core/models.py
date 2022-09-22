@@ -93,7 +93,7 @@ class User(AbstractUser):
 
     @property
     def systems(self):
-        return self.get_systems().values_list("id", flat=True)
+        return self.get_systems().values_list("system", flat=True)
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
