@@ -29,6 +29,8 @@ jobs:
 
   test:
     runs-on: self-hosted
+    outputs:
+      output2: ${{ steps.buildTest.outputs.test }}
     env:
       SECRET_KEY: "fake"
       NPLUSONE_RAISE: "False"
@@ -69,7 +71,7 @@ jobs:
         run: python manage.py makemigrations --check --dry-run
       - name: Run Tests
         run: python manage.py test
-      - id: test
+      - id: buildTest
         run: echo "::set-output name=test::${{ job.status }}"
 
   job_status_send:
@@ -77,4 +79,4 @@ jobs:
     if: ${{github.event.pull_request}} && ${{ always() }}
     uses: ./.github/workflows/slack-action.yml
     with:
-      slack_message: "GitHub Action CI result: ${{ needs.pre-commit.outputs.output1 }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+      slack_message: "GitHub Action Pre-Commit result: ${{ needs.pre-commit.outputs.output1 }}\n GitHub Action Build result: ${{ needs.test.outputs.output2 }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
