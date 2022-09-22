@@ -18,7 +18,9 @@ jobs:
         with:
           payload: |
             {
-              "text": "${{inputs.slack_message}}"
+              "text": "GitHub Action build result: SUCCESS"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+      - run: |
+          echo "${{inputs.slack_message}}":
