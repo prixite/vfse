@@ -15,6 +15,8 @@ jobs:
     name: "Deploy to staging"
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.deployTest.outputs.test }}
     steps:
       - name: Configure SSH
         run: |
@@ -47,3 +49,15 @@ jobs:
       - name: Test the App
         run: |
           ssh staging 'if [ $( docker ps -a | grep vfse | wc -l ) -gt 0 ]; then  echo "vfse exists"; else   echo "vfse does not exist" && raise error; fi'
+
+      - id: deployTest
+        run: echo "::set-output name=test::${{ job.status }}"
+
+  job_status_send:
+      needs: deploy
+      if: ${{ always() }}
+      uses: ./.github/workflows/slack-action.yml
+      with:
+        slack_message: "GitHub Action Deploy result: ${{ needs.deploy.outputs.output1 }} ${{ github.event.head_commit.url }}"
+      secrets:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
