@@ -457,7 +457,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             models.UserHealthNetwork.objects.filter(user_id=kwargs["pk"]).delete()
             self.add_sites(serializer.validated_data, kwargs["pk"])
 
-            # models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
+            models.UserModality.objects.filter(user_id=request.user.id).delete()
             self.add_modalities(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
