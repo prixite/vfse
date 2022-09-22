@@ -110,7 +110,16 @@ class OrganizationPermission(BasePermission):
         return True
 
 
-class OrganizationIsAdminPermission(BasePermission):
+class EndUserReadOnlyPermission(BasePermission):
+    def has_permission(self, request, view):
+        org_id = request.user.get_default_organization().id
+        return not (
+            models.Role.END_USER == request.user.get_organization_role(org_id)
+            and request.method not in SAFE_METHODS
+        )
+
+
+class OrganizationEndUserReadOnlyPermission(BasePermission):
     def has_permission(self, request, view):
         org_id = view.kwargs.get("pk", request.user.get_default_organization().id)
         return not (
@@ -136,13 +145,21 @@ class SystemNotePermissions(BasePermission):
 
 class ViewOnlyPermissions(BasePermission):
     def has_permission(self, request, view):
-        if request.user.is_superuser:
-            return True
+        return request.user.is_superuser or not (
+            request.user.profile.view_only and request.method not in SAFE_METHODS
+        )
 
-        elif request.user.profile.view_only and request.method not in SAFE_METHODS:
-            return False
 
-        return True
+class FSEAccessPermissions(BasePermission):
+    def has_permission(self, request, view):
+        org_id = request.user.get_default_organization().id
+        curr_role = request.user.get_organization_role(org_id)
+
+        return (
+            request.user.is_superuser
+            or models.Role.FSE_ADMIN == curr_role
+            or (request.user.profile.fse_accessible and request.method in SAFE_METHODS)
+        )
 
 
 class CreateUserPermissions(BasePermission):

@@ -16,7 +16,11 @@ class MeTestCase(BaseTestCase):
                 ],
                 self.default_organization.id,
             ),
-            (self.customer_admin, ["modality", "organization"], self.organization.id),
+            (
+                self.customer_admin,
+                ["modality", "organization", "vfse"],
+                self.organization.id,
+            ),
         ]:
             self.client.force_login(user)
             response = self.client.get(f"/api/organizations/{self.organization.id}/me/")

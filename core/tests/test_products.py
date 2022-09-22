@@ -75,6 +75,11 @@ class ProductTestCase(BaseTestCase):
         response = self.client.delete(f"/api/products/models/{self.product_model.id}/")
         self.assertEqual(response.status_code, 204)
 
+    def test_delete_product_model_by_view_only_is_unaccesible(self):
+        self.client.force_login(self.view_only)
+        response = self.client.delete(f"/api/products/models/{self.product_model.id}/")
+        self.assertEqual(response.status_code, 403)
+
     def test_update_product_model(self):
         self.client.force_login(self.super_admin)
 
@@ -93,3 +98,40 @@ class ProductTestCase(BaseTestCase):
                 documentation__url="http://example.com/doc_new.pdf",
             ).exists()
         )
+
+    def test_update_product_model_by_view_only_is_unaccesible(self):
+        self.client.force_login(self.view_only)
+        response = self.client.patch(
+            f"/api/products/models/{self.product_model.id}/",
+            data={
+                "model": "Updated model",
+                "documentation": {"url": "http://example.com/doc_new.pdf"},
+            },
+        )
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_add_product_name_by_end_user_is_unaccesible(self):
+        self.client.force_login(self.end_user)
+        manufacuturer_obj = factories.ManufacturerFactory(name="New manufactuere")
+        response = self.client.post(
+            "/api/products/",
+            data={
+                "name": "product-36",
+                "manufacturer": manufacuturer_obj.id,
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
+    def test_post_proudct_model_by_end_user_is_unaccesible(self):
+        self.client.force_login(self.end_user)
+        response = self.client.post(
+            "/api/products/models/",
+            data={
+                "model": "test model",
+                "product": self.product.id,
+                "modality": self.modality.id,
+                "documentation": {"url": "http://example.com/doc.pdf"},
+            },
+        )
+        self.assertEqual(response.status_code, 403)

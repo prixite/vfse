@@ -94,6 +94,18 @@ class UserTestCase(BaseTestCase):
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, False)
 
+    def test_user_deactivate_by_view_only_is_unaccesible(self):
+        for user in [self.view_only]:
+            self.client.force_login(user)
+
+            new_user = factories.UserFactory(
+                is_active=True, organizations=[self.organization]
+            )
+            response = self.client.patch(
+                "/api/users/deactivate/", data={"users": [new_user.id]}
+            )
+            self.assertEqual(response.status_code, 403)
+
     def test_user_activate(self):
         for user in [self.user_admin]:
             self.client.force_login(user)
@@ -107,6 +119,74 @@ class UserTestCase(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             new_user.refresh_from_db()
             self.assertEqual(new_user.is_active, True)
+
+    def test_user_activate_by_view_only_is_unaccesible(self):
+        for user in [self.view_only]:
+            self.client.force_login(user)
+
+            new_user = factories.UserFactory(
+                is_active=False, organizations=[self.organization]
+            )
+            response = self.client.patch(
+                "/api/users/activate/", data={"users": [new_user.id]}
+            )
+            self.assertEqual(response.status_code, 403)
+
+    def test_user_update(self):
+        self.client.force_login(self.super_admin)
+        user = factories.UserFactory()
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@request.com",
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+            "health_networks": [self.health_network.id],
+        }
+        response = self.client.patch(f"/api/users/{user.id}/", data=user_data)
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_update_by_view_only_is_unaccesible(self):
+        self.client.force_login(self.view_only)
+        user = factories.UserFactory()
+        user_data = {
+            "meta": {
+                "profile_picture": "http://example.com/profilepic.jpg",
+                "title": "Mr.",
+            },
+            "first_name": "John",
+            "last_name": "Doe",
+            "email": "johndoe@request.com",
+            "phone": "+19876543210",
+            "role": models.Role.FSE,
+            "manager": self.customer_admin.id,
+            "organization": self.organization.id,
+            "sites": [self.site.id],
+            "modalities": [self.modality.id],
+            "fse_accessible": "false",
+            "audit_enabled": "false",
+            "can_leave_notes": "false",
+            "is_one_time": "false",
+            "view_only": "false",
+            "documentation_url": "true",
+            "health_networks": [self.health_network.id],
+        }
+        response = self.client.patch(f"/api/users/{user.id}/", data=user_data)
+        self.assertEqual(response.status_code, 403)
 
     def test_list_user_roles(self):
         self.client.force_login(self.super_admin)
@@ -122,3 +202,65 @@ class UserTestCase(BaseTestCase):
         ).count()
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()), users)
+
+    def test_scope_user_post(self):
+        self.client.force_login(self.super_admin)
+        user = factories.UserFactory()
+        user_data = {
+            "memberships": [
+                {
+                    "meta": {
+                        "profile_picture": "http://example.com/profilepic.jpg",
+                        "title": "Mr.",
+                    },
+                    "first_name": "string",
+                    "last_name": "string",
+                    "email": "user@example.com",
+                    "phone": "+12895980520",
+                    "role": models.Role.FSE,
+                    "manager": self.customer_admin.id,
+                    "organization": self.organization.id,
+                    "sites": [self.site.id],
+                    "modalities": [self.modality.id],
+                    "fse_accessible": "false",
+                    "audit_enabled": "false",
+                    "can_leave_notes": "false",
+                    "view_only": "false",
+                    "is_one_time": "false",
+                    "documentation_url": "true",
+                }
+            ]
+        }
+        response = self.client.post(f"/api/scope/{user.id}/users/", data=user_data)
+        self.assertEqual(response.status_code, 201)
+
+    def test_scope_user_post_read_only(self):
+        self.client.force_login(self.view_only)
+        user = factories.UserFactory()
+        user_data = {
+            "memberships": [
+                {
+                    "meta": {
+                        "profile_picture": "http://example.com/profilepic.jpg",
+                        "title": "Mr.",
+                    },
+                    "first_name": "string",
+                    "last_name": "string",
+                    "email": "user@example.com",
+                    "phone": "+12895980520",
+                    "role": models.Role.FSE,
+                    "manager": self.customer_admin.id,
+                    "organization": self.organization.id,
+                    "sites": [self.site.id],
+                    "modalities": [self.modality.id],
+                    "fse_accessible": "false",
+                    "audit_enabled": "false",
+                    "can_leave_notes": "false",
+                    "view_only": "false",
+                    "is_one_time": "false",
+                    "documentation_url": "true",
+                }
+            ]
+        }
+        response = self.client.post(f"/api/scope/{user.id}/users/", data=user_data)
+        self.assertEqual(response.status_code, 403)

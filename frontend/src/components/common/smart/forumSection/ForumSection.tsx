@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Box, Pagination, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 
 // import useStyles from "@src/components/common/smart/forumSection/Styles";
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
@@ -64,25 +64,10 @@ export default function ForumSection() {
           setTopicListPayload={setTopicListPayload}
           topicListPayload={topicListPayload}
           setPage={setPage}
+          page={page}
+          count={totalTopicPages}
+          onChange={handlePagination}
         />
-        {/* Pagination */}
-        {paginatedTopics?.length > 0 && (
-          <Stack
-            spacing={2}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Pagination
-              defaultPage={1}
-              page={page}
-              count={totalTopicPages}
-              onChange={handlePagination}
-              size="large"
-            />
-          </Stack>
-        )}
-        {/* Pagination End  */}
       </Box>
       {open ? <TopicModal open={open} handleClose={handleClose} /> : ""}
     </>

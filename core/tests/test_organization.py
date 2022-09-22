@@ -32,6 +32,30 @@ class OrganizationTestCase(BaseTestCase):
             models.Organization.objects.get(name="Test Organization").is_customer
         )
 
+    def test_create_customer_organization_by_view_only_is_unaccesible(self):
+        self.client.force_login(self.view_only)
+        response = self.client.post(
+            "/api/organizations/",
+            data={
+                "name": "Test Organization",
+                "number_of_seats": 10,
+                "is_default": False,
+                "appearance": {
+                    "sidebar_text": "#773CBD",
+                    "button_text": "#773CBD",
+                    "sidebar_color": "#773CBD",
+                    "primary_color": "#773CBD",
+                    "secondary_color": "#EFE1FF",
+                    "font_one": "helvetica",
+                    "font_two": "arial",
+                    "logo": "https://picsum.photos/200",
+                    "banner": "https://picsum.photos/200",
+                    "icon": "https://picsum.photos/200",
+                },
+            },
+        )
+        self.assertEqual(response.status_code, 403)
+
     def test_list_organizations_super_users(self):
         for user in [self.super_admin, self.super_manager]:
             self.client.force_login(user)
@@ -151,6 +175,28 @@ class OrganizationTestCase(BaseTestCase):
 
         self.default_organization.refresh_from_db()
         self.assertDictEqual(self.default_organization.appearance, new_appearance)
+
+    def test_update_organization_appearance_by_view_only_is_unaccesible(self):
+        self.client.force_login(self.view_only)
+        new_appearance = {
+            "sidebar_text": "#773CBD",
+            "button_text": "#773CBD",
+            "sidebar_color": "#773CBD",
+            "primary_color": "#773CBD",
+            "secondary_color": "#EFE1FF",
+            "font_one": "helvetica",
+            "font_two": "arial",
+            "logo": "https://picsum.photos/200",
+            "banner": "https://picsum.photos/200",
+            "icon": "https://picsum.photos/200",
+        }
+        response = self.client.patch(
+            f"/api/organizations/{self.default_organization.id}/",
+            data={
+                "appearance": new_appearance,
+            },
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_unique_name_constraint_while_create(self):
         self.client.force_login(self.super_admin)
@@ -797,6 +843,16 @@ class VfseTestCase(BaseTestCase):
             len(models.Seat.objects.filter(organization=self.organization))
             <= self.organization.number_of_seats
         )
+
+    def test_create_vfse_systems_valid_by_view_only_is_unaccesible(self):
+        self.client.force_login(self.view_only)
+        response = self.client.post(
+            f"/api/organizations/{self.other_organization.id}/seats/",
+            data={
+                "seats": [{"system": self.system.id}],
+            },
+        )
+        self.assertEqual(response.status_code, 403)
 
     def test_post_duplicate_vfse_system(self):
         self.client.force_login(self.super_admin)

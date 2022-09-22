@@ -12,7 +12,10 @@ from vfse import filters, models, pagination, serializers
 
 
 class CategoryViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.FSEAccessPermissions,
+    ]
     serializer_class = serializers.CategorySerializer
     filterset_class = filters.CategoryFilterSet
 
@@ -21,7 +24,10 @@ class CategoryViewSet(ModelViewSet):
 
 
 class FolderViewset(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.FSEAccessPermissions,
+    ]
     serializer_class = serializers.FolderSerializer
     filterset_fields = ["categories"]
 
@@ -42,7 +48,10 @@ class FolderViewset(ModelViewSet):
 
 
 class DocumentViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.FSEAccessPermissions,
+    ]
     serializer_class = serializers.DocumentSerializer
     filterset_fields = ["folder", "favorite"]
 
@@ -56,7 +65,9 @@ class DocumentViewSet(ModelViewSet):
 
 
 class CommentViewset(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+    ]
     serializer_class = serializers.CommentSerializer
     pagination_class = pagination.TopicPagination
 
@@ -82,7 +93,9 @@ class CommentViewset(ModelViewSet):
 
 
 class ReplyViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+    ]
     serializer_class = serializers.CommentSerializer
     pagination_class = pagination.TopicPagination
 
@@ -111,7 +124,18 @@ class TopicViewset(ModelViewSet):
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
             return models.Topic.objects.none()
-        return models.Topic.objects.annotate(
+        topics = models.Topic.objects.filter(user=self.request.user)
+        curr_role = self.request.user.get_organization_role(
+            self.request.user.get_default_organization().id
+        )
+        if (
+            self.request.user.is_superuser
+            or core_models.Role.FSE_ADMIN == curr_role
+            or self.action in ["list", "retrieve"]
+        ):
+            topics = models.Topic.objects.all()
+
+        return topics.annotate(
             number_of_followers=Count("followers", distinct=True),
             number_of_comments=Count(
                 "comments", distinct=True, filter=Q(comments__parent__isnull=True)
@@ -121,6 +145,7 @@ class TopicViewset(ModelViewSet):
 
 class PopularTopicsViewset(ModelViewSet):
     serializer_class = serializers.TopicDetailSerializer
+    permission_classes = [permissions.FSEAccessPermissions]
 
     def get_queryset(self):
         return models.Topic.objects.annotate(
@@ -133,6 +158,7 @@ class PopularTopicsViewset(ModelViewSet):
 
 class DashboardView(APIView):
     serializer_class = serializers.DashboardSerializer
+    permission_classes = [permissions.FSEAccessPermissions]
 
     def get(self, request, format=None):
         systems = core_models.System.objects.all().count()
@@ -154,6 +180,7 @@ class DashboardView(APIView):
 
 class TopicActivityViewSet(ListAPIView):
     serializer_class = serializers.RecentActivitySerializer
+    permission_classes = [permissions.FSEAccessPermissions]
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -179,6 +206,7 @@ class MyTopicActivityViewSet(ListAPIView):
 class MyTopicsViewSet(ModelViewSet):
     serializer_class = serializers.TopicSerializer
     pagination_class = pagination.TopicPagination
+    permission_classes = [permissions.FSEAccessPermissions]
 
     def get_serializer_class(self):
         if self.action in ["list"]:
@@ -198,7 +226,10 @@ class MyTopicsViewSet(ModelViewSet):
 
 
 class WorkOrderViewset(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.FSEAccessPermissions,
+    ]
     serializer_class = serializers.WorkOrderSerializer
 
     def get_queryset(self):
@@ -213,7 +244,10 @@ class WorkOrderViewset(ModelViewSet):
 
 
 class FollowtopicViewset(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.FSEAccessPermissions,
+    ]
     serializer_class = serializers.FollowUnfollowSerializer
 
     def get_queryset(self):

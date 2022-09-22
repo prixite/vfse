@@ -169,7 +169,11 @@ const OrganizationSection = () => {
         ""
       )}
       <Box component="div" className="OrganizationSection">
-        {!showTabs() ? <h2>{title}</h2> : <h2>{selectedOrganization?.name}</h2>}
+        {!showTabs() ? (
+          <h2 style={{ lineHeight: "1.3", marginTop: "10px" }}>{title}</h2>
+        ) : (
+          <h2>{selectedOrganization?.name}</h2>
+        )}
         {showTabs() ? (
           <>
             <Tabs
