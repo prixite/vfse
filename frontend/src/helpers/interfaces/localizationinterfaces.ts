@@ -370,7 +370,7 @@ export interface folderSection {
   backBtn: string;
 }
 export interface allCategoriesSection {
-  errorMsg: string;
+  Message: string;
 }
 
 export interface ConfirmSiteModal {

@@ -7,7 +7,7 @@ import ArticleCard from "@src/components/common/presentational/articleCard/Artic
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-import NoDataFoundCard from "@src/components/shared/noDataFound/noDataFoundCard/NoDataFoundCard";
+import NoDataFoundCard from "@src/components/shared/noDataFound/NoDataFoundCard";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
@@ -25,7 +25,7 @@ const AllCategoriesSection = () => {
     setOpen(false);
   };
   const { noDataTitle, noDataDescription } = localizedData().systems;
-  const { Error } = localizedData().allCategoriesSection;
+  const { Message } = localizedData().allCategoriesSection;
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
@@ -78,7 +78,7 @@ const AllCategoriesSection = () => {
                 </Grid>
               ))
             ) : (
-              <NoDataFoundCard message={Error} />
+              <NoDataFoundCard message={Message} />
             )}
           </Grid>
         </div>

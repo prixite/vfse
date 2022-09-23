@@ -1,5 +1,5 @@
 import { Grid, Card, CardContent, Typography } from "@mui/material";
-import "@src/components/shared/noDataFound/noDataFoundCard/NoDataFoundCard.scss";
+import "@src/components/shared/noDataFound/NoDataFoundCard.scss";
 
 interface Props {
   message: string;
