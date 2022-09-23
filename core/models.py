@@ -12,7 +12,6 @@ class Role(models.TextChoices):
     USER_ADMIN = "user-admin", "User Admin"
     FSE = "fse", "Field Service Engineer"
     END_USER = "end-user", "End User"
-    ONE_TIME = "one-time", "One Time"
     CRYO = "cryo", "Cryo"
     CRYO_FSE = "cryo-fse", "Cryo FSE"
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
@@ -193,7 +192,6 @@ class User(AbstractUser):
             Role.USER_ADMIN: {user_flag},
             Role.FSE: {vfse_flag},
             Role.END_USER: {modality_flag},
-            Role.ONE_TIME: {vfse_flag},
         }
 
         flags = set()
