@@ -27,7 +27,11 @@ import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { addIdToHeadings, toastAPIError } from "@src/helpers/utils/utils";
+import {
+  addIdToHeadings,
+  convertImages,
+  toastAPIError,
+} from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -157,6 +161,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     );
 
     htmlString = addIdToHeadings(htmlString);
+    htmlString = convertImages(htmlString); //calling to resolve a bug in package
 
     formik
       .setFieldValue("text", htmlString)

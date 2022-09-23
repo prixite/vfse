@@ -1,6 +1,7 @@
 import { useEffect, Dispatch, SetStateAction } from "react";
 
-import { EditorState, ContentState } from "draft-js";
+import { EditorState, ContentState, RichUtils } from "draft-js";
+import { insertNewUnstyledBlock } from "draftjs-utils";
 import htmlToDraft from "html-to-draftjs";
 import { Editor } from "react-draft-wysiwyg";
 
@@ -51,6 +52,22 @@ const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
 
   return (
     <Editor
+      handleReturn={(event) => {
+        // override behavior for enter key
+        let newEditorState = null;
+        if (event.keyCode === 13 && event.shiftKey) {
+          // with shift, make a new block
+          newEditorState = insertNewUnstyledBlock(editorState);
+        } else if (event.keyCode === 13 && !event.shiftKey) {
+          // without shift, just a normal line break
+          newEditorState = RichUtils.insertSoftNewline(editorState);
+        }
+        if (newEditorState) {
+          setEditorState(newEditorState);
+          return true;
+        }
+        return false;
+      }}
       editorState={editorState}
       editorClassName="editor"
       onEditorStateChange={onTextChange}

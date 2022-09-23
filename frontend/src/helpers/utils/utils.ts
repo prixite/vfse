@@ -67,6 +67,13 @@ const addIdToHeadings = (htmlString: string): string => {
   return str;
 };
 
+const convertImages = (htmlText) => {
+  return htmlText.replace(
+    /<div style="text-align:none;"><img/g,
+    '<div style="text-align:center;"><img'
+  );
+};
+
 const isNonFieldError = (error: unknown): boolean => {
   if (isApiError(error)) {
     return isBadRequestError(error) && "non_field_errors" in error.data;
@@ -154,4 +161,5 @@ export {
   isNonFieldError,
   returnPayloadThemeObject,
   addIdToHeadings,
+  convertImages,
 };

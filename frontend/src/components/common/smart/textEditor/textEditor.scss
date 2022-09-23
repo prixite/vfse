@@ -4,6 +4,10 @@
   background: #ffff;
   max-height: calc(100vh - 149px);
   overflow-y: auto;
+  line-height: "75%";
+}
+.public-DraftStyleDefault-block {
+  margin: 0 !important;
 }
 .rdw-option-wrapper {
   border: none !important;

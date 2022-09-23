@@ -13,7 +13,11 @@ import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import { timeOut } from "@src/helpers/utils/constants";
-import { addIdToHeadings, toastAPIError } from "@src/helpers/utils/utils";
+import {
+  addIdToHeadings,
+  convertImages,
+  toastAPIError,
+} from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -39,6 +43,7 @@ const DocumentationDescription = () => {
     let htmlString = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
     htmlString = addIdToHeadings(htmlString);
+    htmlString = convertImages(htmlString); //calling to resolve a bug in package
 
     updateArticle({
       id: parseInt(docId),
