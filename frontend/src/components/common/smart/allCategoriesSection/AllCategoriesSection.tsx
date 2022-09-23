@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
-import { Grid, Card, CardContent, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import NoFolderFound from "@src/components/shared/noFolderFound/noFolderFound";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
@@ -77,15 +78,7 @@ const AllCategoriesSection = () => {
                 </Grid>
               ))
             ) : (
-              <Grid item={true} xs={12} xl={12} md={12} lg={12} key={index}>
-                <Card className={classes.cardDiv}>
-                  <CardContent>
-                    <Typography className={classes.errorDiv} gutterBottom>
-                      {Error}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+              <NoFolderFound errorTitle={Error} />
             )}
           </Grid>
         </div>

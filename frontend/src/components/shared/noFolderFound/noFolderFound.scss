@@ -1,0 +1,14 @@
+        .no-folder-card-div {
+            min-width: 275px;
+            height: 168px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+            .no-folder-error-div {
+                font-size: 20px;
+                font-weight:500;
+                color:#696f77;                
+            }
+        }
