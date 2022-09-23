@@ -18,7 +18,6 @@ class UserTestCase(BaseTestCase):
         user = factories.UserWithPasswordFactory(
             profile__is_one_time=True,
             organizations=[self.organization],
-            organizations__role=models.Role.ONE_TIME,
         )
         response = test.Client().post(
             "/accounts/login/",
@@ -256,7 +255,6 @@ class UserTestCase(BaseTestCase):
                     "audit_enabled": "false",
                     "can_leave_notes": "false",
                     "view_only": "false",
-                    "is_one_time": "false",
                     "documentation_url": "true",
                 }
             ]

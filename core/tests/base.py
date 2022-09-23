@@ -17,7 +17,6 @@ class BaseTestCase(TestCase):
         self.fse = factories.UserFactory()
         self.end_user = factories.UserFactory()
         self.view_only = factories.UserFactory(profile__view_only=True)
-        self.one_time = factories.UserFactory()
         self.cryo = factories.UserFactory()
         self.cryo_fse = factories.UserFactory()
         self.cryo_admin = factories.UserFactory()
@@ -44,7 +43,6 @@ class BaseTestCase(TestCase):
             fse_roles=[self.fse],
             end_user_roles=[self.end_user],
             view_only_roles=[self.view_only],
-            one_time_roles=[self.one_time],
             cryo_roles=[self.cryo],
             cryo_fse_roles=[self.cryo_fse],
             cryo_admin_roles=[self.cryo_admin],
