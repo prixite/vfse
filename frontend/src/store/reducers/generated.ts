@@ -1252,7 +1252,6 @@ export type UserRequestAccess = {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
@@ -1486,7 +1485,6 @@ export type UpsertUser = {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
