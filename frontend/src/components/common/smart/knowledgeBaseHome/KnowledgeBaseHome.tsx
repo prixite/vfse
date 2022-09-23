@@ -8,6 +8,7 @@ import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTop
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import NoDataFoundCard from "@src/components/shared/noDataFound/NoDataFoundCard";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
@@ -25,6 +26,7 @@ const KnowledgeBaseHome = () => {
   const [query, setQuery] = useState("");
   const { knowledgeBase } = constantsData;
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const { Message } = localizedData().allCategoriesSection;
   const { id } = useParams<{ id?: string }>();
   //APIs
   const { data: topData = [] } = api.useGetTopArticlesQuery();
@@ -92,17 +94,21 @@ const KnowledgeBaseHome = () => {
             <CategoryOptionsSection category={category} id={id} />
           </div>
           <Grid container spacing={2}>
-            {category?.folders?.map((item, index) => (
-              <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
-                <ArticleCard
-                  color={category?.color}
-                  title={item?.name}
-                  articleNo={item?.document_count}
-                  id={item.id}
-                  categoryID={category?.id}
-                />
-              </Grid>
-            ))}
+            {category?.folders?.length ? (
+              category?.folders?.map((item, index) => (
+                <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
+                  <ArticleCard
+                    color={category?.color}
+                    title={item?.name}
+                    articleNo={item?.document_count}
+                    id={item.id}
+                    categoryID={category?.id}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <NoDataFoundCard message={Message} />
+            )}
           </Grid>
         </div>
       ))}
