@@ -82,6 +82,13 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         _add_member(obj, extracted, models.Role.END_USER)
 
     @factory.post_generation
+    def one_time_roles(obj, create, extracted, **kwargs):
+        if not create:
+            return
+
+        _add_member(obj, extracted, models.Role.END_USER)
+
+    @factory.post_generation
     def cryo_roles(obj, create, extracted, **kwargs):
         if not create:
             return
@@ -168,6 +175,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         model = models.Profile
 
     user = factory.SubFactory(UserFactory, profile=None)
+    is_one_time = False
     view_only = False
     fse_accessible = True
     meta = {

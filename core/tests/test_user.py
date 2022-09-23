@@ -255,6 +255,7 @@ class UserTestCase(BaseTestCase):
                     "audit_enabled": "false",
                     "can_leave_notes": "false",
                     "view_only": "false",
+                    "is_one_time": "false",
                     "documentation_url": "true",
                 }
             ]
