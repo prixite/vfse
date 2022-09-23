@@ -1,17 +1,17 @@
 import { Grid, Card, CardContent, Typography } from "@mui/material";
-import "@src/components/shared/noFolderFound/noFolderFound.scss";
+import "@src/components/shared/noDataFound/noDataFoundCard/NoDataFoundCard.scss";
 
 interface Props {
-  errorTitle: string;
+  message: string;
 }
 
-const NoFolderFound = ({ errorTitle }: Props) => {
+const NoDataFoundCard = ({ message }: Props) => {
   return (
     <Grid item xs={12} xl={12} md={12} lg={12}>
       <Card className="no-folder-card-div">
         <CardContent>
           <Typography className="no-folder-error-div" gutterBottom>
-            {errorTitle}
+            {message}
           </Typography>
         </CardContent>
       </Card>
@@ -19,4 +19,4 @@ const NoFolderFound = ({ errorTitle }: Props) => {
   );
 };
 
-export default NoFolderFound;
+export default NoDataFoundCard;

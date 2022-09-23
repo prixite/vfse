@@ -7,7 +7,7 @@ import ArticleCard from "@src/components/common/presentational/articleCard/Artic
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-import NoFolderFound from "@src/components/shared/noFolderFound/noFolderFound";
+import NoDataFoundCard from "@src/components/shared/noDataFound/noDataFoundCard/NoDataFoundCard";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
@@ -78,7 +78,7 @@ const AllCategoriesSection = () => {
                 </Grid>
               ))
             ) : (
-              <NoFolderFound errorTitle={Error} />
+              <NoDataFoundCard message={Error} />
             )}
           </Grid>
         </div>
