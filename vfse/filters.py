@@ -14,7 +14,7 @@ class TopicActivityFilterSet(filters.FilterSet):
 
     def get_activity_by_topic(self, queryset, name, value):
         if not value:
-            return models.Topic.objects.none()
+            return models.RecentActivity.objects.none()
 
         return queryset.filter(topic=value)
 
