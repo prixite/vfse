@@ -688,6 +688,9 @@
   "listModalPopUp": {
     "close": "Close"
   },
+  "allCategoriesSection": {
+    "Message": "Sorry, You don't have Folders against this Category."
+  },
   "networkModalPopUp": {
     "nameRequired": "Name is required",
     "imageNotSelected": "Image is not selected",
