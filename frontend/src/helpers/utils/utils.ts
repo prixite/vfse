@@ -60,7 +60,7 @@ const addIdToHeadings = (htmlString: string): string => {
   let index = 0;
 
   const str = htmlString.replace(
-    /<h[1-6]>/g,
+    /<h[1-6].*?>(.*?)/g,
     (item) => `<h${item[2]} id='${index++}' >`
   );
 
