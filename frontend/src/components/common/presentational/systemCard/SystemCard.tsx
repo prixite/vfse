@@ -519,35 +519,39 @@ const SystemCard = ({
               )}
             </div>
           </div>
-          <TextField
-            className={classes.copyField}
-            variant="outlined"
-            autoComplete="off"
-            value={system.documentation}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <ContentCopyIcon />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="start">
-                  <Button
-                    className={classes.copyBtn}
-                    onClick={() => {
-                      navigator?.clipboard?.writeText(system.documentation);
-                      toast.success(toastData.systemCardLinkCopiedSuccess, {
-                        autoClose: timeOut,
-                        pauseOnHover: false,
-                      });
-                    }}
-                  >
-                    {copy_btn}
-                  </Button>
-                </InputAdornment>
-              ),
-            }}
-          />
+          {currentUser.documentation_url ? (
+            <TextField
+              className={classes.copyField}
+              variant="outlined"
+              autoComplete="off"
+              value={system.documentation}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <ContentCopyIcon />
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <Button
+                      className={classes.copyBtn}
+                      onClick={() => {
+                        navigator?.clipboard?.writeText(system.documentation);
+                        toast.success(toastData.systemCardLinkCopiedSuccess, {
+                          autoClose: timeOut,
+                          pauseOnHover: false,
+                        });
+                      }}
+                    >
+                      {copy_btn}
+                    </Button>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          ) : (
+            ""
+          )}
         </div>
         <div className={classes.infoSection}>
           <p className={classes.option}>
