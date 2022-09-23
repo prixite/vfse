@@ -6,6 +6,7 @@ import { Editor } from "react-draft-wysiwyg";
 
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "@src/components/common/smart/textEditor/textEditor.scss";
+import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { useAppSelector } from "@src/store/hooks";
 
 interface text {
@@ -76,7 +77,10 @@ const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
           urlEnabled: true,
           uploadEnabled: true,
           alignmentEnabled: true,
-          // uploadCallback: () => {}, TODO
+          uploadCallback: async (item) => {
+            const data = await uploadImageToS3(item);
+            return { data: { link: data?.location } };
+          },
           previewImage: true,
           inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
           defaultSize: {
