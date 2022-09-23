@@ -2978,7 +2978,8 @@
             "required": [
                 "profile_picture",
                 "can_leave_notes",
-                "fse_accessible"
+                "fse_accessible",
+                "documentation_url"
             ],
             "type": "object",
             "properties": {
@@ -3027,6 +3028,10 @@
                 },
                 "fse_accessible": {
                     "title": "Fse accessible",
+                    "type": "boolean"
+                },
+                "documentation_url": {
+                    "title": "Documentation url",
                     "type": "boolean"
                 }
             }

@@ -1341,6 +1341,7 @@ export type Me = {
   is_superuser?: boolean;
   can_leave_notes: boolean;
   fse_accessible: boolean;
+  documentation_url: boolean;
 };
 export type Modality = {
   id?: number;
