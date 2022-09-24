@@ -669,7 +669,7 @@
     "cancelText": "Cancel"
   },
   "categoryModal": {
-    "colorTextRequired": "Color Text is required!",
+    "colorTextRequired": "Name is required!",
     "colorRequired": "Color is required!",
     "addCategoryText": "Add Category",
     "colorNameText": "Name",
