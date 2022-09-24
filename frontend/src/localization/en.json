@@ -689,7 +689,7 @@
     "close": "Close"
   },
   "allCategoriesSection": {
-    "Message": "Sorry, You don't have Folders against this Category."
+    "Message": "Sorry, no folders found against this category."
   },
   "networkModalPopUp": {
     "nameRequired": "Name is required",
