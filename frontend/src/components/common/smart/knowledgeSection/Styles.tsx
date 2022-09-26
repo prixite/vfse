@@ -42,6 +42,21 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "rgb(119, 60, 189)",
   },
+  knowledgeBaseCardsContainer: {
+    [theme.breakpoints.down("sm")]: {
+      display: "flex",
+      height: "240px",
+      flexDirection: "column",
+      overflowX: "scroll",
+      overflowY: "hidden",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      padding: "revert",
+    },
+  },
+  knowledgeTopCard: {
+    width: "205px",
+  },
 }));
 
 export default useStyles;
