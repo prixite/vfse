@@ -30,6 +30,8 @@
       word-wrap: break-word;
       overflow: hidden;
       -webkit-box-orient: vertical;
+      word-break: break-word;
+      margin-top: 10px;
     }
     .info {
       font-family: "ProximaNova-Regular";
@@ -73,10 +75,32 @@
   }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 900px) {
   .knowledge-top-card {
+    height: 200px;
     .card {
       width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      position: relative;
+      background: white;
+      box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding-top: 21px;
+      padding-bottom: 21px;
+      padding-left: 21px;
+      padding-right: 21px;
+      .info {
+        .category {
+          word-break: break-word;
+          -webkit-line-clamp: 3;
+        }
+      }
     }
   }
 }
