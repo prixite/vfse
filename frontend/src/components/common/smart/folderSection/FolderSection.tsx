@@ -58,6 +58,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
                 title={item?.name}
                 articleNo={item?.document_count}
                 id={item.id}
+                categoryName={categoryData.name}
                 categoryID={categoryData.id}
               />
             </Grid>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -16,13 +16,15 @@ import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import { Category } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/editFolderModal/editFolderModal.scss";
 
 interface EditFolderModalProps {
   open: boolean;
   handleClose: () => void;
-//   categoryData: Category;
+  title;
+  categoryName;
+  categoryID;
+  id;
 }
 
 const initialState = {
@@ -40,7 +42,10 @@ const validationSchema = yup.object({
 export default function EditFolderModal({
   open,
   handleClose,
-//   categoryData,
+  title,
+  categoryName,
+  categoryID,
+  id,
 }: EditFolderModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -53,44 +58,52 @@ export default function EditFolderModal({
   const { toastData } = constantsData;
 
   //API
-//   const [addNewFolder] = api.useAddFolderMutation();
+  const [updateFolder] = api.useUpdateFolderMutation();
 
-//   const formik = useFormik({
-//     initialValues: initialState,
-//     validationSchema: validationSchema,
-//     validateOnChange: onChangeValidation,
-//     onSubmit: () => {
-//       handleFolderSubmit();
-//     },
-//   });
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    validateOnChange: onChangeValidation,
+    onSubmit: () => {
+      handleFolderSubmit();
+    },
+  });
 
-//   const handleFolderSubmit = () => {
-//     setIsLoading(true);
-//     addNewFolder({
-//     //   folder: { name: formik.values.name, categories: [categoryData?.id] },
-//     })
-//       .unwrap()
-//       .then(() => {
-//         toast.success(toastData.folderAddSuccess, {
-//           autoClose: timeOut,
-//           pauseOnHover: false,
-//         });
-//       })
-//       .catch((err) => {
-//         toastAPIError(toastData.folderAddError, err.status, err.data);
-//       })
-//       .finally(() => {
-//         resetModal();
-//         setIsLoading(false);
-//       });
-//   };
-
-//   const resetModal = () => {
-//     formik.resetForm();
-//     setOnChangeValidation(false);
-//     handleClose();
-//   };
-
+  const handleFolderSubmit = () => {
+    setIsLoading(true);
+    updateFolder({
+      id,
+      folder: { name: formik.values.name, categories: [categoryID] },
+    })
+      .unwrap()
+      .then(() => {
+        toast.success(toastData.folderUpdateSuccess, {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+      })
+      .catch((err) => {
+        toastAPIError(toastData.folderUpdateError, err.status, err.data);
+      })
+      .finally(() => {
+        resetModal();
+        setIsLoading(false);
+      });
+  };
+  useEffect(() => {
+    populateEditableData();
+  }, []);
+  const resetModal = () => {
+    formik.resetForm();
+    setOnChangeValidation(false);
+    handleClose();
+  };
+  const populateEditableData = () => {
+    formik.setValues({
+      ...formik.values,
+      name: title,
+    });
+  };
   return (
     <Dialog className="edit-folder-modal" open={open}>
       <DialogTitle>
@@ -101,7 +114,7 @@ export default function EditFolderModal({
               alt=""
               src={CloseBtn}
               className="cross-btn"
-            //   onClick={resetModal}
+              onClick={resetModal}
             />
           </span>
         </div>
@@ -119,11 +132,11 @@ export default function EditFolderModal({
                     variant="outlined"
                     size="small"
                     placeholder="Type in Folder"
-                    // value={formik.values.name}
-                    // onChange={formik.handleChange}
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {/* {formik.errors.name} */}
+                    {formik.errors.name}
                   </p>
                 </div>
               </Grid>
@@ -134,16 +147,13 @@ export default function EditFolderModal({
                   <FormControl>
                     <Select
                       name="role"
-                    //   value={categoryData.id}
+                      value={categoryName}
                       className="select-cls"
                       inputProps={{ "aria-label": "Without label" }}
-                    //   onChange={formik.handleChange}
+                      onChange={formik.handleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
-                      // disabled={!props?.roles?.length}
                     >
-                      {/* <MenuItem value={categoryData.id}>
-                        {categoryData.name}
-                      </MenuItem> */}
+                      <MenuItem value={categoryName}>{categoryName}</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -157,7 +167,7 @@ export default function EditFolderModal({
         <Button
           className="cancel-btn"
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
-        //   onClick={resetModal}
+          onClick={resetModal}
         >
           {cancel}
         </Button>
@@ -169,7 +179,7 @@ export default function EditFolderModal({
           }}
           onClick={() => {
             setOnChangeValidation(true);
-            // formik.handleSubmit();
+            formik.handleSubmit();
           }}
           disabled={isLoading}
         >

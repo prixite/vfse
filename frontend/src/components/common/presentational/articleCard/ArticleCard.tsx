@@ -8,8 +8,8 @@ import { Box, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import EditFolderModal from "@src/components/shared/popUps/editFolderModal/editFolderModal";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import EditFolderModal from "@src/components/shared/popUps/editFolderModal/editFolderModal";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
@@ -24,6 +24,7 @@ interface props {
   articleNo: string;
   id: number;
   categoryID: number;
+  categoryName: string;
 }
 
 const ArticleCard = ({
@@ -32,6 +33,7 @@ const ArticleCard = ({
   articleNo,
   id: folderId,
   categoryID,
+  categoryName,
 }: props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -60,9 +62,6 @@ const ArticleCard = ({
   };
   const handleModalClose = () => {
     setOpenModal(false);
-  };
-  const handleEditModalClose = () => {
-    setOpenEditModal(false);
   };
   const handleEditClose = () => {
     setOpenEditModal(false);
@@ -158,10 +157,13 @@ const ArticleCard = ({
         handleClose={handleModalClose}
         handleDeleteOrganization={handleDeleteFolder}
       />
-       <EditFolderModal
+      <EditFolderModal
         open={openEditModal}
         handleClose={handleEditClose}
-        // categoryData={categoryData}
+        title={title}
+        categoryName={categoryName}
+        categoryID={categoryID}
+        id={folderId}
       />
     </>
   );

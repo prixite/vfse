@@ -424,6 +424,8 @@
     "modalAlreadyExists": "Model with given name already exists for selected product",
     "folderAddSuccess": "Folder Successfully added.",
     "folderAddError": "Error occured while adding Folder",
+    "folderUpdateSuccess": "Folder Updated Successfully.",
+    "folderUpdateError": "Error occured while updating Folder",
     "saveHealthNetworkError": "Error occurred while saving health network",
     "addHealthNetworkError": "Error occurred while adding health network",
     "uploadImageFailedError": "Failed to upload image",
