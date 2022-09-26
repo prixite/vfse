@@ -139,7 +139,6 @@ export default function UserModal(props: Props) {
     userProfileImage,
     phone,
     selectedSites,
-    selectedSystems,
     selectedModalities,
     accessToFSEFunctions,
     auditEnable,
@@ -288,6 +287,14 @@ export default function UserModal(props: Props) {
         }
       }
 
+      if (editedUser?.systems?.length) {
+        const system_ids: Array<number> = [];
+        editedUser?.systems?.forEach((system) => {
+          system_ids.push(system);
+        });
+        formik.setFieldValue("selectedSystems", system_ids);
+      }
+
       if (editedUser?.modalities?.length) {
         const filterModalities = props?.modalitiesList?.filter((modality) => {
           return editedUser?.modalities?.includes(modality?.name?.toString());
@@ -327,11 +334,12 @@ export default function UserModal(props: Props) {
     }
   };
 
-  const handleSitesSelection = (e) => {
+  const handleSitesSelection = async (e) => {
     const val = parseInt(e?.target?.value || e);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
+
     if (!systemInSiteExists) {
-      formik.setFieldValue("selectedSystems", [
+      await formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
         ...systemsSiteList.map((x) => x.id),
       ]);
@@ -339,9 +347,39 @@ export default function UserModal(props: Props) {
       const selectedSystemsInSite = formik.values.selectedSystems.filter(
         (x) => !systemsSiteList.some((j) => x === j.id)
       );
-      formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
+      await formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
     }
+
     modifySelectedSiteList(val);
+    const temp = [...formik.values.selectedModalities];
+    for (const system of systemsSiteList) {
+      modifySelectedModalities(system, temp);
+    }
+  };
+
+  const modifySelectedModalities = (system, temp) => {
+    const modality = systemsList
+      ?.filter((item) => item?.id == system?.id)
+      ?.map((item) => item?.product_model_detail?.modality?.id)[0];
+
+    const systems = systemsList
+      ?.filter((item) => item?.product_model_detail?.modality?.id == modality)
+      .filter((item) => item?.id != system?.id);
+
+    if (
+      systems?.length &&
+      systems?.some((item) => formik.values.selectedSystems.includes(item?.id))
+    ) {
+      return;
+    }
+
+    const selectedModalityIndex = temp?.indexOf(modality);
+    if (selectedModalityIndex > -1) {
+      temp?.splice(selectedModalityIndex, 1);
+    } else {
+      temp?.push(modality);
+    }
+    formik.setFieldValue(selectedModalities, [...temp]);
   };
 
   const modifySelectedSiteList = (val) => {
@@ -368,11 +406,13 @@ export default function UserModal(props: Props) {
   };
 
   const handleSystemSelection = (e, site) => {
-    const val = parseInt(e.target.value);
+    const val = parseInt(e?.target?.value || e);
     const selectedSystemIndex = formik.values.selectedSystems.indexOf(val);
     if (selectedSystemIndex > -1) {
       formik.values.selectedSystems?.splice(selectedSystemIndex, 1);
-      formik.setFieldValue(selectedSystems, [...formik.values.selectedSystems]);
+      formik.setFieldValue("selectedSystems", [
+        ...formik.values.selectedSystems,
+      ]);
     } else {
       formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
@@ -382,21 +422,114 @@ export default function UserModal(props: Props) {
 
     const { systemInSiteExists } = handelSitesOfSystem(site);
     if (
-      !e.target.checked && //uncheck
+      !e?.target?.checked && //uncheck
       formik.values.selectedSites.includes(site) && //site checked
       !systemInSiteExists //system does not exist
     ) {
       modifySelectedSiteList(site);
     } else if (
-      e.target.checked &&
+      e?.target?.checked &&
       !formik.values.selectedSites.includes(site)
     ) {
       modifySelectedSiteList(site);
     }
+
+    const modality = systemsList
+      .filter((item) => item?.id == val)
+      .map((item) => item?.product_model_detail?.modality?.id)[0];
+
+    const systems = systemsList
+      ?.filter((item) => item?.product_model_detail?.modality?.id == modality)
+      .filter((item) => item?.id != val);
+
+    if (
+      systems.length &&
+      systems.some((item) => formik?.values?.selectedSystems.includes(item?.id))
+    ) {
+      return;
+    }
+
+    const selectedModalityIndex =
+      formik.values.selectedModalities.indexOf(modality);
+
+    if (selectedModalityIndex > -1) {
+      formik.values.selectedModalities?.splice(selectedModalityIndex, 1);
+      formik.setFieldValue(selectedModalities, [
+        ...formik.values.selectedModalities,
+      ]);
+    } else {
+      formik.setFieldValue(selectedModalities, [
+        ...formik.values.selectedModalities,
+        modality,
+      ]);
+    }
   };
 
-  const handleSelectedModalities = (event, newFormats) => {
-    formik.setFieldValue(selectedModalities, newFormats);
+  const handleSelectedModalities = async (event, newFormats) => {
+    const systems = systemsList?.filter(
+      (item) => item?.product_model_detail?.modality?.id == event.target.value
+    );
+    const temp = [...formik.values.selectedSystems];
+    const temp2 = [...formik.values.selectedSites];
+
+    if (
+      systems?.every((item) =>
+        formik?.values?.selectedSystems?.includes(item?.id)
+      )
+    ) {
+      for (const item of systems) {
+        const val = temp.indexOf(item?.id);
+        if (val > -1) {
+          temp.splice(val, 1);
+        } else {
+          temp.push(item?.id);
+        }
+        const val2 = temp2.indexOf(item?.site);
+        if (val2 > -1) {
+          temp2.splice(val2, 1);
+        } else {
+          temp2.push(item?.site);
+        }
+      }
+      formik.setFieldValue("selectedSystems", [...temp]);
+      formik.setFieldValue("selectedSites", [...temp2]);
+      formik.setFieldValue(selectedModalities, [...newFormats]);
+      return;
+    }
+    if (
+      systems.length &&
+      systems.some((item) => formik?.values?.selectedSystems.includes(item?.id))
+    ) {
+      const _systems = systems?.filter(
+        (item) => !formik?.values?.selectedSystems?.includes(item?.id)
+      );
+      for (const system of _systems) {
+        temp?.push(system?.id);
+        temp2.push(system?.site);
+      }
+      formik.setFieldValue("selectedSites", [...temp2]);
+      formik.setFieldValue("selectedSystems", [...temp]);
+      return;
+    }
+
+    for (const item of systems) {
+      const val = temp.indexOf(item?.id);
+      if (val > -1) {
+        temp.splice(val, 1);
+      } else {
+        temp.push(item?.id);
+      }
+      const val2 = temp2.indexOf(item?.site);
+      if (val2 > -1) {
+        temp2.splice(val2, 1);
+      } else {
+        temp2.push(item?.site);
+      }
+    }
+
+    formik.setFieldValue("selectedSystems", [...temp]);
+    formik.setFieldValue("selectedSites", [...temp2]);
+    formik.setFieldValue(selectedModalities, [...newFormats]);
   };
 
   const sitesLength = () => {
@@ -549,6 +682,30 @@ export default function UserModal(props: Props) {
     useOrganizationsSystemsListQuery({
       id: formik?.values?.customer,
     });
+
+  function getModalityColor(item: number): string {
+    const systems = systemsList?.filter(
+      (system) => system?.product_model_detail?.modality?.id == item
+    );
+    if (
+      systems?.length &&
+      systems?.every((_system) =>
+        formik.values.selectedSystems.includes(_system.id)
+      )
+    ) {
+      return "toggle-btn primaryToggle";
+    } else if (
+      systems?.length &&
+      systems?.some((_system) =>
+        formik.values.selectedSystems.includes(_system.id)
+      )
+    ) {
+      return "toggle-btn standardToggle";
+    } else {
+      return "toggle-btn";
+    }
+  }
+
   return (
     <Dialog className="users-modal" open={props.open} onClose={resetModal}>
       <DialogTitle>
@@ -859,15 +1016,17 @@ export default function UserModal(props: Props) {
                   style={{ flexWrap: "wrap" }}
                 >
                   {props?.modalitiesList?.length &&
-                    props?.modalitiesList?.map((item, key) => (
-                      <ToggleButton
-                        key={key}
-                        value={item?.id}
-                        className="toggle-btn"
-                      >
-                        {item?.name}
-                      </ToggleButton>
-                    ))}
+                    props?.modalitiesList?.map((item, key) => {
+                      return (
+                        <ToggleButton
+                          key={key}
+                          value={item?.id}
+                          className={getModalityColor(item?.id)}
+                        >
+                          {item?.name}
+                        </ToggleButton>
+                      );
+                    })}
                 </ToggleButtonGroup>
               </div>
               <div className="services">
