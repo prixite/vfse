@@ -58,21 +58,30 @@ jobs:
       - name: Install Node Dependencies
         run: npm ci
       - name: Build Front-end
+      - id: build-frontEnd
         run: |
           npm run build
           python manage.py collectstatic --noinput
       - name: Run Django system checks
+      - id: check-migrations
         # https://docs.djangoproject.com/en/3.2/topics/checks/
         run: python manage.py check
       - name: Check missing migrations
         # https://stackoverflow.com/a/49794873/402560
         # NOTE: makemigrations will warn it can't "check a consistent migration history" because the database doesn't
         # exist. The warning doesn't impact the check for missing migrations
+      - id: check-newMigrations
         run: python manage.py makemigrations --check --dry-run
       - name: Run Tests
         run: python manage.py test
       - id: buildTest
-        run: echo "::set-output name=test::${{ job.status }}"
+        run: |
+          if [${{ steps.build-frontEnd.outputs.status }} == ${{ steps.check-migrations.outputs.status }} == ${{ steps.check-newMigrations.outputs.status }}]
+          then
+            echo "::set-output name=test::${{ steps.check-newMigrations.outputs.status }}"
+          else
+            echo "::set-output name=test::failure"
+          fi
 
   job_status_send:
     needs: [pre-commit, test]
