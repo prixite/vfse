@@ -11,9 +11,12 @@ import { api } from "@src/store/reducers/api";
 import "swiper/css";
 import "swiper/css/pagination";
 
-const RecentActivity = () => {
+interface props {
+  topicID?: number;
+}
+const RecentActivity = ({ topicID }: props) => {
   const { data: userActivityList, isLoading } =
-    api.useVfseUserActivityListQuery();
+    api.useVfseUserActivityListQuery({ topic: topicID });
   const { recentActivity } = constantsData;
 
   const totalPageNumber = () => {

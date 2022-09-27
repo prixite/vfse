@@ -7,6 +7,7 @@ import ProfileTimeLineCards from "@src/components/common/presentational/profileT
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
 import TopicToggler from "@src/components/common/presentational/topicToggler/TopicToggler";
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
+import CustomPagination from "@src/components/shared/layout/customPagination/CustomPagination";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import constantsData from "@src/localization/en.json";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/api";
@@ -43,12 +44,18 @@ type Props = {
   setTopicListPayload?: React.Dispatch<React.SetStateAction<getTopicListArg>>;
   topicListPayload: getTopicListArg;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  page: number;
+  count: number;
+  onChange: (event: React.ChangeEvent<unknown>, value: number) => void;
 };
 const ProfileTimeline = ({
   paginatedTopics,
   setTopicListPayload,
   topicListPayload,
   setPage,
+  page,
+  count,
+  onChange,
 }: Props) => {
   const classes = useStyles();
   const { loading } = constantsData.common;
@@ -74,7 +81,15 @@ const ProfileTimeline = ({
           {paginatedTopics ? (
             <Grid item xs={9} className={classes.profileTimeLine}>
               {paginatedTopics?.length > 0 ? (
-                <Grid container xs={12} item style={{ marginTop: "0px" }}>
+                <Grid
+                  container
+                  xs={12}
+                  item
+                  style={{
+                    marginTop: "0px",
+                    justifyContent: "center",
+                  }}
+                >
                   {paginatedTopics?.map((item, key) => (
                     <Grid key={key} item xs={12}>
                       <ProfileTimeLineCards
@@ -94,6 +109,13 @@ const ProfileTimeline = ({
                       />
                     </Grid>
                   ))}
+                  {paginatedTopics?.length > 0 && (
+                    <CustomPagination
+                      page={page}
+                      count={count}
+                      onChange={onChange}
+                    />
+                  )}
                 </Grid>
               ) : (
                 <>

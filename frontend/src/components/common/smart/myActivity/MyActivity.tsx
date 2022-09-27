@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Grid, Pagination } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Stack } from "@mui/system";
 import moment from "moment";
 import "swiper/css/pagination";
@@ -8,6 +8,7 @@ import "swiper/css";
 
 import profileIcon from "@src/assets/svgs/profilepic.svg";
 import ActivitySection from "@src/components/common/smart/activitySection/ActivitySection";
+import CustomPagination from "@src/components/shared/layout/customPagination/CustomPagination";
 import { parseLink } from "@src/helpers/paging";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/presentational/recentActivity/style.scss";
@@ -68,12 +69,10 @@ const MyActivity = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <Pagination
-              defaultPage={1}
+            <CustomPagination
               page={page}
               count={totalTopicPages}
               onChange={handlePagination}
-              size="large"
             />
           </Stack>
         )}

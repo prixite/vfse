@@ -181,6 +181,7 @@ class DashboardView(APIView):
 class TopicActivityViewSet(ListAPIView):
     serializer_class = serializers.RecentActivitySerializer
     permission_classes = [permissions.FSEAccessPermissions]
+    filterset_class = filters.TopicActivityFilterSet
 
     def get_queryset(self):
         if getattr(self, "swagger_fake_view", False):
@@ -188,7 +189,7 @@ class TopicActivityViewSet(ListAPIView):
         return models.RecentActivity.objects.filter(
             Q(topic__in=self.request.user.topics.all().values_list("id"))
             | Q(topic__in=self.request.user.followed_topics.all().values_list("id"))
-        )
+        ).order_by("created_at")
 
 
 class MyTopicActivityViewSet(ListAPIView):

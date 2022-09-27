@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import ArticleDescriptionCard from "@src/components/common/presentational/articleDescriptionCard/ArticleDescriptionCard";
+import ArticleMetaCard from "@src/components/common/presentational/articleMetaCard/articleMetaCard";
 import ArticleOverviewCard from "@src/components/common/presentational/articleOverviewCard/ArticleOverviewCard";
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import { timeOut } from "@src/helpers/utils/constants";
-import { toastAPIError } from "@src/helpers/utils/utils";
+import {
+  addIdToHeadings,
+  convertImages,
+  toastAPIError,
+} from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
+import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
 
@@ -28,25 +34,26 @@ const DocumentationDescription = () => {
   const [updateArticle] = api.useUpdateArticleMutation();
 
   const handleEditText = (val) => setEditText(val);
-  const getTitle = (htmlString) => {
-    const stripedHeadings = htmlString.match(/<h[1-6]>(.*?)<\/h[1-6]>/g);
-    if (stripedHeadings && stripedHeadings?.length) {
-      //removing p tags from string
-      const htmlToString = stripedHeadings[0].replace(/<[^>]+>/g, "");
-      //removing any html encoded entities
-      const title = htmlToString.replace(/&#?[a-z0-9]{2,8};/g, "");
-      return title.trim() || "";
-    }
-  };
+
+  const [category, setCategory] = useState<number>(0);
+  const [folder, setFolder] = useState<number>(0);
+  const [title, setTitle] = useState<string>("");
 
   const saveText = () => {
-    const htmlString = draftToHtml(
-      convertToRaw(editorState.getCurrentContent())
-    );
-    const title = getTitle(htmlString);
+    let htmlString = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+
+    htmlString = addIdToHeadings(htmlString);
+    htmlString = convertImages(htmlString); //calling to resolve a bug in package
+
     updateArticle({
       id: parseInt(docId),
-      document: { ...articleData, text: htmlString, title: title },
+      document: {
+        ...articleData,
+        folder: folder,
+        categories: [category],
+        text: htmlString,
+        title: title,
+      },
     })
       .unwrap()
       .then(() => {
@@ -64,11 +71,23 @@ const DocumentationDescription = () => {
 
   useEffect(() => {
     setHtmlText(articleData?.text);
+    setCategory(articleData?.categories[0]);
+    setFolder(articleData?.folder);
+    setTitle(articleData?.title);
   }, [articleData]);
+
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
 
   return (
     <Box component="div" className="documentation-section">
       <BackBtn />
+      <Typography
+        color={buttonBackground}
+        variant="h4"
+        textTransform="capitalize"
+      >
+        {articleData?.title}
+      </Typography>
       <Grid
         container
         spacing={5}
@@ -106,7 +125,19 @@ const DocumentationDescription = () => {
             editText={editText}
             saveText={saveText}
           />
-          <ArticleOverviewCard htmlText={htmlText} />
+          {editText && htmlText ? (
+            <ArticleMetaCard
+              articleData={articleData}
+              category={category}
+              folder={folder}
+              title={title}
+              setCategory={setCategory}
+              setFolder={setFolder}
+              setTitle={setTitle}
+            />
+          ) : (
+            <ArticleOverviewCard htmlText={htmlText} />
+          )}
         </Grid>
       </Grid>
     </Box>

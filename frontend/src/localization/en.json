@@ -664,7 +664,7 @@
     "folder": "folder",
     "addArticleText": "Add Article",
     "titleText": "Title",
-    "contentText": "content",
+    "contentText": "Content",
     "categoryText": "Category",
     "folderText": "Folder",
     "uploadDocumentText": "Upload a document",
@@ -672,7 +672,7 @@
     "cancelText": "Cancel"
   },
   "categoryModal": {
-    "colorTextRequired": "Color Text is required!",
+    "colorTextRequired": "Name is required!",
     "colorRequired": "Color is required!",
     "addCategoryText": "Add Category",
     "colorNameText": "Name",
@@ -691,6 +691,9 @@
   },
   "listModalPopUp": {
     "close": "Close"
+  },
+  "allCategoriesSection": {
+    "Message": "Sorry, no folders found against this category."
   },
   "networkModalPopUp": {
     "nameRequired": "Name is required",

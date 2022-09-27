@@ -162,35 +162,39 @@ const SystemCardMobile = ({
                 </h3>
               </div>
             )}
-            <TextField
-              className="copy-field"
-              variant="outlined"
-              autoComplete="off"
-              value={system.documentation}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <ContentCopyIcon />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Button
-                      className="copy-btn"
-                      onClick={() => {
-                        navigator?.clipboard?.writeText(system.documentation);
-                        toast.success(toastData.systemCardLinkCopiedSuccess, {
-                          autoClose: timeOut,
-                          pauseOnHover: false,
-                        });
-                      }}
-                    >
-                      {copy_btn}
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
+            {currentUser.documentation_url ? (
+              <TextField
+                className="copy-field"
+                variant="outlined"
+                autoComplete="off"
+                value={system.documentation}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <ContentCopyIcon />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <Button
+                        className="copy-btn"
+                        onClick={() => {
+                          navigator?.clipboard?.writeText(system.documentation);
+                          toast.success(toastData.systemCardLinkCopiedSuccess, {
+                            autoClose: timeOut,
+                            pauseOnHover: false,
+                          });
+                        }}
+                      >
+                        {copy_btn}
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            ) : (
+              ""
+            )}
           </div>
           <div className="infoSection">
             <div className="option">

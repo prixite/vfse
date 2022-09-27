@@ -1,7 +1,8 @@
 .article-modal {
   .MuiDialog-paper {
-    width: 683px;
-    max-width: 683px;
+    width: 983px;
+    max-width: 983px;
+    height: 100vh;
     .MuiDialogContent-root {
       padding: 20px 22px;
     }
@@ -101,6 +102,10 @@
           input {
             border-radius: 8px;
           }
+        }
+        .rdw-editor-main {
+          border: 1px solid #d4d6db;
+          height: 40vh;
         }
       }
     }

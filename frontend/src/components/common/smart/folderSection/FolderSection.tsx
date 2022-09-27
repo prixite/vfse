@@ -17,6 +17,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
   const [action, setAction] = useState("add");
   const [title, setTitle] = useState("");
   const [id, setId] = useState(null);
+  const { Message } = localizedData().allCategoriesSection;
   const [query, setQuery] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -60,18 +61,23 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
           setData={setFolderList}
         />
         <Grid container spacing={1} style={{ marginTop: "21px" }}>
-          {folderList?.map((item, index) => (
-            <Grid item={true} xs={6} xl={3} md={4} key={index}>
-              <ArticleCard
-                color={categoryData?.color}
-                title={item?.name}
-                articleNo={item?.document_count}
-                handleEdit={handleEdit}
-                id={item.id}
-                categoryID={categoryData.id}
-              />
-            </Grid>
-          ))}
+          {folderList?.length ? (
+            folderList?.map((item, index) => (
+              <Grid item={true} xs={6} xl={3} md={4} key={index}>
+                <ArticleCard
+                  color={categoryData?.color}
+                  title={item?.name}
+                  articleNo={item?.document_count}
+                  handleEdit={handleEdit}
+                  id={item.id}
+                  categoryID={categoryData.id}
+                />
+              </Grid>
+            ))
+          ) : (
+            <NoDataFound title={Message} />
+          )}
+
           {!folderList?.length && query?.length > 2 && (
             <NoDataFound
               search
