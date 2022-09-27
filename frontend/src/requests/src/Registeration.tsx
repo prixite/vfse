@@ -146,11 +146,21 @@ const Registeration = () => {
         setEmail("");
         setPhone("");
         setSelectedImage([]);
+        setDocLink(false);
+        setPossibilitytoLeave(false);
+        setAccessToFSEFunctions(false);
+        setViewOnly(false);
+        setAuditEnable(false);
+        setOneTimeLinkCreation(false);
+        setOrganizationId("");
+        setRole("");
+        setManager("");
+        setSelectedSites([]);
+        setSelectedModalities([]);
         setPage(1);
       })
       .catch((err) => {
         toastAPIError(toastData.registerUserErrorMsg, err.status, err.data);
-        setPage(1);
       });
   }, [
     firstName,
