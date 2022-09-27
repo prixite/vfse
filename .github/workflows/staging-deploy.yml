@@ -39,29 +39,24 @@ jobs:
         run: ssh staging 'cd vfse && git pull'
 
       - name: Start containers
-        id: start-docker
         run: |
           ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml build'
           ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml up -d'
           ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml exec app ./manage.py migrate'
           ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml exec app npm run build'
           ssh staging 'cd vfse && docker-compose -f docker-compose.staging.yml exec app ./manage.py collectstatic --noinput'
-
       - name: Test the App
-      - id: test-build
         run: |
           ssh staging 'if [ $( docker ps -a | grep vfse | wc -l ) -gt 0 ]; then  echo "vfse exists"; else   echo "vfse does not exist" && raise error; fi'
-
-      - name: Save Job Output
       - id: deployTest
         run: |
-          if [${{ steps.start-docker.outputs.status }} == ${{ steps.test-build.outputs.status }}]
+          STATUS = ${{ job.status }}
+          if [ $STATUS ]
           then
-            echo "::set-output name=test::${{ steps.start-docker.outputs.status }}"
+            echo "::set-output name=test::${{ job.status }}"
           else
             echo "::set-output name=test::failure"
           fi
-
 
   job_status_send:
       needs: deploy
