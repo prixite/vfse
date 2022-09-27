@@ -8,7 +8,7 @@ on:
 jobs:
   add_qa_labels:
     if: github.event.pull_request.user.login != 'dependabot[bot]'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: if_pr
       if: github.event.pull_request

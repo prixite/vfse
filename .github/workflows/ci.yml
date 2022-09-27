@@ -6,7 +6,7 @@ on:
 
 jobs:
   pre-commit:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.preCommitOutput.outputs.test }}
 
@@ -28,7 +28,7 @@ jobs:
         run: echo "::set-output name=test::${{ job.status }}"
 
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       output2: ${{ steps.buildTest.outputs.test }}
     env:
