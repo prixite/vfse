@@ -141,9 +141,16 @@ const Registeration = () => {
       .unwrap()
       .then(() => {
         toast.success(toastData.registerUserSuccessMsg);
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPhone("");
+        setSelectedImage([]);
+        setPage(1);
       })
       .catch((err) => {
         toastAPIError(toastData.registerUserErrorMsg, err.status, err.data);
+        setPage(1);
       });
   }, [
     firstName,
