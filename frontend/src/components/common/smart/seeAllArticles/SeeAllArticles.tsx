@@ -68,7 +68,16 @@ const SeeAllArticles = () => {
       {articlesList.length ? (
         <Grid container spacing={1}>
           {articlesList.map((item, index) => (
-            <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
+            <Grid
+              item={true}
+              xs={12}
+              sm={4}
+              md={4}
+              lg={3}
+              xl={2}
+              key={index}
+              className={classes.knowledgeTopCard}
+            >
               <KnowledgeTopCard
                 title={item?.title}
                 description={item?.text}
