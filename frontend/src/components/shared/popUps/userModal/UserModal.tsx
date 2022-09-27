@@ -204,6 +204,10 @@ export default function UserModal(props: Props) {
       skip: !formik.values.customer,
     }
   );
+  const { data: systemsList, isLoading: systemsListLoading } =
+    useOrganizationsSystemsListQuery({
+      id: formik?.values?.customer,
+    });
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -334,12 +338,12 @@ export default function UserModal(props: Props) {
     }
   };
 
-  const handleSitesSelection = async (e) => {
+  const handleSitesSelection = (e) => {
     const val = parseInt(e?.target?.value || e);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
 
     if (!systemInSiteExists) {
-      await formik.setFieldValue("selectedSystems", [
+      formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
         ...systemsSiteList.map((x) => x.id),
       ]);
@@ -347,13 +351,20 @@ export default function UserModal(props: Props) {
       const selectedSystemsInSite = formik.values.selectedSystems.filter(
         (x) => !systemsSiteList.some((j) => x === j.id)
       );
-      await formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
+      formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
     }
 
     modifySelectedSiteList(val);
     const temp = [...formik.values.selectedModalities];
     for (const system of systemsSiteList) {
-      modifySelectedModalities(system, temp);
+      if (
+        !systemsSiteList.filter((item) =>
+          formik.values.selectedSystems.includes(item.id)
+        ).length ||
+        formik.values.selectedSystems.includes(system.id)
+      ) {
+        modifySelectedModalities(system, temp);
+      }
     }
   };
 
@@ -478,20 +489,30 @@ export default function UserModal(props: Props) {
       )
     ) {
       for (const item of systems) {
+        const sys = systemsList
+          .filter((system) => system.site == item.site)
+          .filter((_system) => _system.id != item.id);
+
+        const shouldSiteAlter = sys.some((system) =>
+          formik.values.selectedSystems.includes(system.id)
+        );
+
         const val = temp.indexOf(item?.id);
         if (val > -1) {
           temp.splice(val, 1);
         } else {
           temp.push(item?.id);
         }
-        const val2 = temp2.indexOf(item?.site);
-        if (val2 > -1) {
-          temp2.splice(val2, 1);
-        } else {
-          temp2.push(item?.site);
+        if (!shouldSiteAlter) {
+          const val2 = temp2.indexOf(item?.site);
+          if (val2 > -1) {
+            temp2.splice(val2, 1);
+          } else {
+            temp2.push(item?.site);
+          }
         }
       }
-      formik.setFieldValue("selectedSystems", [...temp]);
+      await formik.setFieldValue("selectedSystems", [...temp]);
       formik.setFieldValue("selectedSites", [...temp2]);
       formik.setFieldValue(selectedModalities, [...newFormats]);
       return;
@@ -513,17 +534,27 @@ export default function UserModal(props: Props) {
     }
 
     for (const item of systems) {
+      const sys = systemsList
+        .filter((system) => system.site == item.site)
+        .filter((_system) => _system.id != item.id);
+
+      const shouldSiteAlter = sys.some((system) =>
+        formik.values.selectedSystems.includes(system.id)
+      );
+
       const val = temp.indexOf(item?.id);
       if (val > -1) {
         temp.splice(val, 1);
       } else {
         temp.push(item?.id);
       }
-      const val2 = temp2.indexOf(item?.site);
-      if (val2 > -1) {
-        temp2.splice(val2, 1);
-      } else {
-        temp2.push(item?.site);
+      if (!shouldSiteAlter) {
+        const val2 = temp2.indexOf(item?.site);
+        if (val2 > -1) {
+          temp2.splice(val2, 1);
+        } else {
+          temp2.push(item?.site);
+        }
       }
     }
 
@@ -678,10 +709,6 @@ export default function UserModal(props: Props) {
       setOnChangeValidation(true);
     }
   };
-  const { data: systemsList, isLoading: systemsListLoading } =
-    useOrganizationsSystemsListQuery({
-      id: formik?.values?.customer,
-    });
 
   function getModalityColor(item: number): string {
     const systems = systemsList?.filter(

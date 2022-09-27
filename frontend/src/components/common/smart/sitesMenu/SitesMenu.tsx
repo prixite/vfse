@@ -1,7 +1,19 @@
-/* eslint-disable react/prop-types */
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+
+import { Site, System } from "@src/store/reducers/generated";
+
+interface Props {
+  site: Site;
+  systems: System[];
+  formik: object;
+  handleSystemSelection: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    site: number
+  ) => void;
+  handleSitesSelection: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 const SitesMenu = ({
   site,
@@ -9,8 +21,7 @@ const SitesMenu = ({
   formik,
   handleSystemSelection,
   handleSitesSelection,
-}) => {
-  // console.log("systems", systems);
+}: Props) => {
   const children = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
       {systems?.map((item, key) => {
