@@ -9,6 +9,7 @@ import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
+import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
 import { api, Category, Document } from "@src/store/reducers/api";
@@ -23,6 +24,12 @@ const KnowledgeBaseHome = () => {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [action, setAction] = useState("edit");
+  const [title, setTitle] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [folderID, setFolderID] = useState(null);
+  const [categoryID, setCategoryID] = useState(null);
+  const [folderOpen, setFolderOpen] = useState(false);
   const { knowledgeBase } = constantsData;
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { id } = useParams<{ id?: string }>();
@@ -49,7 +56,9 @@ const KnowledgeBaseHome = () => {
     setArticlesList(dataForSearchArticles);
     setCategoryListForSearch(dataForSearchCategories);
   };
-
+  const handleFolderClose = () => {
+    setFolderOpen(false);
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -62,6 +71,14 @@ const KnowledgeBaseHome = () => {
       setCategoryListForSearch(categoriesList);
     }
   }, [query, categoriesList, topData]);
+  const handleEdit = (selectedArticle) => {
+    setFolderOpen(true);
+    setAction(selectedArticle.text);
+    setTitle(selectedArticle.title);
+    setFolderID(selectedArticle.folderId);
+    setCategoryID(selectedArticle.categoryId);
+    setCategoryName(selectedArticle.categoryName);
+  };
 
   return (
     <>
@@ -98,8 +115,10 @@ const KnowledgeBaseHome = () => {
                   color={category?.color}
                   title={item?.name}
                   articleNo={item?.document_count}
+                  handleEdit={handleEdit}
                   id={item.id}
                   categoryID={category?.id}
+                  categoryName={category?.name}
                 />
               </Grid>
             ))}
@@ -118,6 +137,15 @@ const KnowledgeBaseHome = () => {
           />
         )}
       <ArticleModal open={open} handleClose={handleClose} />
+      <FolderModal
+        open={folderOpen}
+        handleClose={handleFolderClose}
+        action={action}
+        title={title}
+        id={folderID}
+        categoryId={categoryID}
+        categoryName={categoryName}
+      />
     </>
   );
 };

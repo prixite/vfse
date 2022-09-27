@@ -8,6 +8,7 @@ import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
+import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
 
@@ -16,12 +17,21 @@ import CategoryOptionsSection from "../categoryOptionsSection/categoryOptionsSec
 const AllCategoriesSection = () => {
   const classes = useStyles();
   const [folderList, setFolderList] = useState<Category[]>([]);
+  const [action, setAction] = useState("edit");
+  const [title, setTitle] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [folderID, setFolderID] = useState(null);
+  const [categoryID, setCategoryID] = useState(null);
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
+  const [folderOpen, setFolderOpen] = useState(false);
   const { id } = useParams<{ id?: string }>();
   const handleClose = () => {
     setOpen(false);
+  };
+  const handleFolderClose = () => {
+    setFolderOpen(false);
   };
   const { noDataTitle, noDataDescription } = localizedData().systems;
   // eslint-disable-next-line
@@ -38,7 +48,14 @@ const AllCategoriesSection = () => {
     ];
     setFolderList(dataForSearch);
   };
-
+  const handleEdit = (selectedArticle) => {
+    setFolderOpen(true);
+    setAction(selectedArticle.text);
+    setTitle(selectedArticle.title);
+    setFolderID(selectedArticle.folderId);
+    setCategoryID(selectedArticle.categoryId);
+    setCategoryName(selectedArticle.categoryName);
+  };
   useEffect(() => {
     if (query.length > 2) {
       handleSearchQuery(query);
@@ -69,8 +86,10 @@ const AllCategoriesSection = () => {
                   color={category?.color}
                   title={item?.name}
                   articleNo={item?.document_count}
+                  handleEdit={handleEdit}
                   id={item.id}
                   categoryID={category?.id}
+                  categoryName={category?.name}
                 />
               </Grid>
             ))}
@@ -87,6 +106,15 @@ const AllCategoriesSection = () => {
         />
       )}
       <CategoryModal open={open} handleClose={handleClose} />
+      <FolderModal
+        open={folderOpen}
+        handleClose={handleFolderClose}
+        action={action}
+        title={title}
+        id={folderID}
+        categoryId={categoryID}
+        categoryName={categoryName}
+      />
     </>
   );
 };

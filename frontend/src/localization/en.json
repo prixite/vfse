@@ -681,7 +681,7 @@
   "deleteNoteModal": {
     "deleteThisComment": "Delete this comment?"
   },
-  "folderModalPopUp": {
+  "FolderModalPopUp": {
     "nameRequired": "Name is required",
     "addFolderText": "Add Folder",
     "folderNameText": "Folder Name",

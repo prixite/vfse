@@ -14,11 +14,15 @@ interface FolderSetionProps {
 }
 const FolderSection = ({ categoryData }: FolderSetionProps) => {
   const [folderList, setFolderList] = useState<Folder[]>([]);
+  const [action, setAction] = useState("add");
+  const [title, setTitle] = useState("");
+  const [id, setId] = useState(null);
   const [query, setQuery] = useState("");
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
+    setAction("add");
   };
 
   const { noDataTitle, noDataDescription } = localizedData().systems;
@@ -38,7 +42,12 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
       setFolderList(categoryData?.folders);
     }
   }, [query, categoryData]);
-
+  const handleEdit = (selectedArticle) => {
+    setOpen(true);
+    setAction(selectedArticle.text);
+    setTitle(selectedArticle.title);
+    setId(selectedArticle.folderId);
+  };
   return (
     <>
       <Box component="div" className="folder-heading">
@@ -57,8 +66,8 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
                 color={categoryData?.color}
                 title={item?.name}
                 articleNo={item?.document_count}
+                handleEdit={handleEdit}
                 id={item.id}
-                categoryName={categoryData.name}
                 categoryID={categoryData.id}
               />
             </Grid>
@@ -78,6 +87,9 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
         open={open}
         handleClose={handleClose}
         categoryData={categoryData}
+        action={action}
+        title={title}
+        id={id}
       />
     </>
   );
