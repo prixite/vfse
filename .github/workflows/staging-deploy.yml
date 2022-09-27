@@ -13,7 +13,7 @@ jobs:
       group: ${{ github.ref }}
     needs: pre-commit_and_test
     name: "Deploy to staging"
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
     runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.deployTest.outputs.test }}
