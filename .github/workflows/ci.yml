@@ -25,7 +25,14 @@ jobs:
       - run: npm ci
       - uses: pre-commit/action@v3.0.0
       - id: preCommitOutput
-        run: echo "::set-output name=test::${{ job.status }}"
+        run: |
+          STATUS=${{ job.status }}
+          if [ $STATUS ]
+          then
+            echo "::set-output name=test::${{ job.status }}"
+          else
+            echo "::set-output name=test::failure"
+          fi
 
   test:
     runs-on: ubuntu-latest
@@ -72,7 +79,14 @@ jobs:
       - name: Run Tests
         run: python manage.py test
       - id: buildTest
-        run: echo "::set-output name=test::${{ job.status }}"
+        run: |
+          STATUS=${{ job.status }}
+          if [ $STATUS ]
+          then
+            echo "::set-output name=test::${{ job.status }}"
+          else
+            echo "::set-output name=test::failure"
+          fi
 
   job_status_send:
     needs: [pre-commit, test]
