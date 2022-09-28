@@ -17,7 +17,7 @@ class BaseTestCase(TestCase):
         self.fse = factories.UserFactory()
         self.end_user = factories.UserFactory()
         self.view_only = factories.UserFactory(profile__view_only=True)
-        self.one_time = factories.UserFactory()
+        self.one_time = factories.UserFactory(profile__is_one_time=True)
         self.cryo = factories.UserFactory()
         self.cryo_fse = factories.UserFactory()
         self.cryo_admin = factories.UserFactory()

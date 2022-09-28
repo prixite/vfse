@@ -4,6 +4,21 @@ from django_filters import rest_framework as filters
 from vfse import models
 
 
+class TopicActivityFilterSet(filters.FilterSet):
+    topic = filters.NumberFilter(
+        label="topic", field_name="topic", method="get_activity_by_topic"
+    )
+
+    class Meta:
+        models = models.RecentActivity
+
+    def get_activity_by_topic(self, queryset, name, value):
+        if not value:
+            return models.RecentActivity.objects.none()
+
+        return queryset.filter(topic=value)
+
+
 class TopicFilterSet(filters.FilterSet):
     followed = filters.BooleanFilter(
         label="followed", field_name="followers", method="get_followed_topics"

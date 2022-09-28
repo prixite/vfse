@@ -436,7 +436,9 @@
     "topicCreatedSuccess": "Successfully Created",
     "topicCreatedError": "Error occured",
     "userAlreadyExists": "User with this username already exists.",
-    "saveUserError": "Error occurred while saving user"
+    "saveUserError": "Error occurred while saving user",
+    "registerUserSuccessMsg": "Registered Successfully.",
+    "registerUserErrorMsg": "Something went wrong. Please try again!"
   },
   "noCommentFound": {
     "noComments": "This system has no comments",
@@ -669,10 +671,10 @@
     "cancelText": "Cancel"
   },
   "categoryModal": {
-    "colorTextRequired": "Color Text is required!",
+    "colorTextRequired": "Name is required!",
     "colorRequired": "Color is required!",
     "addCategoryText": "Add Category",
-    "colorNameText": "Color Name",
+    "colorNameText": "Name",
     "cancelText": "Cancel"
   },
   "deleteNoteModal": {
@@ -687,6 +689,9 @@
   },
   "listModalPopUp": {
     "close": "Close"
+  },
+  "allCategoriesSection": {
+    "Message": "Sorry, no folders found against this category."
   },
   "networkModalPopUp": {
     "nameRequired": "Name is required",
@@ -723,7 +728,7 @@
     "addBtn": "Add",
     "cancelBtn": "Cancel",
     "subHeading": "Product Name"
-},
+  },
   "addProductModelDialog": {
     "nameRequired": "Product Model is required!",
     "title": "Add Product Model",
