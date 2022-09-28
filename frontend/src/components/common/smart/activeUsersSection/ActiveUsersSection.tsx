@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState, useEffect, useMemo } from "react";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -6,9 +6,10 @@ import UserSectionMobile from "@src/components/common/smart/activeUsersSection/u
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import { parseLink } from "@src/helpers/paging";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import { useUsersActiveUsersListQuery, User } from "@src/store/reducers/api";
+import { User, api } from "@src/store/reducers/api";
 
 import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
@@ -39,19 +40,32 @@ const headers = [
 // const temp = ["abcdefg", "abcdg", "abcdefghijk"];
 
 export default function ActiveUserSection() {
-  const [pageSize, setPageSize] = useState(14);
-  const [tableColumns, setTableColumns] = useState(headers);
+  const [page, setPage] = useState<number>(0);
+  const [pageParam, setPageParam] = useState<number>(1);
 
+  const queryOptions = useMemo(
+    () => ({
+      pageParam,
+    }),
+    [pageParam]
+  );
+
+  const {
+    data: activeUsersData = { data: [], link: "" },
+    isLoading: isActiveUsersLoading,
+  } = api.useGetActiveUserListQuery({ page: queryOptions.pageParam });
+
+  const totalPages = useMemo(
+    () => parseLink(activeUsersData?.link),
+    [activeUsersData?.link]
+  );
+
+  const [tableColumns, setTableColumns] = useState(headers);
   const [query, setQuery] = useState("");
   const [hasData, setHasData] = useState(false);
   const [browserWidth] = useWindowSize();
   const { searching } = localizedData().common;
-
   const { noDataDescription, noDataTitle } = localizedData().organization;
-
-  const { data: items, isLoading: isUsersLoading } =
-    useUsersActiveUsersListQuery();
-
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
 
@@ -60,21 +74,21 @@ export default function ActiveUserSection() {
       setHasData(true);
       setItemsList(itemsList);
       handleSearchQuery(query);
-    } else if (items?.length && query?.length <= 2) {
+    } else if (activeUsersData?.data?.length && query?.length <= 2) {
       setHasData(true);
-      setItemsList(items);
+      setItemsList(activeUsersData?.data);
     } else {
       setHasData(false);
     }
-  }, [query, userList, items]);
+  }, [query, userList, activeUsersData?.data]);
 
-  if (isUsersLoading) {
+  if (isActiveUsersLoading) {
     return <p>Loading</p>;
   }
 
   const handleSearchQuery = async (searchQuery: string) => {
     const itemsToBeSet = [
-      ...items.filter((user) => {
+      ...activeUsersData.data.filter((user) => {
         return (
           user?.first_name
             ?.trim()
@@ -83,7 +97,7 @@ export default function ActiveUserSection() {
         );
       }),
     ];
-    if (items && items.length) {
+    if (activeUsersData?.data && activeUsersData?.data.length) {
       await Promise.all([itemsToBeSet, setItemsList(itemsToBeSet)]);
     }
   };
@@ -100,7 +114,7 @@ export default function ActiveUserSection() {
         handleSearchQuery={handleSearchQuery}
         searchText={query}
         setSearchText={setQuery}
-        actualData={items}
+        actualData={activeUsersData?.data}
         hasData={hasData}
       />
 
@@ -112,8 +126,26 @@ export default function ActiveUserSection() {
           <>
             {browserWidth > mobileWidth ? (
               <DataGrid
-                rows={itemsList}
+                initialState={{
+                  pagination: {
+                    page: 0,
+                    pageSize: 10,
+                  },
+                }}
+                loading={isActiveUsersLoading}
+                page={page}
+                pageSize={10}
                 autoHeight
+                pagination
+                paginationMode="server"
+                rowCount={parseLink(activeUsersData?.link) * 10}
+                onPageChange={(newPage) => {
+                  if (newPage < totalPages) {
+                    setPageParam(newPage + 1);
+                  }
+                  setPage(newPage);
+                }}
+                rows={[...itemsList]}
                 columns={[
                   {
                     field: "user_name",
@@ -182,10 +214,6 @@ export default function ActiveUserSection() {
                     ),
                   },
                 ]}
-                loading={isUsersLoading}
-                pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rowsPerPageOptions={[14, 16, 18, 20]}
               />
             ) : (
               <UserSectionMobile userList={itemsList} />
@@ -194,7 +222,7 @@ export default function ActiveUserSection() {
         ) : (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         )}
-        {isUsersLoading ? (
+        {isActiveUsersLoading ? (
           <div
             style={{
               color: "gray",
