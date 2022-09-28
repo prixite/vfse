@@ -284,11 +284,7 @@ export default function UserModal(props: Props) {
         );
       }
       if (editedUser?.sites) {
-        const sites_ids: Array<number> = Array.from(userSitesMap.keys());
-
-        if (sites_ids?.length == editedUser?.sites?.length) {
-          formik.setFieldValue(selectedSites, sites_ids);
-        }
+        formik.setFieldValue(selectedSites, [...userSitesMap.keys()]);
       }
 
       if (editedUser?.systems?.length) {
@@ -480,87 +476,46 @@ export default function UserModal(props: Props) {
     const systems = systemsList?.filter(
       (item) => item?.product_model_detail?.modality?.id == event.target.value
     );
-    const temp = [...formik.values.selectedSystems];
-    const temp2 = [...formik.values.selectedSites];
-
-    if (
-      systems?.every((item) =>
-        formik?.values?.selectedSystems?.includes(item?.id)
-      )
-    ) {
+    const temp = new Set(formik.values.selectedSystems);
+    const temp2 = new Set(formik.values.selectedSites);
+    const selectedSystemsInModality = systems.filter((item) =>
+      formik.values.selectedSystems.includes(item?.id)
+    );
+    if (selectedSystemsInModality.length === systems.length) {
       for (const item of systems) {
-        const sys = systemsList
-          .filter((system) => system.site == item.site)
-          .filter((_system) => _system.id != item.id);
-
-        const shouldSiteAlter = sys.some((system) =>
+        temp.delete(item.id);
+        const allSystemOfSite = systemsList.filter(
+          (system) => system.site === item.site
+        );
+        const allSystemOfSiteModality = systems.filter(
+          (system) => system.site === item.site
+        );
+        const selectedSystemofSite = allSystemOfSite.filter((system) =>
           formik.values.selectedSystems.includes(system.id)
         );
-
-        const val = temp.indexOf(item?.id);
-        if (val > -1) {
-          temp.splice(val, 1);
-        } else {
-          temp.push(item?.id);
-        }
-        if (!shouldSiteAlter) {
-          const val2 = temp2.indexOf(item?.site);
-          if (val2 > -1) {
-            temp2.splice(val2, 1);
-          } else {
-            temp2.push(item?.site);
-          }
+        if (selectedSystemofSite.length === allSystemOfSiteModality.length) {
+          temp2.delete(item.site);
         }
       }
-      await formik.setFieldValue("selectedSystems", [...temp]);
-      formik.setFieldValue("selectedSites", [...temp2]);
-      formik.setFieldValue(selectedModalities, [...newFormats]);
-      return;
-    }
-    if (
-      systems.length &&
-      systems.some((item) => formik?.values?.selectedSystems.includes(item?.id))
-    ) {
+      formik.setFieldValue(
+        selectedModalities,
+        formik.values.selectedModalities.filter(
+          (modality) => modality !== event.target.value
+        )
+      );
+    } else {
       const _systems = systems?.filter(
         (item) => !formik?.values?.selectedSystems?.includes(item?.id)
       );
       for (const system of _systems) {
-        temp?.push(system?.id);
-        temp2.push(system?.site);
+        temp.add(system?.id);
+        temp2.add(system?.site);
       }
-      formik.setFieldValue("selectedSites", [...temp2]);
-      formik.setFieldValue("selectedSystems", [...temp]);
-      return;
+      formik.setFieldValue(selectedModalities, [...newFormats]);
     }
 
-    for (const item of systems) {
-      const sys = systemsList
-        .filter((system) => system.site == item.site)
-        .filter((_system) => _system.id != item.id);
-
-      const shouldSiteAlter = sys.some((system) =>
-        formik.values.selectedSystems.includes(system.id)
-      );
-
-      const val = temp.indexOf(item?.id);
-      if (val > -1) {
-        temp.splice(val, 1);
-      } else {
-        temp.push(item?.id);
-      }
-      if (!shouldSiteAlter) {
-        const val2 = temp2.indexOf(item?.site);
-        if (val2 > -1) {
-          temp2.splice(val2, 1);
-        } else {
-          temp2.push(item?.site);
-        }
-      }
-    }
-
-    formik.setFieldValue("selectedSystems", [...temp]);
-    formik.setFieldValue("selectedSites", [...temp2]);
-    formik.setFieldValue(selectedModalities, [...newFormats]);
+    formik.setFieldValue("selectedSystems", [...Array.from(temp)]);
+    formik.setFieldValue("selectedSites", [...Array.from(temp2)]);
   };
 
   const sitesLength = () => {

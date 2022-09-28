@@ -31,8 +31,8 @@ const SitesMenu = ({
             label={item?.name}
             control={
               <Checkbox
-                onChange={(e) => handleSystemSelection(e, site?.id)}
-                checked={formik.values.selectedSystems.includes(item?.id)}
+                onChange={(e) => handleSystemSelection(e, site.id)}
+                checked={formik.values.selectedSystems.includes(item.id)}
                 value={item?.id}
                 name={item?.name}
                 color="primary"
@@ -67,9 +67,9 @@ const SitesMenu = ({
             <Checkbox
               indeterminate={isIntermediate()}
               onChange={handleSitesSelection}
-              checked={formik.values.selectedSites.includes(site?.id)}
-              value={site?.id}
-              name={site?.name}
+              checked={formik.values.selectedSites.includes(site.id)}
+              value={site.id}
+              name={site.name}
               color="primary"
             />
           }
