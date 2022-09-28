@@ -163,11 +163,13 @@ class DashboardView(APIView):
     def get(self, request, format=None):
         systems = core_models.System.objects.all().count()
         online_systems = core_models.System.objects.filter(is_online=True).count()
+        work_order = models.WorkOrder.objects.filter().count()
         serializer = self.serializer_class(
             data={
                 "system_count": systems,
                 "online_system_count": online_systems,
                 "offline_system_count": systems - online_systems,
+                "work_order": work_order,
                 "last_month_logged_in_user": core_models.User.objects.filter(
                     last_login__gte=timezone.now().astimezone()
                     - timezone.timedelta(days=30)
