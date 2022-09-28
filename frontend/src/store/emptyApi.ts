@@ -36,6 +36,7 @@ type TopicListResponse = {
 type ActiveUserListResponse = {
   data: UsersActiveUsersListApiResponse;
   link: string;
+  count: number;
 };
 
 type TopicUserListResponse = {
@@ -148,6 +149,7 @@ export const emptySplitApi = createApi({
         return {
           data: response,
           link: meta.response.headers.get("link"),
+          count: Number(meta.response.headers.get("count")),
         };
       },
       providesTags: ["Topics", "Favorite"],

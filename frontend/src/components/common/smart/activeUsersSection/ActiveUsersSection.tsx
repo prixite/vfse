@@ -51,7 +51,7 @@ export default function ActiveUserSection() {
   );
 
   const {
-    data: activeUsersData = { data: [], link: "" },
+    data: activeUsersData = { data: [], link: "", count: 0 },
     isLoading: isActiveUsersLoading,
   } = api.useGetActiveUserListQuery({ page: queryOptions.pageParam });
 
@@ -138,7 +138,7 @@ export default function ActiveUserSection() {
                 autoHeight
                 pagination
                 paginationMode="server"
-                rowCount={parseLink(activeUsersData?.link) * 10}
+                rowCount={activeUsersData.count}
                 onPageChange={(newPage) => {
                   if (newPage < totalPages) {
                     setPageParam(newPage + 1);
