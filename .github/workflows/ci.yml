@@ -25,6 +25,7 @@ jobs:
       - run: npm ci
       - uses: pre-commit/action@v3.0.0
       - id: preCommitOutput
+        if: always()
         run: |
           STATUS=${{ job.status }}
           if [ $STATUS ]
@@ -79,6 +80,7 @@ jobs:
       - name: Run Tests
         run: python manage.py test
       - id: buildTest
+        if: always()
         run: |
           STATUS=${{ job.status }}
           if [ $STATUS ]

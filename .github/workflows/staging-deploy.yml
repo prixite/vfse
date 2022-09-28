@@ -51,6 +51,7 @@ jobs:
           ssh staging 'if [ $( docker ps -a | grep vfse | wc -l ) -gt 0 ]; then  echo "vfse exists"; else   echo "vfse does not exist" && raise error; fi'
 
       - id: deployTest
+        if: always()
         run: |
           STATUS=${{ job.status }}
           if [ $STATUS ]
