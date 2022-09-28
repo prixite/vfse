@@ -436,7 +436,9 @@
     "topicCreatedSuccess": "Successfully Created",
     "topicCreatedError": "Error occured",
     "userAlreadyExists": "User with this username already exists.",
-    "saveUserError": "Error occurred while saving user"
+    "saveUserError": "Error occurred while saving user",
+    "registerUserSuccessMsg": "Registered Successfully.",
+    "registerUserErrorMsg": "Something went wrong. Please try again!"
   },
   "noCommentFound": {
     "noComments": "This system has no comments",
