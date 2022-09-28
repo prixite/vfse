@@ -2,10 +2,21 @@ import {
   Modality,
   Organization,
   Role,
-  Site,
-  System,
   User,
 } from "@src/store/reducers/generated";
+
+export enum UserRole {
+  FSE_ADMIN = "fse-admin",
+  CUSTOMER_ADMIN = "customer-admin",
+  USER_ADMIN = "user-admin",
+  FSE = "fse",
+  END_USER = "end-user",
+  VIEW_ONLY = "view-only",
+  ONE_TIME = "one-time",
+  CRYO = "cryo",
+  CRYO_FSE = "cryo-fse",
+  CRYO_ADMIN = "cryo-admin",
+}
 
 export interface ApiError {
   status: number;
@@ -46,12 +57,12 @@ export interface UserForm {
   lastname: string;
   email: string;
   phone: string;
-  role: string;
-  manager: string;
-  customer: string;
-  selectedModalities: Array<Modality>;
-  selectedSites: Array<Site>;
-  selectedSystems: Array<System>;
+  role: UserRole;
+  manager: number;
+  customer: number;
+  selectedModalities: Array<number>;
+  selectedSites: Array<number>;
+  selectedSystems: Array<number>;
   docLink: boolean;
   possibilitytoLeave: boolean;
   accessToFSEFunctions: boolean;

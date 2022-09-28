@@ -3,7 +3,7 @@ import * as yup from "yup";
 
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
-import { Organization, UpsertUser } from "@src/store/reducers/generated";
+import { Organization } from "@src/store/reducers/generated";
 import { ApiError, UserForm } from "@src/types/interfaces";
 const constantUserData = localizedData()?.users?.popUp;
 
@@ -265,38 +265,6 @@ const populateUserModalEditableData = (
   }
 };
 
-const constructObject = (
-  imageUrl: string,
-  formik: object,
-  userProfileImageText: string
-): UpsertUser => {
-  const obj = {
-    meta: {
-      profile_picture: imageUrl,
-      title: userProfileImageText,
-    },
-    first_name: formik.values.firstname,
-    last_name: formik.values.lastname,
-    email: formik.values.email,
-    phone: `+1${formik.values.phone}`,
-    role: formik.values.role,
-    organization: formik.values.customer,
-    sites: formik.values.selectedSites,
-    systems: formik.values.selectedSystems,
-    modalities: formik.values.selectedModalities,
-    fse_accessible: formik.values.accessToFSEFunctions,
-    audit_enabled: formik.values.auditEnable,
-    can_leave_notes: formik.values.possibilitytoLeave,
-    view_only: formik.values.viewOnly,
-    is_one_time: formik.values.oneTimeLinkCreation,
-    documentation_url: formik.values.docLink,
-  };
-  if (formik.values.manager !== -1) {
-    obj["manager"] = formik.values.manager;
-  }
-  return obj;
-};
-
 const userFormInitialState: UserForm = {
   userProfileImage: "",
   firstname: "",
@@ -330,5 +298,4 @@ export {
   userFormValidationSchema,
   userFormInitialState,
   populateUserModalEditableData,
-  constructObject,
 };

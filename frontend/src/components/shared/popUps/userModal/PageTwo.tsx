@@ -5,25 +5,27 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
+import { FormikProps } from "formik";
 
 import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
-import { Modalities } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import {
+  Modality,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
   useOrganizationsSystemsListQuery,
 } from "@src/store/reducers/generated";
+import { UserForm } from "@src/types/interfaces";
 
 interface Props {
-  formik: object;
-  modalitiesList: Array<Modalities>;
+  formik: FormikProps<UserForm>;
+  modalitiesList: Array<Modality>;
 }
 
 const PageTwo = ({ formik, modalitiesList }: Props) => {
   const { data: systemsList, isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
-      id: formik?.values?.customer,
+      id: formik.values.customer.toString(),
     });
   const { data: networksData } = useOrganizationsHealthNetworksListQuery(
     {

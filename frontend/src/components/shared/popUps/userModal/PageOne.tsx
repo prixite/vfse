@@ -5,6 +5,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { FormikProps } from "formik";
 
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
@@ -14,9 +15,10 @@ import {
   Role,
   useOrganizationsUsersListQuery,
 } from "@src/store/reducers/generated";
+import { UserForm } from "@src/types/interfaces";
 
 interface Props {
-  formik: object;
+  formik: FormikProps<UserForm>;
   selectedImage: [];
   setSelectedImage: React.Dispatch<React.SetStateAction<[]>>;
   roles: Array<Role>;
