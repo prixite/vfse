@@ -8,7 +8,7 @@ import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
-import { useUsersActiveUsersListQuery, User } from "@src/store/reducers/api";
+import { User, api } from "@src/store/reducers/api";
 
 import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
@@ -39,19 +39,19 @@ const headers = [
 // const temp = ["abcdefg", "abcdg", "abcdefghijk"];
 
 export default function ActiveUserSection() {
-  const [pageSize, setPageSize] = useState(14);
-  const [tableColumns, setTableColumns] = useState(headers);
+  const [page, setPage] = useState<number>(0);
 
+  const {
+    data: activeUsersData = { data: [], link: "", count: 0 },
+    isLoading: isActiveUsersLoading,
+  } = api.useGetActiveUserListQuery({ page: page + 1 });
+
+  const [tableColumns, setTableColumns] = useState(headers);
   const [query, setQuery] = useState("");
   const [hasData, setHasData] = useState(false);
   const [browserWidth] = useWindowSize();
   const { searching } = localizedData().common;
-
   const { noDataDescription, noDataTitle } = localizedData().organization;
-
-  const { data: items, isLoading: isUsersLoading } =
-    useUsersActiveUsersListQuery();
-
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
 
@@ -60,21 +60,17 @@ export default function ActiveUserSection() {
       setHasData(true);
       setItemsList(itemsList);
       handleSearchQuery(query);
-    } else if (items?.length && query?.length <= 2) {
+    } else if (activeUsersData?.data?.length && query?.length <= 2) {
       setHasData(true);
-      setItemsList(items);
+      setItemsList(activeUsersData?.data);
     } else {
       setHasData(false);
     }
-  }, [query, userList, items]);
-
-  if (isUsersLoading) {
-    return <p>Loading</p>;
-  }
+  }, [query, userList, activeUsersData?.data]);
 
   const handleSearchQuery = async (searchQuery: string) => {
     const itemsToBeSet = [
-      ...items.filter((user) => {
+      ...activeUsersData.data.filter((user) => {
         return (
           user?.first_name
             ?.trim()
@@ -83,7 +79,7 @@ export default function ActiveUserSection() {
         );
       }),
     ];
-    if (items && items.length) {
+    if (activeUsersData?.data && activeUsersData?.data.length) {
       await Promise.all([itemsToBeSet, setItemsList(itemsToBeSet)]);
     }
   };
@@ -100,7 +96,7 @@ export default function ActiveUserSection() {
         handleSearchQuery={handleSearchQuery}
         searchText={query}
         setSearchText={setQuery}
-        actualData={items}
+        actualData={activeUsersData?.data}
         hasData={hasData}
       />
 
@@ -112,8 +108,23 @@ export default function ActiveUserSection() {
           <>
             {browserWidth > mobileWidth ? (
               <DataGrid
-                rows={itemsList}
+                initialState={{
+                  pagination: {
+                    page: 0,
+                    pageSize: 10,
+                  },
+                }}
+                loading={isActiveUsersLoading}
+                page={page}
+                pageSize={10}
                 autoHeight
+                pagination
+                paginationMode="server"
+                rowCount={activeUsersData?.count}
+                onPageChange={(_page) => {
+                  setPage(_page);
+                }}
+                rows={[...itemsList]}
                 columns={[
                   {
                     field: "user_name",
@@ -182,10 +193,6 @@ export default function ActiveUserSection() {
                     ),
                   },
                 ]}
-                loading={isUsersLoading}
-                pageSize={pageSize}
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rowsPerPageOptions={[14, 16, 18, 20]}
               />
             ) : (
               <UserSectionMobile userList={itemsList} />
@@ -194,7 +201,7 @@ export default function ActiveUserSection() {
         ) : (
           <NoDataFound title={noDataTitle} description={noDataDescription} />
         )}
-        {isUsersLoading ? (
+        {isActiveUsersLoading ? (
           <div
             style={{
               color: "gray",

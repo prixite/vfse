@@ -878,7 +878,7 @@ class UserRolesView(ModelViewSet):
 
 class ActiveUsersViewSet(ListAPIView):
     serializer_class = serializers.UserSerializer
-    pagination_class = pagination.TopicPagination
+    pagination_class = pagination.ActiveUsersPagtination
 
     def get_queryset(self):
         return models.User.objects.filter(

@@ -23,6 +23,8 @@ import {
   VfseUserMeActivityListApiArg,
   VfseUserTopicListApiArg,
   VfseUserTopicListApiResponse,
+  UsersActiveUsersListApiArg,
+  UsersActiveUsersListApiResponse,
 } from "@src/store/reducers/generated";
 import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
 
@@ -30,6 +32,13 @@ type TopicListResponse = {
   data: VfseTopicsListApiResponse;
   link: string;
 };
+
+type ActiveUserListResponse = {
+  data: UsersActiveUsersListApiResponse;
+  link: string;
+  count: number;
+};
+
 type TopicUserListResponse = {
   data: VfseTopicsListApiResponse;
   link: string;
@@ -119,6 +128,28 @@ export const emptySplitApi = createApi({
         return {
           data: response,
           link: meta.response.headers.get("link"),
+        };
+      },
+      providesTags: ["Topics", "Favorite"],
+    }),
+    getActiveUserList: builder.query<
+      ActiveUserListResponse,
+      UsersActiveUsersListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/active_users/`,
+        params: {
+          page: queryArg.page,
+        },
+      }),
+      transformResponse: (
+        response: UsersActiveUsersListApiResponse,
+        meta
+      ): ActiveUserListResponse => {
+        return {
+          data: response,
+          link: meta.response.headers.get("link"),
+          count: Number(meta.response.headers.get("count")),
         };
       },
       providesTags: ["Topics", "Favorite"],
