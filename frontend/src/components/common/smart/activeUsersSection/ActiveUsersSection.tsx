@@ -68,10 +68,6 @@ export default function ActiveUserSection() {
     }
   }, [query, userList, activeUsersData?.data]);
 
-  if (isActiveUsersLoading) {
-    return <p>Loading</p>;
-  }
-
   const handleSearchQuery = async (searchQuery: string) => {
     const itemsToBeSet = [
       ...activeUsersData.data.filter((user) => {
@@ -125,8 +121,8 @@ export default function ActiveUserSection() {
                 pagination
                 paginationMode="server"
                 rowCount={activeUsersData?.count}
-                onPageChange={(newPage) => {
-                  setPage(newPage);
+                onPageChange={(_page) => {
+                  setPage(_page);
                 }}
                 rows={[...itemsList]}
                 columns={[
