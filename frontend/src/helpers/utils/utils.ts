@@ -1,7 +1,11 @@
 import { toast } from "react-toastify";
+import * as yup from "yup";
 
-import { Organization } from "@src/store/reducers/generated";
-import { ApiError } from "@src/types/interfaces";
+import { localizedData } from "@src/helpers/utils/language";
+import constantsData from "@src/localization/en.json";
+import { Organization, UpsertUser } from "@src/store/reducers/generated";
+import { ApiError, UserForm } from "@src/types/interfaces";
+const constantUserData = localizedData()?.users?.popUp;
 
 const validateIPaddress = (ipaddress: string) => {
   if (
@@ -132,6 +136,187 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
   }
 };
 
+const nameReg = /^[A-Za-z ]*$/;
+// eslint-disable-next-line
+const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+const userFormValidationSchema = yup.object({
+  userProfileImage: yup
+    .string()
+    .required(constantsData.users.popUp.imageRequired),
+  firstname: yup
+    .string()
+    .matches(nameReg)
+    .required(constantsData.users.popUp.firstNameRequired),
+  lastname: yup
+    .string()
+    .matches(nameReg)
+    .required(constantsData.users.popUp.lastNameRequired),
+  email: yup
+    .string()
+    .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
+    .required(constantsData.users.popUp.emailRequired),
+});
+
+const populateUserModalEditableData = (
+  editedUser,
+  formik,
+  usersData,
+  userSitesMap,
+  organizationData,
+  modalitiesList
+) => {
+  if (editedUser?.image?.length) {
+    formik.setValues({
+      ...formik.values,
+      userProfileImage: editedUser?.image,
+      firstname: editedUser?.first_name,
+      lastname: editedUser?.last_name,
+      email: editedUser?.email,
+    });
+    if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
+      formik.setFieldValue(
+        constantUserData.phone,
+        editedUser?.phone?.substring(2)
+      );
+    }
+    if (editedUser?.role?.length) {
+      formik.setFieldValue(constantUserData.role, editedUser.role[0]);
+    }
+    if (editedUser?.manager) {
+      formik.setFieldValue(
+        constantUserData.manager,
+        usersData?.filter(
+          (user) => user?.email == editedUser?.manager?.email
+        )[0]?.id
+      );
+    } else {
+      if (usersData?.length) {
+        formik.setFieldValue(constantUserData.manager, usersData[0]?.id);
+      }
+    }
+    if (editedUser?.organizations?.length) {
+      formik.setFieldValue(
+        constantUserData.customer,
+        organizationData?.filter((org) => {
+          return (
+            org?.name?.toString() == editedUser?.organizations[0]?.toString()
+          );
+        })[0]?.id
+      );
+    }
+    if (editedUser?.sites) {
+      formik.setFieldValue(constantUserData.selectedSites, [
+        ...userSitesMap.keys(),
+      ]);
+    }
+
+    if (editedUser?.systems?.length) {
+      const system_ids: Array<number> = [];
+      editedUser?.systems?.forEach((system) => {
+        system_ids.push(system);
+      });
+      formik.setFieldValue("selectedSystems", system_ids);
+    }
+
+    if (editedUser?.modalities?.length) {
+      const filterModalities = modalitiesList?.filter((modality) => {
+        return editedUser?.modalities?.includes(modality?.name?.toString());
+      });
+      const mod_ids: Array<number> = [];
+      filterModalities?.forEach((mod) => {
+        mod_ids.push(mod?.id);
+      });
+      formik.setFieldValue(constantUserData.selectedModalities, mod_ids);
+    }
+    if (editedUser?.fse_accessible) {
+      formik.setFieldValue(
+        constantUserData.accessToFSEFunctions,
+        editedUser?.fse_accessible
+      );
+    }
+    if (editedUser?.audit_enabled) {
+      formik.setFieldValue(
+        constantUserData.auditEnable,
+        editedUser?.audit_enabled
+      );
+    }
+    if (editedUser?.can_leave_notes) {
+      formik.setFieldValue(
+        constantUserData.possibilitytoLeave,
+        editedUser?.can_leave_notes
+      );
+    }
+    if (editedUser?.view_only) {
+      formik.setFieldValue(constantUserData.viewOnly, editedUser?.view_only);
+    }
+    if (editedUser?.is_one_time) {
+      formik.setFieldValue(
+        constantUserData.oneTimeLinkCreation,
+        editedUser?.is_one_time
+      );
+    }
+    if (editedUser?.documentation_url) {
+      formik.setFieldValue(
+        constantUserData.docLink,
+        editedUser?.documentation_url
+      );
+    }
+  }
+};
+
+const constructObject = (
+  imageUrl: string,
+  formik: object,
+  userProfileImageText: string
+): UpsertUser => {
+  const obj = {
+    meta: {
+      profile_picture: imageUrl,
+      title: userProfileImageText,
+    },
+    first_name: formik.values.firstname,
+    last_name: formik.values.lastname,
+    email: formik.values.email,
+    phone: `+1${formik.values.phone}`,
+    role: formik.values.role,
+    organization: formik.values.customer,
+    sites: formik.values.selectedSites,
+    systems: formik.values.selectedSystems,
+    modalities: formik.values.selectedModalities,
+    fse_accessible: formik.values.accessToFSEFunctions,
+    audit_enabled: formik.values.auditEnable,
+    can_leave_notes: formik.values.possibilitytoLeave,
+    view_only: formik.values.viewOnly,
+    is_one_time: formik.values.oneTimeLinkCreation,
+    documentation_url: formik.values.docLink,
+  };
+  if (formik.values.manager !== -1) {
+    obj["manager"] = formik.values.manager;
+  }
+  return obj;
+};
+
+const userFormInitialState: UserForm = {
+  userProfileImage: "",
+  firstname: "",
+  lastname: "",
+  email: "",
+  phone: "",
+  role: "",
+  manager: undefined,
+  customer: undefined,
+  selectedModalities: [],
+  selectedSites: [],
+  selectedSystems: [],
+  docLink: false,
+  possibilitytoLeave: false,
+  accessToFSEFunctions: false,
+  viewOnly: false,
+  auditEnable: false,
+  oneTimeLinkCreation: false,
+};
+
 export {
   toastAPIError,
   validateIPaddress,
@@ -142,4 +327,8 @@ export {
   getNonFieldError,
   isNonFieldError,
   returnPayloadThemeObject,
+  userFormValidationSchema,
+  userFormInitialState,
+  populateUserModalEditableData,
+  constructObject,
 };

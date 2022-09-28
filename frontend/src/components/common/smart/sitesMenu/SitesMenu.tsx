@@ -46,12 +46,12 @@ const SitesMenu = ({
 
   const isIntermediate = () => {
     if (
-      systems.every((item) => formik.values.selectedSystems.includes(item?.id))
+      systems?.every((item) => formik.values.selectedSystems.includes(item?.id))
     ) {
       return false;
     }
     if (
-      systems.some((item) => formik.values.selectedSystems.includes(item?.id))
+      systems?.some((item) => formik.values.selectedSystems.includes(item?.id))
     ) {
       return true;
     }
