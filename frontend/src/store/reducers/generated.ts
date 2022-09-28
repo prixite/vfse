@@ -1472,7 +1472,6 @@ export type User = {
   manager?: Manager;
   image?: string;
   sites?: string[];
-  number_of_users?: number;
 };
 export type UpsertUser = {
   meta?: Meta;

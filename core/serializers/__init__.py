@@ -229,7 +229,6 @@ class ManagerMetaSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    number_of_users = serializers.IntegerField(read_only=True, required=False)
     modalities = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
@@ -286,7 +285,6 @@ class UserSerializer(serializers.ModelSerializer):
             "manager",
             "image",
             "sites",
-            "number_of_users",
         ]
 
 

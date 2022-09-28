@@ -3637,11 +3637,6 @@
                         "minLength": 1
                     },
                     "readOnly": true
-                },
-                "number_of_users": {
-                    "title": "Number of users",
-                    "type": "integer",
-                    "readOnly": true
                 }
             }
         },

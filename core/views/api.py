@@ -878,15 +878,19 @@ class UserRolesView(ModelViewSet):
 
 class ActiveUsersViewSet(ListAPIView):
     serializer_class = serializers.UserSerializer
-    pagination_class = pagination.TopicPagination
+    pagination_class = pagination.ActiveUsersPagtination
 
-    def get(self, request, *args, **kwargs):
-        dataset = models.User.objects.filter(
+    def get_queryset(self):
+        return models.User.objects.filter(
             last_login__gte=timezone.now().astimezone() - timezone.timedelta(days=30)
         )
-        number_of_users = dataset.count()
-        serializer = self.serializer_class(dataset, many=True)
-        return Response({"data": serializer.data, "number_of_users": number_of_users})
+
+    # def get(self, request, *args, **kwargs):
+    #     dataset = self.queryset
+    #     print(dataset, ' asdasd')
+    #     number_of_users = dataset.count()
+    #     serializer = self.serializer_class(dataset, many=True)
+    #     return Response({"data": serializer.data, "number_of_users": number_of_users})
 
 
 class SystemInfluxView(APIView):
