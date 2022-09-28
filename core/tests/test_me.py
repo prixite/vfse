@@ -35,6 +35,7 @@ class MeTestCase(BaseTestCase):
                 {
                     "first_name": user.first_name,
                     "last_name": user.last_name,
+                    "flags": flags,
                 },
             )
             self.assertTrue(data["organization"]["id"], organization_id)
