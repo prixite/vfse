@@ -885,13 +885,6 @@ class ActiveUsersViewSet(ListAPIView):
             last_login__gte=timezone.now().astimezone() - timezone.timedelta(days=30)
         )
 
-    # def get(self, request, *args, **kwargs):
-    #     dataset = self.queryset
-    #     print(dataset, ' asdasd')
-    #     number_of_users = dataset.count()
-    #     serializer = self.serializer_class(dataset, many=True)
-    #     return Response({"data": serializer.data, "number_of_users": number_of_users})
-
 
 class SystemInfluxView(APIView):
     def get(self, request):
