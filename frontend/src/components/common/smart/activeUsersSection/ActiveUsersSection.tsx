@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useMemo } from "react";
+import { Fragment, useState, useEffect } from "react";
 
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -6,7 +6,6 @@ import UserSectionMobile from "@src/components/common/smart/activeUsersSection/u
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-import { parseLink } from "@src/helpers/paging";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { localizedData } from "@src/helpers/utils/language";
 import { User, api } from "@src/store/reducers/api";
@@ -41,24 +40,11 @@ const headers = [
 
 export default function ActiveUserSection() {
   const [page, setPage] = useState<number>(0);
-  const [pageParam, setPageParam] = useState<number>(1);
-
-  const queryOptions = useMemo(
-    () => ({
-      pageParam,
-    }),
-    [pageParam]
-  );
 
   const {
     data: activeUsersData = { data: [], link: "", count: 0 },
     isLoading: isActiveUsersLoading,
-  } = api.useGetActiveUserListQuery({ page: queryOptions.pageParam });
-
-  const totalPages = useMemo(
-    () => parseLink(activeUsersData?.link),
-    [activeUsersData?.link]
-  );
+  } = api.useGetActiveUserListQuery({ page: page + 1 });
 
   const [tableColumns, setTableColumns] = useState(headers);
   const [query, setQuery] = useState("");
@@ -138,11 +124,8 @@ export default function ActiveUserSection() {
                 autoHeight
                 pagination
                 paginationMode="server"
-                rowCount={activeUsersData.count}
+                rowCount={activeUsersData?.count}
                 onPageChange={(newPage) => {
-                  if (newPage < totalPages) {
-                    setPageParam(newPage + 1);
-                  }
                   setPage(newPage);
                 }}
                 rows={[...itemsList]}
