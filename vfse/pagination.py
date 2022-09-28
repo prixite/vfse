@@ -28,7 +28,7 @@ class ActiveUsersPagtination(LinkHeaderPagination):
             (next_url, "next"),
             (last_url, "last"),
         ):
-            if url is not None:
+            if url:
                 links.append('<{}>; rel="{}"'.format(url, label))
 
         headers = (
