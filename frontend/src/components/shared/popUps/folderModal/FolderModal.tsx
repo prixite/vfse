@@ -20,15 +20,18 @@ import { api } from "@src/store/reducers/api";
 import { Category } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/folderModal/folderModal.scss";
 
+interface dataStateProps {
+  action?: string;
+  title?: string;
+  id?: number;
+  categoryID?: number;
+  categoryName?: string;
+}
 interface FolderModalProps {
   open: boolean;
   handleClose: () => void;
   categoryData?: Category;
-  action?: string;
-  title?: string;
-  id?: number;
-  categoryId?: number;
-  categoryName?: string;
+  dataState: dataStateProps;
 }
 
 const initialState = {
@@ -47,19 +50,14 @@ export default function FolderModal({
   open,
   handleClose,
   categoryData,
-  action,
-  title,
-  id,
-  categoryId,
-  categoryName,
+  dataState,
 }: FolderModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-
+  const id = dataState.id;
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const {
     addFolderText,
     folderNameText,
@@ -78,7 +76,7 @@ export default function FolderModal({
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (action === "add") {
+      if (dataState.action === "add") {
         handleAddFolder();
       } else {
         handleEditFolder();
@@ -86,14 +84,14 @@ export default function FolderModal({
     },
   });
   useEffect(() => {
-    if (action === "edit") {
+    if (dataState.action === "edit") {
       populateEditableData();
     }
-  }, [action, open]);
+  }, [dataState.action, open]);
 
   const populateEditableData = () => {
     formik.setValues({
-      name: title,
+      name: dataState.title,
     });
   };
   const handleAddFolder = async () => {
@@ -123,7 +121,7 @@ export default function FolderModal({
       id,
       folder: {
         name: formik.values.name,
-        categories: [categoryData?.id || categoryId],
+        categories: [dataState.categoryID],
       },
     })
       .then(() => {
@@ -151,7 +149,7 @@ export default function FolderModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {action === "add" ? addFolderText : editFolderText}
+            {dataState.action === "add" ? addFolderText : editFolderText}
           </span>
           <span className="dialog-page">
             <img
@@ -191,15 +189,15 @@ export default function FolderModal({
                   <FormControl>
                     <Select
                       name="role"
-                      value={categoryData?.id || categoryId}
+                      value={dataState.categoryID}
                       className="select-cls"
                       inputProps={{ "aria-label": "Without label" }}
                       onChange={formik.handleChange}
                       MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       // disabled={!props?.roles?.length}
                     >
-                      <MenuItem value={categoryData?.id || categoryId}>
-                        {categoryData?.name || categoryName}
+                      <MenuItem value={dataState.categoryID}>
+                        {categoryData?.name || dataState.categoryName}
                       </MenuItem>
                     </Select>
                   </FormControl>
@@ -230,7 +228,7 @@ export default function FolderModal({
           }}
           disabled={isLoading}
         >
-          {action === "add" ? addFolderText : editFolderText}
+          {dataState.action === "add" ? addFolderText : editFolderText}
         </Button>
       </DialogActions>
     </Dialog>

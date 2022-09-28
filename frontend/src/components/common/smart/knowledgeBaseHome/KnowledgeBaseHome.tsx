@@ -25,11 +25,13 @@ const KnowledgeBaseHome = () => {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [action, setAction] = useState("edit");
-  const [title, setTitle] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-  const [folderID, setFolderID] = useState(null);
-  const [categoryID, setCategoryID] = useState(null);
+  const [dataState, setDataState] = useState({
+    action: "edit",
+    title: "",
+    categoryName: "",
+    id: null,
+    categoryID: null,
+  });
   const [folderOpen, setFolderOpen] = useState(false);
   const { knowledgeBase } = constantsData;
   const { noDataTitle, noDataDescription } = localizedData().systems;
@@ -75,11 +77,13 @@ const KnowledgeBaseHome = () => {
   }, [query, categoriesList, topData]);
   const handleEdit = (selectedArticle) => {
     setFolderOpen(true);
-    setAction(selectedArticle.text);
-    setTitle(selectedArticle.title);
-    setFolderID(selectedArticle.folderId);
-    setCategoryID(selectedArticle.categoryId);
-    setCategoryName(selectedArticle.categoryName);
+    setDataState({
+      title: selectedArticle.title,
+      action: selectedArticle.text,
+      id: selectedArticle.folderId,
+      categoryName: selectedArticle.categoryName,
+      categoryID: selectedArticle.categoryId,
+    });
   };
 
   return (
@@ -146,11 +150,7 @@ const KnowledgeBaseHome = () => {
       <FolderModal
         open={folderOpen}
         handleClose={handleFolderClose}
-        action={action}
-        title={title}
-        id={folderID}
-        categoryId={categoryID}
-        categoryName={categoryName}
+        dataState={dataState}
       />
     </>
   );

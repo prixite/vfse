@@ -18,11 +18,13 @@ import CategoryOptionsSection from "../categoryOptionsSection/categoryOptionsSec
 const AllCategoriesSection = () => {
   const classes = useStyles();
   const [folderList, setFolderList] = useState<Category[]>([]);
-  const [action, setAction] = useState("edit");
-  const [title, setTitle] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-  const [folderID, setFolderID] = useState(null);
-  const [categoryID, setCategoryID] = useState(null);
+  const [dataState, setDataState] = useState({
+    action: "edit",
+    title: "",
+    categoryName: "",
+    id: null,
+    categoryID: null,
+  });
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
@@ -52,11 +54,13 @@ const AllCategoriesSection = () => {
   };
   const handleEdit = (selectedArticle) => {
     setFolderOpen(true);
-    setAction(selectedArticle.text);
-    setTitle(selectedArticle.title);
-    setFolderID(selectedArticle.folderId);
-    setCategoryID(selectedArticle.categoryId);
-    setCategoryName(selectedArticle.categoryName);
+    setDataState({
+      title: selectedArticle.title,
+      action: selectedArticle.text,
+      id: selectedArticle.folderId,
+      categoryName: selectedArticle.categoryName,
+      categoryID: selectedArticle.categoryId,
+    });
   };
   useEffect(() => {
     if (query.length > 2) {
@@ -115,11 +119,7 @@ const AllCategoriesSection = () => {
       <FolderModal
         open={folderOpen}
         handleClose={handleFolderClose}
-        action={action}
-        title={title}
-        id={folderID}
-        categoryId={categoryID}
-        categoryName={categoryName}
+        dataState={dataState}
       />
     </>
   );
