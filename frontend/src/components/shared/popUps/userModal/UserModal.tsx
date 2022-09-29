@@ -31,7 +31,7 @@ import {
   useScopeUsersCreateMutation,
   UpsertUser,
 } from "@src/store/reducers/api";
-import { Formik, UserForm, UserModalProps } from "@src/types/interfaces";
+import { UserForm, UserModalProps } from "@src/types/interfaces";
 import "@src/components/shared/popUps/userModal/userModal.scss";
 // eslint-disable-next-line
 const phoneReg = /^(\+1)[0-9]{10}$/;
@@ -107,7 +107,7 @@ export default function UserModal(props: UserModalProps) {
 
   const [onChangeValidation, setOnChangeValidation] = useState(false);
 
-  const formik = useFormik({
+  const formik = useFormik<UserForm>({
     initialValues: userFormInitialState,
     validationSchema: userFormValidationSchema,
     validateOnChange: onChangeValidation,
@@ -264,38 +264,6 @@ export default function UserModal(props: UserModalProps) {
     }
   };
 
-  const constructObject = (
-    imageUrl: string,
-    formik: Formik,
-    userProfileImageText: string
-  ): UpsertUser => {
-    const obj = {
-      meta: {
-        profile_picture: imageUrl,
-        title: userProfileImageText,
-      },
-      first_name: formik.values.firstname,
-      last_name: formik.values.lastname,
-      email: formik.values.email,
-      phone: `+1${formik.values.phone}`,
-      role: formik.values.role,
-      organization: formik.values.customer,
-      sites: formik.values.selectedSites,
-      systems: formik.values.selectedSystems,
-      modalities: formik.values.selectedModalities,
-      fse_accessible: formik.values.accessToFSEFunctions,
-      audit_enabled: formik.values.auditEnable,
-      can_leave_notes: formik.values.possibilitytoLeave,
-      view_only: formik.values.viewOnly,
-      is_one_time: formik.values.oneTimeLinkCreation,
-      documentation_url: formik.values.docLink,
-    };
-    if (formik.values.manager !== -1) {
-      obj["manager"] = formik.values.manager;
-    }
-    return obj;
-  };
-
   useEffect(() => {
     if (props?.action == addText) {
       if (usersData?.length) {
@@ -382,8 +350,37 @@ export default function UserModal(props: UserModalProps) {
     }
   };
 
+  const constructObject = (
+    imageUrl: string,
+    userProfileImageText: string
+  ): UpsertUser => {
+    const obj = {
+      meta: {
+        profile_picture: imageUrl,
+        title: userProfileImageText,
+      },
+      first_name: formik.values.firstname,
+      last_name: formik.values.lastname,
+      email: formik.values.email,
+      phone: `+1${formik.values.phone}`,
+      role: formik.values.role,
+      organization: formik.values.customer,
+      sites: formik.values.selectedSites,
+      systems: formik.values.selectedSystems,
+      modalities: formik.values.selectedModalities,
+      fse_accessible: formik.values.accessToFSEFunctions,
+      audit_enabled: formik.values.auditEnable,
+      can_leave_notes: formik.values.possibilitytoLeave,
+      view_only: formik.values.viewOnly,
+      is_one_time: formik.values.oneTimeLinkCreation,
+      documentation_url: formik.values.docLink,
+      manager: formik.values.manager,
+    };
+    return obj;
+  };
+
   const performEditUser = async (data: string) => {
-    const userObject = constructObject(data, formik, userProfileImageText);
+    const userObject = constructObject(data, userProfileImageText);
     await updateUserService(props?.selectedUser, userObject, updateUser)
       .then(() => {
         setTimeout(() => {
@@ -399,7 +396,7 @@ export default function UserModal(props: UserModalProps) {
 
   const getUserObject = (imageUrl: string) => {
     return {
-      memberships: [constructObject(imageUrl, formik, userProfileImageText)],
+      memberships: [constructObject(imageUrl, userProfileImageText)],
     };
   };
 
@@ -432,7 +429,7 @@ export default function UserModal(props: UserModalProps) {
     const phoneValue = `+1${formik.values.phone}`;
     const errors = await formik.validateForm();
     if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
-      await setPage("2");
+      setPage("2");
       setIsPhoneError("");
     } else {
       setIsPhoneError(constantsData.users.popUp.invalidPhoneFormat);

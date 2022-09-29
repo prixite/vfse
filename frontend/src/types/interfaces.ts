@@ -7,6 +7,19 @@ import {
   User,
 } from "@src/store/reducers/generated";
 
+export enum UserRole {
+  FSE_ADMIN = "fse-admin",
+  CUSTOMER_ADMIN = "customer-admin",
+  USER_ADMIN = "user-admin",
+  FSE = "fse",
+  END_USER = "end-user",
+  VIEW_ONLY = "view-only",
+  ONE_TIME = "one-time",
+  CRYO = "cryo",
+  CRYO_FSE = "cryo-fse",
+  CRYO_ADMIN = "cryo-admin",
+}
+
 export interface ApiError {
   status: number;
   data: Record<string, Array<string>>;
