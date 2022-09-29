@@ -16,6 +16,16 @@
     .general-info {
       display: flex;
       flex-direction: column;
+      .folderIcon-Grid {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        .folderSvg {
+          font-size: 2.2rem;
+          height: inherit;
+          width: inherit;
+        }
+      }
       .heading {
         margin-top: 14px;
         .title {
@@ -57,6 +67,9 @@
           font-size: 16px;
           color: #773cbd;
           font-weight: 600;
+        }
+        &:hover {
+          transform: translateX(3%);
         }
       }
     }

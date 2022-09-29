@@ -18,7 +18,6 @@ class UserTestCase(BaseTestCase):
         user = factories.UserWithPasswordFactory(
             profile__is_one_time=True,
             organizations=[self.organization],
-            organizations__role=models.Role.ONE_TIME,
         )
         response = test.Client().post(
             "/accounts/login/",
@@ -266,3 +265,12 @@ class UserTestCase(BaseTestCase):
         }
         response = self.client.post(f"/api/scope/{user.id}/users/", data=user_data)
         self.assertEqual(response.status_code, 403)
+
+    def test_user_change_password(self):
+        self.end_user.set_password("admin")
+        self.end_user.save()
+        self.client.force_login(self.end_user)
+
+        user_data = {"password": "pakistan", "old_password": "admin"}
+        response = self.client.patch("/api/users/change_password/", data=user_data)
+        self.assertEqual(response.status_code, 200)

@@ -760,7 +760,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseUserActivityListApiResponse,
       VfseUserActivityListApiArg
     >({
-      query: () => ({ url: `/vfse/user/activity/` }),
+      query: (queryArg) => ({
+        url: `/vfse/user/activity/`,
+        params: { topic: queryArg.topic },
+      }),
     }),
     vfseUserMeActivityList: build.query<
       VfseUserMeActivityListApiResponse,
@@ -1208,7 +1211,9 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 };
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
-export type VfseUserActivityListApiArg = void;
+export type VfseUserActivityListApiArg = {
+  topic?: number;
+};
 export type VfseUserMeActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserMeActivityListApiArg = {
@@ -1247,8 +1252,6 @@ export type UserRequestAccess = {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "view-only"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
@@ -1342,6 +1345,7 @@ export type Me = {
   is_superuser?: boolean;
   can_leave_notes: boolean;
   fse_accessible: boolean;
+  documentation_url: boolean;
 };
 export type Modality = {
   id?: number;
@@ -1483,8 +1487,6 @@ export type UpsertUser = {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "view-only"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
