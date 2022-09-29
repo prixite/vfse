@@ -369,6 +369,9 @@ const Registeration = () => {
                         className="info-field"
                         onChange={(event) => setManager(event.target.value)}
                       >
+                        <MenuItem value="">
+                          <p>None</p>
+                        </MenuItem>
                         {managers.map((item, key) => (
                           <MenuItem key={key} value={item.id}>
                             {`${item.first_name} ${item.last_name}`}
