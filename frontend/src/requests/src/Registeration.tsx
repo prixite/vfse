@@ -242,6 +242,7 @@ const Registeration = () => {
       : setPhoneError("");
   };
   const moveToNextPage = () => {
+    console.log('manager values',manager)
     handleErrors();
     if (
       selectedImage.length &&
@@ -360,7 +361,8 @@ const Registeration = () => {
                       <Select
                         inputProps={{ "aria-label": "Without label" }}
                         style={{ height: "43px", borderRadius: "8px" }}
-                        defaultValue=""
+                        defaultValue="None"
+                        displayEmpty
                         value={manager}
                         disabled={!managers.length}
                         MenuProps={{
