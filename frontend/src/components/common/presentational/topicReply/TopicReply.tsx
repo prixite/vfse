@@ -14,7 +14,7 @@ import { Comment } from "@src/store/reducers/generated";
 type TopicReplyProps = {
   commentData: Comment;
   replyChecked: boolean;
-  scrollToTopReply: () => void;
+  scrollToTopReply?: () => void;
 };
 
 function TopicReply({
@@ -76,9 +76,12 @@ function TopicReply({
     addReply(payload)
       .unwrap()
       .finally(() => {
+        setPage(1);
         setReply("");
         setIsReplyPosting(false);
-        scrollToTopReply();
+        if (replies.length > 7 && reply) {
+          scrollToTopReply();
+        }
       });
   };
 
