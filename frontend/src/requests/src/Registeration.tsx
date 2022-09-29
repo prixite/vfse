@@ -195,11 +195,6 @@ const Registeration = () => {
       setRole(userRoles[0]?.value);
     }
   }, [userRoles]);
-  useEffect(() => {
-    if (managers && managers.length) {
-      setManager(managers[0].id.toString());
-    }
-  }, [managers]);
   const handleFirstName = (e) => {
     setFirstNameError("");
     setFirstName(e.target.value);
