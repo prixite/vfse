@@ -15,6 +15,7 @@
     background: white;
     box-shadow: 3px 3px 12px rgba(10, 35, 83, 0.08);
     overflow: hidden;
+    flex-direction: column;
     img {
       width: 27px;
       height: 27px;
@@ -30,6 +31,9 @@
       word-wrap: break-word;
       overflow: hidden;
       -webkit-box-orient: vertical;
+      word-break: break-word;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
     .info {
       font-family: "ProximaNova-Regular";
@@ -43,6 +47,17 @@
         overflow: hidden;
         -webkit-box-orient: vertical;
       }
+    }
+    .description {
+      font-family: "ProximaNova-Regular";
+      font-size: 12px;
+      color: #696f77;
+      margin-top: 7px;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      word-wrap: break-word;
+      overflow: hidden;
+      -webkit-box-orient: vertical;
     }
   }
   .dropdown {
@@ -73,10 +88,18 @@
   }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 540px) {
   .knowledge-top-card {
+    height: inherit;
     .card {
-      width: 100%;
+      -webkit-line-clamp: 1;
+      height: inherit;
+      .category {
+        word-break: break-word;
+      }
+      .description {
+        -webkit-line-clamp: 3;
+      }
     }
   }
 }

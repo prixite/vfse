@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
+import useStyles from "@src/components/common/smart/folderDetailSection/Style";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
@@ -13,6 +14,7 @@ import { api, Document } from "@src/store/reducers/api";
 import "@src/components/common/smart/folderDetailSection/folderDetailSection.scss";
 
 const FolderDetailSection = () => {
+  const classes = useStyles();
   const [articlesList, setArticlesList] = useState<Document[]>([]);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -59,9 +61,23 @@ const FolderDetailSection = () => {
           setData={setArticlesList}
         />
         {folderData.documents.length && articlesList.length ? (
-          <Grid container spacing={1} style={{ marginTop: "9px" }}>
+          <Grid
+            container
+            spacing={2}
+            style={{ marginTop: "9px" }}
+            className={classes.container}
+          >
             {articlesList?.map((item, index) => (
-              <Grid item={true} xs={6} xl={2} md={6} lg={3} key={index}>
+              <Grid
+                item={true}
+                xs={12}
+                sm={4}
+                xl={2}
+                md={4}
+                lg={3}
+                key={index}
+                className={classes.card}
+              >
                 <KnowledgeTopCard
                   title={item?.title}
                   description={item?.text}

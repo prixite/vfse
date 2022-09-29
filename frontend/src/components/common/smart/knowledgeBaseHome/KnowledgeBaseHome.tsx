@@ -76,9 +76,23 @@ const KnowledgeBaseHome = () => {
         setData={setCategoryListForSearch}
       />
       <h2 className={classes.subHeading}>{knowledgeBase.subTitle}</h2>
-      <Grid container spacing={1} mt={3}>
+      <Grid
+        container
+        spacing={{ xs: 2, sm: 1, md: 1, lg: 1, xl: 1 }}
+        mt={3}
+        className={classes.knowledgeBaseCardsContainer}
+      >
         {articlesList.map((item, index) => (
-          <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
+          <Grid
+            item={true}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            key={index}
+            className={classes.knowledgeTopCard}
+          >
             <KnowledgeTopCard
               title={item?.title}
               description={item?.text}
