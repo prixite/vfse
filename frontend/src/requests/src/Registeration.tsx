@@ -242,7 +242,6 @@ const Registeration = () => {
       : setPhoneError("");
   };
   const moveToNextPage = () => {
-    console.log('manager values',manager)
     handleErrors();
     if (
       selectedImage.length &&
