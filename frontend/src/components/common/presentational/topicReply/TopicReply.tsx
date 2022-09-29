@@ -14,9 +14,14 @@ import { Comment } from "@src/store/reducers/generated";
 type TopicReplyProps = {
   commentData: Comment;
   replyChecked: boolean;
+  scrollToTopReply: () => void;
 };
 
-function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
+function TopicReply({
+  commentData,
+  replyChecked,
+  scrollToTopReply,
+}: TopicReplyProps) {
   const [browserWidth] = useWindowSize();
   const [commentIDState, setCommentIDState] = useState<number>(commentData?.id);
   const [topicIDState, setTopicIDState] = useState<number>(commentData?.topic);
@@ -73,6 +78,7 @@ function TopicReply({ commentData, replyChecked }: TopicReplyProps) {
       .finally(() => {
         setReply("");
         setIsReplyPosting(false);
+        scrollToTopReply();
       });
   };
 
