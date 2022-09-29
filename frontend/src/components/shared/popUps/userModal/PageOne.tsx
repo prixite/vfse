@@ -44,7 +44,7 @@ const PageOne = ({
     }
   );
 
-  const constantUserData = localizedData()?.users?.popUp;
+  const constantUserData = localizedData().users.popUp;
 
   return (
     <>
@@ -148,13 +148,13 @@ const PageOne = ({
               inputProps={{ "aria-label": "Without label" }}
               style={{ height: "43px", borderRadius: "8px" }}
               onChange={formik.handleChange}
-              disabled={!roles?.length}
+              disabled={!roles.length}
               MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
               defaultValue="none"
             >
               {roles?.map((item, key) => (
                 <MenuItem key={key} value={item.value}>
-                  {item?.title}
+                  {item.title}
                 </MenuItem>
               ))}
             </Select>
@@ -176,13 +176,13 @@ const PageOne = ({
               MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
               disabled={!managers.length}
             >
-              {managers.map((item, key) => (
+              {managers?.map((item, key) => (
                 <MenuItem
                   key={key}
-                  value={item?.id}
-                  style={{ color: item?.id == -1 ? "darkgray" : "" }}
+                  value={item.id}
+                  style={{ color: item.id == -1 ? "darkgray" : "" }}
                 >
-                  {item?.username}
+                  {item.username}
                 </MenuItem>
               ))}
             </Select>
@@ -203,7 +203,7 @@ const PageOne = ({
           >
             {organizationData?.map((item, key) => (
               <MenuItem key={key} value={item?.id}>
-                {item?.name}
+                {item.name}
               </MenuItem>
             ))}
           </Select>

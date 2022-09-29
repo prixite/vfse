@@ -44,13 +44,13 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
     }
   );
 
-  const constantUserData = localizedData()?.users?.popUp;
+  const constantUserData = localizedData().users.popUp;
 
   const handleSystemSelection = (e, site) => {
     const val = parseInt(e?.target?.value || e);
     const selectedSystemIndex = formik.values.selectedSystems.indexOf(val);
     if (selectedSystemIndex > -1) {
-      formik.values.selectedSystems?.splice(selectedSystemIndex, 1);
+      formik.values.selectedSystems.splice(selectedSystemIndex, 1);
       formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
       ]);
@@ -76,16 +76,16 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
     }
 
     const modality = systemsList
-      .filter((item) => item?.id == val)
-      .map((item) => item?.product_model_detail?.modality?.id)[0];
+      ?.filter((item) => item.id == val)
+      .map((item) => item.product_model_detail.modality?.id)[0];
 
     const systems = systemsList
-      ?.filter((item) => item?.product_model_detail?.modality?.id == modality)
-      .filter((item) => item?.id != val);
+      ?.filter((item) => item.product_model_detail.modality.id == modality)
+      .filter((item) => item.id != val);
 
     if (
       systems.length &&
-      systems.some((item) => formik?.values?.selectedSystems.includes(item?.id))
+      systems.some((item) => formik.values.selectedSystems.includes(item.id))
     ) {
       return;
     }
@@ -94,7 +94,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
       formik.values.selectedModalities.indexOf(modality);
 
     if (selectedModalityIndex > -1) {
-      formik.values.selectedModalities?.splice(selectedModalityIndex, 1);
+      formik.values.selectedModalities.splice(selectedModalityIndex, 1);
       formik.setFieldValue(constantUserData.selectedModalities, [
         ...formik.values.selectedModalities,
       ]);
@@ -108,22 +108,23 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
 
   const handleSelectedModalities = async (event, newFormats) => {
     const systems = systemsList?.filter(
-      (item) => item?.product_model_detail?.modality?.id == event.target.value
+      (item) => item.product_model_detail.modality.id == event.target.value
     );
 
     if (!systems.length) {
       toast.warn("No system exixts against this modality");
+      return;
     }
 
     const temp = new Set(formik.values.selectedSystems);
     const temp2 = new Set(formik.values.selectedSites);
     const selectedSystemsInModality = systems.filter((item) =>
-      formik.values.selectedSystems.includes(item?.id)
+      formik.values.selectedSystems.includes(item.id)
     );
     if (selectedSystemsInModality.length === systems.length) {
       for (const item of systems) {
         temp.delete(item.id);
-        const allSystemOfSite = systemsList.filter(
+        const allSystemOfSite = systemsList?.filter(
           (system) => system.site === item.site
         );
         const allSystemOfSiteModality = systems.filter(
@@ -136,19 +137,16 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
           temp2.delete(item.site);
         }
       }
-      formik.setFieldValue(
-        constantUserData.selectedModalities,
-        formik.values.selectedModalities.filter(
-          (modality) => modality !== event.target.value
-        )
-      );
+      formik.setFieldValue(constantUserData.selectedModalities, [
+        ...newFormats,
+      ]);
     } else {
-      const _systems = systems?.filter(
-        (item) => !formik?.values?.selectedSystems?.includes(item?.id)
+      const _systems = systems.filter(
+        (item) => !formik.values.selectedSystems.includes(item.id)
       );
       for (const system of _systems) {
-        temp.add(system?.id);
-        temp2.add(system?.site);
+        temp.add(system.id);
+        temp2.add(system.site);
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
         ...newFormats,
@@ -189,32 +187,29 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
   const modifySelectedModalities = (system, temp) => {
     const modality = systemsList
-      ?.filter((item) => item?.id == system?.id)
-      ?.map((item) => item?.product_model_detail?.modality?.id)[0];
+      ?.filter((item) => item.id == system.id)
+      .map((item) => item?.product_model_detail.modality?.id)[0];
 
     const systems = systemsList
-      ?.filter((item) => item?.product_model_detail?.modality?.id == modality)
-      .filter((item) => item?.id != system?.id);
+      ?.filter((item) => item.product_model_detail.modality.id == modality)
+      .filter((item) => item.id != system.id);
 
     if (
-      systems?.length &&
-      systems?.some((item) => formik.values.selectedSystems.includes(item?.id))
+      !systems?.some((item) => formik.values.selectedSystems.includes(item.id))
     ) {
-      return;
+      const selectedModalityIndex = temp.indexOf(modality);
+      if (selectedModalityIndex > -1) {
+        temp.splice(selectedModalityIndex, 1);
+      } else {
+        temp.push(modality);
+      }
+      formik.setFieldValue(constantUserData.selectedModalities, [...temp]);
     }
-
-    const selectedModalityIndex = temp?.indexOf(modality);
-    if (selectedModalityIndex > -1) {
-      temp?.splice(selectedModalityIndex, 1);
-    } else {
-      temp?.push(modality);
-    }
-    formik.setFieldValue(constantUserData.selectedModalities, [...temp]);
   };
   const modifySelectedSiteList = (val) => {
     const siteIndex = formik.values.selectedSites.indexOf(val);
     if (siteIndex > -1) {
-      formik.values.selectedSites?.splice(siteIndex, 1);
+      formik.values.selectedSites.splice(siteIndex, 1);
       formik.setFieldValue(constantUserData.selectedSites, [
         ...formik.values.selectedSites,
       ]);
@@ -227,10 +222,10 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
 
   const handelSitesOfSystem = (site) => {
-    const systemsSiteList = systemsList?.filter((item) => item?.site === site);
+    const systemsSiteList = systemsList?.filter((item) => item.site === site);
 
     const systemInSiteExists = systemsSiteList.some((item) =>
-      formik.values.selectedSystems.includes(item?.id)
+      formik.values.selectedSystems.includes(item.id)
     );
 
     return { systemsSiteList, systemInSiteExists };
@@ -238,12 +233,12 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   const sitesLength = () => {
     let count = 0;
     networksData?.forEach((item) => {
-      if (item?.sites?.length) {
-        count += item?.sites?.length;
+      if (item.sites.length) {
+        count += item.sites.length;
       }
     });
-    if (organizationSitesData && organizationSitesData?.length) {
-      count += organizationSitesData?.length;
+    if (organizationSitesData && organizationSitesData.length) {
+      count += organizationSitesData.length;
     }
     return count;
   };
@@ -251,33 +246,28 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   const getNetworkSitesLength = () => {
     let count = 0;
     networksData?.forEach((item) => {
-      if (item?.sites?.length) {
-        count += item?.sites?.length;
+      if (item.sites?.length) {
+        count += item.sites.length;
       }
     });
     return count;
   };
 
   function getModalityColor(item: number): string {
-    const systems = systemsList?.filter(
-      (system) => system?.product_model_detail?.modality?.id == item
+    const systems = systemsList
+      ?.filter((system) => system.product_model_detail.modality.id == item)
+      .map((i) => i.id);
+
+    const selectedeSystems = formik.values.selectedSystems.filter((system) =>
+      systems?.includes(system)
     );
-    if (
-      systems?.length &&
-      systems?.every((_system) =>
-        formik.values.selectedSystems.includes(_system.id)
-      )
-    ) {
-      return "toggle-btn primaryToggle";
-    } else if (
-      systems?.length &&
-      systems?.some((_system) =>
-        formik.values.selectedSystems.includes(_system.id)
-      )
-    ) {
-      return "toggle-btn standardToggle";
-    } else {
+
+    if (selectedeSystems?.length == 0) {
       return "toggle-btn";
+    } else if (systems?.length == selectedeSystems?.length) {
+      return "toggle-btn primaryToggle";
+    } else if (systems?.length > selectedeSystems.length) {
+      return "toggle-btn standardToggle";
     }
   }
 
@@ -288,7 +278,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
           <p className="modalities-header">
             <span className="info-label">{constantUserData.sitesText}</span>
             <span className="checked-ratio">{`${
-              formik.values.selectedSites?.length
+              formik.values.selectedSites.length
             }/${sitesLength()}`}</span>
           </p>
         ) : (
@@ -304,15 +294,15 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
           ""
         )}
         {networksData?.map((item, key) =>
-          item?.sites?.length ? (
+          item.sites.length ? (
             <div key={key}>
               <details className="network-details">
                 <summary className="header" style={{ cursor: "pointer" }}>
-                  <span className="title">{item?.name}</span>
+                  <span className="title">{item.name}</span>
                 </summary>
-                {item?.sites?.map((site, key) => {
+                {item.sites.map((site, key) => {
                   const systems = systemsList?.filter(
-                    (item) => item?.site === site?.id
+                    (item) => item.site === site.id
                   );
                   return (
                     <SitesMenu
@@ -340,9 +330,9 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
             </p>
             <div className="network-details">
               {!systemsListLoading &&
-                organizationSitesData?.map((site, key) => {
+                organizationSitesData.map((site, key) => {
                   const systems = systemsList?.filter(
-                    (item) => item?.site === site?.id
+                    (item) => item.site === site.id
                   );
                   return (
                     <SitesMenu
@@ -367,7 +357,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
             <span className="info-label">
               {constantUserData.accessToModalities}
             </span>
-            <span className="checked-ratio">{`${formik.values.selectedModalities?.length}/${modalitiesList?.length}`}</span>
+            <span className="checked-ratio">{`${formik.values.selectedModalities.length}/${modalitiesList.length}`}</span>
           </p>
         ) : (
           ""
@@ -379,15 +369,15 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
           aria-label="text formatting"
           style={{ flexWrap: "wrap" }}
         >
-          {modalitiesList?.length &&
-            modalitiesList?.map((item, key) => {
+          {modalitiesList.length &&
+            modalitiesList.map((item, key) => {
               return (
                 <ToggleButton
                   key={key}
-                  value={item?.id}
-                  className={getModalityColor(item?.id)}
+                  value={item.id}
+                  className={getModalityColor(item.id)}
                 >
-                  {item?.name}
+                  {item.name}
                 </ToggleButton>
               );
             })}

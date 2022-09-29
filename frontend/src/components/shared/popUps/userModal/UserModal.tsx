@@ -86,7 +86,7 @@ export default function UserModal(props: UserModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isPhoneError, setIsPhoneError] = useState("");
   const { toastData } = constantsData;
-  const constantData = localizedData()?.users?.popUp;
+  const constantData = localizedData().users.popUp;
   const {
     addNewUser,
     pageTrackerdesc1,
@@ -112,7 +112,7 @@ export default function UserModal(props: UserModalProps) {
     validationSchema: userFormValidationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (props?.action === addText) {
+      if (props.action === addText) {
         handleAddUser();
       } else {
         handleEditUser();
@@ -136,8 +136,8 @@ export default function UserModal(props: UserModalProps) {
       skip: !formik.values.customer,
     }
   );
-  const editedUser = props?.usersData?.find((user) => {
-    return user?.id == props?.selectedUser;
+  const editedUser = props?.usersData.find((user) => {
+    return user.id == props?.selectedUser;
   });
 
   const userSitesMap = useUserSite({
@@ -219,12 +219,12 @@ export default function UserModal(props: UserModalProps) {
       }
 
       if (editedUser?.modalities?.length) {
-        const filterModalities = modalitiesList?.filter((modality) => {
-          return editedUser?.modalities?.includes(modality?.name?.toString());
+        const filterModalities = modalitiesList.filter((modality) => {
+          return editedUser?.modalities.includes(modality.name?.toString());
         });
         const mod_ids: Array<number> = [];
         filterModalities?.forEach((mod) => {
-          mod_ids.push(mod?.id);
+          mod_ids.push(mod.id);
         });
         formik.setFieldValue(constantData.selectedModalities, mod_ids);
       }
@@ -265,21 +265,21 @@ export default function UserModal(props: UserModalProps) {
   };
 
   useEffect(() => {
-    if (props?.action == addText) {
-      if (usersData?.length) {
+    if (props.action == addText) {
+      if (usersData.length) {
         formik.setFieldValue(manager, usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
         formik.setFieldValue(customer, props?.organizationData[0]?.id);
       }
-      if (props?.roles?.length) {
-        formik.setFieldValue(role, props?.roles[0].value);
+      if (props.roles.length) {
+        formik.setFieldValue(role, props.roles[0].value);
       }
     }
   }, []);
 
   useEffect(() => {
-    if (props?.selectedUser && props?.action == edit) {
+    if (props?.selectedUser && props.action == edit) {
       populateUserModalEditableData(
         editedUser,
         formik,
@@ -292,7 +292,7 @@ export default function UserModal(props: UserModalProps) {
   }, [props?.selectedUser, networksData, organizationSitesData]);
 
   useEffect(() => {
-    if (selectedImage?.length) {
+    if (selectedImage.length) {
       formik.setFieldValue(userProfileImage, selectedImage[0]);
     }
   }, [selectedImage]);
@@ -310,7 +310,7 @@ export default function UserModal(props: UserModalProps) {
     if (formik.isValid) {
       await uploadImageToS3(selectedImage[0]).then(
         async (data: S3Interface) => {
-          const userObject = getUserObject(data?.location);
+          const userObject = getUserObject(data.location);
           await addNewUserService(
             selectedOrganization.id,
             userObject,
@@ -341,7 +341,7 @@ export default function UserModal(props: UserModalProps) {
       } else {
         await uploadImageToS3(selectedImage[0]).then(
           async (data: S3Interface) => {
-            performEditUser(data?.location);
+            performEditUser(data.location);
           }
         );
       }
@@ -401,16 +401,16 @@ export default function UserModal(props: UserModalProps) {
   };
 
   const resetModal = () => {
-    if (props?.action == addText) {
+    if (props.action == addText) {
       formik.resetForm();
       formik.setFieldValue(userProfileImage, selectedImage[0]);
-      if (usersData?.length) {
+      if (usersData.length) {
         formik.setFieldValue(manager, usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
         formik.setFieldValue(customer, props?.organizationData[0]?.id);
       }
-    } else if (props?.action == edit) {
+    } else if (props.action == edit) {
       populateUserModalEditableData(
         editedUser,
         formik,
@@ -422,7 +422,7 @@ export default function UserModal(props: UserModalProps) {
       formik.resetForm();
       formik.setFieldValue(userProfileImage, selectedImage[0]);
     }
-    props?.handleClose();
+    props.handleClose();
   };
 
   const moveToNextPage = async () => {
@@ -555,7 +555,7 @@ export default function UserModal(props: UserModalProps) {
             onClick={() => formik.handleSubmit()}
             className="add-btn"
           >
-            {props?.action == "add" ? btnAddUser : btnToSave}
+            {props.action == "add" ? btnAddUser : btnToSave}
           </Button>
         )}
       </DialogActions>
