@@ -132,6 +132,12 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
   }
 };
 
+const nameReg = /^[A-Za-z ]*$/;
+// eslint-disable-next-line
+const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+const phoneReg = /^(\+1)[0-9]{10}$/;
+
 export {
   toastAPIError,
   validateIPaddress,
@@ -142,4 +148,7 @@ export {
   getNonFieldError,
   isNonFieldError,
   returnPayloadThemeObject,
+  nameReg,
+  emailRegX,
+  phoneReg,
 };

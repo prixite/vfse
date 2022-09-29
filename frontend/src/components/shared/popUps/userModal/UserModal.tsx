@@ -17,7 +17,12 @@ import useUserSite from "@src/components/shared/popUps/userModal/useUserSites";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import { toastAPIError } from "@src/helpers/utils/utils";
+import {
+  toastAPIError,
+  emailRegX,
+  nameReg,
+  phoneReg,
+} from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   addNewUserService,
@@ -34,7 +39,6 @@ import {
 import { UserForm, UserModalProps } from "@src/types/interfaces";
 import "@src/components/shared/popUps/userModal/userModal.scss";
 // eslint-disable-next-line
-const phoneReg = /^(\+1)[0-9]{10}$/;
 
 window.Buffer = window.Buffer || Buffer;
 
@@ -57,10 +61,6 @@ const userFormInitialState: UserForm = {
   auditEnable: false,
   oneTimeLinkCreation: false,
 };
-
-const nameReg = /^[A-Za-z ]*$/;
-// eslint-disable-next-line
-const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
 const userFormValidationSchema = yup.object({
   userProfileImage: yup
