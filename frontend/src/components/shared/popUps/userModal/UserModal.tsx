@@ -8,22 +8,16 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
+import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import PageOne from "@src/components/shared/popUps/userModal/PageOne";
 import PageTwo from "@src/components/shared/popUps/userModal/PageTwo";
 import useUserSite from "@src/components/shared/popUps/userModal/useUserSites";
-import "@src/components/shared/popUps/userModal/userModal.scss";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { localizedData } from "@src/helpers/utils/language";
-import {
-  constructObject,
-  populateUserModalEditableData,
-  toastAPIError,
-  userFormInitialState,
-  userFormValidationSchema,
-} from "@src/helpers/utils/utils";
+import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   addNewUserService,
@@ -35,12 +29,56 @@ import {
   useOrganizationsSitesListQuery,
   useUsersPartialUpdateMutation,
   useScopeUsersCreateMutation,
+  UpsertUser,
 } from "@src/store/reducers/api";
-import { UserModalProps } from "@src/types/interfaces";
+import { Formik, UserForm, UserModalProps } from "@src/types/interfaces";
+import "@src/components/shared/popUps/userModal/userModal.scss";
 // eslint-disable-next-line
 const phoneReg = /^(\+1)[0-9]{10}$/;
 
 window.Buffer = window.Buffer || Buffer;
+
+const userFormInitialState: UserForm = {
+  userProfileImage: "",
+  firstname: "",
+  lastname: "",
+  email: "",
+  phone: "",
+  role: "",
+  manager: undefined,
+  customer: undefined,
+  selectedModalities: [],
+  selectedSites: [],
+  selectedSystems: [],
+  docLink: false,
+  possibilitytoLeave: false,
+  accessToFSEFunctions: false,
+  viewOnly: false,
+  auditEnable: false,
+  oneTimeLinkCreation: false,
+};
+
+const nameReg = /^[A-Za-z ]*$/;
+// eslint-disable-next-line
+const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+const userFormValidationSchema = yup.object({
+  userProfileImage: yup
+    .string()
+    .required(constantsData.users.popUp.imageRequired),
+  firstname: yup
+    .string()
+    .matches(nameReg)
+    .required(constantsData.users.popUp.firstNameRequired),
+  lastname: yup
+    .string()
+    .matches(nameReg)
+    .required(constantsData.users.popUp.lastNameRequired),
+  email: yup
+    .string()
+    .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
+    .required(constantsData.users.popUp.emailRequired),
+});
 
 export default function UserModal(props: UserModalProps) {
   const [page, setPage] = useState("1");
@@ -118,6 +156,145 @@ export default function UserModal(props: UserModalProps) {
   const selectedOrganization = useSelectedOrganization();
 
   const { usersData } = props;
+
+  const populateUserModalEditableData = (
+    editedUser,
+    formik,
+    usersData,
+    userSitesMap,
+    organizationData,
+    modalitiesList
+  ) => {
+    if (editedUser?.image?.length) {
+      formik.setValues({
+        ...formik.values,
+        userProfileImage: editedUser?.image,
+        firstname: editedUser?.first_name,
+        lastname: editedUser?.last_name,
+        email: editedUser?.email,
+      });
+      if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
+        formik.setFieldValue(
+          constantData.phone,
+          editedUser?.phone?.substring(2)
+        );
+      }
+      if (editedUser?.role?.length) {
+        formik.setFieldValue(constantData.role, editedUser.role[0]);
+      }
+      if (editedUser?.manager) {
+        formik.setFieldValue(
+          constantData.manager,
+          usersData?.filter(
+            (user) => user?.email == editedUser?.manager?.email
+          )[0]?.id
+        );
+      } else {
+        if (usersData?.length) {
+          formik.setFieldValue(constantData.manager, usersData[0]?.id);
+        }
+      }
+      if (editedUser?.organizations?.length) {
+        formik.setFieldValue(
+          constantData.customer,
+          organizationData?.filter((org) => {
+            return (
+              org?.name?.toString() == editedUser?.organizations[0]?.toString()
+            );
+          })[0]?.id
+        );
+      }
+      if (editedUser?.sites) {
+        formik.setFieldValue(constantData.selectedSites, [
+          ...userSitesMap.keys(),
+        ]);
+      }
+
+      if (editedUser?.systems?.length) {
+        const system_ids: Array<number> = [];
+        editedUser?.systems?.forEach((system) => {
+          system_ids.push(system);
+        });
+        formik.setFieldValue("selectedSystems", system_ids);
+      }
+
+      if (editedUser?.modalities?.length) {
+        const filterModalities = modalitiesList?.filter((modality) => {
+          return editedUser?.modalities?.includes(modality?.name?.toString());
+        });
+        const mod_ids: Array<number> = [];
+        filterModalities?.forEach((mod) => {
+          mod_ids.push(mod?.id);
+        });
+        formik.setFieldValue(constantData.selectedModalities, mod_ids);
+      }
+      if (editedUser?.fse_accessible) {
+        formik.setFieldValue(
+          constantData.accessToFSEFunctions,
+          editedUser?.fse_accessible
+        );
+      }
+      if (editedUser?.audit_enabled) {
+        formik.setFieldValue(
+          constantData.auditEnable,
+          editedUser?.audit_enabled
+        );
+      }
+      if (editedUser?.can_leave_notes) {
+        formik.setFieldValue(
+          constantData.possibilitytoLeave,
+          editedUser?.can_leave_notes
+        );
+      }
+      if (editedUser?.view_only) {
+        formik.setFieldValue(constantData.viewOnly, editedUser?.view_only);
+      }
+      if (editedUser?.is_one_time) {
+        formik.setFieldValue(
+          constantData.oneTimeLinkCreation,
+          editedUser?.is_one_time
+        );
+      }
+      if (editedUser?.documentation_url) {
+        formik.setFieldValue(
+          constantData.docLink,
+          editedUser?.documentation_url
+        );
+      }
+    }
+  };
+
+  const constructObject = (
+    imageUrl: string,
+    formik: Formik,
+    userProfileImageText: string
+  ): UpsertUser => {
+    const obj = {
+      meta: {
+        profile_picture: imageUrl,
+        title: userProfileImageText,
+      },
+      first_name: formik.values.firstname,
+      last_name: formik.values.lastname,
+      email: formik.values.email,
+      phone: `+1${formik.values.phone}`,
+      role: formik.values.role,
+      organization: formik.values.customer,
+      sites: formik.values.selectedSites,
+      systems: formik.values.selectedSystems,
+      modalities: formik.values.selectedModalities,
+      fse_accessible: formik.values.accessToFSEFunctions,
+      audit_enabled: formik.values.auditEnable,
+      can_leave_notes: formik.values.possibilitytoLeave,
+      view_only: formik.values.viewOnly,
+      is_one_time: formik.values.oneTimeLinkCreation,
+      documentation_url: formik.values.docLink,
+    };
+    if (formik.values.manager !== -1) {
+      obj["manager"] = formik.values.manager;
+    }
+    return obj;
+  };
 
   useEffect(() => {
     if (props?.action == addText) {

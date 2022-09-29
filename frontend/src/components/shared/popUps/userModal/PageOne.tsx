@@ -14,10 +14,11 @@ import {
   Role,
   useOrganizationsUsersListQuery,
 } from "@src/store/reducers/generated";
+import { Formik } from "@src/types/interfaces";
 
 interface Props {
-  formik: object;
-  selectedImage: [];
+  formik: Formik;
+  selectedImage: File[];
   setSelectedImage: React.Dispatch<React.SetStateAction<[]>>;
   roles: Array<Role>;
   isPhoneError: string;

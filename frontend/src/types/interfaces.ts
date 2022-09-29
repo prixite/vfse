@@ -1,9 +1,9 @@
+import { FormikErrors } from "formik";
+
 import {
   Modality,
   Organization,
   Role,
-  Site,
-  System,
   User,
 } from "@src/store/reducers/generated";
 
@@ -46,16 +46,42 @@ export interface UserForm {
   lastname: string;
   email: string;
   phone: string;
-  role: string;
-  manager: string;
-  customer: string;
-  selectedModalities: Array<Modality>;
-  selectedSites: Array<Site>;
-  selectedSystems: Array<System>;
+  role:
+    | "fse-admin"
+    | "customer-admin"
+    | "user-admin"
+    | "fse"
+    | "end-user"
+    | "view-only"
+    | "one-time"
+    | "cryo"
+    | "cryo-fse"
+    | "cryo-admin";
+  manager: number;
+  customer: number;
+  selectedModalities: Array<number>;
+  selectedSites: Array<number>;
+  selectedSystems: Array<number>;
   docLink: boolean;
   possibilitytoLeave: boolean;
   accessToFSEFunctions: boolean;
   viewOnly: boolean;
   auditEnable: boolean;
   oneTimeLinkCreation: boolean;
+}
+
+export interface Formik {
+  initialValues: UserForm;
+  initialStatus: UserForm;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  handleChange: (e: React.ChangeEvent<any>) => void;
+  values: UserForm;
+  errors?: FormikErrors<UserForm>;
+  setFieldValue: (
+    field: string,
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => Promise<FormikErrors<UserForm>> | Promise<void>;
+  submitCount: number;
 }

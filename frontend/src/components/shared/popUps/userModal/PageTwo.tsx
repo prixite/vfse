@@ -5,25 +5,27 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
-import { Modalities } from "@src/helpers/interfaces/localizationinterfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import {
+  Modality,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
   useOrganizationsSystemsListQuery,
 } from "@src/store/reducers/generated";
+import { Formik } from "@src/types/interfaces";
 
 interface Props {
-  formik: object;
-  modalitiesList: Array<Modalities>;
+  formik: Formik;
+  modalitiesList: Array<Modality>;
 }
 
 const PageTwo = ({ formik, modalitiesList }: Props) => {
   const { data: systemsList, isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
-      id: formik?.values?.customer,
+      id: formik.values.customer?.toString(),
     });
   const { data: networksData } = useOrganizationsHealthNetworksListQuery(
     {
@@ -108,6 +110,11 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
     const systems = systemsList?.filter(
       (item) => item?.product_model_detail?.modality?.id == event.target.value
     );
+
+    if (!systems.length) {
+      toast.warn("No system exixts against this modality");
+    }
+
     const temp = new Set(formik.values.selectedSystems);
     const temp2 = new Set(formik.values.selectedSites);
     const selectedSystemsInModality = systems.filter((item) =>
