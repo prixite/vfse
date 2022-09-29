@@ -66,12 +66,12 @@ const SeeAllArticles = () => {
       />
       <h2 className={classes.subHeading}>{article.allArticles}</h2>
       {articlesList.length ? (
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           {articlesList.map((item, index) => (
             <Grid
               item={true}
               xs={12}
-              sm={4}
+              sm={6}
               md={4}
               lg={3}
               xl={2}

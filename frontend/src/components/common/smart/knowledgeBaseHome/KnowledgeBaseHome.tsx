@@ -78,7 +78,7 @@ const KnowledgeBaseHome = () => {
       <h2 className={classes.subHeading}>{knowledgeBase.subTitle}</h2>
       <Grid
         container
-        spacing={1}
+        spacing={{ xs: 2, sm: 1, md: 1, lg: 1, xl: 1 }}
         mt={3}
         className={classes.knowledgeBaseCardsContainer}
       >
@@ -86,7 +86,7 @@ const KnowledgeBaseHome = () => {
           <Grid
             item={true}
             xs={12}
-            sm={4}
+            sm={6}
             md={4}
             lg={3}
             xl={2}

@@ -136,9 +136,7 @@ const KnowledgeTopCard = ({
               {" "}
               {title}
             </h2>
-            <div className="info">
-              <p className="category">{cardText}</p>
-            </div>
+            <p className="description">{cardText}</p>
           </Box>
         </Link>
         {me?.is_superuser && path === "see-all" ? (
