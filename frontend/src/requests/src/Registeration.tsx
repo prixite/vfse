@@ -360,7 +360,7 @@ const Registeration = () => {
                       <Select
                         inputProps={{ "aria-label": "Without label" }}
                         style={{ height: "43px", borderRadius: "8px" }}
-                        defaultValue="None"
+                        defaultValue=""
                         displayEmpty
                         value={manager}
                         disabled={!managers.length}
