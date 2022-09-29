@@ -195,11 +195,6 @@ const Registeration = () => {
       setRole(userRoles[0]?.value);
     }
   }, [userRoles]);
-  useEffect(() => {
-    if (managers && managers.length) {
-      setManager(managers[0].id.toString());
-    }
-  }, [managers]);
   const handleFirstName = (e) => {
     setFirstNameError("");
     setFirstName(e.target.value);
@@ -361,6 +356,7 @@ const Registeration = () => {
                         inputProps={{ "aria-label": "Without label" }}
                         style={{ height: "43px", borderRadius: "8px" }}
                         defaultValue=""
+                        displayEmpty
                         value={manager}
                         disabled={!managers.length}
                         MenuProps={{
@@ -369,6 +365,9 @@ const Registeration = () => {
                         className="info-field"
                         onChange={(event) => setManager(event.target.value)}
                       >
+                        <MenuItem value="">
+                          <p>None</p>
+                        </MenuItem>
                         {managers.map((item, key) => (
                           <MenuItem key={key} value={item.id}>
                             {`${item.first_name} ${item.last_name}`}
