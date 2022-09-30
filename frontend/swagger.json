@@ -2511,6 +2511,7 @@
                 "phone",
                 "role",
                 "organization",
+                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2573,6 +2574,13 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
                 "modalities": {
                     "type": "array",
@@ -3637,6 +3645,14 @@
                         "minLength": 1
                     },
                     "readOnly": true
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "readOnly": true
                 }
             }
         },
@@ -3649,6 +3665,7 @@
                 "phone",
                 "role",
                 "organization",
+                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -3710,6 +3727,13 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
                 "modalities": {
                     "type": "array",
