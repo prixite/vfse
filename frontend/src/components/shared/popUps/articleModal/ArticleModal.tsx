@@ -4,15 +4,16 @@ import {
   TextField,
   Grid,
   FormControl,
-  Select,
   InputAdornment,
-  MenuItem,
+  ToggleButtonGroup,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
+import MuiToggleButton from "@mui/material/ToggleButton";
 import { Buffer } from "buffer";
 import { convertToRaw, EditorState } from "draft-js";
 import draftjsToHtml from "draftjs-to-html";
@@ -61,6 +62,14 @@ const validationSchema = yup.object({
     .required(constantsData.articleModal.categoryRequired),
 });
 
+const ToggleButton = styled(MuiToggleButton)(
+  ({ selectedColor }: { selectedColor?: string }) => ({
+    "&.Mui-selected, &.Mui-selected:hover": {
+      color: "white !important",
+      backgroundColor: `${selectedColor} !important`,
+    },
+  })
+);
 export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -180,20 +189,18 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
             (category) => category?.id.toString() === categoryId
           )?.id,
         ]);
-      } else {
-        formik.setFieldValue(categories, [categoriesList[0].id]);
       }
     }
   }, [categoriesList, open, categoryId]);
   useEffect(() => {
     if (formik.values.categories.length && open) {
-      // formik.setFieldValue("folder" , undefined);
-      setFolderList([]);
       categoriesList.forEach((category) => {
-        if (category?.id === formik.values.categories[0]) {
+        if (category?.id == formik.values.categories[0]) {
           setFolderList([...category.folders]);
         }
       });
+    } else {
+      setFolderList([]);
     }
   }, [formik.values.categories, open]);
 
@@ -260,58 +267,84 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                   </p>
                 </div>
               </Grid>
-              <Grid item xs={6}>
+
+              <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{categoryText}</p>
+                  {categories?.length && (
+                    <p style={{ marginBottom: "6px" }}>
+                      <span className="info-label">{categoryText}</span>
+                    </p>
+                  )}
                   <FormControl sx={{ minWidth: "100%" }}>
-                    <Select
-                      inputProps={{ "aria-label": "Without label" }}
-                      style={{ height: "43px", borderRadius: "8px" }}
+                    <ToggleButtonGroup
                       disabled={
                         isCategoriesLoading || categoryId ? true : false
                       }
-                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       value={formik.values.categories[0]?.toString() || ""}
-                      onChange={(e) =>
-                        formik.setFieldValue(categories, [e.target.value])
-                      }
+                      color="primary"
+                      aria-label="text formatting"
+                      style={{ flexWrap: "wrap" }}
+                      exclusive={true}
+                      onChange={(e, value) => {
+                        formik.setFieldValue(categories, value ? [value] : []);
+                      }}
                     >
-                      {categoriesList.map((item, index) => (
-                        <MenuItem key={index} value={item.id}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      {categoriesList.length
+                        ? categoriesList.map((item, index) => (
+                            <ToggleButton
+                              key={index}
+                              value={`${item.id}`}
+                              className="toggle-btn"
+                              selectedColor={`${item?.color}`}
+                            >
+                              {item?.name}
+                            </ToggleButton>
+                          ))
+                        : ""}
+                    </ToggleButtonGroup>
                   </FormControl>
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.categories}
                   </p>
                 </div>
               </Grid>
-              <Grid item xs={6}>
+
+              <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{folderText}</p>
+                  {formik.values.categories?.length ? (
+                    <p style={{ marginBottom: "6px" }}>
+                      <span className="info-label">{folderText}</span>
+                    </p>
+                  ) : (
+                    ""
+                  )}
                   <FormControl sx={{ minWidth: "100%" }}>
-                    <Select
-                      inputProps={{ "aria-label": "Without label" }}
-                      style={{ height: "43px", borderRadius: "8px" }}
+                    <ToggleButtonGroup
                       defaultValue="none"
                       disabled={isCategoriesLoading || folderId ? true : false}
-                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
                       value={formik.values.folder?.toString() || ""}
+                      color="primary"
+                      aria-label="text formatting"
+                      style={{ flexWrap: "wrap" }}
+                      exclusive={true}
                       onChange={(e) =>
                         formik.setFieldValue(folder, e.target.value)
                       }
                     >
                       {folderList.map((item, index) => (
-                        <MenuItem key={index} value={item.id}>
-                          {item.name}
-                        </MenuItem>
+                        <ToggleButton
+                          key={index}
+                          value={`${item.id}`}
+                          className="toggle-btn"
+                          selectedColor={`#773cbd`}
+                        >
+                          {item?.name}
+                        </ToggleButton>
                       ))}
-                    </Select>
+                    </ToggleButtonGroup>
                   </FormControl>
                   <p className="errorText" style={{ marginTop: "5px" }}>
-                    {formik.errors.categories}
+                    {formik.errors.folder}
                   </p>
                 </div>
               </Grid>
