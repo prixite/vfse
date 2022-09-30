@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 
 import { Avatar, Box, Button, Grid, Input, Skeleton } from "@mui/material";
 import "@src/components/common/presentational/topicReply/topicReply.scss";
@@ -64,6 +64,9 @@ function TopicReply({
     setTopicIDState(commentData?.topic);
   }, [replyChecked, commentData, repliesData]);
 
+  const repliesContainer = useRef(null);
+  const getRepliesHeight = repliesContainer?.current?.getBoundingClientRect();
+
   const addReplyHandler = () => {
     const payload: VfseCommentsRepliesCreateApiArg = {
       id: commentIDState,
@@ -79,7 +82,10 @@ function TopicReply({
         setPage(1);
         setReply("");
         setIsReplyPosting(false);
-        if (replies.length > 7 && reply) {
+        if (
+          reply &&
+          (getRepliesHeight.y < 0 || getRepliesHeight.y > window?.innerHeight)
+        ) {
           scrollToTopReply();
         }
       });
@@ -102,7 +108,7 @@ function TopicReply({
   }, [repliesData?.data]);
 
   return (
-    <Box className="TopicReplyView">
+    <Box className="TopicReplyView" ref={repliesContainer}>
       <div>
         {!isRepliesLoading ? (
           <div>

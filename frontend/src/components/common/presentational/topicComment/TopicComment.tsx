@@ -236,6 +236,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
               <TopicReply
                 replyChecked={replyChecked}
                 commentData={commentData}
+                scrollToTopReply={scrollToTopReply}
               />
             )}
           </>
