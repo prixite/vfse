@@ -152,7 +152,7 @@ const PageOne = ({
               MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
               defaultValue="none"
             >
-              {roles?.map((item, key) => (
+              {roles.map((item, key) => (
                 <MenuItem key={key} value={item.value}>
                   {item.title}
                 </MenuItem>
@@ -176,7 +176,7 @@ const PageOne = ({
               MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
               disabled={!managers.length}
             >
-              {managers?.map((item, key) => (
+              {managers.map((item, key) => (
                 <MenuItem
                   key={key}
                   value={item.id}
@@ -201,8 +201,8 @@ const PageOne = ({
             onChange={formik.handleChange}
             MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
           >
-            {organizationData?.map((item, key) => (
-              <MenuItem key={key} value={item?.id}>
+            {organizationData.map((item, key) => (
+              <MenuItem key={key} value={item.id}>
                 {item.name}
               </MenuItem>
             ))}

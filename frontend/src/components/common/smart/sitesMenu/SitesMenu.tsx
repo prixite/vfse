@@ -3,11 +3,12 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import { Site, System } from "@src/store/reducers/generated";
+import { Formik } from "@src/types/interfaces";
 
 interface Props {
   site: Site;
   systems: System[];
-  formik: object;
+  formik: Formik;
   handleSystemSelection: (
     event: React.ChangeEvent<HTMLInputElement>,
     site: number
@@ -24,17 +25,17 @@ const SitesMenu = ({
 }: Props) => {
   const children = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
-      {systems?.map((item, key) => {
+      {systems.map((item, key) => {
         return (
           <FormControlLabel
             key={key}
-            label={item?.name}
+            label={item.name}
             control={
               <Checkbox
                 onChange={(e) => handleSystemSelection(e, site.id)}
                 checked={formik.values.selectedSystems.includes(item.id)}
-                value={item?.id}
-                name={item?.name}
+                value={item.id}
+                name={item.name}
                 color="primary"
               />
             }
@@ -46,14 +47,15 @@ const SitesMenu = ({
 
   const isIntermediate = () => {
     if (
-      systems?.every((item) => formik.values.selectedSystems.includes(item?.id))
+      systems.every((item) => formik.values.selectedSystems.includes(item.id))
     ) {
       return false;
-    }
-    if (
-      systems?.some((item) => formik.values.selectedSystems.includes(item?.id))
+    } else if (
+      systems.some((item) => formik.values.selectedSystems.includes(item.id))
     ) {
       return true;
+    } else {
+      return false;
     }
   };
 
@@ -61,7 +63,7 @@ const SitesMenu = ({
     <details className="network-details">
       <summary className="header" style={{ cursor: "pointer" }}>
         <FormControlLabel
-          label={site?.name}
+          label={site.name}
           sx={{ ml: "3px" }}
           control={
             <Checkbox

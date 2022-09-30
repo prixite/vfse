@@ -19,15 +19,15 @@ import { Formik } from "@src/types/interfaces";
 
 interface Props {
   formik: Formik;
-  modalitiesList: Array<Modality>;
+  modalitiesList: Modality[];
 }
 
 const PageTwo = ({ formik, modalitiesList }: Props) => {
-  const { data: systemsList, isLoading: systemsListLoading } =
+  const { data: systemsList = [], isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
       id: formik.values.customer?.toString(),
     });
-  const { data: networksData } = useOrganizationsHealthNetworksListQuery(
+  const { data: networksData = [] } = useOrganizationsHealthNetworksListQuery(
     {
       id: formik.values.customer?.toString(),
     },
@@ -76,11 +76,11 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
     }
 
     const modality = systemsList
-      ?.filter((item) => item.id == val)
+      .filter((item) => item.id == val)
       .map((item) => item.product_model_detail.modality?.id)[0];
 
     const systems = systemsList
-      ?.filter((item) => item.product_model_detail.modality.id == modality)
+      .filter((item) => item.product_model_detail.modality.id == modality)
       .filter((item) => item.id != val);
 
     if (
@@ -107,7 +107,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
 
   const handleSelectedModalities = async (event, newFormats) => {
-    const systems = systemsList?.filter(
+    const systems = systemsList.filter(
       (item) => item.product_model_detail.modality.id == event.target.value
     );
 
@@ -116,15 +116,15 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
       return;
     }
 
-    const temp = new Set(formik.values.selectedSystems);
-    const temp2 = new Set(formik.values.selectedSites);
+    const _selectedSystems = new Set(formik.values.selectedSystems);
+    const _selectedSites = new Set(formik.values.selectedSites);
     const selectedSystemsInModality = systems.filter((item) =>
       formik.values.selectedSystems.includes(item.id)
     );
     if (selectedSystemsInModality.length === systems.length) {
       for (const item of systems) {
-        temp.delete(item.id);
-        const allSystemOfSite = systemsList?.filter(
+        _selectedSystems.delete(item.id);
+        const allSystemOfSite = systemsList.filter(
           (system) => system.site === item.site
         );
         const allSystemOfSiteModality = systems.filter(
@@ -134,7 +134,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
           formik.values.selectedSystems.includes(system.id)
         );
         if (selectedSystemofSite.length === allSystemOfSiteModality.length) {
-          temp2.delete(item.site);
+          _selectedSites.delete(item.site);
         }
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
@@ -145,16 +145,16 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
         (item) => !formik.values.selectedSystems.includes(item.id)
       );
       for (const system of _systems) {
-        temp.add(system.id);
-        temp2.add(system.site);
+        _selectedSystems.add(system.id);
+        _selectedSites.add(system.site);
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
         ...newFormats,
       ]);
     }
 
-    formik.setFieldValue("selectedSystems", [...Array.from(temp)]);
-    formik.setFieldValue("selectedSites", [...Array.from(temp2)]);
+    formik.setFieldValue("selectedSystems", [...Array.from(_selectedSystems)]);
+    formik.setFieldValue("selectedSites", [...Array.from(_selectedSites)]);
   };
   const handleSitesSelection = (e) => {
     const val = parseInt(e?.target?.value || e);
@@ -187,15 +187,15 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
   const modifySelectedModalities = (system, temp) => {
     const modality = systemsList
-      ?.filter((item) => item.id == system.id)
-      .map((item) => item?.product_model_detail.modality?.id)[0];
+      .filter((item) => item.id == system.id)
+      .map((item) => item.product_model_detail.modality.id)[0];
 
     const systems = systemsList
-      ?.filter((item) => item.product_model_detail.modality.id == modality)
+      .filter((item) => item.product_model_detail.modality.id == modality)
       .filter((item) => item.id != system.id);
 
     if (
-      !systems?.some((item) => formik.values.selectedSystems.includes(item.id))
+      !systems.some((item) => formik.values.selectedSystems.includes(item.id))
     ) {
       const selectedModalityIndex = temp.indexOf(modality);
       if (selectedModalityIndex > -1) {
@@ -222,7 +222,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
 
   const handelSitesOfSystem = (site) => {
-    const systemsSiteList = systemsList?.filter((item) => item.site === site);
+    const systemsSiteList = systemsList.filter((item) => item.site === site);
 
     const systemInSiteExists = systemsSiteList.some((item) =>
       formik.values.selectedSystems.includes(item.id)
@@ -232,7 +232,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
   const sitesLength = () => {
     let count = 0;
-    networksData?.forEach((item) => {
+    networksData.forEach((item) => {
       if (item.sites.length) {
         count += item.sites.length;
       }
@@ -245,8 +245,8 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
 
   const getNetworkSitesLength = () => {
     let count = 0;
-    networksData?.forEach((item) => {
-      if (item.sites?.length) {
+    networksData.forEach((item) => {
+      if (item.sites.length) {
         count += item.sites.length;
       }
     });
@@ -255,18 +255,18 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
 
   function getModalityColor(item: number): string {
     const systems = systemsList
-      ?.filter((system) => system.product_model_detail.modality.id == item)
+      .filter((system) => system.product_model_detail.modality.id == item)
       .map((i) => i.id);
 
     const selectedeSystems = formik.values.selectedSystems.filter((system) =>
-      systems?.includes(system)
+      systems.includes(system)
     );
 
-    if (selectedeSystems?.length == 0) {
+    if (selectedeSystems.length == 0) {
       return "toggle-btn";
-    } else if (systems?.length == selectedeSystems?.length) {
+    } else if (systems.length == selectedeSystems?.length) {
       return "toggle-btn primaryToggle";
-    } else if (systems?.length > selectedeSystems.length) {
+    } else if (systems.length > selectedeSystems.length) {
       return "toggle-btn standardToggle";
     }
   }
@@ -293,7 +293,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
         ) : (
           ""
         )}
-        {networksData?.map((item, key) =>
+        {networksData.map((item, key) =>
           item.sites.length ? (
             <div key={key}>
               <details className="network-details">
@@ -301,7 +301,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
                   <span className="title">{item.name}</span>
                 </summary>
                 {item.sites.map((site, key) => {
-                  const systems = systemsList?.filter(
+                  const systems = systemsList.filter(
                     (item) => item.site === site.id
                   );
                   return (
@@ -321,7 +321,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
             ""
           )
         )}
-        {organizationSitesData && organizationSitesData?.length ? (
+        {organizationSitesData && organizationSitesData.length ? (
           <>
             <p className="modalities-header">
               <span style={{ fontWeight: "600" }}>
@@ -331,7 +331,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
             <div className="network-details">
               {!systemsListLoading &&
                 organizationSitesData.map((site, key) => {
-                  const systems = systemsList?.filter(
+                  const systems = systemsList.filter(
                     (item) => item.site === site.id
                   );
                   return (
@@ -352,7 +352,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
         )}
       </div>
       <div>
-        {modalitiesList?.length ? (
+        {modalitiesList.length ? (
           <p className="modalities-header">
             <span className="info-label">
               {constantUserData.accessToModalities}

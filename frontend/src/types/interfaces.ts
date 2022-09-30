@@ -65,8 +65,6 @@ export interface UserForm {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "view-only"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";

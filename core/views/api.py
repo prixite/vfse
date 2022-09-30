@@ -434,6 +434,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             ).values_list("user")
         )
 
+    @transaction.atomic
     def update(self, request, *args, **kwargs):
         # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
