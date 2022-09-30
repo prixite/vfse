@@ -64,8 +64,8 @@ function TopicReply({
     setTopicIDState(commentData?.topic);
   }, [replyChecked, commentData, repliesData]);
 
-  const repliesContainer = useRef(null);
-  const getRepliesHeight = repliesContainer?.current?.getBoundingClientRect();
+  const repliesContainerRef = useRef(null);
+  const getRepliesHeight = repliesContainerRef?.current?.getBoundingClientRect();
 
   const addReplyHandler = () => {
     const payload: VfseCommentsRepliesCreateApiArg = {
@@ -108,7 +108,7 @@ function TopicReply({
   }, [repliesData?.data]);
 
   return (
-    <Box className="TopicReplyView" ref={repliesContainer}>
+    <Box className="TopicReplyView" ref={repliesContainerRef}>
       <div>
         {!isRepliesLoading ? (
           <div>
