@@ -116,14 +116,14 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
       return;
     }
 
-    const _selectedSystems = new Set(formik.values.selectedSystems);
-    const _selectedSites = new Set(formik.values.selectedSites);
+    const selectedSystemsSet = new Set(formik.values.selectedSystems);
+    const selectedSitesSet = new Set(formik.values.selectedSites);
     const selectedSystemsInModality = systems.filter((item) =>
       formik.values.selectedSystems.includes(item.id)
     );
     if (selectedSystemsInModality.length === systems.length) {
       for (const item of systems) {
-        _selectedSystems.delete(item.id);
+        selectedSystemsSet.delete(item.id);
         const allSystemOfSite = systemsList.filter(
           (system) => system.site === item.site
         );
@@ -134,7 +134,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
           formik.values.selectedSystems.includes(system.id)
         );
         if (selectedSystemofSite.length === allSystemOfSiteModality.length) {
-          _selectedSites.delete(item.site);
+          selectedSitesSet.delete(item.site);
         }
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
@@ -145,17 +145,20 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
         (item) => !formik.values.selectedSystems.includes(item.id)
       );
       for (const system of _systems) {
-        _selectedSystems.add(system.id);
-        _selectedSites.add(system.site);
+        selectedSystemsSet.add(system.id);
+        selectedSitesSet.add(system.site);
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
         ...newFormats,
       ]);
     }
 
-    formik.setFieldValue("selectedSystems", [...Array.from(_selectedSystems)]);
-    formik.setFieldValue("selectedSites", [...Array.from(_selectedSites)]);
+    formik.setFieldValue("selectedSystems", [
+      ...Array.from(selectedSystemsSet),
+    ]);
+    formik.setFieldValue("selectedSites", [...Array.from(selectedSitesSet)]);
   };
+
   const handleSitesSelection = (e) => {
     const val = parseInt(e?.target?.value || e);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
