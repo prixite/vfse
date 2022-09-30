@@ -34,14 +34,14 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
     setReplyChecked((replyChecked) => !replyChecked);
   };
 
-  const topReply = useRef(null);
+  const replyRef = useRef(null);
   const scrollToTopReply = () =>
-    topReply.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    replyRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
     <>
       <Box component="div" className="TopicCommentView">
-        <div className="Comment" ref={topReply}>
+        <div className="Comment" ref={replyRef}>
           <div className="profileImage">
             <img src={commentData?.user_profile?.image} alt="profilePicture" />
           </div>
