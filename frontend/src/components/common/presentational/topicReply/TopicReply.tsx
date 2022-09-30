@@ -65,7 +65,8 @@ function TopicReply({
   }, [replyChecked, commentData, repliesData]);
 
   const repliesContainerRef = useRef(null);
-  const getRepliesHeight = repliesContainerRef?.current?.getBoundingClientRect();
+  const getRepliesHeight =
+    repliesContainerRef?.current?.getBoundingClientRect();
 
   const addReplyHandler = () => {
     const payload: VfseCommentsRepliesCreateApiArg = {
