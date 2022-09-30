@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { Box, Grid } from "@mui/material";
 import moment from "moment";
@@ -34,10 +34,14 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
     setReplyChecked((replyChecked) => !replyChecked);
   };
 
+  const replyRef = useRef(null);
+  const scrollToTopReply = () =>
+    replyRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+
   return (
     <>
       <Box component="div" className="TopicCommentView">
-        <div className="Comment">
+        <div className="Comment" ref={replyRef}>
           <div className="profileImage">
             <img src={commentData?.user_profile?.image} alt="profilePicture" />
           </div>
@@ -87,6 +91,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                   <TopicReply
                     replyChecked={replyChecked}
                     commentData={commentData}
+                    scrollToTopReply={scrollToTopReply}
                   />
                 )}
               </>
@@ -231,6 +236,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
               <TopicReply
                 replyChecked={replyChecked}
                 commentData={commentData}
+                scrollToTopReply={scrollToTopReply}
               />
             )}
           </>
