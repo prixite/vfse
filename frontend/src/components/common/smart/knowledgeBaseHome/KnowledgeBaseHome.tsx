@@ -30,7 +30,7 @@ const KnowledgeBaseHome = () => {
     title: "",
     categoryName: "",
     id: null,
-    folderCategoriesID: [],
+    folderCategoryIDS: [],
   });
   const [folderOpen, setFolderOpen] = useState(false);
   const { knowledgeBase } = constantsData;
@@ -82,7 +82,7 @@ const KnowledgeBaseHome = () => {
       action: selectedArticle.text,
       id: selectedArticle.folderId,
       categoryName: selectedArticle.categoryName,
-      folderCategoriesID: selectedArticle.folderCategoriesId,
+      folderCategoryIDS: selectedArticle.categories,
     });
   };
 
@@ -124,7 +124,7 @@ const KnowledgeBaseHome = () => {
                     title={item?.name}
                     articleNo={item?.document_count}
                     id={item.id}
-                    categoriesID={item?.categories}
+                    categories={item?.categories}
                     categoryID={category?.id}
                     categoryName={category?.name}
                   />

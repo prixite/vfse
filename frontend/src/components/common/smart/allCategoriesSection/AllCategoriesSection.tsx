@@ -23,7 +23,7 @@ const AllCategoriesSection = () => {
     title: "",
     categoryName: "",
     id: null,
-    folderCategoriesID: [],
+    folderCategoryIDS: [],
   });
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
@@ -59,7 +59,7 @@ const AllCategoriesSection = () => {
       action: selectedArticle.text,
       id: selectedArticle.folderId,
       categoryName: selectedArticle.categoryName,
-      folderCategoriesID: selectedArticle.folderCategoriesId,
+      folderCategoryIDS: selectedArticle.categories,
     });
   };
   useEffect(() => {
@@ -95,7 +95,7 @@ const AllCategoriesSection = () => {
                     articleNo={item?.document_count}
                     handleEdit={handleEdit}
                     id={item.id}
-                    categoriesID={item?.categories}
+                    categories={item?.categories}
                     categoryID={category?.id}
                     categoryName={category?.name}
                   />

@@ -396,7 +396,7 @@ export interface selectedArticleCard {
   text: string;
   title: string;
   folderId: number;
-  folderCategoriesId: number[];
+  categories: number[];
   categoryName: string;
 }
 export interface toastData {

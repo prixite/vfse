@@ -18,7 +18,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
     title: "",
     id: null,
     action: "add",
-    folderCategoriesID: [],
+    folderCategoryIDS: [],
   });
 
   const { Message } = localizedData().allCategoriesSection;
@@ -51,7 +51,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
       action: selectedArticle.text,
       title: selectedArticle.title,
       id: selectedArticle.folderId,
-      folderCategoriesID: selectedArticle.folderCategoriesId,
+      folderCategoryIDS: selectedArticle.categories,
     });
   };
   return (
@@ -77,7 +77,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
                   id={item.id}
                   categoryName={categoryData?.name}
                   categoryID={categoryData?.id}
-                  categoriesID={item?.categories}
+                  categories={item?.categories}
                 />
               </Grid>
             ))

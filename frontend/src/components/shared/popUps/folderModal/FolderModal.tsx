@@ -27,7 +27,7 @@ interface dataStateProps {
   action?: string;
   title?: string;
   id?: number;
-  folderCategoriesID?: number[];
+  folderCategoryIDS?: number[];
   categoryName?: string;
 }
 interface FolderModalProps {
@@ -110,7 +110,7 @@ export default function FolderModal({
   const populateEditableData = () => {
     formik.setValues({
       name: folderDataState.title,
-      categories: folderDataState.folderCategoriesID,
+      categories: folderDataState.folderCategoryIDS,
     });
   };
   const populateAddData = () => {
