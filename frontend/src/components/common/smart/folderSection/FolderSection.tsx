@@ -18,7 +18,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
     title: "",
     id: null,
     action: "add",
-    categoryID: null,
+    categoryID: [null],
   });
 
   const { Message } = localizedData().allCategoriesSection;
@@ -26,12 +26,10 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
+    setDataState({ ...dataState, action: "add" });
     setOpen(false);
-    setDataState({ action: "add", ...dataState });
   };
-
   const { noDataTitle, noDataDescription } = localizedData().systems;
-
   const handleSearchQuery = (searchQuery: string) => {
     const dataForSearch = [
       ...categoryData.folders.filter((data) =>
@@ -53,7 +51,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
       action: selectedArticle.text,
       title: selectedArticle.title,
       id: selectedArticle.folderId,
-      categoryID: categoryData?.id,
+      categoryID: selectedArticle.categoryId,
     });
   };
   return (
@@ -77,7 +75,8 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
                   articleNo={item?.document_count}
                   handleEdit={handleEdit}
                   id={item.id}
-                  categoryID={categoryData.id}
+                  categoryName={categoryData?.name}
+                  categoryID={item?.categories}
                 />
               </Grid>
             ))

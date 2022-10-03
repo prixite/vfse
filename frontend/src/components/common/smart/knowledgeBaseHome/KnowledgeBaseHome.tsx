@@ -124,7 +124,7 @@ const KnowledgeBaseHome = () => {
                     title={item?.name}
                     articleNo={item?.document_count}
                     id={item.id}
-                    categoryID={category?.id}
+                    categoryID={item?.categories}
                     categoryName={category?.name}
                   />
                 </Grid>

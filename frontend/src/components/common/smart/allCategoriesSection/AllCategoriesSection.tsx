@@ -95,7 +95,7 @@ const AllCategoriesSection = () => {
                     articleNo={item?.document_count}
                     handleEdit={handleEdit}
                     id={item.id}
-                    categoryID={category?.id}
+                    categoryID={item?.categories}
                     categoryName={category?.name}
                   />
                 </Grid>

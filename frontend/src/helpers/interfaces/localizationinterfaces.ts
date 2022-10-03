@@ -396,7 +396,7 @@ export interface selectedArticleCard {
   text: string;
   title: string;
   folderId: number;
-  categoryId: number;
+  categoryId: number[];
   categoryName: string;
 }
 export interface toastData {
@@ -458,6 +458,7 @@ export interface FolderModalPopUp {
   folderCategoryText: string;
   cancel: string;
   editFolderText: string;
+  chooseCategories: string;
 }
 
 export interface LocalizationInterface {

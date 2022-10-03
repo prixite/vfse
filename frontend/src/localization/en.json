@@ -687,7 +687,8 @@
     "folderNameText": "Folder Name",
     "folderCategoryText": "Folder Category",
     "cancel": "Cancel",
-    "editFolderText":"Edit Folder"
+    "editFolderText":"Edit Folder",
+    "chooseCategories":"Choose categories min"
   },
   "listModalPopUp": {
     "close": "Close"

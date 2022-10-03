@@ -26,7 +26,7 @@ interface props {
   title: string;
   articleNo: string;
   id: number;
-  categoryID?: number;
+  categoryID?: number[];
   categoryName?: string;
   handleEdit?: (selectedCardTypes: selectedArticleCard) => void;
 }
@@ -49,7 +49,6 @@ const ArticleCard = ({
   const { id } = useParams();
   const [deleteFolder] = api.useDeleteFolderMutation();
   const open = Boolean(anchorEl);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

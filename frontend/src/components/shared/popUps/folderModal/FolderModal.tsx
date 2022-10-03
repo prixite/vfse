@@ -1,30 +1,33 @@
 import { useState, useEffect } from "react";
 
-import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
+import { TextField, Grid, ToggleButtonGroup } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
+import MuiToggleButton from "@mui/material/ToggleButton";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
-import { timeOut } from "@src/helpers/utils/constants";
+import { timeOut, categories } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
+import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import { Category } from "@src/store/reducers/generated";
+import { Category, Folder } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/folderModal/folderModal.scss";
 
 interface dataStateProps {
   action?: string;
   title?: string;
   id?: number;
-  categoryID?: number;
+  categoryID?: number[];
   categoryName?: string;
 }
 interface FolderModalProps {
@@ -34,8 +37,9 @@ interface FolderModalProps {
   dataState: dataStateProps;
 }
 
-const initialState = {
+const initialState: Folder = {
   name: "",
+  categories: [],
 };
 const constantData: LocalizationInterface = localizedData();
 const validationSchema = yup.object({
@@ -45,6 +49,15 @@ const validationSchema = yup.object({
     .max(50)
     .required(constantData.FolderModalPopUp.nameRequired),
 });
+
+const ToggleButton = styled(MuiToggleButton)(
+  ({ selectedColor }: { selectedColor?: string }) => ({
+    "&.Mui-selected, &.Mui-selected:hover": {
+      color: "white",
+      backgroundColor: selectedColor,
+    },
+  })
+);
 
 export default function FolderModal({
   open,
@@ -57,14 +70,17 @@ export default function FolderModal({
   );
   const id = dataState.id;
   const [onChangeValidation, setOnChangeValidation] = useState(false);
+  const { data: categoriesList = [] } = api.useGetCategoriesQuery();
   const [isLoading, setIsLoading] = useState(false);
+
   const {
     addFolderText,
     folderNameText,
-    folderCategoryText,
+    chooseCategories,
     cancel,
     editFolderText,
   } = constantData.FolderModalPopUp;
+  const { categoriesText } = constantsData.topicModal;
   const { toastData } = constantData;
 
   //API
@@ -86,18 +102,30 @@ export default function FolderModal({
   useEffect(() => {
     if (dataState.action === "edit") {
       populateEditableData();
+    } else {
+      populateAddData();
     }
   }, [dataState.action, open]);
 
   const populateEditableData = () => {
     formik.setValues({
       name: dataState.title,
+      categories: dataState.categoryID,
+    });
+  };
+  const populateAddData = () => {
+    formik.setValues({
+      name: "",
+      categories: [categoryData?.id],
     });
   };
   const handleAddFolder = async () => {
     setIsLoading(true);
     addNewFolder({
-      folder: { name: formik.values.name, categories: [categoryData?.id] },
+      folder: {
+        name: formik.values.name,
+        categories: [...formik.values.categories],
+      },
     })
       .unwrap()
       .then(() => {
@@ -121,7 +149,7 @@ export default function FolderModal({
       id,
       folder: {
         name: formik.values.name,
-        categories: [dataState.categoryID],
+        categories: formik.values.categories,
       },
     })
       .then(() => {
@@ -138,7 +166,11 @@ export default function FolderModal({
         setIsLoading(false);
       });
   };
-
+  const handleSelectedCategories = (event, newFormats) => {
+    if (newFormats.length) {
+      formik.setFieldValue(categoriesText, newFormats);
+    }
+  };
   const resetModal = () => {
     formik.resetForm();
     setOnChangeValidation(false);
@@ -184,23 +216,31 @@ export default function FolderModal({
               </Grid>
 
               <Grid item xs={12}>
-                <div className="category-selector">
-                  <p className="info-label"> {folderCategoryText} </p>
-                  <FormControl>
-                    <Select
-                      name="role"
-                      value={dataState.categoryID}
-                      className="select-cls"
-                      inputProps={{ "aria-label": "Without label" }}
-                      onChange={formik.handleChange}
-                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
-                      // disabled={!props?.roles?.length}
-                    >
-                      <MenuItem value={dataState.categoryID}>
-                        {categoryData?.name || dataState.categoryName}
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                <div className="modal-content-header">
+                  {categories?.length && (
+                    <p className="topics-header">
+                      <span className="info-label">{chooseCategories}(1)</span>
+                    </p>
+                  )}
+                  <ToggleButtonGroup
+                    value={formik.values.categories}
+                    color="primary"
+                    aria-label="text formatting"
+                    style={{ flexWrap: "wrap" }}
+                    onChange={handleSelectedCategories}
+                  >
+                    {categoriesList?.length &&
+                      categoriesList?.map((item, index) => (
+                        <ToggleButton
+                          key={index}
+                          value={item.id}
+                          className="toggle-btn"
+                          selectedColor={`${item?.color}`}
+                        >
+                          {item?.name}
+                        </ToggleButton>
+                      ))}
+                  </ToggleButtonGroup>
                 </div>
               </Grid>
             </Grid>
