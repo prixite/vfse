@@ -304,9 +304,12 @@ export const emptySplitApi = createApi({
       query: ({ id, folder }) => ({
         url: `/vfse/folders/${id}/`,
         method: "PATCH",
-        data: folder,
+        body: folder,
       }),
-      invalidatesTags: ["Folder"],
+      invalidatesTags: (result, error, { folder }) => [
+        "Folder",
+        { type: "Category", id: folder.categories[0] },
+      ],
     }),
     addFolder: builder.mutation<Folder, { folder: Folder }>({
       query: ({ folder }) => ({

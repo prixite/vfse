@@ -9,7 +9,10 @@ import { toast } from "react-toastify";
 
 import FolderSVG from "@src/components/common/presentational/articleCard/FolderSVG";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import {
+  LocalizationInterface,
+  selectedArticleCard,
+} from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
@@ -23,7 +26,10 @@ interface props {
   title: string;
   articleNo: string;
   id: number;
-  categoryID: number;
+  categoryID?: number;
+  categories?: number[];
+  categoryName?: string;
+  handleEdit?: (selectedCardTypes: selectedArticleCard) => void;
 }
 
 const ArticleCard = ({
@@ -32,6 +38,9 @@ const ArticleCard = ({
   articleNo,
   id: folderId,
   categoryID,
+  categories,
+  categoryName,
+  handleEdit,
 }: props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -42,7 +51,6 @@ const ArticleCard = ({
   const { id } = useParams();
   const [deleteFolder] = api.useDeleteFolderMutation();
   const open = Boolean(anchorEl);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -56,7 +64,16 @@ const ArticleCard = ({
   const handleModalClose = () => {
     setOpenModal(false);
   };
-
+  const onEdit = () => {
+    handleEdit({
+      text: "edit",
+      title: title,
+      folderId: folderId,
+      categories: categories,
+      categoryName: categoryName,
+    });
+    handleClose();
+  };
   const handleDeleteFolder = () => {
     deleteFolder({ id: folderId })
       .unwrap()
@@ -137,6 +154,7 @@ const ArticleCard = ({
             <MenuItem onClick={handleModalOpen}>
               {articleCard.deleteCard}
             </MenuItem>
+            <MenuItem onClick={onEdit}>{articleCard.editCard}</MenuItem>
           </Menu>
         </div>
       </div>

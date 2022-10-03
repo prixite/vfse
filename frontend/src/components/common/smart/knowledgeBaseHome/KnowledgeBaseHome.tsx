@@ -10,6 +10,7 @@ import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import NoDataFoundCard from "@src/components/shared/noDataFound/NoDataFoundCard";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
+import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
 import { api, Category, Document } from "@src/store/reducers/api";
@@ -24,6 +25,14 @@ const KnowledgeBaseHome = () => {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [folderDataState, setFolderDataState] = useState({
+    action: "edit",
+    title: "",
+    categoryName: "",
+    id: null,
+    folderCategoryIDS: [],
+  });
+  const [folderOpen, setFolderOpen] = useState(false);
   const { knowledgeBase } = constantsData;
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { Message } = localizedData().allCategoriesSection;
@@ -51,7 +60,9 @@ const KnowledgeBaseHome = () => {
     setArticlesList(dataForSearchArticles);
     setCategoryListForSearch(dataForSearchCategories);
   };
-
+  const handleFolderClose = () => {
+    setFolderOpen(false);
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -64,6 +75,16 @@ const KnowledgeBaseHome = () => {
       setCategoryListForSearch(categoriesList);
     }
   }, [query, categoriesList, topData]);
+  const handleEdit = (selectedArticle) => {
+    setFolderOpen(true);
+    setFolderDataState({
+      title: selectedArticle.title,
+      action: selectedArticle.text,
+      id: selectedArticle.folderId,
+      categoryName: selectedArticle.categoryName,
+      folderCategoryIDS: selectedArticle.categories,
+    });
+  };
 
   return (
     <>
@@ -113,10 +134,13 @@ const KnowledgeBaseHome = () => {
                 <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
                   <ArticleCard
                     color={category?.color}
+                    handleEdit={handleEdit}
                     title={item?.name}
                     articleNo={item?.document_count}
                     id={item.id}
+                    categories={item?.categories}
                     categoryID={category?.id}
+                    categoryName={category?.name}
                   />
                 </Grid>
               ))
@@ -138,6 +162,11 @@ const KnowledgeBaseHome = () => {
           />
         )}
       <ArticleModal open={open} handleClose={handleClose} />
+      <FolderModal
+        open={folderOpen}
+        handleClose={handleFolderClose}
+        folderDataState={folderDataState}
+      />
     </>
   );
 };

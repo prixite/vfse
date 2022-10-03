@@ -393,6 +393,74 @@ export interface articleDescription {
   title2: string;
   title3: string;
 }
+export interface selectedArticleCard {
+  text: string;
+  title: string;
+  folderId: number;
+  categories: number[];
+  categoryName: string;
+}
+export interface toastData {
+  documentationBtnLinkCopy: string;
+  commentCardCommentFailed: string;
+  clientCardOrgDeleteSuccess: string;
+  articleCardFolderDeleteSuccess: string;
+  articleCardFolderDeleteError: string;
+  chatBoxReqProceedError: string;
+  chatBoxErrorOcccured: string;
+  knowledgeCardArticleDeleteSuccess: string;
+  knowledgeCardArticleDeleteError: string;
+  networkCardDeleteSuccess: string;
+  systemCardDeleteSuccess: string;
+  systemCardConnectionError: string;
+  systemCardLinkCopiedSuccess: string;
+  accountSectionUsernameUpdateSuccess: string;
+  appearanceSectionClientUpdateSuccess: string;
+  appearanceSectionClientUpdateError: string;
+  commentsDrawerAddNoteError: string;
+  editCommentUpdateError: string;
+  articleUpdateSuccess: string;
+  documentationSectionLinkCopiedSuccess: string;
+  documentationSectionDeleteSuccess: string;
+  userSectionLocked: string;
+  userSectionUnlocked: string;
+  articleAddSuccess: string;
+  articleAddError: string;
+  categoryAddSuccess: string;
+  categoryEditSuccess: string;
+  categoryAddError: string;
+  categoryDeleteSuccess: string;
+  categoryDeleteError: string;
+  categoryEditError: string;
+  modalAlreadyExists: string;
+  folderAddSuccess: string;
+  folderAddError: string;
+  folderUpdateSuccess: string;
+  folderUpdateError: string;
+  saveHealthNetworkError: string;
+  addHealthNetworkError: string;
+  uploadImageFailedError: string;
+  addOrganizationError: string;
+  saveOrganizationError: string;
+  addNetworksFirstError: string;
+  saveSiteError: string;
+  siteAlreadyExistsError: string;
+  systemSaveSuccess: string;
+  systemSaveError: string;
+  topicCreatedSuccess: string;
+  topicCreatedError: string;
+  userAlreadyExists: string;
+  saveUserError: string;
+}
+export interface FolderModalPopUp {
+  nameRequired: string;
+  addFolderText: string;
+  folderNameText: string;
+  folderCategoryText: string;
+  cancel: string;
+  editFolderText: string;
+  chooseCategories: string;
+}
 
 export interface LocalizationInterface {
   Faq: { dashboard: unknown; topicUpdates: unknown; seeAll: unknown };
@@ -424,6 +492,9 @@ export interface LocalizationInterface {
   ManufacturerModal: ManufacturerInterface;
   ProductModal: ProductInterface;
   addProductModelDialog: AddProductModelDialogInterface;
+  selectedArticleCard: selectedArticleCard;
+  toastData: toastData;
+  FolderModalPopUp: FolderModalPopUp;
   allCategoriesSection: allCategoriesSection;
 }
 
