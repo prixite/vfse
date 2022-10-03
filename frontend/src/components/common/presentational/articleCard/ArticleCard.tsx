@@ -26,7 +26,8 @@ interface props {
   title: string;
   articleNo: string;
   id: number;
-  categoryID?: number[];
+  categoryID?: number;
+  categoriesID?: number[];
   categoryName?: string;
   handleEdit?: (selectedCardTypes: selectedArticleCard) => void;
 }
@@ -37,6 +38,7 @@ const ArticleCard = ({
   articleNo,
   id: folderId,
   categoryID,
+  categoriesID,
   categoryName,
   handleEdit,
 }: props) => {
@@ -67,7 +69,7 @@ const ArticleCard = ({
       text: "edit",
       title: title,
       folderId: folderId,
-      categoryId: categoryID,
+      folderCategoriesId: categoriesID,
       categoryName: categoryName,
     });
     handleClose();

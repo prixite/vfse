@@ -27,14 +27,14 @@ interface dataStateProps {
   action?: string;
   title?: string;
   id?: number;
-  categoryID?: number[];
+  folderCategoriesID?: number[];
   categoryName?: string;
 }
 interface FolderModalProps {
   open: boolean;
   handleClose: () => void;
   categoryData?: Category;
-  dataState: dataStateProps;
+  folderDataState: dataStateProps;
 }
 
 const initialState: Folder = {
@@ -63,12 +63,12 @@ export default function FolderModal({
   open,
   handleClose,
   categoryData,
-  dataState,
+  folderDataState,
 }: FolderModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const id = dataState.id;
+  const id = folderDataState.id;
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const { data: categoriesList = [] } = api.useGetCategoriesQuery();
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +92,7 @@ export default function FolderModal({
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (dataState.action === "add") {
+      if (folderDataState.action === "add") {
         handleAddFolder();
       } else {
         handleEditFolder();
@@ -100,17 +100,17 @@ export default function FolderModal({
     },
   });
   useEffect(() => {
-    if (dataState.action === "edit") {
+    if (folderDataState.action === "edit") {
       populateEditableData();
     } else {
       populateAddData();
     }
-  }, [dataState.action, open]);
+  }, [folderDataState.action, open]);
 
   const populateEditableData = () => {
     formik.setValues({
-      name: dataState.title,
-      categories: dataState.categoryID,
+      name: folderDataState.title,
+      categories: folderDataState.folderCategoriesID,
     });
   };
   const populateAddData = () => {
@@ -181,7 +181,7 @@ export default function FolderModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {dataState.action === "add" ? addFolderText : editFolderText}
+            {folderDataState.action === "add" ? addFolderText : editFolderText}
           </span>
           <span className="dialog-page">
             <img
@@ -268,7 +268,7 @@ export default function FolderModal({
           }}
           disabled={isLoading}
         >
-          {dataState.action === "add" ? addFolderText : editFolderText}
+          {folderDataState.action === "add" ? addFolderText : editFolderText}
         </Button>
       </DialogActions>
     </Dialog>

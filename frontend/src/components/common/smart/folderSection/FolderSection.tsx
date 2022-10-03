@@ -14,11 +14,11 @@ interface FolderSetionProps {
 }
 const FolderSection = ({ categoryData }: FolderSetionProps) => {
   const [folderList, setFolderList] = useState<Folder[]>([]);
-  const [dataState, setDataState] = useState({
+  const [folderDataState, setFolderDataState] = useState({
     title: "",
     id: null,
     action: "add",
-    categoryID: [null],
+    folderCategoriesID: [],
   });
 
   const { Message } = localizedData().allCategoriesSection;
@@ -26,7 +26,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
-    setDataState({ ...dataState, action: "add" });
+    setFolderDataState((prevState) => ({ ...prevState, action: "add" }));
     setOpen(false);
   };
   const { noDataTitle, noDataDescription } = localizedData().systems;
@@ -47,11 +47,11 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
   }, [query, categoryData]);
   const handleEdit = (selectedArticle) => {
     setOpen(true);
-    setDataState({
+    setFolderDataState({
       action: selectedArticle.text,
       title: selectedArticle.title,
       id: selectedArticle.folderId,
-      categoryID: selectedArticle.categoryId,
+      folderCategoriesID: selectedArticle.folderCategoriesId,
     });
   };
   return (
@@ -76,7 +76,8 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
                   handleEdit={handleEdit}
                   id={item.id}
                   categoryName={categoryData?.name}
-                  categoryID={item?.categories}
+                  categoryID={categoryData?.id}
+                  categoriesID={item?.categories}
                 />
               </Grid>
             ))
@@ -99,7 +100,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
         open={open}
         handleClose={handleClose}
         categoryData={categoryData}
-        dataState={dataState}
+        folderDataState={folderDataState}
       />
     </>
   );

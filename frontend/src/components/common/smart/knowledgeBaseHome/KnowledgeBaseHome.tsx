@@ -25,12 +25,12 @@ const KnowledgeBaseHome = () => {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [dataState, setDataState] = useState({
+  const [folderDataState, setFolderDataState] = useState({
     action: "edit",
     title: "",
     categoryName: "",
     id: null,
-    categoryID: null,
+    folderCategoriesID: [],
   });
   const [folderOpen, setFolderOpen] = useState(false);
   const { knowledgeBase } = constantsData;
@@ -77,12 +77,12 @@ const KnowledgeBaseHome = () => {
   }, [query, categoriesList, topData]);
   const handleEdit = (selectedArticle) => {
     setFolderOpen(true);
-    setDataState({
+    setFolderDataState({
       title: selectedArticle.title,
       action: selectedArticle.text,
       id: selectedArticle.folderId,
       categoryName: selectedArticle.categoryName,
-      categoryID: selectedArticle.categoryId,
+      folderCategoriesID: selectedArticle.folderCategoriesId,
     });
   };
 
@@ -124,7 +124,8 @@ const KnowledgeBaseHome = () => {
                     title={item?.name}
                     articleNo={item?.document_count}
                     id={item.id}
-                    categoryID={item?.categories}
+                    categoriesID={item?.categories}
+                    categoryID={category?.id}
                     categoryName={category?.name}
                   />
                 </Grid>
@@ -150,7 +151,7 @@ const KnowledgeBaseHome = () => {
       <FolderModal
         open={folderOpen}
         handleClose={handleFolderClose}
-        dataState={dataState}
+        folderDataState={folderDataState}
       />
     </>
   );

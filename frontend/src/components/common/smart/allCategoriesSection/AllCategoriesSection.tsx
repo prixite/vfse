@@ -18,12 +18,12 @@ import CategoryOptionsSection from "../categoryOptionsSection/categoryOptionsSec
 const AllCategoriesSection = () => {
   const classes = useStyles();
   const [folderList, setFolderList] = useState<Category[]>([]);
-  const [dataState, setDataState] = useState({
+  const [folderDataState, setFolderDataState] = useState({
     action: "edit",
     title: "",
     categoryName: "",
     id: null,
-    categoryID: null,
+    folderCategoriesID: [],
   });
   const [query, setQuery] = useState("");
   // eslint-disable-next-line
@@ -54,12 +54,12 @@ const AllCategoriesSection = () => {
   };
   const handleEdit = (selectedArticle) => {
     setFolderOpen(true);
-    setDataState({
+    setFolderDataState({
       title: selectedArticle.title,
       action: selectedArticle.text,
       id: selectedArticle.folderId,
       categoryName: selectedArticle.categoryName,
-      categoryID: selectedArticle.categoryId,
+      folderCategoriesID: selectedArticle.folderCategoriesId,
     });
   };
   useEffect(() => {
@@ -95,7 +95,8 @@ const AllCategoriesSection = () => {
                     articleNo={item?.document_count}
                     handleEdit={handleEdit}
                     id={item.id}
-                    categoryID={item?.categories}
+                    categoriesID={item?.categories}
+                    categoryID={category?.id}
                     categoryName={category?.name}
                   />
                 </Grid>
@@ -119,7 +120,7 @@ const AllCategoriesSection = () => {
       <FolderModal
         open={folderOpen}
         handleClose={handleFolderClose}
-        dataState={dataState}
+        folderDataState={folderDataState}
       />
     </>
   );
