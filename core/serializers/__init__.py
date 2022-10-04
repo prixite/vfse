@@ -123,7 +123,7 @@ class MeSerializer(serializers.ModelSerializer):
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
-    location = serializers.URLField(source="profile.meta.location")
+    location = serializers.CharField(source="profile.meta.location")
     slack_link = serializers.URLField(source="profile.meta.slack_link")
     calender_link = serializers.URLField(source="profile.meta.calender_link")
     gmail_link = serializers.URLField(source="profile.meta.gmail_link")
