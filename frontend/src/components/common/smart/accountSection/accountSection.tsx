@@ -56,11 +56,11 @@ const AccountSection = () => {
     initialValues: {
       firstname: currentUser?.first_name || "",
       lastname: currentUser?.last_name || "",
-      location: "",
-      slacklink: "",
-      calenderlink: "",
-      gmaillink:"",
-      zoomlink:"",
+      location: currentUser?.location || "",
+      slacklink: currentUser?.slack_link || "",
+      calenderlink: currentUser?.calender_link || "",
+      gmaillink: currentUser?.gmail_link || "",
+      zoomlink: currentUser?.zoom_link || "",
     },
     validationSchema: yup.object({
       firstname: yup.string().matches(nameReg).required(firstNameRequired),
@@ -76,11 +76,10 @@ const AccountSection = () => {
             profile_picture: currentUser?.profile_picture,
             title: profilePictureTitle,
             location: values?.location,
-            slack_link:values?.slacklink,
-            calender_link:values?.calenderlink,
-            gmail_link:values?.gmaillink,
-            zoom_link:values?.zoomlink
-
+            slack_link: values?.slacklink,
+            calender_link: values?.calenderlink,
+            gmail_link: values?.gmaillink,
+            zoom_link: values?.zoomlink,
           },
         },
         updateUsername

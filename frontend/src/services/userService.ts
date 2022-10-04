@@ -76,11 +76,11 @@ const updateUsernameService = async (userObj, updateUsername) => {
       meta: {
         profile_picture: userObj?.meta?.profile_picture,
         title: userObj?.meta?.title,
-        location:userObj?.meta.location,
-        slack_link:userObj?.meta.slack_link,
-        calender_link:userObj?.meta.calender_link,
-        gmail_link:userObj?.meta.gmail_link,
-        zoom_link:userObj?.meta.zoom_link
+        location: userObj?.meta.location,
+        slack_link: userObj?.meta.slack_link,
+        calender_link: userObj?.meta.calender_link,
+        gmail_link: userObj?.meta.gmail_link,
+        zoom_link: userObj?.meta.zoom_link,
       },
     },
   }).unwrap();

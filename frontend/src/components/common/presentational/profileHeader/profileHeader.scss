@@ -51,6 +51,13 @@ $primary-purple: #773cbd;
       .roleText {
         color: $light-grey;
       }
+      .icons {
+        a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
     }
     .about {
       justify-content: space-between;

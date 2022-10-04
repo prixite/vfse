@@ -9,8 +9,9 @@ import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
-import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
 import { useUsersRolesListQuery } from "@src/store/reducers/api";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
+
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
 
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
@@ -26,10 +27,9 @@ const ProfileHeader = () => {
   });
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-  const roleFound = usersRoles?.find(x => {
+  const roleFound = usersRoles?.find((x) => {
     return x?.value === me?.role;
   });
-  
   return (
     <>
       <Box className="header">
@@ -65,7 +65,6 @@ const ProfileHeader = () => {
           </Typography>
           <Stack className="iconsSec" direction={{ xs: "column", md: "row" }}>
             <Typography className="roleText">
-              {console.log('roleFound is ', roleFound)}
               {roleFound?.title || "Admin"}
             </Typography>
             <Stack
@@ -74,19 +73,18 @@ const ProfileHeader = () => {
               gap={2}
               mt={{ xs: "1rem", md: 0 }}
             >
-              <img
-                onClick={() => window.open("https://mail.google.com/mail")}
-                src={gmail}
-              />
-              <img
-                onClick={() => window.open("https://calendar.google.com")}
-                src={calender}
-              />
-              <img onClick={() => window.open("https://zoom.us/")} src={zoom} />
-              <img
-                onClick={() => window.open("https://slack.com/")}
-                src={slack}
-              />
+              <a href={me?.gmail_link} target="_blank" rel="noreferrer">
+                <img src={gmail} />
+              </a>
+              <a href={me?.calender_link} target="_blank" rel="noreferrer">
+                <img src={calender} />
+              </a>
+              <a href={me?.zoom_link} target="_blank" rel="noreferrer">
+                <img src={zoom} />
+              </a>
+              <a href={me?.slack_link} target="_blank" rel="noreferrer">
+                <img src={slack} />
+              </a>
             </Stack>
           </Stack>
           <Stack
@@ -116,7 +114,7 @@ const ProfileHeader = () => {
               <Typography fontWeight={400}>{"Location"}</Typography>
               <Stack direction="row" gap={1} alignItems="center">
                 <img src={msg} />
-                <Typography>{"Richland, WA"}</Typography>
+                <Typography>{me?.location}</Typography>
               </Stack>
             </Stack>
           </Stack>
