@@ -8,7 +8,9 @@ import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTop
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
+import NoDataFoundCard from "@src/components/shared/noDataFound/NoDataFoundCard";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
+import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
 import { api, Category, Document } from "@src/store/reducers/api";
@@ -23,8 +25,17 @@ const KnowledgeBaseHome = () => {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [folderDataState, setFolderDataState] = useState({
+    action: "edit",
+    title: "",
+    categoryName: "",
+    id: null,
+    folderCategoryIDS: [],
+  });
+  const [folderOpen, setFolderOpen] = useState(false);
   const { knowledgeBase } = constantsData;
   const { noDataTitle, noDataDescription } = localizedData().systems;
+  const { Message } = localizedData().allCategoriesSection;
   const { id } = useParams<{ id?: string }>();
   //APIs
   const { data: topData = [] } = api.useGetTopArticlesQuery();
@@ -49,7 +60,9 @@ const KnowledgeBaseHome = () => {
     setArticlesList(dataForSearchArticles);
     setCategoryListForSearch(dataForSearchCategories);
   };
-
+  const handleFolderClose = () => {
+    setFolderOpen(false);
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -62,6 +75,16 @@ const KnowledgeBaseHome = () => {
       setCategoryListForSearch(categoriesList);
     }
   }, [query, categoriesList, topData]);
+  const handleEdit = (selectedArticle) => {
+    setFolderOpen(true);
+    setFolderDataState({
+      title: selectedArticle.title,
+      action: selectedArticle.text,
+      id: selectedArticle.folderId,
+      categoryName: selectedArticle.categoryName,
+      folderCategoryIDS: selectedArticle.categories,
+    });
+  };
 
   return (
     <>
@@ -74,9 +97,23 @@ const KnowledgeBaseHome = () => {
         setData={setCategoryListForSearch}
       />
       <h2 className={classes.subHeading}>{knowledgeBase.subTitle}</h2>
-      <Grid container spacing={1} mt={3}>
+      <Grid
+        container
+        spacing={{ xs: 2, sm: 1, md: 1, lg: 1, xl: 1 }}
+        mt={3}
+        className={classes.knowledgeBaseCardsContainer}
+      >
         {articlesList.map((item, index) => (
-          <Grid item={true} xs={12} xl={2} md={6} lg={3} key={index}>
+          <Grid
+            item={true}
+            xs={12}
+            sm={6}
+            md={4}
+            lg={3}
+            xl={2}
+            key={index}
+            className={classes.knowledgeTopCard}
+          >
             <KnowledgeTopCard
               title={item?.title}
               description={item?.text}
@@ -92,17 +129,24 @@ const KnowledgeBaseHome = () => {
             <CategoryOptionsSection category={category} id={id} />
           </div>
           <Grid container spacing={2}>
-            {category?.folders?.map((item, index) => (
-              <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
-                <ArticleCard
-                  color={category?.color}
-                  title={item?.name}
-                  articleNo={item?.document_count}
-                  id={item.id}
-                  categoryID={category?.id}
-                />
-              </Grid>
-            ))}
+            {category?.folders?.length ? (
+              category?.folders?.map((item, index) => (
+                <Grid item={true} xs={12} xl={3} md={6} lg={4} key={index}>
+                  <ArticleCard
+                    color={category?.color}
+                    handleEdit={handleEdit}
+                    title={item?.name}
+                    articleNo={item?.document_count}
+                    id={item.id}
+                    categories={item?.categories}
+                    categoryID={category?.id}
+                    categoryName={category?.name}
+                  />
+                </Grid>
+              ))
+            ) : (
+              <NoDataFoundCard message={Message} />
+            )}
           </Grid>
         </div>
       ))}
@@ -118,6 +162,11 @@ const KnowledgeBaseHome = () => {
           />
         )}
       <ArticleModal open={open} handleClose={handleClose} />
+      <FolderModal
+        open={folderOpen}
+        handleClose={handleFolderClose}
+        folderDataState={folderDataState}
+      />
     </>
   );
 };

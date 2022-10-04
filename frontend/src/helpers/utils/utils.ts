@@ -56,6 +56,24 @@ const getNonFieldError = (error: unknown) => {
   }
 };
 
+const addIdToHeadings = (htmlString: string): string => {
+  let index = 0;
+
+  const str = htmlString.replace(
+    /<h[1-6].*?>(.*?)/g,
+    (item) => `<h${item[2]} id='${index++}' >`
+  );
+
+  return str;
+};
+
+const convertImages = (htmlText) => {
+  return htmlText.replace(
+    /<div style="text-align:none;"><img/g,
+    '<div style="text-align:center;"><img'
+  );
+};
+
 const isNonFieldError = (error: unknown): boolean => {
   if (isApiError(error)) {
     return isBadRequestError(error) && "non_field_errors" in error.data;
@@ -132,6 +150,13 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
   }
 };
 
+const nameReg = /^[A-Za-z ]*$/;
+
+// eslint-disable-next-line
+const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+const phoneReg = /^(\+1)[0-9]{10}$/;
+
 export {
   toastAPIError,
   validateIPaddress,
@@ -142,4 +167,9 @@ export {
   getNonFieldError,
   isNonFieldError,
   returnPayloadThemeObject,
+  nameReg,
+  emailRegX,
+  phoneReg,
+  addIdToHeadings,
+  convertImages,
 };

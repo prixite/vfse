@@ -14,15 +14,22 @@ interface FolderSetionProps {
 }
 const FolderSection = ({ categoryData }: FolderSetionProps) => {
   const [folderList, setFolderList] = useState<Folder[]>([]);
+  const [folderDataState, setFolderDataState] = useState({
+    title: "",
+    id: null,
+    action: "add",
+    folderCategoryIDS: [],
+  });
+
+  const { Message } = localizedData().allCategoriesSection;
   const [query, setQuery] = useState("");
 
   const [open, setOpen] = useState(false);
   const handleClose = () => {
+    setFolderDataState((prevState) => ({ ...prevState, action: "add" }));
     setOpen(false);
   };
-
   const { noDataTitle, noDataDescription } = localizedData().systems;
-
   const handleSearchQuery = (searchQuery: string) => {
     const dataForSearch = [
       ...categoryData.folders.filter((data) =>
@@ -38,7 +45,15 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
       setFolderList(categoryData?.folders);
     }
   }, [query, categoryData]);
-
+  const handleEdit = (selectedArticle) => {
+    setOpen(true);
+    setFolderDataState({
+      action: selectedArticle.text,
+      title: selectedArticle.title,
+      id: selectedArticle.folderId,
+      folderCategoryIDS: selectedArticle.categories,
+    });
+  };
   return (
     <>
       <Box component="div" className="folder-heading">
@@ -51,17 +66,25 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
           setData={setFolderList}
         />
         <Grid container spacing={1} style={{ marginTop: "21px" }}>
-          {folderList?.map((item, index) => (
-            <Grid item={true} xs={6} xl={3} md={4} key={index}>
-              <ArticleCard
-                color={categoryData?.color}
-                title={item?.name}
-                articleNo={item?.document_count}
-                id={item.id}
-                categoryID={categoryData.id}
-              />
-            </Grid>
-          ))}
+          {folderList?.length ? (
+            folderList?.map((item, index) => (
+              <Grid item={true} xs={6} xl={3} md={4} key={index}>
+                <ArticleCard
+                  color={categoryData?.color}
+                  title={item?.name}
+                  articleNo={item?.document_count}
+                  handleEdit={handleEdit}
+                  id={item.id}
+                  categoryName={categoryData?.name}
+                  categoryID={categoryData?.id}
+                  categories={item?.categories}
+                />
+              </Grid>
+            ))
+          ) : (
+            <NoDataFound title={Message} />
+          )}
+
           {!folderList?.length && query?.length > 2 && (
             <NoDataFound
               search
@@ -77,6 +100,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
         open={open}
         handleClose={handleClose}
         categoryData={categoryData}
+        folderDataState={folderDataState}
       />
     </>
   );

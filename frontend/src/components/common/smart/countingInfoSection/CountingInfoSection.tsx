@@ -80,7 +80,7 @@ const CountingInfoSection = () => {
               <Grid item xl={2.4} md={4} xs={6}>
                 <CountingInfoCards
                   // key={key}
-                  deviceNo={"0"}
+                  deviceNo={dashBoardList.work_order}
                   deviceStatus={workOrders}
                   deviceImage={systemIcon}
                 />
@@ -96,7 +96,7 @@ const CountingInfoSection = () => {
             ))}
             <CountingInfoCards
               // key={key}
-              deviceNo={"0"}
+              deviceNo={dashBoardList.work_order}
               deviceStatus={workOrders}
               deviceImage={systemIcon}
             />

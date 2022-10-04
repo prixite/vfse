@@ -371,7 +371,8 @@
   "articleCard": {
     "numberTitle": "articles",
     "explore": "Explore",
-    "deleteCard": "Delete"
+    "deleteCard": "Delete",
+    "editCard": "Edit"
   },
   "folderSection": {
     "backBtn": "Back to all"
@@ -423,6 +424,8 @@
     "modalAlreadyExists": "Model with given name already exists for selected product",
     "folderAddSuccess": "Folder Successfully added.",
     "folderAddError": "Error occured while adding Folder",
+    "folderUpdateSuccess": "Folder Updated Successfully.",
+    "folderUpdateError": "Error occured while updating Folder",
     "saveHealthNetworkError": "Error occurred while saving health network",
     "addHealthNetworkError": "Error occurred while adding health network",
     "uploadImageFailedError": "Failed to upload image",
@@ -436,7 +439,9 @@
     "topicCreatedSuccess": "Successfully Created",
     "topicCreatedError": "Error occured",
     "userAlreadyExists": "User with this username already exists.",
-    "saveUserError": "Error occurred while saving user"
+    "saveUserError": "Error occurred while saving user",
+    "registerUserSuccessMsg": "Registered Successfully.",
+    "registerUserErrorMsg": "Something went wrong. Please try again!"
   },
   "noCommentFound": {
     "noComments": "This system has no comments",
@@ -661,7 +666,7 @@
     "folder": "folder",
     "addArticleText": "Add Article",
     "titleText": "Title",
-    "contentText": "content",
+    "contentText": "Content",
     "categoryText": "Category",
     "folderText": "Folder",
     "uploadDocumentText": "Upload a document",
@@ -669,7 +674,7 @@
     "cancelText": "Cancel"
   },
   "categoryModal": {
-    "colorTextRequired": "Color Text is required!",
+    "colorTextRequired": "Name is required!",
     "colorRequired": "Color is required!",
     "addCategoryText": "Add Category",
     "colorNameText": "Name",
@@ -678,15 +683,20 @@
   "deleteNoteModal": {
     "deleteThisComment": "Delete this comment?"
   },
-  "folderModalPopUp": {
+  "FolderModalPopUp": {
     "nameRequired": "Name is required",
     "addFolderText": "Add Folder",
     "folderNameText": "Folder Name",
     "folderCategoryText": "Folder Category",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "editFolderText":"Edit Folder",
+    "chooseCategories":"Choose categories min"
   },
   "listModalPopUp": {
     "close": "Close"
+  },
+  "allCategoriesSection": {
+    "Message": "Sorry, no folders found against this category."
   },
   "networkModalPopUp": {
     "nameRequired": "Name is required",

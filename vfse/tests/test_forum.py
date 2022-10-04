@@ -230,6 +230,7 @@ class DashboardTestCase(BaseTestCase):
                 "online_system_count",
                 "offline_system_count",
                 "last_month_logged_in_user",
+                "work_order",
             ],
         )
 

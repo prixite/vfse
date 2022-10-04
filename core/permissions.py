@@ -84,21 +84,6 @@ class OrganizationUsersPermission(BasePermission):
         return False
 
 
-class OrganizationReadOnlyPermissions(BasePermission):
-    def has_permission(self, request, view):
-        if request.user.is_superuser:
-            return True
-
-        if request.method in SAFE_METHODS:
-            return True
-
-        return not models.Membership.objects.filter(
-            organization_id=view.kwargs["pk"],
-            user=request.user,
-            role=models.Role.VIEW_ONLY,
-        ).exists()
-
-
 class OrganizationPermission(BasePermission):
     def has_permission(self, request, view):
         if request.method.lower() == "post":

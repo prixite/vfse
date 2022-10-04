@@ -760,7 +760,10 @@ const injectedRtkApi = api.injectEndpoints({
       VfseUserActivityListApiResponse,
       VfseUserActivityListApiArg
     >({
-      query: () => ({ url: `/vfse/user/activity/` }),
+      query: (queryArg) => ({
+        url: `/vfse/user/activity/`,
+        params: { topic: queryArg.topic },
+      }),
     }),
     vfseUserMeActivityList: build.query<
       VfseUserMeActivityListApiResponse,
@@ -1208,7 +1211,9 @@ export type VfseTopicsFollowPartialUpdateApiArg = {
 };
 export type VfseUserActivityListApiResponse =
   /** status 200  */ RecentActivity[];
-export type VfseUserActivityListApiArg = void;
+export type VfseUserActivityListApiArg = {
+  topic?: number;
+};
 export type VfseUserMeActivityListApiResponse =
   /** status 200  */ RecentActivity[];
 export type VfseUserMeActivityListApiArg = {
@@ -1252,14 +1257,13 @@ export type UserRequestAccess = {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "view-only"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
   manager?: number;
   organization: number;
   sites?: number[];
+  systems: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
@@ -1346,12 +1350,7 @@ export type Me = {
   is_superuser?: boolean;
   can_leave_notes: boolean;
   fse_accessible: boolean;
-  email?: string;
-  location: string;
-  slack_link: string;
-  calender_link: string;
-  gmail_link: string;
-  zoom_link: string;
+  documentation_url: boolean;
 };
 export type Modality = {
   id?: number;
@@ -1479,6 +1478,7 @@ export type User = {
   manager?: Manager;
   image?: string;
   sites?: string[];
+  systems?: number[];
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -1492,14 +1492,13 @@ export type UpsertUser = {
     | "user-admin"
     | "fse"
     | "end-user"
-    | "view-only"
-    | "one-time"
     | "cryo"
     | "cryo-fse"
     | "cryo-admin";
   manager?: number;
   organization: number;
   sites?: number[];
+  systems: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;

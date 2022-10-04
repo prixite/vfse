@@ -48,7 +48,9 @@ class Command(BaseCommand):
             username="view-only@example.com", profile__manager=customer_admin
         )
         one_time_role = factories.UserWithPasswordFactory(
-            username="one-time@example.com", profile__manager=customer_admin
+            username="one-time@example.com",
+            profile__manager=customer_admin,
+            profile__is_one_time=True,
         )
         cryo = factories.UserWithPasswordFactory(
             username="cryo@example.com", profile__manager=customer_admin

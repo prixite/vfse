@@ -165,7 +165,12 @@ const SectionTwo = ({
           color="primary"
           onChange={handleSelectedModalities}
           aria-label="text formatting"
-          style={{ flexWrap: "wrap", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
+          }}
         >
           {modalitiesList?.length &&
             modalitiesList?.map((item, key) => (

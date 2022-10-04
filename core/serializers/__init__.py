@@ -130,6 +130,7 @@ class MeSerializer(serializers.ModelSerializer):
     zoom_link = serializers.URLField(source="profile.meta.zoom_link")
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
+    documentation_url = serializers.BooleanField(source="profile.documentation_url")
 
     class Meta:
         model = models.User
@@ -144,12 +145,7 @@ class MeSerializer(serializers.ModelSerializer):
             "is_superuser",
             "can_leave_notes",
             "fse_accessible",
-            "email",
-            "location",
-            "slack_link",
-            "calender_link",
-            "gmail_link",
-            "zoom_link",
+            "documentation_url",
         ]
 
     def get_role(self, obj):
@@ -255,6 +251,7 @@ class UserSerializer(serializers.ModelSerializer):
     sites = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
+    systems = serializers.ListField(child=serializers.IntegerField(), read_only=True)
     image = serializers.CharField(source="profile.meta.profile_picture", read_only=True)
     phone = serializers.CharField(source="profile.phone", read_only=True)
     role = serializers.SlugRelatedField(
@@ -299,6 +296,7 @@ class UserSerializer(serializers.ModelSerializer):
             "manager",
             "image",
             "sites",
+            "systems",
         ]
 
 
@@ -340,6 +338,7 @@ class UpsertUserSerializer(serializers.Serializer):
         queryset=models.Site.objects.all(),
         required=False,
     )
+    systems = serializers.ListField(child=serializers.IntegerField())
     modalities = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=models.Modality.objects.all(),

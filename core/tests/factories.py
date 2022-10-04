@@ -79,14 +79,14 @@ class OrganizationFactory(factory.django.DjangoModelFactory):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Role.VIEW_ONLY)
+        _add_member(obj, extracted, models.Role.END_USER)
 
     @factory.post_generation
     def one_time_roles(obj, create, extracted, **kwargs):
         if not create:
             return
 
-        _add_member(obj, extracted, models.Role.ONE_TIME)
+        _add_member(obj, extracted, models.Role.END_USER)
 
     @factory.post_generation
     def cryo_roles(obj, create, extracted, **kwargs):

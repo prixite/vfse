@@ -45,6 +45,7 @@ export interface PopUp {
   userProfileImage: string;
   phone: string;
   selectedSites: string;
+  selectedSystems: string;
   selectedModalities: string;
   accessToFSEFunctions: string;
   auditEnable: string;
@@ -369,6 +370,9 @@ export interface ArticleCard {
 export interface folderSection {
   backBtn: string;
 }
+export interface allCategoriesSection {
+  Message: string;
+}
 
 export interface ConfirmSiteModal {
   dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
@@ -388,6 +392,74 @@ export interface articleDescription {
   title1: string;
   title2: string;
   title3: string;
+}
+export interface selectedArticleCard {
+  text: string;
+  title: string;
+  folderId: number;
+  categories: number[];
+  categoryName: string;
+}
+export interface toastData {
+  documentationBtnLinkCopy: string;
+  commentCardCommentFailed: string;
+  clientCardOrgDeleteSuccess: string;
+  articleCardFolderDeleteSuccess: string;
+  articleCardFolderDeleteError: string;
+  chatBoxReqProceedError: string;
+  chatBoxErrorOcccured: string;
+  knowledgeCardArticleDeleteSuccess: string;
+  knowledgeCardArticleDeleteError: string;
+  networkCardDeleteSuccess: string;
+  systemCardDeleteSuccess: string;
+  systemCardConnectionError: string;
+  systemCardLinkCopiedSuccess: string;
+  accountSectionUsernameUpdateSuccess: string;
+  appearanceSectionClientUpdateSuccess: string;
+  appearanceSectionClientUpdateError: string;
+  commentsDrawerAddNoteError: string;
+  editCommentUpdateError: string;
+  articleUpdateSuccess: string;
+  documentationSectionLinkCopiedSuccess: string;
+  documentationSectionDeleteSuccess: string;
+  userSectionLocked: string;
+  userSectionUnlocked: string;
+  articleAddSuccess: string;
+  articleAddError: string;
+  categoryAddSuccess: string;
+  categoryEditSuccess: string;
+  categoryAddError: string;
+  categoryDeleteSuccess: string;
+  categoryDeleteError: string;
+  categoryEditError: string;
+  modalAlreadyExists: string;
+  folderAddSuccess: string;
+  folderAddError: string;
+  folderUpdateSuccess: string;
+  folderUpdateError: string;
+  saveHealthNetworkError: string;
+  addHealthNetworkError: string;
+  uploadImageFailedError: string;
+  addOrganizationError: string;
+  saveOrganizationError: string;
+  addNetworksFirstError: string;
+  saveSiteError: string;
+  siteAlreadyExistsError: string;
+  systemSaveSuccess: string;
+  systemSaveError: string;
+  topicCreatedSuccess: string;
+  topicCreatedError: string;
+  userAlreadyExists: string;
+  saveUserError: string;
+}
+export interface FolderModalPopUp {
+  nameRequired: string;
+  addFolderText: string;
+  folderNameText: string;
+  folderCategoryText: string;
+  cancel: string;
+  editFolderText: string;
+  chooseCategories: string;
 }
 
 export interface LocalizationInterface {
@@ -420,6 +492,10 @@ export interface LocalizationInterface {
   ManufacturerModal: ManufacturerInterface;
   ProductModal: ProductInterface;
   addProductModelDialog: AddProductModelDialogInterface;
+  selectedArticleCard: selectedArticleCard;
+  toastData: toastData;
+  FolderModalPopUp: FolderModalPopUp;
+  allCategoriesSection: allCategoriesSection;
 }
 
 export interface SystemInterfaceProps {

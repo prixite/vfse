@@ -2319,7 +2319,15 @@
             "get": {
                 "operationId": "vfse_user_activity_list",
                 "description": "",
-                "parameters": [],
+                "parameters": [
+                    {
+                        "name": "topic",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "",
@@ -2537,6 +2545,7 @@
                 "phone",
                 "role",
                 "organization",
+                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2580,8 +2589,6 @@
                         "user-admin",
                         "fse",
                         "end-user",
-                        "view-only",
-                        "one-time",
                         "cryo",
                         "cryo-fse",
                         "cryo-admin"
@@ -2601,6 +2608,13 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
                 "modalities": {
                     "type": "array",
@@ -3013,11 +3027,15 @@
                 "profile_picture",
                 "can_leave_notes",
                 "fse_accessible",
+<<<<<<< HEAD
                 "location",
                 "slack_link",
                 "calender_link",
                 "gmail_link",
                 "zoom_link"
+=======
+                "documentation_url"
+>>>>>>> master
             ],
             "type": "object",
             "properties": {
@@ -3068,40 +3086,9 @@
                     "title": "Fse accessible",
                     "type": "boolean"
                 },
-                "email": {
-                    "title": "Email address",
-                    "type": "string",
-                    "format": "email",
-                    "maxLength": 254
-                },
-                "location": {
-                    "title": "Location",
-                    "type": "string",
-                    "minLength": 1
-                },
-                "slack_link": {
-                    "title": "Slack link",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
-                },
-                "calender_link": {
-                    "title": "Calender link",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
-                },
-                "gmail_link": {
-                    "title": "Gmail link",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
-                },
-                "zoom_link": {
-                    "title": "Zoom link",
-                    "type": "string",
-                    "format": "uri",
-                    "minLength": 1
+                "documentation_url": {
+                    "title": "Documentation url",
+                    "type": "boolean"
                 }
             }
         },
@@ -3700,6 +3687,14 @@
                         "minLength": 1
                     },
                     "readOnly": true
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "readOnly": true
                 }
             }
         },
@@ -3712,6 +3707,7 @@
                 "phone",
                 "role",
                 "organization",
+                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -3754,8 +3750,6 @@
                         "user-admin",
                         "fse",
                         "end-user",
-                        "view-only",
-                        "one-time",
                         "cryo",
                         "cryo-fse",
                         "cryo-admin"
@@ -3775,6 +3769,13 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
                 "modalities": {
                     "type": "array",

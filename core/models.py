@@ -12,8 +12,6 @@ class Role(models.TextChoices):
     USER_ADMIN = "user-admin", "User Admin"
     FSE = "fse", "Field Service Engineer"
     END_USER = "end-user", "End User"
-    VIEW_ONLY = "view-only", "View Only"
-    ONE_TIME = "one-time", "One Time"
     CRYO = "cryo", "Cryo"
     CRYO_FSE = "cryo-fse", "Cryo FSE"
     CRYO_ADMIN = "cryo-admin", "Cryo Admin"
@@ -91,6 +89,10 @@ class User(AbstractUser):
     def sites(self):
         return self.get_sites().values_list("site__name", flat=True)
 
+    @property
+    def systems(self):
+        return self.get_systems().values_list("system", flat=True)
+
     def get_initials(self):
         if any([self.first_name, self.last_name]):
             return " ".join([self.first_name[0], self.last_name[0]])
@@ -135,6 +137,7 @@ class User(AbstractUser):
 
     def get_organization_systems(self, organization_pk):
         return System.objects.filter(
+            id__in=self.systems,
             site__in=self.get_sites(),
             product_model__modality__in=self.usermodality_set.all().values_list(
                 "modality"
@@ -194,8 +197,6 @@ class User(AbstractUser):
             Role.USER_ADMIN: {user_flag},
             Role.FSE: {vfse_flag},
             Role.END_USER: {modality_flag},
-            Role.VIEW_ONLY: {modality_flag},
-            Role.ONE_TIME: {vfse_flag},
         }
 
         flags = set()

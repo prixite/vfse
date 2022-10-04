@@ -125,8 +125,8 @@ const TopicCommentSection = () => {
       </Box>
       {!isCommentsLoading ? (
         <>
-          {comments.map((comment, key) => (
-            <div key={key} style={{ width: "100%" }}>
+          {comments.map((comment) => (
+            <div key={comment.id} style={{ width: "100%" }}>
               <TopicComment commentData={comment} />
             </div>
           ))}

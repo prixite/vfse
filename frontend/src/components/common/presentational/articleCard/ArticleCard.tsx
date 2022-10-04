@@ -1,20 +1,24 @@
 import { useState } from "react";
 
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
-import { Box, Menu, MenuItem } from "@mui/material";
+import { Box, Grid, Menu, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import FolderSVG from "@src/components/common/presentational/articleCard/FolderSVG";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import {
+  LocalizationInterface,
+  selectedArticleCard,
+} from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
+
 import "@src/components/common/presentational/articleCard/articleCard.scss";
 
 interface props {
@@ -22,7 +26,10 @@ interface props {
   title: string;
   articleNo: string;
   id: number;
-  categoryID: number;
+  categoryID?: number;
+  categories?: number[];
+  categoryName?: string;
+  handleEdit?: (selectedCardTypes: selectedArticleCard) => void;
 }
 
 const ArticleCard = ({
@@ -31,6 +38,9 @@ const ArticleCard = ({
   articleNo,
   id: folderId,
   categoryID,
+  categories,
+  categoryName,
+  handleEdit,
 }: props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -41,7 +51,6 @@ const ArticleCard = ({
   const { id } = useParams();
   const [deleteFolder] = api.useDeleteFolderMutation();
   const open = Boolean(anchorEl);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,7 +64,16 @@ const ArticleCard = ({
   const handleModalClose = () => {
     setOpenModal(false);
   };
-
+  const onEdit = () => {
+    handleEdit({
+      text: "edit",
+      title: title,
+      folderId: folderId,
+      categories: categories,
+      categoryName: categoryName,
+    });
+    handleClose();
+  };
   const handleDeleteFolder = () => {
     deleteFolder({ id: folderId })
       .unwrap()
@@ -84,7 +102,9 @@ const ArticleCard = ({
         >
           <Box component="div" className="card">
             <div className="general-info">
-              <FolderRoundedIcon style={{ color: color, fontSize: "2.2em" }} />
+              <Grid className="folderIcon-Grid">
+                <FolderSVG color={color} />
+              </Grid>
               <div className="heading">
                 <h2 className="title">{title}</h2>
               </div>
@@ -134,6 +154,7 @@ const ArticleCard = ({
             <MenuItem onClick={handleModalOpen}>
               {articleCard.deleteCard}
             </MenuItem>
+            <MenuItem onClick={onEdit}>{articleCard.editCard}</MenuItem>
           </Menu>
         </div>
       </div>

@@ -434,6 +434,7 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
             ).values_list("user")
         )
 
+    @transaction.atomic
     def update(self, request, *args, **kwargs):
         # TODO: Add permission class to allow only self and user admin
         serializer = self.get_serializer(data=request.data, partial=kwargs["partial"])
@@ -459,6 +460,9 @@ class UserViewSet(ModelViewSet, mixins.UserMixin):
 
             models.UserModality.objects.filter(user_id=kwargs["pk"]).delete()
             self.add_modalities(serializer.validated_data, kwargs["pk"])
+
+            models.UserSystem.objects.filter(user_id=kwargs["pk"]).delete()
+            self.add_user_systems(serializer.validated_data, kwargs["pk"])
 
             return Response(serializer.data)
         return Response(serializer.errors)
@@ -532,7 +536,6 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
 
     @transaction.atomic
     def perform_create(self, serializer):
-        # TODO: Add permission class to allow only user admin
         for data in serializer.validated_data["memberships"]:
             user = models.User.objects.create_user(
                 username=data["email"],
@@ -543,6 +546,7 @@ class ScopedUserViewSet(ModelViewSet, mixins.UserMixin):
             self.update_profile(data, user.id)
             self.add_sites(data, user.id)
             self.add_modalities(data, user.id)
+            self.add_user_systems(data, user.id)
         serializer.save()
 
 
@@ -878,7 +882,7 @@ class UserRolesView(ModelViewSet):
 
 class ActiveUsersViewSet(ListAPIView):
     serializer_class = serializers.UserSerializer
-    pagination_class = pagination.TopicPagination
+    pagination_class = pagination.ActiveUsersPagtination
 
     def get_queryset(self):
         return models.User.objects.filter(

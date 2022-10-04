@@ -56,6 +56,19 @@ class UserMixin:
             ]
         )
 
+    def add_user_systems(self, data, user_id):
+
+        models.UserSystem.objects.bulk_create(
+            [
+                models.UserSystem(
+                    user_id=user_id,
+                    organization=data["organization"],
+                    system=models.System.objects.get(id=system),
+                )
+                for system in data["systems"]
+            ]
+        )
+
     def add_modalities(self, data, user_id):
         modalities = [
             models.UserModality(

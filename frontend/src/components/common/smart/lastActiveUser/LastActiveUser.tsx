@@ -49,7 +49,7 @@ const LastActiveUser = () => {
                     backgroundColor: "white",
                     border: "none",
                   }}
-                  rows={data}
+                  rows={data.slice(0, 7)}
                   rowHeight={58}
                   headerHeight={49}
                   hideFooter

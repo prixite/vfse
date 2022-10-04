@@ -133,6 +133,7 @@ class DashboardSerializer(serializers.Serializer):
     online_system_count = serializers.IntegerField()
     offline_system_count = serializers.IntegerField()
     last_month_logged_in_user = serializers.IntegerField()
+    work_order = serializers.IntegerField()
 
 
 class RecentActivitySerializer(serializers.ModelSerializer):

@@ -1,73 +1,131 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import { TextField, Grid, MenuItem, FormControl, Select } from "@mui/material";
+import { TextField, Grid, ToggleButtonGroup } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
+import MuiToggleButton from "@mui/material/ToggleButton";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import { timeOut } from "@src/helpers/utils/constants";
+import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { timeOut, categories } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import { Category } from "@src/store/reducers/generated";
+import { Category, Folder } from "@src/store/reducers/generated";
 import "@src/components/shared/popUps/folderModal/folderModal.scss";
 
+interface dataStateProps {
+  action?: string;
+  title?: string;
+  id?: number;
+  folderCategoryIDS?: number[];
+  categoryName?: string;
+}
 interface FolderModalProps {
   open: boolean;
   handleClose: () => void;
-  categoryData: Category;
+  categoryData?: Category;
+  folderDataState: dataStateProps;
 }
 
-const initialState = {
+const initialState: Folder = {
   name: "",
+  categories: [],
 };
-
+const constantData: LocalizationInterface = localizedData();
 const validationSchema = yup.object({
   name: yup
     .string()
     .min(1)
     .max(50)
-    .required(constantsData.folderModalPopUp.nameRequired),
+    .required(constantData.FolderModalPopUp.nameRequired),
 });
+
+const ToggleButton = styled(MuiToggleButton)(
+  ({ selectedColor }: { selectedColor?: string }) => ({
+    "&.Mui-selected, &.Mui-selected:hover": {
+      color: "white",
+      backgroundColor: selectedColor,
+    },
+  })
+);
 
 export default function FolderModal({
   open,
   handleClose,
   categoryData,
+  folderDataState,
 }: FolderModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-
+  const id = folderDataState.id;
   const [onChangeValidation, setOnChangeValidation] = useState(false);
+  const { data: categoriesList = [] } = api.useGetCategoriesQuery();
   const [isLoading, setIsLoading] = useState(false);
-  const { addFolderText, folderNameText, folderCategoryText, cancel } =
-    constantsData.folderModalPopUp;
-  const { toastData } = constantsData;
+
+  const {
+    addFolderText,
+    folderNameText,
+    chooseCategories,
+    cancel,
+    editFolderText,
+  } = constantData.FolderModalPopUp;
+  const { categoriesText } = constantsData.topicModal;
+  const { toastData } = constantData;
 
   //API
   const [addNewFolder] = api.useAddFolderMutation();
+  const [updateFolder] = api.useUpdateFolderMutation();
 
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      handleFolderSubmit();
+      if (folderDataState.action === "add") {
+        handleAddFolder();
+      } else {
+        handleEditFolder();
+      }
     },
   });
+  useEffect(() => {
+    if (folderDataState.action === "edit") {
+      populateEditableData();
+    } else {
+      populateAddData();
+    }
+  }, [folderDataState.action, open]);
 
-  const handleFolderSubmit = () => {
+  const populateEditableData = () => {
+    formik.setValues({
+      name: folderDataState.title,
+      categories: folderDataState.folderCategoryIDS,
+    });
+  };
+  const populateAddData = () => {
+    formik.setValues({
+      name: "",
+      categories: [categoryData?.id],
+    });
+  };
+  const handleAddFolder = async () => {
     setIsLoading(true);
     addNewFolder({
-      folder: { name: formik.values.name, categories: [categoryData?.id] },
+      folder: {
+        name: formik.values.name,
+        categories: [...formik.values.categories],
+      },
     })
       .unwrap()
       .then(() => {
@@ -85,17 +143,46 @@ export default function FolderModal({
       });
   };
 
+  const handleEditFolder = () => {
+    setIsLoading(true);
+    updateFolder({
+      id,
+      folder: {
+        name: formik.values.name,
+        categories: formik.values.categories,
+      },
+    })
+      .then(() => {
+        toast.success(toastData.folderUpdateSuccess, {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+      })
+      .catch((err) => {
+        toastAPIError(toastData.folderUpdateError, err.status, err.data);
+      })
+      .finally(() => {
+        resetModal();
+        setIsLoading(false);
+      });
+  };
+  const handleSelectedCategories = (event, newFormats) => {
+    if (newFormats.length) {
+      formik.setFieldValue(categoriesText, newFormats);
+    }
+  };
   const resetModal = () => {
     formik.resetForm();
     setOnChangeValidation(false);
     handleClose();
   };
-
   return (
     <Dialog className="folder-modal" open={open}>
       <DialogTitle>
         <div className="title-section title-cross">
-          <span className="modal-header">{addFolderText}</span>
+          <span className="modal-header">
+            {folderDataState.action === "add" ? addFolderText : editFolderText}
+          </span>
           <span className="dialog-page">
             <img
               alt=""
@@ -129,23 +216,31 @@ export default function FolderModal({
               </Grid>
 
               <Grid item xs={12}>
-                <div className="category-selector">
-                  <p className="info-label"> {folderCategoryText} </p>
-                  <FormControl>
-                    <Select
-                      name="role"
-                      value={categoryData.id}
-                      className="select-cls"
-                      inputProps={{ "aria-label": "Without label" }}
-                      onChange={formik.handleChange}
-                      MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
-                      // disabled={!props?.roles?.length}
-                    >
-                      <MenuItem value={categoryData.id}>
-                        {categoryData.name}
-                      </MenuItem>
-                    </Select>
-                  </FormControl>
+                <div className="modal-content-header">
+                  {categories?.length && (
+                    <p className="topics-header">
+                      <span className="info-label">{chooseCategories}(1)</span>
+                    </p>
+                  )}
+                  <ToggleButtonGroup
+                    value={formik.values.categories}
+                    color="primary"
+                    aria-label="text formatting"
+                    style={{ flexWrap: "wrap" }}
+                    onChange={handleSelectedCategories}
+                  >
+                    {categoriesList?.length &&
+                      categoriesList?.map((item, index) => (
+                        <ToggleButton
+                          key={index}
+                          value={item.id}
+                          className="toggle-btn"
+                          selectedColor={`${item?.color}`}
+                        >
+                          {item?.name}
+                        </ToggleButton>
+                      ))}
+                  </ToggleButtonGroup>
                 </div>
               </Grid>
             </Grid>
@@ -173,7 +268,7 @@ export default function FolderModal({
           }}
           disabled={isLoading}
         >
-          {addFolderText}
+          {folderDataState.action === "add" ? addFolderText : editFolderText}
         </Button>
       </DialogActions>
     </Dialog>
