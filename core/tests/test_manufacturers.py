@@ -42,12 +42,11 @@ class ManufacturerTestCase(BaseTestCase):
 
     def test_create_manufacturer_images(self):
         self.client.force_login(self.super_admin)
-
+        print(self.client.force_login(self.super_admin))
         response = self.client.post(
             "/api/manufacturers/images/",
             data={"image": "http://example.com/newimage.jpeg"},
         )
-
         self.assertEqual(response.status_code, 201)
         self.assertTrue(
             models.ManufacturerImage.objects.filter(

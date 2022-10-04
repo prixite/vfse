@@ -144,7 +144,6 @@ class UserFactory(factory.django.DjangoModelFactory):
     ):
         if not create:
             return
-
         for organization in organizations or []:
             MembershipFactory(
                 organization=organization,
