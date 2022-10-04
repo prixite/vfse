@@ -103,6 +103,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField(required=False)
     title = serializers.CharField(required=False)
+    location = serializers.CharField(required=False)
+    slack_link = serializers.URLField(required=False)
+    calender_link = serializers.URLField(required=False)
+    gmail_link = serializers.URLField(required=False)
+    zoom_link = serializers.URLField(required=False)
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
@@ -118,6 +123,11 @@ class MeSerializer(serializers.ModelSerializer):
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
+    location = serializers.URLField(source="profile.meta.location")
+    slack_link = serializers.URLField(source="profile.meta.slack_link")
+    calender_link = serializers.URLField(source="profile.meta.calender_link")
+    gmail_link = serializers.URLField(source="profile.meta.gmail_link")
+    zoom_link = serializers.URLField(source="profile.meta.zoom_link")
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
 
@@ -135,6 +145,11 @@ class MeSerializer(serializers.ModelSerializer):
             "can_leave_notes",
             "fse_accessible",
             "email",
+            "location",
+            "slack_link",
+            "calender_link",
+            "gmail_link",
+            "zoom_link",
         ]
 
     def get_role(self, obj):
