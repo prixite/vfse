@@ -103,11 +103,11 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField(required=False)
     title = serializers.CharField(required=False)
-    location = serializers.CharField(required=False)
-    slack_link = serializers.URLField(required=False)
-    calender_link = serializers.URLField(required=False)
-    gmail_link = serializers.URLField(required=False)
-    zoom_link = serializers.URLField(required=False)
+    location = serializers.CharField(required=False, default="", allow_blank=True)
+    slack_link = serializers.URLField(required=False, default="", allow_blank=True)
+    calender_link = serializers.URLField(required=False, default="", allow_blank=True)
+    gmail_link = serializers.URLField(required=False, default="", allow_blank=True)
+    zoom_link = serializers.URLField(required=False, default="", allow_blank=True)
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
