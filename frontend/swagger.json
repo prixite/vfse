@@ -3027,15 +3027,7 @@
                 "profile_picture",
                 "can_leave_notes",
                 "fse_accessible",
-<<<<<<< HEAD
-                "location",
-                "slack_link",
-                "calender_link",
-                "gmail_link",
-                "zoom_link"
-=======
                 "documentation_url"
->>>>>>> master
             ],
             "type": "object",
             "properties": {
