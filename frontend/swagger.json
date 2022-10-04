@@ -2993,7 +2993,8 @@
                 "profile_picture",
                 "can_leave_notes",
                 "fse_accessible",
-                "documentation_url"
+                "documentation_url",
+                "view_only"
             ],
             "type": "object",
             "properties": {
@@ -3046,6 +3047,10 @@
                 },
                 "documentation_url": {
                     "title": "Documentation url",
+                    "type": "boolean"
+                },
+                "view_only": {
+                    "title": "View only",
                     "type": "boolean"
                 }
             }

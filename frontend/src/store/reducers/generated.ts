@@ -1346,6 +1346,7 @@ export type Me = {
   can_leave_notes: boolean;
   fse_accessible: boolean;
   documentation_url: boolean;
+  view_only: boolean;
 };
 export type Modality = {
   id?: number;
