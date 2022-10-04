@@ -29,6 +29,8 @@ services:
     volumes:
       - static_volume:/opt/code/static
       - shm:/dev/shm
+    depends_on:
+      - ssh
 
   ping:
     extends:
@@ -39,13 +41,13 @@ services:
     extends:
       file: docker-compose.base.yml
       service: ssh
-    environment:
-      - SERVICE=app:8000
     volumes:
       - static_volume:/opt/code/static
       - shm:/dev/shm
     depends_on:
       - app
+    expose:
+      - 8888
 
 volumes:
   static_volume:

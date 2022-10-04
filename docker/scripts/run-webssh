@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-python run.py
+python run.py --origin=https://vfse.demo.prixite.com
