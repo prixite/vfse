@@ -183,6 +183,11 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         + settings.AWS_STORAGE_BUCKET_NAME
         + ".s3.us-east-2.amazonaws.com/profile.png",  # noqa
         "title": "",
+        "location": "",
+        "slack_link": "",
+        "calender_link": "",
+        "gmail_link": "",
+        "zoom_link": "",
     }
 
 
