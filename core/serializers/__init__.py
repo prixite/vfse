@@ -121,6 +121,7 @@ class MeSerializer(serializers.ModelSerializer):
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
     documentation_url = serializers.BooleanField(source="profile.documentation_url")
+    view_only = serializers.BooleanField(source="profile.view_only")
 
     class Meta:
         model = models.User
@@ -136,6 +137,7 @@ class MeSerializer(serializers.ModelSerializer):
             "can_leave_notes",
             "fse_accessible",
             "documentation_url",
+            "view_only",
         ]
 
     def get_role(self, obj):
