@@ -56,6 +56,11 @@ const AccountSection = () => {
     initialValues: {
       firstname: currentUser?.first_name || "",
       lastname: currentUser?.last_name || "",
+      location: "",
+      slacklink: "",
+      calenderlink: "",
+      gmaillink:"",
+      zoomlink:"",
     },
     validationSchema: yup.object({
       firstname: yup.string().matches(nameReg).required(firstNameRequired),
@@ -70,6 +75,12 @@ const AccountSection = () => {
           meta: {
             profile_picture: currentUser?.profile_picture,
             title: profilePictureTitle,
+            location: values?.location,
+            slack_link:values?.slacklink,
+            calender_link:values?.calenderlink,
+            gmail_link:values?.gmaillink,
+            zoom_link:values?.zoomlink
+
           },
         },
         updateUsername
@@ -164,6 +175,66 @@ const AccountSection = () => {
                 <p className="errorText" style={{ marginTop: "5px" }}>
                   {formik.touched.lastname && formik.errors.lastname}
                 </p>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="location"
+                  type="text"
+                  fullWidth
+                  value={formik.values.location}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Location"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="slacklink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.slacklink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Slack link"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="calenderlink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.calenderlink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Calender link"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="gmaillink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.gmaillink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Gmail link"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="zoomlink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.zoomlink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Zoom link"
+                />
               </Grid>
               <Grid item xs={12} alignSelf="end">
                 <Button
