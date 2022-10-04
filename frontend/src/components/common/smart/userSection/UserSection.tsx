@@ -342,7 +342,6 @@ export default function UserSection() {
     setModalList(list);
     setOpenListModal(true);
   };
-
   return (
     <Fragment>
       <h2>{userAdministration}</h2>

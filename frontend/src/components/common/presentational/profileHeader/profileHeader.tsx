@@ -10,7 +10,7 @@ import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
-
+import { useUsersRolesListQuery } from "@src/store/reducers/api";
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
 
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
@@ -20,13 +20,16 @@ const ProfileHeader = () => {
   const handleClickOpen = () => {
     me && setOpen(true);
   };
-
+  const { data: usersRoles } = useUsersRolesListQuery();
   const { data: me } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-
+  const roleFound = usersRoles?.find(x => {
+    return x?.value === me?.role;
+  });
+  
   return (
     <>
       <Box className="header">
@@ -62,7 +65,8 @@ const ProfileHeader = () => {
           </Typography>
           <Stack className="iconsSec" direction={{ xs: "column", md: "row" }}>
             <Typography className="roleText">
-              {`${me?.role}` || "Admin"}
+              {console.log('roleFound is ', roleFound)}
+              {roleFound?.title || "Admin"}
             </Typography>
             <Stack
               className="icons"
