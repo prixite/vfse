@@ -2487,11 +2487,45 @@
                     "title": "Title",
                     "type": "string",
                     "minLength": 1
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "default": ""
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "format": "uri",
+                    "default": ""
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "format": "uri",
+                    "default": ""
+                },
+                "gmail_link": {
+                    "title": "Gmail link",
+                    "type": "string",
+                    "format": "uri",
+                    "default": ""
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "format": "uri",
+                    "default": ""
                 }
             },
             "default": {
                 "profile_picture": "https://app.vfse.io/static/assets/profile.png",
-                "title": ""
+                "title": "",
+                "location": "",
+                "slack_link": "",
+                "calender_link": "",
+                "gmail_link": "",
+                "zoom_link": ""
             }
         },
         "UserRequestAccess": {
@@ -2978,7 +3012,12 @@
             "required": [
                 "profile_picture",
                 "can_leave_notes",
-                "fse_accessible"
+                "fse_accessible",
+                "location",
+                "slack_link",
+                "calender_link",
+                "gmail_link",
+                "zoom_link"
             ],
             "type": "object",
             "properties": {
@@ -3034,6 +3073,35 @@
                     "type": "string",
                     "format": "email",
                     "maxLength": 254
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "gmail_link": {
+                    "title": "Gmail link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
                 }
             }
         },
