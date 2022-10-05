@@ -1,16 +1,23 @@
 import { useState } from "react";
 
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
-import { Avatar, Box, Typography, Stack } from "@mui/material";
+import { Avatar, Box, Typography, Stack, Button } from "@mui/material";
 
 import calender from "@src/assets/svgs/g-calendar.svg";
 import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
+import EditIcon from "@mui/icons-material/Edit";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useUsersRolesListQuery } from "@src/store/reducers/api";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
+import { useNavigate } from "react-router-dom";
+import { constants } from "@src/helpers/utils/constants";
+import {
+  LocalizationInterface,
+} from "@src/helpers/interfaces/localizationinterfaces";
+import { localizedData } from "@src/helpers/utils/language";
 
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
 
@@ -21,10 +28,17 @@ const ProfileHeader = () => {
   const handleClickOpen = () => {
     me && setOpen(true);
   };
+  const navigate = useNavigate();
+  const constantData: LocalizationInterface = localizedData();
+  const { editText } = constantData.profileHeader;
   const { data: usersRoles } = useUsersRolesListQuery();
   const { data: me } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
+  const defaultOrganizationData = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
+  const { organizationRoute } = constants;
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const roleFound = usersRoles?.find((x) => {
@@ -34,6 +48,20 @@ const ProfileHeader = () => {
     <>
       <Box className="header">
         <Box className="headerTop">
+          <Button  
+          className="editProfileBtn"
+          variant="contained"
+          onClick={() => {
+            navigate(
+              `/${organizationRoute}/${defaultOrganizationData.id}/account`
+            );
+          }}
+                  >
+            <span style={{ paddingTop: 6, paddingRight:6 }}>
+            <EditIcon />
+          </span>
+          <span className="show-hide">{editText}</span>
+          </Button>
           <Avatar
             alt="Profile"
             className="profilePic"

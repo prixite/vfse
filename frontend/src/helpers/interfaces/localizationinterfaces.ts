@@ -219,6 +219,9 @@ export interface SystemsCard {
   connect: string;
   grafana_link_txt: string;
 }
+export interface profileHeader {
+  editText:string;
+}
 
 export interface OrganizationMenuOptions {
   switch_org: string;
@@ -473,6 +476,7 @@ export interface LocalizationInterface {
   documentation: Documentation;
   systems: Systems;
   systems_card: SystemsCard;
+  profileHeader: profileHeader;
   organization_menu_options: OrganizationMenuOptions;
   organization: Organization;
   page404: Page404;

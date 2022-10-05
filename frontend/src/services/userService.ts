@@ -79,7 +79,7 @@ const updateUsernameService = async (userObj, updateUsername) => {
         location: userObj?.meta.location,
         slack_link: userObj?.meta.slack_link,
         calender_link: userObj?.meta.calender_link,
-        gmail_link: userObj?.meta.gmail_link,
+        email: userObj?.meta.email,
         zoom_link: userObj?.meta.zoom_link,
       },
     },

@@ -61,16 +61,16 @@ const AccountSection = () => {
       location: currentUser?.location || "",
       slacklink: currentUser?.slack_link || "",
       calenderlink: currentUser?.calender_link || "",
-      gmaillink: currentUser?.gmail_link || "",
+      email: currentUser?.email || "",
       zoomlink: currentUser?.zoom_link || "",
     },
     validationSchema: yup.object({
       firstname: yup.string().matches(nameReg).required(firstNameRequired),
       lastname: yup.string().matches(nameReg).required(lastNameRequired),
-      slacklink: yup.string().matches(validUrl).required(invalidUrl),
-      calenderlink: yup.string().matches(validUrl).required(invalidUrl),
-      gmaillink: yup.string().matches(validUrl).required(invalidUrl),
-      zoomlink: yup.string().matches(validUrl).required(invalidUrl),
+      slacklink: yup.string().matches(validUrl,invalidUrl),
+      calenderlink: yup.string().matches(validUrl,invalidUrl),
+      email: yup.string().matches(validUrl,invalidUrl),
+      zoomlink: yup.string().matches(validUrl,invalidUrl),
     }),
     validateOnChange: true,
     onSubmit: async (values) => {
@@ -84,7 +84,7 @@ const AccountSection = () => {
             location: values?.location,
             slack_link: values?.slacklink,
             calender_link: values?.calenderlink,
-            gmail_link: values?.gmaillink,
+            email: values?.email,
             zoom_link: values?.zoomlink,
           },
         },
@@ -226,16 +226,16 @@ const AccountSection = () => {
               <Grid item xs={6}>
                 <TextField
                   autoComplete="off"
-                  name="gmaillink"
+                  name="email"
                   type="text"
                   fullWidth
-                  value={formik.values.gmaillink}
+                  value={formik.values.email}
                   onChange={formik.handleChange}
                   variant="outlined"
-                  placeholder="Gmail link"
+                  placeholder="Email"
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
-                  {formik.touched.gmaillink && formik.errors.gmaillink}
+                  {formik.touched.email && formik.errors.email}
                 </p>
               </Grid>
               <Grid item xs={6}>
