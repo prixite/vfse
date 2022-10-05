@@ -3027,7 +3027,12 @@
                 "profile_picture",
                 "can_leave_notes",
                 "fse_accessible",
-                "documentation_url"
+                "documentation_url",
+                "location",
+                "slack_link",
+                "calender_link",
+                "gmail_link",
+                "zoom_link"
             ],
             "type": "object",
             "properties": {
@@ -3081,6 +3086,35 @@
                 "documentation_url": {
                     "title": "Documentation url",
                     "type": "boolean"
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "gmail_link": {
+                    "title": "Gmail link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
                 }
             }
         },

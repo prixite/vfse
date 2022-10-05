@@ -146,6 +146,11 @@ class MeSerializer(serializers.ModelSerializer):
             "can_leave_notes",
             "fse_accessible",
             "documentation_url",
+            "location",
+            "slack_link",
+            "calender_link",
+            "gmail_link",
+            "zoom_link",
         ]
 
     def get_role(self, obj):
