@@ -40,6 +40,7 @@ const AccountSection = () => {
     updateName,
     save,
     updatePasswordText,
+    invalidUrl
   } = constantsData.accountSection;
 
   const { data: currentUser } = useOrganizationsMeReadQuery({
@@ -51,6 +52,7 @@ const AccountSection = () => {
 
   const nameReg = /^[A-Za-z ]*$/;
   const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+  const validUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
   const formik = useFormik({
     initialValues: {
@@ -65,6 +67,10 @@ const AccountSection = () => {
     validationSchema: yup.object({
       firstname: yup.string().matches(nameReg).required(firstNameRequired),
       lastname: yup.string().matches(nameReg).required(lastNameRequired),
+      slacklink: yup.string().matches(validUrl).required(invalidUrl),
+      calenderlink: yup.string().matches(validUrl).required(invalidUrl),
+      gmaillink: yup.string().matches(validUrl).required(invalidUrl),
+      zoomlink: yup.string().matches(validUrl).required(invalidUrl),
     }),
     validateOnChange: true,
     onSubmit: async (values) => {
@@ -198,6 +204,9 @@ const AccountSection = () => {
                   variant="outlined"
                   placeholder="Slack link"
                 />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.slacklink && formik.errors.slacklink}
+                </p>
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -210,6 +219,9 @@ const AccountSection = () => {
                   variant="outlined"
                   placeholder="Calender link"
                 />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.calenderlink && formik.errors.calenderlink}
+                </p>
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -222,6 +234,9 @@ const AccountSection = () => {
                   variant="outlined"
                   placeholder="Gmail link"
                 />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.gmaillink && formik.errors.gmaillink}
+                </p>
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -234,6 +249,9 @@ const AccountSection = () => {
                   variant="outlined"
                   placeholder="Zoom link"
                 />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.zoomlink && formik.errors.zoomlink}
+                </p>
               </Grid>
               <Grid item xs={12} alignSelf="end">
                 <Button

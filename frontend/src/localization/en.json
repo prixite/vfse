@@ -537,7 +537,8 @@
     "accountSettings": "Account Settings",
     "updateName": "Update Name",
     "save": "Save",
-    "updatePasswordText": "Update Password"
+    "updatePasswordText": "Update Password",
+    "invalidUrl":"Incorrect url"
   },
   "appearanceSection": {
     "sidebarColor": "sidebarColor",
