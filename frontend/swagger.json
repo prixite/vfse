@@ -2513,10 +2513,10 @@
                     "format": "uri",
                     "default": ""
                 },
-                "gmail_link": {
-                    "title": "Gmail link",
+                "email": {
+                    "title": "Email",
                     "type": "string",
-                    "format": "uri",
+                    "format": "email",
                     "default": ""
                 },
                 "zoom_link": {
@@ -2532,7 +2532,7 @@
                 "location": "",
                 "slack_link": "",
                 "calender_link": "",
-                "gmail_link": "",
+                "email": "",
                 "zoom_link": ""
             }
         },
@@ -3031,7 +3031,7 @@
                 "location",
                 "slack_link",
                 "calender_link",
-                "gmail_link",
+                "email",
                 "zoom_link"
             ],
             "type": "object",
@@ -3104,10 +3104,10 @@
                     "format": "uri",
                     "minLength": 1
                 },
-                "gmail_link": {
-                    "title": "Gmail link",
+                "email": {
+                    "title": "Email",
                     "type": "string",
-                    "format": "uri",
+                    "format": "email",
                     "minLength": 1
                 },
                 "zoom_link": {

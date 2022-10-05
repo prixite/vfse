@@ -186,7 +186,7 @@ class ProfileFactory(factory.django.DjangoModelFactory):
         "location": "",
         "slack_link": "",
         "calender_link": "",
-        "gmail_link": "",
+        "email": "",
         "zoom_link": "",
     }
 

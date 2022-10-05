@@ -106,7 +106,7 @@ class MetaSerialzer(serializers.Serializer):
     location = serializers.CharField(required=False, default="", allow_blank=True)
     slack_link = serializers.URLField(required=False, default="", allow_blank=True)
     calender_link = serializers.URLField(required=False, default="", allow_blank=True)
-    gmail_link = serializers.URLField(required=False, default="", allow_blank=True)
+    email = serializers.EmailField(required=False, default="", allow_blank=True)
     zoom_link = serializers.URLField(required=False, default="", allow_blank=True)
 
 
@@ -126,7 +126,7 @@ class MeSerializer(serializers.ModelSerializer):
     location = serializers.CharField(source="profile.meta.location")
     slack_link = serializers.URLField(source="profile.meta.slack_link")
     calender_link = serializers.URLField(source="profile.meta.calender_link")
-    gmail_link = serializers.URLField(source="profile.meta.gmail_link")
+    email = serializers.EmailField(source="profile.meta.email")
     zoom_link = serializers.URLField(source="profile.meta.zoom_link")
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
@@ -149,7 +149,7 @@ class MeSerializer(serializers.ModelSerializer):
             "location",
             "slack_link",
             "calender_link",
-            "gmail_link",
+            "email",
             "zoom_link",
         ]
 
