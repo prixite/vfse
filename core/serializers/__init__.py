@@ -307,7 +307,6 @@ class UpsertUserPasswordSerializer(serializers.Serializer):
         return data
 
 
-
 class GeneralUpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
