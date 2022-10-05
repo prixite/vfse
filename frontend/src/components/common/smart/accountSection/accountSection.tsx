@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import { timeOut } from "@src/helpers/utils/constants";
-import { toastAPIError } from "@src/helpers/utils/utils";
+import {
+  toastAPIError,
+  nameReg,
+  passwordReg,
+  validUrl,
+} from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   updateUserPassword,
@@ -49,13 +54,6 @@ const AccountSection = () => {
 
   const [updatePassword] = useUsersChangePasswordPartialUpdateMutation();
   const [updateUsername] = useUsersMePartialUpdateMutation();
-
-  const nameReg = /^[A-Za-z ]*$/;
-  const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-
-  const validUrl =
-    // eslint-disable-next-line
-    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
   const formik = useFormik({
     initialValues: {
