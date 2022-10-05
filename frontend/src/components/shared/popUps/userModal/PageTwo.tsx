@@ -107,27 +107,27 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   };
 
   const handleSelectedModalities = async (event, newFormats) => {
-    const systems = systemsList.filter(
+    const modalitySystems = systemsList.filter(
       (item) => item.product_model_detail.modality.id == event.target.value
     );
 
-    if (!systems.length) {
+    if (!modalitySystems.length) {
       toast.warn("No system exixts against this modality");
       return;
     }
 
     const selectedSystemsSet = new Set(formik.values.selectedSystems);
     const selectedSitesSet = new Set(formik.values.selectedSites);
-    const selectedSystemsInModality = systems.filter((item) =>
+    const selectedSystemsInModality = modalitySystems.filter((item) =>
       formik.values.selectedSystems.includes(item.id)
     );
-    if (selectedSystemsInModality.length === systems.length) {
-      for (const item of systems) {
+    if (selectedSystemsInModality.length === modalitySystems.length) {
+      for (const item of modalitySystems) {
         selectedSystemsSet.delete(item.id);
         const allSystemOfSite = systemsList.filter(
           (system) => system.site === item.site
         );
-        const allSystemOfSiteModality = systems.filter(
+        const allSystemOfSiteModality = modalitySystems.filter(
           (system) => system.site === item.site
         );
         const selectedSystemofSite = allSystemOfSite.filter((system) =>
@@ -138,10 +138,12 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
         }
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
-        ...newFormats,
+        ...formik.values.selectedModalities.filter(
+          (x) => x != event.target.value
+        ),
       ]);
     } else {
-      const _systems = systems.filter(
+      const _systems = modalitySystems.filter(
         (item) => !formik.values.selectedSystems.includes(item.id)
       );
       for (const system of _systems) {

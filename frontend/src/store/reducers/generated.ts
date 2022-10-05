@@ -1262,7 +1262,6 @@ export type UserRequestAccess = {
   manager?: number;
   organization: number;
   sites?: number[];
-  systems: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
@@ -1502,7 +1501,6 @@ export type UpsertUser = {
   manager?: number;
   organization: number;
   sites?: number[];
-  systems: number[];
   modalities?: number[];
   fse_accessible: boolean;
   audit_enabled: boolean;
@@ -1510,6 +1508,7 @@ export type UpsertUser = {
   view_only: boolean;
   is_one_time: boolean;
   documentation_url: boolean;
+  systems: number[];
 };
 export type OrganizationUpsertUser = {
   id?: number;
