@@ -307,7 +307,7 @@ class UpsertUserPasswordSerializer(serializers.Serializer):
         return data
 
 
-class GenralUpsertUserSerializer(serializers.Serializer):
+class GeneralUpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -378,7 +378,7 @@ class GenralUpsertUserSerializer(serializers.Serializer):
         return data
 
 
-class UpsertUserSerializer(GenralUpsertUserSerializer):
+class UpsertUserSerializer(GeneralUpsertUserSerializer):
     systems = serializers.ListField(child=serializers.IntegerField())
 
 
@@ -640,7 +640,7 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         return attrs
 
 
-class UserRequestAccessSerializer(GenralUpsertUserSerializer):
+class UserRequestAccessSerializer(GeneralUpsertUserSerializer):
     health_networks = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all(), many=True
     )
