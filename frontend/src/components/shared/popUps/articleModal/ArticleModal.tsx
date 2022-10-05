@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import {
   TextField,
@@ -192,11 +192,30 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       }
     }
   }, [categoriesList, open, categoryId]);
+
+  const catValue = useMemo(() => {
+    const arrOfNum = formik.values.categories.map((str) => {
+      return Number(str);
+    });
+    return arrOfNum;
+  }, [formik.values.categories]);
+
   useEffect(() => {
     if (formik.values.categories.length && open) {
+      const solFolders = [];
       categoriesList.forEach((category) => {
-        if (category?.id == formik.values.categories[0]) {
-          setFolderList([...category.folders]);
+        if (catValue.includes(category?.id)) {
+          category.folders.forEach((folder) => {
+            if (catValue.every((el) => folder.categories.includes(el))) {
+              solFolders.push(folder);
+            }
+          });
+          const uniqueArr = Array.from(
+            new Set(solFolders.map((a) => a.id))
+          ).map((id) => {
+            return solFolders.find((a) => a.id === id);
+          });
+          setFolderList([...uniqueArr]);
         }
       });
     } else {
@@ -280,13 +299,12 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                       disabled={
                         isCategoriesLoading || categoryId ? true : false
                       }
-                      value={formik.values.categories[0]?.toString() || ""}
+                      value={formik.values.categories || ""}
                       color="primary"
                       aria-label="text formatting"
                       style={{ flexWrap: "wrap" }}
-                      exclusive={true}
                       onChange={(e, value) => {
-                        formik.setFieldValue(categories, value ? [value] : []);
+                        formik.setFieldValue(categories, value ? value : []);
                       }}
                     >
                       {categoriesList.length
