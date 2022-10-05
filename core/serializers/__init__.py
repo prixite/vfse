@@ -307,7 +307,7 @@ class UpsertUserPasswordSerializer(serializers.Serializer):
         return data
 
 
-class UpsertUserSerializer(serializers.Serializer):
+class GeneralUpsertUserSerializer(serializers.Serializer):
     meta = MetaSerialzer(default=defaults.ProfileMetaDefault())
     first_name = serializers.CharField()
     last_name = serializers.CharField()
@@ -328,7 +328,7 @@ class UpsertUserSerializer(serializers.Serializer):
         queryset=models.Site.objects.all(),
         required=False,
     )
-    systems = serializers.ListField(child=serializers.IntegerField())
+
     modalities = serializers.PrimaryKeyRelatedField(
         many=True,
         queryset=models.Modality.objects.all(),
@@ -376,6 +376,10 @@ class UpsertUserSerializer(serializers.Serializer):
         if user_query.exists():
             raise serializers.ValidationError("Email already exists")
         return data
+
+
+class UpsertUserSerializer(GeneralUpsertUserSerializer):
+    systems = serializers.ListField(child=serializers.IntegerField())
 
 
 class OrganizationUpsertUserSerializer(serializers.ModelSerializer):
@@ -636,7 +640,7 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
         return attrs
 
 
-class UserRequestAccessSerializer(UpsertUserSerializer):
+class UserRequestAccessSerializer(GeneralUpsertUserSerializer):
     health_networks = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all(), many=True
     )

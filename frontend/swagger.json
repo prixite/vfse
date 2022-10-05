@@ -2511,7 +2511,6 @@
                 "phone",
                 "role",
                 "organization",
-                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2574,13 +2573,6 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
-                },
-                "systems": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
                 },
                 "modalities": {
                     "type": "array",
@@ -3665,13 +3657,13 @@
                 "phone",
                 "role",
                 "organization",
-                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
                 "view_only",
                 "is_one_time",
-                "documentation_url"
+                "documentation_url",
+                "systems"
             ],
             "type": "object",
             "properties": {
@@ -3728,13 +3720,6 @@
                     },
                     "uniqueItems": true
                 },
-                "systems": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
                 "modalities": {
                     "type": "array",
                     "items": {
@@ -3765,6 +3750,13 @@
                 "documentation_url": {
                     "title": "Documentation url",
                     "type": "boolean"
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
