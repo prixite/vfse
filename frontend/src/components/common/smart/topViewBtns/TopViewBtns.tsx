@@ -528,7 +528,9 @@ const TopViewBtns = ({
               }}
             />
           </Box>
-          {renderAddConditionally() && currentUser?.view_only ? createAddButton():''}
+          {renderAddConditionally() && !currentUser?.view_only
+            ? createAddButton()
+            : ""}
         </Box>
       </Box>
     </>
