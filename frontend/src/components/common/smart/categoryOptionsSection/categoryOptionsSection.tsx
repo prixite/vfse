@@ -12,14 +12,17 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
-import { Category } from "@src/store/reducers/api";
+import { useSelectedOrganization } from "@src/store/hooks";
+import { Category, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { useVfseCategoriesDeleteMutation } from "@src/store/reducers/generated";
 
 const CategoryOptionsSection = ({ category, id }) => {
   const classes = useStyles();
   const { organizationRoute } = constants;
   const { toastData } = constantsData;
-
+  const { data: currentUser } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
   const handleCloseCategoryModal = () => {
     setOpenCategoryModal(false);
@@ -56,20 +59,26 @@ const CategoryOptionsSection = ({ category, id }) => {
   return (
     <>
       <div className={classes.optionsDiv}>
-        <DeleteIcon
-          className={classes.optionsIcon}
-          onClick={() => {
-            setSelectedCategory(category);
-            setOpenDeleteCategoryModal(true);
-          }}
-        />
-        <EditIcon
-          className={classes.optionsIcon}
-          onClick={() => {
-            setSelectedCategory(category);
-            setOpenCategoryModal(true);
-          }}
-        />
+        {!currentUser?.view_only ? (
+          <>
+            <DeleteIcon
+              className={classes.optionsIcon}
+              onClick={() => {
+                setSelectedCategory(category);
+                setOpenDeleteCategoryModal(true);
+              }}
+            />
+            <EditIcon
+              className={classes.optionsIcon}
+              onClick={() => {
+                setSelectedCategory(category);
+                setOpenCategoryModal(true);
+              }}
+            />
+          </>
+        ) : (
+          ""
+        )}
         <Link
           className={classes.seeAll}
           to={`/${organizationRoute}/${id}/knowledge-base/category/${category?.id}`}

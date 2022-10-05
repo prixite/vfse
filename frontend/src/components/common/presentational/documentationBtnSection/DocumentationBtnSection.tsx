@@ -9,7 +9,8 @@ import { LocalizationInterface } from "@src/helpers/interfaces/localizationinter
 import { localizedData } from "@src/helpers/utils/language";
 import {} from "@mui/icons-material";
 import constantsData from "@src/localization/en.json";
-import { useAppSelector } from "@src/store/hooks";
+import { useSelectedOrganization, useAppSelector } from "@src/store/hooks";
+import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 
 interface btnProps {
   handleEditText: (val: boolean) => void;
@@ -53,6 +54,9 @@ const DocumentationBtnSection = ({
   saveText,
 }: btnProps) => {
   const localization: LocalizationInterface = localizedData();
+  const { data: currentUser } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
   const { btnEdit, btnCopy } = localization.document;
   const { toastData } = constantsData;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
@@ -70,25 +74,33 @@ const DocumentationBtnSection = ({
   return (
     <Grid container spacing={1} style={{ marginBottom: "20px" }}>
       <Grid item={true} xs={6}>
-        {!editText ? (
-          <Btn
-            handleClick={edit}
-            bgColor={secondaryColor}
-            btnTextColor={buttonTextColor}
-            btnText={btnEdit}
-            icon={
-              <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
-            }
-          />
-        ) : (
-          // <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
-          <Btn
-            handleClick={cancelEdit}
-            bgColor={secondaryColor}
-            btnTextColor={buttonTextColor}
-            btnText={"Cancel"}
-          />
-        )}
+        <>
+          {!currentUser?.view_only ? (
+            !editText ? (
+              <Btn
+                handleClick={edit}
+                bgColor={secondaryColor}
+                btnTextColor={buttonTextColor}
+                btnText={btnEdit}
+                icon={
+                  <ModeEditOutlineOutlinedIcon
+                    style={{ marginRight: "10px" }}
+                  />
+                }
+              />
+            ) : (
+              // <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
+              <Btn
+                handleClick={cancelEdit}
+                bgColor={secondaryColor}
+                btnTextColor={buttonTextColor}
+                btnText={"Cancel"}
+              />
+            )
+          ) : (
+            ""
+          )}
+        </>
       </Grid>
       <Grid item={true} xs={6}>
         {!editText ? (

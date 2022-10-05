@@ -167,48 +167,52 @@ const KnowledgeTopCard = ({
         ) : (
           ""
         )}
-        <div className="dropdownIcon">
-          <MoreVertIcon
-            id="client-options-button"
-            className="dropdown"
-            onClick={handleClick}
-          />
-          <Menu
-            id="demo-positioned-menu"
-            aria-labelledby="client-options-button"
-            anchorEl={anchorEl}
-            open={open}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            className="dropdownMenu"
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleModalOpen}>
-              {knowledgeBase.delete}
-            </MenuItem>
-            <MenuItem>
-              <Link
-                className="knowledge-top-card"
-                style={{
-                  textDecoration: "none",
-                  height: "100%",
-                  color: "#111827",
-                }}
-                to={{ pathname: `documentation/${id}/` }}
-                state={{ edit: true }}
-              >
-                {" "}
-                Update
-              </Link>
-            </MenuItem>
-          </Menu>
-        </div>
+        {!me?.view_only ? (
+          <div className="dropdownIcon">
+            <MoreVertIcon
+              id="client-options-button"
+              className="dropdown"
+              onClick={handleClick}
+            />
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="client-options-button"
+              anchorEl={anchorEl}
+              open={open}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              className="dropdownMenu"
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleModalOpen}>
+                {knowledgeBase.delete}
+              </MenuItem>
+              <MenuItem>
+                <Link
+                  className="knowledge-top-card"
+                  style={{
+                    textDecoration: "none",
+                    height: "100%",
+                    color: "#111827",
+                  }}
+                  to={{ pathname: `documentation/${id}/` }}
+                  state={{ edit: true }}
+                >
+                  {" "}
+                  Update
+                </Link>
+              </MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <ConfirmationModal
         name={title}

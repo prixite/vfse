@@ -17,7 +17,8 @@ import { constants, timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
-import { api } from "@src/store/reducers/api";
+import { useSelectedOrganization } from "@src/store/hooks";
+import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 
 import "@src/components/common/presentational/articleCard/articleCard.scss";
 
@@ -45,6 +46,9 @@ const ArticleCard = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const constantData: LocalizationInterface = localizedData();
+  const { data: currentUser } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
   const { explore, numberTitle } = constantData.articleCard;
   const { organizationRoute } = constants;
   const { toastData, articleCard } = constantsData;
@@ -129,34 +133,38 @@ const ArticleCard = ({
             </div>
           </Box>
         </Link>
-        <div className="dropdownIcon">
-          <MoreVertIcon
-            id="client-options-button"
-            className="dropdown"
-            onClick={handleClick}
-          />
-          <Menu
-            id="demo-positioned-menu"
-            aria-labelledby="client-options-button"
-            anchorEl={anchorEl}
-            open={open}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            className="dropdownMenu"
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleModalOpen}>
-              {articleCard.deleteCard}
-            </MenuItem>
-            <MenuItem onClick={onEdit}>{articleCard.editCard}</MenuItem>
-          </Menu>
-        </div>
+        {!currentUser?.view_only ? (
+          <div className="dropdownIcon">
+            <MoreVertIcon
+              id="client-options-button"
+              className="dropdown"
+              onClick={handleClick}
+            />
+            <Menu
+              id="demo-positioned-menu"
+              aria-labelledby="client-options-button"
+              anchorEl={anchorEl}
+              open={open}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              className="dropdownMenu"
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleModalOpen}>
+                {articleCard.deleteCard}
+              </MenuItem>
+              <MenuItem onClick={onEdit}>{articleCard.editCard}</MenuItem>
+            </Menu>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       <ConfirmationModal
         name={title}
