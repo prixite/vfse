@@ -75,35 +75,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
       modifySelectedSiteList(site);
     }
 
-    const modality = systemsList
-      .filter((item) => item.id == val)
-      .map((item) => item.product_model_detail.modality?.id)[0];
-
-    const systems = systemsList
-      .filter((item) => item.product_model_detail.modality.id == modality)
-      .filter((item) => item.id != val);
-
-    if (
-      systems.length &&
-      systems.some((item) => formik.values.selectedSystems.includes(item.id))
-    ) {
-      return;
-    }
-
-    const selectedModalityIndex =
-      formik.values.selectedModalities.indexOf(modality);
-
-    if (selectedModalityIndex > -1) {
-      formik.values.selectedModalities.splice(selectedModalityIndex, 1);
-      formik.setFieldValue(constantUserData.selectedModalities, [
-        ...formik.values.selectedModalities,
-      ]);
-    } else {
-      formik.setFieldValue(constantUserData.selectedModalities, [
-        ...formik.values.selectedModalities,
-        modality,
-      ]);
-    }
+    modifySelectedModalities(site, e.target.checked);
   };
 
   const handleSitesSelection = (e) => {
