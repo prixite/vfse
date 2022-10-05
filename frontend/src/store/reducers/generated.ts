@@ -1242,7 +1242,6 @@ export type Meta = {
   location?: string;
   slack_link?: string;
   calender_link?: string;
-  email?: string;
   zoom_link?: string;
 };
 export type UserRequestAccess = {
@@ -1354,7 +1353,7 @@ export type Me = {
   location: string;
   slack_link: string;
   calender_link: string;
-  email: string;
+  email?: string;
   zoom_link: string;
 };
 export type Modality = {
