@@ -1,23 +1,21 @@
 import { useState } from "react";
 
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Typography, Stack, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import calender from "@src/assets/svgs/g-calendar.svg";
 import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
-import EditIcon from "@mui/icons-material/Edit";
+import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useUsersRolesListQuery } from "@src/store/reducers/api";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
-import { useNavigate } from "react-router-dom";
-import { constants } from "@src/helpers/utils/constants";
-import {
-  LocalizationInterface,
-} from "@src/helpers/interfaces/localizationinterfaces";
-import { localizedData } from "@src/helpers/utils/language";
 
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
 
@@ -48,19 +46,19 @@ const ProfileHeader = () => {
     <>
       <Box className="header">
         <Box className="headerTop">
-          <Button  
-          className="editProfileBtn"
-          variant="contained"
-          onClick={() => {
-            navigate(
-              `/${organizationRoute}/${defaultOrganizationData.id}/account`
-            );
-          }}
-                  >
-            <span style={{ paddingTop: 6, paddingRight:6 }}>
-            <EditIcon />
-          </span>
-          <span className="show-hide">{editText}</span>
+          <Button
+            className="editProfileBtn"
+            variant="contained"
+            onClick={() => {
+              navigate(
+                `/${organizationRoute}/${defaultOrganizationData.id}/account`
+              );
+            }}
+          >
+            <span style={{ paddingTop: 6, paddingRight: 6 }}>
+              <EditIcon fontSize="small" />
+            </span>
+            <span className="show-hide">{editText}</span>
           </Button>
           <Avatar
             alt="Profile"
@@ -101,18 +99,38 @@ const ProfileHeader = () => {
               gap={2}
               mt={{ xs: "1rem", md: 0 }}
             >
-              <a href={me?.gmail_link} target="_blank" rel="noreferrer">
-                <img src={gmail} />
-              </a>
-              <a href={me?.calender_link} target="_blank" rel="noreferrer">
-                <img src={calender} />
-              </a>
-              <a href={me?.zoom_link} target="_blank" rel="noreferrer">
-                <img src={zoom} />
-              </a>
-              <a href={me?.slack_link} target="_blank" rel="noreferrer">
-                <img src={slack} />
-              </a>
+              {me?.email ? (
+                <a
+                  href={`mailto:{${me?.email}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img src={gmail} />
+                </a>
+              ) : (
+                ""
+              )}
+              {me?.calender_link ? (
+                <a href={me?.calender_link} target="_blank" rel="noreferrer">
+                  <img src={calender} />
+                </a>
+              ) : (
+                ""
+              )}
+              {me?.zoom_link ? (
+                <a href={me?.zoom_link} target="_blank" rel="noreferrer">
+                  <img src={zoom} />
+                </a>
+              ) : (
+                ""
+              )}
+              {me?.slack_link ? (
+                <a href={me?.slack_link} target="_blank" rel="noreferrer">
+                  <img src={slack} />
+                </a>
+              ) : (
+                ""
+              )}
             </Stack>
           </Stack>
           <Stack

@@ -541,7 +541,7 @@
     "updateName": "Update Name",
     "save": "Save",
     "updatePasswordText": "Update Password",
-    "invalidUrl":"Incorrect url"
+    "invalidUrl":"Invalid URL"
   },
   "appearanceSection": {
     "sidebarColor": "sidebarColor",

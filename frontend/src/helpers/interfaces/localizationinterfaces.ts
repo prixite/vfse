@@ -220,7 +220,7 @@ export interface SystemsCard {
   grafana_link_txt: string;
 }
 export interface profileHeader {
-  editText:string;
+  editText: string;
 }
 
 export interface OrganizationMenuOptions {

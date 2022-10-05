@@ -40,7 +40,7 @@ const AccountSection = () => {
     updateName,
     save,
     updatePasswordText,
-    invalidUrl
+    invalidUrl,
   } = constantsData.accountSection;
 
   const { data: currentUser } = useOrganizationsMeReadQuery({
@@ -52,7 +52,10 @@ const AccountSection = () => {
 
   const nameReg = /^[A-Za-z ]*$/;
   const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-  const validUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+
+  const validUrl =
+    // eslint-disable-next-line
+    /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
   const formik = useFormik({
     initialValues: {
@@ -61,16 +64,14 @@ const AccountSection = () => {
       location: currentUser?.location || "",
       slacklink: currentUser?.slack_link || "",
       calenderlink: currentUser?.calender_link || "",
-      email: currentUser?.email || "",
       zoomlink: currentUser?.zoom_link || "",
     },
     validationSchema: yup.object({
       firstname: yup.string().matches(nameReg).required(firstNameRequired),
       lastname: yup.string().matches(nameReg).required(lastNameRequired),
-      slacklink: yup.string().matches(validUrl,invalidUrl),
-      calenderlink: yup.string().matches(validUrl,invalidUrl),
-      email: yup.string().matches(validUrl,invalidUrl),
-      zoomlink: yup.string().matches(validUrl,invalidUrl),
+      slacklink: yup.string().matches(validUrl, invalidUrl),
+      calenderlink: yup.string().matches(validUrl, invalidUrl),
+      zoomlink: yup.string().matches(validUrl, invalidUrl),
     }),
     validateOnChange: true,
     onSubmit: async (values) => {
@@ -84,7 +85,6 @@ const AccountSection = () => {
             location: values?.location,
             slack_link: values?.slacklink,
             calender_link: values?.calenderlink,
-            email: values?.email,
             zoom_link: values?.zoomlink,
           },
         },
@@ -221,21 +221,6 @@ const AccountSection = () => {
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
                   {formik.touched.calenderlink && formik.errors.calenderlink}
-                </p>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  autoComplete="off"
-                  name="email"
-                  type="text"
-                  fullWidth
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  variant="outlined"
-                  placeholder="Email"
-                />
-                <p className="errorText" style={{ marginTop: "5px" }}>
-                  {formik.touched.email && formik.errors.email}
                 </p>
               </Grid>
               <Grid item xs={6}>
