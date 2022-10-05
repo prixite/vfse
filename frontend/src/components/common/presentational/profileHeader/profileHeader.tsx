@@ -99,17 +99,9 @@ const ProfileHeader = () => {
               gap={2}
               mt={{ xs: "1rem", md: 0 }}
             >
-              {me?.email ? (
-                <a
-                  href={`mailto:{${me?.email}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={gmail} />
-                </a>
-              ) : (
-                ""
-              )}
+              <a href={`mailto:{${me?.email}`} target="_blank" rel="noreferrer">
+                <img src={gmail} />
+              </a>
               {me?.calender_link ? (
                 <a href={me?.calender_link} target="_blank" rel="noreferrer">
                   <img src={calender} />
