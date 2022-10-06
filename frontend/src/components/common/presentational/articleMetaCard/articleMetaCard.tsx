@@ -1,87 +1,154 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
-import { MenuItem, Select, TextField } from "@mui/material";
+import { Grid, TextField, ToggleButtonGroup } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import MuiToggleButton from "@mui/material/ToggleButton";
 
 import constantsData from "@src/localization/en.json";
 import { api, Folder, Document } from "@src/store/reducers/api";
+
 import "@src/components/common/presentational/articleMetaCard/articleMetaCard.scss";
 
 interface ArticleMetaCardProps {
   articleData: Document;
   title: string;
-  category: number;
-  folder: number;
-  setFolder: React.Dispatch<React.SetStateAction<number>>;
+  category?: number | number[];
+  folder?: number | number[];
+  setFolder: React.Dispatch<React.SetStateAction<number[]>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
-  setCategory: React.Dispatch<React.SetStateAction<number>>;
+  setCategory: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
+const ToggleButton = styled(MuiToggleButton)(
+  ({ selectedColor }: { selectedColor?: string | number }) => ({
+    "&.Mui-selected, &.Mui-selected:hover": {
+      color: "white !important",
+      backgroundColor: `${selectedColor} !important`,
+    },
+  })
+);
 const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   articleData,
-  category,
-  folder,
   setFolder,
   title,
   setTitle,
   setCategory,
 }) => {
   const [folderList, setFolderList] = useState<Folder[]>([]);
-
   const { categoryText, folderText, titleText } = constantsData.articleModal;
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
+  const [catFormats, setCatFormats] = useState<number[]>([]);
+  const [folFormats, setFolFormats] = useState<number[]>([]);
+
+  const catValue = useMemo(() => {
+    const arrOfNum = catFormats.map((str) => {
+      return Number(str);
+    });
+    return arrOfNum;
+  }, [catFormats]);
 
   useEffect(() => {
     if (articleData.categories.length) {
+      const solFolders = [];
       categoriesList.forEach((category) => {
-        if (category?.id === articleData.categories[0]) {
-          setFolderList([...category.folders]);
+        if (catValue.includes(category?.id)) {
+          category.folders.forEach((folder) => {
+            if (catValue.every((el) => folder.categories.includes(el))) {
+              solFolders.push(folder);
+            }
+          });
+          const uniqueArr = Array.from(
+            new Set(solFolders.map((a) => a.id))
+          ).map((id) => {
+            return solFolders.find((a) => a.id === id);
+          });
+          setFolderList([...uniqueArr]);
         }
       });
+    } else {
+      setFolderList([]);
     }
-  }, [isCategoriesLoading]);
+  }, [catFormats, isCategoriesLoading]);
+
+  const handleOnChangeCategories = (
+    event: React.MouseEvent<HTMLElement>,
+    newFormats: number[]
+  ) => {
+    if (newFormats.length) {
+      setCatFormats(newFormats);
+      setCategory(newFormats);
+    }
+  };
+
+  const handleOnChangeFolders = (
+    event: React.MouseEvent<HTMLElement>,
+    newFormats: number[]
+  ) => {
+    if (newFormats.length) {
+      setFolFormats(newFormats);
+      setFolder(newFormats);
+    }
+  };
 
   return (
     <div className="card">
       {!isCategoriesLoading ? (
         <div className="info-section">
-          <p className="info-label">{categoryText}</p>
-          <Select
-            fullWidth
-            inputProps={{ "aria-label": "Without label" }}
-            style={{ height: "43px", borderRadius: "8px" }}
-            disabled={isCategoriesLoading}
-            MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            {categoriesList.map((item, index) => (
-              <MenuItem key={index} value={item.id}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-          {folderList.length > 0 && (
-            <>
-              <p className="info-label">{folderText}</p>
-              <Select
-                fullWidth
-                inputProps={{ "aria-label": "Without label" }}
-                style={{ height: "43px", borderRadius: "8px" }}
-                disabled={isCategoriesLoading}
-                MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
-                value={folder}
-                onChange={(e) => setFolder(e.target.value)}
+          <Grid item xs={12}>
+            <div className="info-section">
+              <p className="info-label">{categoryText}(1)</p>
+              <ToggleButtonGroup
+                defaultValue="none"
+                value={catFormats || ""}
+                color="primary"
+                aria-label="text formatting"
+                style={{ flexWrap: "wrap" }}
+                onChange={handleOnChangeCategories}
               >
-                {folderList.map((item, index) => (
-                  <MenuItem key={index} value={item.id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </>
-          )}
+                {categoriesList.length
+                  ? categoriesList.map((item, index) => (
+                      <ToggleButton
+                        key={index}
+                        value={item.id}
+                        className="toggle-btn"
+                        selectedColor={`${item?.color}`}
+                      >
+                        {item?.name}
+                      </ToggleButton>
+                    ))
+                  : ""}
+              </ToggleButtonGroup>
+            </div>
+          </Grid>
           <>
+            {folderList.length > 0 && (
+              <Grid item xs={12}>
+                <div className="info-section">
+                  <p className="info-label">{folderText}</p>
+                  <ToggleButtonGroup
+                    value={folFormats || ""}
+                    color="primary"
+                    aria-label="text formatting"
+                    style={{ flexWrap: "wrap" }}
+                    onChange={handleOnChangeFolders}
+                  >
+                    {folderList.length
+                      ? folderList.map((item, index) => (
+                          <ToggleButton
+                            key={index}
+                            value={`${item.id}`}
+                            className="toggle-btn"
+                            selectedColor={`#773cbd`}
+                          >
+                            {item?.name}
+                          </ToggleButton>
+                        ))
+                      : ""}
+                  </ToggleButtonGroup>
+                </div>
+              </Grid>
+            )}
             <p className="info-label">{titleText}</p>
             <TextField
               autoComplete="off"

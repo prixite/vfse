@@ -35,8 +35,8 @@ const DocumentationDescription = () => {
 
   const handleEditText = (val) => setEditText(val);
 
-  const [category, setCategory] = useState<number>(0);
-  const [folder, setFolder] = useState<number>(0);
+  const [category, setCategory] = useState<number | number[]>([]);
+  const [folder, setFolder] = useState<number | number[]>([]);
   const [title, setTitle] = useState<string>("");
 
   const saveText = () => {
@@ -49,8 +49,8 @@ const DocumentationDescription = () => {
       id: parseInt(docId),
       document: {
         ...articleData,
-        folder: folder,
-        categories: [category],
+        folder: parseInt(folder[0]),
+        categories: [...category],
         text: htmlString,
         title: title,
       },
