@@ -9,6 +9,7 @@ from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from core import models
 from core.serializers import defaults
+from core.utils import url_regex
 
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
@@ -104,9 +105,48 @@ class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField(required=False)
     title = serializers.CharField(required=False)
     location = serializers.CharField(required=False, default="", allow_blank=True)
-    slack_link = serializers.URLField(required=False, default="", allow_blank=True)
-    calender_link = serializers.URLField(required=False, default="", allow_blank=True)
-    zoom_link = serializers.URLField(required=False, default="", allow_blank=True)
+    slack_link = serializers.CharField(required=False, default="", allow_blank=True)
+    calender_link = serializers.CharField(required=False, default="", allow_blank=True)
+    zoom_link = serializers.CharField(required=False, default="", allow_blank=True)
+
+    def validate_slack_link(self, value):
+        if value:
+            result = re.match(
+                url_regex,
+                value,
+            )
+            if not result:
+                raise serializers.ValidationError(
+                    "Enter a valid URL.",
+                    code="invalid",
+                )
+        return value
+
+    def validate_calender_link(self, value):
+        if value:
+            result = re.match(
+                url_regex,
+                value,
+            )
+            if not result:
+                raise serializers.ValidationError(
+                    "Enter a valid URL.",
+                    code="invalid",
+                )
+        return value
+
+    def validate_zoom_link(self, value):
+        if value:
+            result = re.match(
+                url_regex,
+                value,
+            )
+            if not result:
+                raise serializers.ValidationError(
+                    "Enter a valid URL.",
+                    code="invalid",
+                )
+        return value
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):

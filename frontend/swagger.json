@@ -2504,19 +2504,16 @@
                 "slack_link": {
                     "title": "Slack link",
                     "type": "string",
-                    "format": "uri",
                     "default": ""
                 },
                 "calender_link": {
                     "title": "Calender link",
                     "type": "string",
-                    "format": "uri",
                     "default": ""
                 },
                 "zoom_link": {
                     "title": "Zoom link",
                     "type": "string",
-                    "format": "uri",
                     "default": ""
                 }
             },
