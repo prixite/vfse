@@ -41,31 +41,29 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   const [catFormats, setCatFormats] = useState<number[]>([]);
   const [folFormats, setFolFormats] = useState<number[]>([]);
 
-  const catValue = useMemo(() => {
-    const arrOfNum = catFormats.map((str) => {
-      return Number(str);
+  const finalFolders = useMemo(() => {
+    let solFolders = [];
+    categoriesList.forEach((category) => {
+      if (catFormats.includes(category?.id)) {
+        category.folders.forEach((folder) => {
+          if (catFormats.every((el) => folder.categories.includes(el))) {
+            solFolders.push(folder);
+          }
+        });
+        const uniqueArr = Array.from(new Set(solFolders.map((a) => a.id))).map(
+          (id) => {
+            return solFolders.find((a) => a.id === id);
+          }
+        );
+        solFolders = uniqueArr;
+      }
     });
-    return arrOfNum;
-  }, [catFormats]);
+    return solFolders;
+  }, [catFormats, open]);
 
   useEffect(() => {
     if (articleData.categories.length) {
-      const solFolders = [];
-      categoriesList.forEach((category) => {
-        if (catValue.includes(category?.id)) {
-          category.folders.forEach((folder) => {
-            if (catValue.every((el) => folder.categories.includes(el))) {
-              solFolders.push(folder);
-            }
-          });
-          const uniqueArr = Array.from(
-            new Set(solFolders.map((a) => a.id))
-          ).map((id) => {
-            return solFolders.find((a) => a.id === id);
-          });
-          setFolderList([...uniqueArr]);
-        }
-      });
+      setFolderList([...finalFolders]);
     } else {
       setFolderList([]);
     }

@@ -193,31 +193,33 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     }
   }, [categoriesList, open, categoryId]);
 
-  const catValue = useMemo(() => {
-    const arrOfNum = formik.values.categories.map((str) => {
-      return Number(str);
+  const finalFolders = useMemo(() => {
+    let solFolders = [];
+    categoriesList.forEach((category) => {
+      if (formik.values.categories.includes(category?.id)) {
+        category.folders.forEach((folder) => {
+          if (
+            formik.values.categories.every((el) =>
+              folder.categories.includes(el)
+            )
+          ) {
+            solFolders.push(folder);
+          }
+        });
+        const uniqueArr = Array.from(new Set(solFolders.map((a) => a.id))).map(
+          (id) => {
+            return solFolders.find((a) => a.id === id);
+          }
+        );
+        solFolders = uniqueArr;
+      }
     });
-    return arrOfNum;
-  }, [formik.values.categories]);
+    return solFolders;
+  }, [formik.values.categories, open]);
 
   useEffect(() => {
     if (formik.values.categories.length && open) {
-      const solFolders = [];
-      categoriesList.forEach((category) => {
-        if (catValue.includes(category?.id)) {
-          category.folders.forEach((folder) => {
-            if (catValue.every((el) => folder.categories.includes(el))) {
-              solFolders.push(folder);
-            }
-          });
-          const uniqueArr = Array.from(
-            new Set(solFolders.map((a) => a.id))
-          ).map((id) => {
-            return solFolders.find((a) => a.id === id);
-          });
-          setFolderList([...uniqueArr]);
-        }
-      });
+      setFolderList([...finalFolders]);
     } else {
       setFolderList([]);
     }
@@ -228,6 +230,20 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       formik.setFieldValue(folder, folderId);
     }
   }, [folderId, open]);
+
+  const handleOnChangeCategories = (
+    event: React.MouseEvent<HTMLElement>,
+    newFormats: number[]
+  ) => {
+    formik.setFieldValue(categories, newFormats);
+  };
+
+  const handleOnChangeFolders = (
+    event: React.MouseEvent<HTMLElement>,
+    newFormats: number[]
+  ) => {
+    formik.setFieldValue(folder, newFormats);
+  };
 
   return (
     <Dialog className="article-modal" open={open}>
@@ -303,15 +319,13 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                       color="primary"
                       aria-label="text formatting"
                       style={{ flexWrap: "wrap" }}
-                      onChange={(e, value) => {
-                        formik.setFieldValue(categories, value ? value : []);
-                      }}
+                      onChange={handleOnChangeCategories}
                     >
                       {categoriesList.length
                         ? categoriesList.map((item, index) => (
                             <ToggleButton
                               key={index}
-                              value={`${item.id}`}
+                              value={item.id}
                               className="toggle-btn"
                               selectedColor={`${item?.color}`}
                             >
@@ -340,19 +354,17 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                     <ToggleButtonGroup
                       defaultValue="none"
                       disabled={isCategoriesLoading || folderId ? true : false}
-                      value={formik.values.folder?.toString() || ""}
+                      value={formik.values.folder || ""}
                       color="primary"
                       aria-label="text formatting"
                       style={{ flexWrap: "wrap" }}
                       exclusive={true}
-                      onChange={(e) =>
-                        formik.setFieldValue(folder, e.target.value)
-                      }
+                      onChange={handleOnChangeFolders}
                     >
                       {folderList.map((item, index) => (
                         <ToggleButton
                           key={index}
-                          value={`${item.id}`}
+                          value={item.id}
                           className="toggle-btn"
                           selectedColor={`#773cbd`}
                         >
