@@ -1239,6 +1239,10 @@ export type VfseWorkordersReadApiArg = {
 export type Meta = {
   profile_picture?: string;
   title?: string;
+  location?: string;
+  slack_link?: string;
+  calender_link?: string;
+  zoom_link?: string;
 };
 export type UserRequestAccess = {
   meta?: Meta;
@@ -1345,6 +1349,11 @@ export type Me = {
   can_leave_notes: boolean;
   fse_accessible: boolean;
   documentation_url: boolean;
+  location: string;
+  slack_link: string;
+  calender_link: string;
+  email?: string;
+  zoom_link: string;
 };
 export type Modality = {
   id?: number;

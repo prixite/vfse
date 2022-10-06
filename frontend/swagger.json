@@ -2495,11 +2495,35 @@
                     "title": "Title",
                     "type": "string",
                     "minLength": 1
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "default": ""
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "default": ""
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "default": ""
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "default": ""
                 }
             },
             "default": {
                 "profile_picture": "https://app.vfse.io/static/assets/profile.png",
-                "title": ""
+                "title": "",
+                "location": "",
+                "slack_link": "",
+                "calender_link": "",
+                "zoom_link": ""
             }
         },
         "UserRequestAccess": {
@@ -2985,7 +3009,11 @@
                 "profile_picture",
                 "can_leave_notes",
                 "fse_accessible",
-                "documentation_url"
+                "documentation_url",
+                "location",
+                "slack_link",
+                "calender_link",
+                "zoom_link"
             ],
             "type": "object",
             "properties": {
@@ -3039,6 +3067,35 @@
                 "documentation_url": {
                     "title": "Documentation url",
                     "type": "boolean"
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "email": {
+                    "title": "Email address",
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 254
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
                 }
             }
         },

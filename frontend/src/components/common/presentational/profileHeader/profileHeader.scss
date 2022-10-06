@@ -21,6 +21,19 @@ $primary-purple: #773cbd;
       top: 80px;
       left: 10px;
     }
+    .editProfileBtn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      height: 32px;
+      box-shadow: unset;
+      padding: 4px 12px 4px 8px;
+      text-transform: unset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #92d509;
+    }
     .cameraIcon {
       color: rgba(58, 58, 58, 0.87);
       background-color: white;
@@ -50,6 +63,13 @@ $primary-purple: #773cbd;
       align-items: center;
       .roleText {
         color: $light-grey;
+      }
+      .icons {
+        a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
     .about {

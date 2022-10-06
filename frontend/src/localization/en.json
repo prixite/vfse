@@ -292,6 +292,9 @@
       "editSite": "Edit Site"
     }
   },
+  "profileHeader": {
+    "editText":"Edit"
+  },
   "systemModal": {
     "fieldName": "Name",
     "fieldManufacturer": "Manufacturer",
@@ -537,7 +540,8 @@
     "accountSettings": "Account Settings",
     "updateName": "Update Name",
     "save": "Save",
-    "updatePasswordText": "Update Password"
+    "updatePasswordText": "Update Password",
+    "invalidUrl":"Invalid URL"
   },
   "appearanceSection": {
     "sidebarColor": "sidebarColor",

@@ -9,6 +9,7 @@ from rest_framework.validators import UniqueTogetherValidator, UniqueValidator
 
 from core import models
 from core.serializers import defaults
+from core.utils import url_regex
 
 
 class OrganizationAppearanceSerializer(serializers.Serializer):
@@ -103,6 +104,49 @@ class OrganizationSerializer(serializers.ModelSerializer):
 class MetaSerialzer(serializers.Serializer):
     profile_picture = serializers.URLField(required=False)
     title = serializers.CharField(required=False)
+    location = serializers.CharField(required=False, default="", allow_blank=True)
+    slack_link = serializers.CharField(required=False, default="", allow_blank=True)
+    calender_link = serializers.CharField(required=False, default="", allow_blank=True)
+    zoom_link = serializers.CharField(required=False, default="", allow_blank=True)
+
+    def validate_slack_link(self, value):
+        if value:
+            result = re.match(
+                url_regex,
+                value,
+            )
+            if not result:
+                raise serializers.ValidationError(
+                    "Enter a valid URL.",
+                    code="invalid",
+                )
+        return value
+
+    def validate_calender_link(self, value):
+        if value:
+            result = re.match(
+                url_regex,
+                value,
+            )
+            if not result:
+                raise serializers.ValidationError(
+                    "Enter a valid URL.",
+                    code="invalid",
+                )
+        return value
+
+    def validate_zoom_link(self, value):
+        if value:
+            result = re.match(
+                url_regex,
+                value,
+            )
+            if not result:
+                raise serializers.ValidationError(
+                    "Enter a valid URL.",
+                    code="invalid",
+                )
+        return value
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
@@ -118,6 +162,10 @@ class MeSerializer(serializers.ModelSerializer):
     flags = serializers.SerializerMethodField()
     role = serializers.SerializerMethodField()
     profile_picture = serializers.URLField(source="profile.meta.profile_picture")
+    location = serializers.CharField(source="profile.meta.location")
+    slack_link = serializers.URLField(source="profile.meta.slack_link")
+    calender_link = serializers.URLField(source="profile.meta.calender_link")
+    zoom_link = serializers.URLField(source="profile.meta.zoom_link")
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
     documentation_url = serializers.BooleanField(source="profile.documentation_url")
@@ -136,6 +184,11 @@ class MeSerializer(serializers.ModelSerializer):
             "can_leave_notes",
             "fse_accessible",
             "documentation_url",
+            "location",
+            "slack_link",
+            "calender_link",
+            "email",
+            "zoom_link",
         ]
 
     def get_role(self, obj):
