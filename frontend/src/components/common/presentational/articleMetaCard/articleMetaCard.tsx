@@ -38,7 +38,9 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   const { categoryText, folderText, titleText } = constantsData.articleModal;
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
-  const [catFormats, setCatFormats] = useState<number[]>([]);
+  const [catFormats, setCatFormats] = useState<number[]>([
+    ...articleData.categories,
+  ]);
   const [folFormats, setFolFormats] = useState<number[]>([]);
 
   const finalFolders = useMemo(() => {
@@ -59,7 +61,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
       }
     });
     return solFolders;
-  }, [catFormats, open]);
+  }, [catFormats, isCategoriesLoading]);
 
   useEffect(() => {
     if (articleData.categories.length) {
