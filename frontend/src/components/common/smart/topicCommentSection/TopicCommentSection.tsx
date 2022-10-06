@@ -99,30 +99,34 @@ const TopicCommentSection = () => {
           : {}
       }
     >
-      <Box component="div" className="commentActions">
-        <div className="profileImage">
-          <img src={me?.profile_picture} alt="profilePicture" />
-        </div>
-        <Input
-          className="commentInput"
-          placeholder="Enter Comment..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          onKeyPress={keyPressEnter}
-        />
-        <Button
-          className="postBtn"
-          disabled={!comment && isCommentPosting}
-          onClick={addCommentHandler}
-          sx={{
-            height: 45,
-            width: 125,
-            display: { xs: "none", sm: "none", md: "flex" },
-          }}
-        >
-          {isCommentPosting ? posting : addReply}
-        </Button>
-      </Box>
+      {!me?.view_only ? (
+        <Box component="div" className="commentActions">
+          <div className="profileImage">
+            <img src={me?.profile_picture} alt="profilePicture" />
+          </div>
+          <Input
+            className="commentInput"
+            placeholder="Enter Comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            onKeyPress={keyPressEnter}
+          />
+          <Button
+            className="postBtn"
+            disabled={!comment && isCommentPosting}
+            onClick={addCommentHandler}
+            sx={{
+              height: 45,
+              width: 125,
+              display: { xs: "none", sm: "none", md: "flex" },
+            }}
+          >
+            {isCommentPosting ? posting : addReply}
+          </Button>
+        </Box>
+      ) : (
+        ""
+      )}
       {!isCommentsLoading ? (
         <>
           {comments.map((comment) => (

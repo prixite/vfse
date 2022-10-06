@@ -118,6 +118,7 @@ const ProfileTimelineCards = ({
                   onClick={handleFollowToggler}
                   style={{
                     backgroundColor: `${isFollowing ? "#D3F887" : "#92d509"}`,
+                    opacity: `${me?.view_only ? "0.5" : ""}`,
                   }}
                 >
                   {isFollowing ? (
