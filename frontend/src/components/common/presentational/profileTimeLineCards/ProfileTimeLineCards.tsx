@@ -114,6 +114,7 @@ const ProfileTimelineCards = ({
                 <Button
                   variant="contained"
                   className={classes.follow}
+                  disabled={me?.view_only}
                   onClick={handleFollowToggler}
                   style={{
                     backgroundColor: `${isFollowing ? "#D3F887" : "#92d509"}`,
