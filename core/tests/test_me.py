@@ -64,8 +64,8 @@ class MeTestCase(BaseTestCase):
                         "title": "Mr.",
                         "location": "37 Rock Creek St.New Baltimore, MI 48047",
                         "slack_link": "https://acmeco.slack.com/?redir=%2Fteam%2FU1H63D8SZ.",  # noqa
-                        "calender_link": "http://www.google.com/calendar/event",
-                        "zoom_link": "https://zoom.us/test",
+                        "calender_link": "www.calender.com",
+                        "zoom_link": "zoom.com",
                     },
                 },
             )
