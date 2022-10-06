@@ -75,20 +75,16 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
     event: React.MouseEvent<HTMLElement>,
     newFormats: number[]
   ) => {
-    if (newFormats.length) {
-      setCatFormats(newFormats);
-      setCategory(newFormats);
-    }
+    setCatFormats(newFormats);
+    setCategory(newFormats);
   };
 
   const handleOnChangeFolders = (
     event: React.MouseEvent<HTMLElement>,
     newFormats: number[]
   ) => {
-    if (newFormats.length) {
-      setFolFormats(newFormats);
-      setFolder(newFormats);
-    }
+    setFolFormats(newFormats);
+    setFolder(event.target.value);
   };
 
   return (
@@ -132,12 +128,13 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
                     aria-label="text formatting"
                     style={{ flexWrap: "wrap" }}
                     onChange={handleOnChangeFolders}
+                    exclusive
                   >
                     {folderList.length
                       ? folderList.map((item, index) => (
                           <ToggleButton
                             key={index}
-                            value={`${item.id}`}
+                            value={item.id}
                             className="toggle-btn"
                             selectedColor={`#773cbd`}
                           >
