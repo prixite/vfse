@@ -12,8 +12,6 @@ import "@src/components/common/presentational/articleMetaCard/articleMetaCard.sc
 interface ArticleMetaCardProps {
   articleData: Document;
   title: string;
-  category?: number | number[];
-  folder?: number | null;
   setFolder: React.Dispatch<React.SetStateAction<number>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setCategory: React.Dispatch<React.SetStateAction<number[]>>;

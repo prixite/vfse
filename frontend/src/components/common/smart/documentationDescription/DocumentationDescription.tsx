@@ -130,8 +130,6 @@ const DocumentationDescription = () => {
           {editText && htmlText ? (
             <ArticleMetaCard
               articleData={articleData}
-              category={category}
-              folder={folder}
               title={title}
               setCategory={setCategory}
               setFolder={setFolder}
