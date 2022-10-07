@@ -5,6 +5,15 @@
   padding: 10px;
   font-size: 14px;
   font-weight: 600;
+  .header {
+    width: 100%;
+    .title {
+      width: 45%;
+      display: inline-block;
+      font-size: 14px !important;
+      margin-bottom: 0px !important;
+    }
+  }
   .services {
     display: flex;
     flex-direction: column;
@@ -15,28 +24,14 @@
       justify-content: center;
       flex-direction: column;
     }
+    .options {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
     .css-ahj2mt-MuiTypography-root {
       color: #494949;
     }
-  }
-  .header {
-    width: 100%;
-    .title {
-      width: 45%;
-      display: inline-block;
-      font-size: 14px !important;
-      margin-bottom: 0px !important;
-    }
-    .checked-ratio {
-      color: #85878f;
-      display: inline-block;
-      text-align: right;
-      width: 52%;
-    }
-  }
-  .options {
-    font-size: 14px;
-    font-weight: 400;
-    color: #85878f;
   }
 }
