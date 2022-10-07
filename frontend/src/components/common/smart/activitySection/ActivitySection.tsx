@@ -22,17 +22,17 @@ const ActivitySection: React.FC<{
       </div>
 
       {!isLoading ? (
-        <Grid
-          style={{ width: "100%" }}
-          marginBottom={1}
-          paddingBottom={1}
-          height="min-content"
-          xs={12}
-          sm={12}
-          md={12}
-          lg={12}
-        >
-          {children}
+        <Grid container>
+          <Grid
+            style={{ width: "100%" }}
+            marginBottom={1}
+            paddingBottom={1}
+            item
+            height="min-content"
+            xs={12}
+          >
+            {children}
+          </Grid>
         </Grid>
       ) : (
         ""
