@@ -24,9 +24,10 @@
 
       .wrapper {
         background-color: #ececec;
+        display: flex;
       }
       .container {
-        display: inline-block;
+        display: inline-block !important;
       }
 
       .wrapper div {
@@ -37,26 +38,29 @@
         padding: 5px;
       }
 
+      .link {
+        text-decoration: none;
+        margin: auto;
+      }
+
+      .img {
+        color: white !important;
+      }
+
       .logo {
+        display: flex !important;
         background-color: #15c;
         border-bottom-left-radius: 0 !important;
         border-bottom-right-radius: 0 !important;
-        display: flex !important;
-        align-content: center !important;
-        justify-content: center !important;
+        padding: 5px 0;
       }
+
       .logo,
       .content,
       .btn {
         display: block;
         margin-left: auto;
         margin-right: auto;
-      }
-
-      .footer {
-        height: 10%;
-        text-align: center;
-        background-color: white;
       }
 
       .content {
@@ -85,21 +89,19 @@
     <div class="wrapper">
       <div class="container">
         <div class="logo">
-          <img
-            src="{{protocol}}://{{domain}}/static/assets/logo.svg"
-            alt="Logo"
-          />
+          <a href="{{protocol}}://{{domain}}/" class="link">
+            <img
+              class="img"
+              src="{{protocol}}://{{domain}}/static/assets/logo.svg"
+              alt="Logo"
+            />
+          </a>
         </div>
         <div class="content">
           <h3>Hi {% firstof user.first_name user.email%},</h3>
           {% block content %} {%endblock%}
         </div>
       </div>
-      {% comment %}
-      <div class="footer">
-        <p><a href="{{protocol}}://{{domain}}/">vFSE</a></p>
-      </div>
-      {% endcomment %}
     </div>
   </body>
 </html>
