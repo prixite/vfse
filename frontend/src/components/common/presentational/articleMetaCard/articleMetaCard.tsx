@@ -13,8 +13,8 @@ interface ArticleMetaCardProps {
   articleData: Document;
   title: string;
   category?: number | number[];
-  folder?: number | number[];
-  setFolder: React.Dispatch<React.SetStateAction<number[]>>;
+  folder?: number | null;
+  setFolder: React.Dispatch<React.SetStateAction<number>>;
   setTitle: React.Dispatch<React.SetStateAction<string>>;
   setCategory: React.Dispatch<React.SetStateAction<number[]>>;
 }
@@ -41,7 +41,9 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   const [catFormats, setCatFormats] = useState<number[]>([
     ...articleData.categories,
   ]);
-  const [folFormats, setFolFormats] = useState<number[]>([]);
+  const [folFormats, setFolFormats] = useState<number | number[]>(
+    articleData.folder
+  );
 
   const finalFolders = useMemo(() => {
     let solFolders = [];
@@ -81,10 +83,10 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
 
   const handleOnChangeFolders = (
     event: React.MouseEvent<HTMLElement>,
-    newFormats: number[]
+    newFormats: number
   ) => {
     setFolFormats(newFormats);
-    setFolder(event.target.value);
+    setFolder(newFormats);
   };
 
   return (

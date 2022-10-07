@@ -35,8 +35,8 @@ const DocumentationDescription = () => {
 
   const handleEditText = (val) => setEditText(val);
 
-  const [category, setCategory] = useState<number | number[]>([]);
-  const [folder, setFolder] = useState<number | number[]>([]);
+  const [category, setCategory] = useState<number[]>([]);
+  const [folder, setFolder] = useState<number | null>(null);
   const [title, setTitle] = useState<string>("");
 
   const saveText = () => {
@@ -49,7 +49,7 @@ const DocumentationDescription = () => {
       id: parseInt(docId),
       document: {
         ...articleData,
-        folder: parseInt(folder[0]),
+        folder: folder,
         categories: [...category],
         text: htmlString,
         title: title,
@@ -71,7 +71,9 @@ const DocumentationDescription = () => {
 
   useEffect(() => {
     setHtmlText(articleData?.text);
-    setCategory(articleData?.categories[0]);
+    setCategory(
+      articleData.categories.length ? [...articleData.categories] : []
+    );
     setFolder(articleData?.folder);
     setTitle(articleData?.title);
   }, [articleData]);
