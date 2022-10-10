@@ -185,13 +185,7 @@ const SystemCard = ({
         : encoding;
       let sock = new window.WebSocket(url);
       const containerElement = document.getElementById("terminal");
-      // const termOptions = {
-      //   cursorBlink: true,
-      //   theme: {
-      //     background: "black",
-      //     foreground: "white",
-      //   },
-      // };
+
       const term: unknown = new Terminal();
       const fitAddon = new FitAddon();
       term.loadAddon(fitAddon);
