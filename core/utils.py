@@ -80,3 +80,6 @@ def get_data_from_influxdb(system_ip_address):
             client.close()
 
         return data
+
+
+url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"  # noqa

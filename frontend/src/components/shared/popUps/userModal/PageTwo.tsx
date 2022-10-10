@@ -47,7 +47,7 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   const constantUserData = localizedData().users.popUp;
 
   const handleSystemSelection = (e, site) => {
-    const val = parseInt(e?.target?.value || e);
+    const val = parseInt(e.target.value);
     const selectedSystemIndex = formik.values.selectedSystems.indexOf(val);
     if (selectedSystemIndex > -1) {
       formik.values.selectedSystems.splice(selectedSystemIndex, 1);
@@ -75,59 +75,108 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
       modifySelectedSiteList(site);
     }
 
-    const modality = systemsList
-      .filter((item) => item.id == val)
-      .map((item) => item.product_model_detail.modality?.id)[0];
+    modifySelectedModalities(site, e.target.checked);
+  };
 
-    const systems = systemsList
-      .filter((item) => item.product_model_detail.modality.id == modality)
-      .filter((item) => item.id != val);
+  const handleSitesSelection = (e) => {
+    const val = parseInt(e.target.value);
+    const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
 
-    if (
-      systems.length &&
-      systems.some((item) => formik.values.selectedSystems.includes(item.id))
-    ) {
-      return;
-    }
-
-    const selectedModalityIndex =
-      formik.values.selectedModalities.indexOf(modality);
-
-    if (selectedModalityIndex > -1) {
-      formik.values.selectedModalities.splice(selectedModalityIndex, 1);
-      formik.setFieldValue(constantUserData.selectedModalities, [
-        ...formik.values.selectedModalities,
+    modifySelectedModalities(val, e.target.checked);
+    if (!systemInSiteExists) {
+      formik.setFieldValue("selectedSystems", [
+        ...formik.values.selectedSystems,
+        ...systemsSiteList.map((x) => x.id),
       ]);
     } else {
-      formik.setFieldValue(constantUserData.selectedModalities, [
-        ...formik.values.selectedModalities,
-        modality,
-      ]);
+      const selectedSystemsInSite = formik.values.selectedSystems.filter(
+        (x) => !systemsSiteList.some((j) => x === j.id)
+      );
+      formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
     }
+
+    modifySelectedSiteList(val);
+  };
+
+  const modifySelectedModalities = (site: number, checked: boolean) => {
+    const selectedSiteSystems = systemsList.filter(
+      (sys) =>
+        formik.values.selectedSystems.includes(sys.id) && site === sys.site
+    );
+    const allModalitiesSystemsMap = new Map();
+    for (const item of systemsList) {
+      const modalitySiteMatrix = allModalitiesSystemsMap.get(
+        item.product_model_detail.modality.id
+      );
+      if (modalitySiteMatrix?.length) {
+        modalitySiteMatrix.push(item);
+        allModalitiesSystemsMap.set(item.product_model_detail.modality.id, [
+          ...modalitySiteMatrix,
+        ]);
+      } else {
+        allModalitiesSystemsMap.set(item.product_model_detail.modality.id, [
+          item,
+        ]);
+      }
+    }
+    const modalitiesMap = new Map();
+
+    for (const item of selectedSiteSystems) {
+      const modalitySiteMatrix = modalitiesMap.get(
+        item.product_model_detail.modality.id
+      );
+      if (modalitySiteMatrix?.length) {
+        modalitySiteMatrix.push(item);
+        modalitiesMap.set(item.product_model_detail.modality.id, [
+          ...modalitySiteMatrix,
+        ]);
+      } else {
+        modalitiesMap.set(item.product_model_detail.modality.id, [item]);
+      }
+    }
+    const modalitiesSet = new Set([...formik.values.selectedModalities]);
+
+    for (const sys of selectedSiteSystems) {
+      const modalitySiteMatrix = modalitiesMap.get(
+        sys.product_model_detail.modality.id
+      )?.size;
+      const allModalityMatrix = allModalitiesSystemsMap.get(
+        sys.product_model_detail.modality.id
+      )?.size;
+      if (!checked && modalitySiteMatrix === allModalityMatrix) {
+        modalitiesSet.delete(sys.product_model_detail.modality.id);
+      } else {
+        modalitiesSet.add(sys.product_model_detail.modality.id);
+      }
+    }
+    formik.setFieldValue(
+      constantUserData.selectedModalities,
+      Array.from(modalitiesSet)
+    );
   };
 
   const handleSelectedModalities = async (event, newFormats) => {
-    const systems = systemsList.filter(
+    const modalitySystems = systemsList.filter(
       (item) => item.product_model_detail.modality.id == event.target.value
     );
 
-    if (!systems.length) {
+    if (!modalitySystems.length) {
       toast.warn("No system exixts against this modality");
       return;
     }
 
     const selectedSystemsSet = new Set(formik.values.selectedSystems);
     const selectedSitesSet = new Set(formik.values.selectedSites);
-    const selectedSystemsInModality = systems.filter((item) =>
+    const selectedSystemsInModality = modalitySystems.filter((item) =>
       formik.values.selectedSystems.includes(item.id)
     );
-    if (selectedSystemsInModality.length === systems.length) {
-      for (const item of systems) {
+    if (selectedSystemsInModality.length === modalitySystems.length) {
+      for (const item of modalitySystems) {
         selectedSystemsSet.delete(item.id);
         const allSystemOfSite = systemsList.filter(
           (system) => system.site === item.site
         );
-        const allSystemOfSiteModality = systems.filter(
+        const allSystemOfSiteModality = modalitySystems.filter(
           (system) => system.site === item.site
         );
         const selectedSystemofSite = allSystemOfSite.filter((system) =>
@@ -138,10 +187,12 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
         }
       }
       formik.setFieldValue(constantUserData.selectedModalities, [
-        ...newFormats,
+        ...formik.values.selectedModalities.filter(
+          (x) => x != event.target.value
+        ),
       ]);
     } else {
-      const _systems = systems.filter(
+      const _systems = modalitySystems.filter(
         (item) => !formik.values.selectedSystems.includes(item.id)
       );
       for (const system of _systems) {
@@ -159,56 +210,6 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
     formik.setFieldValue("selectedSites", [...Array.from(selectedSitesSet)]);
   };
 
-  const handleSitesSelection = (e) => {
-    const val = parseInt(e?.target?.value || e);
-    const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
-
-    if (!systemInSiteExists) {
-      formik.setFieldValue("selectedSystems", [
-        ...formik.values.selectedSystems,
-        ...systemsSiteList.map((x) => x.id),
-      ]);
-    } else {
-      const selectedSystemsInSite = formik.values.selectedSystems.filter(
-        (x) => !systemsSiteList.some((j) => x === j.id)
-      );
-      formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
-    }
-
-    modifySelectedSiteList(val);
-    const temp = [...formik.values.selectedModalities];
-    for (const system of systemsSiteList) {
-      if (
-        !systemsSiteList.filter((item) =>
-          formik.values.selectedSystems.includes(item.id)
-        ).length ||
-        formik.values.selectedSystems.includes(system.id)
-      ) {
-        modifySelectedModalities(system, temp);
-      }
-    }
-  };
-  const modifySelectedModalities = (system, temp) => {
-    const modality = systemsList
-      .filter((item) => item.id == system.id)
-      .map((item) => item.product_model_detail.modality.id)[0];
-
-    const systems = systemsList
-      .filter((item) => item.product_model_detail.modality.id == modality)
-      .filter((item) => item.id != system.id);
-
-    if (
-      !systems.some((item) => formik.values.selectedSystems.includes(item.id))
-    ) {
-      const selectedModalityIndex = temp.indexOf(modality);
-      if (selectedModalityIndex > -1) {
-        temp.splice(selectedModalityIndex, 1);
-      } else {
-        temp.push(modality);
-      }
-      formik.setFieldValue(constantUserData.selectedModalities, [...temp]);
-    }
-  };
   const modifySelectedSiteList = (val) => {
     const siteIndex = formik.values.selectedSites.indexOf(val);
     if (siteIndex > -1) {

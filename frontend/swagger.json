@@ -2495,11 +2495,35 @@
                     "title": "Title",
                     "type": "string",
                     "minLength": 1
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "default": ""
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "default": ""
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "default": ""
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "default": ""
                 }
             },
             "default": {
                 "profile_picture": "https://app.vfse.io/static/assets/profile.png",
-                "title": ""
+                "title": "",
+                "location": "",
+                "slack_link": "",
+                "calender_link": "",
+                "zoom_link": ""
             }
         },
         "UserRequestAccess": {
@@ -2511,7 +2535,6 @@
                 "phone",
                 "role",
                 "organization",
-                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
@@ -2574,13 +2597,6 @@
                         "type": "integer"
                     },
                     "uniqueItems": true
-                },
-                "systems": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
                 },
                 "modalities": {
                     "type": "array",
@@ -2994,7 +3010,11 @@
                 "can_leave_notes",
                 "fse_accessible",
                 "documentation_url",
-                "view_only"
+                "view_only",
+                "location",
+                "slack_link",
+                "calender_link",
+                "zoom_link"
             ],
             "type": "object",
             "properties": {
@@ -3052,6 +3072,35 @@
                 "view_only": {
                     "title": "View only",
                     "type": "boolean"
+                },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "minLength": 1
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
+                },
+                "email": {
+                    "title": "Email address",
+                    "type": "string",
+                    "format": "email",
+                    "maxLength": 254
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "format": "uri",
+                    "minLength": 1
                 }
             }
         },
@@ -3670,13 +3719,13 @@
                 "phone",
                 "role",
                 "organization",
-                "systems",
                 "fse_accessible",
                 "audit_enabled",
                 "can_leave_notes",
                 "view_only",
                 "is_one_time",
-                "documentation_url"
+                "documentation_url",
+                "systems"
             ],
             "type": "object",
             "properties": {
@@ -3733,13 +3782,6 @@
                     },
                     "uniqueItems": true
                 },
-                "systems": {
-                    "description": "",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
                 "modalities": {
                     "type": "array",
                     "items": {
@@ -3770,6 +3812,13 @@
                 "documentation_url": {
                     "title": "Documentation url",
                     "type": "boolean"
+                },
+                "systems": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },

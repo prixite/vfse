@@ -46,6 +46,10 @@ const EditProfilePicModal = ({ open, setOpen }) => {
             meta: {
               profile_picture: data?.location,
               title: "Profile picture",
+              location: currentUser?.location,
+              slack_link: currentUser?.slack_link,
+              calender_link: currentUser?.calender_link,
+              zoom_link: currentUser?.zoom_link,
             },
           },
           updatePicture

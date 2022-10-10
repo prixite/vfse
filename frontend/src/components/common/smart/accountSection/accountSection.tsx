@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import { timeOut } from "@src/helpers/utils/constants";
-import { toastAPIError } from "@src/helpers/utils/utils";
+import {
+  toastAPIError,
+  nameReg,
+  passwordReg,
+  validUrl,
+} from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   updateUserPassword,
@@ -40,6 +45,7 @@ const AccountSection = () => {
     updateName,
     save,
     updatePasswordText,
+    invalidUrl,
   } = constantsData.accountSection;
 
   const { data: currentUser } = useOrganizationsMeReadQuery({
@@ -49,17 +55,21 @@ const AccountSection = () => {
   const [updatePassword] = useUsersChangePasswordPartialUpdateMutation();
   const [updateUsername] = useUsersMePartialUpdateMutation();
 
-  const nameReg = /^[A-Za-z ]*$/;
-  const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-
   const formik = useFormik({
     initialValues: {
       firstname: currentUser?.first_name || "",
       lastname: currentUser?.last_name || "",
+      location: currentUser?.location || "",
+      slacklink: currentUser?.slack_link || "",
+      calenderlink: currentUser?.calender_link || "",
+      zoomlink: currentUser?.zoom_link || "",
     },
     validationSchema: yup.object({
       firstname: yup.string().matches(nameReg).required(firstNameRequired),
       lastname: yup.string().matches(nameReg).required(lastNameRequired),
+      slacklink: yup.string().matches(validUrl, invalidUrl),
+      calenderlink: yup.string().matches(validUrl, invalidUrl),
+      zoomlink: yup.string().matches(validUrl, invalidUrl),
     }),
     validateOnChange: true,
     onSubmit: async (values) => {
@@ -70,6 +80,10 @@ const AccountSection = () => {
           meta: {
             profile_picture: currentUser?.profile_picture,
             title: profilePictureTitle,
+            location: values?.location,
+            slack_link: values?.slacklink,
+            calender_link: values?.calenderlink,
+            zoom_link: values?.zoomlink,
           },
         },
         updateUsername
@@ -163,6 +177,63 @@ const AccountSection = () => {
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
                   {formik.touched.lastname && formik.errors.lastname}
+                </p>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="location"
+                  type="text"
+                  fullWidth
+                  value={formik.values.location}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Location"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="slacklink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.slacklink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Slack link"
+                />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.slacklink && formik.errors.slacklink}
+                </p>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="calenderlink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.calenderlink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Calender link"
+                />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.calenderlink && formik.errors.calenderlink}
+                </p>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  autoComplete="off"
+                  name="zoomlink"
+                  type="text"
+                  fullWidth
+                  value={formik.values.zoomlink}
+                  onChange={formik.handleChange}
+                  variant="outlined"
+                  placeholder="Zoom link"
+                />
+                <p className="errorText" style={{ marginTop: "5px" }}>
+                  {formik.touched.zoomlink && formik.errors.zoomlink}
                 </p>
               </Grid>
               <Grid item xs={12} alignSelf="end">

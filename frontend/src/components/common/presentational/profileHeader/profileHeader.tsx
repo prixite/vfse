@@ -1,14 +1,20 @@
 import { useState } from "react";
 
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
-import { Avatar, Box, Typography, Stack } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { Avatar, Box, Typography, Stack, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import calender from "@src/assets/svgs/g-calendar.svg";
 import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
+import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { constants } from "@src/helpers/utils/constants";
+import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
+import { useUsersRolesListQuery } from "@src/store/reducers/api";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
 
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
@@ -20,17 +26,40 @@ const ProfileHeader = () => {
   const handleClickOpen = () => {
     me && setOpen(true);
   };
-
+  const navigate = useNavigate();
+  const constantData: LocalizationInterface = localizedData();
+  const { editText } = constantData.profileHeader;
+  const { data: usersRoles } = useUsersRolesListQuery();
   const { data: me } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
+  const defaultOrganizationData = useAppSelector(
+    (state) => state.organization.currentOrganization
+  );
+  const { organizationRoute } = constants;
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-
+  const roleFound = usersRoles?.find((x) => {
+    return x?.value === me?.role;
+  });
   return (
     <>
       <Box className="header">
         <Box className="headerTop">
+          <Button
+            className="editProfileBtn"
+            variant="contained"
+            onClick={() => {
+              navigate(
+                `/${organizationRoute}/${defaultOrganizationData.id}/account`
+              );
+            }}
+          >
+            <span style={{ paddingTop: 6, paddingRight: 6 }}>
+              <EditIcon fontSize="small" />
+            </span>
+            <span className="show-hide">{editText}</span>
+          </Button>
           <Avatar
             alt="Profile"
             className="profilePic"
@@ -62,7 +91,7 @@ const ProfileHeader = () => {
           </Typography>
           <Stack className="iconsSec" direction={{ xs: "column", md: "row" }}>
             <Typography className="roleText">
-              {`${me?.role}` || "Admin"}
+              {roleFound?.title || "Admin"}
             </Typography>
             <Stack
               className="icons"
@@ -70,10 +99,30 @@ const ProfileHeader = () => {
               gap={2}
               mt={{ xs: "1rem", md: 0 }}
             >
-              <img src={gmail} />
-              <img src={calender} />
-              <img src={zoom} />
-              <img src={slack} />
+              <a href={`mailto:{${me?.email}`} target="_blank" rel="noreferrer">
+                <img src={gmail} />
+              </a>
+              {me?.calender_link ? (
+                <a href={me?.calender_link} target="_blank" rel="noreferrer">
+                  <img src={calender} />
+                </a>
+              ) : (
+                ""
+              )}
+              {me?.zoom_link ? (
+                <a href={me?.zoom_link} target="_blank" rel="noreferrer">
+                  <img src={zoom} />
+                </a>
+              ) : (
+                ""
+              )}
+              {me?.slack_link ? (
+                <a href={me?.slack_link} target="_blank" rel="noreferrer">
+                  <img src={slack} />
+                </a>
+              ) : (
+                ""
+              )}
             </Stack>
           </Stack>
           <Stack
@@ -87,7 +136,7 @@ const ProfileHeader = () => {
               <Typography fontWeight={400}>{"Email"}</Typography>
               <Stack direction="row" gap={1} alignItems="center">
                 <img src={msg} />
-                <Typography>{"jessiehudson@gmail.com"}</Typography>
+                <Typography>{me?.email}</Typography>
               </Stack>
             </Stack>
             <Stack gap={{ xs: 0, lg: 1 }}>
@@ -103,7 +152,7 @@ const ProfileHeader = () => {
               <Typography fontWeight={400}>{"Location"}</Typography>
               <Stack direction="row" gap={1} alignItems="center">
                 <img src={msg} />
-                <Typography>{"Richland, WA"}</Typography>
+                <Typography>{me?.location}</Typography>
               </Stack>
             </Stack>
           </Stack>

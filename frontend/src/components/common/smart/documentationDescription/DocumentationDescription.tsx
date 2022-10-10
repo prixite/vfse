@@ -35,8 +35,8 @@ const DocumentationDescription = () => {
 
   const handleEditText = (val) => setEditText(val);
 
-  const [category, setCategory] = useState<number>(0);
-  const [folder, setFolder] = useState<number>(0);
+  const [category, setCategory] = useState<number[]>([]);
+  const [folder, setFolder] = useState<number | null>(null);
   const [title, setTitle] = useState<string>("");
 
   const saveText = () => {
@@ -50,7 +50,7 @@ const DocumentationDescription = () => {
       document: {
         ...articleData,
         folder: folder,
-        categories: [category],
+        categories: [...category],
         text: htmlString,
         title: title,
       },
@@ -71,7 +71,9 @@ const DocumentationDescription = () => {
 
   useEffect(() => {
     setHtmlText(articleData?.text);
-    setCategory(articleData?.categories[0]);
+    setCategory(
+      articleData.categories.length ? [...articleData.categories] : []
+    );
     setFolder(articleData?.folder);
     setTitle(articleData?.title);
   }, [articleData]);
@@ -128,8 +130,6 @@ const DocumentationDescription = () => {
           {editText && htmlText ? (
             <ArticleMetaCard
               articleData={articleData}
-              category={category}
-              folder={folder}
               title={title}
               setCategory={setCategory}
               setFolder={setFolder}
