@@ -39,6 +39,7 @@ const RecentActivity = ({ topicID }: props) => {
           marginBottom={1}
           paddingBottom={1}
           height="min-content"
+          item
           xs={12}
           sm={12}
           md={12}

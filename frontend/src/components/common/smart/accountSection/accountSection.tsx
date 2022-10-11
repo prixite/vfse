@@ -4,12 +4,7 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import { timeOut } from "@src/helpers/utils/constants";
-import {
-  toastAPIError,
-  nameReg,
-  passwordReg,
-  validUrl,
-} from "@src/helpers/utils/utils";
+import { toastAPIError, passwordReg, validUrl } from "@src/helpers/utils/utils";
 import constantsData from "@src/localization/en.json";
 import {
   updateUserPassword,
@@ -65,8 +60,8 @@ const AccountSection = () => {
       zoomlink: currentUser?.zoom_link || "",
     },
     validationSchema: yup.object({
-      firstname: yup.string().matches(nameReg).required(firstNameRequired),
-      lastname: yup.string().matches(nameReg).required(lastNameRequired),
+      firstname: yup.string().required(firstNameRequired),
+      lastname: yup.string().required(lastNameRequired),
       slacklink: yup.string().matches(validUrl, invalidUrl),
       calenderlink: yup.string().matches(validUrl, invalidUrl),
       zoomlink: yup.string().matches(validUrl, invalidUrl),

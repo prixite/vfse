@@ -49,10 +49,10 @@ const validationSchema = yup.object({
 });
 
 const ToggleButton = styled(MuiToggleButton)(
-  ({ selectedColor }: { selectedColor?: string }) => ({
+  ({ selectedcolor }: { selectedcolor?: string }) => ({
     "&.Mui-selected, &.Mui-selected:hover": {
       color: "white",
-      backgroundColor: selectedColor,
+      backgroundColor: selectedcolor,
     },
   })
 );
@@ -204,7 +204,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                       key={index}
                       value={item.id}
                       className="toggle-btn"
-                      selectedColor={`${item?.color}`}
+                      selectedcolor={`${item?.color}`}
                     >
                       {item?.name}
                     </ToggleButton>
