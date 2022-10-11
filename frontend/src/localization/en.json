@@ -406,7 +406,7 @@
     "systemCardDeleteSuccess": "System successfully deleted.",
     "systemCardConnectionError": "Could not connect.",
     "systemCardLinkCopiedSuccess": "Link Copied.",
-    "accountSectionUsernameUpdateSuccess": "Name successfully updated.",
+    "accountSectionUsernameUpdateSuccess": "Information successfully updated.",
     "appearanceSectionClientUpdateSuccess": "Client successfully updated.",
     "appearanceSectionClientUpdateError": "Error updating client",
     "commentsDrawerAddNoteError": "Note not added",
@@ -538,7 +538,7 @@
     "password": "password",
     "passwordsDoNotMatch": "Passwords do not match!",
     "accountSettings": "Account Settings",
-    "updateName": "Update Name",
+    "updateInfo": "Update Personal Information",
     "save": "Save",
     "updatePasswordText": "Update Password",
     "invalidUrl":"Invalid URL"

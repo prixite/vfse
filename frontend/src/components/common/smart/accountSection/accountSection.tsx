@@ -42,7 +42,7 @@ const AccountSection = () => {
     password,
     passwordsDoNotMatch,
     accountSettings,
-    updateName,
+    updateInfo,
     save,
     updatePasswordText,
     invalidUrl,
@@ -140,7 +140,7 @@ const AccountSection = () => {
       <Box component="div">
         <h2>{accountSettings}</h2>
         <Box component="div" sx={{ background: "#fff" }} mt={3} mb={1} p={4}>
-          <h3>{updateName}</h3>
+          <h3>{updateInfo}</h3>
           <form onSubmit={formik.handleSubmit}>
             <Grid
               container
