@@ -600,7 +600,6 @@ const SystemCard = ({
               vertical: "top",
               horizontal: "right",
             }}
-            // className="system-dropdownMenu"
             onClose={handleClose}
           >
             <MenuItem onClick={() => onSupport()}>

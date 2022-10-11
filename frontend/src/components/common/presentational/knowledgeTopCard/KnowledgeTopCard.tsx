@@ -204,7 +204,6 @@ const KnowledgeTopCard = ({
                   to={{ pathname: `documentation/${id}/` }}
                   state={{ edit: true }}
                 >
-                  {" "}
                   Update
                 </Link>
               </MenuItem>

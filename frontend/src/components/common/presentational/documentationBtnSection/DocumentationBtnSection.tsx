@@ -89,7 +89,6 @@ const DocumentationBtnSection = ({
                 }
               />
             ) : (
-              // <ModeEditOutlineOutlinedIcon style={{ marginRight: "10px" }} />
               <Btn
                 handleClick={cancelEdit}
                 bgColor={secondaryColor}
