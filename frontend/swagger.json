@@ -2477,6 +2477,53 @@
                     "type": "string"
                 }
             ]
+        },
+        "/websshlog/": {
+            "get": {
+                "operationId": "websshlog_list",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/WebSshLog"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "websshlog"
+                ]
+            },
+            "post": {
+                "operationId": "websshlog_create",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/WebSshLog"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/WebSshLog"
+                        }
+                    }
+                },
+                "tags": [
+                    "websshlog"
+                ]
+            },
+            "parameters": []
         }
     },
     "definitions": {
@@ -4599,6 +4646,31 @@
                 "work_completed": {
                     "title": "Work completed",
                     "type": "boolean"
+                }
+            }
+        },
+        "WebSshLog": {
+            "description": "WebSshLog(id, system, user, log, created_at, updated_at)",
+            "required": [
+                "system",
+                "user",
+                "log"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                },
+                "user": {
+                    "title": "User",
+                    "type": "integer"
+                },
+                "log": {
+                    "title": "Log",
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 1
                 }
             }
         }

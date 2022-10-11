@@ -791,3 +791,9 @@ class SystemMetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.System
         fields = ["name", "image_url"]
+
+
+class WebSshLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.WebSshLog
+        fields = ["system", "user", "log"]

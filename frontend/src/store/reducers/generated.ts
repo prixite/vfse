@@ -805,6 +805,19 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/vfse/workorders/${queryArg.id}/` }),
     }),
+    websshlogList: build.query<WebsshlogListApiResponse, WebsshlogListApiArg>({
+      query: () => ({ url: `/websshlog/` }),
+    }),
+    websshlogCreate: build.mutation<
+      WebsshlogCreateApiResponse,
+      WebsshlogCreateApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/websshlog/`,
+        method: "POST",
+        body: queryArg.webSshLog,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -1236,6 +1249,12 @@ export type VfseWorkordersReadApiResponse = /** status 200  */ WorkOrderDetail;
 export type VfseWorkordersReadApiArg = {
   id: string;
 };
+export type WebsshlogListApiResponse = /** status 200  */ WebSshLog[];
+export type WebsshlogListApiArg = void;
+export type WebsshlogCreateApiResponse = /** status 201  */ WebSshLog;
+export type WebsshlogCreateApiArg = {
+  webSshLog: WebSshLog;
+};
 export type Meta = {
   profile_picture?: string;
   title?: string;
@@ -1662,6 +1681,11 @@ export type WorkOrder = {
   work_started?: boolean;
   work_completed?: boolean;
 };
+export type WebSshLog = {
+  system: number;
+  user: number;
+  log: string;
+};
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
@@ -1756,4 +1780,6 @@ export const {
   useVfseWorkordersListQuery,
   useVfseWorkordersCreateMutation,
   useVfseWorkordersReadQuery,
+  useWebsshlogListQuery,
+  useWebsshlogCreateMutation,
 } = injectedRtkApi;
