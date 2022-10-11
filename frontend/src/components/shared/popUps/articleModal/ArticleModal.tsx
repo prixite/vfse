@@ -25,6 +25,7 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
+import Hint from "@src/components/shared/popUps/articleModal/Hint";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
@@ -280,23 +281,12 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
               <Grid item xs={12}>
                 <div className="info-section">
                   <p className="info-label required">{contentText}</p>
+                  <Hint />
                   <TextEditor
                     htmlText={formik.values.text}
                     editorState={editorState}
                     setEditorState={setEditorState}
                   />
-                  {/* <TextField
-                    autoComplete="off"
-                    className="info-field"
-                    multiline
-                    minRows={4}
-                    variant="outlined"
-                    name="text"
-                    value={formik.values.text}
-                    onChange={formik.handleChange}
-                    size="small"
-                    placeholder="Type or paste text here"
-                  /> */}
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.text}
                   </p>

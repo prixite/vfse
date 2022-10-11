@@ -293,7 +293,7 @@
     }
   },
   "profileHeader": {
-    "editText":"Edit"
+    "editText": "Edit"
   },
   "systemModal": {
     "fieldName": "Name",
@@ -541,7 +541,7 @@
     "updateInfo": "Update Personal Information",
     "save": "Save",
     "updatePasswordText": "Update Password",
-    "invalidUrl":"Invalid URL"
+    "invalidUrl": "Invalid URL"
   },
   "appearanceSection": {
     "sidebarColor": "sidebarColor",
@@ -675,7 +675,8 @@
     "folderText": "Folder",
     "uploadDocumentText": "Upload a document",
     "uploadText": "upload",
-    "cancelText": "Cancel"
+    "cancelText": "Cancel",
+    "hintText": "Use shift+enter to insert multiple line breaks"
   },
   "categoryModal": {
     "colorTextRequired": "Name is required!",
@@ -693,8 +694,8 @@
     "folderNameText": "Folder Name",
     "folderCategoryText": "Folder Category",
     "cancel": "Cancel",
-    "editFolderText":"Edit Folder",
-    "chooseCategories":"Choose categories min"
+    "editFolderText": "Edit Folder",
+    "chooseCategories": "Choose categories min"
   },
   "listModalPopUp": {
     "close": "Close"
