@@ -1683,7 +1683,7 @@ export type WorkOrder = {
 };
 export type WebSshLog = {
   system: number;
-  user: number;
+  user?: number | null;
   log: string;
 };
 export const {

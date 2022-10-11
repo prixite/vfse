@@ -794,6 +794,13 @@ class SystemMetaSerializer(serializers.ModelSerializer):
 
 
 class WebSshLogSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=models.User.objects.all(),  # Or User.objects.filter(active=True)
+        required=False,
+        allow_null=True,
+        default=serializers.CurrentUserDefault(),
+    )
+
     class Meta:
         model = models.WebSshLog
         fields = ["system", "user", "log"]

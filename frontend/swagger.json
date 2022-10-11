@@ -4653,7 +4653,6 @@
             "description": "WebSshLog(id, system, user, log, created_at, updated_at)",
             "required": [
                 "system",
-                "user",
                 "log"
             ],
             "type": "object",
@@ -4664,7 +4663,8 @@
                 },
                 "user": {
                     "title": "User",
-                    "type": "integer"
+                    "type": "integer",
+                    "x-nullable": true
                 },
                 "log": {
                     "title": "Log",
