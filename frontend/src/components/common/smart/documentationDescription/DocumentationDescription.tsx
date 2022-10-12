@@ -12,6 +12,7 @@ import ArticleOverviewCard from "@src/components/common/presentational/articleOv
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import DocumentationBtnSection from "@src/components/common/presentational/documentationBtnSection/DocumentationBtnSection";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
+import Hint from "@src/components/shared/popUps/articleModal/Hint";
 import { timeOut } from "@src/helpers/utils/constants";
 import {
   addIdToHeadings,
@@ -128,13 +129,16 @@ const DocumentationDescription = () => {
             saveText={saveText}
           />
           {editText && htmlText ? (
-            <ArticleMetaCard
-              articleData={articleData}
-              title={title}
-              setCategory={setCategory}
-              setFolder={setFolder}
-              setTitle={setTitle}
-            />
+            <>
+              <Hint />
+              <ArticleMetaCard
+                articleData={articleData}
+                title={title}
+                setCategory={setCategory}
+                setFolder={setFolder}
+                setTitle={setTitle}
+              />
+            </>
           ) : (
             <ArticleOverviewCard htmlText={htmlText} />
           )}
