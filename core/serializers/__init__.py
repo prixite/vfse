@@ -804,3 +804,11 @@ class WebSshLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.WebSshLog
         fields = ["system", "user", "log"]
+
+    def validate(self, attrs):
+        if not attrs["user"].profile.audit_enabled:
+            raise serializers.ValidationError(
+                {"audit_enabled": "Please audit_enabled from your profile to log ssh."}
+            )
+
+        return attrs
