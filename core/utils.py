@@ -17,6 +17,7 @@ def send_topic_email(topic, user, comment):
                 "topic_link": f"{settings.DOMAIN_NAME}/clients/{organization.id}/forum/topic/{topic.id}/",  # noqa
                 "content": comment,
                 "message": message,
+                "user": topic.user,
             },
         )
         send_mail(
