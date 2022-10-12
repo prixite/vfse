@@ -898,7 +898,6 @@ class SystemInfluxView(APIView):
 
 
 class WebSshLogViewSet(ModelViewSet):
-    permission_classes = [permissions.ViewOnlyPermissions]
     serializer_class = serializers.WebSshLogSerializer
 
     def get_queryset(self):
