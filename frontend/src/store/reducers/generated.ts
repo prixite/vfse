@@ -1368,6 +1368,7 @@ export type Me = {
   can_leave_notes: boolean;
   fse_accessible: boolean;
   documentation_url: boolean;
+  view_only: boolean;
   location: string;
   slack_link: string;
   calender_link: string;

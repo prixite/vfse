@@ -13,8 +13,12 @@ import TopicUpdatesCards from "@src/components/common/presentational/topicUpdate
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
-import { useAppSelector } from "@src/store/hooks";
-import { api, VfseTopicsListApiResponse } from "@src/store/reducers/api";
+import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
+import {
+  api,
+  VfseTopicsListApiResponse,
+  useOrganizationsMeReadQuery,
+} from "@src/store/reducers/api";
 
 import useStyles from "../../smart/vfseTopSection/Styles";
 
@@ -40,7 +44,9 @@ export default function VfseTopSection({
   const { data: popularTopicData = [] } = api.useGetPopularTopicsQuery(); //popular
   const { data: topicsList = { data: [], link: undefined } } =
     api.useGetTopicsListQuery({});
-
+  const { data: currentUser } = useOrganizationsMeReadQuery({
+    id: useSelectedOrganization().id.toString(),
+  });
   const [searchTerm, setSearchTerm] = useState("");
   const [listData, setListData] = useState([]);
 
@@ -340,21 +346,25 @@ export default function VfseTopSection({
               alignItems: "center",
             }}
           >
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<AddIcon />}
-              style={{
-                backgroundColor: buttonBackground,
-                color: buttonTextColor,
-                height: "40px",
-                minWidth: "max-content",
-              }}
-              onClick={handleModal}
-              className={classes.createTopicBtn}
-            >
-              {browserWidth > 900 ? <>{btnCreateTopic}</> : ""}
-            </Button>
+            {!currentUser?.view_only ? (
+              <Button
+                variant="contained"
+                size="large"
+                startIcon={<AddIcon />}
+                style={{
+                  backgroundColor: buttonBackground,
+                  color: buttonTextColor,
+                  height: "40px",
+                  minWidth: "max-content",
+                }}
+                onClick={handleModal}
+                className={classes.createTopicBtn}
+              >
+                {browserWidth > 900 ? <>{btnCreateTopic}</> : ""}
+              </Button>
+            ) : (
+              ""
+            )}
           </Box>
         </Grid>
       </Grid>

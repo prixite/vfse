@@ -585,48 +585,52 @@ const SystemCard = ({
           </p>
         </div>
       </Box>
-      <div>
-        <MoreVertIcon
-          id="client-options-button"
-          className={classes.dropdown}
-          onClick={handleClick}
-        />
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="client-options-button"
-          anchorEl={anchorEl}
-          open={open}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          // className="system-dropdownMenu"
-          onClose={handleClose}
-        >
-          <MenuItem onClick={() => onSupport()}>
-            <span style={{ marginLeft: "12px" }}>{support}</span>
-          </MenuItem>
-          {currentUser?.role !== "end-user" && (
-            <MenuItem onClick={onEdit}>
-              <span style={{ marginLeft: "12px" }}>{edit}</span>
+      {!currentUser?.view_only ? (
+        <div>
+          <MoreVertIcon
+            id="client-options-button"
+            className={classes.dropdown}
+            onClick={handleClick}
+          />
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="client-options-button"
+            anchorEl={anchorEl}
+            open={open}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={() => onSupport()}>
+              <span style={{ marginLeft: "12px" }}>{support}</span>
             </MenuItem>
-          )}
-          {canLeaveNotes && (
-            <MenuItem onClick={onComment}>
-              <span style={{ marginLeft: "12px" }}>{comments}</span>
-            </MenuItem>
-          )}
-          {currentUser?.role !== "end-user" && (
-            <MenuItem onClick={() => setModal(true)}>
-              <span style={{ marginLeft: "12px" }}>{deleteText}</span>
-            </MenuItem>
-          )}
-        </Menu>
-      </div>
+            {currentUser?.role !== "end-user" && (
+              <MenuItem onClick={onEdit}>
+                <span style={{ marginLeft: "12px" }}>{edit}</span>
+              </MenuItem>
+            )}
+            {canLeaveNotes && (
+              <MenuItem onClick={onComment}>
+                <span style={{ marginLeft: "12px" }}>{comments}</span>
+              </MenuItem>
+            )}
+            {currentUser?.role !== "end-user" && (
+              <MenuItem onClick={() => setModal(true)}>
+                <span style={{ marginLeft: "12px" }}>{deleteText}</span>
+              </MenuItem>
+            )}
+          </Menu>
+        </div>
+      ) : (
+        ""
+      )}
+
       <ConfirmationModal
         name={system.name}
         open={modal}

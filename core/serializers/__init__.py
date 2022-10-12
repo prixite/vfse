@@ -169,6 +169,7 @@ class MeSerializer(serializers.ModelSerializer):
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
     documentation_url = serializers.BooleanField(source="profile.documentation_url")
+    view_only = serializers.BooleanField(source="profile.view_only")
     audit_enabled = serializers.BooleanField(source="profile.audit_enabled")
 
     class Meta:
@@ -185,6 +186,7 @@ class MeSerializer(serializers.ModelSerializer):
             "can_leave_notes",
             "fse_accessible",
             "documentation_url",
+            "view_only",
             "location",
             "slack_link",
             "calender_link",

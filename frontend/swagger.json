@@ -3057,6 +3057,7 @@
                 "can_leave_notes",
                 "fse_accessible",
                 "documentation_url",
+                "view_only",
                 "location",
                 "slack_link",
                 "calender_link",
@@ -3114,6 +3115,10 @@
                 },
                 "documentation_url": {
                     "title": "Documentation url",
+                    "type": "boolean"
+                },
+                "view_only": {
+                    "title": "View only",
                     "type": "boolean"
                 },
                 "location": {

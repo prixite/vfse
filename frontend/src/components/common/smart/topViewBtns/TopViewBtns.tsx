@@ -341,7 +341,6 @@ const TopViewBtns = ({
       </Button>
     );
   };
-
   const renderAddConditionally = () => {
     if (path === organizations && currentUser?.is_superuser) return true;
     if (path === "systems" && currentUser?.role !== "end-user") return true;
@@ -529,7 +528,9 @@ const TopViewBtns = ({
               }}
             />
           </Box>
-          {renderAddConditionally() && createAddButton()}
+          {renderAddConditionally() && !currentUser?.view_only
+            ? createAddButton()
+            : ""}
         </Box>
       </Box>
     </>
