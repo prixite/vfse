@@ -1373,6 +1373,7 @@ export type Me = {
   calender_link: string;
   email?: string;
   zoom_link: string;
+  audit_enabled: boolean;
 };
 export type Modality = {
   id?: number;

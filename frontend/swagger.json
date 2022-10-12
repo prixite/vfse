@@ -3060,7 +3060,8 @@
                 "location",
                 "slack_link",
                 "calender_link",
-                "zoom_link"
+                "zoom_link",
+                "audit_enabled"
             ],
             "type": "object",
             "properties": {
@@ -3143,6 +3144,10 @@
                     "type": "string",
                     "format": "uri",
                     "minLength": 1
+                },
+                "audit_enabled": {
+                    "title": "Audit enabled",
+                    "type": "boolean"
                 }
             }
         },
