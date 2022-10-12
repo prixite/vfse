@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-import { Me, Modality, System } from "@src/store/reducers/generated";
+import { Me, System } from "@src/store/reducers/generated";
 
 export interface Common {
   searching: string;
@@ -503,7 +503,7 @@ export interface LocalizationInterface {
 }
 
 export interface SystemInterfaceProps {
-  system: Modality;
+  system: System;
   handleEdit?: (system: System) => void;
   setSystem?: Dispatch<SetStateAction<System>>;
   setIsOpen?: Dispatch<SetStateAction<boolean>>;

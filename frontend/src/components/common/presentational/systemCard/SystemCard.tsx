@@ -40,8 +40,12 @@ import {
   useAppSelector,
   useSelectedOrganization,
 } from "@src/store/hooks";
-import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
+import {
+  useOrganizationsSystemsDeleteMutation,
+  api,
+} from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
+import "../../../../../../node_modules/xterm/css/xterm.css";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -69,6 +73,8 @@ const SystemCard = ({
   currentUser,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
+  const [webSSHPayload] = api.useWebsshlogCreateMutation();
+  const [consoleMsg, setConsoleMsg] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
@@ -101,9 +107,6 @@ const SystemCard = ({
   } = localizedData().systems_card;
 
   const {
-    loaded,
-    unloaded,
-    fontFamily,
     textDecoder_utf_8,
     organizationId,
     id,
@@ -170,6 +173,29 @@ const SystemCard = ({
     setSystem(system);
   };
 
+  const handleLogsOnEnter = (prev) => {
+    const payload = {
+      webSshLog: {
+        log: prev,
+        system: system.id,
+      },
+    };
+
+    if (
+      payload.webSshLog.log !== null &&
+      payload.webSshLog.log.trim() !== "" &&
+      currentUser.audit_enabled &&
+      !consoleMsg.length
+    ) {
+      webSSHPayload({ ...payload })
+        .unwrap()
+        .then()
+        .catch((error) => {
+          toastAPIError("Incorrect command seen.", error.status, error?.data);
+        });
+    }
+  };
+
   const webSSHConnection = (msg: { id: string; status: string }) => {
     if (msg.id === null) {
       toastAPIError(msg.status);
@@ -185,20 +211,10 @@ const SystemCard = ({
       const decoder = window.TextDecoder
         ? new window.TextDecoder(encoding)
         : encoding;
-      const custom_font = document.fonts
-        ? document.fonts.values().next().value
-        : undefined;
-      let default_fonts;
       let sock = new window.WebSocket(url);
       const containerElement = document.getElementById("terminal");
-      const termOptions = {
-        cursorBlink: true,
-        theme: {
-          background: "black",
-          foreground: "white",
-        },
-      };
-      const term: unknown = new Terminal(termOptions);
+
+      const term: unknown = new Terminal();
       const fitAddon = new FitAddon();
       term.loadAddon(fitAddon);
 
@@ -210,31 +226,21 @@ const SystemCard = ({
       };
 
       term.onData(function (data) {
+        const ascii_code = data.charCodeAt(0);
+        if (ascii_code == 13) {
+          // Enter Code 13
+          setConsoleMsg((prev) => {
+            handleLogsOnEnter(prev);
+            return "";
+          });
+        } else if (ascii_code == 127) {
+          // BackSpaceCode 127
+          setConsoleMsg((consoleMsg) => consoleMsg.slice(0, -1));
+        } else {
+          setConsoleMsg((consoleMsg) => consoleMsg + data);
+        }
         sock.send(JSON.stringify({ data: data }));
       });
-      const custom_font_is_loaded = () => {
-        if (custom_font.status === loaded) {
-          return true;
-        }
-        if (custom_font.status === unloaded) {
-          return false;
-        }
-      };
-      const update_font_family = (term) => {
-        if (term.font_family_updated) {
-          return;
-        }
-
-        if (!default_fonts) {
-          default_fonts = term.getOption(fontFamily);
-        }
-
-        if (custom_font_is_loaded()) {
-          const new_fonts = custom_font.family + ", " + default_fonts;
-          term.setOption(fontFamily, new_fonts);
-          term.font_family_updated = true;
-        }
-      };
 
       const read_as_text_with_encoding = (file, callback, encoding) => {
         const reader = new window.FileReader();
@@ -327,7 +333,6 @@ const SystemCard = ({
       };
       sock.onopen = function () {
         term.open(containerElement);
-        update_font_family(term);
         term.focus();
         title_element.text = "WebSSH";
         if (url_opts_data.command) {

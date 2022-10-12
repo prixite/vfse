@@ -302,6 +302,15 @@ api_urlpatterns = [
         include("vfse.urls"),
     ),
     path("api/systems/<int:system_id>/chatbot/", api.ChatBotView.as_view()),
+    path(
+        "api/websshlog/",
+        api.WebSshLogViewSet.as_view(
+            {
+                "get": "list",
+                "post": "create",
+            }
+        ),
+    ),
 ]
 
 urlpatterns = (
