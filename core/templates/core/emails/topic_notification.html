@@ -1,6 +1,6 @@
 {% extends 'core/emails/base.html' %}
 
 {%block content%}
-    Click to view it <br>
+    {{ message }} Click to view it <br>
     <a href="{{topic_link}}">{{ content }} </a>
 {%endblock%}
