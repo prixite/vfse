@@ -1,83 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
 
     <style>
-        @font-face {
-            font-family: "ProximaNova-Regular";
-            src: url("/static/assets/fonts/ProximaNova-Regular.otf") format("opentype");
-            font-display: swap;
-            font-weight: normal;
-        }
+      @font-face {
+        font-family: "ProximaNova-Regular";
+        src: url("/static/assets/fonts/ProximaNova-Regular.otf")
+          format("opentype");
+        font-display: swap;
+        font-weight: normal;
+      }
 
-        *{
-          font-family: "ProximaNova-Regular", sans-serif;
-        }
-        body{
-            background-color: whitesmoke;
-        }
+      * {
+        font-family: "ProximaNova-Regular", sans-serif;
+      }
+      body {
+        background-color: whitesmoke;
+      }
 
-        .wrapper div{
-            border-radius: 10px;
-        }
-        .wrapper, .container{
-            padding:5px;
-            display: flex;
-            flex-direction: column  ;
-            justify-content: center;
-        }
+      .wrapper {
+        background-color: #ececec;
+        display: flex;
+      }
+      .container {
+        display: inline-block !important;
+      }
 
-        .logo, .content ,.btn{
-            display:block;
-            margin-left: auto;
-            margin-right: auto;
-        }
+      .wrapper div {
+        border-radius: 10px;
+      }
+      .wrapper,
+      .container {
+        padding: 5px;
+      }
 
-        .footer{
-            height: 10%;
-            text-align: center;
-            background-color: white;
-        }
+      .link {
+        text-decoration: none;
+        margin: auto;
+      }
 
-        .content{
-            background-color: white;
-            width: 400px;
-            padding: 20px;
-            margin-bottom: 10px;
-        }
+      .img {
+        color: white !important;
+      }
 
-        .btn{
-            margin: 25px 0px 5px 0px;
-            text-decoration: none;
-            color: white;
-            padding: 10px;
-            background-color: tomato;
-            text-align: center;
-            align-content: middle;
-            border-radius: 5px;
-            font-size: 20px;
-        }
+      .logo {
+        display: flex !important;
+        background-color: #15c;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        padding: 5px 0;
+      }
+
+      .logo,
+      .content,
+      .btn {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .content {
+        background-color: white;
+        width: 400px;
+        padding: 20px;
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+      }
+
+      .btn {
+        margin: 25px 0px 5px 0px;
+        text-decoration: none;
+        color: white !important;
+        padding: 10px;
+        background-color: tomato;
+        text-align: center;
+        align-content: middle;
+        border-radius: 5px;
+        font-size: 20px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="wrapper">
-        <div class="container">
-            <div class="logo">
-                <img src="{{protocol}}://{{domain}}/static/assets/logo.svg" alt="">
-            </div>
-            <div class="content">
-                <h3>Hi {% firstof user.first_name user.email%}</h3>
-                {% block content %}
-                {%endblock%}
-            </div>
+      <div class="container">
+        <div class="logo">
+          <a href="{{protocol}}://{{domain}}/" class="link">
+            <img
+              class="img"
+              src="{{protocol}}://{{domain}}/static/assets/logo.svg"
+              alt="Logo"
+            />
+          </a>
         </div>
-        <div class="footer">
-            <p><a href="{{protocol}}://{{domain}}/">vFSE</a></p>
+        <div class="content">
+          <h3>Hi {% firstof user.first_name user.email%},</h3>
+          {% block content %} {%endblock%}
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
