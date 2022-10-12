@@ -634,3 +634,11 @@ class ProductModel(models.Model):
             )
         ]
         ordering = ["-id"]
+
+
+class WebSshLog(models.Model):
+    system = models.ForeignKey("System", on_delete=models.CASCADE)
+    user = models.ForeignKey("User", on_delete=models.CASCADE)
+    log = models.CharField(max_length=32)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

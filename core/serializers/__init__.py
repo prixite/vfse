@@ -169,6 +169,7 @@ class MeSerializer(serializers.ModelSerializer):
     can_leave_notes = serializers.BooleanField(source="profile.can_leave_notes")
     fse_accessible = serializers.BooleanField(source="profile.fse_accessible")
     documentation_url = serializers.BooleanField(source="profile.documentation_url")
+    audit_enabled = serializers.BooleanField(source="profile.audit_enabled")
 
     class Meta:
         model = models.User
@@ -189,6 +190,7 @@ class MeSerializer(serializers.ModelSerializer):
             "calender_link",
             "email",
             "zoom_link",
+            "audit_enabled",
         ]
 
     def get_role(self, obj):
@@ -791,3 +793,24 @@ class SystemMetaSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.System
         fields = ["name", "image_url"]
+
+
+class WebSshLogSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=models.User.objects.all(),  # Or User.objects.filter(active=True)
+        required=False,
+        allow_null=True,
+        default=serializers.CurrentUserDefault(),
+    )
+
+    class Meta:
+        model = models.WebSshLog
+        fields = ["system", "user", "log"]
+
+    def validate(self, attrs):
+        if not attrs["user"].profile.audit_enabled:
+            raise serializers.ValidationError(
+                {"audit_enabled": "Please audit_enabled from your profile to log ssh."}
+            )
+
+        return attrs

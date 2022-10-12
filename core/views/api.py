@@ -895,3 +895,18 @@ class SystemInfluxView(APIView):
         ip_address = request.query_params.get("ip_address")
         data = utils.get_data_from_influxdb(ip_address)
         return Response({"data": data})
+
+
+class WebSshLogViewSet(ModelViewSet):
+    serializer_class = serializers.WebSshLogSerializer
+
+    def get_queryset(self):
+        queryset = models.WebSshLog.objects.all()
+        params = self.request.query_params.get
+
+        system = params("system")
+        user = params("user")
+        if system and user is not None:
+            queryset = queryset.filter(system_id=system, user_id=user)
+
+        return queryset

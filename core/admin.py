@@ -194,3 +194,9 @@ admin.site.register(models.Documentation)
 @admin.register(models.UserSystem)
 class UserSystemAdmin(admin.ModelAdmin):
     list_display = ["user", "system"]
+
+
+@admin.register(models.WebSshLog)
+class WebSshAdmin(admin.ModelAdmin):
+    list_display = ["system", "user", "log"]
+    list_filter = ("system", "user")

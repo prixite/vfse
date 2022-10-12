@@ -40,7 +40,10 @@ import {
   useAppSelector,
   useSelectedOrganization,
 } from "@src/store/hooks";
-import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
+import {
+  useOrganizationsSystemsDeleteMutation,
+  api,
+} from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 import "../../../../../../node_modules/xterm/css/xterm.css";
 
@@ -70,6 +73,8 @@ const SystemCard = ({
   currentUser,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
+  const [webSSHPayload] = api.useWebsshlogCreateMutation();
+  const [consoleMsg, setConsoleMsg] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
@@ -168,6 +173,29 @@ const SystemCard = ({
     setSystem(system);
   };
 
+  const handleLogsOnEnter = (prev) => {
+    const payload = {
+      webSshLog: {
+        log: prev,
+        system: system.id,
+      },
+    };
+
+    if (
+      payload.webSshLog.log !== null &&
+      payload.webSshLog.log.trim() !== "" &&
+      currentUser.audit_enabled &&
+      !consoleMsg.length
+    ) {
+      webSSHPayload({ ...payload })
+        .unwrap()
+        .then()
+        .catch((error) => {
+          toastAPIError("Incorrect command seen.", error.status, error?.data);
+        });
+    }
+  };
+
   const webSSHConnection = (msg: { id: string; status: string }) => {
     if (msg.id === null) {
       toastAPIError(msg.status);
@@ -198,6 +226,19 @@ const SystemCard = ({
       };
 
       term.onData(function (data) {
+        const ascii_code = data.charCodeAt(0);
+        if (ascii_code == 13) {
+          // Enter Code 13
+          setConsoleMsg((prev) => {
+            handleLogsOnEnter(prev);
+            return "";
+          });
+        } else if (ascii_code == 127) {
+          // BackSpaceCode 127
+          setConsoleMsg((consoleMsg) => consoleMsg.slice(0, -1));
+        } else {
+          setConsoleMsg((consoleMsg) => consoleMsg + data);
+        }
         sock.send(JSON.stringify({ data: data }));
       });
 
