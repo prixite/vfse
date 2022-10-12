@@ -182,8 +182,9 @@ const SystemCard = ({
     };
 
     if (
-      payload.webSshLog.log !== null ||
-      payload.webSshLog.log.trim() !== "" ||
+      payload.webSshLog.log !== null &&
+      payload.webSshLog.log.trim() !== "" &&
+      currentUser.audit_enabled &&
       !consoleMsg.length
     ) {
       webSSHPayload({ ...payload })
