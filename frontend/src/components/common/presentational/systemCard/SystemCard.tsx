@@ -173,7 +173,7 @@ const SystemCard = ({
     setSystem(system);
   };
 
-  const handleEnter = (prev) => {
+  const handleLogsOnEnter = (prev) => {
     const payload = {
       webSshLog: {
         log: prev,
@@ -230,7 +230,7 @@ const SystemCard = ({
         if (ascii_code == 13) {
           // Enter Code 13
           setConsoleMsg((prev) => {
-            handleEnter(prev);
+            handleLogsOnEnter(prev);
             return "";
           });
         } else if (ascii_code == 127) {
