@@ -1,6 +1,6 @@
 import drf_link_header_pagination
 from drf_link_header_pagination import LinkHeaderPagination
-from drf_yasg2 import inspectors
+from drf_yasg import inspectors
 
 
 class OrganizationPagination(LinkHeaderPagination):

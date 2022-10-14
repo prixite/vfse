@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     "rest_framework",
     "rest_framework.authtoken",
-    "drf_yasg2",
+    "drf_yasg",
     "drf_link_header_pagination",
     "django_filters",
     "webpack_loader",
@@ -230,7 +230,7 @@ SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "app.urls.api_info",
     "DEFAULT_PAGINATOR_INSPECTORS": [
         "core.pagination.DjangoRestResponsePagination",
-        "drf_yasg2.inspectors.CoreAPICompatInspector",
+        "drf_yasg.inspectors.CoreAPICompatInspector",
     ],
 }
 
