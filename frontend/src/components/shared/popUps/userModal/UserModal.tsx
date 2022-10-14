@@ -60,7 +60,6 @@ const userFormInitialState: UserForm = {
   viewOnly: false,
   auditEnable: false,
   oneTimeLinkCreation: false,
-  location: "",
 };
 
 const userFormValidationSchema = yup.object({
