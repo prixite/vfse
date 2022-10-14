@@ -60,6 +60,7 @@ const userFormInitialState: UserForm = {
   viewOnly: false,
   auditEnable: false,
   oneTimeLinkCreation: false,
+  location: "",
 };
 
 const userFormValidationSchema = yup.object({
@@ -358,6 +359,10 @@ export default function UserModal(props: UserModalProps) {
       meta: {
         profile_picture: imageUrl,
         title: userProfileImageText,
+        location: editedUser?.location || "",
+        slack_link: editedUser?.slack_link || "",
+        calender_link: editedUser?.calender_link || "",
+        zoom_link: editedUser?.zoom_link || "",
       },
       first_name: formik.values.firstname,
       last_name: formik.values.lastname,
