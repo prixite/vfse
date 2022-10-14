@@ -3742,6 +3742,30 @@
                     "readOnly": true,
                     "minLength": 1
                 },
+                "location": {
+                    "title": "Location",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "slack_link": {
+                    "title": "Slack link",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "calender_link": {
+                    "title": "Calender link",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
+                "zoom_link": {
+                    "title": "Zoom link",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                },
                 "sites": {
                     "description": "",
                     "type": "array",

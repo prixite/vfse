@@ -1501,6 +1501,10 @@ export type User = {
   role?: string[];
   manager?: Manager;
   image?: string;
+  location?: string;
+  slack_link?: string;
+  calender_link?: string;
+  zoom_link?: string;
   sites?: string[];
   systems?: number[];
 };

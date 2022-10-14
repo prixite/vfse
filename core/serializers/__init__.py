@@ -300,6 +300,12 @@ class UserSerializer(serializers.ModelSerializer):
     )
     systems = serializers.ListField(child=serializers.IntegerField(), read_only=True)
     image = serializers.CharField(source="profile.meta.profile_picture", read_only=True)
+    location = serializers.CharField(source="profile.meta.location", read_only=True)
+    slack_link = serializers.CharField(source="profile.meta.slack_link", read_only=True)
+    calender_link = serializers.CharField(
+        source="profile.meta.calender_link", read_only=True
+    )
+    zoom_link = serializers.CharField(source="profile.meta.zoom_link", read_only=True)
     phone = serializers.CharField(source="profile.phone", read_only=True)
     role = serializers.SlugRelatedField(
         source="memberships", slug_field="role", many=True, read_only=True
@@ -342,6 +348,10 @@ class UserSerializer(serializers.ModelSerializer):
             "role",
             "manager",
             "image",
+            "location",
+            "slack_link",
+            "calender_link",
+            "zoom_link",
             "sites",
             "systems",
         ]
