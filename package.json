@@ -23,7 +23,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.8",
     "@mui/styles": "^5.10.8",
-    "@mui/x-data-grid": "^5.17.6",
+    "@mui/x-data-grid": "^5.17.7",
     "@reduxjs/toolkit": "^1.8.6",
     "buffer": "^6.0.3",
     "debounce": "^1.2.1",
