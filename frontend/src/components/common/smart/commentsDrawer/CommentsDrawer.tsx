@@ -125,7 +125,7 @@ const CommentsDrawer = () => {
                         }
                   }
                   disabled={isLoading ? true : !note}
-                  className="AddCommentBtn"
+                  className="AddSystemCommentBtn"
                   onClick={addNewComment}
                 >
                   {commentsDrawer.add}
