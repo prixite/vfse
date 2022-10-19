@@ -27,6 +27,7 @@ class UserAdmin(CoreUserAdmin):
         "is_supermanager",
         "is_lambda_user",
         "is_request_user",
+        "is_remote_user",
     )
     fieldsets = CoreUserAdmin.fieldsets + (
         (
