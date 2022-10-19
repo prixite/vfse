@@ -49,9 +49,9 @@ repos:
           - "@typescript-eslint/eslint-plugin"
           - "@typescript-eslint/parser"
 
-  - repo: local
-    hooks:
-      - id: openapi
-        name: check-openapi-spec-file
-        language: script
-        entry: ./scripts/generate_swagger.sh
+  # - repo: local
+  #   hooks:
+  #     - id: openapi
+  #       name: check-openapi-spec-file
+  #       language: script
+  #       entry: ./scripts/generate_swagger.sh

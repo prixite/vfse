@@ -6,9 +6,9 @@ django-environ==0.9.0
 django-extensions==3.2.1
 django-filter==22.1
 django-webpack-loader==1.6.0
-djangorestframework==3.13.1
+djangorestframework==3.14.0
 djangorestframework-link-header-pagination==0.1.1
-drf-yasg2==1.19.4
+drf-yasg==1.21.4
 duo-universal==2.0.3
 factory-boy==3.2.1
 gunicorn==20.1.0
