@@ -11,7 +11,7 @@ TokenAdmin.list_filter = (
     "user__is_active",
     "user__is_supermanager",
     "user__is_lambda_user",
-    "is_remote_user",
+    "user__is_remote_user",
 )
 
 
