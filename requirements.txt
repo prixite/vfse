@@ -1,4 +1,4 @@
-boto3==1.24.96
+boto3==1.25.5
 coverage==6.5.0
 dj-database-url==1.0.0
 Django==4.1.2
@@ -13,6 +13,6 @@ duo-universal==2.0.3
 factory-boy==3.2.1
 gunicorn==20.1.0
 icmplib==3.0.3
-influxdb-client==1.33.0
+influxdb-client==1.34.0
 openai==0.24.0
-Pillow==9.2.0
+Pillow==9.3.0
