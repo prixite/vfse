@@ -63,7 +63,7 @@
     "babel-loader": "^9.0.1",
     "core-js": "^3.26.1",
     "css-loader": "^6.7.1",
-    "miragejs": "^0.1.45",
+    "miragejs": "^0.1.46",
     "openapi-typescript": "^5.4.1",
     "regenerator-runtime": "^0.13.10",
     "sass": "^1.54.9",
