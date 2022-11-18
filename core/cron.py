@@ -1,3 +1,5 @@
+import time
+
 import requests
 from django_cron import CronJobBase, Schedule
 
@@ -23,6 +25,6 @@ class CradlePointJob(CronJobBase):
                 utils.post_data_to_influxdb(
                     loc_resp["longitude"],
                     loc_resp["latitude"],
-                    loc_resp["accuracy"],
                     router["name"],
                 )
+                time.sleep(1)

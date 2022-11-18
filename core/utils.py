@@ -67,7 +67,7 @@ def fetch_from_influxdb(system_id):
     return system
 
 
-def post_data_to_influxdb(long, lat, accuracy, name):
+def post_data_to_influxdb(long, lat, name):
     with InfluxDBClient(
         url=settings.INFLUX_DB_URL,
         token=settings.INFLUX_TOKEN,
@@ -79,7 +79,6 @@ def post_data_to_influxdb(long, lat, accuracy, name):
             .tag("name", name)
             .field("longitude", long)
             .field("latitude", lat)
-            .field("accuracy", accuracy)
         )
         write_api.write(
             bucket=settings.INFLUX_BUCKET, org=settings.INFLUX_ORG, record=p
