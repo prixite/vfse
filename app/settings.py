@@ -51,6 +51,10 @@ env = environ.Env(
     INFLUX_DB_URL=(str, None),
     OPENAI_API_KEY=(str, None),
     DOMAIN_NAME=(str, "https://app.vfse.io"),
+    X_CP_API_ID=(str, None),
+    X_CP_API_KEY=(str, None),
+    X_ECM_API_ID=(str, None),
+    X_ECM_API_KEY=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -81,6 +85,7 @@ INSTALLED_APPS = [
     "drf_link_header_pagination",
     "django_filters",
     "webpack_loader",
+    "django_cron",
     # apps
     "core",
     "emailbackend",
@@ -257,3 +262,12 @@ WEBPACK_LOADER = {
 }
 
 SITE_ID = 1
+
+CRON_CLASSES = [
+    "core.cron.CradlePointJob",
+]
+
+X_CP_API_ID = env("X_CP_API_ID")
+X_CP_API_KEY = env("X_CP_API_KEY")
+X_ECM_API_ID = env("X_ECM_API_ID")
+X_ECM_API_KEY = env("X_ECM_API_KEY")

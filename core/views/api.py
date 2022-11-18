@@ -1,6 +1,7 @@
 import json
 
 import boto3
+import requests
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.db import IntegrityError, transaction
@@ -910,3 +911,32 @@ class WebSshLogViewSet(ModelViewSet):
             queryset = queryset.filter(system_id=system, user_id=user)
 
         return queryset
+
+
+class ECMRoutersViewSet(ListAPIView):
+    def get(self, request, ipv4=None, offset=0):
+        req = requests.get(
+            url=f"{utils.url}/routers?ipv4_address__in={ipv4}&limit=20&offset={offset}",
+            headers=utils.headers,
+        )
+        routers_resp = req.json()
+        return Response(data=routers_resp["data"])
+
+
+class RouterLocationHistoryViewSet(APIView):
+    def get(self, request, router_id=None):
+        req = requests.get(
+            url=f"{utils.url}/historical_locations?router={router_id}",
+            headers=utils.headers,
+        )
+        routers_resp = req.json()
+        return Response(routers_resp)
+
+
+class RouterLocationViewSet(APIView):
+    def get(self, request, location_id=None):
+        req = requests.get(
+            url=f"{utils.url}/locations/{location_id}", headers=utils.headers
+        )
+        routers_resp = req.json()
+        return Response(routers_resp)

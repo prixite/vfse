@@ -96,3 +96,49 @@ export interface Formik {
   ) => Promise<FormikErrors<UserForm>> | Promise<void>;
   submitCount: number;
 }
+
+export type Router = {
+  account: string;
+  actual_firmware: string;
+  asset_id: null | number;
+  config_status: string;
+  configuration_manager: string;
+  created_at: string;
+  custom1: unknown;
+  custom2: unknown;
+  description: string;
+  device_type: string;
+  full_product_name: string;
+  group: string;
+  id: string;
+  ipv4_address: string;
+  lans: string;
+  last_known_location: string;
+  locality: string;
+  mac: string;
+  name: string;
+  overlay_network_binding: string;
+  product: string;
+  reboot_required: false;
+  resource_url: string;
+  serial_number: string;
+  state: string;
+  state_updated_at: string;
+  target_firmware: string;
+  updated_at: string;
+  upgrade_pending: false;
+};
+
+export type RouterLocation = {
+  account: string;
+  accuracy: number;
+  id: string;
+  latitude: number;
+  longitude: number;
+  method: string;
+  resource_url: string;
+  router: string;
+  updated_at: string;
+};
+
+export type RoutersList = Router[];
