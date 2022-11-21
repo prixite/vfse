@@ -11,16 +11,17 @@ const config = {
 
 const ReactS3Client = new S3(config);
 
-export const uploadImageToS3 = (imageFile) =>
+export const uploadImageToS3 = (imageFile: string) =>
   new Promise((resolve, reject) => {
     ReactS3Client.uploadFile(imageFile)
       .then((data) => resolve(data))
       .catch((err) => reject(err));
   });
 
-export const deleteImageFromS3 = (imageFile) =>
-  new Promise((resolve, reject) => {
-    ReactS3Client.deleteFile(imageFile)
-      .then((data) => resolve(data))
-      .catch((err) => reject(err));
-  });
+export const deleteImageFromS3 = async (url: string) => {
+  const deleteResult = await fetch(url, { method: "delete" });
+  return {
+    ...deleteResult,
+    message: "File deleted"
+  }
+}
