@@ -149,7 +149,7 @@ export default function NetworkModal(props: Props) {
                     error?.status,
                     error.data
                   );
-                  await deleteImageFromS3(selectedImage[0]);
+                  await deleteImageFromS3(data?.location);
                 });
             }
           }
@@ -210,7 +210,7 @@ export default function NetworkModal(props: Props) {
                     error?.status,
                     error.data
                   );
-                  await deleteImageFromS3(data?.key);
+                  await deleteImageFromS3(data?.location);
                 });
             }
           })
