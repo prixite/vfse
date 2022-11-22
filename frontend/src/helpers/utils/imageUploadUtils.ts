@@ -22,6 +22,6 @@ export const deleteImageFromS3 = async (url: string) => {
   const deleteResult = await fetch(url, { method: "delete" });
   return {
     ...deleteResult,
-    message: "File deleted"
-  }
-}
+    message: "File deleted",
+  };
+};
