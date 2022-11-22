@@ -913,24 +913,22 @@ class WebSshLogViewSet(ModelViewSet):
         return queryset
 
 
-class ECMRoutersViewSet(ListAPIView):
+class CradlePointRouterList(ListAPIView):
     def get(self, request, ipv4=None, offset=0):
-        req = requests.get(
+        response = requests.get(
             url=f"{utils.url}/routers?ipv4_address__in={ipv4}&limit=20&offset={offset}",
             headers=utils.headers,
         )
-        routers_resp = req.json()
-        return Response(data=routers_resp["data"])
+        return Response(data=response.json()["data"])
 
 
-class RouterLocationHistoryViewSet(APIView):
+class CradlePointRouterLocationHistory(APIView):
     def get(self, request, router_id=None):
-        req = requests.get(
+        response = requests.get(
             url=f"{utils.url}/historical_locations?router={router_id}",
             headers=utils.headers,
         )
-        routers_resp = req.json()
-        return Response(routers_resp)
+        return Response(response.json())
 
 
 class RouterLocationViewSet(APIView):

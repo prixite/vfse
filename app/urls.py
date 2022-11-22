@@ -311,11 +311,11 @@ api_urlpatterns = [
             }
         ),
     ),
-    path("api/routers/<str:ipv4>/", api.ECMRoutersViewSet.as_view()),
-    path("api/routers/<int:router_id>/device", api.ECMRoutersViewSet.as_view()),
+    path("api/routers/<str:ipv4>/", api.CradlePointRouterList.as_view()),
+    path("api/routers/<int:router_id>/device", api.CradlePointRouterList.as_view()),
     path(
         "api/routers/<int:router_id>/historical_locations/",
-        api.RouterLocationHistoryViewSet.as_view(),
+        api.CradlePointRouterLocationHistory.as_view(),
     ),
     path(
         "api/routers/location/<int:location_id>/", api.RouterLocationViewSet.as_view()

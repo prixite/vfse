@@ -141,4 +141,4 @@ export type RouterLocation = {
   updated_at: string;
 };
 
-export type RoutersList = Router[];
+export type RouterList = Router[];

@@ -30,7 +30,7 @@ import {
   ChatBotResponse,
   getTopicListArg,
   RouterLocation,
-  RoutersList,
+  RouterList,
 } from "@src/types/interfaces";
 
 type TopicListResponse = {
@@ -398,25 +398,32 @@ export const emptySplitApi = createApi({
         { type: "Reply", id: `Reply-${queryArg?.id}` },
       ],
     }),
-    getrouterHistoricalLocations: builder.query<unknown, { router_id: number }>(
-      {
-        query: (queryArg) => ({
-          url: `/routers/${queryArg.router_id}/historical_locations/`,
-        }),
-        providesTags: ["Router"],
-      }
-    ),
-    getRoutersList: builder.query<RoutersList, { ipv4: string }>({
+    getRouterHistoricalLocations: builder.query<unknown, { routerId: number }>({
+      query: (queryArg) => ({
+        url: `/routers/${queryArg.routerId}/historical_locations/`,
+      }),
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg?.routerId}` },
+      ],
+    }),
+    getRouterList: builder.query<RouterList, { ipv4: string }>({
       query: (queryArg) => ({
         url: `/routers/${queryArg.ipv4}/`,
       }),
-      providesTags: ["Router"],
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg.ipv4}` },
+      ],
     }),
-    getRouterLocation: builder.query<RouterLocation, { locationID: string }>({
+    getRouterLocationById: builder.query<
+      RouterLocation,
+      { locationId: string }
+    >({
       query: (queryArg) => ({
-        url: `/routers/location/${queryArg.locationID}/`,
+        url: `/routers/location/${queryArg.locationId}/`,
       }),
-      providesTags: ["Router"],
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg.locationId}` },
+      ],
     }),
   }),
 });

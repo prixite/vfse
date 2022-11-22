@@ -85,7 +85,6 @@ INSTALLED_APPS = [
     "drf_link_header_pagination",
     "django_filters",
     "webpack_loader",
-    "django_cron",
     # apps
     "core",
     "emailbackend",
