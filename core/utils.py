@@ -7,14 +7,14 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 from core import models
 
-headers = {
+CRADLEPOINT_REQUEST_HEADERS = {
     "X-CP-API-ID": settings.X_CP_API_ID,
     "X-CP-API-KEY": settings.X_CP_API_KEY,
     "X-ECM-API-ID": settings.X_ECM_API_ID,
     "X-ECM-API-KEY": settings.X_ECM_API_KEY,
     "Content-Type": "application/json",
 }
-url = "https://www.cradlepointecm.com/api/v2/"
+CRADLEPOINT_API_URL = "https://www.cradlepointecm.com/api/v2/"
 
 
 def send_topic_email(topic, user, comment):
@@ -74,14 +74,14 @@ def post_data_to_influxdb(long, lat, name):
         org=settings.INFLUX_ORG,
     ) as client:
         write_api = client.write_api(write_options=SYNCHRONOUS)
-        p = (
+        record = (
             Point("routerLocations")
             .tag("name", name)
             .field("longitude", long)
             .field("latitude", lat)
         )
         write_api.write(
-            bucket=settings.INFLUX_BUCKET, org=settings.INFLUX_ORG, record=p
+            bucket=settings.INFLUX_BUCKET, org=settings.INFLUX_ORG, record=record
         )
 
 

@@ -916,8 +916,8 @@ class WebSshLogViewSet(ModelViewSet):
 class CradlePointRouterList(ListAPIView):
     def get(self, request, ipv4=None, offset=0):
         response = requests.get(
-            url=f"{utils.url}/routers?ipv4_address__in={ipv4}&limit=20&offset={offset}",
-            headers=utils.headers,
+            url=f"{utils.CRADLEPOINT_API_URL}/routers?ipv4_address__in={ipv4}&limit=20&offset={offset}",  # noqa
+            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
         )
         return Response(data=response.json()["data"])
 
@@ -925,8 +925,8 @@ class CradlePointRouterList(ListAPIView):
 class CradlePointRouterLocationHistory(APIView):
     def get(self, request, router_id=None):
         response = requests.get(
-            url=f"{utils.url}/historical_locations?router={router_id}",
-            headers=utils.headers,
+            url=f"{utils.CRADLEPOINT_API_URL}/historical_locations?router={router_id}",
+            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
         )
         return Response(response.json())
 
@@ -934,6 +934,7 @@ class CradlePointRouterLocationHistory(APIView):
 class RouterLocationViewSet(APIView):
     def get(self, request, location_id=None):
         response = requests.get(
-            url=f"{utils.url}/locations/{location_id}", headers=utils.headers
+            url=f"{utils.CRADLEPOINT_API_URL}/locations/{location_id}",
+            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
         )
         return Response(response.json())
