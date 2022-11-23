@@ -933,8 +933,7 @@ class CradlePointRouterLocationHistory(APIView):
 
 class RouterLocationViewSet(APIView):
     def get(self, request, location_id=None):
-        req = requests.get(
+        response = requests.get(
             url=f"{utils.url}/locations/{location_id}", headers=utils.headers
         )
-        routers_resp = req.json()
-        return Response(routers_resp)
+        return Response(response.json())
