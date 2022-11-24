@@ -38,10 +38,4 @@ COPY requirements.txt requirements.txt
 COPY requirements-prod.txt requirements-prod.txt
 
 RUN pip install -r requirements-prod.txt
-RUN apt-get update && apt-get install -y cron nano
-COPY ./docker/scripts/crontab /etc/cron.d/crontab
-
-RUN chmod 0644 /etc/cron.d/crontab
-RUN /usr/bin/crontab /etc/cron.d/crontab
 COPY . ./
-CMD ["cron", "-f"]

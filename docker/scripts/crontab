@@ -1,1 +1,2 @@
-* * * * * /usr/local/bin/python /opt/code/manage.py cron > /proc/1/fd/1 2>/proc/1/fd/2
+# Redirect the STDOUT and STDERR of manage.py cron to crontab STDOUT
+* * * * * /usr/local/bin/python /opt/code/manage.py cron > /proc/1/fd/1 2>&1
