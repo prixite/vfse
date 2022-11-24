@@ -38,9 +38,11 @@ services:
       service: ping
 
   cron:
-    build:
-      context: .
-      dockerfile: ./docker/cron.Dockerfile
+    extends:
+      file: docker-compose.base.yml
+      service: cron
+    depends_on:
+      - db
 
   ssh:
     extends:
