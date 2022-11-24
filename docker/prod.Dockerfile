@@ -38,4 +38,5 @@ COPY requirements.txt requirements.txt
 COPY requirements-prod.txt requirements-prod.txt
 
 RUN pip install -r requirements-prod.txt
+
 COPY . ./
