@@ -6,7 +6,7 @@ from core import utils
 
 
 class Command(BaseCommand):
-    help = "fetch cradlepoint routers location"
+    help = "Fetch CradlePoint routers location"
 
     @transaction.atomic
     def handle(self, *args, **options):
