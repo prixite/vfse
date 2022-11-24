@@ -37,6 +37,13 @@ services:
       file: docker-compose.base.yml
       service: ping
 
+  cron:
+    extends:
+      file: docker-compose.base.yml
+      service: cron
+    depends_on:
+      - db
+
   ssh:
     extends:
       file: docker-compose.base.yml

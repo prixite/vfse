@@ -1,0 +1,2 @@
+# Redirect the STDOUT and STDERR of manage.py cron to crontab STDOUT
+*/10 * * * * /usr/local/bin/python /opt/code/manage.py cron > /proc/1/fd/1 2>&1

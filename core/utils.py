@@ -2,9 +2,19 @@ import openai
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from influxdb_client import InfluxDBClient
+from influxdb_client import InfluxDBClient, Point
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 from core import models
+
+CRADLEPOINT_REQUEST_HEADERS = {
+    "X-CP-API-ID": settings.X_CP_API_ID,
+    "X-CP-API-KEY": settings.X_CP_API_KEY,
+    "X-ECM-API-ID": settings.X_ECM_API_ID,
+    "X-ECM-API-KEY": settings.X_ECM_API_KEY,
+    "Content-Type": "application/json",
+}
+CRADLEPOINT_API_URL = "https://www.cradlepointecm.com/api/v2/"
 
 
 def send_topic_email(topic, user, comment):
@@ -55,6 +65,24 @@ def fetch_from_influxdb(system_id):
         system.mri_embedded_parameters["helium"] = data
         system.save()
     return system
+
+
+def post_data_to_influxdb(long, lat, name):
+    with InfluxDBClient(
+        url=settings.INFLUX_DB_URL,
+        token=settings.INFLUX_TOKEN,
+        org=settings.INFLUX_ORG,
+    ) as client:
+        write_api = client.write_api(write_options=SYNCHRONOUS)
+        record = (
+            Point("routerLocations")
+            .tag("name", name)
+            .field("longitude", long)
+            .field("latitude", lat)
+        )
+        write_api.write(
+            bucket=settings.INFLUX_BUCKET, org=settings.INFLUX_ORG, record=record
+        )
 
 
 def get_data_from_influxdb(system_ip_address):

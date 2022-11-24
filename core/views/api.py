@@ -1,6 +1,7 @@
 import json
 
 import boto3
+import requests
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.db import IntegrityError, transaction
@@ -910,3 +911,30 @@ class WebSshLogViewSet(ModelViewSet):
             queryset = queryset.filter(system_id=system, user_id=user)
 
         return queryset
+
+
+class CradlePointRouterList(ListAPIView):
+    def get(self, request, ipv4=None, offset=0):
+        response = requests.get(
+            url=f"{utils.CRADLEPOINT_API_URL}/routers?ipv4_address__in={ipv4}&limit=20&offset={offset}",  # noqa
+            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
+        )
+        return Response(data=response.json()["data"])
+
+
+class CradlePointRouterLocationHistory(APIView):
+    def get(self, request, router_id=None):
+        response = requests.get(
+            url=f"{utils.CRADLEPOINT_API_URL}/historical_locations?router={router_id}",
+            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
+        )
+        return Response(response.json())
+
+
+class RouterLocationViewSet(APIView):
+    def get(self, request, location_id=None):
+        response = requests.get(
+            url=f"{utils.CRADLEPOINT_API_URL}/locations/{location_id}",
+            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
+        )
+        return Response(response.json())

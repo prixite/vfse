@@ -25,6 +25,13 @@ services:
     depends_on:
       - app
 
+  cron:
+    extends:
+      file: docker-compose.base.yml
+      service: cron
+    depends_on:
+      - db
+
   ssh:
     extends:
       file: docker-compose.base.yml

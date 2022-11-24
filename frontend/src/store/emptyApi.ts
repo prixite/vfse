@@ -26,7 +26,12 @@ import {
   UsersActiveUsersListApiArg,
   UsersActiveUsersListApiResponse,
 } from "@src/store/reducers/generated";
-import { ChatBotResponse, getTopicListArg } from "@src/types/interfaces";
+import {
+  ChatBotResponse,
+  getTopicListArg,
+  RouterLocation,
+  RouterList,
+} from "@src/types/interfaces";
 
 type TopicListResponse = {
   data: VfseTopicsListApiResponse;
@@ -76,6 +81,7 @@ export const emptySplitApi = createApi({
     "Topics",
     "Comment",
     "Reply",
+    "Router",
   ],
   endpoints: (builder) => ({
     getPopularTopics: builder.query<
@@ -390,6 +396,33 @@ export const emptySplitApi = createApi({
       },
       providesTags: (result, error, queryArg) => [
         { type: "Reply", id: `Reply-${queryArg?.id}` },
+      ],
+    }),
+    getRouterHistoricalLocations: builder.query<unknown, { routerId: number }>({
+      query: (queryArg) => ({
+        url: `/routers/${queryArg.routerId}/historical_locations/`,
+      }),
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg?.routerId}` },
+      ],
+    }),
+    getRouterList: builder.query<RouterList, { ipv4: string }>({
+      query: (queryArg) => ({
+        url: `/routers/${queryArg.ipv4}/`,
+      }),
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg.ipv4}` },
+      ],
+    }),
+    getRouterLocationById: builder.query<
+      RouterLocation,
+      { locationId: string }
+    >({
+      query: (queryArg) => ({
+        url: `/routers/location/${queryArg.locationId}/`,
+      }),
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg.locationId}` },
       ],
     }),
   }),

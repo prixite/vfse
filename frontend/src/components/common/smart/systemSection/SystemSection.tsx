@@ -128,10 +128,6 @@ const SystemSection = () => {
 
   const [updateFromInflux] = useOrganizationsSystemsUpdateFromInfluxMutation();
 
-  //Start
-
-  //End
-
   useEffect(() => {
     modalitiesList?.length &&
       modalitiesList?.map((item, key) => {
