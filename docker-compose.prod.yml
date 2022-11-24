@@ -26,6 +26,11 @@ services:
     depends_on:
       - app
 
+  cron:
+    build:
+      context: .
+      dockerfile: ./docker/cron.Dockerfile
+
   ssh:
     extends:
       file: docker-compose.base.yml
