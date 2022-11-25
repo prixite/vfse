@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libgif-dev \
     librsvg2-dev \
+    cron \
     g++
 
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
