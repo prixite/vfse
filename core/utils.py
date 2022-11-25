@@ -70,7 +70,7 @@ def fetch_from_influxdb(system_id):
 def post_data_to_influxdb(long, lat, name):
     with InfluxDBClient(
         url=settings.INFLUX_DB_URL,
-        token=settings.INFLUX_TOKEN,
+        token=settings.INFLUX_GPS_TOKEN,
         org=settings.INFLUX_ORG,
     ) as client:
         write_api = client.write_api(write_options=SYNCHRONOUS)
@@ -82,7 +82,7 @@ def post_data_to_influxdb(long, lat, name):
             .field("latitude", lat)
         )
         write_api.write(
-            bucket=settings.INFLUX_BUCKET, org=settings.INFLUX_ORG, record=record
+            bucket=settings.INFLUX_GPS_BUCKET, org=settings.INFLUX_ORG, record=record
         )
 
 
