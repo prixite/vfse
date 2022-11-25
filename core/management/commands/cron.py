@@ -21,7 +21,7 @@ class Command(BaseCommand):
                     url=location_url, headers=utils.CRADLEPOINT_REQUEST_HEADERS
                 )
                 location = location_request.json()
-                utils.post_data_to_influxdb(
+                utils.post_gps_data_to_influxdb(
                     location["longitude"],
                     location["latitude"],
                     router["name"],

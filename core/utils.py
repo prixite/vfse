@@ -67,7 +67,7 @@ def fetch_from_influxdb(system_id):
     return system
 
 
-def post_data_to_influxdb(long, lat, name):
+def post_gps_data_to_influxdb(long, lat, name):
     with InfluxDBClient(
         url=settings.INFLUX_DB_URL,
         token=settings.INFLUX_GPS_TOKEN,
