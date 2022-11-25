@@ -18,6 +18,7 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libgif-dev \
     librsvg2-dev \
+    cron \
     g++
 
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
@@ -26,6 +27,11 @@ RUN apt-get install -y nodejs
 RUN pip install pip==21.1.3
 
 WORKDIR /opt/code
+
+COPY docker/scripts/crontab /etc/cron.d/crontab
+
+RUN chmod 0644 /etc/cron.d/crontab
+RUN /usr/bin/crontab /etc/cron.d/crontab
 
 COPY requirements.txt requirements.txt
 COPY requirements-dev.txt requirements-dev.txt

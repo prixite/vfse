@@ -27,6 +27,11 @@ RUN pip install pip==21.1.3
 
 WORKDIR /opt/code
 
+COPY docker/scripts/crontab /etc/cron.d/crontab
+
+RUN chmod 0644 /etc/cron.d/crontab
+RUN /usr/bin/crontab /etc/cron.d/crontab
+
 COPY package.json package.json
 
 COPY package-lock.json package-lock.json

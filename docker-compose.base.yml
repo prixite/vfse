@@ -27,9 +27,8 @@ services:
       - app
 
   cron:
-    build:
-      context: .
-      dockerfile: ./docker/cron.Dockerfile
+    image: vfse_app
+    command: bash -c "cron -f"
 
   nginx:
     build: ./nginx
