@@ -77,6 +77,7 @@ def post_data_to_influxdb(long, lat, name):
         record = (
             Point("routerLocations")
             .tag("name", name)
+            .tag("label", "GPS-DATA")
             .field("longitude", long)
             .field("latitude", lat)
         )

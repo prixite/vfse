@@ -26,3 +26,6 @@ class Command(BaseCommand):
                     location["latitude"],
                     router["name"],
                 )
+        self.stdout.write(
+            self.style.SUCCESS("Successfully posted to Influx.")
+        )
