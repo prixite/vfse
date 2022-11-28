@@ -10,12 +10,10 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        offset = 0
-
-        next_page = True
+        next_page = f"{utils.CRADLEPOINT_API_URL}/routers/?offset=0&limit=20"
         while next_page:
             response = requests.get(
-                url=f"{utils.CRADLEPOINT_API_URL}/routers/?offset={offset}",
+                url=next_page,
                 headers=utils.CRADLEPOINT_REQUEST_HEADERS,
             )
             router_response = response.json()
@@ -23,19 +21,22 @@ class Command(BaseCommand):
 
             for router in router_list:
                 location_url = router["last_known_location"]
+                longitude = latitude = None
                 if location_url:
                     location_request = requests.get(
                         url=location_url, headers=utils.CRADLEPOINT_REQUEST_HEADERS
                     )
                     location = location_request.json()
-                    utils.post_gps_data_to_influxdb(
-                        location["longitude"],
-                        location["latitude"],
-                        router["name"],
-                        router["state"],
-                    )
+                    longitude = location["longitude"]
+                    latitude = location["latitude"]
 
-            next_page = bool(router_response["meta"]["next"])  # check for next page
-            offset += 20  # fetch next 20 items
+                utils.post_gps_data_to_influxdb(
+                    longitude,
+                    latitude,
+                    router["name"],
+                    router["state"],
+                )
+
+            next_page = router_response["meta"]["next"]
 
         self.stdout.write(self.style.SUCCESS("Successfully posted to Influx."))
