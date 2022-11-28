@@ -17,10 +17,6 @@ class Command(BaseCommand):
                 headers=utils.CRADLEPOINT_REQUEST_HEADERS,
             )
             router_response = response.json()
-            if not router_response["meta"]["next"]:  # check for next page
-                break
-
-            offset += 20  # fetch next 20 items
             router_list = router_response["data"]
 
             for router in router_list:
@@ -36,5 +32,10 @@ class Command(BaseCommand):
                         router["name"],
                         router["state"],
                     )
+
+            if not router_response["meta"]["next"]:  # check for next page
+                break
+
+            offset += 20  # fetch next 20 items
 
         self.stdout.write(self.style.SUCCESS("Successfully posted to Influx."))
