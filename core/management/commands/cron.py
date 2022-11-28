@@ -31,9 +31,7 @@ class Command(BaseCommand):
                     router["name"],
                     router["state"],
                 )
-            next_page = bool(
-                routers_location_response["meta"]["next"]
-            )  # check for next page
+            next_page = bool(routers_location_response["meta"]["next"])  # noqa
             offset += 20  # fetch next 20 items
 
         self.stdout.write(self.style.SUCCESS("Successfully posted to Influx."))
