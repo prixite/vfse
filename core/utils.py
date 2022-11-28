@@ -67,7 +67,7 @@ def fetch_from_influxdb(system_id):
     return system
 
 
-def post_gps_data_to_influxdb(long, lat, name):
+def post_gps_data_to_influxdb(long, lat, name, state):
     with InfluxDBClient(
         url=settings.INFLUX_DB_URL,
         token=settings.INFLUX_GPS_TOKEN,
@@ -76,6 +76,7 @@ def post_gps_data_to_influxdb(long, lat, name):
         write_api = client.write_api(write_options=SYNCHRONOUS)
         record = (
             Point("routerLocations")
+            .tag("state", state)
             .tag("name", name)
             .tag("label", "GPS-DATA")
             .field("longitude", long)
