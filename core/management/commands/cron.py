@@ -11,7 +11,9 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         offset = 0
-        while True:
+
+        next_page = True
+        while next_page:
             response = requests.get(
                 url=f"{utils.CRADLEPOINT_API_URL}/routers/?offset={offset}",
                 headers=utils.CRADLEPOINT_REQUEST_HEADERS,
@@ -33,9 +35,7 @@ class Command(BaseCommand):
                         router["state"],
                     )
 
-            if not router_response["meta"]["next"]:  # check for next page
-                break
-
+            next_page = bool(router_response["meta"]["next"])  # check for next page
             offset += 20  # fetch next 20 items
 
         self.stdout.write(self.style.SUCCESS("Successfully posted to Influx."))
