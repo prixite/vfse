@@ -10,33 +10,30 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        next_page = f"{utils.CRADLEPOINT_API_URL}/routers/?offset=0&limit=20"
+        offset = 0
+        next_page = True
         while next_page:
             response = requests.get(
-                url=next_page,
+                url=f"{utils.CRADLEPOINT_API_URL}/locations/?offset={offset}",
                 headers=utils.CRADLEPOINT_REQUEST_HEADERS,
             )
-            router_response = response.json()
-            router_list = router_response["data"]
+            routers_location_response = response.json()
+            routers_location_list = routers_location_response["data"]
 
-            for router in router_list:
-                location_url = router["last_known_location"]
-                longitude = latitude = None
-                if location_url:
-                    location_request = requests.get(
-                        url=location_url, headers=utils.CRADLEPOINT_REQUEST_HEADERS
-                    )
-                    location = location_request.json()
-                    longitude = location["longitude"]
-                    latitude = location["latitude"]
-
+            for location in routers_location_list:
+                router_request = requests.get(
+                    url=location["router"], headers=utils.CRADLEPOINT_REQUEST_HEADERS
+                )
+                router = router_request.json()
                 utils.post_gps_data_to_influxdb(
-                    longitude,
-                    latitude,
+                    location["longitude"],
+                    location["latitude"],
                     router["name"],
                     router["state"],
                 )
-
-            next_page = router_response["meta"]["next"]
+            next_page = bool(
+                routers_location_response["meta"]["next"]
+            )  # check for next page
+            offset += 20  # fetch next 20 items
 
         self.stdout.write(self.style.SUCCESS("Successfully posted to Influx."))
