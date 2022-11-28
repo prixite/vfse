@@ -17,7 +17,6 @@ class Command(BaseCommand):
                 headers=utils.CRADLEPOINT_REQUEST_HEADERS,
             )
             router_response = response.json()
-            print(router_response)
             if not router_response["meta"]["next"]:  # check for next page
                 break
 
