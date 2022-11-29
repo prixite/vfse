@@ -2,7 +2,7 @@ import requests
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from core import utils
+from core import models, utils
 
 
 class Command(BaseCommand):
@@ -25,6 +25,15 @@ class Command(BaseCommand):
                     url=location["router"], headers=utils.CRADLEPOINT_REQUEST_HEADERS
                 )
                 router = router_request.json()
+                try:
+                    system = models.System.objects.get(name=router["name"])
+                    models.RouterLocation.objects.create(
+                        system=system,
+                        long=location["latitude"],
+                        lat=location["longitude"],
+                    )
+                except Exception as e:
+                    self.stdout.write(self.style.ERROR(e))
                 utils.post_gps_data_to_influxdb(
                     location["longitude"],
                     location["latitude"],

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
-import { Box } from "@mui/material";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Box, Button } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
@@ -10,10 +11,12 @@ import SystemCard from "@src/components/common/presentational/systemCard/SystemC
 import SystemCardMobile from "@src/components/common/presentational/systemCard/systemCardMobile/SystemCardMobile";
 import CommentsDrawer from "@src/components/common/smart/commentsDrawer/CommentsDrawer";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
+import useStyles from "@src/components/common/smart/vfseTopSection/Styles";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import AddSiteFirstModal from "@src/components/shared/popUps/addSiteFirstModal/AddSiteFirstModal";
 import SystemModal from "@src/components/shared/popUps/systemModal/SystemModal";
+import ViewMapModal from "@src/components/shared/popUps/viewMapModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
@@ -55,6 +58,7 @@ const SystemSection = () => {
   } = constantsData.systemSection;
   const { loading } = constantsData.common;
 
+  const classes = useStyles();
   const dispatch = useAppDispatch();
 
   const queryParams = new URLSearchParams(location?.search);
@@ -63,6 +67,7 @@ const SystemSection = () => {
   const [networkFilter, setNetworkFilter] = useState({});
   const [siteFilter, setSiteFilter] = useState({});
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [openMapModal, setOpenMapModal] = useState(false);
   // eslint-disable-next-line
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line
@@ -88,6 +93,11 @@ const SystemSection = () => {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const selectedID = networkId || id;
+  const { data: routersLocationList = [] } = api.useGetRoutersLocationQuery(
+    { organizationId: selectedID, system: system?.id },
+    { skip: !selectedID }
+  );
+
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
       {
@@ -97,7 +107,10 @@ const SystemSection = () => {
         skip: !selectedID,
       }
     );
-  const { buttonBackground } = useAppSelector((state) => state.myTheme);
+
+  const { buttonBackground, buttonTextColor } = useAppSelector(
+    (state) => state.myTheme
+  );
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery({
     id: selectedOrganization?.id.toString(),
@@ -461,6 +474,11 @@ const SystemSection = () => {
     }
   }, [healthNetwork, selectedOrganization, isAllSitesLoading, allSites]);
 
+  const viewSystemLocation = (system: System) => {
+    setSystem(system);
+    setOpenMapModal(true);
+  };
+
   return (
     <>
       {addBreadcrumbs()}
@@ -468,17 +486,40 @@ const SystemSection = () => {
         <h2>{!fetching ? returnSiteName() : ""}</h2>
         {createModalitySection()}
         {!isSystemDataLoading ? (
-          <TopViewBtns
-            setOpen={!sites?.length ? setOpenConfirmModal : setOpen}
-            path="systems"
-            setData={setSystem}
-            setList={setSystemList}
-            networkFilter={setNetworkFilter}
-            siteFilter={setSiteFilter}
-            actualData={systemsData}
-            searchText={searchText}
-            setSearchText={setSearchText}
-          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              alignItems: "stretch",
+            }}
+          >
+            <TopViewBtns
+              setOpen={!sites?.length ? setOpenConfirmModal : setOpen}
+              path="systems"
+              setData={setSystem}
+              setList={setSystemList}
+              networkFilter={setNetworkFilter}
+              siteFilter={setSiteFilter}
+              actualData={systemsData}
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
+            <Button
+              style={{
+                marginTop: 23,
+                height: 47,
+                width: "unset",
+                backgroundColor: buttonBackground,
+                color: buttonTextColor,
+              }}
+              onClick={() => setOpenMapModal(true)}
+              variant="contained"
+              className={`${classes.AddClientsbtn} btn-add`}
+            >
+              <LocationOnIcon />
+            </Button>
+          </div>
         ) : (
           ""
         )}
@@ -487,6 +528,7 @@ const SystemSection = () => {
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
                 <SystemCard
+                  viewSystemLocation={viewSystemLocation}
                   system={item}
                   handleEdit={handleEdit}
                   setSystem={setChatBoxSystem}
@@ -545,6 +587,14 @@ const SystemSection = () => {
           handleClose={() => setOpenConfirmModal(false)}
         />
         {me?.can_leave_notes && <CommentsDrawer />}
+        <ViewMapModal
+          open={openMapModal}
+          handleClose={() => {
+            setOpenMapModal(false);
+            setSystem(null);
+          }}
+          points={routersLocationList}
+        />
       </Box>
       {chatModal && browserWidth > mobileWidth && (
         <ChatBox

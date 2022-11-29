@@ -20,7 +20,7 @@ import debounce from "debounce";
 import { useNavigate, useParams } from "react-router-dom";
 
 import ColumnSelector from "@src/components/common/presentational/columnSelector/ColumnSelector";
-import useStyles from "@src/components/common/smart/vfseTopSection//Styles";
+import useStyles from "@src/components/common/smart/vfseTopSection/Styles";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { localizedData } from "@src/helpers/utils/language";
 import constantsData from "@src/localization/en.json";
@@ -324,6 +324,12 @@ const TopViewBtns = ({
   const createAddButton = () => {
     return (
       <Button
+        sx={{
+          width: {
+            xs: "unset !important",
+            sm: "190px !important",
+          },
+        }}
         style={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
@@ -355,10 +361,10 @@ const TopViewBtns = ({
         className="top-view-btns"
         style={{
           display: "flex",
-          justifyContent: "space-etween",
+          justifyContent: "space-between",
           marginTop: "23px",
           height: "47px",
-          width: "100%",
+          width: path === systems ? "90%" : "100%",
         }}
       >
         <Box

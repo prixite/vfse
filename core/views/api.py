@@ -931,10 +931,36 @@ class CradlePointRouterLocationHistory(APIView):
         return Response(response.json())
 
 
-class RouterLocationViewSet(APIView):
-    def get(self, request, location_id=None):
-        response = requests.get(
-            url=f"{utils.CRADLEPOINT_API_URL}/locations/{location_id}",
-            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
+class RouterLocationViewSet(ModelViewSet):
+    serializer_class = serializers.RouterLocationSerializer
+    filterset_class = filters.RouterLocationFilters
+
+    def get_queryset(self):
+        if getattr(self, "swagger_fake_view", False):
+            return models.System.objects.none()
+
+        queryset = models.System.objects.filter(
+            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
         )
-        return Response(response.json())
+
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.is_customer_admin(self.kwargs["pk"])
+        ):
+            queryset = models.System.objects.filter(
+                Q(site__organization_id=self.kwargs["pk"])
+                | Q(
+                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
+                        organization_id=self.kwargs["pk"]
+                    ).values_list(
+                        "health_network"
+                    )
+                )
+            )
+
+        return (
+            models.RouterLocation.objects.filter(system__in=queryset)
+            .order_by("system__id", "-created_at")
+            .distinct("system")
+        )

@@ -1,0 +1,85 @@
+.leaflet-container {
+  width: 100%;
+  height: 800px;
+  z-index: 1;
+}
+
+.map-modal {
+  .MuiDialog-paper {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+  }
+  .MuiOutlinedInput-root {
+    height: 48px;
+    border-radius: 8px;
+    .MuiOutlinedInput-notchedOutline {
+      border: 1px solid #d4d6db !important;
+      border-radius: 8px !important;
+    }
+  }
+
+  .MuiDialogTitle-root {
+    border-bottom: 1px solid #d9dbdd;
+    .title-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .modal-header {
+        font-weight: 600;
+      }
+      .dialog-page {
+        font-size: 16px;
+        .pg-number {
+          padding: 7px 30px;
+        }
+        .cross-btn {
+          width: 15px;
+          height: 15px;
+          margin-left: 12px;
+          margin-top: 8px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    .required {
+      &:after {
+        content: " *";
+        color: red;
+      }
+    }
+  }
+  .MuiDialogActions-root {
+    justify-content: center;
+    margin-top: 2px;
+    margin-bottom: 16px;
+    .cancel-btn {
+      background: #efe1ff;
+      color: #773cbd;
+      width: 47%;
+      padding: 13px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 8px;
+      text-transform: capitalize;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .map-modal {
+    .MuiDialog-paper {
+      width: 100%;
+      margin: 5px;
+    }
+    .MuiDialogActions-root {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+}
