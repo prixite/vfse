@@ -41,8 +41,6 @@ services:
     image: postgres:13.4
     env_file:
       - ./docker/env.db
-    ports:
-      - 5432:5432
 
   ssh:
     build:
