@@ -23,8 +23,6 @@ services:
       - ./docker/env.db
       - ./.env
     command: bash -c "python manage.py ping"
-    depends_on:
-      - app
 
   cron:
     image: vfse_app

@@ -17,7 +17,7 @@ services:
       - static_volume:/opt/code/static
       - shm:/dev/shm
     depends_on:
-      - app
+      - ssh
 
   ping:
     extends:
