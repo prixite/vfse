@@ -959,7 +959,10 @@ class RouterLocationViewSet(ModelViewSet):
                 )
             )
         distinctLocations = (
-            models.RouterLocation.objects.values("system__id").distinct().count()
+            models.RouterLocation.objects.values("system__id")
+            .filter(system__id__in=queryset)
+            .distinct()
+            .count()
         )
         return models.RouterLocation.objects.filter(system__in=queryset).order_by(
             "-created_at"
