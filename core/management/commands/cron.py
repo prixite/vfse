@@ -34,12 +34,12 @@ class Command(BaseCommand):
                     )
                 except Exception as e:
                     self.stdout.write(self.style.ERROR(e))
-                utils.post_gps_data_to_influxdb(
-                    location["longitude"],
-                    location["latitude"],
-                    router["name"],
-                    router["state"],
-                )
+                # utils.post_gps_data_to_influxdb(
+                #     location["longitude"],
+                #     location["latitude"],
+                #     router["name"],
+                #     router["state"],
+                # )
             next_page = bool(routers_location_response["meta"]["next"])  # noqa
             offset += 20  # fetch next 20 items
 
