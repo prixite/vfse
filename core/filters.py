@@ -4,6 +4,10 @@ from django_filters import rest_framework as filters
 from core import models
 
 
+class RouterLocationFilters(filters.FilterSet):
+    system = filters.NumberFilter(field_name="system")
+
+
 class SystemFilters(filters.FilterSet):
     health_network = filters.NumberFilter(field_name="site__organization")
     modality = filters.NumberFilter(field_name="product_model__modality")

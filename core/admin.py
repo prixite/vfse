@@ -202,3 +202,10 @@ class UserSystemAdmin(admin.ModelAdmin):
 class WebSshAdmin(admin.ModelAdmin):
     list_display = ["system", "user", "log"]
     list_filter = ("system", "user")
+
+
+@admin.register(models.RouterLocation)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ["system", "long", "lat"]
+    list_filter = ("system",)
+    readonly_fields = ["created_at"]

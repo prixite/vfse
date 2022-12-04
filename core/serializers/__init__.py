@@ -790,6 +790,14 @@ class SystemAccessSerializer(serializers.ModelSerializer):
         ]
 
 
+class RouterLocationSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source="system.name", read_only=True)
+
+    class Meta:
+        model = models.RouterLocation
+        fields = ["system", "long", "lat", "name"]
+
+
 class ProfileMetaSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source="get_full_name", read_only=True)
     image = serializers.URLField(source="profile.meta.profile_picture", read_only=True)

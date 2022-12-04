@@ -318,7 +318,8 @@ api_urlpatterns = [
         api.CradlePointRouterLocationHistory.as_view(),
     ),
     path(
-        "api/routers/location/<int:location_id>/", api.RouterLocationViewSet.as_view()
+        "api/organizations/<int:pk>/routers/location/",
+        api.RouterLocationViewSet.as_view({"get": "list"}),
     ),
 ]
 

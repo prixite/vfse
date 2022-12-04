@@ -598,6 +598,13 @@ class Note(models.Model):
         ordering = ["-id"]
 
 
+class RouterLocation(models.Model):
+    long = models.DecimalField(max_digits=11, decimal_places=8)
+    lat = models.DecimalField(max_digits=10, decimal_places=8)
+    system = models.ForeignKey("System", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class Seat(models.Model):
     system = models.ForeignKey("System", on_delete=models.CASCADE, related_name="seats")
     organization = models.ForeignKey(
