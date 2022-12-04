@@ -71,7 +71,6 @@ const SystemCard = ({
   setIsOpen,
   canLeaveNotes,
   currentUser,
-  viewSystemLocation,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
   const [webSSHPayload] = api.useWebsshlogCreateMutation();
@@ -608,9 +607,6 @@ const SystemCard = ({
             }}
             onClose={handleClose}
           >
-            <MenuItem onClick={() => viewSystemLocation(system)}>
-              <span style={{ marginLeft: "12px" }}>View Location</span>
-            </MenuItem>
             <MenuItem onClick={() => onSupport()}>
               <span style={{ marginLeft: "12px" }}>{support}</span>
             </MenuItem>

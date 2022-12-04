@@ -414,17 +414,15 @@ export const emptySplitApi = createApi({
         { type: "Router", id: `Router-${queryArg.ipv4}` },
       ],
     }),
-    getRoutersLocation: builder.query<
+    getRouterLocationById: builder.query<
       RouterLocation,
-      { organizationId: string; system?: string }
+      { locationId: string }
     >({
       query: (queryArg) => ({
-        url: `organizations/${queryArg.organizationId}/routers/location/`,
-        method: "GET",
-        params: { system: queryArg.system },
+        url: `/routers/location/${queryArg.locationId}/`,
       }),
-      providesTags: (result, error, { organizationId, system }) => [
-        { type: "Router", id: `Router-${organizationId}-${system}` },
+      providesTags: (result, error, queryArg) => [
+        { type: "Router", id: `Router-${queryArg.locationId}` },
       ],
     }),
   }),

@@ -509,5 +509,4 @@ export interface SystemInterfaceProps {
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
   canLeaveNotes: boolean;
   currentUser: Me;
-  viewSystemLocation?: (system: System) => void;
 }
