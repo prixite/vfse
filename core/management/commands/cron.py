@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 else:
                     with transaction.atomic():
                         system.name = router["name"]
-                        system.is_online = router["status"]
+                        system.is_online = router["state"] == "online"
                         system.ip_address = router["ipv4_address"]
                         system.save()
                         models.RouterLocation.objects.create(
