@@ -7,9 +7,6 @@ from django.contrib.auth.forms import AuthenticationForm
 def upload_to_s3(file):
     uploaded = link = None
     client = boto3.client("s3")
-    BUCKET_REGION = client.get_bucket_location(Bucket=settings.AWS_STORAGE_BUCKET_NAME)[
-        "LocationConstraint"
-    ]
     try:
         response = client.put_object(
             ACL="public-read",
@@ -19,9 +16,13 @@ def upload_to_s3(file):
         )
     except Exception:
         raise forms.ValidationError("Error uploading file, check AWS configurations")
+
     if response["ResponseMetadata"].get("HTTPStatusCode") == 200:
         uploaded = True
-        link = f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3-{BUCKET_REGION}.amazonaws.com/{file.name}"  # noqa
+        link = (
+            f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/{file.name}"
+        )
+
     return uploaded, link
 
 
