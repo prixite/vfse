@@ -65,7 +65,7 @@
     "core-js": "^3.26.1",
     "css-loader": "^6.7.1",
     "miragejs": "^0.1.46",
-    "openapi-typescript": "^5.4.1",
+    "openapi-typescript": "^6.1.0",
     "regenerator-runtime": "^0.13.10",
     "sass": "^1.54.9",
     "sass-loader": "^13.1.0",
