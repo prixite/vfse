@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import {
-  useLocation,
-  useParams,
-  matchPath,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation, matchPath } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -27,15 +22,7 @@ import useTheme from "@src/theme";
 
 import { returnPayloadThemeObject } from "./helpers/utils/utils";
 import "@src/app.scss";
-export function withRouter(Component) {
-  function ComponentWithRouterProp(props) {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const params = useParams();
-    return <Component {...props} router={{ location, navigate, params }} />;
-  }
-  return ComponentWithRouterProp;
-}
+
 const App = () => {
   const dispatch = useAppDispatch();
   const { fontOne, fontTwo, buttonBackground } = useAppSelector(
