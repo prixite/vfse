@@ -87,15 +87,13 @@ const App = () => {
   }),
     [fontOne, fontTwo];
   return (
-    <>
-      <ThemeProvider theme={useTheme({ buttonBackground: buttonBackground })}>
-        <CssBaseline />
-        <ToastContainer />
-        <PageLayout>
-          <RoutesHOC isLoading={isLoading} />
-        </PageLayout>
-      </ThemeProvider>
-    </>
+    <ThemeProvider theme={useTheme({ buttonBackground: buttonBackground })}>
+      <CssBaseline />
+      <ToastContainer />
+      <PageLayout>
+        <RoutesHOC isLoading={isLoading} />
+      </PageLayout>
+    </ThemeProvider>
   );
 };
 export default App;
