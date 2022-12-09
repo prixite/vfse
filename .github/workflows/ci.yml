@@ -6,7 +6,7 @@ on:
 
 jobs:
   pre-commit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       output1: ${{ steps.preCommitOutput.outputs.test }}
 
@@ -36,7 +36,7 @@ jobs:
           fi
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       output2: ${{ steps.buildTest.outputs.test }}
     env:
