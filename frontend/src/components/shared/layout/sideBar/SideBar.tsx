@@ -15,7 +15,7 @@ import {
   Collapse,
 } from "@mui/material";
 import { styled, Theme, CSSObject } from "@mui/material/styles";
-import { useNavigate , Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import CloseBtn from "@src/assets/images/down.png";
 import OpenBtn from "@src/assets/images/opendrawer.png";
