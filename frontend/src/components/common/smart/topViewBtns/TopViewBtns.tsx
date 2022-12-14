@@ -358,7 +358,7 @@ const TopViewBtns = ({
           justifyContent: "space-between",
           marginTop: "23px",
           height: "47px",
-          width: "100%"
+          width: "100%",
         }}
       >
         <Box

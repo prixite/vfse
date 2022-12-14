@@ -105,9 +105,7 @@ const SystemSection = () => {
       }
     );
 
-  const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
-  );
+  const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery({
     id: selectedOrganization?.id.toString(),
