@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
@@ -11,7 +10,6 @@ import SystemCard from "@src/components/common/presentational/systemCard/SystemC
 import SystemCardMobile from "@src/components/common/presentational/systemCard/systemCardMobile/SystemCardMobile";
 import CommentsDrawer from "@src/components/common/smart/commentsDrawer/CommentsDrawer";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
-import useStyles from "@src/components/common/smart/vfseTopSection/Styles";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import AddSiteFirstModal from "@src/components/shared/popUps/addSiteFirstModal/AddSiteFirstModal";
@@ -58,7 +56,6 @@ const SystemSection = () => {
   } = constantsData.systemSection;
   const { loading } = constantsData.common;
 
-  const classes = useStyles();
   const dispatch = useAppDispatch();
 
   const queryParams = new URLSearchParams(location?.search);
@@ -486,40 +483,17 @@ const SystemSection = () => {
         <h2>{!fetching ? returnSiteName() : ""}</h2>
         {createModalitySection()}
         {!isSystemDataLoading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              alignItems: "stretch",
-            }}
-          >
-            <TopViewBtns
-              setOpen={!sites?.length ? setOpenConfirmModal : setOpen}
-              path="systems"
-              setData={setSystem}
-              setList={setSystemList}
-              networkFilter={setNetworkFilter}
-              siteFilter={setSiteFilter}
-              actualData={systemsData}
-              searchText={searchText}
-              setSearchText={setSearchText}
-            />
-            <Button
-              style={{
-                marginTop: 23,
-                height: 47,
-                width: "unset",
-                backgroundColor: buttonBackground,
-                color: buttonTextColor,
-              }}
-              onClick={() => setOpenMapModal(true)}
-              variant="contained"
-              className={`${classes.AddClientsbtn} btn-add`}
-            >
-              <LocationOnIcon />
-            </Button>
-          </div>
+          <TopViewBtns
+            setOpen={!sites?.length ? setOpenConfirmModal : setOpen}
+            path="systems"
+            setData={setSystem}
+            setList={setSystemList}
+            networkFilter={setNetworkFilter}
+            siteFilter={setSiteFilter}
+            actualData={systemsData}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
         ) : (
           ""
         )}
