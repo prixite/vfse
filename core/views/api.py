@@ -913,24 +913,6 @@ class WebSshLogViewSet(ModelViewSet):
         return queryset
 
 
-class CradlePointRouterList(ListAPIView):
-    def get(self, request, ipv4=None, offset=0):
-        response = requests.get(
-            url=f"{utils.CRADLEPOINT_API_URL}/routers?ipv4_address__in={ipv4}&limit=20&offset={offset}",  # noqa
-            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
-        )
-        return Response(data=response.json()["data"])
-
-
-class CradlePointRouterLocationHistory(APIView):
-    def get(self, request, router_id=None):
-        response = requests.get(
-            url=f"{utils.CRADLEPOINT_API_URL}/historical_locations?router={router_id}",
-            headers=utils.CRADLEPOINT_REQUEST_HEADERS,
-        )
-        return Response(response.json())
-
-
 class RouterLocationViewSet(ModelViewSet):
     serializer_class = serializers.RouterLocationSerializer
     filterset_class = filters.RouterLocationFilters

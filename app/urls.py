@@ -311,12 +311,6 @@ api_urlpatterns = [
             }
         ),
     ),
-    path("api/routers/<str:ipv4>/", api.CradlePointRouterList.as_view()),
-    path("api/routers/<int:router_id>/device", api.CradlePointRouterList.as_view()),
-    path(
-        "api/routers/<int:router_id>/historical_locations/",
-        api.CradlePointRouterLocationHistory.as_view(),
-    ),
     path(
         "api/organizations/<int:pk>/routers/location/",
         api.RouterLocationViewSet.as_view({"get": "list"}),

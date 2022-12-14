@@ -398,22 +398,6 @@ export const emptySplitApi = createApi({
         { type: "Reply", id: `Reply-${queryArg?.id}` },
       ],
     }),
-    getRouterHistoricalLocations: builder.query<unknown, { routerId: number }>({
-      query: (queryArg) => ({
-        url: `/routers/${queryArg.routerId}/historical_locations/`,
-      }),
-      providesTags: (result, error, queryArg) => [
-        { type: "Router", id: `Router-${queryArg?.routerId}` },
-      ],
-    }),
-    getRouterList: builder.query<RouterList, { ipv4: string }>({
-      query: (queryArg) => ({
-        url: `/routers/${queryArg.ipv4}/`,
-      }),
-      providesTags: (result, error, queryArg) => [
-        { type: "Router", id: `Router-${queryArg.ipv4}` },
-      ],
-    }),
     getRoutersLocation: builder.query<
       RouterLocation,
       { organizationId: string; system?: string }
