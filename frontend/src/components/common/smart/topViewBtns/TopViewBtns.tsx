@@ -324,12 +324,6 @@ const TopViewBtns = ({
   const createAddButton = () => {
     return (
       <Button
-        sx={{
-          width: {
-            xs: "unset !important",
-            sm: "190px !important",
-          },
-        }}
         style={{
           backgroundColor: buttonBackground,
           color: buttonTextColor,
@@ -364,7 +358,7 @@ const TopViewBtns = ({
           justifyContent: "space-between",
           marginTop: "23px",
           height: "47px",
-          width: path === systems ? "90%" : "100%",
+          width: "100%"
         }}
       >
         <Box
