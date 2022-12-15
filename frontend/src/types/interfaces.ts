@@ -129,16 +129,9 @@ export type Router = {
   upgrade_pending: false;
 };
 
-export type RouterLocation = {
-  account: string;
-  accuracy: number;
-  id: string;
-  latitude: number;
-  longitude: number;
-  method: string;
-  resource_url: string;
-  router: string;
-  updated_at: string;
+export type SystemLocation = {
+  system: number;
+  name: string;
+  lat: string;
+  long: string;
 };
-
-export type RouterList = Router[];

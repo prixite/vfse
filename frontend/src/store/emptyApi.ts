@@ -29,8 +29,7 @@ import {
 import {
   ChatBotResponse,
   getTopicListArg,
-  RouterLocation,
-  RouterList,
+  SystemLocation,
 } from "@src/types/interfaces";
 
 type TopicListResponse = {
@@ -81,7 +80,7 @@ export const emptySplitApi = createApi({
     "Topics",
     "Comment",
     "Reply",
-    "Router",
+    "System",
   ],
   endpoints: (builder) => ({
     getPopularTopics: builder.query<
@@ -398,31 +397,16 @@ export const emptySplitApi = createApi({
         { type: "Reply", id: `Reply-${queryArg?.id}` },
       ],
     }),
-    getRouterHistoricalLocations: builder.query<unknown, { routerId: number }>({
-      query: (queryArg) => ({
-        url: `/routers/${queryArg.routerId}/historical_locations/`,
-      }),
-      providesTags: (result, error, queryArg) => [
-        { type: "Router", id: `Router-${queryArg?.routerId}` },
-      ],
-    }),
-    getRouterList: builder.query<RouterList, { ipv4: string }>({
-      query: (queryArg) => ({
-        url: `/routers/${queryArg.ipv4}/`,
-      }),
-      providesTags: (result, error, queryArg) => [
-        { type: "Router", id: `Router-${queryArg.ipv4}` },
-      ],
-    }),
-    getRouterLocationById: builder.query<
-      RouterLocation,
-      { locationId: string }
+    getSystemLocations: builder.query<
+      SystemLocation,
+      { organizationId: string; systemId: string }
     >({
       query: (queryArg) => ({
-        url: `/routers/location/${queryArg.locationId}/`,
+        url: `organizations/${queryArg.organizationId}/systems/${queryArg.systemId}/locations/`,
+        method: "GET",
       }),
-      providesTags: (result, error, queryArg) => [
-        { type: "Router", id: `Router-${queryArg.locationId}` },
+      providesTags: (result, error, { systemId }) => [
+        { type: "System", id: `Location-${systemId}` },
       ],
     }),
   }),
