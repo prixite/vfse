@@ -1,7 +1,6 @@
 import json
 
 import boto3
-import requests
 from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.db import IntegrityError, transaction
@@ -913,7 +912,7 @@ class WebSshLogViewSet(ModelViewSet):
         return queryset
 
 
-class RouterLocationViewSet(ModelViewSet):
+class SystemLocationViewSet(ModelViewSet):
     serializer_class = serializers.RouterLocationSerializer
     filterset_class = filters.RouterLocationFilters
 
@@ -940,12 +939,8 @@ class RouterLocationViewSet(ModelViewSet):
                     )
                 )
             )
-        distinctLocations = (
-            models.RouterLocation.objects.values("system__id")
-            .filter(system__id__in=queryset)
-            .distinct()
-            .count()
-        )
+
+        queryset = queryset.filter(id=self.kwargs["system_id"])
         return models.RouterLocation.objects.filter(system__in=queryset).order_by(
             "-created_at"
-        )[:distinctLocations]
+        )

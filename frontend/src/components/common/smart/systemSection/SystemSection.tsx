@@ -90,9 +90,10 @@ const SystemSection = () => {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const selectedID = networkId || id;
-  const { data: routersLocationList = [] } = api.useGetRoutersLocationQuery(
-    { organizationId: selectedID, system: system?.id },
-    { skip: !selectedID }
+
+  const { data: systemLocationList = [] } = api.useGetSystemLocationsQuery(
+    { organizationId: selectedID, systemId: system?.id },
+    { skip: !system?.id || !selectedID }
   );
 
   const { data: organization, isFetching: fetching } =
@@ -565,7 +566,7 @@ const SystemSection = () => {
             setOpenMapModal(false);
             setSystem(null);
           }}
-          points={routersLocationList}
+          points={systemLocationList}
         />
       </Box>
       {chatModal && browserWidth > mobileWidth && (

@@ -312,8 +312,8 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<int:pk>/routers/location/",
-        api.RouterLocationViewSet.as_view({"get": "list"}),
+        "api/organizations/<int:pk>/systems/<int:system_id>/locations/",
+        api.SystemLocationViewSet.as_view({"get": "list"}),
     ),
 ]
 

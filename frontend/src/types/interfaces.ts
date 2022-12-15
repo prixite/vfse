@@ -129,11 +129,9 @@ export type Router = {
   upgrade_pending: false;
 };
 
-export type RouterLocation = {
+export type SystemLocation = {
   system: number;
   name: string;
   lat: string;
   long: string;
 };
-
-export type RouterList = Router[];
