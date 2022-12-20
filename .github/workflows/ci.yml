@@ -90,12 +90,3 @@ jobs:
           else
             echo "::set-output name=test::failure"
           fi
-
-  job_status_send:
-    needs: [pre-commit, test]
-    if: ${{github.event.pull_request}} && ${{ always() }}
-    uses: ./.github/workflows/slack-action.yml
-    with:
-      slack_message: "GitHub Action Pre-Commit result: ${{ needs.pre-commit.outputs.output1 }} GitHub Action Build result: ${{ needs.test.outputs.output2 }} ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-    secrets:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
