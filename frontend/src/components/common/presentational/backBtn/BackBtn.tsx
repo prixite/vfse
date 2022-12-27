@@ -1,5 +1,5 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 const { organizationRoute } = constants;
