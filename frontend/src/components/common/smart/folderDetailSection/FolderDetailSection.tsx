@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";

@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 import SectionSkeleton from "@src/components/common/presentational/sectionSkeleton/SectionSkeleton";
 import FolderDetailSection from "@src/components/common/smart/folderDetailSection/FolderDetailSection";

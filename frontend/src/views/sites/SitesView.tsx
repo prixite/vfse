@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
 import SectionSkeleton from "@src/components/common/presentational/sectionSkeleton/SectionSkeleton";
