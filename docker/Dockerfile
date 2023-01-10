@@ -1,4 +1,4 @@
-FROM python:3.9.7
+FROM python:3.11.1
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -38,6 +38,7 @@ COPY requirements-dev.txt requirements-dev.txt
 
 RUN pip install -r requirements-dev.txt
 
-RUN pip install psycopg2==2.9.1
+COPY requirements-prod.txt requirements-prod.txt
+RUN pip install $(grep psycopg2 requirements-prod.txt)
 
 COPY . ./
