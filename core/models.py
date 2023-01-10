@@ -309,7 +309,7 @@ class Profile(models.Model):
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=64)
     is_customer = models.BooleanField(default=False)
     number_of_seats = models.PositiveIntegerField(
         null=True, blank=True, validators=[MaxValueValidator(200), MinValueValidator(0)]
@@ -416,7 +416,7 @@ class Site(models.Model):
     organization = models.ForeignKey(
         "Organization", on_delete=models.CASCADE, related_name="sites"
     )
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=64)
     address = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -439,7 +439,7 @@ class Site(models.Model):
 
 
 class Modality(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=64)
     group = models.CharField(
         max_length=5,
         choices=ModalityType.choices,
@@ -538,7 +538,7 @@ class RemoteLoginSession(models.Model):
 
 
 class Manufacturer(models.Model):
-    name = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=64, unique=True)
     image = models.ForeignKey("ManufacturerImage", null=True, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -560,7 +560,7 @@ class ManufacturerImage(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=64)
     manufacturer = models.ForeignKey("Manufacturer", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
