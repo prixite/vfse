@@ -6,33 +6,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0083_remove_routerlocation_updated_at'),
+        ("core", "0083_remove_routerlocation_updated_at"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='manufacturer',
-            name='name',
+            model_name="manufacturer",
+            name="name",
             field=models.CharField(max_length=64, unique=True),
         ),
         migrations.AlterField(
-            model_name='modality',
-            name='name',
+            model_name="modality",
+            name="name",
             field=models.CharField(max_length=64),
         ),
         migrations.AlterField(
-            model_name='organization',
-            name='name',
+            model_name="organization",
+            name="name",
             field=models.CharField(max_length=64),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='name',
+            model_name="product",
+            name="name",
             field=models.CharField(max_length=64),
         ),
         migrations.AlterField(
-            model_name='site',
-            name='name',
+            model_name="site",
+            name="name",
             field=models.CharField(max_length=64),
         ),
     ]

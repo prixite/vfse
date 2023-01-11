@@ -96,6 +96,32 @@ class CommentSerializer(serializers.ModelSerializer):
         ]
 
 
+class ReplySerializer(serializers.ModelSerializer):
+    topic = serializers.PrimaryKeyRelatedField(
+        default=TopicDefault(),
+        queryset=models.Topic.objects.all(),
+    )
+
+    user = serializers.PrimaryKeyRelatedField(
+        default=serializers.CurrentUserDefault(),
+        queryset=core_models.User.objects.all(),
+    )
+
+    user_profile = core_serializers.ProfileMetaSerializer(read_only=True, source="user")
+
+    class Meta:
+        model = models.Comment
+        fields = [
+            "id",
+            "topic",
+            "user",
+            "comment",
+            "user_profile",
+            "created_at",
+            "parent",
+        ]
+
+
 class TopicSerializer(serializers.ModelSerializer):
     number_of_followers = serializers.IntegerField(read_only=True)
     number_of_comments = serializers.IntegerField(read_only=True)

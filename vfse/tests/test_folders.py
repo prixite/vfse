@@ -38,7 +38,7 @@ class FolderTestCase(BaseTestCase):
         self.client.force_login(self.super_user)
         new_category = factories.CategoryFactory()
         response = self.client.patch(
-            f"/api/vfse/folders/{self.category.id}/",
+            f"/api/vfse/folders/{self.folder.id}/",
             data={"name": "Updated Name", "categories": [new_category.id]},
         )
 
