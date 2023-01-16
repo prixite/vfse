@@ -16,7 +16,10 @@ class BaseTestCase(TestCase):
         self.topic_owner = core_app_factories.UserFactory()
         self.category = factories.CategoryFactory()
         self.folder = factories.FolderFactory(categories=[self.category])
-        self.document = factories.DocumentFactory(folder=self.folder)
+        self.document = factories.DocumentFactory(
+            folder=self.folder,
+            created_by=self.super_user,
+        )
         self.topic = factories.TopicFactory(
             title="Test Topic",
             description="Test Topic Description",
@@ -38,6 +41,10 @@ class BaseTestCase(TestCase):
             is_default=True,
             name="626",
             number_of_seats=10,
+        )
+
+        self.system = core_app_factories.SystemFactory(
+            site=core_app_factories.SiteFactory(organization=organization)
         )
 
         self.work_order = factories.WorkOrderFactory(

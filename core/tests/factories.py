@@ -353,7 +353,7 @@ class SystemFactory(factory.django.DjangoModelFactory):
     asset_number = factory.Faker("bothify", text="??##?##?##")
     serial_number = factory.Faker("ssn")
     local_ae_title = factory.Faker("sentence", nb_words=2)
-    location_in_building = factory.Faker("street_address")
+    location_in_building = factory.Faker("street_name")
     system_contact_info = factory.Faker("bothify", text="+1##########")
     his_ris_info = {
         "ip": "192.187.23.23",

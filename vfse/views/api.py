@@ -2,7 +2,7 @@ from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.views import APIView, status
 from rest_framework.viewsets import ModelViewSet
 
 from core import models as core_models
@@ -104,10 +104,22 @@ class ReplyViewSet(ModelViewSet):
             return models.Comment.objects.none()
         return models.Comment.objects.filter(parent_id=self.kwargs["pk"])
 
-    def perform_create(self, serializer):
-        topic = models.Comment.objects.get(id=self.kwargs["pk"]).topic
-        send_topic_email(topic, self.request.user, serializer.validated_data["comment"])
-        serializer.save(parent_id=self.kwargs["pk"])
+    def create(self, request, *args, **kwargs):
+        parent = models.Comment.objects.get(id=self.kwargs["pk"])
+        serializer = serializers.ReplySerializer(
+            data={
+                **request.data,
+                "topic": parent.topic_id,
+                "parent": parent.id,
+            },
+            context=self.get_serializer_context(),
+        )
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
 
 class TopicViewset(ModelViewSet):

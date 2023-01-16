@@ -93,7 +93,7 @@ class TopicTestCase(BaseTestCase):
 
     def test_topic_retrieve(self):
         self.client.force_login(self.super_user)
-        response = self.client.get(f"/api/vfse/topics/{self.folder.id}/")
+        response = self.client.get(f"/api/vfse/topics/{self.topic.id}/")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
@@ -116,7 +116,7 @@ class TopicTestCase(BaseTestCase):
 
     def test_topic_delete(self):
         self.client.force_login(self.super_user)
-        response = self.client.delete(f"/api/vfse/topics/{self.folder.id}/")
+        response = self.client.delete(f"/api/vfse/topics/{self.topic.id}/")
 
         self.assertEqual(response.status_code, 204)
 
@@ -203,7 +203,7 @@ class RepliesTestCase(BaseTestCase):
     def test_comment_post(self):
         self.client.force_login(self.super_user)
         response = self.client.post(
-            f"/api/vfse/comments/{self.topic.id}/replies/",
+            f"/api/vfse/comments/{self.comment.id}/replies/",
             data={"comment": "This is another random comment"},
         )
 
@@ -248,7 +248,7 @@ class WorkOrderTestCase(BaseTestCase):
         response = self.client.post(
             "/api/vfse/workorders/",
             data={
-                "system": 1,
+                "system": self.system.id,
                 "description": "There is no description",
                 "work_started": False,
                 "work_completed": False,
@@ -257,6 +257,6 @@ class WorkOrderTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
         self.assertTrue(
             models.WorkOrder.objects.filter(
-                system_id=1, description="There is no description"
+                system_id=self.system.id, description="There is no description"
             ).exists()
         )
