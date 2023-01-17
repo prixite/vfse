@@ -23,7 +23,9 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import SystemImageGallery from "@src/components/common/smart/systemImageGallery/SystemImageGallery";
 import AddManufacturerModal from "@src/components/shared/popUps/addManufacturerModal/AddManufacturerModal";
+import AddProductModelDialog from "@src/components/shared/popUps/addProductModelDialog/AddProductModelDialog";
 import ProductModal from "@src/components/shared/popUps/productModal/productModal";
+import FormikAutoComplete from "@src/components/shared/popUps/systemModal/FormikAutoComplete";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
@@ -42,8 +44,6 @@ import {
 } from "@src/store/reducers/api";
 
 import "@src/components/shared/popUps/systemModal/systemModal.scss";
-import AddProductModelDialog from "../addProductModelDialog/AddProductModelDialog";
-import FormikAutoComplete from "./FormikAutoComplete";
 
 interface SystemProps {
   open: boolean;
