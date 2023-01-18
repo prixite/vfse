@@ -1,4 +1,5 @@
 import openai
+import openai.error
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -43,18 +44,26 @@ def send_topic_email(topic, user, comment):
 def get_chat_bot_response(question, prompt):
     openai.api_key = settings.OPENAI_API_KEY
     if not question:
-        return "please enter some text to get response"
-    query = prompt + question
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=query,
-        temperature=0.6,
-        max_tokens=1445,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0,
-    )
-    answer = (response.choices[0].text).replace("A:", "")
+        return "Please enter some text to get response."
+
+    query = f"{prompt}\n{question}"
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-002",
+            max_tokens=1000,
+            prompt=query,
+            temperature=0.6,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0,
+        )
+    except openai.error.RateLimitError:
+        return (
+            "Temporary network failure occurred. "
+            "Please try again in a couple of minutes."
+        )
+
+    answer = response.choices[0].text
     return answer
 
 
