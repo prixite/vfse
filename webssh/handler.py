@@ -33,11 +33,17 @@ from webssh.utils import (
 )
 from webssh.worker import Worker, clients, recycle_worker
 
-env = environ.Env(WEBSSH_AUTH_TOKEN=(str, ""), WEBSSH_SERVICE=(str, None))
+env = environ.Env(
+    BACKEND_SERVER_AUTH_TOKEN=(str, ""),
+    BACKEND_SERVER=(str, None),
+    WEBSSH_CORS=(str, "http://localhost:8000"),
+)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, "./.env"))
-WEBSSH_AUTH_TOKEN = env("WEBSSH_AUTH_TOKEN")
-WEBSSH_SERVICE = env("WEBSSH_SERVICE")
+BACKEND_SERVER_AUTH_TOKEN = env("BACKEND_SERVER_AUTH_TOKEN")
+BACKEND_SERVER = env("BACKEND_SERVER")
+WEBSSH_CORS = env("WEBSSH_CORS")
 
 try:
     from json.decoder import JSONDecodeError
@@ -332,7 +338,7 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
         self.result = dict(id=None, status=None, encoding=None)
 
     def set_default_headers(self):
-        self.set_header("Access-Control-Allow-Origin", f"{WEBSSH_SERVICE}")
+        self.set_header("Access-Control-Allow-Origin", f"{WEBSSH_CORS}")
         self.set_header("Access-Control-Allow-Credentials", "true")
         self.set_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 
@@ -412,8 +418,8 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
     def get_args(self):
         system_id = self.get_system()
         response = requests.get(
-            f"{WEBSSH_SERVICE}/api/systems/{system_id}/ssh_password/",  # noqa
-            headers={"Authorization": f"Token {WEBSSH_AUTH_TOKEN}"},
+            f"{BACKEND_SERVER}/api/systems/{system_id}/ssh_password/",  # noqa
+            headers={"Authorization": f"Token {BACKEND_SERVER_AUTH_TOKEN}"},
         )
         if response.status_code != 200:
             raise InvalidValueError("Couldn't establish a connection")

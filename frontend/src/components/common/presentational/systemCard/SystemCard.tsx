@@ -204,7 +204,7 @@ const SystemCard = ({
     } else {
       setLoginProgress(false);
       setOpenModal(true);
-      const url = `${process.env.WEBSSH_WS}ws?id=${msg.id}`;
+      const url = `${process.env.WEBSSH_WS_SERVER}ws?id=${msg.id}`;
       const title_element: unknown = {};
       const url_opts_data: unknown = {};
       const style: unknown = {};

@@ -12,11 +12,20 @@ services:
       service: app
     ports:
       - "8000:8000"
-      - "3000:3000"
     volumes:
       - .:/opt/code
+      - dist:/opt/code/frontend/dist/
     depends_on:
       - db
+
+  frontend:
+    image: vfse_app
+    volumes:
+      - .:/opt/code
+      - dist:/opt/code/frontend/dist/
+    depends_on:
+      - db
+    command: bash -c 'npm run start'
 
   ping:
     extends:
@@ -36,9 +45,12 @@ services:
     extends:
       file: docker-compose.base.yml
       service: ssh
-    environment:
-      - WEBSSH_SERVICE=app:8000
     volumes:
       - .:/opt/code
     depends_on:
       - app
+    ports:
+      - "8888:8888"
+
+volumes:
+  dist:
