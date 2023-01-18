@@ -51,10 +51,14 @@ def get_chat_bot_response(question, prompt):
     if query[-1] not in "?.!":
         query = query + "."
 
+    max_tokens = int(len(query.split()) * 4 / 3)
+    max_tokens = min(max_tokens, 4000)
+    max_tokens = max(max_tokens, 256)
+
     try:
         response = openai.Completion.create(
-            engine="text-davinci-002",
-            max_tokens=int(len(query.split()) * 4 / 3),
+            engine="text-davinci-003",
+            max_tokens=max_tokens,
             prompt=query,
             temperature=0.6,
             top_p=1,
