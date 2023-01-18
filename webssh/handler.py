@@ -8,7 +8,6 @@ import traceback
 import weakref
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from urllib.parse import urlparse
 
 import environ
 import paramiko
@@ -21,7 +20,6 @@ from tornado.process import cpu_count
 from webssh.utils import (
     UnicodeType,
     is_ip_hostname,
-    is_same_primary_domain,
     is_valid_encoding,
     is_valid_hostname,
     is_valid_ip_address,
