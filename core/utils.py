@@ -56,12 +56,22 @@ def get_chat_bot_response(question, prompt):
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0,
+            timeout=10,
+            request_timeout=10,
         )
     except openai.error.RateLimitError:
         return (
             "Temporary network failure occurred. "
             "Please try again in a couple of minutes."
         )
+    except openai.error.Timeout:
+        return (
+            "Request timed out. "
+            "Can you try to rephrase your question?"
+        )
+
+    if not response.choices[0].text:
+        return "Please elaborate your question."
 
     return response.choices[0].text
 
