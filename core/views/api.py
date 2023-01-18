@@ -32,11 +32,10 @@ class ChatBotView(APIView):
 
     def post(self, request, system_id=None, format=None):
         query = request.data.get("query", None)
-        answer = utils.get_chat_bot_response(
-            query, models.System.objects.get(id=system_id).chatbot_content
-        )
         response = {
-            "response_text": answer,
+            "response_text": utils.get_chat_bot_response(
+                query, models.System.objects.get(id=system_id).chatbot_content
+            )
         }
 
         return Response(response)

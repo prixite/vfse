@@ -63,8 +63,7 @@ def get_chat_bot_response(question, prompt):
             "Please try again in a couple of minutes."
         )
 
-    answer = response.choices[0].text
-    return answer
+    return response.choices[0].text
 
 
 def fetch_from_influxdb(system_id):
