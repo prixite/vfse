@@ -47,17 +47,21 @@ def get_chat_bot_response(question, prompt):
         return "Please enter some text to get response."
 
     query = f"{prompt}\n{question}"
+
+    if query[-1] not in "?.!":
+        query = query + "."
+
     try:
         response = openai.Completion.create(
             engine="text-davinci-002",
-            max_tokens=1000,
+            max_tokens=int(len(query.split()) * 4 / 3),
             prompt=query,
             temperature=0.6,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0,
-            timeout=10,
-            request_timeout=10,
+            timeout=15,
+            request_timeout=15,
         )
     except openai.error.RateLimitError:
         return (
