@@ -57,6 +57,7 @@ env = environ.Env(
     X_CP_API_KEY=(str, None),
     X_ECM_API_ID=(str, None),
     X_ECM_API_KEY=(str, None),
+    AUTHENTICATION_CLASSES=(list, []),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -69,6 +70,7 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
+AUTHENTICATION_CLASSES = env("AUTHENTICATION_CLASSES")
 # Application definition
 
 INSTALLED_APPS = [
@@ -208,7 +210,8 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
-
+if AUTHENTICATION_CLASSES:
+    REST_FRAMEWORK["DEFAULT_AUTHENTICATION_CLASSES"] = AUTHENTICATION_CLASSES
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
