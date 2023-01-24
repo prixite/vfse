@@ -69,6 +69,7 @@ export const emptySplitApi = createApi({
     prepareHeaders: (headers) => {
       headers.append("Content-Type", "application/json");
       headers.set("X-CSRFToken", document.forms.csrf.csrfmiddlewaretoken.value);
+      headers.set("Authorization", `Token ${process.env.AUTH_TOKEN}`);
       return headers;
     },
   }),
