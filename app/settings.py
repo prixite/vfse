@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     "drf_link_header_pagination",
     "django_filters",
     "webpack_loader",
+    "corsheaders",
     # apps
     "core",
     "emailbackend",
@@ -277,3 +278,5 @@ X_CP_API_ID = env("X_CP_API_ID")
 X_CP_API_KEY = env("X_CP_API_KEY")
 X_ECM_API_ID = env("X_ECM_API_ID")
 X_ECM_API_KEY = env("X_ECM_API_KEY")
+
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(",")
