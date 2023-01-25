@@ -65,7 +65,7 @@ type TopicCommentsResponse = {
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/",
+    baseUrl: `${process.env.BACKEND_SERVER}/api/`,
     prepareHeaders: (headers) => {
       headers.append("Content-Type", "application/json");
       headers.set("X-CSRFToken", document.forms.csrf.csrfmiddlewaretoken.value);
