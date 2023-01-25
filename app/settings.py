@@ -34,6 +34,7 @@ env = environ.Env(
     AWS_THUMBNAIL_LAMBDA_ARN=(str, None),
     ALLOWED_HOSTS=(list, []),
     CSRF_TRUSTED_ORIGINS=(list, ["https://app.vfse.io"]),
+    CORS_ALLOWED_ORIGINS=(list, ["http://localhost:3000"]),
     EMAIL_BACKEND=(str, None),
     EMAIL_HOST=(str, None),
     EMAIL_PORT=(int, 587),
