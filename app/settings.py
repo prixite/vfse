@@ -34,6 +34,7 @@ env = environ.Env(
     AWS_THUMBNAIL_LAMBDA_ARN=(str, None),
     ALLOWED_HOSTS=(list, []),
     CSRF_TRUSTED_ORIGINS=(list, ["https://app.vfse.io"]),
+    CORS_ALLOWED_ORIGINS=(list, ["http://localhost:3000"]),
     EMAIL_BACKEND=(str, None),
     EMAIL_HOST=(str, None),
     EMAIL_PORT=(int, 587),
@@ -89,6 +90,7 @@ INSTALLED_APPS = [
     "drf_link_header_pagination",
     "django_filters",
     "webpack_loader",
+    "corsheaders",
     # apps
     "core",
     "emailbackend",
@@ -98,6 +100,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -277,3 +280,5 @@ X_CP_API_ID = env("X_CP_API_ID")
 X_CP_API_KEY = env("X_CP_API_KEY")
 X_ECM_API_ID = env("X_ECM_API_ID")
 X_ECM_API_KEY = env("X_ECM_API_KEY")
+
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS")
