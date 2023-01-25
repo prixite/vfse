@@ -100,6 +100,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -280,4 +281,4 @@ X_CP_API_KEY = env("X_CP_API_KEY")
 X_ECM_API_ID = env("X_ECM_API_ID")
 X_ECM_API_KEY = env("X_ECM_API_KEY")
 
-CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS")
