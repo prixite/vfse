@@ -48,6 +48,8 @@ module.exports = {
       AWS_SECRET_ACCESS_KEY: "something",
       AWS_DEFAULT_REGION: "something",
       BACKEND_SERVER: "fake",
+      API_SERVER: "/api/",
+      PUBLIC_PATH: "/static/",
       AUTH_TOKEN: "fake",
     }),
     new BundleTracker({ filename: "./webpack-stats.json" }),
@@ -60,7 +62,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "../dist/"),
-    publicPath: "/",
+    publicPath: process.env.PUBLIC_PATH,
     filename: "[name].[contenthash].js",
     clean: true,
   },
