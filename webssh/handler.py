@@ -32,15 +32,15 @@ from webssh.utils import (
 from webssh.worker import Worker, clients, recycle_worker
 
 env = environ.Env(
-    BACKEND_SERVER_AUTH_TOKEN=(str, ""),
-    BACKEND_SERVER=(str, None),
+    WEBSSH_BACKEND_AUTH_TOKEN=(str, ""),
+    WEBSSH_BACKEND=(str, None),
     WEBSSH_CORS=(str, "http://localhost:8000"),
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, "./.env"))
-BACKEND_SERVER_AUTH_TOKEN = env("BACKEND_SERVER_AUTH_TOKEN")
-BACKEND_SERVER = env("BACKEND_SERVER")
+WEBSSH_BACKEND_AUTH_TOKEN = env("WEBSSH_BACKEND_AUTH_TOKEN")
+WEBSSH_BACKEND = env("WEBSSH_BACKEND")
 WEBSSH_CORS = env("WEBSSH_CORS")
 
 try:
@@ -396,8 +396,8 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
     def get_args(self):
         system_id = self.get_system()
         response = requests.get(
-            f"{BACKEND_SERVER}/api/systems/{system_id}/ssh_password/",  # noqa
-            headers={"Authorization": f"Token {BACKEND_SERVER_AUTH_TOKEN}"},
+            f"{WEBSSH_BACKEND}/api/systems/{system_id}/ssh_password/",  # noqa
+            headers={"Authorization": f"Token {WEBSSH_BACKEND_AUTH_TOKEN}"},
         )
         if response.status_code != 200:
             raise InvalidValueError("Couldn't establish a connection")
