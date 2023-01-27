@@ -7,9 +7,6 @@ services:
       service: db
     volumes:
       - pgdata:/var/lib/postgresql/data
-    ports:
-      - 6432:5432
-
 
   app:
     extends:
