@@ -18,10 +18,7 @@ module.exports = merge.mergeWithCustomize({
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "../public/", "index.html"),
-      chunks: [
-        "main",
-        "vendor",
-      ],
+      chunks: ["main", "vendor"],
     }),
   ],
 });
