@@ -34,7 +34,7 @@ from webssh.worker import Worker, clients, recycle_worker
 env = environ.Env(
     WEBSSH_BACKEND_AUTH_TOKEN=(str, ""),
     WEBSSH_BACKEND=(str, None),
-    WEBSSH_CORS=(str, "http://localhost:8000"),
+    WEBSSH_CORS=(list, ["http://localhost:8000"]),
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -316,7 +316,6 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
         self.result = dict(id=None, status=None, encoding=None)
 
     def set_default_headers(self):
-        self.set_header("Access-Control-Allow-Origin", f"{WEBSSH_CORS}")
         self.set_header("Access-Control-Allow-Credentials", "true")
         self.set_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 
@@ -493,7 +492,7 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
                     403, "Cross origin operation is not allowed."
                 )
 
-            if not event_origin and self.origin_policy != "same":
+            if origin in WEBSSH_CORS:
                 self.set_header("Access-Control-Allow-Origin", origin)
 
     def check_xsrf_cookie(self) -> None:
