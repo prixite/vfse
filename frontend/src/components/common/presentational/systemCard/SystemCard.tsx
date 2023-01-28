@@ -56,14 +56,6 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function getCookie(cookieName) {
-  const cookie = {};
-  document.cookie.split(";").forEach(function (el) {
-    const [key, value] = el.split("=");
-    cookie[key.trim()] = value;
-  });
-  return cookie[cookieName];
-}
 const SystemCard = ({
   system,
   handleEdit,
@@ -117,7 +109,6 @@ const SystemCard = ({
     color,
     username,
     term,
-    xsrf,
     sshTerminalText,
     blank,
     yes,
@@ -358,33 +349,21 @@ const SystemCard = ({
     setLoginProgress(true);
     const url = process.env.WEBSSH_SERVER;
     try {
-      const response = await fetch(url, {
+      const data = new FormData();
+      data.append(organizationId, selectedOrganization?.id);
+      data.append(id, systemId);
+      data.append(port, portNumber);
+      data.append(username, root);
+      data.append(term, color);
+
+      fetch(url, {
         credentials: "include",
-        method: "GET",
+        method: "POST",
         mode: "cors",
-      });
-
-      if (!response.status === 200) {
-        throw new Error(`Error! status: ${response.status}`);
-      } else {
-        const xsrfToken = getCookie(xsrf);
-        const data = new FormData();
-        data.append(organizationId, selectedOrganization?.id);
-        data.append(id, systemId);
-        data.append(port, portNumber);
-        data.append(username, root);
-        data.append(term, color);
-        data.append(xsrf, xsrfToken);
-
-        fetch(url, {
-          credentials: "include",
-          method: "POST",
-          mode: "cors",
-          body: data,
-        })
-          .then((res) => res.json())
-          .then((res) => webSSHConnection(res));
-      }
+        body: data,
+      })
+        .then((res) => res.json())
+        .then((res) => webSSHConnection(res));
     } catch (err) {
       setLoginProgress(false);
       toastAPIError(toastData.systemCardConnectionError, err.status, err.data);
