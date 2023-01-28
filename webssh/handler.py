@@ -496,6 +496,9 @@ class IndexHandler(MixinHandler, tornado.web.RequestHandler):
             if not event_origin and self.origin_policy != "same":
                 self.set_header("Access-Control-Allow-Origin", origin)
 
+    def check_xsrf_cookie(self) -> None:
+        pass
+
     def head(self):
         pass
 
