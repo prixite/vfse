@@ -139,6 +139,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   connectBtn: {
     width: "195px",
+    "&:disabled": {
+      backgroundColor: "grey !important",
+    },
     [theme.breakpoints.down(800)]: {
       width: "inherit",
       height: "inherit",

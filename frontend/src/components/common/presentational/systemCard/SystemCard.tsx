@@ -69,6 +69,7 @@ const SystemCard = ({
   const [webSSHPayload] = api.useWebsshlogCreateMutation();
   const [consoleMsg, setConsoleMsg] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorConnect, setAnchorConnect] = useState(null);
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -81,6 +82,7 @@ const SystemCard = ({
   const [openModal, setOpenModal] = useState(false);
 
   const open = Boolean(anchorEl);
+  const openConnect = Boolean(anchorConnect);
   const {
     his_ris_info_txt,
     dicom_info_txt,
@@ -128,9 +130,14 @@ const SystemCard = ({
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleConnectClick = (event) => {
+    setAnchorConnect(event.currentTarget);
+  };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.stopPropagation();
     setAnchorEl(null);
+    setAnchorConnect(null);
   };
 
   const onSupport = () => {
@@ -338,14 +345,15 @@ const SystemCard = ({
         read_file_as_text(msg.data, term_write, decoder);
       };
       sock.onclose = function () {
+        setOpenModal(false);
         term.dispose();
-        term = undefined;
         sock = undefined;
       };
     }
   };
 
-  const handleConnect = async (systemId: number) => {
+  const handleConnect = async (e, systemId: number) => {
+    handleClose(e);
     setLoginProgress(true);
     const url = process.env.WEBSSH_SERVER;
     try {
@@ -409,18 +417,85 @@ const SystemCard = ({
               style={{
                 backgroundColor: buttonBackground,
                 color: buttonTextColor,
+                position: "relative",
               }}
               className={classes.connectBtn}
-              onClick={() => handleConnect(system.id)}
+              onClick={(e) => handleConnectClick(e)}
+              disabled={
+                !(
+                  system?.connection_options?.service_web_browser ||
+                  system?.connection_options?.ssh ||
+                  system?.connection_options?.vfse ||
+                  system?.connection_options?.virtual_media_control
+                )
+              }
+              sx={{ display: "flex", alignItems: "center" }}
             >
-              {connect}
-              {loginProgress && (
+              {loginProgress ? (
                 <CircularProgress
                   color="inherit"
                   className={classes.submitProgress}
                   size={22}
                 />
+              ) : (
+                <>
+                  {connect}
+                  <MoreVertIcon
+                    sx={{
+                      marginBottom: "2px",
+                      position: "absolute",
+                      width: "25px",
+                      height: "22px",
+                      right: "0px",
+                    }}
+                  />
+                </>
               )}
+              <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="client-options-button"
+                anchorEl={anchorConnect}
+                open={openConnect}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+                onClose={handleClose}
+                sx={{
+                  "& ul": {
+                    minWidth: "195px",
+                  },
+                }}
+              >
+                {system.connection_options.ssh && (
+                  <MenuItem onClick={(e) => handleConnect(e, system.id)}>
+                    <span style={{ marginLeft: "12px" }}>SSH</span>
+                  </MenuItem>
+                )}
+                {system.connection_options.vfse && (
+                  <MenuItem>
+                    <span style={{ marginLeft: "12px" }}>VNC</span>
+                  </MenuItem>
+                )}
+                {system.connection_options.virtual_media_control && (
+                  <MenuItem>
+                    <span style={{ marginLeft: "12px" }}>
+                      Virtual Media Control
+                    </span>
+                  </MenuItem>
+                )}
+                {system.connection_options.service_web_browser && (
+                  <MenuItem>
+                    <span style={{ marginLeft: "12px" }}>
+                      Service Web Browser
+                    </span>
+                  </MenuItem>
+                )}
+              </Menu>
             </Button>
             {system?.grafana_link ? (
               <Button
