@@ -417,18 +417,39 @@ const SystemCard = ({
               style={{
                 backgroundColor: buttonBackground,
                 color: buttonTextColor,
+                position: "relative",
               }}
               className={classes.connectBtn}
               onClick={(e) => handleConnectClick(e)}
-              sx={{ position: "relative" }}
+              disabled={
+                !(
+                  system?.connection_options?.service_web_browser ||
+                  system?.connection_options?.ssh ||
+                  system?.connection_options?.vfse ||
+                  system?.connection_options?.virtual_media_control
+                )
+              }
+              sx={{ display: "flex", alignItems: "center" }}
             >
-              {connect}
-              {loginProgress && (
+              {loginProgress ? (
                 <CircularProgress
                   color="inherit"
                   className={classes.submitProgress}
                   size={22}
                 />
+              ) : (
+                <>
+                  {connect}
+                  <MoreVertIcon
+                    sx={{
+                      marginBottom: "2px",
+                      position: "absolute",
+                      width: "25px",
+                      height: "22px",
+                      right: "0px",
+                    }}
+                  />
+                </>
               )}
               <Menu
                 id="demo-positioned-menu"
@@ -455,9 +476,23 @@ const SystemCard = ({
                     <span style={{ marginLeft: "12px" }}>SSH</span>
                   </MenuItem>
                 )}
-                {system.connection_options.virtual_media_control && (
+                {system.connection_options.vfse && (
                   <MenuItem>
                     <span style={{ marginLeft: "12px" }}>VNC</span>
+                  </MenuItem>
+                )}
+                {system.connection_options.virtual_media_control && (
+                  <MenuItem>
+                    <span style={{ marginLeft: "12px" }}>
+                      Virtual Media Control
+                    </span>
+                  </MenuItem>
+                )}
+                {system.connection_options.service_web_browser && (
+                  <MenuItem>
+                    <span style={{ marginLeft: "12px" }}>
+                      Service Web Browser
+                    </span>
                   </MenuItem>
                 )}
               </Menu>
