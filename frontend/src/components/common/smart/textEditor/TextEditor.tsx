@@ -24,7 +24,7 @@ const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
     const contentBlock = htmlToDraft(htmlText);
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(
-        contentBlock.contentBlocks
+        contentBlock.contentBlocks,
       );
       const editorState = EditorState.createWithContent(contentState);
       setEditorState(editorState);
@@ -32,21 +32,21 @@ const TextEditor = ({ htmlText, editorState, setEditorState }: text) => {
   }, []);
 
   const { secondaryColor, buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   //setting scss variable via js
   document.documentElement.style.setProperty(
     "--richTextIconBackground",
-    secondaryColor
+    secondaryColor,
   );
   document.documentElement.style.setProperty(
     "--buttonBackground",
-    buttonBackground
+    buttonBackground,
   );
   document.documentElement.style.setProperty(
     "--buttonTextColor",
-    buttonTextColor
+    buttonTextColor,
   );
 
   return (

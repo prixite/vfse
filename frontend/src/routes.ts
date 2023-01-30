@@ -14,46 +14,47 @@ const OrganizationView = lazy(
   async () =>
     import(
       /* webpackChunkName: "OrganizationView" */ "@src/views/organization/OrganizationView"
-    )
+    ),
 );
 const SystemsView = lazy(
   async () =>
     import(
       /* webpackChunkName: "SystemsView" */ "@src/views/systems/SystemsView"
-    )
+    ),
 );
 const AppearanceView = lazy(
   async () =>
     import(
       /* webpackChunkName: "AppearanceView" */ "@src/views/appearance/AppearanceView"
-    )
+    ),
 );
 const Documentation = lazy(
   async () =>
     import(
       /* webpackChunkName: "Documentation" */ "@src/views/documentation/DocumentationView"
-    )
+    ),
 );
 const FaqView = lazy(
-  async () => import(/* webpackChunkName: "FaqView" */ "@src/views/faq/FaqView")
+  async () =>
+    import(/* webpackChunkName: "FaqView" */ "@src/views/faq/FaqView"),
 );
 const ForumView = lazy(
   async () =>
-    import(/* webpackChunkName: "ForumView" */ "@src/views/forum/ForumView")
+    import(/* webpackChunkName: "ForumView" */ "@src/views/forum/ForumView"),
 );
 const KnowledgeBaseView = lazy(
   async () =>
     import(
       /* webpackChunkName: "KnowledgeBaseView" */ "@src/views/knowledgeBase/KnowledgeBaseView"
-    )
+    ),
 );
 const UserView = lazy(
   async () =>
-    import(/* webpackChunkName: "UserView" */ "@src/views/user/UserView")
+    import(/* webpackChunkName: "UserView" */ "@src/views/user/UserView"),
 );
 const ProfileView = lazy(
   async () =>
-    import(/* webpackChunkName: "UserView" */ "@src/views/profile/ProfileView")
+    import(/* webpackChunkName: "UserView" */ "@src/views/profile/ProfileView"),
 );
 export const routes: routeItem[] = [
   {

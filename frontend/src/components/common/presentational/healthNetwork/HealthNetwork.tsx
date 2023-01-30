@@ -64,7 +64,7 @@ const HealthNetwork = ({
   };
   const networkCloseHandler = () => {
     const TempNetworks = allNetworks.filter(
-      (_, networkIndex) => networkIndex !== index
+      (_, networkIndex) => networkIndex !== index,
     );
     setNetworks([...TempNetworks]);
   };

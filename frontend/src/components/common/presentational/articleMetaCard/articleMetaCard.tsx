@@ -23,7 +23,7 @@ const ToggleButton = styled(MuiToggleButton)(
       color: "white !important",
       backgroundColor: `${selectedColor} !important`,
     },
-  })
+  }),
 );
 const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   articleData,
@@ -40,7 +40,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
     ...articleData.categories,
   ]);
   const [folFormats, setFolFormats] = useState<number | number[]>(
-    articleData.folder
+    articleData.folder,
   );
 
   const finalFolders = useMemo(() => {
@@ -55,7 +55,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
         const uniqueArr = Array.from(new Set(solFolders.map((a) => a.id))).map(
           (id) => {
             return solFolders.find((a) => a.id === id);
-          }
+          },
         );
         solFolders = uniqueArr;
       }
@@ -73,7 +73,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
 
   const handleOnChangeCategories = (
     event: React.MouseEvent<HTMLElement>,
-    newFormats: number[]
+    newFormats: number[],
   ) => {
     setCatFormats(newFormats);
     setCategory(newFormats);
@@ -81,7 +81,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
 
   const handleOnChangeFolders = (
     event: React.MouseEvent<HTMLElement>,
-    newFormats: number
+    newFormats: number,
   ) => {
     setFolFormats(newFormats);
     setFolder(newFormats);

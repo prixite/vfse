@@ -67,7 +67,7 @@ export default function SiteModal(props: siteProps) {
     localizedData().siteModal;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { data: organizationList, isFetching: isOrgListFetching } =
     useOrganizationsListQuery({
@@ -115,13 +115,13 @@ export default function SiteModal(props: siteProps) {
     if (!isOrgListFetching && !reset) {
       const data = returnSearchedOject(
         organizationList,
-        selectedOrganization?.id
+        selectedOrganization?.id,
       );
       if (data?.length) {
         dispatch(
           setSelectedOrganization({
             selectedOrganization: data[0],
-          })
+          }),
         );
       }
       resetModal();
@@ -149,7 +149,7 @@ export default function SiteModal(props: siteProps) {
         props?.selectionID,
         updatedSites,
         updateSite,
-        editText
+        editText,
       )
         .then(() => {
           setTimeout(() => {

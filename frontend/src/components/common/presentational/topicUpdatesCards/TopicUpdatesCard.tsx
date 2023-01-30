@@ -39,7 +39,7 @@ const TopicUpdatesCards = ({
   const { organizationRoute } = constants;
   const { follow, following } = constantsData.topicUpdateCard;
   const [isFollowing, setIsFollowing] = useState(
-    followers.some((follower) => follower?.id === me?.id)
+    followers.some((follower) => follower?.id === me?.id),
   );
   const selectedOrganization = useSelectedOrganization();
   const [updateFollowUnfollowTopic] =
@@ -50,7 +50,7 @@ const TopicUpdatesCards = ({
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
   useEffect(() => {
     setIsFollowing(followers.some((follower) => follower?.id === me?.id));
@@ -67,7 +67,7 @@ const TopicUpdatesCards = ({
 
   const expandOnClick = () => {
     navigate(
-      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
+      `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`,
     );
   };
 

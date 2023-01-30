@@ -50,7 +50,7 @@ function TopicReply({
 
   const totalReplyPages = useMemo(
     () => parseLink(repliesData?.link),
-    [repliesData?.data]
+    [repliesData?.data],
   );
 
   //POST vfseCommentsRepliesCreate

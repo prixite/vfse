@@ -23,7 +23,7 @@ interface Props {
       width: number;
       hide: boolean;
       disableColumnMenu: boolean;
-    }[]
+    }[],
   ) => void;
 }
 

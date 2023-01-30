@@ -37,7 +37,7 @@ const SiteSection = () => {
         return (
           site?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
         );
-      })
+      }),
     );
   };
   useEffect(() => {

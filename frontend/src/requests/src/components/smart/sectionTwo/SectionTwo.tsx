@@ -123,7 +123,7 @@ const SectionTwo = ({
           </div>
         ) : (
           ""
-        )
+        ),
       )}
       {organizationSites && organizationSites?.length ? (
         <div className="network-details">

@@ -93,7 +93,7 @@ const SystemSection = () => {
 
   const { data: systemLocationList = [] } = api.useGetSystemLocationsQuery(
     { organizationId: selectedID, systemId: system?.id },
-    { skip: !system?.id || !selectedID }
+    { skip: !system?.id || !selectedID },
   );
 
   const { data: organization, isFetching: fetching } =
@@ -103,7 +103,7 @@ const SystemSection = () => {
       },
       {
         skip: !selectedID,
-      }
+      },
     );
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
@@ -117,13 +117,13 @@ const SystemSection = () => {
       {
         id: selectedOrganization.id.toString(),
       },
-      { skip: !selectedOrganization }
+      { skip: !selectedOrganization },
     );
 
   const { isLoading: isModalitiesLoading, data: modalitiesList } =
     useOrganizationsModalitiesListQuery(
       { id: selectedOrganization.id.toString() },
-      { skip: !selectedOrganization }
+      { skip: !selectedOrganization },
     );
 
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
@@ -180,7 +180,7 @@ const SystemSection = () => {
         {
           search: queryParams.toString(),
         },
-        { replace: true }
+        { replace: true },
       );
     } else {
       setModality(item?.id.toString());
@@ -191,7 +191,7 @@ const SystemSection = () => {
           pathname: location.pathname,
           search: queryParams.toString(),
         },
-        { replace: true }
+        { replace: true },
       );
     }
   };
@@ -213,7 +213,7 @@ const SystemSection = () => {
             ...system,
             ...{ mri_embedded_parameters: data.mri_embedded_parameters },
           };
-        })
+        }),
       ).then((systems) => {
         // Update cache data so that frontend is updated and we don't have to
         // send request to backend.
@@ -223,8 +223,8 @@ const SystemSection = () => {
             { id: selectedOrganization.id.toString() },
             (draftSystems) => {
               Object.assign(draftSystems, systems);
-            }
-          )
+            },
+          ),
         );
         setSystemList(systems);
       });
@@ -459,7 +459,7 @@ const SystemSection = () => {
     },
     {
       skip: !selectedID,
-    }
+    },
   );
 
   useEffect(() => {

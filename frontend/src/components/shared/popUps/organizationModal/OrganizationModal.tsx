@@ -107,7 +107,7 @@ export default function OrganizationModal({
     },
     {
       skip: !organizationID,
-    }
+    },
   );
   const formik = useFormik({
     initialValues: initialState,
@@ -193,7 +193,7 @@ export default function OrganizationModal({
   const handleOrganizationSeats = (event) => {
     formik.setFieldValue(
       organizationSeats,
-      event.target.value.replace(/[^0-9]/g, "")
+      event.target.value.replace(/[^0-9]/g, ""),
     );
   };
   const handleSetNewOrganization = async () => {
@@ -209,18 +209,18 @@ export default function OrganizationModal({
             await addNewOrganizationService(
               organizationObject,
               addNewOrganization,
-              setOrganizationID
+              setOrganizationID,
             )
               .then(() => setPage("2"))
               .catch((error) =>
                 toastAPIError(
                   toastData.addOrganizationError,
                   error?.status,
-                  error.data
-                )
+                  error.data,
+                ),
               );
           }
-        }
+        },
       );
     }
     setIsLoading(false);
@@ -250,18 +250,18 @@ export default function OrganizationModal({
             await updateOrganizationService(
               organizationID,
               organizationObject,
-              updateOrganization
+              updateOrganization,
             )
               .then(() => setPage("2"))
               .catch((error) =>
                 toastAPIError(
                   toastData.saveOrganizationError,
                   error?.status,
-                  error.data
-                )
+                  error.data,
+                ),
               );
           }
-        }
+        },
       );
     } else if (
       formik.values.organizationLogo &&
@@ -272,15 +272,15 @@ export default function OrganizationModal({
         await updateOrganizationService(
           organizationID,
           organizationObject,
-          updateOrganization
+          updateOrganization,
         )
           .then(() => setPage("2"))
           .catch((error) =>
             toastAPIError(
               toastData.saveOrganizationError,
               error?.status,
-              error.data
-            )
+              error.data,
+            ),
           );
       }
     }
@@ -316,7 +316,7 @@ export default function OrganizationModal({
     if (validateForm() && formik.isValid) {
       setIsLoading(true);
       const TempNetworks = formik.values.networks.filter(
-        (network) => network?.name && network?.appearance?.logo !== ""
+        (network) => network?.name && network?.appearance?.logo !== "",
       );
       if (!TempNetworks.length) {
         toastAPIError(toastData.addNetworksFirstError);
@@ -324,7 +324,7 @@ export default function OrganizationModal({
         await addNewHealthNetworksService(
           organizationID,
           addNewNetworks,
-          TempNetworks
+          TempNetworks,
         ).then(() => {
           resetModal();
         });

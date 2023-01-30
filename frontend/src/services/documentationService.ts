@@ -22,7 +22,7 @@ const deleteProductModelService = async (id, deleteProductModel) => {
 const updateProductModelService = async (
   id,
   ProductModelCreate,
-  updateProductModel
+  updateProductModel,
 ) => {
   await updateProductModel({
     id: id.toString(),

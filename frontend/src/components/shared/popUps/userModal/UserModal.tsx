@@ -126,7 +126,7 @@ export default function UserModal(props: UserModalProps) {
     },
     {
       skip: !formik.values.customer,
-    }
+    },
   );
   const { data: organizationSitesData } = useOrganizationsSitesListQuery(
     {
@@ -134,7 +134,7 @@ export default function UserModal(props: UserModalProps) {
     },
     {
       skip: !formik.values.customer,
-    }
+    },
   );
   const editedUser = props?.usersData.find((user) => {
     return user.id == props?.selectedUser;
@@ -147,7 +147,7 @@ export default function UserModal(props: UserModalProps) {
   });
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   const [createUser] = useScopeUsersCreateMutation();
@@ -163,7 +163,7 @@ export default function UserModal(props: UserModalProps) {
     usersData,
     userSitesMap,
     organizationData,
-    modalitiesList
+    modalitiesList,
   ) => {
     if (editedUser?.image?.length) {
       formik.setValues({
@@ -176,7 +176,7 @@ export default function UserModal(props: UserModalProps) {
       if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
         formik.setFieldValue(
           constantData.phone,
-          editedUser?.phone?.substring(2)
+          editedUser?.phone?.substring(2),
         );
       }
       if (editedUser?.role?.length) {
@@ -186,8 +186,8 @@ export default function UserModal(props: UserModalProps) {
         formik.setFieldValue(
           constantData.manager,
           usersData?.filter(
-            (user) => user?.email == editedUser?.manager?.email
-          )[0]?.id
+            (user) => user?.email == editedUser?.manager?.email,
+          )[0]?.id,
         );
       } else {
         if (usersData?.length) {
@@ -201,7 +201,7 @@ export default function UserModal(props: UserModalProps) {
             return (
               org?.name?.toString() == editedUser?.organizations[0]?.toString()
             );
-          })[0]?.id
+          })[0]?.id,
         );
       }
       if (editedUser?.sites) {
@@ -231,19 +231,19 @@ export default function UserModal(props: UserModalProps) {
       if (editedUser?.fse_accessible) {
         formik.setFieldValue(
           constantData.accessToFSEFunctions,
-          editedUser?.fse_accessible
+          editedUser?.fse_accessible,
         );
       }
       if (editedUser?.audit_enabled) {
         formik.setFieldValue(
           constantData.auditEnable,
-          editedUser?.audit_enabled
+          editedUser?.audit_enabled,
         );
       }
       if (editedUser?.can_leave_notes) {
         formik.setFieldValue(
           constantData.possibilitytoLeave,
-          editedUser?.can_leave_notes
+          editedUser?.can_leave_notes,
         );
       }
       if (editedUser?.view_only) {
@@ -252,13 +252,13 @@ export default function UserModal(props: UserModalProps) {
       if (editedUser?.is_one_time) {
         formik.setFieldValue(
           constantData.oneTimeLinkCreation,
-          editedUser?.is_one_time
+          editedUser?.is_one_time,
         );
       }
       if (editedUser?.documentation_url) {
         formik.setFieldValue(
           constantData.docLink,
-          editedUser?.documentation_url
+          editedUser?.documentation_url,
         );
       }
     }
@@ -286,7 +286,7 @@ export default function UserModal(props: UserModalProps) {
         usersData,
         userSitesMap,
         props?.organizationData,
-        props?.modalitiesList
+        props?.modalitiesList,
       );
     }
   }, [props?.selectedUser, networksData, organizationSitesData]);
@@ -314,7 +314,7 @@ export default function UserModal(props: UserModalProps) {
           await addNewUserService(
             selectedOrganization.id,
             userObject,
-            createUser
+            createUser,
           )
             .then(() => {
               setTimeout(() => {
@@ -326,7 +326,7 @@ export default function UserModal(props: UserModalProps) {
               toastAPIError(toastData.userAlreadyExists, err.status, err.data);
               setIsLoading(false);
             });
-        }
+        },
       );
     } else {
       setIsLoading(false);
@@ -342,7 +342,7 @@ export default function UserModal(props: UserModalProps) {
         await uploadImageToS3(selectedImage[0]).then(
           async (data: S3Interface) => {
             performEditUser(data.location);
-          }
+          },
         );
       }
     } else {
@@ -352,7 +352,7 @@ export default function UserModal(props: UserModalProps) {
 
   const constructObject = (
     imageUrl: string,
-    userProfileImageText: string
+    userProfileImageText: string,
   ): UpsertUser => {
     const obj = {
       meta: {
@@ -421,7 +421,7 @@ export default function UserModal(props: UserModalProps) {
         usersData,
         userSitesMap,
         props?.organizationData,
-        props?.modalitiesList
+        props?.modalitiesList,
       );
       formik.resetForm();
       formik.setFieldValue(userProfileImage, selectedImage[0]);

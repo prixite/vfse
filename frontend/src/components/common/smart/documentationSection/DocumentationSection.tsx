@@ -326,7 +326,7 @@ export default function DocumentationSection() {
                           handleClick(
                             e,
                             cellValues?.row?.id,
-                            cellValues?.row?.name
+                            cellValues?.row?.name,
                           )
                         }
                         style={{

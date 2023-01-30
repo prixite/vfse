@@ -69,11 +69,11 @@ const ToggleButton = styled(MuiToggleButton)(
       color: "white !important",
       backgroundColor: `${selectedColor} !important`,
     },
-  })
+  }),
 );
 export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -117,7 +117,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       ),
   });
   const handleAddNewDocument = () => {
@@ -139,7 +139,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
         toastAPIError(
           "Error occured while adding Article",
           error.status,
-          error.data
+          error.data,
         );
       })
       .finally(() => {
@@ -159,7 +159,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
           async (data: S3Interface) => {
             formik.setFieldValue(document_link, data?.location);
             setIsLoading(false);
-          }
+          },
         );
       })();
     }
@@ -167,7 +167,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
 
   const handleOnClick = () => {
     let htmlString = draftjsToHtml(
-      convertToRaw(editorState.getCurrentContent())
+      convertToRaw(editorState.getCurrentContent()),
     );
 
     htmlString = addIdToHeadings(htmlString);
@@ -187,7 +187,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
       if (categoryId) {
         formik.setFieldValue(categories, [
           categoriesList.find(
-            (category) => category?.id.toString() === categoryId
+            (category) => category?.id.toString() === categoryId,
           )?.id,
         ]);
       }
@@ -201,7 +201,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
         category.folders.forEach((folder) => {
           if (
             formik.values.categories.every((el) =>
-              folder.categories.includes(el)
+              folder.categories.includes(el),
             )
           ) {
             solFolders.push(folder);
@@ -210,7 +210,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
         const uniqueArr = Array.from(new Set(solFolders.map((a) => a.id))).map(
           (id) => {
             return solFolders.find((a) => a.id === id);
-          }
+          },
         );
         solFolders = uniqueArr;
       }
@@ -234,14 +234,14 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
 
   const handleOnChangeCategories = (
     event: React.MouseEvent<HTMLElement>,
-    newFormats: number[]
+    newFormats: number[],
   ) => {
     formik.setFieldValue(categories, newFormats);
   };
 
   const handleOnChangeFolders = (
     event: React.MouseEvent<HTMLElement>,
-    newFormats: number[]
+    newFormats: number[],
   ) => {
     formik.setFieldValue(folder, newFormats);
   };

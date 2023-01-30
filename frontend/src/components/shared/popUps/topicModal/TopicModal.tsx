@@ -54,7 +54,7 @@ const ToggleButton = styled(MuiToggleButton)(
       color: "white",
       backgroundColor: selectedcolor,
     },
-  })
+  }),
 );
 
 export default function TopicModal({ open, handleClose }: Props) {
@@ -89,7 +89,7 @@ export default function TopicModal({ open, handleClose }: Props) {
   });
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const handleSelectedCategories = (event, newFormats) => {
     if (newFormats.length <= 3) {
@@ -228,7 +228,7 @@ export default function TopicModal({ open, handleClose }: Props) {
                       onChange={(e) =>
                         formik.setFieldValue(
                           replyEmailNotification,
-                          e.target.checked
+                          e.target.checked,
                         )
                       }
                     />

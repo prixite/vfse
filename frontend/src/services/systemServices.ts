@@ -7,7 +7,7 @@ const addNewOrdanizationSystem = async (
   systemObject,
   addOrganizationSystem,
   handleClear,
-  setDisableButton
+  setDisableButton,
 ) => {
   await addOrganizationSystem({
     id: organizationId,
@@ -32,7 +32,7 @@ const updateOrdanizationSystem = async (
   system,
   updateSystem,
   handleClear,
-  setDisableButton
+  setDisableButton,
 ) => {
   const OrganizationsSystemsPartialUpdateApiArg = {
     id: organizationId,
@@ -56,7 +56,7 @@ const updateOrdanizationSystem = async (
 const DeleteOrganizationSystemService = async (
   organizationId,
   systemId,
-  deleteSystemsOrganization
+  deleteSystemsOrganization,
 ) => {
   await deleteSystemsOrganization({
     id: organizationId,
@@ -67,7 +67,7 @@ const addNewSystemNoteService = async (
   authorID,
   systemID,
   note,
-  addNewNote
+  addNewNote,
 ) => {
   await addNewNote({
     id: systemID,

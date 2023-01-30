@@ -31,7 +31,7 @@ export default function ForumSection() {
 
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
-    value: number
+    value: number,
   ) => {
     event.preventDefault();
     setPage(value);
@@ -43,7 +43,7 @@ export default function ForumSection() {
 
   const totalTopicPages = useMemo(
     () => parseLink(topicsList?.link) || 1,
-    [topicsList?.data]
+    [topicsList?.data],
   );
 
   return (

@@ -43,7 +43,7 @@ export default function AddProductModelDialog({
   product,
 }: AddProductModelDialogProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const [isLoading, setIsLoading] = useState(false);
   const [onChangeValidation, setOnChangeValidation] = useState(false);

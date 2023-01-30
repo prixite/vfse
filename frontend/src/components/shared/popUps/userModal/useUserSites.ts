@@ -33,7 +33,7 @@ export default function useUserSite({
   }, [organizationSitesData, userSites]);
 
   const addSitesToSitesSet = (
-    sitesList: MetaSite[] | OrganizationsSitesListApiResponse
+    sitesList: MetaSite[] | OrganizationsSitesListApiResponse,
   ) => {
     sitesList?.forEach((site) => {
       siteExistInUserSites(site);

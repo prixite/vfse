@@ -24,7 +24,7 @@ const ConfirmationModal = ({
   name,
 }: Props) => {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { dialogMessage, noButton, yesButton } =
     localizedData().organization.deleteDialog;

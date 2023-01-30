@@ -16,5 +16,5 @@ ReactDOM.render(
       <App />
     </React.StrictMode>
   </Provider>,
-  document.getElementById("container")
+  document.getElementById("container"),
 );

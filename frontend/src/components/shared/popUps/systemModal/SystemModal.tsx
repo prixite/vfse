@@ -224,7 +224,7 @@ export default function SystemModal(props: SystemProps) {
       {
         id: selectedOrganization.id.toString(),
       },
-      { skip: !selectedOrganization }
+      { skip: !selectedOrganization },
     );
 
   const { data: allSites = [], isLoading: isAllSitesLoading } =
@@ -232,7 +232,7 @@ export default function SystemModal(props: SystemProps) {
       {
         id: selectedOrganization.id.toString(),
       },
-      { skip: !selectedOrganization }
+      { skip: !selectedOrganization },
     );
 
   const { data: manufacturerData = [], isFetching: isManufacturerLoading } =
@@ -242,7 +242,7 @@ export default function SystemModal(props: SystemProps) {
       },
       {
         skip: !formik.values.modality,
-      }
+      },
     );
 
   const { data: productData = [], isFetching: isProductLoading } =
@@ -252,7 +252,7 @@ export default function SystemModal(props: SystemProps) {
       },
       {
         skip: !formik.values.manufacturer,
-      }
+      },
     );
 
   const { data: productModelData = [], isLoading: isProductsModelsLoading } =
@@ -263,7 +263,7 @@ export default function SystemModal(props: SystemProps) {
       },
       {
         skip: !formik.values.product || !formik.values.modality,
-      }
+      },
     );
 
   const { siteId, networkId, id } = useParams<{
@@ -279,7 +279,7 @@ export default function SystemModal(props: SystemProps) {
     },
     {
       skip: !selectedID,
-    }
+    },
   );
 
   const isMri = useMemo(
@@ -288,10 +288,10 @@ export default function SystemModal(props: SystemProps) {
         modalityData.find(
           (value) =>
             value.group === mriText &&
-            value.id === parseInt(formik.values.modality)
-        )
+            value.id === parseInt(formik.values.modality),
+        ),
       ),
-    [modalityData.length, formik.values.modality]
+    [modalityData.length, formik.values.modality],
   );
 
   const isShowRis = useMemo(
@@ -300,10 +300,10 @@ export default function SystemModal(props: SystemProps) {
         modalityData.find(
           (value) =>
             value.show_ris === true &&
-            value.id === parseInt(formik.values.modality)
-        )
+            value.id === parseInt(formik.values.modality),
+        ),
       ),
-    [modalityData.length, formik.values.modality]
+    [modalityData.length, formik.values.modality],
   );
   const isDiscom = useMemo(
     () =>
@@ -311,10 +311,10 @@ export default function SystemModal(props: SystemProps) {
         modalityData.find(
           (value) =>
             value.show_dicom === true &&
-            value.id === parseInt(formik.values.modality)
-        )
+            value.id === parseInt(formik.values.modality),
+        ),
       ),
-    [modalityData.length, formik.values.modality]
+    [modalityData.length, formik.values.modality],
   );
 
   const {
@@ -350,7 +350,7 @@ export default function SystemModal(props: SystemProps) {
   } = localizedData().systemModal;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   const handleClear = () => {
@@ -409,14 +409,14 @@ export default function SystemModal(props: SystemProps) {
     if (siteId && healthNetwork) {
       // Coming through health network
       setSites(
-        healthNetwork.sites.filter((value) => value.id === parseInt(siteId))
+        healthNetwork.sites.filter((value) => value.id === parseInt(siteId)),
       );
     } else if (siteId) {
       // Coming through direct site
       setSites(
         selectedOrganization.sites.filter(
-          (value) => value.id === parseInt(siteId)
-        )
+          (value) => value.id === parseInt(siteId),
+        ),
       );
     } else {
       // Coming through modality page

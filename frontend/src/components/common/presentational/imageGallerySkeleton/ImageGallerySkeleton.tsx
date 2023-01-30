@@ -17,7 +17,7 @@ const ImageGallerySkeleton = () => {
           {Array(8).fill(
             <Grid item={true} xs={3} className="cardSkeleton">
               <CardSkeleton />
-            </Grid>
+            </Grid>,
           )}
         </Grid>
       </Box>

@@ -49,12 +49,12 @@ const KnowledgeBaseHome = () => {
     // handleSearch Logic here
     const dataForSearchCategories = [
       ...categoriesList.filter((data) =>
-        data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+        data?.name.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     ];
     const dataForSearchArticles = [
       ...topData.filter((data) =>
-        data?.title.toLowerCase().includes(searchQuery.toLowerCase())
+        data?.title.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     ];
     setArticlesList(dataForSearchArticles);

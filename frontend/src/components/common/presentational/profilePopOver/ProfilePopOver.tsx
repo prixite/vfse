@@ -26,11 +26,11 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const { profilePopOver } = constantsData;
   const defaultOrganizationData = useAppSelector(
-    (state) => state.organization.currentOrganization
+    (state) => state.organization.currentOrganization,
   );
 
   const selectedOrganizationData = useAppSelector(
-    (state) => state.organization.selectedOrganization
+    (state) => state.organization.selectedOrganization,
   );
 
   const { organizationRoute } = constants;
@@ -45,19 +45,21 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
   const setDefaultOrganization = (e) => {
     e.preventDefault();
     dispatch(
-      setSelectedOrganization({ selectedOrganization: defaultOrganizationData })
+      setSelectedOrganization({
+        selectedOrganization: defaultOrganizationData,
+      }),
     );
     dispatch(
-      updateSideBarColor(defaultOrganizationData.appearance.sidebar_color)
+      updateSideBarColor(defaultOrganizationData.appearance.sidebar_color),
     );
     dispatch(
-      updateButtonColor(defaultOrganizationData.appearance.primary_color)
+      updateButtonColor(defaultOrganizationData.appearance.primary_color),
     );
     dispatch(
-      updateSideBarTextColor(defaultOrganizationData.appearance.sidebar_text)
+      updateSideBarTextColor(defaultOrganizationData.appearance.sidebar_text),
     );
     dispatch(
-      updateButtonTextColor(defaultOrganizationData.appearance.button_text)
+      updateButtonTextColor(defaultOrganizationData.appearance.button_text),
     );
     handleClose();
     navigate(`/${organizationRoute}/${defaultOrganizationData.id}/`, {
@@ -97,7 +99,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           className="profile-item"
           onClick={() => {
             navigate(
-              `/${organizationRoute}/${defaultOrganizationData.id}/profile`
+              `/${organizationRoute}/${defaultOrganizationData.id}/profile`,
             );
             handleClose();
           }}
@@ -110,7 +112,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           className="profile-item"
           onClick={() => {
             navigate(
-              `/${organizationRoute}/${defaultOrganizationData.id}/account`
+              `/${organizationRoute}/${defaultOrganizationData.id}/account`,
             );
             handleClose();
           }}

@@ -39,7 +39,7 @@ const SystemCardMobile = ({
   currentUser,
 }: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state?.myTheme
+    (state) => state?.myTheme,
   );
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false);
@@ -84,7 +84,7 @@ const SystemCardMobile = ({
     await DeleteOrganizationSystemService(
       selectedOrganization.id,
       system.id,
-      deleteSystem
+      deleteSystem,
     );
     handleClose();
   };

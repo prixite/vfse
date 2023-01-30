@@ -26,10 +26,10 @@ const CommentsDrawer = () => {
   const [note, setNote] = useState("");
   const { toastData, commentsDrawer } = constantsData;
   const { fontTwo, buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { openSystemNotesDrawer, systemID } = useAppSelector(
-    (state) => state.app
+    (state) => state.app,
   );
   const dispatch = useAppDispatch();
   const { data: systemNotesList } = useSystemsNotesListQuery(
@@ -38,7 +38,7 @@ const CommentsDrawer = () => {
     },
     {
       skip: !systemID,
-    }
+    },
   );
   const { data: me } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
@@ -63,8 +63,8 @@ const CommentsDrawer = () => {
           toastAPIError(
             toastData.commentsDrawerAddNoteError,
             err.status,
-            err.data
-          )
+            err.data,
+          ),
       );
     }
     resetNoteHandler();

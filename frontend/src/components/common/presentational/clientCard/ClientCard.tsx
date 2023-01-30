@@ -55,7 +55,7 @@ const ClientCard = ({
   const { toastData } = constantsData;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   const { switch_org, edit, new_network, delete_org } =

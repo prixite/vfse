@@ -49,7 +49,7 @@ const VfsePopOver = ({ anchorEl, setAnchorEl }: VfsePopOver) => {
           onClick={() => {
             setAnchorEl(null);
             navigate(
-              `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+              `/${organizationRoute}/${selectedOrganization?.id}${route.path}`,
             );
           }}
           key={key}

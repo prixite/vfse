@@ -30,14 +30,14 @@ const DropzoneBox = ({
       return acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       );
     },
   });
 
   const constantData: object = localizedData()?.dropzone;
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { heading, description, button, info, options } = constantData;
   const dropzoneOptions =

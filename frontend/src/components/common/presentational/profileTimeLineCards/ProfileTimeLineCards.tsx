@@ -53,7 +53,7 @@ const ProfileTimelineCards = ({
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
   const navigate = useNavigate();
   const { organizationRoute } = constants;
@@ -61,7 +61,7 @@ const ProfileTimelineCards = ({
   const [updateFollowUnfollowTopic] =
     useVfseTopicsFollowPartialUpdateMutation();
   const [isFollowing, setIsFollowing] = useState(
-    followers?.some((follower) => follower?.id === me?.id)
+    followers?.some((follower) => follower?.id === me?.id),
   );
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const ProfileTimelineCards = ({
             style={{ cursor: "pointer" }}
             onClick={() =>
               navigate(
-                `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`
+                `/${organizationRoute}/${selectedOrganization?.id}/forum/topic/${id}`,
               )
             }
           >

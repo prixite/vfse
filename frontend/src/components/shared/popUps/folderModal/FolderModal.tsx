@@ -56,7 +56,7 @@ const ToggleButton = styled(MuiToggleButton)(
       color: "white",
       backgroundColor: selectedColor,
     },
-  })
+  }),
 );
 
 export default function FolderModal({
@@ -66,7 +66,7 @@ export default function FolderModal({
   folderDataState,
 }: FolderModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const id = folderDataState.id;
   const [onChangeValidation, setOnChangeValidation] = useState(false);

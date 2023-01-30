@@ -193,7 +193,7 @@ export default function UserSection() {
 
   const { data: modalitiesList } = useOrganizationsModalitiesListQuery(
     { id: selectedOrganization?.id?.toString() },
-    { skip: !selectedOrganization }
+    { skip: !selectedOrganization },
   );
 
   const { data: organizationData } = useOrganizationsListQuery({ page: 1 });
@@ -391,7 +391,7 @@ export default function UserSection() {
                     hide: false,
                     renderCell: (cellValues) =>
                       usersRoles?.find(
-                        (x) => x?.value === cellValues?.row?.role[0]
+                        (x) => x?.value === cellValues?.row?.role[0],
                       )?.title,
                   },
                   {
@@ -417,7 +417,7 @@ export default function UserSection() {
                             ? () =>
                                 handleModalClick(
                                   "Customers",
-                                  cellValues?.row?.organizations
+                                  cellValues?.row?.organizations,
                                 )
                             : undefined
                         }
@@ -455,7 +455,7 @@ export default function UserSection() {
                             ? () =>
                                 handleModalClick(
                                   "Sites",
-                                  cellValues?.row?.sites
+                                  cellValues?.row?.sites,
                                 )
                             : undefined
                         }
@@ -498,7 +498,7 @@ export default function UserSection() {
                           handleClick(
                             e,
                             cellValues.row.id,
-                            cellValues.row.is_active
+                            cellValues.row.is_active,
                           )
                         }
                         style={{

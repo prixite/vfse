@@ -52,7 +52,7 @@ const EditProfilePicModal = ({ open, setOpen }) => {
               zoom_link: currentUser?.zoom_link,
             },
           },
-          updatePicture
+          updatePicture,
         )
           .then(() => {
             toast.success("Profile picture updated successfully.", {
@@ -98,7 +98,7 @@ const EditProfilePicModal = ({ open, setOpen }) => {
   };
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   return (
     <Dialog open={open} onClose={handleClose} className="profile-pic-modal">

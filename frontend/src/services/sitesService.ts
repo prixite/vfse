@@ -18,7 +18,7 @@ const updateSitesService = async (id, sites, updateSites, type) => {
         {
           autoClose: timeOut,
           pauseOnHover: false,
-        }
+        },
       );
     });
 };

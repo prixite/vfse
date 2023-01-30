@@ -33,7 +33,7 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
   const handleSearchQuery = (searchQuery: string) => {
     const dataForSearch = [
       ...categoryData.folders.filter((data) =>
-        data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+        data?.name.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     ];
     setFolderList(dataForSearch);

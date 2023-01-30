@@ -46,7 +46,7 @@ export default function ProductModal({
   manufacturer,
 }: ProductModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const [isLoading, setIsLoading] = useState(false);
   const [onChangeValidation, setOnChangeValidation] = useState(false);

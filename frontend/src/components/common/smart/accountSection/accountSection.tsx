@@ -21,7 +21,7 @@ import "@src/components/common/smart/accountSection/accountSection.scss";
 
 const AccountSection = () => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   const { toastData } = constantsData;
@@ -81,7 +81,7 @@ const AccountSection = () => {
             zoom_link: values?.zoomlink,
           },
         },
-        updateUsername
+        updateUsername,
       )
         .then(async () => {
           toast.success(toastData.accountSectionUsernameUpdateSuccess, {
@@ -125,7 +125,7 @@ const AccountSection = () => {
           password: values?.password,
           old_password: values?.oldPassword,
         },
-        updatePassword
+        updatePassword,
       ).then(() => resetForm());
     },
   });

@@ -60,7 +60,7 @@ const OrganizationSection = () => {
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);

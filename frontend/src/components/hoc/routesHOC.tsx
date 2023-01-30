@@ -11,62 +11,62 @@ const OrganizationView = lazy(
   async () =>
     import(
       /* webpackChunkName: "OrganizationView" */ "@src/views/organization/OrganizationView"
-    )
+    ),
 );
 
 const CategoryDetailView = lazy(
   async () =>
     import(
       /* webpackChunkName: "CategoryDetailView" */ "@src/views/categoryDetail/CategoryDetailView"
-    )
+    ),
 );
 
 const ArticleDocumentation = lazy(
   async () =>
     import(
       /* webpackChunkName: "ArticleDocumentation" */ "@src/views/articleDocumentation/ArticleDocumentation"
-    )
+    ),
 );
 const TopicView = lazy(
   async () =>
     import(
       /* webpackChunkName: "FolderView" */ "@src/views/topicView/TopicView"
-    )
+    ),
 );
 const FolderView = lazy(
   async () =>
     import(
       /* webpackChunkName: "FolderView" */ "@src/views/folderView/FolderView"
-    )
+    ),
 );
 
 const HomeView = lazy(
   async () =>
-    import(/* webpackChunkName: "HomeView" */ "@src/views/home/HomeView")
+    import(/* webpackChunkName: "HomeView" */ "@src/views/home/HomeView"),
 );
 
 const NotFoundPage = lazy(
   async () =>
     import(
       /* webpackChunkName: "NotFoundPage" */ "@src/views/notFoundPage/NotFoundPage"
-    )
+    ),
 );
 
 const SitesView = lazy(
   async () =>
-    import(/* webpackChunkName: "SitesView" */ "@src/views/sites/SitesView")
+    import(/* webpackChunkName: "SitesView" */ "@src/views/sites/SitesView"),
 );
 
 const Account = lazy(
   async () =>
-    import(/* webpackChunkName: "SitesView" */ "@src/views/account/account")
+    import(/* webpackChunkName: "SitesView" */ "@src/views/account/account"),
 );
 
 const ActiveUsers = lazy(
   async () =>
     import(
       /* webpackChunkName: "ActiveUsers" */ "@src/views/activeUsers/activeUsers"
-    )
+    ),
 );
 
 import SystemsView from "../../views/systems/SystemsView";

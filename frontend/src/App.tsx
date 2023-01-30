@@ -26,7 +26,7 @@ import "@src/app.scss";
 const App = () => {
   const dispatch = useAppDispatch();
   const { fontOne, fontTwo, buttonBackground } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { pathname } = useLocation();
   const paramsId = matchPath("/clients/*", pathname);
@@ -46,7 +46,7 @@ const App = () => {
       if (!isFetching && !FetchingList && data) {
         const organizationData = data?.organization;
         dispatch(
-          setCurrentOrganization({ currentOrganization: organizationData })
+          setCurrentOrganization({ currentOrganization: organizationData }),
         );
         if (organizationList) {
           const selectedOrganizationData = organizationList;
@@ -54,13 +54,13 @@ const App = () => {
           dispatch(
             setSelectedOrganization({
               selectedOrganization: selectedOrganizationData,
-            })
+            }),
           );
           dispatch(updateTheme(themeObj));
         } else {
           const themeObj = returnPayloadThemeObject(organizationData);
           dispatch(
-            setSelectedOrganization({ selectedOrganization: organizationData })
+            setSelectedOrganization({ selectedOrganization: organizationData }),
           );
           dispatch(updateTheme(themeObj));
         }

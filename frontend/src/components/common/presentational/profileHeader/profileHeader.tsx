@@ -34,7 +34,7 @@ const ProfileHeader = () => {
     id: useSelectedOrganization().id.toString(),
   });
   const defaultOrganizationData = useAppSelector(
-    (state) => state.organization.currentOrganization
+    (state) => state.organization.currentOrganization,
   );
   const { organizationRoute } = constants;
 
@@ -51,7 +51,7 @@ const ProfileHeader = () => {
             variant="contained"
             onClick={() => {
               navigate(
-                `/${organizationRoute}/${defaultOrganizationData.id}/account`
+                `/${organizationRoute}/${defaultOrganizationData.id}/account`,
               );
             }}
           >

@@ -72,25 +72,25 @@ const Registeration = () => {
     { organizationId },
     {
       skip: !organizationId,
-    }
+    },
   );
   const { data: HealthNetworks = [] } = useOrganizationsHealthNetworksListQuery(
     { organizationId },
     {
       skip: !organizationId,
-    }
+    },
   );
   const { data: organizationSites = [] } = useOrganizationsSitesListQuery(
     { organizationId },
     {
       skip: !organizationId,
-    }
+    },
   );
   const { data: modalitiesList = [] } = useOrganizationsModalitiesListQuery(
     { organizationId },
     {
       skip: !organizationId,
-    }
+    },
   );
 
   const [register] = api.useSendAccessRequestMutation();

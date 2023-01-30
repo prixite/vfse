@@ -23,7 +23,7 @@ interface Props {
 export default function NewHealthNetwotkModal(props: Props) {
   const [networks, setNetworks] = useState([1]);
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const {
     newOrganizationBtnSave,

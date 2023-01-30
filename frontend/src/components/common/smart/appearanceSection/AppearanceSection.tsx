@@ -133,7 +133,7 @@ const AppearanceSection = () => {
     dispatch(updateFontTwo(formik.values.sideBarFont));
 
     let currentOrganiationDummyData: Organization = JSON.parse(
-      JSON.stringify(selectedOrganization)
+      JSON.stringify(selectedOrganization),
     );
 
     [
@@ -147,20 +147,20 @@ const AppearanceSection = () => {
     ].forEach(
       ([formField, color]) =>
         (currentOrganiationDummyData.appearance[color] =
-          formik.values[formField])
+          formik.values[formField]),
     );
 
     dispatch(
       setSelectedOrganization({
         selectedOrganization: currentOrganiationDummyData,
-      })
+      }),
     );
 
     if (selectedImage && selectedImage.length) {
       currentOrganiationDummyData = await uploadImageToS3(selectedImage[0])
         .then((data: S3Interface) => {
           const tempData = JSON.parse(
-            JSON.stringify(currentOrganiationDummyData)
+            JSON.stringify(currentOrganiationDummyData),
           );
           tempData.appearance[banner] = data?.location;
           tempData.appearance[logo] = data?.location;
@@ -168,7 +168,7 @@ const AppearanceSection = () => {
           dispatch(
             setSelectedOrganization({
               selectedOrganization: tempData,
-            })
+            }),
           );
           return tempData;
         })
@@ -185,7 +185,7 @@ const AppearanceSection = () => {
       toastAPIError(
         toastData.appearanceSectionClientUpdateError,
         err.status,
-        err.data
+        err.data,
       );
     }
   };

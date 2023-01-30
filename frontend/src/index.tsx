@@ -19,5 +19,5 @@ ReactDOM.render(
       </BrowserRouter>
     </React.StrictMode>
   </Provider>,
-  document.getElementById("container")
+  document.getElementById("container"),
 );

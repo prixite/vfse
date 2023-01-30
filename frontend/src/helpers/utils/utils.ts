@@ -7,7 +7,7 @@ const validateIPaddress = (ipaddress: string) => {
   if (
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
       // eslint-disable-line
-      ipaddress
+      ipaddress,
     )
   ) {
     return true;
@@ -61,7 +61,7 @@ const addIdToHeadings = (htmlString: string): string => {
 
   const str = htmlString.replace(
     /<h[1-6].*?>(.*?)/g,
-    (item) => `<h${item[2]} id='${index++}' >`
+    (item) => `<h${item[2]} id='${index++}' >`,
   );
 
   return str;
@@ -70,7 +70,7 @@ const addIdToHeadings = (htmlString: string): string => {
 const convertImages = (htmlText) => {
   return htmlText.replace(
     /<div style="text-align:none;"><img/g,
-    '<div style="text-align:center;"><img'
+    '<div style="text-align:center;"><img',
   );
 };
 
@@ -108,7 +108,7 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
           {
             autoClose: 3000,
             pauseOnHover: false,
-          }
+          },
         );
       }
       break;
@@ -128,7 +128,7 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
         {
           autoClose: 3000,
           pauseOnHover: false,
-        }
+        },
       );
       break;
     }

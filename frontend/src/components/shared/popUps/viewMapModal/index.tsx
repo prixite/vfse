@@ -18,7 +18,7 @@ interface Props {
 
 const ViewMapModal = ({ open, handleClose, points }: Props) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   return (

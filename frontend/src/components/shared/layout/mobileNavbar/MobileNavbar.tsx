@@ -23,7 +23,7 @@ const MobileNavbar = () => {
     Element | ((element: Element) => Element)
   >(null);
   const { sideBarTextColor, buttonBackground, fontTwo } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { data: me } = useOrganizationsMeReadQuery(
     {
@@ -31,7 +31,7 @@ const MobileNavbar = () => {
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
   const createLinks = () =>
     routes
@@ -49,7 +49,7 @@ const MobileNavbar = () => {
                 className="MobileDrawerList"
                 onClick={() =>
                   setCurrentRoute(
-                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`,
                   )
                 }
               >
@@ -98,7 +98,7 @@ const MobileNavbar = () => {
                 className="MobileDrawerList"
                 onClick={(e) => {
                   setCurrentRoute(
-                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`,
                   );
                   setVfseAnchorEl(e.currentTarget);
                 }}

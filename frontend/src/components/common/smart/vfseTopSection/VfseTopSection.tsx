@@ -53,7 +53,7 @@ export default function VfseTopSection({
   const [openSort, setOpenSort] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const [sort, setSort] = useState<number>(0);
   const [filter, setfilter] = useState<number>(0);

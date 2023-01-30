@@ -67,7 +67,7 @@ export default function NetworkModal(props: Props) {
   const { editText, networkLogoText, sitePointerText } =
     constantsData.networkModalPopUp;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const [isSiteDataPartiallyFilled, setIsSiteDataPartiallyFilled] =
     useState(false);
@@ -138,7 +138,7 @@ export default function NetworkModal(props: Props) {
                 organizationObject,
                 updateOrganization,
                 updateOrganizationSites,
-                organizationObject?.sites
+                organizationObject?.sites,
               )
                 .then(() => {
                   resetModal();
@@ -147,12 +147,12 @@ export default function NetworkModal(props: Props) {
                   toastAPIError(
                     toastData.saveHealthNetworkError,
                     error?.status,
-                    error.data
+                    error.data,
                   );
                   await deleteImageFromS3(data?.location);
                 });
             }
-          }
+          },
         );
         resetModal();
       } else if (formik.values.networkName && formik.values.networkLogo) {
@@ -163,7 +163,7 @@ export default function NetworkModal(props: Props) {
             organizationObject,
             updateOrganization,
             updateOrganizationSites,
-            organizationObject?.sites
+            organizationObject?.sites,
           )
             .then(() => {
               resetModal();
@@ -172,7 +172,7 @@ export default function NetworkModal(props: Props) {
               toastAPIError(
                 toastData.saveHealthNetworkError,
                 error?.status,
-                error.data
+                error.data,
               );
             });
         }
@@ -199,7 +199,7 @@ export default function NetworkModal(props: Props) {
                 organizationObject,
                 addHealthNetwork,
                 updateOrganizationSites,
-                organizationObject?.sites
+                organizationObject?.sites,
               )
                 .then(() => {
                   resetModal();
@@ -208,7 +208,7 @@ export default function NetworkModal(props: Props) {
                   toastAPIError(
                     toastData.addHealthNetworkError,
                     error?.status,
-                    error.data
+                    error.data,
                   );
                   await deleteImageFromS3(data?.location);
                 });
@@ -218,7 +218,7 @@ export default function NetworkModal(props: Props) {
             toastAPIError(
               toastData.uploadImageFailedError,
               err.status,
-              err.data
+              err.data,
             );
           });
       }
@@ -229,7 +229,7 @@ export default function NetworkModal(props: Props) {
 
   const getOrganizationObject = () => {
     const TempSites = formik.values.sitePointer.filter(
-      (site) => site?.name && site?.address
+      (site) => site?.name && site?.address,
     );
     return {
       name: formik.values.networkName,

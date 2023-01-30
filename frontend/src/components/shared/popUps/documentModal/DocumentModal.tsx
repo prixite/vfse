@@ -75,7 +75,7 @@ export default function DocumentModal({
   const { toastData } = constantsData;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { data: productData, isLoading: isProductsModelsLoading } =
     useProductsListQuery({});
@@ -84,7 +84,7 @@ export default function DocumentModal({
 
   const { data: modalitiesList } = useOrganizationsModalitiesListQuery(
     { id: selectedOrganization.id.toString() },
-    { skip: !selectedOrganization }
+    { skip: !selectedOrganization },
   );
   const {
     title,
@@ -120,7 +120,7 @@ export default function DocumentModal({
       acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
-        })
+        }),
       ),
   });
   const formik = useFormik({
@@ -144,7 +144,7 @@ export default function DocumentModal({
           async (data: S3Interface) => {
             formik.setFieldValue(docLinkText, data?.location);
             setIsLoading(false);
-          }
+          },
         );
       })();
     }
@@ -210,7 +210,7 @@ export default function DocumentModal({
         await updateProductModelService(
           selectedDocId,
           newProductModel,
-          updateProductModel
+          updateProductModel,
         )
           .then(() => {
             setTimeout(() => {
@@ -230,10 +230,10 @@ export default function DocumentModal({
 
   const populateEditableData = () => {
     const product = productData?.find(
-      (prod) => prod?.name === selectedDoc.name
+      (prod) => prod?.name === selectedDoc.name,
     );
     const modalityValue = modalitiesList?.find(
-      (item) => item.name === selectedDoc?.modality
+      (item) => item.name === selectedDoc?.modality,
     );
     formik.setValues({
       docLink: selectedDoc.documentation,

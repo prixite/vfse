@@ -18,7 +18,7 @@ interface Props {
 
 const ListModal = ({ open, handleClose, name, list }: Props) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { close } = constantsData.listModalPopUp;
   return (

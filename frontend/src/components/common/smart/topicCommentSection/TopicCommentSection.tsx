@@ -40,7 +40,7 @@ const TopicCommentSection = () => {
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
 
   const handlePagination = () => {
@@ -54,7 +54,7 @@ const TopicCommentSection = () => {
 
   const totalPages = useMemo(
     () => parseLink(commentsData?.link),
-    [commentsData.data]
+    [commentsData.data],
   );
 
   const addCommentHandler = () => {

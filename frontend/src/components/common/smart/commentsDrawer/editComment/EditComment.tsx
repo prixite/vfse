@@ -18,7 +18,7 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { toastData, commentsDrawer } = constantsData;
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const [updateNote] = useNotesPartialUpdateMutation();
   const SystemNoteHandler = (event) => {

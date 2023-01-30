@@ -19,7 +19,7 @@ interface Props {
 const AddSiteFirstModal = ({ open, handleClose }: Props) => {
   const navigate = useNavigate();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { organizationRoute } = constants;
   const { dialogMessage, noButton, yesButton } =

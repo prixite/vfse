@@ -42,7 +42,7 @@ const drawerWidth = 400;
 const openedMixin = (
   theme: Theme,
   bgcolor: string,
-  textcolor: string
+  textcolor: string,
 ): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create("width", {
@@ -57,7 +57,7 @@ const openedMixin = (
 const closedMixin = (
   theme: Theme,
   bgcolor: string,
-  textcolor: string
+  textcolor: string,
 ): CSSObject => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -109,7 +109,7 @@ export default function SideBar() {
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
   const toggleDrawer = () => {
     setOpen((prevState) => !prevState);
@@ -118,10 +118,10 @@ export default function SideBar() {
   useEffect(() => {
     if (
       pathRoute.includes(
-        `/${organizationRoute}/${selectedOrganization?.id}/networks/`
+        `/${organizationRoute}/${selectedOrganization?.id}/networks/`,
       ) ||
       pathRoute.includes(
-        `/${organizationRoute}/${selectedOrganization?.id}/sites/`
+        `/${organizationRoute}/${selectedOrganization?.id}/sites/`,
       )
     ) {
       setCurrentRoute(`/${organizationRoute}/${selectedOrganization?.id}/`);
@@ -186,7 +186,7 @@ export default function SideBar() {
                 }
                 onClick={() =>
                   setCurrentRoute(
-                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`
+                    `/${organizationRoute}/${selectedOrganization?.id}${prop.path}`,
                   )
                 }
               >
@@ -256,7 +256,7 @@ export default function SideBar() {
                       }
                       onClick={() =>
                         setCurrentRoute(
-                          `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                          `/${organizationRoute}/${selectedOrganization?.id}${route.path}`,
                         )
                       }
                     >
@@ -307,7 +307,7 @@ export default function SideBar() {
                     <AddIcon
                       onClick={() => {
                         navigate(
-                          `/${organizationRoute}/${selectedOrganization?.id}/`
+                          `/${organizationRoute}/${selectedOrganization?.id}/`,
                         );
                         setCurrentRoute("/");
                         dispatch(openAddModal());

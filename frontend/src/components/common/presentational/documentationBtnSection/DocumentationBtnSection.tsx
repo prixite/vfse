@@ -60,7 +60,7 @@ const DocumentationBtnSection = ({
   const { btnEdit, btnCopy } = localization.document;
   const { toastData } = constantsData;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const edit = () => handleEditText(true);
   const cancelEdit = () => handleEditText(false);

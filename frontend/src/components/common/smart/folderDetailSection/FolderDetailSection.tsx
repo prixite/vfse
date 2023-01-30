@@ -29,7 +29,7 @@ const FolderDetailSection = () => {
       ...folderData.documents.filter(
         (data) =>
           data?.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          data?.text.toLowerCase().includes(searchQuery.toLowerCase())
+          data?.text.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     ];
     setArticlesList(dataForSearch);

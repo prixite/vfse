@@ -50,7 +50,7 @@ const KnowledgeTopCard = ({
     },
     {
       skip: !selectedOrganization,
-    }
+    },
   );
   const [deleteArticle] = api.useDeleteArticleMutation();
   const [updateArticle] = api.useUpdateArticleMutation();
@@ -85,7 +85,7 @@ const KnowledgeTopCard = ({
         toastAPIError(
           toastData.knowledgeCardArticleDeleteError,
           err.status,
-          err.data
+          err.data,
         );
       });
   };

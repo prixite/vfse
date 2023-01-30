@@ -18,7 +18,7 @@ const BackBtn = () => {
         className="back-btn-container"
         onClick={() =>
           navigate(
-            `/${organizationRoute}/${selectedOrganization?.id}${vfseRoutes[0].path}`
+            `/${organizationRoute}/${selectedOrganization?.id}${vfseRoutes[0].path}`,
           )
         }
       >

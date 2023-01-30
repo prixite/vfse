@@ -73,7 +73,7 @@ const DocumentationDescription = () => {
   useEffect(() => {
     setHtmlText(articleData?.text);
     setCategory(
-      articleData.categories.length ? [...articleData.categories] : []
+      articleData.categories.length ? [...articleData.categories] : [],
     );
     setFolder(articleData?.folder);
     setTitle(articleData?.title);

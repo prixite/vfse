@@ -11,7 +11,7 @@ const DeleteOrganizationService = async (id, deleteOrganization) => {
 const updateOrganizationService = async (
   id,
   organization,
-  updateOrganization
+  updateOrganization,
 ) => {
   await updateOrganization({ id, organization })
     .unwrap()
@@ -26,7 +26,7 @@ const updateOrganizationService = async (
 const addNewOrganizationService = async (
   organization,
   addNewOrganization,
-  setOrganizationID
+  setOrganizationID,
 ) => {
   await addNewOrganization({
     organization: organization,
@@ -46,7 +46,7 @@ const updateHealthNetworkService = async (
   organization,
   updateOrganization,
   updateOrganizationSites,
-  sites
+  sites,
 ) => {
   await updateOrganization({ id, organization })
     .unwrap()
@@ -67,7 +67,7 @@ const addNewHealthNetworkService = async (
   organization,
   addHealthNetwork,
   updateOrganizationSites,
-  sites
+  sites,
 ) => {
   await addHealthNetwork({
     id: id.toString(),
@@ -89,7 +89,7 @@ const addNewHealthNetworkService = async (
 const addNewHealthNetworksService = async (
   organizationId,
   addNewNetworks,
-  networks
+  networks,
 ) => {
   await addNewNetworks({
     id: organizationId,

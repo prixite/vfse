@@ -19,7 +19,7 @@ interface Props {
 
 const DeleteNoteModal = ({ open, handleClose, handleNoteDelete }: Props) => {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { noButton, yesButton } = localizedData().organization.deleteDialog;
   const { deleteThisComment } = constantsData.deleteNoteModal;

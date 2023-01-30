@@ -41,7 +41,7 @@ const PageOne = ({
     },
     {
       skip: !formik.values.customer,
-    }
+    },
   );
 
   const constantUserData = localizedData().users.popUp;

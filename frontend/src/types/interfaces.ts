@@ -92,7 +92,7 @@ export interface Formik {
     field: string,
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     value: any,
-    shouldValidate?: boolean | undefined
+    shouldValidate?: boolean | undefined,
   ) => Promise<FormikErrors<UserForm>> | Promise<void>;
   submitCount: number;
 }

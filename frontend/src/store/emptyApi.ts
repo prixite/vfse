@@ -131,7 +131,7 @@ export const emptySplitApi = createApi({
       }),
       transformResponse: (
         response: VfseTopicsListApiResponse,
-        meta
+        meta,
       ): TopicListResponse => {
         return {
           data: response,
@@ -152,7 +152,7 @@ export const emptySplitApi = createApi({
       }),
       transformResponse: (
         response: UsersActiveUsersListApiResponse,
-        meta
+        meta,
       ): ActiveUserListResponse => {
         return {
           data: response,
@@ -172,7 +172,7 @@ export const emptySplitApi = createApi({
       }),
       transformResponse: (
         response: VfseUserTopicListApiResponse,
-        meta
+        meta,
       ): TopicUserListResponse => {
         return {
           data: response,
@@ -192,7 +192,7 @@ export const emptySplitApi = createApi({
       }),
       transformResponse: (
         response: VfseUserMeActivityListApiResponse,
-        meta
+        meta,
       ): MyActivityResponse => {
         return {
           data: response,
@@ -295,7 +295,7 @@ export const emptySplitApi = createApi({
       providesTags: (
         result = { documents: [], name: "", categories: [] },
         error,
-        { id }
+        { id },
       ) => [
         { type: "Folder", id: id },
         ...result.documents.map((item) => ({
@@ -368,7 +368,7 @@ export const emptySplitApi = createApi({
       }),
       transformResponse: (
         response: VfseTopicsCommentsListApiResponse,
-        meta
+        meta,
       ): TopicCommentsResponse => {
         return {
           data: response,
@@ -389,7 +389,7 @@ export const emptySplitApi = createApi({
       }),
       transformResponse: (
         response: VfseCommentsRepliesListApiResponse,
-        meta
+        meta,
       ): CommentRepliesResponse => {
         return {
           data: response,

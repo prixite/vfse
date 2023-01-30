@@ -47,7 +47,7 @@ const AllCategoriesSection = () => {
     // handleSearch Logic here
     const dataForSearch = [
       ...categoriesList.filter((data) =>
-        data?.name.toLowerCase().includes(searchQuery.toLowerCase())
+        data?.name.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     ];
     setFolderList(dataForSearch);

@@ -11,7 +11,7 @@ interface Props {
   formik: Formik;
   handleSystemSelection: (
     event: React.ChangeEvent<HTMLInputElement>,
-    site: number
+    site: number,
   ) => void;
   handleSitesSelection: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

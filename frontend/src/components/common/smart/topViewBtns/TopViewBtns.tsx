@@ -62,7 +62,7 @@ interface Props {
       width: number;
       hide: boolean;
       disableColumnMenu: boolean;
-    }[]
+    }[],
   ) => void;
   setAction?: Dispatch<SetStateAction<string>>;
   hasData?: boolean;
@@ -141,7 +141,7 @@ const TopViewBtns = ({
   // const { btnAsset } = localizedData().systems;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   const { id, siteId, networkId } = useParams();
@@ -163,10 +163,12 @@ const TopViewBtns = ({
       const networkParam = queryParams?.get(health_network);
       if (networkParam !== null && network.length == 0) {
         networkFilter(
-          networksData?.filter((item) => networkParam == item?.id.toString())[0]
+          networksData?.filter(
+            (item) => networkParam == item?.id.toString(),
+          )[0],
         );
         const list = networksData?.filter(
-          (item) => networkParam == item?.id.toString()
+          (item) => networkParam == item?.id.toString(),
         );
         if (list?.length) {
           setNetwork([list[0].name]);
@@ -180,7 +182,7 @@ const TopViewBtns = ({
       const siteParam = queryParams?.get(siteText);
       if (siteParam !== null && site.length == 0) {
         const list = sitesData?.filter(
-          (item) => siteParam == item?.id.toString()
+          (item) => siteParam == item?.id.toString(),
         );
         if (list?.length) {
           setSite([list[0].name]);
@@ -244,13 +246,15 @@ const TopViewBtns = ({
           {
             search: queryParams.toString(),
           },
-          { replace: true }
+          { replace: true },
         );
       } else {
         queryParams.delete(health_network);
         setNetwork([event?.target?.outerText]);
         networkFilter(
-          networksData?.filter((item) => event.target.outerText == item.name)[0]
+          networksData?.filter(
+            (item) => event.target.outerText == item.name,
+          )[0],
         );
       }
     }
@@ -268,12 +272,14 @@ const TopViewBtns = ({
           {
             search: queryParams.toString(),
           },
-          { replace: true }
+          { replace: true },
         );
       } else {
         setSite([event?.target?.outerText]);
         siteFilter(
-          sitesData?.filter((item) => event?.target?.outerText == item?.name)[0]
+          sitesData?.filter(
+            (item) => event?.target?.outerText == item?.name,
+          )[0],
         );
       }
     }
@@ -308,13 +314,13 @@ const TopViewBtns = ({
               ? data?.product?.name?.toLowerCase().trim().search(searchQuery) !=
                 -1
               : data?.name?.toLowerCase().search(searchQuery) != -1;
-          }
+          },
         );
         newList.results = result;
         setList(newList);
       }
     }, 500),
-    [actualData]
+    [actualData],
   );
 
   useEffect(() => {

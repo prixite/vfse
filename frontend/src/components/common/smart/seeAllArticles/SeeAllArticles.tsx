@@ -26,7 +26,7 @@ const SeeAllArticles = () => {
     // logic to search article from searchBar
     const dataForSearch = [
       ...topData.filter((data) =>
-        data?.title.toLowerCase().includes(searchQuery.toLowerCase())
+        data?.title.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     ];
     setArticlesList(dataForSearch);

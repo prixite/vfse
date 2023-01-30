@@ -51,7 +51,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
   },
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -73,7 +73,7 @@ const SystemCard = ({
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const selectedOrganization: unknown = useSelectedOrganization();
   const dispatch = useAppDispatch();
@@ -153,7 +153,7 @@ const SystemCard = ({
     await DeleteOrganizationSystemService(
       selectedOrganization.id,
       system.id,
-      deleteSystem
+      deleteSystem,
     );
     toast.success(toastData.systemCardDeleteSuccess, {
       autoClose: timeOut,
@@ -285,7 +285,7 @@ const SystemCard = ({
       const parse_xterm_style = () => {
         // var text = $(".xterm-helpers style").text();
         const el = document.getElementsByClassName(
-          ".xterm-helpers style"
+          ".xterm-helpers style",
         ) as unknown as HTMLElement | null;
         if (el !== null) {
           const text = el.innerText;

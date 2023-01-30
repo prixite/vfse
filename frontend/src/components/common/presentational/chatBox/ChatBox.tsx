@@ -22,7 +22,7 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
   const [placeholder, setPlaceHolder] = useState<string>(
-    chatBox.placeholderText
+    chatBox.placeholderText,
   );
   const [arrayToDisplay, setArrayToDiplay] = useState<string[]>([]);
   const resetQuery = () => {

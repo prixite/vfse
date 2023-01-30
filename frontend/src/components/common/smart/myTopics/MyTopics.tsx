@@ -21,7 +21,7 @@ const MyTopics = () => {
 
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
-    value: number
+    value: number,
   ) => {
     event.preventDefault();
     setPage(value);
@@ -29,7 +29,7 @@ const MyTopics = () => {
 
   const totalTopicPages = useMemo(
     () => parseLink(topicsList?.link) || 1,
-    [topicsList]
+    [topicsList],
   );
 
   return !isLoading ? (

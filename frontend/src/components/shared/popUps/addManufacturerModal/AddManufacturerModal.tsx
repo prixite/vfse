@@ -47,7 +47,7 @@ export default function AddManufacturerModal({
   setModalityValue,
 }: CategoryModalProps) {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
 
   const [onChangeValidation, setOnChangeValidation] = useState(false);

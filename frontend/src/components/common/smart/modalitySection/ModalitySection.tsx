@@ -51,7 +51,7 @@ const ModalitySection = () => {
         return (
           network?.name?.toLowerCase().search(searchQuery?.toLowerCase()) != -1
         );
-      })
+      }),
     );
   };
   useEffect(() => {

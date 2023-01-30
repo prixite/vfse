@@ -47,11 +47,11 @@ export default function WorkOrderCell() {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { loading } = constantsData.common;
   const { buttonTextColor, buttonBackground } = useAppSelector(
-    (state) => state.myTheme
+    (state) => state.myTheme,
   );
   const { data: modalitiesList = [] } = useOrganizationsModalitiesListQuery(
     { id: selectedOrganization.id.toString() },
-    { skip: !selectedOrganization }
+    { skip: !selectedOrganization },
   );
   const { data: systemsData = [], isLoading: isSystemsLoading } =
     api.useGetWorkOrdersQuery();
