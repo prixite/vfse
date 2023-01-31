@@ -582,7 +582,6 @@ class SystemSerializer(serializers.ModelSerializer):
             "is_online",
             "last_successful_ping_at",
             "vnc_url",
-            "vnc_password",
         ]
         validators = [
             UniqueTogetherValidator(
