@@ -486,7 +486,7 @@ class System(models.Model):
     is_online = models.BooleanField(default=False)
     ssh_password = models.CharField(max_length=30, null=True, blank=True)
     ssh_user = models.CharField(max_length=25, default="root")
-    vnc_ip = models.GenericIPAddressField(null=True, blank=True)
+    vnc_url = models.URLField(null=True, blank=True)
     vnc_password = models.CharField(max_length=25, null=True, blank=True)
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
