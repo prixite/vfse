@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0085_system_vnc_ip_system_vnc_password'),
+        ("core", "0085_system_vnc_ip_system_vnc_password"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='system',
-            name='vnc_ip',
+            model_name="system",
+            name="vnc_ip",
         ),
         migrations.AddField(
-            model_name='system',
-            name='vnc_url',
+            model_name="system",
+            name="vnc_url",
             field=models.URLField(blank=True, null=True),
         ),
     ]
