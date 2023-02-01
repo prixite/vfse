@@ -332,6 +332,18 @@ class OrganizationAllSitesViewSet(ListAPIView):
         ).select_related("organization")
 
 
+class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationEndUserReadOnlyPermission,
+    ]
+    serializer_class = serializers.SystemVncUrlSerializer
+
+    def get_queryset(self):
+        queryset = models.System.objects.filter(id=self.kwargs["pk"])
+        return queryset
+
+
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
     permission_classes = [
         permissions.ViewOnlyPermissions,

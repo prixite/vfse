@@ -538,6 +538,12 @@ class SystemConnectionOptions(serializers.Serializer):
     ssh = serializers.BooleanField(source="connection_options.ssh")
 
 
+class SystemVncUrlSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.System
+        fields = ["id", "vnc_url"]
+
+
 class SystemSerializer(serializers.ModelSerializer):
     his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
     dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
@@ -581,7 +587,6 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
             "is_online",
             "last_successful_ping_at",
-            "vnc_url",
         ]
         validators = [
             UniqueTogetherValidator(

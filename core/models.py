@@ -152,7 +152,9 @@ class User(AbstractUser):
         )
 
     def get_organization_sites(self, organization_pk):
-        return Site.objects.filter(id__in=self.get_sites(),).filter(
+        return Site.objects.filter(
+            id__in=self.get_sites(),
+        ).filter(
             Q(organization__in=self.get_organization_health_networks(organization_pk))
             | Q(organization=organization_pk),
         )
@@ -487,7 +489,6 @@ class System(models.Model):
     ssh_password = models.CharField(max_length=30, null=True, blank=True)
     ssh_user = models.CharField(max_length=25, default="root")
     vnc_url = models.URLField(null=True, blank=True)
-    vnc_password = models.CharField(max_length=25, null=True, blank=True)
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
