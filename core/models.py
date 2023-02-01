@@ -152,9 +152,7 @@ class User(AbstractUser):
         )
 
     def get_organization_sites(self, organization_pk):
-        return Site.objects.filter(
-            id__in=self.get_sites(),
-        ).filter(
+        return Site.objects.filter(id__in=self.get_sites(),).filter(
             Q(organization__in=self.get_organization_health_networks(organization_pk))
             | Q(organization=organization_pk),
         )
