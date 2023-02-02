@@ -339,9 +339,11 @@ class SystemVncUrlViewSet(ModelViewSet):
         return models.System.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
-        if (
-            not self.get_object().connection_options["vnc"]
-            or not request.user.is_remote_user
+
+        if not self.get_object().connection_options[
+            "vfse"
+        ] or not models.UserSystem.objects.filter(
+            user=self.request.user, system_id=self.kwargs["pk"]
         ):
             raise Http404("VNC access is not allowed")
         return super().retrieve(request, *args, **kwargs)
