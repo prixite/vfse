@@ -338,6 +338,7 @@ class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
         permissions.OrganizationEndUserReadOnlyPermission,
     ]
     serializer_class = serializers.SystemVncUrlSerializer
+    lookup_url_kwarg = "system_pk"
 
     def get_queryset(self):
         return models.System.objects.all()
