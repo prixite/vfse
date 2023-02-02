@@ -141,7 +141,7 @@ api_urlpatterns = [
         "api/system/<int:pk>/vnc_url/",
         api.SystemVncUrlViewSet.as_view(
             {
-                "get": "list",
+                "get": "retrieve",
             }
         ),
     ),

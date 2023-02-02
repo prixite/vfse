@@ -332,16 +332,19 @@ class OrganizationAllSitesViewSet(ListAPIView):
         ).select_related("organization")
 
 
-class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    permission_classes = [
-        permissions.ViewOnlyPermissions,
-        permissions.OrganizationEndUserReadOnlyPermission,
-    ]
+class SystemVncUrlViewSet(ModelViewSet):
     serializer_class = serializers.SystemVncUrlSerializer
 
     def get_queryset(self):
-        queryset = models.System.objects.filter(id=self.kwargs["pk"])
-        return queryset
+        return models.System.objects.all()
+
+    def retrieve(self, request, *args, **kwargs):
+        if (
+            not self.get_object().connection_options["vnc"]
+            or not request.user.is_remote_user
+        ):
+            raise Http404("VNC access is not allowed")
+        return super().retrieve(request, *args, **kwargs)
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
