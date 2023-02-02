@@ -332,11 +332,11 @@ class OrganizationAllSitesViewSet(ListAPIView):
         ).select_related("organization")
 
 
-class SystemVncUrlViewSet(ModelViewSet):
-    # permission_classes = [
-    #     permissions.ViewOnlyPermissions,
-    #     permissions.OrganizationEndUserReadOnlyPermission,
-    # ]
+class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
+    permission_classes = [
+        permissions.ViewOnlyPermissions,
+        permissions.OrganizationEndUserReadOnlyPermission,
+    ]
     serializer_class = serializers.SystemVncUrlSerializer
 
     def get_queryset(self):
