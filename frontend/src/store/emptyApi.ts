@@ -412,5 +412,14 @@ export const emptySplitApi = createApi({
         { type: "System", id: `Location-${systemId}` },
       ],
     }),
+    getVnc: builder.query<
+      { id: number; vnc_url: string },
+      { organization_id: string; systemId: string }
+    >({
+      query: (queryArg) => ({
+        url: `organizations/${queryArg.organization_id}/systems/${queryArg.systemId}/vnc/`,
+        method: "get",
+      }),
+    }),
   }),
 });

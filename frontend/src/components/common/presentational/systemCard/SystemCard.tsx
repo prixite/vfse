@@ -84,7 +84,6 @@ const SystemCard = ({
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const [openModal, setOpenModal] = useState(false);
   const [openVnc, setOpenVnc] = useState(false);
-
   const open = Boolean(anchorEl);
   const openConnect = Boolean(anchorConnect);
   const {
@@ -484,13 +483,8 @@ const SystemCard = ({
                   </MenuItem>
                 )}
                 {system.connection_options.vfse && (
-                  <MenuItem>
-                    <span
-                      style={{ marginLeft: "12px" }}
-                      onClick={() => setOpenVnc(true)}
-                    >
-                      VNC
-                    </span>
+                  <MenuItem onClick={() => setOpenVnc(true)}>
+                    <span style={{ marginLeft: "12px" }}>VNC</span>
                   </MenuItem>
                 )}
                 {system.connection_options.virtual_media_control && (

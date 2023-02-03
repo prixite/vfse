@@ -1,11 +1,19 @@
 import React, { useEffect, useRef } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Dialog,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { VncScreen } from "react-vnc";
 
+import { api } from "@src/store/reducers/api";
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
@@ -13,16 +21,27 @@ interface VncScreenProps {
   organizationId: number;
 }
 
-const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
+const VncScreenDialog = ({
+  openModal,
+  handleModalClose,
+  organizationId,
+  systemId,
+}: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
+  const { data, isLoading } = api.useGetVncQuery({
+    organization_id: organizationId.toString(),
+    systemId: systemId.toString(),
+  });
   useEffect(() => {
-    if (connected) {
-      disconnect?.();
-    } else {
-      connect?.();
+    if (!isLoading) {
+      if (connected) {
+        disconnect?.();
+      } else {
+        connect?.();
+      }
     }
-  }, []);
+  }, [isLoading]);
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement;
@@ -55,19 +74,49 @@ const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <VncScreen
-          url={
-            "wss://5c94-124-109-46-126.in.ngrok.io/vnc.html?resize=remote&autoconnect=true&password=pakarmy.3"
-          }
-          scaleViewport
-          background="#000000"
-          style={{
-            width: "75vw",
-            height: "75vh",
-          }}
-          debug
-          ref={vncScreenRef}
-        />
+        {isLoading ? (
+          <Box
+            component="div"
+            sx={{
+              height: "75vh",
+              width: "75vw",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <p>Loading...</p>
+          </Box>
+        ) : (
+          <>
+            {data?.vnc_url ? (
+              <VncScreen
+                url={data.vnc_url}
+                scaleViewport
+                background="#000000"
+                style={{
+                  width: "75vw",
+                  height: "75vh",
+                }}
+                debug
+                ref={vncScreenRef}
+              />
+            ) : (
+              <Box
+                component="div"
+                sx={{
+                  height: "75vh",
+                  width: "75vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <p>Must specify URL, WebSocket or RTCDataChannel</p>
+              </Box>
+            )}
+          </>
+        )}
       </Dialog>
     </>
   );
