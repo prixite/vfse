@@ -341,9 +341,6 @@ class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
     lookup_url_kwarg = "system_pk"
 
     def get_queryset(self):
-        return models.System.objects.all()
-
-    def retrieve(self, request, *args, **kwargs):
         queryset = models.System.objects.filter(
             id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
         ).filter(id=self.kwargs["system_pk"])
@@ -364,7 +361,11 @@ class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
                 )
             ).filter(id=self.kwargs["system_pk"])
 
-        if not self.get_object().connection_options["vfse"] or not queryset.exists():
+        return queryset
+
+    def retrieve(self, request, *args, **kwargs):
+        print(self.queryset)
+        if not self.get_object().connection_options["vfse"]:
             raise Http404("VNC access is not allowed")
         return super().retrieve(request, *args, **kwargs)
 
