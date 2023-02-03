@@ -138,7 +138,7 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organizations/<int:pk>/systems/<int:system_pk>/",
+        "api/organizations/<int:pk>/systems/<int:system_pk>/vnc/",
         api.SystemVncUrlViewSet.as_view(
             {
                 "get": "retrieve",
