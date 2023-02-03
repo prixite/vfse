@@ -30,7 +30,6 @@ import {
   useOrganizationsModalitiesListQuery,
   useOrganizationsReadQuery,
   OrganizationsSystemsListApiArg,
-  Modality,
   useOrganizationsAssociatedSitesListQuery,
   useOrganizationsSystemsUpdateFromInfluxMutation,
   api,
@@ -72,7 +71,7 @@ const SystemSection = () => {
   const [index, setIndex] = useState(null);
   // eslint-disable-next-line
   const [systemList, setSystemList] = useState({});
-  const [itemsList, setItemsList] = useState<Array<Modality>>([]);
+  const [itemsList, setItemsList] = useState<Array<System>>([]);
   const [searchText, setSearchText] = useState("");
   const [firstRender, setFirstRender] = useState(true);
   const [modality, setModality] = useState();
@@ -505,7 +504,6 @@ const SystemSection = () => {
                   system={item}
                   handleEdit={handleEdit}
                   setSystem={setChatBoxSystem}
-                  IsOpen={chatModal}
                   setIsOpen={setChatModal}
                   canLeaveNotes={me?.can_leave_notes}
                   currentUser={me}
