@@ -359,8 +359,7 @@ class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
                         "health_network"
                     )
                 )
-            ).filter(id=self.kwargs["system_pk"])
-
+            )
         return queryset
 
     def retrieve(self, request, *args, **kwargs):
