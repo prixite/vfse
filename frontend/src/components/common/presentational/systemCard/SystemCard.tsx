@@ -43,9 +43,12 @@ import {
 import {
   useOrganizationsSystemsDeleteMutation,
   api,
+  Organization,
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
+
 import "../../../../../../node_modules/xterm/css/xterm.css";
+import VncScreenDialog from "./VncScreen/VncScreenDialog";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -75,11 +78,12 @@ const SystemCard = ({
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const selectedOrganization: unknown = useSelectedOrganization();
+  const selectedOrganization: Organization = useSelectedOrganization();
   const dispatch = useAppDispatch();
   const { toastData, systemCard } = constantsData;
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const [openModal, setOpenModal] = useState(false);
+  const [openVnc, setOpenVnc] = useState(false);
 
   const open = Boolean(anchorEl);
   const openConnect = Boolean(anchorConnect);
@@ -140,13 +144,13 @@ const SystemCard = ({
     setAnchorConnect(null);
   };
 
-  const onSupport = () => {
+  const onSupport = (e) => {
     handleSupportChatBox();
-    handleClose();
+    handleClose(e);
   };
-  const onEdit = () => {
+  const onEdit = (e) => {
     handleEdit(system);
-    handleClose();
+    handleClose(e);
   };
   const handleDelete = async () => {
     setModal(false);
@@ -162,9 +166,9 @@ const SystemCard = ({
 
     handleClose();
   };
-  const onComment = () => {
+  const onComment = (e) => {
     dispatch(openSystemDrawer(system?.id));
-    handleClose();
+    handleClose(e);
   };
 
   const handleSupportChatBox = () => {
@@ -203,9 +207,9 @@ const SystemCard = ({
       setLoginProgress(false);
       setOpenModal(true);
       const url = `${process.env.WEBSSH_WS_SERVER}ws?id=${msg.id}`;
-      const title_element: unknown = {};
+      const title_element: { text: string } = undefined;
       const url_opts_data: unknown = {};
-      const style: unknown = {};
+      const style: { width: number; height: number } = undefined;
       const encoding = textDecoder_utf_8;
       const decoder = window.TextDecoder
         ? new window.TextDecoder(encoding)
@@ -213,7 +217,7 @@ const SystemCard = ({
       let sock = new window.WebSocket(url);
       const containerElement = document.getElementById("terminal");
 
-      const term: unknown = new Terminal();
+      const term: Terminal = new Terminal();
       const fitAddon = new FitAddon();
       term.loadAddon(fitAddon);
 
@@ -358,8 +362,11 @@ const SystemCard = ({
     const url = process.env.WEBSSH_SERVER;
     try {
       const data = new FormData();
-      data.append(organizationId, selectedOrganization?.id);
-      data.append(id, systemId);
+      data.append(
+        organizationId,
+        selectedOrganization?.id as unknown as string
+      );
+      data.append(id, systemId.toString());
       data.append(port, portNumber);
       data.append(username, root);
       data.append(term, color);
@@ -478,7 +485,12 @@ const SystemCard = ({
                 )}
                 {system.connection_options.vfse && (
                   <MenuItem>
-                    <span style={{ marginLeft: "12px" }}>VNC</span>
+                    <span
+                      style={{ marginLeft: "12px" }}
+                      onClick={() => setOpenVnc(true)}
+                    >
+                      VNC
+                    </span>
                   </MenuItem>
                 )}
                 {system.connection_options.virtual_media_control && (
@@ -665,16 +677,16 @@ const SystemCard = ({
             <MenuItem onClick={() => viewSystemLocation(system)}>
               <span style={{ marginLeft: "12px" }}>View Location</span>
             </MenuItem>
-            <MenuItem onClick={() => onSupport()}>
+            <MenuItem onClick={(e) => onSupport(e)}>
               <span style={{ marginLeft: "12px" }}>{support}</span>
             </MenuItem>
             {currentUser?.role !== "end-user" && (
-              <MenuItem onClick={onEdit}>
+              <MenuItem onClick={(e) => onEdit(e)}>
                 <span style={{ marginLeft: "12px" }}>{edit}</span>
               </MenuItem>
             )}
             {canLeaveNotes && (
-              <MenuItem onClick={onComment}>
+              <MenuItem onClick={(e) => onComment(e)}>
                 <span style={{ marginLeft: "12px" }}>{comments}</span>
               </MenuItem>
             )}
@@ -695,6 +707,14 @@ const SystemCard = ({
         handleClose={() => setModal(false)}
         handleDeleteOrganization={handleDelete}
       />
+      {openVnc && (
+        <VncScreenDialog
+          openModal={openVnc}
+          handleModalClose={() => setOpenVnc(false)}
+          systemId={system.id}
+          organizationId={selectedOrganization.id}
+        />
+      )}
     </div>
   );
 };
