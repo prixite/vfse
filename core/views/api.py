@@ -344,7 +344,27 @@ class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
         return models.System.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
-        if not self.get_object().connection_options["vfse"]:
+        queryset = models.System.objects.filter(
+            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
+        ).filter(id=self.kwargs["system_pk"])
+
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.is_customer_admin(self.kwargs["pk"])
+        ):
+            queryset = models.System.objects.filter(
+                Q(site__organization_id=self.kwargs["pk"])
+                | Q(
+                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
+                        organization_id=self.kwargs["pk"]
+                    ).values_list(
+                        "health_network"
+                    )
+                )
+            ).filter(id=self.kwargs["system_pk"])
+
+        if not self.get_object().connection_options["vfse"] or not queryset.exists():
             raise Http404("VNC access is not allowed")
         return super().retrieve(request, *args, **kwargs)
 
