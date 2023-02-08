@@ -59,7 +59,7 @@ env = environ.Env(
     X_ECM_API_ID=(str, None),
     X_ECM_API_KEY=(str, None),
     AUTHENTICATION_CLASSES=(list, []),
-    ENCRYPTION_KEY=(str, None)
+    ENCRYPTION_KEY=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
