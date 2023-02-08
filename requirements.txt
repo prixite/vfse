@@ -1,5 +1,6 @@
 boto3==1.26.60
 coverage==7.1.0
+cryptography
 dj-database-url==1.2.0
 Django==4.1.5
 django-cors-headers==3.13.0
@@ -17,4 +18,3 @@ icmplib==3.0.3
 influxdb-client==1.36.0
 openai==0.26.4
 Pillow==9.4.0
-pycrypto==2.6.1

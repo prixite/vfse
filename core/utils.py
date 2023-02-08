@@ -1,8 +1,6 @@
-import base64
-
 import openai
 import openai.error
-from Crypto.Cipher import AES
+from cryptography.fernet import Fernet
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -141,19 +139,12 @@ def get_data_from_influxdb(system_ip_address):
         return data
 
 
-def encrypt_vnc_connection(private_con, padding_character="{"):
+def encrypt_vnc_connection(connection_string):
     encoded_secret_key = settings.ENCRYPTION_KEY
-    secret_key = base64.b64decode(encoded_secret_key)
-    cipher = AES.new(secret_key)
+    secret_key = Fernet(encoded_secret_key)
+    encoded_encrypted_token = secret_key.encrypt(connection_string.encode())
 
-    # AES encryption requires the length of the msg to be a multiple of 16
-    padded_private_msg = private_con + (
-        padding_character * ((16 - len(private_con)) % 16)
-    )
-    encrypted_msg = cipher.encrypt(padded_private_msg)
-    encoded_encrypted_msg = base64.b64encode(encrypted_msg)
-
-    return encoded_encrypted_msg
+    return encoded_encrypted_token
 
 
 url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"  # noqa
