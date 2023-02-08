@@ -1,5 +1,4 @@
 import base64
-import os
 
 import openai
 import openai.error
@@ -142,16 +141,8 @@ def get_data_from_influxdb(system_ip_address):
         return data
 
 
-def generate_secret_key_for_AES_cipher():
-    AES_key_length = 16  # use larger value in production i.e. 24, or 32 bytes
-    secret_key = os.urandom(AES_key_length)
-    encoded_secret_key = base64.b64encode(secret_key)
-
-    return encoded_secret_key
-
-
 def encrypt_vnc_connection(private_con, padding_character="{"):
-    encoded_secret_key = generate_secret_key_for_AES_cipher()
+    encoded_secret_key = settings.ENCRYPTION_KEY
     secret_key = base64.b64decode(encoded_secret_key)
     cipher = AES.new(secret_key)
 
