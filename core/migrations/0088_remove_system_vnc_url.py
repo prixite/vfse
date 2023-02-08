@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0087_remove_system_vnc_password'),
+        ("core", "0087_remove_system_vnc_password"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='system',
-            name='vnc_url',
+            model_name="system",
+            name="vnc_url",
         ),
     ]
