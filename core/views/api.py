@@ -8,19 +8,20 @@ from django.db.models import Count, Q
 from django.db.models.query import Prefetch
 from django.http import Http404
 from django.utils import timezone
-from rest_framework import exceptions
+from rest_framework import exceptions, status
 from rest_framework.authentication import (
     SessionAuthentication,
     TokenAuthentication,
 )
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from core import filters, models, permissions, serializers, utils
+from core.utils import encrypt_vnc_connection
 from core.views import mixins
 from vfse import pagination
 
@@ -341,12 +342,42 @@ class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
     lookup_url_kwarg = "system_pk"
 
     def get_queryset(self):
+
         return models.System.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
         if not self.get_object().connection_options["vfse"]:
             raise Http404("VNC access is not allowed")
         return super().retrieve(request, *args, **kwargs)
+
+
+class SystemVncView(GenericAPIView):
+    serializer_class = serializers.SystemVncSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        connection = {
+            "connection": {
+                "type": "rdp",
+                "settings": {
+                    "hostname": "10.0.0.12",
+                    "username": "Administrator",
+                    "password": "pAsSwOrD",
+                    "enable-drive": True,
+                    "create-drive-path": True,
+                    "security": "any",
+                    "ignore-cert": True,
+                    "enable-wallpaper": True,
+                },
+            }
+        }
+
+        token = encrypt_vnc_connection(str(connection))
+        return Response(
+            {"token": token},
+            status=status.HTTP_200_OK,
+        )
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
