@@ -17,3 +17,4 @@ icmplib==3.0.3
 influxdb-client==1.36.0
 openai==0.26.4
 Pillow==9.4.0
+pycrypto==2.6.1
