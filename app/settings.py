@@ -59,6 +59,7 @@ env = environ.Env(
     X_ECM_API_ID=(str, None),
     X_ECM_API_KEY=(str, None),
     AUTHENTICATION_CLASSES=(list, []),
+    ENCRYPTION_KEY=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -72,6 +73,8 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 
 AUTHENTICATION_CLASSES = env("AUTHENTICATION_CLASSES")
+
+ENCRYPTION_KEY = env("ENCRYPTION_KEY")
 # Application definition
 
 INSTALLED_APPS = [

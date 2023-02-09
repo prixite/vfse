@@ -8,19 +8,20 @@ from django.db.models import Count, Q
 from django.db.models.query import Prefetch
 from django.http import Http404
 from django.utils import timezone
-from rest_framework import exceptions
+from rest_framework import exceptions, status
 from rest_framework.authentication import (
     SessionAuthentication,
     TokenAuthentication,
 )
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from core import filters, models, permissions, serializers, utils
+from core.utils import encrypt_vnc_connection
 from core.views import mixins
 from vfse import pagination
 
@@ -332,21 +333,60 @@ class OrganizationAllSitesViewSet(ListAPIView):
         ).select_related("organization")
 
 
-class SystemVncUrlViewSet(ModelViewSet, mixins.UserOganizationMixin):
-    permission_classes = [
-        permissions.ViewOnlyPermissions,
-        permissions.OrganizationEndUserReadOnlyPermission,
-    ]
-    serializer_class = serializers.SystemVncUrlSerializer
-    lookup_url_kwarg = "system_pk"
+class SystemVncView(GenericAPIView):
+    serializer_class = serializers.SystemVncSerializer
 
-    def get_queryset(self):
-        return models.System.objects.all()
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
 
-    def retrieve(self, request, *args, **kwargs):
-        if not self.get_object().connection_options["vfse"]:
-            raise Http404("VNC access is not allowed")
-        return super().retrieve(request, *args, **kwargs)
+        system = models.System.objects.filter(
+            id__in=self.request.user.get_organization_systems(
+                request.data["organization"]
+            )
+        ).filter(id=request.data["system"])
+
+        if (
+            self.request.user.is_superuser
+            or self.request.user.is_supermanager
+            or self.is_customer_admin(request.data["organization"])
+        ):
+            system = models.System.objects.filter(
+                Q(site__organization_id=request.data["organization"])
+                | Q(
+                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
+                        organization_id=request.data["organization"]
+                    ).values_list(
+                        "health_network"
+                    )
+                )
+            ).filter(id=request.data["system"])
+        if system.exists():
+            connection = {
+                "connection": {
+                    "type": "vnc",
+                    "settings": {
+                        "hostname": system.first().ip_address,
+                        "username": request.data["username"],
+                        "password": request.data["password"],
+                        "enable-drive": True,
+                        "create-drive-path": True,
+                        "security": "any",
+                        "ignore-cert": True,
+                        "enable-wallpaper": True,
+                    },
+                }
+            }
+
+            token = encrypt_vnc_connection(str(connection))
+            return Response(
+                {"token": token},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"error": "system record not found."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
 
 
 class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):

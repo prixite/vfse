@@ -1,5 +1,6 @@
 import openai
 import openai.error
+from cryptography.fernet import Fernet
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -136,6 +137,14 @@ def get_data_from_influxdb(system_ip_address):
             client.close()
 
         return data
+
+
+def encrypt_vnc_connection(connection_string):
+    encoded_secret_key = settings.ENCRYPTION_KEY
+    secret_key = Fernet(encoded_secret_key)
+    encoded_encrypted_token = secret_key.encrypt(connection_string.encode())
+
+    return encoded_encrypted_token
 
 
 url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"  # noqa

@@ -544,6 +544,13 @@ class SystemVncUrlSerializer(serializers.ModelSerializer):
         fields = ["id", "vnc_url"]
 
 
+class SystemVncSerializer(serializers.Serializer):
+    organization = serializers.IntegerField(write_only=True, required=True)
+    system = serializers.IntegerField(write_only=True, required=True)
+    username = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=True)
+
+
 class SystemSerializer(serializers.ModelSerializer):
     his_ris_info = SystemInfoSerializer(default=defaults.HisInfoDefault())
     dicom_info = SystemInfoSerializer(default=defaults.DicomInfoDefault())
