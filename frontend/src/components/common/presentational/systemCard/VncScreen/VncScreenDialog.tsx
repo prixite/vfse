@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { VncScreen } from "react-vnc";
 
 import { api } from "@src/store/reducers/api";
 
@@ -29,8 +28,6 @@ const VncScreenDialog = ({
   organizationId,
   systemId,
 }: VncScreenProps) => {
-  const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
-  const { connect, connected, disconnect } = vncScreenRef.current ?? {};
   const [token, setToken] = useState("");
   const [getToken, { isLoading }] = api.useGetVncMutation();
   const getTokenHandler = () => {
@@ -48,15 +45,7 @@ const VncScreenDialog = ({
   useEffect(() => {
     getTokenHandler();
   }, []);
-  useEffect(() => {
-    if (!isLoading) {
-      if (connected) {
-        disconnect?.();
-      } else {
-        connect?.();
-      }
-    }
-  }, [isLoading]);
+
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement;
