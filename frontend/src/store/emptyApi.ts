@@ -412,13 +412,14 @@ export const emptySplitApi = createApi({
         { type: "System", id: `Location-${systemId}` },
       ],
     }),
-    getVnc: builder.query<
-      { id: number; vnc_url: string },
-      { organization_id: string; systemId: string }
+    getVnc: builder.mutation<
+      {token : string},
+      { organization: string; system: string;username : string; password : string }
     >({
       query: (queryArg) => ({
-        url: `organizations/${queryArg.organization_id}/systems/${queryArg.systemId}/vnc/`,
-        method: "get",
+        url: `organization/systems/vnc/`,
+        method: "POST",
+        body : queryArg
       }),
     }),
   }),

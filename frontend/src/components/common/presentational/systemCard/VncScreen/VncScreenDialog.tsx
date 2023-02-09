@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -14,6 +14,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { VncScreen } from "react-vnc";
 
 import { api } from "@src/store/reducers/api";
+import GuacamoleClient from "./GuacamoleClient";
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
@@ -29,10 +30,24 @@ const VncScreenDialog = ({
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
-  const { data, isLoading } = api.useGetVncQuery({
-    organization_id: organizationId.toString(),
-    systemId: systemId.toString(),
-  });
+  const [token,setToken] = useState("");
+  const [getToken ,{isLoading}] = api.useGetVncMutation();
+  const getTokenHandler = () => {
+    getToken({
+      organization: organizationId.toString(),
+      system: systemId.toString(),
+      username : "admin",
+      password : "admin"
+    }).unwrap().then((resp)=>{
+      setToken(resp.token);
+    }).catch((err)=>{
+      console.log(err , "error here")
+    })
+  }
+  useEffect(()=>{
+  getTokenHandler()
+  },[])
+  console.log(token , "token here")
   useEffect(() => {
     if (!isLoading) {
       if (connected) {
@@ -89,32 +104,7 @@ const VncScreenDialog = ({
           </Box>
         ) : (
           <>
-            {data?.vnc_url ? (
-              <VncScreen
-                url={data.vnc_url}
-                scaleViewport
-                background="#000000"
-                style={{
-                  width: "75vw",
-                  height: "75vh",
-                }}
-                debug
-                ref={vncScreenRef}
-              />
-            ) : (
-              <Box
-                component="div"
-                sx={{
-                  height: "75vh",
-                  width: "75vw",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <p>Must specify URL, WebSocket or RTCDataChannel</p>
-              </Box>
-            )}
+            <GuacamoleClient token={token}/>
           </>
         )}
       </Dialog>
