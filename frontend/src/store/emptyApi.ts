@@ -413,13 +413,18 @@ export const emptySplitApi = createApi({
       ],
     }),
     getVnc: builder.mutation<
-      {token : string},
-      { organization: string; system: string;username : string; password : string }
+      { token: string },
+      {
+        organization: string;
+        system: string;
+        username: string;
+        password: string;
+      }
     >({
       query: (queryArg) => ({
         url: `organization/systems/vnc/`,
         method: "POST",
-        body : queryArg
+        body: queryArg,
       }),
     }),
   }),

@@ -14,6 +14,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { VncScreen } from "react-vnc";
 
 import { api } from "@src/store/reducers/api";
+
 import GuacamoleClient from "./GuacamoleClient";
 interface VncScreenProps {
   openModal: boolean;
@@ -30,24 +31,23 @@ const VncScreenDialog = ({
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
-  const [token,setToken] = useState("");
-  const [getToken ,{isLoading}] = api.useGetVncMutation();
+  const [token, setToken] = useState("");
+  const [getToken, { isLoading }] = api.useGetVncMutation();
   const getTokenHandler = () => {
     getToken({
       organization: organizationId.toString(),
       system: systemId.toString(),
-      username : "admin",
-      password : "admin"
-    }).unwrap().then((resp)=>{
-      setToken(resp.token);
-    }).catch((err)=>{
-      console.log(err , "error here")
+      username: "admin",
+      password: "admin",
     })
-  }
-  useEffect(()=>{
-  getTokenHandler()
-  },[])
-  console.log(token , "token here")
+      .unwrap()
+      .then((resp) => {
+        setToken(resp.token);
+      });
+  };
+  useEffect(() => {
+    getTokenHandler();
+  }, []);
   useEffect(() => {
     if (!isLoading) {
       if (connected) {
@@ -104,7 +104,7 @@ const VncScreenDialog = ({
           </Box>
         ) : (
           <>
-            <GuacamoleClient token={token}/>
+            <GuacamoleClient token={token} />
           </>
         )}
       </Dialog>
