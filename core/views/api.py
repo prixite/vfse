@@ -378,7 +378,7 @@ class SystemVncView(GenericAPIView):
                 }
             }
 
-            token = encrypt_vnc_connection(str(connection))
+            token = encrypt_vnc_connection(connection)
             return Response(
                 {"token": token},
                 status=status.HTTP_200_OK,

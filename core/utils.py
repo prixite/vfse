@@ -1,6 +1,12 @@
+import base64
+import json
+import os
+import struct
+
 import openai
 import openai.error
-from cryptography.fernet import Fernet
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -140,11 +146,21 @@ def get_data_from_influxdb(system_ip_address):
 
 
 def encrypt_vnc_connection(connection_string):
-    encoded_secret_key = settings.ENCRYPTION_KEY
-    secret_key = Fernet(encoded_secret_key)
-    encoded_encrypted_token = secret_key.encrypt(connection_string.encode())
+    backend = default_backend()
 
-    return encoded_encrypted_token
+    iv = os.urandom(16)
+    key = bytes(settings.ENCRYPTION_KEY, "utf-8")
+    cipher = Cipher(algorithms.AES(key), modes.CBC(iv), backend=backend)
+    encryptor = cipher.encryptor()
+    # Pad the data to a multiple of 16 bytes
+    pad = 16 - (len(json.dumps(connection_string).encode()) % 16)
+    padded_data = json.dumps(connection_string).encode() + (pad * struct.pack("B", pad))
+
+    ct = encryptor.update(padded_data) + encryptor.finalize()
+
+    data = {"iv": base64.b64encode(iv).decode(), "value": base64.b64encode(ct).decode()}
+
+    return base64.b64encode(json.dumps(data).encode()).decode()
 
 
 url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"  # noqa
