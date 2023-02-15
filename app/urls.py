@@ -46,6 +46,10 @@ api_urlpatterns = [
         ),
     ),
     path(
+        "api/aws/",
+        api.AwsApiView.as_view(),
+    ),
+    path(
         "api/organizations/exists/",
         api.DistinctOrganizationViewSet.as_view(
             {

@@ -1,5 +1,9 @@
+import logging
+
+import boto3
 import openai
 import openai.error
+from botocore.exceptions import ClientError
 from cryptography.fernet import Fernet
 from django.conf import settings
 from django.core.mail import send_mail
@@ -145,6 +149,23 @@ def encrypt_vnc_connection(connection_string):
     encoded_encrypted_token = secret_key.encrypt(connection_string.encode())
 
     return encoded_encrypted_token
+
+
+def create_presigned_url(bucket_name, object_name, expiration=3600):
+    # Generate a presigned URL for the S3 object
+    s3_client = boto3.client("s3")
+    try:
+        response = s3_client.generate_presigned_url(
+            "get_object",
+            Params={"Bucket": bucket_name, "Key": object_name},
+            ExpiresIn=expiration,
+        )
+    except ClientError as e:
+        logging.error(e)
+        return None
+
+    # The response contains the presigned URL
+    return response
 
 
 url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"  # noqa

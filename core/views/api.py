@@ -21,7 +21,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from core import filters, models, permissions, serializers, utils
-from core.utils import encrypt_vnc_connection
+from core.utils import create_presigned_url, encrypt_vnc_connection
 from core.views import mixins
 from vfse import pagination
 
@@ -1000,3 +1000,11 @@ class SystemLocationViewSet(ModelViewSet):
         return models.RouterLocation.objects.filter(system__in=queryset).order_by(
             "-created_at"
         )
+
+
+class AwsApiView(APIView):
+    def get(self, request, *args, **kwargs):
+        response = create_presigned_url(
+            settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_SECRET_ACCESS_KEY
+        )
+        return Response(response)
