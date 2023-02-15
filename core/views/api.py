@@ -1007,4 +1007,4 @@ class AwsApiView(APIView):
         response = create_presigned_url(
             settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_SECRET_ACCESS_KEY
         )
-        return Response(response)
+        return Response({"aws_url": response}, status=status.HTTP_200_OK)
