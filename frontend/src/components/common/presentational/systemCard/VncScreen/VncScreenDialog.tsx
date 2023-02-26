@@ -1,26 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
-import {
-  AppBar,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Grid,
-  IconButton,
-  TextField,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { useFormik } from "formik";
-import * as yup from "yup";
 
 import { CredentialForm } from "@src/components/common/presentational/systemCard/VncScreen/CredentialForm";
 import { VncScreen } from "@src/components/common/presentational/systemCard/VncScreen/VncScreen";
-import { useAppSelector } from "@src/store/hooks";
 import { System } from "@src/store/reducers/generated";
 
 interface VncScreenProps {
@@ -35,9 +21,6 @@ const VncScreenDialog = ({
   handleModalClose,
   system,
 }: VncScreenProps) => {
-  const VNC_URL = system.access_url;
-  const VNC_PORT = system.vnc_port;
-
   const [formData, setFormData] = useState({
     username: "",
     password: "",
