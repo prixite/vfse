@@ -21,15 +21,9 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
   const displayRef = useRef(null);
 
   useEffect(() => {
-    const guac = (client.current = new Guacamole.Client(
-      new WebSocketTunnel(tunnelURL)
-    ));
-    document
-      .getElementById("display")
-      .appendChild(guac.getDisplay().getElement());
-
+    client.current = new Guacamole.Client(new WebSocketTunnel(tunnelURL));
     displayRef.current.appendChild(client.current.getDisplay().getElement());
-    guac.connect(
+    client.current.connect(
       [
         `guacd_host=${GUACD_IP}`,
         `guacd_port=${GUACD_PORT}`,
@@ -43,14 +37,17 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
         `dpi=96`,
       ].join("&")
     );
+    return function cleanup() {
+      client.current.disconnect();
+    };
   }, []);
 
   return (
     <div
       ref={displayRef}
       style={{
-        width: "100%",
-        height: "100%",
+        width: "1024px",
+        height: "768px",
         overflow: "hidden",
         cursor: "none",
       }}
