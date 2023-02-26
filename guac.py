@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+
 from guacamole.client import GuacamoleClient
 from guacamole.instruction import Instruction
 
