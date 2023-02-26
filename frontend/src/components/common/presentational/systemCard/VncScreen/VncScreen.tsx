@@ -2,19 +2,22 @@ import { useRef, useEffect } from "react";
 
 import Guacamole, { WebSocketTunnel } from "guacamole-common-js";
 
-export function VncScreen({ system, username, password }) {
+import { System } from "@src/store/reducers/generated";
+
+interface VncScreenProp {
+  system: System;
+  username: string;
+  password: string;
+}
+
+export function VncScreen({ system, username, password }: VncScreenProp) {
   const GUACD_IP = "74.207.234.105";
   const GUACD_PORT = "4822";
   const tunnelURL = "ws://localhost:8001/websocket/";
   const width = 1024;
   const height = 768;
-  console.log(system);
-  console.log(username);
-  console.log(password);
 
   const client = useRef(null);
-  const keyboard = useRef(null);
-  const mouse = useRef(null);
   const displayRef = useRef(null);
 
   useEffect(() => {
