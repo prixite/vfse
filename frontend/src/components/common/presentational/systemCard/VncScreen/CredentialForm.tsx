@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   Button,
   DialogContent,
@@ -22,7 +20,15 @@ const validationSchema = yup.object({
   password: yup.string().required("Password is required"),
 });
 
-export const CredentialForm = ({ setFormData, handleModalClose }) => {
+interface CredentialFormProps {
+  setFormData: () => void;
+  handleModalClose: () => void;
+}
+
+export const CredentialForm = ({
+  setFormData,
+  handleModalClose,
+}: CredentialFormProps) => {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
