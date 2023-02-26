@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0088_remove_system_vnc_url'),
+        ("core", "0088_remove_system_vnc_url"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='system',
-            name='access_url',
+            model_name="system",
+            name="access_url",
             field=models.CharField(blank=True, max_length=512, null=True),
         ),
     ]

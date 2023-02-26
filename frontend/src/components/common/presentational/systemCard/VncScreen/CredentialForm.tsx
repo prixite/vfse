@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
-import * as yup from "yup";
+
+import {
+  Button,
+  DialogContent,
+  DialogActions,
+  Grid,
+  TextField,
+} from "@mui/material";
 import { useFormik } from "formik";
+import * as yup from "yup";
 
-import { Button, DialogContent, DialogActions, Grid, TextField } from "@mui/material";
+
 import { useAppSelector } from "@src/store/hooks";
-
 
 const initialState = {
   username: "",
   password: "",
-}
+};
 
 const validationSchema = yup.object({
-  username: yup
-    .string()
-    .required("Username is required"),
-  password: yup
-    .string()
-    .required("Password is required"),
+  username: yup.string().required("Username is required"),
+  password: yup.string().required("Password is required"),
 });
 
-export const CredentialForm = ({setFormData, handleModalClose}) => {
+export const CredentialForm = ({ setFormData, handleModalClose }) => {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -29,7 +32,7 @@ export const CredentialForm = ({setFormData, handleModalClose}) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       setFormData(values);
-    }
+    },
   });
 
   const handleClear = () => {
@@ -39,81 +42,85 @@ export const CredentialForm = ({setFormData, handleModalClose}) => {
 
   return (
     <>
-    <DialogContent>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <div className="info-section">
-            <p className="info-label required">Username</p>
-            <TextField
-              autoComplete="off"
-              className="info-field"
-              variant="outlined"
-              size="small"
-              name="username"
-              placeholder="Username"
-              error={formik.touched.username && Boolean(formik.errors.username)}
-              helperText={
-                formik.touched.username &&
+      <DialogContent>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <div className="info-section">
+              <p className="info-label required">Username</p>
+              <TextField
+                autoComplete="off"
+                className="info-field"
+                variant="outlined"
+                size="small"
+                name="username"
+                placeholder="Username"
+                error={
+                  formik.touched.username && Boolean(formik.errors.username)
+                }
+                helperText={
+                  formik.touched.username &&
                   formik.errors.username && (
                     <span style={{ marginLeft: "-13px" }}>
                       {formik.errors.username}
                     </span>
                   )
-              }
-              value={formik.values.username}
-              onChange={formik.handleChange}
-            />
-          </div>
-          <div className="info-section">
-            <p className="info-label required">Password</p>
-            <TextField
-              autoComplete="off"
-              className="info-field"
-              variant="outlined"
-              size="small"
-              type="password"
-              name="password"
-              placeholder="Password"
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={
-                formik.touched.password &&
+                }
+                value={formik.values.username}
+                onChange={formik.handleChange}
+              />
+            </div>
+            <div className="info-section">
+              <p className="info-label required">Password</p>
+              <TextField
+                autoComplete="off"
+                className="info-field"
+                variant="outlined"
+                size="small"
+                type="password"
+                name="password"
+                placeholder="Password"
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
+                helperText={
+                  formik.touched.password &&
                   formik.errors.password && (
                     <span style={{ marginLeft: "-13px" }}>
                       {formik.errors.password}
                     </span>
                   )
-              }
-              value={formik.values.password}
-              onChange={formik.handleChange}
-            />
-          </div>
+                }
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              />
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-    </DialogContent>
-    <form onSubmit={formik.handleSubmit}>
-      <DialogActions>
-        <Button
-          className="cancel-btn"
-          style={{
-            backgroundColor: secondaryColor,
-            color: buttonTextColor,
-          }}
-          onClick={handleClear}
-        >
-          Cancel
-        </Button>
-        <Button
-          className="add-btn"
-          style={{
-            backgroundColor: buttonBackground,
-            color: buttonTextColor,
-          }}
-          type="submit"
-        >
-          Login
-        </Button>
-      </DialogActions>
-    </form>
+      </DialogContent>
+      <form onSubmit={formik.handleSubmit}>
+        <DialogActions>
+          <Button
+            className="cancel-btn"
+            style={{
+              backgroundColor: secondaryColor,
+              color: buttonTextColor,
+            }}
+            onClick={handleClear}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="add-btn"
+            style={{
+              backgroundColor: buttonBackground,
+              color: buttonTextColor,
+            }}
+            type="submit"
+          >
+            Login
+          </Button>
+        </DialogActions>
+      </form>
     </>
-  )
-}
+  );
+};

@@ -1,25 +1,14 @@
-import logging
 import asyncio
+import logging
+
 from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-
+from fastapi.templating import Jinja2Templates
 from guacamole.client import GuacamoleClient
 from guacamole.instruction import Instruction
 
 app = FastAPI()
-
-templates = Jinja2Templates(directory="templates")
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-WEBSOCKETS = {}
-
-
-@app.get("/", response_class=HTMLResponse)
-def get(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
 
 
 async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):

@@ -1,8 +1,58 @@
-import { useRef } from "react";
-import Guacamole from "guacamole-common-js";
+import { useRef, useEffect } from "react";
 
-export function VncScreen () {
-  return <h1>VNC</h1>
+import Guacamole, { WebSocketTunnel } from "guacamole-common-js";
+
+export function VncScreen({ system, username, password }) {
+  const GUACD_IP = "74.207.234.105";
+  const GUACD_PORT = "4822";
+  const tunnelURL = "ws://localhost:8001/websocket/";
+  const width = 1024;
+  const height = 768;
+  console.log(system);
+  console.log(username);
+  console.log(password);
+
+  const client = useRef(null);
+  const keyboard = useRef(null);
+  const mouse = useRef(null);
+  const displayRef = useRef(null);
+
+  useEffect(() => {
+    const guac = (client.current = new Guacamole.Client(
+      new WebSocketTunnel(tunnelURL)
+    ));
+    document
+      .getElementById("display")
+      .appendChild(guac.getDisplay().getElement());
+
+    displayRef.current.appendChild(client.current.getDisplay().getElement());
+    guac.connect(
+      [
+        `guacd_host=${GUACD_IP}`,
+        `guacd_port=${GUACD_PORT}`,
+        `protocol=vnc`,
+        `remote_host=${system.access_url}`,
+        `remote_port=${system.vnc_port}`,
+        `username=${username}`,
+        `password=${password}`,
+        `width=${width}`,
+        `height=${height}`,
+        `dpi=96`,
+      ].join("&")
+    );
+  }, []);
+
+  return (
+    <div
+      ref={displayRef}
+      style={{
+        width: "100%",
+        height: "100%",
+        overflow: "hidden",
+        cursor: "none",
+      }}
+    />
+  );
 }
 
 /*

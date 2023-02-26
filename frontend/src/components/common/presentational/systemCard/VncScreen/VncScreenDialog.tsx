@@ -1,15 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as yup from "yup";
-import { useFormik } from "formik";
+
 
 import CloseIcon from "@mui/icons-material/Close";
-import { AppBar, Button, Dialog, DialogActions, DialogContent, Grid, IconButton, TextField, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Grid,
+  IconButton,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import {System} from "@src/store/reducers/generated";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+import { CredentialForm } from "@src/components/common/presentational/systemCard/VncScreen/CredentialForm";
+import { VncScreen } from "@src/components/common/presentational/systemCard/VncScreen/VncScreen";
 import { useAppSelector } from "@src/store/hooks";
-import {CredentialForm} from "@src/components/common/presentational/systemCard/VncScreen/CredentialForm";
-import {VncScreen} from "@src/components/common/presentational/systemCard/VncScreen/VncScreen";
+import { System } from "@src/store/reducers/generated";
 
 interface VncScreenProps {
   openModal: boolean;
@@ -18,9 +31,11 @@ interface VncScreenProps {
   system: System;
 }
 
-const VncScreenDialog = ({ openModal, handleModalClose, system }: VncScreenProps) => {
-  const GUACD_IP = "74.207.234.105";
-  const GUACD_PORT = "4822";
+const VncScreenDialog = ({
+  openModal,
+  handleModalClose,
+  system,
+}: VncScreenProps) => {
   const VNC_URL = system.access_url;
   const VNC_PORT = system.vnc_port;
 
@@ -61,8 +76,19 @@ const VncScreenDialog = ({ openModal, handleModalClose, system }: VncScreenProps
             </Typography>
           </Toolbar>
         </AppBar>
-        { !(formData.username && formData.password) && <CredentialForm setFormData={setFormData} handleModalClose={handleModalClose} />}
-        { formData.username && formData.password && <VncScreen />}
+        {!(formData.username && formData.password) && (
+          <CredentialForm
+            setFormData={setFormData}
+            handleModalClose={handleModalClose}
+          />
+        )}
+        {formData.username && formData.password && (
+          <VncScreen
+            system={system}
+            username={formData.username}
+            password={formData.password}
+          />
+        )}
       </Dialog>
     </>
   );

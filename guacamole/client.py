@@ -1,6 +1,7 @@
 import asyncio
 import logging
-from guacamole.instruction import Instruction, Connect
+
+from guacamole.instruction import Connect, Instruction
 
 logger = logging
 
