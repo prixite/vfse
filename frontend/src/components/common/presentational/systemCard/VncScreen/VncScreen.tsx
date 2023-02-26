@@ -74,6 +74,7 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
         height: "100%",
         overflow: "hidden",
         cursor: "none",
+        zIndex: "800",
       }}
     />
   );
