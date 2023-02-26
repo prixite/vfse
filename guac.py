@@ -1,10 +1,7 @@
 import asyncio
 import logging
 
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from guacamole.client import GuacamoleClient
 from guacamole.instruction import Instruction
 
