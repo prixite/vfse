@@ -711,7 +711,7 @@ const SystemCard = ({
         <VncScreenDialog
           openModal={openVnc}
           handleModalClose={() => setOpenVnc(false)}
-          systemId={system.id}
+          system={system}
           organizationId={selectedOrganization.id}
         />
       )}

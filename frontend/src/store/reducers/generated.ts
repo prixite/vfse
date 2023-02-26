@@ -1444,6 +1444,8 @@ export type System = {
   software_version?: string | null;
   asset_number?: string | null;
   ip_address?: string | null;
+  vnc_port?: string | null;
+  access_url?: string | null;
   local_ae_title?: string | null;
   his_ris_info?: HisRisInfo;
   dicom_info?: HisRisInfo;

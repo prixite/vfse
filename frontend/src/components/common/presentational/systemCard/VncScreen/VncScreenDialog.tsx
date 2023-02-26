@@ -1,28 +1,34 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
 import CloseIcon from "@mui/icons-material/Close";
-import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Dialog, DialogActions, DialogContent, Grid, IconButton, TextField, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { VncScreen } from "react-vnc";
+import {System} from "@src/store/reducers/generated";
+import { useAppSelector } from "@src/store/hooks";
+import {CredentialForm} from "@src/components/common/presentational/systemCard/VncScreen/CredentialForm";
+import {VncScreen} from "@src/components/common/presentational/systemCard/VncScreen/VncScreen";
 
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
-  systemId: number;
   organizationId: number;
+  system: System;
 }
 
-const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
-  const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
-  const { connect, connected, disconnect } = vncScreenRef.current ?? {};
-  useEffect(() => {
-    if (connected) {
-      disconnect?.();
-    } else {
-      connect?.();
-    }
-  }, []);
+const VncScreenDialog = ({ openModal, handleModalClose, system }: VncScreenProps) => {
+  const GUACD_IP = "74.207.234.105";
+  const GUACD_PORT = "4822";
+  const VNC_URL = system.access_url;
+  const VNC_PORT = system.vnc_port;
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement;
@@ -55,19 +61,8 @@ const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        <VncScreen
-          url={
-            "wss://5c94-124-109-46-126.in.ngrok.io/vnc.html?resize=remote&autoconnect=true&password=pakarmy.3"
-          }
-          scaleViewport
-          background="#000000"
-          style={{
-            width: "75vw",
-            height: "75vh",
-          }}
-          debug
-          ref={vncScreenRef}
-        />
+        { !(formData.username && formData.password) && <CredentialForm setFormData={setFormData} handleModalClose={handleModalClose} />}
+        { formData.username && formData.password && <VncScreen />}
       </Dialog>
     </>
   );
