@@ -16,7 +16,7 @@ const initialState = {
 };
 
 const validationSchema = yup.object({
-  username: yup.string().required("Username is required"),
+  username: yup.string(),
   password: yup.string().required("Password is required"),
 });
 
