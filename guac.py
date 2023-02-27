@@ -30,8 +30,6 @@ async def websocket_endpoint(
     protocol: str,
     remote_host: str,
     remote_port: str,
-    username: str,
-    password: str,
     width: str,
     height: str,
     dpi: str,
@@ -49,14 +47,12 @@ async def websocket_endpoint(
             "args": {
                 "hostname": remote_host,
                 "port": remote_port,
-                "username": username,
-                "password": password,
             },
         },
         debug=True,
     )
     await client.connect()
-    await client.handshake()
+    await client.handshake(websocket)
 
     task = asyncio.get_event_loop().create_task(guacd_to_client(websocket, client))
 

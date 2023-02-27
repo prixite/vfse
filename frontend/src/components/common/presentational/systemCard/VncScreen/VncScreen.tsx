@@ -23,7 +23,8 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
   const displayRef = useRef(null);
 
   useEffect(() => {
-    guac.current = new Guacamole.Client(new WebSocketTunnel(tunnelURL));
+    const tunnel = new WebSocketTunnel(tunnelURL);
+    guac.current = new Guacamole.Client(tunnel);
     displayRef.current.appendChild(guac.current.getDisplay().getElement());
     guac.current.connect(
       [
@@ -32,13 +33,18 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
         `protocol=vnc`,
         `remote_host=${system.access_url}`,
         `remote_port=${system.vnc_port}`,
-        `username=${username}`,
-        `password=${password}`,
         `width=${width}`,
         `height=${height}`,
         `dpi=96`,
       ].join("&")
     );
+
+    const checkConnected = setInterval(() => {
+      if (tunnel.isConnected()) {
+        tunnel.sendMessage("creds", username, password);
+        clearInterval(checkConnected);
+      }
+    }, 100);
 
     // Mouse
     mouse.current = new Guacamole.Mouse(guac.current.getDisplay().getElement());
