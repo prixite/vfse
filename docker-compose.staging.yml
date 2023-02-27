@@ -59,12 +59,13 @@ services:
     image: guacamole/guacd
 
   guac_proxy:
-    extends:
-      file: docker-compose.base.yml
-      service: prod_app
-    volumes:
-        - shm:/dev/shm
+    image: vfse_app
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    container_name: guac_proxy
     depends_on:
+      - app
       - guacd
     command: "uvicorn guac:app"
 
