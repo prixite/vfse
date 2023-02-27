@@ -11,7 +11,7 @@ interface VncScreenProp {
 }
 
 export function VncScreen({ system, username, password }: VncScreenProp) {
-  const GUACD_IP = process.env.GUACD_IP;
+  const GUACD_HOST = process.env.GUACD_HOST;
   const GUACD_PORT = process.env.GUACD_PORT;
   const tunnelURL = process.env.GUACD_PROXY_WS;
   const width = 1024;
@@ -27,7 +27,7 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
     displayRef.current.appendChild(guac.current.getDisplay().getElement());
     guac.current.connect(
       [
-        `guacd_host=${GUACD_IP}`,
+        `guacd_host=${GUACD_HOST}`,
         `guacd_port=${GUACD_PORT}`,
         `protocol=vnc`,
         `remote_host=${system.access_url}`,

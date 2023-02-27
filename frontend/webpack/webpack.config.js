@@ -49,7 +49,7 @@ module.exports = {
       AWS_DEFAULT_REGION: "something",
       API_SERVER: "/api/",
       AUTH_TOKEN: "",
-      GUACD_IP: "",
+      GUACD_HOST: "",
       GUACD_PORT: "",
       GUACD_PROXY_WS: "",
     }),
