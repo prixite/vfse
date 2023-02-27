@@ -17,6 +17,11 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
+@app.get("/")
+def index():
+    return {"Hello": "World"}
+
+
 @app.websocket("/websocket/")
 async def websocket_endpoint(
     websocket: WebSocket,
