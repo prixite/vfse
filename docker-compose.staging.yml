@@ -55,6 +55,19 @@ services:
     expose:
       - 8888
 
+  guacd:
+    image: guacamole/guacd
+
+  guac_proxy:
+    extends:
+      file: docker-compose.base.yml
+      service: prod_app
+    volumes:
+        - shm:/dev/shm
+    depends_on:
+      - guacd
+    command: "uvicorn guac:app"
+
 volumes:
   static_volume:
   shm:

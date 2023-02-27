@@ -11,9 +11,9 @@ interface VncScreenProp {
 }
 
 export function VncScreen({ system, username, password }: VncScreenProp) {
-  const GUACD_IP = "74.207.234.105";
-  const GUACD_PORT = "4822";
-  const tunnelURL = "ws://localhost:8001/websocket/";
+  const GUACD_IP = process.env.GUACD_IP;
+  const GUACD_PORT = process.env.GUACD_PORT;
+  const tunnelURL = process.env.GUACD_PROXY_WS;
   const width = 1024;
   const height = 768;
 
