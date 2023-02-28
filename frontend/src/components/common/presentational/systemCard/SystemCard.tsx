@@ -434,7 +434,7 @@ const SystemCard = ({
                   system?.connection_options?.ssh ||
                   system?.connection_options?.vfse ||
                   system?.connection_options?.virtual_media_control
-                )
+                ) || !system?.is_online
               }
               sx={{ display: "flex", alignItems: "center" }}
             >

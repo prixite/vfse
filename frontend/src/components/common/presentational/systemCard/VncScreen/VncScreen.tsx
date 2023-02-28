@@ -56,17 +56,6 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
           guac.current.sendMouseState(mouseState);
         };
 
-    // Keyboard
-    keyboard.current = new Guacamole.Keyboard(document);
-
-    keyboard.current.onkeydown = function (keysym) {
-      guac.current.sendKeyEvent(1, keysym);
-    };
-
-    keyboard.current.onkeyup = function (keysym) {
-      guac.current.sendKeyEvent(0, keysym);
-    };
-
     return function cleanup() {
       guac.current.disconnect();
     };
