@@ -25,6 +25,7 @@ const VncScreenDialog = ({
     username: "",
     password: "",
   });
+  const [startConnection, setStartConnection] = useState(false);
 
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -58,13 +59,14 @@ const VncScreenDialog = ({
             </Typography>
           </Toolbar>
         </AppBar>
-        {!(formData.username && formData.password) && (
+        {!startConnection && (
           <CredentialForm
             setFormData={setFormData}
+            setStartConnection={setStartConnection}
             handleModalClose={handleModalClose}
           />
         )}
-        {formData.username && formData.password && (
+        {startConnection && (
           <VncScreen
             system={system}
             username={formData.username}

@@ -21,12 +21,14 @@ const validationSchema = yup.object({
 });
 
 interface CredentialFormProps {
-  setFormData: () => void;
+  setFormData: (values: { username: string; password: string }) => void;
+  setStartConnection: (startConnection: boolean) => void;
   handleModalClose: () => void;
 }
 
 export const CredentialForm = ({
   setFormData,
+  setStartConnection,
   handleModalClose,
 }: CredentialFormProps) => {
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
@@ -37,6 +39,7 @@ export const CredentialForm = ({
     validationSchema: validationSchema,
     onSubmit: (values) => {
       setFormData(values);
+      setStartConnection(true);
     },
   });
 
@@ -51,7 +54,7 @@ export const CredentialForm = ({
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <div className="info-section">
-              <p className="info-label required">Username</p>
+              <p className="info-label">Username</p>
               <TextField
                 autoComplete="off"
                 className="info-field"
