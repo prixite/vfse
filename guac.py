@@ -49,7 +49,7 @@ async def websocket_endpoint(
                 "port": remote_port,
             },
         },
-        debug=False,
+        debug=True,
     )
     await client.connect()
     await client.handshake(websocket)
