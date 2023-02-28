@@ -1,5 +1,5 @@
 boto3==1.26.80
-coverage==7.1.0
+coverage==7.2.1
 cryptography
 dj-database-url==1.2.0
 Django==4.1.7
