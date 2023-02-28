@@ -53,6 +53,7 @@ async def websocket_endpoint(
     )
     await client.connect()
     await client.handshake(websocket)
+    logging.info("Handshake complete")
 
     task = asyncio.get_event_loop().create_task(guacd_to_client(websocket, client))
 
