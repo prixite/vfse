@@ -1,32 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-
-import { CredentialForm } from "@src/components/common/presentational/systemCard/VncScreen/CredentialForm";
-import { VncScreen } from "@src/components/common/presentational/systemCard/VncScreen/VncScreen";
-import { System } from "@src/store/reducers/generated";
+import { VncScreen } from "react-vnc";
 
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
+  systemId: number;
   organizationId: number;
-  system: System;
 }
 
-const VncScreenDialog = ({
-  openModal,
-  handleModalClose,
-  system,
-}: VncScreenProps) => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const [startConnection, setStartConnection] = useState(false);
-
+const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
+  const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
+  const { connect, connected, disconnect } = vncScreenRef.current ?? {};
+  useEffect(() => {
+    if (connected) {
+      disconnect?.();
+    } else {
+      connect?.();
+    }
+  }, []);
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement;
@@ -59,20 +55,19 @@ const VncScreenDialog = ({
             </Typography>
           </Toolbar>
         </AppBar>
-        {!startConnection && (
-          <CredentialForm
-            setFormData={setFormData}
-            setStartConnection={setStartConnection}
-            handleModalClose={handleModalClose}
-          />
-        )}
-        {startConnection && (
-          <VncScreen
-            system={system}
-            username={formData.username}
-            password={formData.password}
-          />
-        )}
+        <VncScreen
+          url={
+            "wss://5c94-124-109-46-126.in.ngrok.io/vnc.html?resize=remote&autoconnect=true&password=pakarmy.3"
+          }
+          scaleViewport
+          background="#000000"
+          style={{
+            width: "75vw",
+            height: "75vh",
+          }}
+          debug
+          ref={vncScreenRef}
+        />
       </Dialog>
     </>
   );
