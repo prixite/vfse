@@ -21,9 +21,18 @@ const VncScreenDialog = ({
   system,
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
-  const { access_url: accessUrl, vnc_port: vncPort, ip_address: ipAddress } = system;
-  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}?host=${accessUrl || ipAddress}&port=${vncPort}`;
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
+
+  const {
+    access_url: accessUrl,
+    vnc_port: vncPort,
+    ip_address: ipAddress,
+  } = system;
+
+  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}?host=${
+    accessUrl || ipAddress
+  }&port=${vncPort}`;
+
   useEffect(() => {
     if (connected) {
       disconnect?.();
@@ -31,6 +40,7 @@ const VncScreenDialog = ({
       connect?.();
     }
   }, []);
+
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement;
