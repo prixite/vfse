@@ -18,7 +18,6 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
   const height = 768;
 
   const guac = useRef(null);
-  const keyboard = useRef(null);
   const mouse = useRef(null);
   const displayRef = useRef(null);
 
