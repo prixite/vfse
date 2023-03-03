@@ -52,6 +52,7 @@ module.exports = {
       GUACD_HOST: "",
       GUACD_PORT: "",
       GUACD_PROXY_WS: "",
+      WEBSOCKIFY_WS: "",
     }),
     new BundleTracker({ filename: "./webpack-stats.json" }),
   ],

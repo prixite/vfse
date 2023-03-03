@@ -6,15 +6,23 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { VncScreen } from "react-vnc";
 
+import { System } from "@src/store/reducers/generated";
+
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
-  systemId: number;
+  system: System;
   organizationId: number;
 }
 
-const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
+const VncScreenDialog = ({
+  openModal,
+  handleModalClose,
+  system,
+}: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
+  const { access_url: accessUrl, vnc_port: vncPort, ip_address: ipAddress } = system;
+  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}?host=${accessUrl || ipAddress}&port=${vncPort}`;
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
   useEffect(() => {
     if (connected) {
@@ -56,16 +64,13 @@ const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
           </Toolbar>
         </AppBar>
         <VncScreen
-          url={
-            "wss://5c94-124-109-46-126.in.ngrok.io/vnc.html?resize=remote&autoconnect=true&password=pakarmy.3"
-          }
-          scaleViewport
+          url={websockifyUrl}
+          scaleViewport={true}
           background="#000000"
           style={{
             width: "75vw",
             height: "75vh",
           }}
-          debug
           ref={vncScreenRef}
         />
       </Dialog>

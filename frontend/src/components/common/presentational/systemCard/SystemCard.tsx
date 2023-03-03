@@ -47,8 +47,9 @@ import {
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-import "../../../../../../node_modules/xterm/css/xterm.css";
 import VncScreenDialog from "./VncScreen/VncScreenDialog";
+
+import "../../../../../../node_modules/xterm/css/xterm.css";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
