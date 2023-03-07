@@ -2,4 +2,4 @@
 
 ipython==8.10.0
 nplusone==1.0.0
-pre-commit==3.1.0
+pre-commit==3.1.1
