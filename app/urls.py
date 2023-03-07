@@ -380,7 +380,7 @@ urlpatterns = (
             ),
             name="password_reset_complete",
         ),
-        path("proxy/<int:id>/", site.proxy, name="proxy"),
+        path("systems/<int:id>/service/", site.proxy, name="systems-service"),
         path("accounts/", include("django.contrib.auth.urls")),
         path("accounts/duo/login/", site.duo_login, name="duo_login"),
         path("request/", site.RequestView.as_view(), name="request"),
