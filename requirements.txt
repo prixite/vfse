@@ -1,4 +1,4 @@
-boto3==1.26.80
+boto3==1.26.85
 coverage==7.2.1
 cryptography
 dj-database-url==1.2.0
