@@ -1,7 +1,8 @@
+import httpx
 import asyncio
 import logging
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
 
 from guacamole.client import GuacamoleClient
 from guacamole.instruction import Instruction
@@ -17,9 +18,11 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
+"""
 @app.get("/")
 def index():
     return {"Hello": "World"}
+    """
 
 
 @app.websocket("/websocket/")
@@ -91,3 +94,15 @@ async def raw_websocket(websocket: WebSocket, host: str, port: str):
         task.cancel()
 
     await asyncio.wait([task])
+
+
+@app.get("/{path:path}")
+async def index_proxy(path: str, request: Request, response: Response):
+    print(request.headers)
+    async with httpx.AsyncClient() as client:
+        proxy = await client.get(f"http://10.47.31.241/{path}")
+
+    response.body = proxy.content
+    response.headers.update(proxy.headers)
+    response.status_code = proxy.status_code
+    return response
