@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
@@ -22,6 +24,7 @@ const VncScreenDialog = ({
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
+  const [fullScreen, setFullScreen] = useState(false);
 
   const {
     access_url: accessUrl,
@@ -54,9 +57,11 @@ const VncScreenDialog = ({
     <>
       <Dialog
         maxWidth="lg"
+        classes={{ paperFullScreen: `${fullScreen ? "" : "prePrint"}` }}
         open={openModal}
         onClose={handleModalClose}
         TransitionComponent={Transition}
+        fullScreen={fullScreen}
       >
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>
@@ -71,6 +76,17 @@ const VncScreenDialog = ({
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               VNC
             </Typography>
+            {!fullScreen ? (
+              <FullscreenIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => setFullScreen(true)}
+              />
+            ) : (
+              <FullscreenExitIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => setFullScreen(false)}
+              />
+            )}
           </Toolbar>
         </AppBar>
         <VncScreen
