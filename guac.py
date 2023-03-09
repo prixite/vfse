@@ -1,6 +1,8 @@
+import re
 import httpx
 import asyncio
 import logging
+from bs4 import BeautifulSoup
 
 from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
 
@@ -96,13 +98,30 @@ async def raw_websocket(websocket: WebSocket, host: str, port: str):
     await asyncio.wait([task])
 
 
-@app.get("/{path:path}")
-async def index_proxy(path: str, request: Request, response: Response):
-    print(request.headers)
-    async with httpx.AsyncClient() as client:
-        proxy = await client.get(f"http://10.47.31.241/{path}")
+@app.get("/one/{path:path}")
+async def index_proxy(path: str, request: Request):
+    add_prefix = lambda x: "/one" + x
 
-    response.body = proxy.content
-    response.headers.update(proxy.headers)
+    if not path.startswith("service"):
+        path = f"service/{path}"
+
+    async with httpx.AsyncClient() as client:
+        url = f"http://10.47.31.241/{path}"
+        print("*" * 100, url)
+        proxy = await client.get(url)
+
+    content = proxy.content
+    headers = proxy.headers
+
+    soup = BeautifulSoup(proxy.content, features="html.parser")
+
+    for tag in soup.find_all(src=re.compile("^/")):
+        tag.attrs['src'] = add_prefix(tag.attrs['src'])
+
+    content = soup.encode()
+    headers.update({'content-length': str(len(content))})
+
+    response = Response(content=content)
+    response.headers.update(headers)
     response.status_code = proxy.status_code
     return response
