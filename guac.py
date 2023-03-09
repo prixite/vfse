@@ -107,19 +107,20 @@ async def index_proxy(path: str, request: Request):
 
     async with httpx.AsyncClient() as client:
         url = f"http://10.47.31.241/{path}"
-        print("*" * 100, url)
         proxy = await client.get(url)
 
     content = proxy.content
     headers = proxy.headers
 
-    soup = BeautifulSoup(proxy.content, features="html.parser")
+    if b'tracing' in content:
+        print(headers['Content-Type'])
+        soup = BeautifulSoup(proxy.content, features="html.parser")
 
-    for tag in soup.find_all(src=re.compile("^/")):
-        tag.attrs['src'] = add_prefix(tag.attrs['src'])
+        for tag in soup.find_all(src=re.compile("^/")):
+            tag.attrs['src'] = add_prefix(tag.attrs['src'])
 
-    content = soup.encode()
-    headers.update({'content-length': str(len(content))})
+        content = soup.encode()
+        headers.update({'content-length': str(len(content))})
 
     response = Response(content=content)
     response.headers.update(headers)
