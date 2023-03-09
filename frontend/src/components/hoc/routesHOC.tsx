@@ -69,6 +69,11 @@ const ActiveUsers = lazy(
     )
 );
 
+const TemplateView = lazy(
+  async () =>
+    import(/* webpackChunkName: "template" */ "@src/views/template/template")
+);
+
 import SystemsView from "../../views/systems/SystemsView";
 
 interface Props {
@@ -111,6 +116,14 @@ const RoutesHOC = ({ isLoading }: Props) => {
               key={key}
             />
           ))}
+          <Route
+            path={`/${organizationRoute}/:id/template/`}
+            element={
+              <Suspense fallback={<p>{loading}</p>}>
+                <TemplateView />
+              </Suspense>
+            }
+          />
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/`}
             element={
