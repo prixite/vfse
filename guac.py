@@ -98,9 +98,9 @@ async def raw_websocket(websocket: WebSocket, host: str, port: str):
     await asyncio.wait([task])
 
 
-@app.get("/one/{path:path}")
-async def index_proxy(path: str, request: Request):
-    add_prefix = lambda x: "/one" + x
+@app.get("/systems/{system_id:int}/{path:path}")
+async def index_proxy(system_id: int, path: str, request: Request):
+    add_prefix = lambda x: f"/systems/{system_id}" + x
 
     if not path.startswith("service"):
         path = f"service/{path}"
@@ -113,7 +113,6 @@ async def index_proxy(path: str, request: Request):
     headers = proxy.headers
 
     if b'tracing' in content:
-        print(headers['Content-Type'])
         soup = BeautifulSoup(proxy.content, features="html.parser")
 
         for tag in soup.find_all(src=re.compile("^/")):
@@ -121,6 +120,24 @@ async def index_proxy(path: str, request: Request):
 
         content = soup.encode()
         headers.update({'content-length': str(len(content))})
+
+    response = Response(content=content)
+    response.headers.update(headers)
+    response.status_code = proxy.status_code
+    return response
+
+
+@app.get("/systems/{path:path}")
+async def inner_proxy(path: str, request: Request):
+    if not path.startswith("service"):
+        path = f"service/{path}"
+
+    async with httpx.AsyncClient() as client:
+        url = f"http://10.47.31.241/{path}"
+        proxy = await client.get(url)
+
+    content = proxy.content
+    headers = proxy.headers
 
     response = Response(content=content)
     response.headers.update(headers)
