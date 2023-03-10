@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Dialog, Button,TextField,
-    Grid, } from "@mui/material";
+
+import { Dialog, Button, TextField, Grid } from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
-import VncScreenDialog from "./VncScreenDialog";
-import { System } from "@src/store/reducers/generated";
 import * as yup from "yup";
+
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
+import { System } from "@src/store/reducers/generated";
+
+import VncScreenDialog from "./VncScreenDialog";
 import "@src/components/common/presentational/systemCard/VncScreen/PasswordModal.scss";
 
 interface PasswordDialogProps {
@@ -18,95 +20,93 @@ interface PasswordDialogProps {
   organizationId: number;
 }
 interface VncPassword {
-    password: string;
-    passwordConfirmation: string;
-  }
+  password: string;
+  passwordConfirmation: string;
+}
 
 const initialState: VncPassword = {
-    password: "pakarmy.3",
-    passwordConfirmation: ""
-  };
-  const validationSchema = yup.object({
-    password: yup.string().required('Password is required'),
-  passwordConfirmation: yup.string()
-     .oneOf([yup.ref('password'), null], 'Incorrect password')
-  });
+  password: "pakarmy.3",
+  passwordConfirmation: "",
+};
+const validationSchema = yup.object({
+  password: yup.string().required("Password is required"),
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Incorrect password"),
+});
 
 const PasswordDialog = ({
   openModal,
   handleModalClose,
   system,
-  organizationId
-  
+  organizationId,
 }: PasswordDialogProps) => {
-    const [password, setPassword] = useState("");
-    const formik = useFormik({
-        initialValues: initialState,
-        validationSchema: validationSchema,
-        onSubmit: () => {
-          setPassword(formik.values.passwordConfirmation);
-        }
-      });
+  const [password, setPassword] = useState("");
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      setPassword(formik.values.passwordConfirmation);
+    },
+  });
 
   return (
     <>
-    {
-      !password?.length  ?
-      <Dialog
-        maxWidth="lg"
-        className="password-modal"
-        open={openModal}
-        onClose={handleModalClose}
-      >
+      {!password?.length ? (
+        <Dialog
+          maxWidth="lg"
+          className="password-modal"
+          open={openModal}
+          onClose={handleModalClose}
+        >
           <DialogTitle>
-        <div className="header">
-          <span className="modal-header">
-            Vnc Password
-          </span>
-          <span className="dialog-page">
-            <img src={CloseBtn} className="cross-btn" onClick={handleModalClose} />
-          </span>
-        </div>
-      </DialogTitle>
-      <DialogContent>
-        <Grid item xs={12} sm={6} className="modal-content">
-            <p className="info-label">Enter password to connect VNC</p>
-            <form onSubmit={formik.handleSubmit}>
+            <div className="header">
+              <span className="modal-header">Vnc Password</span>
+              <span className="dialog-page">
+                <img
+                  src={CloseBtn}
+                  className="cross-btn"
+                  onClick={handleModalClose}
+                />
+              </span>
+            </div>
+          </DialogTitle>
+          <DialogContent>
+            <Grid item xs={12} sm={6} className="modal-content">
+              <p className="info-label">Enter password to connect VNC</p>
+              <form onSubmit={formik.handleSubmit}>
                 <TextField
-                    autoComplete="off"
-                    className="info-field"
-                    variant="outlined"
-                    placeholder="VNC password"
-                    name="passwordConfirmation"
-                    value={formik.values.passwordConfirmation}
-                    onChange={formik.handleChange}
-                    size="small"
-                    type="password"
+                  autoComplete="off"
+                  className="info-field"
+                  variant="outlined"
+                  placeholder="VNC password"
+                  name="passwordConfirmation"
+                  value={formik.values.passwordConfirmation}
+                  onChange={formik.handleChange}
+                  size="small"
+                  type="password"
                 />
                 <p className="errorText" style={{ marginTop: "5px" }}>
-                        {formik.errors.passwordConfirmation}
-            </p>
-           </form>
-        </Grid>
-        </DialogContent>
-        <DialogActions>
-        <Button
-            className="add-btn"
-            onClick={()=> formik.handleSubmit()}
-          >
-           Enter 
-          </Button>
-        </DialogActions>
-      </Dialog>
-      : 
-      <VncScreenDialog
+                  {formik.errors.passwordConfirmation}
+                </p>
+              </form>
+            </Grid>
+          </DialogContent>
+          <DialogActions>
+            <Button className="add-btn" onClick={() => formik.handleSubmit()}>
+              Enter
+            </Button>
+          </DialogActions>
+        </Dialog>
+      ) : (
+        <VncScreenDialog
           openModal={true}
           handleModalClose={handleModalClose}
           system={system}
           organizationId={organizationId}
           password={password}
-      />
-      }
+        />
+      )}
     </>
   );
 };
