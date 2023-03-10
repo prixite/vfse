@@ -15,17 +15,18 @@ interface VncScreenProps {
   handleModalClose: () => void;
   system: System;
   organizationId: number;
+  password: string;
 }
 
 const VncScreenDialog = ({
   openModal,
   handleModalClose,
   system,
+  password,
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
   const [fullScreen, setFullScreen] = useState(false);
-
   const {
     access_url: accessUrl,
     vnc_port: vncPort,
@@ -36,6 +37,12 @@ const VncScreenDialog = ({
     accessUrl || ipAddress
   }&port=${vncPort}`;
 
+  const RfbOptions = {
+    shared: true,
+    credentials: {
+      password: password,
+    },
+  };
   useEffect(() => {
     if (connected) {
       disconnect?.();
@@ -94,9 +101,10 @@ const VncScreenDialog = ({
           scaleViewport={true}
           background="#000000"
           style={{
-            width: "75vw",
-            height: "75vh",
+            width: `${fullScreen ? "100vw" : "60vw"}`,
+            height: `${fullScreen ? "100%" : "75vh"}`,
           }}
+          rfbOptions={RfbOptions}
           ref={vncScreenRef}
         />
       </Dialog>
