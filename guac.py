@@ -1,12 +1,31 @@
 import asyncio
 import logging
+import os
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+import django
 
-from guacamole.client import GuacamoleClient
-from guacamole.instruction import Instruction
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+django.setup()
+
+from django.contrib.sessions.models import Session  # noqa
+from django.core.wsgi import get_wsgi_application  # noqa
+from django.db.models import Q  # noqa
+from fastapi import (  # noqa
+    Cookie,
+    FastAPI,
+    HTTPException,
+    WebSocket,
+    WebSocketDisconnect,
+)
+
+from core.models import OrganizationHealthNetwork, System, User  # noqa
+from core.views.mixins import UserOganizationMixin  # noqa
+from guacamole.client import GuacamoleClient  # noqa
+from guacamole.instruction import Instruction  # noqa
 
 app = FastAPI()
+
+django_app = get_wsgi_application()
 
 
 async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
@@ -17,9 +36,41 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
+async def get_user_from_session(system_id: int, organization_id: int, sessionid: str):
+    # Can be used to authenticate Django user
+    session = Session.objects.get(pk=sessionid)
+    user_id = session.get_decoded().get("_auth_user_id")
+    user = User.objects.get(pk=user_id)
+    customer_admin = UserOganizationMixin()
+    if user is None:
+        raise HTTPException(status_code=404, detail="user not found")
+    system = System.objects.filter(
+        id__in=user.get_organization_systems(organization_id)
+    ).filter(id=system_id)
+    if (
+        user.is_superuser
+        or user.is_supermanager
+        or customer_admin.is_customer_admin(organization_id)
+    ):
+        system = System.objects.filter(
+            Q(site__organization_id=organization_id)
+            | Q(
+                site__organization_id__in=OrganizationHealthNetwork.objects.filter(  # noqa
+                    organization_id=organization_id
+                ).values_list(
+                    "health_network"
+                )
+            )
+        ).filter(id=system_id)
+    if system.exists():
+        return True
+    return {"error": "system record not found."}
+
+
 @app.get("/")
-def index():
-    return {"Hello": "World"}
+async def index(sessionid: str = Cookie(default=None)):
+    print(sessionid)
+    return {"hello": "world"}
 
 
 @app.websocket("/websocket/")
@@ -34,6 +85,7 @@ async def websocket_endpoint(
     height: str,
     dpi: str,
 ):
+
     await websocket.accept(subprotocol="guacamole")
     client = GuacamoleClient(
         guacd_host,
@@ -76,12 +128,22 @@ async def vnc_to_ws(websocket: WebSocket, reader):
 
 
 @app.websocket("/sockify/")
-async def raw_websocket(websocket: WebSocket, host: str, port: str):
+async def raw_websocket(
+    websocket: WebSocket, host: str, port: str, system_id: int, organization_id: int
+):
     await websocket.accept()
+    header = websocket.scope.get("headers")
+    session_id = None
+    for i in header:
+        if i[0] == b"cookie":
+            cookie_dict = dict(x.split("=") for x in i[1].decode("utf-8").split("; "))
+            session_id = cookie_dict.get("sessionid")
+    if session_id is None:
+        raise HTTPException(status_code=404, detail="session id not found")
+    await get_user_from_session(system_id, organization_id, session_id)
     reader, writer = await asyncio.open_connection(host, port)
     logging.info(f"Connection with {host}:{port} established")
     task = asyncio.get_event_loop().create_task(vnc_to_ws(websocket, reader))
-
     try:
         while True:
             data = await websocket.receive_bytes()
