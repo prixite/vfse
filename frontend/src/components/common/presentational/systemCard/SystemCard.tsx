@@ -47,7 +47,7 @@ import {
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-import VncScreenDialog from "./VncScreen/VncScreenDialog";
+import PasswordDialog from "./VncScreen/PasswordModal";
 
 import "../../../../../../node_modules/xterm/css/xterm.css";
 
@@ -711,7 +711,7 @@ const SystemCard = ({
         handleDeleteOrganization={handleDelete}
       />
       {openVnc && (
-        <VncScreenDialog
+        <PasswordDialog
           openModal={openVnc}
           handleModalClose={() => setOpenVnc(false)}
           system={system}
