@@ -714,6 +714,7 @@ const SystemCard = ({
         <PasswordDialog
           openModal={openVnc}
           handleModalClose={() => setOpenVnc(false)}
+          handleModalOpen={() => setOpenVnc(true)}
           system={system}
           organizationId={selectedOrganization.id}
         />
