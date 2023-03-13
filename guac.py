@@ -10,7 +10,6 @@ from asgiref.sync import sync_to_async  # noqa
 from django.contrib.sessions.models import Session  # noqa
 from django.db.models import Q  # noqa
 from fastapi import (  # noqa
-    Cookie,
     FastAPI,
     HTTPException,
     WebSocket,
