@@ -6,9 +6,8 @@ import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
-
+from asgiref.sync import sync_to_async  # noqa
 from django.contrib.sessions.models import Session  # noqa
-from django.core.wsgi import get_wsgi_application  # noqa
 from django.db.models import Q  # noqa
 from fastapi import (  # noqa
     Cookie,
@@ -25,8 +24,6 @@ from guacamole.instruction import Instruction  # noqa
 
 app = FastAPI()
 
-django_app = get_wsgi_application()
-
 
 async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
     while True:
@@ -36,14 +33,23 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
-async def get_user_from_session(system_id: int, organization_id: int, sessionid: str):
+@sync_to_async
+def get_user_from_session(sessionid: str):
     # Can be used to authenticate Django user
     session = Session.objects.get(pk=sessionid)
+    if session is None:
+        raise HTTPException(status_code=404, detail="session record not found.")
     user_id = session.get_decoded().get("_auth_user_id")
     user = User.objects.get(pk=user_id)
-    customer_admin = UserOganizationMixin()
+    print(sessionid)
     if user is None:
-        raise HTTPException(status_code=404, detail="user not found")
+        raise HTTPException(status_code=404, detail="user record not found")
+    return user
+
+
+@sync_to_async
+def check_user_has_system_access(system_id: int, organization_id: int, user):
+    customer_admin = UserOganizationMixin()
     system = System.objects.filter(
         id__in=user.get_organization_systems(organization_id)
     ).filter(id=system_id)
@@ -63,14 +69,13 @@ async def get_user_from_session(system_id: int, organization_id: int, sessionid:
             )
         ).filter(id=system_id)
     if system.exists():
-        return True
+        return system
     return {"error": "system record not found."}
 
 
 @app.get("/")
-async def index(sessionid: str = Cookie(default=None)):
-    print(sessionid)
-    return {"hello": "world"}
+def index():
+    return {"Hello": "World"}
 
 
 @app.websocket("/websocket/")
@@ -140,7 +145,8 @@ async def raw_websocket(
             session_id = cookie_dict.get("sessionid")
     if session_id is None:
         raise HTTPException(status_code=404, detail="session id not found")
-    await get_user_from_session(system_id, organization_id, session_id)
+    user = await get_user_from_session(session_id)
+    await check_user_has_system_access(system_id, organization_id, user)
     reader, writer = await asyncio.open_connection(host, port)
     logging.info(f"Connection with {host}:{port} established")
     task = asyncio.get_event_loop().create_task(vnc_to_ws(websocket, reader))
