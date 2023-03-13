@@ -20,19 +20,14 @@ interface PasswordDialogProps {
   organizationId: number;
 }
 interface VncPassword {
-  password: string;
   passwordConfirmation: string;
 }
 
 const initialState: VncPassword = {
-  password: "pakarmy.3",
   passwordConfirmation: "",
 };
 const validationSchema = yup.object({
-  password: yup.string().required("Password is required"),
-  passwordConfirmation: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Incorrect password"),
+  passwordConfirmation: yup.string().required("Password is required"),
 });
 
 const PasswordDialog = ({
