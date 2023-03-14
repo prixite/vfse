@@ -70,7 +70,7 @@ const PasswordDialog = ({
           </DialogTitle>
           <DialogContent>
             <Grid item xs={12} sm={6} className="modal-content">
-              <p className="info-label">Enter Password to Connect Control</p>
+              <p className="info-label">Enter Password to Connect</p>
               <form onSubmit={formik.handleSubmit}>
                 <TextField
                   autoComplete="off"
