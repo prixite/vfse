@@ -70,7 +70,7 @@
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
     "miragejs": "^0.1.47",
-    "openapi-typescript": "^6.1.1",
+    "openapi-typescript": "^6.2.0",
     "regenerator-runtime": "^0.13.10",
     "sass": "^1.58.3",
     "sass-loader": "^13.1.0",
