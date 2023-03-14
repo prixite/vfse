@@ -6,13 +6,16 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { toast } from "react-toastify";
 import { VncScreen } from "react-vnc";
 
+import { timeOut } from "@src/helpers/utils/constants";
 import { System } from "@src/store/reducers/generated";
 
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
+  openPasswordModal: () => void;
   system: System;
   organizationId: number;
   password: string;
@@ -21,6 +24,7 @@ interface VncScreenProps {
 const VncScreenDialog = ({
   openModal,
   handleModalClose,
+  openPasswordModal,
   system,
   password,
 }: VncScreenProps) => {
@@ -50,6 +54,18 @@ const VncScreenDialog = ({
       connect?.();
     }
   }, []);
+
+  const securityFailure = (e) => {
+    e?.detail?.status === 1 && e?.detail?.reason === "Authentication failure";
+    {
+      toast.error("Incorrect password", {
+        autoClose: timeOut,
+        pauseOnHover: false,
+      });
+      handleModalClose();
+      openPasswordModal();
+    }
+  };
 
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -100,6 +116,7 @@ const VncScreenDialog = ({
           url={websockifyUrl}
           scaleViewport={true}
           background="#000000"
+          onSecurityFailure={(e) => securityFailure(e)}
           style={{
             width: `${fullScreen ? "100vw" : "60vw"}`,
             height: `${fullScreen ? "100%" : "75vh"}`,

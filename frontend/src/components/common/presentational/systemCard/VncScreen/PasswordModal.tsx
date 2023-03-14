@@ -16,6 +16,7 @@ import "@src/components/common/presentational/systemCard/VncScreen/PasswordModal
 interface PasswordDialogProps {
   openModal: boolean;
   handleModalClose: () => void;
+  handleModalOpen: () => void;
   system: System;
   organizationId: number;
 }
@@ -33,6 +34,7 @@ const validationSchema = yup.object({
 const PasswordDialog = ({
   openModal,
   handleModalClose,
+  handleModalOpen,
   system,
   organizationId,
 }: PasswordDialogProps) => {
@@ -97,6 +99,7 @@ const PasswordDialog = ({
         <VncScreenDialog
           openModal={true}
           handleModalClose={handleModalClose}
+          openPasswordModal={handleModalOpen}
           system={system}
           organizationId={organizationId}
           password={password}
