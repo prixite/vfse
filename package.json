@@ -72,7 +72,7 @@
     "miragejs": "^0.1.47",
     "openapi-typescript": "^6.1.1",
     "regenerator-runtime": "^0.13.10",
-    "sass": "^1.58.3",
+    "sass": "^1.59.2",
     "sass-loader": "^13.1.0",
     "style-loader": "^3.3.0",
     "ts-node": "^10.9.1",
