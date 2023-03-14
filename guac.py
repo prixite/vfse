@@ -143,3 +143,21 @@ async def inner_proxy(path: str, request: Request):
     response.headers.update(headers)
     response.status_code = proxy.status_code
     return response
+
+
+@app.post("/systems/{path:path}")
+async def inner_post_proxy(path: str, request: Request):
+    if not path.startswith("service"):
+        path = f"service/{path}"
+
+    async with httpx.AsyncClient() as client:
+        url = f"http://10.47.31.241/{path}"
+        proxy = await client.post(url)
+
+    content = proxy.content
+    headers = proxy.headers
+
+    response = Response(content=content)
+    response.headers.update(headers)
+    response.status_code = proxy.status_code
+    return response
