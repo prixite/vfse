@@ -486,7 +486,7 @@ const SystemCard = ({
                 )}
                 {system.connection_options.vfse && (
                   <MenuItem onClick={() => setOpenVnc(true)}>
-                    <span style={{ marginLeft: "12px" }}>VNC</span>
+                    <span style={{ marginLeft: "12px" }}>Control</span>
                   </MenuItem>
                 )}
                 {system.connection_options.virtual_media_control && (

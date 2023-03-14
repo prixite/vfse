@@ -179,7 +179,7 @@
     "software_version_txt": "Software Version",
     "location": "Location",
     "connect": "Connect",
-    "grafana_link_txt": "Grafana Link"
+    "grafana_link_txt": "Dashboard Link"
   },
   "organization_menu_options": {
     "switch_org": "Select",
@@ -301,7 +301,7 @@
     "fieldModality": "Modality",
     "fieldProduct": "Product",
     "fieldLocation": "Location in the building",
-    "fieldLink": "Grafana link",
+    "fieldLink": "Dashboard Link",
     "fieldNumber": "Serial Number",
     "fieldSite": "Site",
     "fieldModal": "Product Model",
