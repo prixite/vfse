@@ -37,12 +37,11 @@ def get_user_from_session(sessionid: str):
     # Can be used to authenticate Django user
     session = Session.objects.get(pk=sessionid)
     if session is None:
-        raise HTTPException(status_code=404, detail="session record not found.")
+        raise HTTPException(status_code=401, detail="session record not found.")
     user_id = session.get_decoded().get("_auth_user_id")
     user = User.objects.get(pk=user_id)
-    print(sessionid)
     if user is None:
-        raise HTTPException(status_code=404, detail="user record not found")
+        raise HTTPException(status_code=401, detail="user record not found")
     return user
 
 
@@ -67,9 +66,21 @@ def check_user_has_system_access(system_id: int, organization_id: int, user):
                 )
             )
         ).filter(id=system_id)
+
     if system.exists():
         return system
-    return {"error": "system record not found."}
+    raise HTTPException(status_code=401, detail="system record not found")
+
+
+async def get_session_id_from_headers(headers):
+    session_id = None
+    for i in headers:
+        if i[0] == b"cookie":
+            cookie_dict = dict(x.split("=") for x in i[1].decode("utf-8").split("; "))
+            session_id = cookie_dict.get("sessionid")
+    if session_id is None:
+        raise HTTPException(status_code=404, detail="session id not found")
+    return session_id
 
 
 @app.get("/")
@@ -137,13 +148,7 @@ async def raw_websocket(
 ):
     await websocket.accept()
     header = websocket.scope.get("headers")
-    session_id = None
-    for i in header:
-        if i[0] == b"cookie":
-            cookie_dict = dict(x.split("=") for x in i[1].decode("utf-8").split("; "))
-            session_id = cookie_dict.get("sessionid")
-    if session_id is None:
-        raise HTTPException(status_code=404, detail="session id not found")
+    session_id = await get_session_id_from_headers(header)
     user = await get_user_from_session(session_id)
     await check_user_has_system_access(system_id, organization_id, user)
     reader, writer = await asyncio.open_connection(host, port)
