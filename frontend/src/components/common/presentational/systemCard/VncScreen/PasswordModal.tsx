@@ -58,7 +58,7 @@ const PasswordDialog = ({
         >
           <DialogTitle>
             <div className="header">
-              <span className="modal-header">Vnc Password</span>
+              <span className="modal-header">Password</span>
               <span className="dialog-page">
                 <img
                   src={CloseBtn}
@@ -70,7 +70,7 @@ const PasswordDialog = ({
           </DialogTitle>
           <DialogContent>
             <Grid item xs={12} sm={6} className="modal-content">
-              <p className="info-label">Enter password to connect VNC</p>
+              <p className="info-label">Enter Password to Connect</p>
               <form onSubmit={formik.handleSubmit}>
                 <TextField
                   autoComplete="off"
