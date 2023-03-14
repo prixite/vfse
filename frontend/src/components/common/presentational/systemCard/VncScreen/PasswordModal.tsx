@@ -58,7 +58,7 @@ const PasswordDialog = ({
         >
           <DialogTitle>
             <div className="header">
-              <span className="modal-header">{`Control's Password`}</span>
+              <span className="modal-header">Password</span>
               <span className="dialog-page">
                 <img
                   src={CloseBtn}
