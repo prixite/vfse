@@ -22,3 +22,4 @@ openai==0.27.2
 Pillow==9.4.0
 uvicorn==0.21.0
 websockets==10.4
+python-multipart==0.0.6

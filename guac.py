@@ -1,9 +1,9 @@
-import re
-import httpx
 import asyncio
 import logging
-from bs4 import BeautifulSoup
+import re
 
+import httpx
+from bs4 import BeautifulSoup
 from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
 
 from guacamole.client import GuacamoleClient
@@ -100,7 +100,8 @@ async def raw_websocket(websocket: WebSocket, host: str, port: str):
 
 @app.get("/systems/{system_id:int}/{path:path}")
 async def index_proxy(system_id: int, path: str, request: Request):
-    add_prefix = lambda x: f"/systems/{system_id}" + x
+    def add_prefix(path):
+        return f"/systems/{system_id}{path}"
 
     if not path.startswith("service"):
         path = f"service/{path}"
@@ -112,14 +113,14 @@ async def index_proxy(system_id: int, path: str, request: Request):
     content = proxy.content
     headers = proxy.headers
 
-    if b'tracing' in content:
+    if b"tracing" in content:
         soup = BeautifulSoup(proxy.content, features="html.parser")
 
         for tag in soup.find_all(src=re.compile("^/")):
-            tag.attrs['src'] = add_prefix(tag.attrs['src'])
+            tag.attrs["src"] = add_prefix(tag.attrs["src"])
 
         content = soup.encode()
-        headers.update({'content-length': str(len(content))})
+        headers.update({"content-length": str(len(content))})
 
     response = Response(content=content)
     response.headers.update(headers)
