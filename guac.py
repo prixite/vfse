@@ -5,8 +5,8 @@ import os
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 django.setup()
-from asgiref.sync import sync_to_async  # noqa
 from django.contrib.sessions.models import Session  # noqa
 from django.db.models import Q  # noqa
 from fastapi import (  # noqa
@@ -32,7 +32,6 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
-@sync_to_async
 def get_user_from_session(sessionid: str):
     # Can be used to authenticate Django user
     session = Session.objects.get(pk=sessionid)
@@ -45,9 +44,12 @@ def get_user_from_session(sessionid: str):
     return user
 
 
-@sync_to_async
 def check_user_has_system_access(system_id: int, organization_id: int, user):
     customer_admin = UserOganizationMixin()
+    if not user.get_organization_role(organization_id):
+        raise HTTPException(
+            status_code=404, detail="user doesn't have access to origanization"
+        )
     system = System.objects.filter(
         id__in=user.get_organization_systems(organization_id)
     ).filter(id=system_id)
@@ -67,9 +69,12 @@ def check_user_has_system_access(system_id: int, organization_id: int, user):
             )
         ).filter(id=system_id)
 
-    if system.exists():
-        return system
-    raise HTTPException(status_code=401, detail="system record not found")
+    if user.get_organization_role(organization_id) or not system.exists():
+        raise HTTPException(
+            status_code=403,
+            detail="user has access to organization but doesn't have access to the system.",  # noqa
+        )
+    return system
 
 
 async def get_session_id_from_headers(headers):
@@ -149,8 +154,8 @@ async def raw_websocket(
     await websocket.accept()
     header = websocket.scope.get("headers")
     session_id = await get_session_id_from_headers(header)
-    user = await get_user_from_session(session_id)
-    await check_user_has_system_access(system_id, organization_id, user)
+    user = get_user_from_session(session_id)
+    check_user_has_system_access(system_id, organization_id, user)
     reader, writer = await asyncio.open_connection(host, port)
     logging.info(f"Connection with {host}:{port} established")
     task = asyncio.get_event_loop().create_task(vnc_to_ws(websocket, reader))
