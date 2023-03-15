@@ -11,11 +11,7 @@ from guacamole.client import GuacamoleClient
 app = FastAPI()
 
 
-@app.get("/{system_id:int}/{path:path}")
-async def index_proxy(system_id: int, path: str):
-    def add_prefix(src):
-        return f"/{system_id}{src}"
-
+async def get_request(path):
     if not path.startswith("service"):
         path = f"service/{path}"
 
@@ -23,37 +19,42 @@ async def index_proxy(system_id: int, path: str):
     async with httpx.AsyncClient() as client:
         proxy = await client.get(url)
 
-    content = proxy.content
-    headers = proxy.headers
-
-    if b"tracing" in content:
-        soup = BeautifulSoup(proxy.content, features="html.parser")
-
-        for tag in soup.find_all(src=re.compile("^/")):
-            tag.attrs["src"] = add_prefix(tag.attrs["src"])
-
-        content = soup.encode()
-        headers.update({"content-length": str(len(content))})
-
-    response = Response(content=content)
-    response.headers.update(headers)
+    response = Response(content=proxy.content)
+    response.headers.update(proxy.headers)
     response.status_code = proxy.status_code
     return response
+
+
+@app.get("/{system_id:int}/{path:path}")
+async def index_proxy(system_id: int, path: str, request: Request):
+    print(request.cookies)
+    return await get_request(path)
+
+
+@app.get("/{path:path}")
+async def index_inner_proxy(path: str):
+    return await get_request(path)
 
 
 # A34B28
 @app.post("/{system_id:int}/{path:path}")
 async def login(path: str, request: Request):
+    return await post_request(path, request)
+
+
+@app.post("/{path:path}")
+async def post_inner(path: str, request: Request):
+    return await post_request(path, request)
+
+
+async def post_request(path, request):
     data = await request.form()
     url = f"http://10.47.31.241/service/{path}"
 
     async with httpx.AsyncClient() as client:
         proxy = await client.post(url, data=dict(data))
 
-    content = proxy.content
-    headers = proxy.headers
-
-    response = Response(content=content)
-    response.headers.update(headers)
+    response = Response(content=proxy.content)
+    response.headers.update(proxy.headers)
     response.status_code = proxy.status_code
     return response
