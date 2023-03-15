@@ -149,20 +149,26 @@ def encrypt_vnc_connection(connection_string):
     return encoded_encrypted_token
 
 
-def create_presigned_url(bucket_name, key, expiration=3600):
-    # Generate a presigned URL for the S3 object
-    s3_client = boto3.client("s3")
+def create_presigned_url(filename, expiration=300):
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name=settings.AWS_DEFAULT_REGION,
+    )
     try:
         response = s3_client.generate_presigned_url(
-            "get_object",
-            Params={"Bucket": bucket_name, "Key": key},
+            "put_object",
+            {
+                "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
+                "Key": filename.name,
+                "ACL": "public-read",
+            },
             ExpiresIn=expiration,
         )
+        return response
     except ClientError:
-        raise
-
-    # The response contains the presigned URL
-    return response
+        return None
 
 
 url_regex = r"((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z]){2,6}([a-zA-Z0-9\.\&\/\?\:@\-_=#])*"  # noqa

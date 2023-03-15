@@ -1003,8 +1003,14 @@ class SystemLocationViewSet(ModelViewSet):
 
 
 class AwsApiView(APIView):
-    def get(self, request, *args, **kwargs):
-        response = create_presigned_url(
-            settings.AWS_STORAGE_BUCKET_NAME, settings.AWS_SECRET_ACCESS_KEY
+    def post(self, request, *args, **kwargs):
+        file = request.FILES['file']
+        response = create_presigned_url(file)
+
+        return Response(
+            {
+                "signedRequest": response,
+                "location": f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.{settings.AWS_DEFAULT_REGION}.amazonaws.com/{file}",  # noqa
+            },
+            status=status.HTTP_200_OK,
         )
-        return Response({"aws_url": response}, status=status.HTTP_200_OK)
