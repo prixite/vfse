@@ -1004,7 +1004,7 @@ class SystemLocationViewSet(ModelViewSet):
 
 class AwsApiView(APIView):
     def post(self, request, *args, **kwargs):
-        file = request.FILES['file']
+        file = request.FILES["file"]
         response = create_presigned_url(file)
 
         return Response(

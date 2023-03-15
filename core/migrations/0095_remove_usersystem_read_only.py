@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0094_usersystem_read_only'),
+        ("core", "0094_usersystem_read_only"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='usersystem',
-            name='read_only',
+            model_name="usersystem",
+            name="read_only",
         ),
     ]
