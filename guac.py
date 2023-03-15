@@ -69,7 +69,7 @@ def check_user_has_system_access(system_id: int, organization_id: int, user):
             )
         ).filter(id=system_id)
 
-    if user.get_organization_role(organization_id) or not system.exists():
+    if user.get_organization_role(organization_id) and not system.exists():
         raise HTTPException(
             status_code=403,
             detail="user has access to organization but doesn't have access to the system.",  # noqa
