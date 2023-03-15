@@ -6,26 +6,31 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { toast } from "react-toastify";
 import { VncScreen } from "react-vnc";
 
+import { timeOut } from "@src/helpers/utils/constants";
 import { System } from "@src/store/reducers/generated";
 
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
+  openPasswordModal: () => void;
   system: System;
   organizationId: number;
+  password: string;
 }
 
 const VncScreenDialog = ({
   openModal,
   handleModalClose,
+  openPasswordModal,
   system,
+  password,
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
   const [fullScreen, setFullScreen] = useState(false);
-
   const {
     access_url: accessUrl,
     vnc_port: vncPort,
@@ -36,6 +41,12 @@ const VncScreenDialog = ({
     accessUrl || ipAddress
   }&port=${vncPort}`;
 
+  const RfbOptions = {
+    shared: true,
+    credentials: {
+      password: password,
+    },
+  };
   useEffect(() => {
     if (connected) {
       disconnect?.();
@@ -43,6 +54,18 @@ const VncScreenDialog = ({
       connect?.();
     }
   }, []);
+
+  const securityFailure = (e) => {
+    e?.detail?.status === 1 && e?.detail?.reason === "Authentication failure";
+    {
+      toast.error("Incorrect password", {
+        autoClose: timeOut,
+        pauseOnHover: false,
+      });
+      handleModalClose();
+      openPasswordModal();
+    }
+  };
 
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -74,7 +97,7 @@ const VncScreenDialog = ({
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              VNC
+              Control
             </Typography>
             {!fullScreen ? (
               <FullscreenIcon
@@ -93,10 +116,12 @@ const VncScreenDialog = ({
           url={websockifyUrl}
           scaleViewport={true}
           background="#000000"
+          onSecurityFailure={(e) => securityFailure(e)}
           style={{
-            width: "75vw",
-            height: "75vh",
+            width: `${fullScreen ? "100vw" : "60vw"}`,
+            height: `${fullScreen ? "100%" : "75vh"}`,
           }}
+          rfbOptions={RfbOptions}
           ref={vncScreenRef}
         />
       </Dialog>

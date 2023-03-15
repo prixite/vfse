@@ -47,7 +47,7 @@ import {
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-import VncScreenDialog from "./VncScreen/VncScreenDialog";
+import PasswordDialog from "./VncScreen/PasswordModal";
 
 import "../../../../../../node_modules/xterm/css/xterm.css";
 
@@ -486,7 +486,7 @@ const SystemCard = ({
                 )}
                 {system.connection_options.vfse && (
                   <MenuItem onClick={() => setOpenVnc(true)}>
-                    <span style={{ marginLeft: "12px" }}>VNC</span>
+                    <span style={{ marginLeft: "12px" }}>Control</span>
                   </MenuItem>
                 )}
                 {system.connection_options.virtual_media_control && (
@@ -711,9 +711,10 @@ const SystemCard = ({
         handleDeleteOrganization={handleDelete}
       />
       {openVnc && (
-        <VncScreenDialog
+        <PasswordDialog
           openModal={openVnc}
           handleModalClose={() => setOpenVnc(false)}
+          handleModalOpen={() => setOpenVnc(true)}
           system={system}
           organizationId={selectedOrganization.id}
         />
