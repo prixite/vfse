@@ -1,21 +1,52 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
+import { toast } from "react-toastify";
 import { VncScreen } from "react-vnc";
+
+import { timeOut } from "@src/helpers/utils/constants";
+import { System } from "@src/store/reducers/generated";
 
 interface VncScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
-  systemId: number;
+  openPasswordModal: () => void;
+  system: System;
   organizationId: number;
+  password: string;
 }
 
-const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
+const VncScreenDialog = ({
+  openModal,
+  handleModalClose,
+  openPasswordModal,
+  system,
+  password,
+}: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
+  const [fullScreen, setFullScreen] = useState(false);
+  const {
+    access_url: accessUrl,
+    vnc_port: vncPort,
+    ip_address: ipAddress,
+  } = system;
+
+  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}?host=${
+    accessUrl || ipAddress
+  }&port=${vncPort}`;
+
+  const RfbOptions = {
+    shared: true,
+    credentials: {
+      password: password,
+    },
+  };
   useEffect(() => {
     if (connected) {
       disconnect?.();
@@ -23,6 +54,19 @@ const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
       connect?.();
     }
   }, []);
+
+  const securityFailure = (e) => {
+    e?.detail?.status === 1 && e?.detail?.reason === "Authentication failure";
+    {
+      toast.error("Incorrect password", {
+        autoClose: timeOut,
+        pauseOnHover: false,
+      });
+      handleModalClose();
+      openPasswordModal();
+    }
+  };
+
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
       children: React.ReactElement;
@@ -36,9 +80,11 @@ const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
     <>
       <Dialog
         maxWidth="lg"
+        classes={{ paperFullScreen: `${fullScreen ? "" : "prePrint"}` }}
         open={openModal}
         onClose={handleModalClose}
         TransitionComponent={Transition}
+        fullScreen={fullScreen}
       >
         <AppBar sx={{ position: "relative" }}>
           <Toolbar>
@@ -51,21 +97,31 @@ const VncScreenDialog = ({ openModal, handleModalClose }: VncScreenProps) => {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              VNC
+              Control
             </Typography>
+            {!fullScreen ? (
+              <FullscreenIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => setFullScreen(true)}
+              />
+            ) : (
+              <FullscreenExitIcon
+                style={{ cursor: "pointer" }}
+                onClick={() => setFullScreen(false)}
+              />
+            )}
           </Toolbar>
         </AppBar>
         <VncScreen
-          url={
-            "wss://5c94-124-109-46-126.in.ngrok.io/vnc.html?resize=remote&autoconnect=true&password=pakarmy.3"
-          }
-          scaleViewport
+          url={websockifyUrl}
+          scaleViewport={true}
           background="#000000"
+          onSecurityFailure={(e) => securityFailure(e)}
           style={{
-            width: "75vw",
-            height: "75vh",
+            width: `${fullScreen ? "100vw" : "60vw"}`,
+            height: `${fullScreen ? "100%" : "75vh"}`,
           }}
-          debug
+          rfbOptions={RfbOptions}
           ref={vncScreenRef}
         />
       </Dialog>

@@ -470,6 +470,8 @@ class System(models.Model):
     software_version = models.CharField(max_length=32, blank=True, null=True)
     asset_number = models.CharField(max_length=32, blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True, null=True)
+    vnc_port = models.CharField(max_length=8, blank=True, null=True, default="5900")
+    access_url = models.CharField(max_length=512, null=True, blank=True)
     local_ae_title = models.CharField(max_length=32, blank=True, null=True)
     serial_number = models.CharField(max_length=32, blank=True, null=True)
     location_in_building = models.CharField(max_length=32, blank=True, null=True)
@@ -487,6 +489,7 @@ class System(models.Model):
     ssh_password = models.CharField(max_length=30, null=True, blank=True)
     ssh_user = models.CharField(max_length=25, default="root")
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
+    service_page_url = models.CharField(max_length=2**9, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

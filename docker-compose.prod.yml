@@ -45,6 +45,20 @@ services:
     depends_on:
       - app
 
+  guacd:
+    image: guacamole/guacd
+
+  guac_proxy:
+    image: vfse_app
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    container_name: guac_proxy
+    depends_on:
+      - app
+      - guacd
+    command: "uvicorn guac:app --host 0.0.0.0"
+
 volumes:
   static_volume:
   shm:
