@@ -9,7 +9,6 @@ from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
 
 from core import forms, models
-from proxy.views import proxy_view
 
 
 class HomeView(TemplateView):
@@ -114,14 +113,3 @@ class WelcomeView(TemplateView):
 
 class RequestView(TemplateView):
     template_name = "request.html"
-
-
-@csrf_exempt
-def proxy(request, id):
-    system = get_object_or_404(models.System, id=id)
-    url = ""
-    if not system.service_page_url:
-        url = f"http://{system.ip_address}/service"
-    else:
-        url = system.service_page_url
-    return proxy_view(request, url)
