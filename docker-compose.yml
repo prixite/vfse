@@ -22,11 +22,17 @@ services:
     depends_on:
       - db
 
-  html_proxy:
+  guac_proxy:
     image: vfse_app
     ports:
       - "8001:8001"
-    command: bash -c 'uvicorn --reload --port 8001 proxy.service:app'
+    command: bash -c 'uvicorn --reload --port 8001 guac:app'
+
+  html_proxy:
+    image: vfse_app
+    ports:
+      - "8002:8002"
+    command: bash -c 'uvicorn --reload --port 8002 proxy.service:app'
 
   frontend:
     image: vfse_app

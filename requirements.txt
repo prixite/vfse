@@ -1,6 +1,5 @@
 boto3==1.26.90
 coverage==7.2.1
-cryptography
 dj-database-url==1.2.0
 Django==4.1.7
 django-cors-headers==3.14.0
@@ -22,3 +21,4 @@ Pillow==9.4.0
 uvicorn==0.21.0
 websockets==10.4
 python-multipart==0.0.6
+httpx==0.23.3

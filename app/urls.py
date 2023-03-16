@@ -138,10 +138,6 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organization/systems/vnc/",
-        api.SystemVncView.as_view(),
-    ),
-    path(
         "api/organizations/<int:pk>/systems/<int:system_pk>/influxdb/",
         api.SystemViewSet.as_view(
             {

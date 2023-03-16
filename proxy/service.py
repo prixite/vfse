@@ -33,7 +33,6 @@ async def index_inner_proxy(path: str, request: Request):
     return await get_request(system_id, path)
 
 
-# A34B28
 @app.post("/{system_id:int}/{path:path}")
 async def login(system_id: int, path: str, request: Request):
     return await post_request(system_id, path, request)
