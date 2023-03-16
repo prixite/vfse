@@ -1,25 +1,14 @@
 import asyncio
 import logging
-import os
 
-import django
+from django.contrib.sessions.models import Session
+from django.db.models import Q
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
-os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
-django.setup()
-from django.contrib.sessions.models import Session  # noqa
-from django.db.models import Q  # noqa
-from fastapi import (  # noqa
-    FastAPI,
-    HTTPException,
-    WebSocket,
-    WebSocketDisconnect,
-)
-
-from core.models import OrganizationHealthNetwork, System, User  # noqa
-from core.views.mixins import UserOganizationMixin  # noqa
-from guacamole.client import GuacamoleClient  # noqa
-from guacamole.instruction import Instruction  # noqa
+from core.models import OrganizationHealthNetwork, System, User
+from core.views.mixins import UserOganizationMixin
+from guacamole.client import GuacamoleClient
+from guacamole.instruction import Instruction
 
 app = FastAPI()
 
@@ -32,9 +21,9 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
-def get_user_from_session(sessionid: str):
+async def get_user_from_session(sessionid: str):
     # Can be used to authenticate Django user
-    session = Session.objects.get(pk=sessionid)
+    session = await Session.objects.aget(pk=sessionid)
     if session is None:
         raise HTTPException(status_code=401, detail="session record not found.")
     user_id = session.get_decoded().get("_auth_user_id")
@@ -77,7 +66,7 @@ def check_user_has_system_access(system_id: int, organization_id: int, user):
     return system
 
 
-async def get_session_id_from_headers(headers):
+def get_session_id_from_headers(headers):
     session_id = None
     for i in headers:
         if i[0] == b"cookie":
@@ -153,8 +142,8 @@ async def raw_websocket(
 ):
     await websocket.accept()
     header = websocket.scope.get("headers")
-    session_id = await get_session_id_from_headers(header)
-    user = get_user_from_session(session_id)
+    session_id = get_session_id_from_headers(header)
+    user = await get_user_from_session(session_id)
     check_user_has_system_access(system_id, organization_id, user)
     reader, writer = await asyncio.open_connection(host, port)
     logging.info(f"Connection with {host}:{port} established")

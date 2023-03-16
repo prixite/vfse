@@ -7,9 +7,9 @@ from django.shortcuts import get_object_or_404, redirect, render, resolve_url
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
-from proxy.views import proxy_view
 
 from core import forms, models
+from proxy.views import proxy_view
 
 
 class HomeView(TemplateView):
