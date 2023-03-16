@@ -1,10 +1,5 @@
-import asyncio
-import logging
-import re
-
 import httpx
-from bs4 import BeautifulSoup
-from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, Response
 
 app = FastAPI()
 
@@ -30,6 +25,7 @@ async def index_proxy(system_id: int, path: str, request: Request):
 
 @app.get("/{path:path}")
 async def index_inner_proxy(path: str, request: Request):
+    system_id = 1
     return await get_request(system_id, path)
 
 

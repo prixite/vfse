@@ -3,8 +3,7 @@ from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import views as auth_views
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect, render, resolve_url
-from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect, render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
 
