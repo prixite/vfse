@@ -18,7 +18,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/opt/code
-      - dist:/opt/code/frontend/dist/
+      - static_volume:/opt/code/static
     depends_on:
       - db
 
@@ -38,7 +38,6 @@ services:
     image: vfse_app
     volumes:
       - .:/opt/code
-      - dist:/opt/code/frontend/dist/
     depends_on:
       - db
     command: bash -c 'npm run start'
@@ -76,8 +75,10 @@ services:
     ports:
       - 80:80
     volumes:
-      - dist:/opt/code/frontend/dist/
+      - static_volume:/opt/code/static
+    depends_on:
+      - app
 
 volumes:
-  dist:
+  static_volume:
   pgdata:
