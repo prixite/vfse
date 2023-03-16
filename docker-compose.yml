@@ -17,8 +17,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - .:/opt/code
       - static_volume:/opt/code/static
+      - .:/opt/code
     depends_on:
       - db
 
