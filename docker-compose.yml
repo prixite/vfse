@@ -75,7 +75,7 @@ services:
       dockerfile: local.Dockerfile
     restart: always
     ports:
-      - 80:80
+      - "9090:80"
     volumes:
       - static_volume:/opt/code/static
     depends_on:
