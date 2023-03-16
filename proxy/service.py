@@ -6,8 +6,6 @@ import httpx
 from bs4 import BeautifulSoup
 from fastapi import FastAPI, Request, Response, WebSocket, WebSocketDisconnect
 
-from guacamole.client import GuacamoleClient
-
 app = FastAPI()
 
 

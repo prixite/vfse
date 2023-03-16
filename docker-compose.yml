@@ -6,7 +6,9 @@ services:
       file: docker-compose.base.yml
       service: db
     ports:
-      - 127.0.0.1:5432:5432
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
   app:
     extends:
@@ -19,6 +21,12 @@ services:
       - dist:/opt/code/frontend/dist/
     depends_on:
       - db
+
+  html_proxy:
+    image: vfse_app
+    ports:
+      - "8001:8001"
+    command: bash -c 'uvicorn --reload --port 8001 proxy.service:app'
 
   frontend:
     image: vfse_app
@@ -54,5 +62,16 @@ services:
     ports:
       - "8888:8888"
 
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: local.Dockerfile
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - dist:/opt/code/frontend/dist/
+
 volumes:
   dist:
+  pgdata:
