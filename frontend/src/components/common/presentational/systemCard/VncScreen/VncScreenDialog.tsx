@@ -27,6 +27,7 @@ const VncScreenDialog = ({
   openPasswordModal,
   system,
   password,
+  organizationId
 }: VncScreenProps) => {
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
@@ -39,7 +40,7 @@ const VncScreenDialog = ({
 
   const websockifyUrl = `${process.env.WEBSOCKIFY_WS}?host=${
     accessUrl || ipAddress
-  }&port=${vncPort}`;
+  }&port=${vncPort}&organization_id=${organizationId}`;
 
   const RfbOptions = {
     shared: true,
