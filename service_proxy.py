@@ -11,7 +11,7 @@ from guacamole.client import GuacamoleClient
 app = FastAPI()
 
 
-async def get_request(path):
+async def get_request(system_id, path):
     if not path.startswith("service"):
         path = f"service/{path}"
 
@@ -27,30 +27,33 @@ async def get_request(path):
 
 @app.get("/{system_id:int}/{path:path}")
 async def index_proxy(system_id: int, path: str, request: Request):
-    print(request.cookies)
-    return await get_request(path)
+    return await get_request(system_id, path)
 
 
 @app.get("/{path:path}")
-async def index_inner_proxy(path: str):
-    return await get_request(path)
+async def index_inner_proxy(path: str, request: Request):
+    return await get_request(system_id, path)
 
 
 # A34B28
 @app.post("/{system_id:int}/{path:path}")
-async def login(path: str, request: Request):
-    return await post_request(path, request)
+async def login(system_id: int, path: str, request: Request):
+    return await post_request(system_id, path, request)
 
 
 @app.post("/{path:path}")
 async def post_inner(path: str, request: Request):
-    return await post_request(path, request)
+    system_id = 1
+    return await post_request(system_id, path, request)
 
 
-async def post_request(path, request):
+async def post_request(system_id, path, request):
+    if not path.startswith("service"):
+        path = f"service/{path}"
+
+    url = f"http://10.47.31.241/{path}"
+
     data = await request.form()
-    url = f"http://10.47.31.241/service/{path}"
-
     async with httpx.AsyncClient() as client:
         proxy = await client.post(url, data=dict(data))
 
