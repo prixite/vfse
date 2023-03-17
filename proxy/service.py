@@ -1,18 +1,26 @@
 import httpx
 from fastapi import FastAPI, Request, Response
 
+from proxy.service_utils import get_system_from_referrer
+from core import models
+
 app = FastAPI()
 
 
 async def get_request(system_id, path):
+    system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
         path = f"service/{path}"
 
-    url = f"http://10.47.31.241/{path}"
+    url = f"http://{system.ip_address}/{path}"
     async with httpx.AsyncClient() as client:
         proxy = await client.get(url)
 
-    response = Response(content=proxy.content)
+    content = proxy.content.replace(
+        b"/service/", b"/htmlproxy/" + str(system_id).encode() + b"/service/"
+    )
+    proxy.headers.update({"content-length": str(len(content))})
+    response = Response(content=content)
     response.headers.update(proxy.headers)
     response.status_code = proxy.status_code
     return response
@@ -25,8 +33,10 @@ async def index_proxy(system_id: int, path: str, request: Request):
 
 @app.get("/{path:path}")
 async def index_inner_proxy(path: str, request: Request):
-    system_id = 1
-    return await get_request(system_id, path)
+    return await get_request(
+        get_system_from_referrer(request.headers["referrer"]),
+        path,
+    )
 
 
 @app.post("/{system_id:int}/{path:path}")
