@@ -1,8 +1,8 @@
 import httpx
 from fastapi import FastAPI, Request, Response
 
-from proxy.service_utils import get_system_from_referrer
 from core import models
+from proxy.service_utils import get_system_id_from_referrer
 
 app = FastAPI()
 
@@ -27,14 +27,14 @@ async def get_request(system_id, path):
 
 
 @app.get("/{system_id:int}/{path:path}")
-async def index_proxy(system_id: int, path: str, request: Request):
+async def index_proxy(system_id: int, path: str):
     return await get_request(system_id, path)
 
 
 @app.get("/{path:path}")
 async def index_inner_proxy(path: str, request: Request):
     return await get_request(
-        get_system_from_referrer(request.headers["referrer"]),
+        get_system_id_from_referrer(request.headers["referrer"]),
         path,
     )
 
@@ -46,15 +46,19 @@ async def login(system_id: int, path: str, request: Request):
 
 @app.post("/{path:path}")
 async def post_inner(path: str, request: Request):
-    system_id = 1
-    return await post_request(system_id, path, request)
+    return await post_request(
+        get_system_id_from_referrer(request.headers["referrer"]),
+        path,
+        request,
+    )
 
 
 async def post_request(system_id, path, request):
+    system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
         path = f"service/{path}"
 
-    url = f"http://10.47.31.241/{path}"
+    url = f"http://{system.ip_address}/{path}"
 
     data = await request.form()
     async with httpx.AsyncClient() as client:
