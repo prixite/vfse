@@ -2,7 +2,6 @@ import httpx
 from fastapi import FastAPI, Request, Response
 
 from core import models
-from proxy.service_utils import get_system_id_from_referrer
 
 app = FastAPI()
 
