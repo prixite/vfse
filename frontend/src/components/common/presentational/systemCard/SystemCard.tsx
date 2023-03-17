@@ -500,7 +500,7 @@ const SystemCard = ({
                   <MenuItem
                     onClick={() =>
                       window.open(
-                        `/${organizationRoute}/${selectedOrganization?.id}/template/`,
+                        `/htmlproxy/${system.id}/service/`,
                         "_blank"
                       )
                     }
