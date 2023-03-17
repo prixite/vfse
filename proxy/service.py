@@ -29,6 +29,7 @@ async def get_request(system_id, path):
         b"global/debugform.htm",
         b"ggjscript/ggjscript.htm",
         b"access/access.htm",
+        b"homemenu/homemenu.stm",
     ]:
         content = content.replace(key, str(system_id).encode() + b"/" + key)
 
@@ -45,17 +46,8 @@ async def index_proxy(system_id: int, path: str):
 
 
 @app.post("/{system_id:int}/{path:path}")
-async def login(system_id: int, path: str, request: Request):
+async def post_proxy(system_id: int, path: str, request: Request):
     return await post_request(system_id, path, request)
-
-
-@app.post("/{path:path}")
-async def post_inner(path: str, request: Request):
-    return await post_request(
-        get_system_id_from_referrer(request.headers["referrer"]),
-        path,
-        request,
-    )
 
 
 async def post_request(system_id, path, request):
