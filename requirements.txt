@@ -1,13 +1,12 @@
+beautifulsoup4==4.11.2
 boto3==1.26.90
 coverage==7.2.1
-cryptography
 dj-database-url==1.2.0
 Django==4.1.7
 django-cors-headers==3.14.0
 django-environ==0.10.0
 django-extensions==3.2.1
 django-filter==22.1
-django-proxy==1.2.2
 django-webpack-loader==1.8.1
 djangorestframework==3.14.0
 djangorestframework-link-header-pagination==0.1.1
@@ -16,9 +15,11 @@ duo-universal==2.0.3
 factory-boy==3.2.1
 fastapi==0.94.0
 gunicorn==20.1.0
+httpx==0.23.3
 icmplib==3.0.3
 influxdb-client==1.36.1
 openai==0.27.2
 Pillow==9.4.0
+python-multipart==0.0.6
 uvicorn==0.21.0
 websockets==10.4

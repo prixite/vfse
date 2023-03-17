@@ -138,10 +138,6 @@ api_urlpatterns = [
         ),
     ),
     path(
-        "api/organization/systems/vnc/",
-        api.SystemVncView.as_view(),
-    ),
-    path(
         "api/organizations/<int:pk>/systems/<int:system_pk>/influxdb/",
         api.SystemViewSet.as_view(
             {
@@ -380,7 +376,6 @@ urlpatterns = (
             ),
             name="password_reset_complete",
         ),
-        path("systems/<int:id>/service/", site.proxy, name="systems-service"),
         path("accounts/", include("django.contrib.auth.urls")),
         path("accounts/duo/login/", site.duo_login, name="duo_login"),
         path("request/", site.RequestView.as_view(), name="request"),
