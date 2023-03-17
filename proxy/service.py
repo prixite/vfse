@@ -19,6 +19,19 @@ async def get_request(system_id, path):
     content = proxy.content.replace(
         b"/service/", b"/htmlproxy/" + str(system_id).encode() + b"/service/"
     )
+
+    for key in [
+        b"dd/site.htm",
+        b"dd/lastkey.htm",
+        b"global/execform.htm",
+        b"global/stopform.htm",
+        b"global/terminateform.htm",
+        b"global/debugform.htm",
+        b"ggjscript/ggjscript.htm",
+        b"access/access.htm",
+    ]:
+        content = content.replace(key, str(system_id).encode() + b"/" + key)
+
     proxy.headers.update({"content-length": str(len(content))})
     response = Response(content=content)
     response.headers.update(proxy.headers)
@@ -29,14 +42,6 @@ async def get_request(system_id, path):
 @app.get("/{system_id:int}/{path:path}")
 async def index_proxy(system_id: int, path: str):
     return await get_request(system_id, path)
-
-
-@app.get("/{path:path}")
-async def index_inner_proxy(path: str, request: Request):
-    return await get_request(
-        get_system_id_from_referrer(request.headers["referrer"]),
-        path,
-    )
 
 
 @app.post("/{system_id:int}/{path:path}")
