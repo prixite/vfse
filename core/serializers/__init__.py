@@ -406,6 +406,7 @@ class GeneralUpsertUserSerializer(serializers.Serializer):
     audit_enabled = serializers.BooleanField()
     can_leave_notes = serializers.BooleanField()
     view_only = serializers.BooleanField()
+    read_only = serializers.BooleanField()
     is_one_time = serializers.BooleanField()
     documentation_url = serializers.BooleanField()
 

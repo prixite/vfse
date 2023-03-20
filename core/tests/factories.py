@@ -392,7 +392,12 @@ class SystemFactory(factory.django.DjangoModelFactory):
             return
 
         models.UserSystem.objects.bulk_create(
-            models.UserSystem(user=user, system=obj, organization=obj.site.organization)
+            models.UserSystem(
+                user=user,
+                system=obj,
+                organization=obj.site.organization,
+                read_only=False,
+            )
             for user in extracted or []
         )
 

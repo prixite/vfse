@@ -256,6 +256,7 @@ class UserSystem(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE)
     system = models.ForeignKey("System", on_delete=models.CASCADE)
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
+    read_only = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
