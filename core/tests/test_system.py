@@ -56,7 +56,10 @@ class SystemTestCase(BaseTestCase):
     def test_list_systems_vfse(self):
         self.client.force_login(self.fse)
         models.UserSystem.objects.create(
-            user=self.fse, system=self.system, organization=self.organization
+            user=self.fse,
+            system=self.system,
+            organization=self.organization,
+            read_only=False,
         )
         models.UserSite.objects.create(
             user=self.fse, site=self.site, organization=self.organization

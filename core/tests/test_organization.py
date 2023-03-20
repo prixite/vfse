@@ -253,6 +253,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "read_only": "false",
             "documentation_url": "true",
             "systems": [self.system.id],
         }
@@ -305,6 +306,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "read_only": "false",
             "documentation_url": "true",
             "systems": [self.system.id],
         }
@@ -627,6 +629,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "read_only": "false",
             "documentation_url": "true",
             "systems": [self.system.id],
         }
@@ -766,6 +769,7 @@ class OrganizationTestCase(BaseTestCase):
             "can_leave_notes": "false",
             "is_one_time": "false",
             "view_only": "false",
+            "read_only": "false",
             "documentation_url": "true",
             "systems": [self.system.id],
         }
