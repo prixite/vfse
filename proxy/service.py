@@ -7,6 +7,7 @@ from core import models
 app = FastAPI()
 
 
+@app.get("/{system_id:int}/{path:path}")
 async def index_proxy(system_id: int, path: str):
     system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
