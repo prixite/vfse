@@ -498,7 +498,10 @@ const SystemCard = ({
                 {system.connection_options.service_web_browser && (
                   <MenuItem
                     onClick={() =>
-                      window.open(`/htmlproxy/${system.id}/service/`, "_blank")
+                      window.open(
+                        `${process.env.HTML_PROXY_HOST}${process.env.HTML_PROXY_PATH}${system.id}/service/`,
+                        "_blank"
+                      )
                     }
                   >
                     <span style={{ marginLeft: "12px" }}>

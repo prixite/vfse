@@ -1,4 +1,5 @@
 import httpx
+from django.conf import settings
 from fastapi import FastAPI, Request, Response
 
 from core import models
@@ -16,21 +17,24 @@ async def get_request(system_id, path):
         proxy = await client.get(url)
 
     content = proxy.content.replace(
-        b"/service/", b"/htmlproxy/" + str(system_id).encode() + b"/service/"
+        b"/service/",
+        settings.HTML_PROXY_PATH.encode() + str(system_id).encode() + b"/service/",
     )
 
-    for key in [
-        b"dd/site.htm",
-        b"dd/lastkey.htm",
-        b"global/execform.htm",
-        b"global/stopform.htm",
-        b"global/terminateform.htm",
-        b"global/debugform.htm",
-        b"ggjscript/ggjscript.htm",
-        b"access/access.htm",
-        b"homemenu/homemenu.stm",
-    ]:
-        content = content.replace(key, str(system_id).encode() + b"/" + key)
+    if settings.HTML_PROXY_PATH != "/":
+        # Only needed when we map FastAPI service to a path using Nginx.
+        for key in [
+            b"dd/site.htm",
+            b"dd/lastkey.htm",
+            b"global/execform.htm",
+            b"global/stopform.htm",
+            b"global/terminateform.htm",
+            b"global/debugform.htm",
+            b"ggjscript/ggjscript.htm",
+            b"access/access.htm",
+            b"homemenu/homemenu.stm",
+        ]:
+            content = content.replace(key, str(system_id).encode() + b"/" + key)
 
     proxy.headers.update({"content-length": str(len(content))})
     response = Response(content=content)
