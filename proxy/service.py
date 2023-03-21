@@ -8,8 +8,10 @@ from proxy.service_utils import is_authenticated
 app = FastAPI()
 
 
-@app.get("/{system_id:int}/{path:path}")
-async def index_proxy(system_id: int, path: str, request: Request):
+@app.get("/{organization_id:int}/{system_id:int}/{path:path}")
+async def index_proxy(
+    organization_id: int, system_id: int, path: str, request: Request
+):
     if not is_authenticated(request):
         raise HTTPException(status_code=403, detail="Not authenticated")
 
@@ -23,23 +25,38 @@ async def index_proxy(system_id: int, path: str, request: Request):
 
     content = proxy.content.replace(
         b"/service/",
-        settings.HTML_PROXY_PATH.encode() + str(system_id).encode() + b"/service/",
+        settings.HTML_PROXY_PATH.encode()
+        + str(organization_id).encode()
+        + b"/"
+        + str(system_id).encode()
+        + b"/service/",
     )
 
-    if settings.HTML_PROXY_PATH != "/":
-        # Only needed when we map FastAPI service to a path using Nginx.
-        for key in [
-            b"dd/site.htm",
-            b"dd/lastkey.htm",
-            b"global/execform.htm",
-            b"global/stopform.htm",
-            b"global/terminateform.htm",
-            b"global/debugform.htm",
-            b"ggjscript/ggjscript.htm",
-            b"access/access.htm",
-            b"homemenu/homemenu.stm",
-        ]:
+    keys = [
+        b"dd/site.htm",
+        b"dd/lastkey.htm",
+        b"global/execform.htm",
+        b"global/stopform.htm",
+        b"global/terminateform.htm",
+        b"global/debugform.htm",
+        b"ggjscript/ggjscript.htm",
+        b"access/access.htm",
+        b"homemenu/homemenu.stm",
+    ]
+
+    if settings.HTML_PROXY_PATH == "/":
+        for key in keys:
             content = content.replace(key, str(system_id).encode() + b"/" + key)
+    else:
+        for key in keys:
+            content = content.replace(
+                key,
+                str(organization_id).encode()
+                + b"/"
+                + str(system_id).encode()
+                + b"/"
+                + key,
+            )
 
     proxy.headers.update({"content-length": str(len(content))})
     response = Response(content=content)
@@ -48,8 +65,8 @@ async def index_proxy(system_id: int, path: str, request: Request):
     return response
 
 
-@app.post("/{system_id:int}/{path:path}")
-async def post_proxy(system_id: int, path: str, request: Request):
+@app.post("/{organization_id:int}/{system_id:int}/{path:path}")
+async def post_proxy(organization_id: int, system_id: int, path: str, request: Request):
     if not is_authenticated(request):
         raise HTTPException(status_code=403, detail="Not authenticated")
 

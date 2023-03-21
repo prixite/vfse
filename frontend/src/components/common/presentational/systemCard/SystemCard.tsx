@@ -499,7 +499,7 @@ const SystemCard = ({
                   <MenuItem
                     onClick={() =>
                       window.open(
-                        `${process.env.HTML_PROXY_HOST}${process.env.HTML_PROXY_PATH}${system.id}/service/`,
+                        `${process.env.HTML_PROXY_HOST}${process.env.HTML_PROXY_PATH}${selectedOrganization.id}/${system.id}/service/`,
                         "_blank"
                       )
                     }
