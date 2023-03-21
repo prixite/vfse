@@ -1,14 +1,18 @@
 import httpx
 from django.conf import settings
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response
 
 from core import models
+from proxy.service_utils import is_authenticated
 
 app = FastAPI()
 
 
 @app.get("/{system_id:int}/{path:path}")
-async def index_proxy(system_id: int, path: str):
+async def index_proxy(system_id: int, path: str, request: Request):
+    if not is_authenticated(request):
+        raise HTTPException(status_code=403, detail="Not authenticated")
+
     system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
         path = f"service/{path}"
@@ -46,6 +50,9 @@ async def index_proxy(system_id: int, path: str):
 
 @app.post("/{system_id:int}/{path:path}")
 async def post_proxy(system_id: int, path: str, request: Request):
+    if not is_authenticated(request):
+        raise HTTPException(status_code=403, detail="Not authenticated")
+
     system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
         path = f"service/{path}"
