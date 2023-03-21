@@ -4,7 +4,7 @@ from fastapi import Request
 
 
 def is_authenticated(request: Request) -> bool:
-    return 'sessionid' in request.cookies
+    return "sessionid" in request.cookies
 
 
 def get_system_id_from_referrer(referrer):
