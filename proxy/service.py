@@ -7,7 +7,7 @@ from core import models
 app = FastAPI()
 
 
-async def get_request(system_id, path):
+async def index_proxy(system_id: int, path: str):
     system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
         path = f"service/{path}"
@@ -43,17 +43,8 @@ async def get_request(system_id, path):
     return response
 
 
-@app.get("/{system_id:int}/{path:path}")
-async def index_proxy(system_id: int, path: str):
-    return await get_request(system_id, path)
-
-
 @app.post("/{system_id:int}/{path:path}")
 async def post_proxy(system_id: int, path: str, request: Request):
-    return await post_request(system_id, path, request)
-
-
-async def post_request(system_id, path, request):
     system = await models.System.objects.aget(id=system_id)
     if not path.startswith("service"):
         path = f"service/{path}"
