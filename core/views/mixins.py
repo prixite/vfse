@@ -21,10 +21,7 @@ class UserOganizationMixin:
         return queryset.filter(id__in=user_orgs + child_orgs)
 
     def is_customer_admin(self, organization_pk):
-        return (
-            self.request.user.get_organization_role(organization_pk)
-            == models.Role.CUSTOMER_ADMIN
-        )
+        return self.request.user.is_customer_admin(organization_pk)
 
 
 class UserMixin:

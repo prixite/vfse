@@ -217,6 +217,9 @@ class User(AbstractUser):
             site__in=self.get_sites(),
         )
 
+    def is_customer_admin(self, organization_pk):
+        return self.get_organization_role(organization_pk) == Role.CUSTOMER_ADMIN
+
     class Meta:
         ordering = ["-id"]
 
