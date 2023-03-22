@@ -136,6 +136,28 @@ class User(AbstractUser):
         return UserSystem.objects.filter(user=self).values_list("system")
 
     def get_organization_systems(self, organization_pk):
+        if (
+            self.is_superuser
+            or self.is_supermanager
+            or self.is_customer_admin(organization_pk)
+        ):
+            return self.get_organization_systems_admin_role(organization_pk)
+        else:
+            return System.objects.filter(
+                id__in=self.get_organization_systems_member_role(organization_pk)
+            )
+
+    def get_organization_systems_admin_role(self, organization_pk):
+        return System.objects.filter(
+            Q(site__organization_id=organization_pk)
+            | Q(
+                site__organization_id__in=OrganizationHealthNetwork.objects.filter(
+                    organization_id=organization_pk
+                ).values_list("health_network")
+            )
+        )
+
+    def get_organization_systems_member_role(self, organization_pk):
         return System.objects.filter(
             id__in=self.systems,
             site__in=self.get_sites(),

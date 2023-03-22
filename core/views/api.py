@@ -359,25 +359,7 @@ class OrganizationSystemViewSet(ModelViewSet, mixins.UserOganizationMixin):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
 
-        queryset = models.System.objects.filter(
-            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
-        )
-
-        if (
-            self.request.user.is_superuser
-            or self.request.user.is_supermanager
-            or self.is_customer_admin(self.kwargs["pk"])
-        ):
-            queryset = models.System.objects.filter(
-                Q(site__organization_id=self.kwargs["pk"])
-                | Q(
-                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
-                        organization_id=self.kwargs["pk"]
-                    ).values_list(
-                        "health_network"
-                    )
-                )
-            )
+        queryset = self.request.user.get_organization_systems(self.kwargs["pk"])
         return (
             queryset.select_related("site", "image", "product_model")
             if self.action != "partial_update"
@@ -919,26 +901,7 @@ class SystemLocationViewSet(ModelViewSet):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
 
-        queryset = models.System.objects.filter(
-            id__in=self.request.user.get_organization_systems(self.kwargs["pk"])
-        )
-
-        if (
-            self.request.user.is_superuser
-            or self.request.user.is_supermanager
-            or self.is_customer_admin(self.kwargs["pk"])
-        ):
-            queryset = models.System.objects.filter(
-                Q(site__organization_id=self.kwargs["pk"])
-                | Q(
-                    site__organization_id__in=models.OrganizationHealthNetwork.objects.filter(  # noqa
-                        organization_id=self.kwargs["pk"]
-                    ).values_list(
-                        "health_network"
-                    )
-                )
-            )
-
+        queryset = self.request.user.get_organization_systems(self.kwargs["pk"])
         queryset = queryset.filter(id=self.kwargs["system_id"])
         return models.RouterLocation.objects.filter(system__in=queryset).order_by(
             "-created_at"
