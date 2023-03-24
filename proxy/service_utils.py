@@ -1,4 +1,5 @@
 import re
+from functools import lru_cache
 from importlib import import_module
 
 from asgiref.sync import sync_to_async
@@ -21,8 +22,18 @@ def get_user_id_from_request(request: Request):
     return User._meta.pk.to_python(session[SESSION_KEY])
 
 
+user_cache = {}
+
+
+@lru_cache(maxsize=2**9)
 async def get_user_from_request(request: Request):
-    return await User.objects.aget(id=await get_user_id_from_request(request))
+    user_id = await get_user_id_from_request(request)
+    user = user_cache.get(user_id)
+    if user is not None:
+        return user
+    user = await User.objects.aget(id=user_id)
+    user_cache[user_id] = user
+    return user
 
 
 @sync_to_async
