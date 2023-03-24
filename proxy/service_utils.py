@@ -22,17 +22,13 @@ def get_user_id_from_request(request: Request):
     return User._meta.pk.to_python(session[SESSION_KEY])
 
 
-user_cache = {}
+async def get_user_from_request(request: Request):
+    return await get_user_from_id(await get_user_id_from_request(request))
 
 
 @lru_cache(maxsize=2**9)
-async def get_user_from_request(request: Request):
-    user_id = await get_user_id_from_request(request)
-    user = user_cache.get(user_id)
-    if user is not None:
-        return user
+async def get_user_from_id(user_id):
     user = await User.objects.aget(id=user_id)
-    user_cache[user_id] = user
     return user
 
 
