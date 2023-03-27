@@ -159,7 +159,7 @@ class User(AbstractUser):
 
     def get_organization_systems_member_role(self, organization_pk):
         return System.objects.filter(
-            id__in=self.systems,
+            id__in=self.get_systems().values_list("system", flat=True),
             site__in=self.get_sites(),
             product_model__modality__in=self.usermodality_set.all().values_list(
                 "modality"
@@ -461,7 +461,14 @@ class Site(models.Model):
 
     @property
     def modalities(self):
-        return sorted(set([s.product_model.modality.name for s in self.systems.all()]))
+        return sorted(
+            set(
+                [
+                    s.product_model.modality.name
+                    for s in self.get_systems().values_list("system", flat=True).all()
+                ]
+            )
+        )
 
 
 class Modality(models.Model):
