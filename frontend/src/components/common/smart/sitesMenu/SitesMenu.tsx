@@ -1,4 +1,5 @@
-import { Switch } from "@mui/material";
+import React from "react";
+
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -6,9 +7,13 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { Site, System } from "@src/store/reducers/generated";
 import { Formik } from "@src/types/interfaces";
 
+import SystemReadOnly from "../SystemReadOnly";
+
 interface Props {
   site: Site;
+  handleSystemReadStatus: (systemId: number, is_read_only: boolean) => void;
   systems: System[];
+  systemStatus: Map<number, { system: number; is_read_only: boolean }>;
   formik: Formik;
   handleSystemSelection: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -21,16 +26,28 @@ const SitesMenu = ({
   site,
   systems,
   formik,
+  systemStatus,
   handleSystemSelection,
   handleSitesSelection,
+  handleSystemReadStatus,
 }: Props) => {
+  const handleReadOnly = (event, systemId) => {
+    const checked = event.target.checked;
+    handleSystemReadStatus(systemId, checked);
+    if (checked && !formik.values.selectedSystems.includes(systemId)) {
+      handleSystemSelection(
+        { target: { value: systemId, checked: true } },
+        site.id
+      );
+    }
+  };
+
   const children = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
-      {systems.map((item, key) => {
+      {systems.map((item) => {
         return (
-          <>
+          <div key={`${item.id}-system`}>
             <FormControlLabel
-              key={key}
               label={item.name}
               control={
                 <Checkbox
@@ -42,11 +59,12 @@ const SitesMenu = ({
                 />
               }
             />
-            <FormControlLabel
-              control={<Switch defaultChecked />}
-              label="Label"
+            <SystemReadOnly
+              handleReadOnly={handleReadOnly}
+              system={item.id}
+              systemStatus={systemStatus}
             />
-          </>
+          </div>
         );
       })}
     </Box>

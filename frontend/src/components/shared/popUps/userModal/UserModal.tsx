@@ -105,6 +105,8 @@ export default function UserModal(props: UserModalProps) {
     editUserText,
   } = constantData;
 
+  const [systemStatus, setSystemStatus] = useState(new Map());
+
   const [onChangeValidation, setOnChangeValidation] = useState(false);
 
   const formik = useFormik<UserForm>({
@@ -212,9 +214,12 @@ export default function UserModal(props: UserModalProps) {
 
       if (editedUser?.systems?.length) {
         const system_ids: Array<number> = [];
+        const tempStatusMap = new Map();
         editedUser?.systems?.forEach((system) => {
+          tempStatusMap.set(system.system, system);
           system_ids.push(system.system);
         });
+        setSystemStatus(tempStatusMap);
         formik.setFieldValue("selectedSystems", system_ids);
       }
 
@@ -370,7 +375,10 @@ export default function UserModal(props: UserModalProps) {
       role: formik.values.role,
       organization: formik.values.customer,
       sites: formik.values.selectedSites,
-      systems: formik.values.selectedSystems,
+      systems: formik.values.selectedSystems.map((system) => ({
+        system,
+        is_read_only: systemStatus.get(system)?.is_read_only ?? false,
+      })),
       modalities: formik.values.selectedModalities,
       fse_accessible: formik.values.accessToFSEFunctions,
       audit_enabled: formik.values.auditEnable,
@@ -502,7 +510,12 @@ export default function UserModal(props: UserModalProps) {
               action={props.action}
             />
           ) : (
-            <PageTwo formik={formik} modalitiesList={props.modalitiesList} />
+            <PageTwo
+              formik={formik}
+              modalitiesList={props.modalitiesList}
+              systemStatus={systemStatus}
+              setSystemStatus={setSystemStatus}
+            />
           )}
         </div>
       </DialogContent>
