@@ -1483,6 +1483,10 @@ export type Manager = {
   email: string;
   name: string;
 };
+export type UserSystem = {
+  system: number;
+  is_read_only?: boolean;
+};
 export type User = {
   id?: number;
   first_name?: string;
@@ -1508,7 +1512,7 @@ export type User = {
   calender_link?: string;
   zoom_link?: string;
   sites?: string[];
-  systems?: number[];
+  systems?: UserSystem[];
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -1535,7 +1539,7 @@ export type UpsertUser = {
   view_only: boolean;
   is_one_time: boolean;
   documentation_url: boolean;
-  systems: number[];
+  systems: UserSystem[];
 };
 export type OrganizationUpsertUser = {
   id?: number;

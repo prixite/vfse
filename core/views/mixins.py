@@ -60,7 +60,8 @@ class UserMixin:
                 models.UserSystem(
                     user_id=user_id,
                     organization=data["organization"],
-                    system=models.System.objects.get(id=system),
+                    system=models.System.objects.get(id=system["id"]),
+                    is_read_only=system["is_read_only"],
                 )
                 for system in data["systems"]
             ]

@@ -1,3 +1,4 @@
+import { Switch } from "@mui/material";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -27,19 +28,25 @@ const SitesMenu = ({
     <Box sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
       {systems.map((item, key) => {
         return (
-          <FormControlLabel
-            key={key}
-            label={item.name}
-            control={
-              <Checkbox
-                onChange={(e) => handleSystemSelection(e, site.id)}
-                checked={formik.values.selectedSystems.includes(item.id)}
-                value={item.id}
-                name={item.name}
-                color="primary"
-              />
-            }
-          />
+          <>
+            <FormControlLabel
+              key={key}
+              label={item.name}
+              control={
+                <Checkbox
+                  onChange={(e) => handleSystemSelection(e, site.id)}
+                  checked={formik.values.selectedSystems.includes(item.id)}
+                  value={item.id}
+                  name={item.name}
+                  color="primary"
+                />
+              }
+            />
+            <FormControlLabel
+              control={<Switch defaultChecked />}
+              label="Label"
+            />
+          </>
         );
       })}
     </Box>

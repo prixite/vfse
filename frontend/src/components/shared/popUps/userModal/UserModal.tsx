@@ -213,7 +213,7 @@ export default function UserModal(props: UserModalProps) {
       if (editedUser?.systems?.length) {
         const system_ids: Array<number> = [];
         editedUser?.systems?.forEach((system) => {
-          system_ids.push(system);
+          system_ids.push(system.system);
         });
         formik.setFieldValue("selectedSystems", system_ids);
       }

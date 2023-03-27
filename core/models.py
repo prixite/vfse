@@ -91,7 +91,7 @@ class User(AbstractUser):
 
     @property
     def systems(self):
-        return self.get_systems().values_list("system", flat=True)
+        return self.get_systems().values("system", "is_read_only")
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
@@ -283,6 +283,7 @@ class UserSystem(models.Model):
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_read_only = models.BooleanField(default=True)
 
     class Meta:
         constraints = [
