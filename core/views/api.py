@@ -198,6 +198,7 @@ class OrganizationHealthNetworkViewSet(ModelViewSet, mixins.UserOganizationMixin
             return serializers.OrganizationHealthNetworkSerializer
         return serializers.HealthNetworkSerializer
 
+    @transaction.atomic
     def perform_create(self, serializer):
         health_network_org = serializer.save()
         models.OrganizationHealthNetwork.objects.create(
