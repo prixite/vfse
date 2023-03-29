@@ -1,13 +1,18 @@
+import React from "react";
+
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
+import SystemReadOnly from "@src/components/common/smart/SystemReadOnly";
 import { Site, System } from "@src/store/reducers/generated";
 import { Formik } from "@src/types/interfaces";
 
 interface Props {
   site: Site;
+  handleSystemReadStatus: (systemId: number, is_read_only: boolean) => void;
   systems: System[];
+  systemStatus: Map<number, { system: number; is_read_only: boolean }>;
   formik: Formik;
   handleSystemSelection: (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -20,26 +25,45 @@ const SitesMenu = ({
   site,
   systems,
   formik,
+  systemStatus,
   handleSystemSelection,
   handleSitesSelection,
+  handleSystemReadStatus,
 }: Props) => {
+  const handleReadOnly = (event, systemId) => {
+    const checked = event.target.checked;
+    handleSystemReadStatus(systemId, checked);
+    if (checked && !formik.values.selectedSystems.includes(systemId)) {
+      handleSystemSelection(
+        { target: { value: systemId, checked: true } },
+        site.id
+      );
+    }
+  };
+
   const children = (
     <Box sx={{ display: "flex", flexDirection: "column", ml: 5 }}>
-      {systems.map((item, key) => {
+      {systems.map((item) => {
         return (
-          <FormControlLabel
-            key={key}
-            label={item.name}
-            control={
-              <Checkbox
-                onChange={(e) => handleSystemSelection(e, site.id)}
-                checked={formik.values.selectedSystems.includes(item.id)}
-                value={item.id}
-                name={item.name}
-                color="primary"
-              />
-            }
-          />
+          <div key={`${item.id}-system`}>
+            <FormControlLabel
+              label={item.name}
+              control={
+                <Checkbox
+                  onChange={(e) => handleSystemSelection(e, site.id)}
+                  checked={formik.values.selectedSystems.includes(item.id)}
+                  value={item.id}
+                  name={item.name}
+                  color="primary"
+                />
+              }
+            />
+            <SystemReadOnly
+              handleReadOnly={handleReadOnly}
+              system={item.id}
+              systemStatus={systemStatus}
+            />
+          </div>
         );
       })}
     </Box>

@@ -26,6 +26,11 @@ class OrganizationAppearanceSerializer(serializers.Serializer):
     icon = serializers.URLField(default="")
 
 
+class UserSystemSerializer(serializers.Serializer):
+    system = serializers.IntegerField()
+    is_read_only = serializers.BooleanField(default=True)
+
+
 class MetaSiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
@@ -299,7 +304,7 @@ class UserSerializer(serializers.ModelSerializer):
     sites = serializers.ListField(
         child=serializers.CharField(max_length=32), read_only=True
     )
-    systems = serializers.ListField(child=serializers.IntegerField(), read_only=True)
+    systems = serializers.ListField(child=UserSystemSerializer(), read_only=True)
     image = serializers.CharField(source="profile.meta.profile_picture", read_only=True)
     location = serializers.CharField(source="profile.meta.location", read_only=True)
     slack_link = serializers.CharField(source="profile.meta.slack_link", read_only=True)
@@ -447,7 +452,7 @@ class GeneralUpsertUserSerializer(serializers.Serializer):
 
 
 class UpsertUserSerializer(GeneralUpsertUserSerializer):
-    systems = serializers.ListField(child=serializers.IntegerField())
+    systems = serializers.ListField(child=UserSystemSerializer())
 
 
 class OrganizationUpsertUserSerializer(serializers.ModelSerializer):

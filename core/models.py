@@ -91,7 +91,7 @@ class User(AbstractUser):
 
     @property
     def systems(self):
-        return self.get_systems().values_list("system", flat=True)
+        return self.get_systems().values("system", "is_read_only")
 
     def get_initials(self):
         if any([self.first_name, self.last_name]):
@@ -159,7 +159,7 @@ class User(AbstractUser):
 
     def get_organization_systems_member_role(self, organization_pk):
         return System.objects.filter(
-            id__in=self.systems,
+            id__in=self.get_systems().values_list("system", flat=True),
             site__in=self.get_sites(),
             product_model__modality__in=self.usermodality_set.all().values_list(
                 "modality"
@@ -283,6 +283,7 @@ class UserSystem(models.Model):
     organization = models.ForeignKey("Organization", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_read_only = models.BooleanField(default=True)
 
     class Meta:
         constraints = [
@@ -460,7 +461,14 @@ class Site(models.Model):
 
     @property
     def modalities(self):
-        return sorted(set([s.product_model.modality.name for s in self.systems.all()]))
+        return sorted(
+            set(
+                [
+                    s.product_model.modality.name
+                    for s in self.get_systems().values_list("system", flat=True).all()
+                ]
+            )
+        )
 
 
 class Modality(models.Model):

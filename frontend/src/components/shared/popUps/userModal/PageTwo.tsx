@@ -20,9 +20,18 @@ import { Formik } from "@src/types/interfaces";
 interface Props {
   formik: Formik;
   modalitiesList: Modality[];
+  systemStatus: Map<number, { system: number; is_read_only: boolean }>;
+  setSystemStatus: React.SetStateAction<
+    Map<number, { system: number; is_read_only: boolean }>
+  >;
 }
 
-const PageTwo = ({ formik, modalitiesList }: Props) => {
+const PageTwo = ({
+  formik,
+  modalitiesList,
+  systemStatus,
+  setSystemStatus,
+}: Props) => {
   const { data: systemsList = [], isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
       id: formik.values.customer?.toString(),
@@ -48,6 +57,11 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
 
   const handleSystemSelection = (e, site) => {
     const val = parseInt(e.target.value);
+    if (e?.target?.checked === false) {
+      const tempStatusMap = new Map(systemStatus);
+      tempStatusMap.delete(val);
+      setSystemStatus(tempStatusMap);
+    }
     const selectedSystemIndex = formik.values.selectedSystems.indexOf(val);
     if (selectedSystemIndex > -1) {
       formik.values.selectedSystems.splice(selectedSystemIndex, 1);
@@ -81,7 +95,13 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
   const handleSitesSelection = (e) => {
     const val = parseInt(e.target.value);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
-
+    if (!e.target.checked) {
+      systemsSiteList.forEach((system) => {
+        const tempStatusMap = new Map(systemStatus);
+        tempStatusMap.delete(system);
+        setSystemStatus(tempStatusMap);
+      });
+    }
     modifySelectedModalities(val, e.target.checked);
     if (!systemInSiteExists) {
       formik.setFieldValue("selectedSystems", [
@@ -153,6 +173,12 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
       constantUserData.selectedModalities,
       Array.from(modalitiesSet)
     );
+  };
+
+  const handleSystemReadStatus = (systemID: number, is_read_only: boolean) => {
+    const tempStatusMap = new Map(systemStatus);
+    tempStatusMap.set(systemID, { system: systemID, is_read_only });
+    setSystemStatus(tempStatusMap);
   };
 
   const handleSelectedModalities = async (event, newFormats) => {
@@ -310,7 +336,9 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
                   );
                   return (
                     <SitesMenu
+                      handleSystemReadStatus={handleSystemReadStatus}
                       key={key}
+                      systemStatus={systemStatus}
                       site={site}
                       systems={systems}
                       formik={formik}
@@ -341,7 +369,9 @@ const PageTwo = ({ formik, modalitiesList }: Props) => {
                   return (
                     <SitesMenu
                       key={key}
+                      handleSystemReadStatus={handleSystemReadStatus}
                       site={site}
+                      systemStatus={systemStatus}
                       systems={systems}
                       formik={formik}
                       handleSitesSelection={handleSitesSelection}

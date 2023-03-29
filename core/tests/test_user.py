@@ -66,7 +66,7 @@ class UserTestCase(BaseTestCase):
             "view_only": "false",
             "documentation_url": "true",
             "health_networks": [self.health_network.id],
-            "systems": [self.system.id],
+            "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         user = factories.UserWithPasswordFactory(is_request_user=True)
         models.Token.objects.create(user=user)
@@ -155,7 +155,7 @@ class UserTestCase(BaseTestCase):
             "view_only": "false",
             "documentation_url": "true",
             "health_networks": [self.health_network.id],
-            "systems": [self.system.id],
+            "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         response = self.client.patch(f"/api/users/{user.id}/", data=user_data)
         self.assertEqual(response.status_code, 200)
@@ -228,7 +228,7 @@ class UserTestCase(BaseTestCase):
                     "view_only": "false",
                     "is_one_time": "false",
                     "documentation_url": "true",
-                    "systems": [self.system.id],
+                    "systems": [{"system": self.system.id, "is_read_only": False}],
                 }
             ]
         }

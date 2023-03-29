@@ -254,7 +254,7 @@ class OrganizationTestCase(BaseTestCase):
             "is_one_time": "false",
             "view_only": "false",
             "documentation_url": "true",
-            "systems": [self.system.id],
+            "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         response = self.client.post(
             f"/api/organizations/{self.organization.id}/users/",
@@ -306,7 +306,7 @@ class OrganizationTestCase(BaseTestCase):
             "is_one_time": "false",
             "view_only": "false",
             "documentation_url": "true",
-            "systems": [self.system.id],
+            "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         response = self.client.patch(
             f"/api/users/{self.end_user.id}/",
@@ -628,7 +628,7 @@ class OrganizationTestCase(BaseTestCase):
             "is_one_time": "false",
             "view_only": "false",
             "documentation_url": "true",
-            "systems": [self.system.id],
+            "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         response = self.client.patch(f"/api/users/{self.fse.id}/", data=user_data)
         self.assertEqual(response.status_code, 200)
@@ -767,7 +767,7 @@ class OrganizationTestCase(BaseTestCase):
             "is_one_time": "false",
             "view_only": "false",
             "documentation_url": "true",
-            "systems": [self.system.id],
+            "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         user_data["first_name"] = "Amir"
         response = self.client.patch(
