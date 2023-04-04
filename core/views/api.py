@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta
 
 import boto3
 from django.conf import settings
@@ -902,8 +903,12 @@ class SystemLocationViewSet(ModelViewSet):
         if getattr(self, "swagger_fake_view", False):
             return models.System.objects.none()
 
-        queryset = self.request.user.get_organization_systems(self.kwargs["pk"])
+        queryset = self.request.user.get_organization_systems(self.kwargs["org_id"])
         queryset = queryset.filter(id=self.kwargs["system_id"])
-        return models.RouterLocation.objects.filter(system__in=queryset).order_by(
-            "-created_at"
-        )
+
+        last_7_days = datetime.now() - timedelta(days=7)
+        queryset = models.RouterLocation.objects.filter(
+            system__in=queryset, created_at__gte=last_7_days
+        ).order_by("-created_at")
+
+        return queryset

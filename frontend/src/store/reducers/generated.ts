@@ -1444,8 +1444,6 @@ export type System = {
   software_version?: string | null;
   asset_number?: string | null;
   ip_address?: string | null;
-  vnc_port?: string | null;
-  access_url?: string | null;
   local_ae_title?: string | null;
   his_ris_info?: HisRisInfo;
   dicom_info?: HisRisInfo;
@@ -1483,10 +1481,6 @@ export type Manager = {
   email: string;
   name: string;
 };
-export type UserSystem = {
-  system: number;
-  is_read_only?: boolean;
-};
 export type User = {
   id?: number;
   first_name?: string;
@@ -1512,7 +1506,7 @@ export type User = {
   calender_link?: string;
   zoom_link?: string;
   sites?: string[];
-  systems?: UserSystem[];
+  systems?: number[];
 };
 export type UpsertUser = {
   meta?: Meta;
@@ -1539,7 +1533,7 @@ export type UpsertUser = {
   view_only: boolean;
   is_one_time: boolean;
   documentation_url: boolean;
-  systems: UserSystem[];
+  systems: number[];
 };
 export type OrganizationUpsertUser = {
   id?: number;
