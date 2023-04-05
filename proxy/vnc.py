@@ -6,11 +6,6 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 app = FastAPI()
 
 
-@app.get("/")
-def index():
-    return {"Hello": "World"}
-
-
 async def vnc_to_ws(websocket: WebSocket, reader):
     while True:
         data = await reader.read(2**16)
