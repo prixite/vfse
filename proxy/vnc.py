@@ -3,7 +3,11 @@ import logging
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 
-from proxy.service_utils import is_authenticated
+from proxy.service_utils import (
+    get_system,
+    get_user_from_request,
+    is_authenticated,
+)
 
 app = FastAPI()
 
@@ -15,9 +19,12 @@ async def vnc_to_ws(websocket: WebSocket, reader):
 
 
 @app.websocket("/sockify/{organization_id:int}/{system_id:int}")
-async def raw_websocket(websocket: WebSocket, host: str, port: str):
+async def raw_websocket(organization_id: int, system_id: int, websocket: WebSocket, host: str, port: str):
     if not is_authenticated(websocket):
         raise HTTPException(status_code=403, detail="Not authenticated")
+
+    user = await get_user_from_request(websocket)
+    system = await get_system(user, organization_id, system_id)
 
     await websocket.accept()
     reader, writer = await asyncio.open_connection(host, port)
