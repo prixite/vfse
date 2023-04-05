@@ -23,16 +23,16 @@ services:
     depends_on:
       - db
 
-  guac_proxy:
-    image: vfse_app
+  vnc_proxy:
+    image: vfse-app
     volumes:
       - .:/opt/code
     ports:
       - "8001:8001"
-    command: bash -c 'uvicorn --reload --host 0.0.0.0 --port 8001 proxy.guac:app'
+    command: bash -c 'uvicorn --reload --host 0.0.0.0 --port 8001 proxy.vnc:app'
 
   html_proxy:
-    image: vfse_app
+    image: vfse-app
     volumes:
       - .:/opt/code
     ports:
