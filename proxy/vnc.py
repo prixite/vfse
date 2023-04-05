@@ -12,7 +12,7 @@ async def vnc_to_ws(websocket: WebSocket, reader):
         await websocket.send_bytes(data)
 
 
-@app.websocket("/sockify/")
+@app.websocket("/sockify/{organization_id:int}/{system_id:int}")
 async def raw_websocket(websocket: WebSocket, host: str, port: str):
     await websocket.accept()
     reader, writer = await asyncio.open_connection(host, port)
