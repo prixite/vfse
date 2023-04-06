@@ -1,5 +1,6 @@
 from django import test
 from django.utils import timezone
+from rest_framework.authtoken.models import Token
 
 from core import models
 from core.tests import factories
@@ -69,7 +70,7 @@ class UserTestCase(BaseTestCase):
             "systems": [{"system": self.system.id, "is_read_only": False}],
         }
         user = factories.UserWithPasswordFactory(is_request_user=True)
-        models.Token.objects.create(user=user)
+        Token.objects.create(user=user)
 
         self.client.force_token_login(user)
         response = self.client.post("/api/accounts/requests/", data=user_data)

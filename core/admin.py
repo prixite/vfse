@@ -10,7 +10,6 @@ TokenAdmin.list_filter = (
     "user__is_superuser",
     "user__is_active",
     "user__is_supermanager",
-    "user__is_lambda_user",
     "user__is_remote_user",
 )
 
@@ -26,7 +25,6 @@ class UserAdmin(CoreUserAdmin):
         "is_superuser",
         "is_active",
         "is_supermanager",
-        "is_lambda_user",
         "is_request_user",
         "is_remote_user",
     )
@@ -36,7 +34,6 @@ class UserAdmin(CoreUserAdmin):
             {
                 "fields": (
                     "is_supermanager",
-                    "is_lambda_user",
                     "is_request_user",
                     "is_remote_user",
                 )
@@ -79,7 +76,6 @@ class ProfileAdmin(admin.ModelAdmin):
 
     list_filter = (
         "user__is_remote_user",
-        "user__is_lambda_user",
         "user__is_staff",
         "user__is_supermanager",
         "user__is_active",

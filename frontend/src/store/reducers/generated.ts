@@ -20,12 +20,6 @@ const injectedRtkApi = api.injectEndpoints({
         params: { name: queryArg.name, search: queryArg.search },
       }),
     }),
-    lambdaPartialUpdate: build.mutation<
-      LambdaPartialUpdateApiResponse,
-      LambdaPartialUpdateApiArg
-    >({
-      query: () => ({ url: `/lambda/`, method: "PATCH" }),
-    }),
     manufacturersList: build.query<
       ManufacturersListApiResponse,
       ManufacturersListApiArg
@@ -300,6 +294,15 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/organizations/${queryArg.id}/users/`,
         method: "POST",
         body: queryArg.organizationUpsertUser,
+      }),
+    }),
+    organizationsSystemsLocationsList: build.query<
+      OrganizationsSystemsLocationsListApiResponse,
+      OrganizationsSystemsLocationsListApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/organizations/${queryArg.orgId}/systems/${queryArg.systemId}/locations/`,
+        params: { system: queryArg.system },
       }),
     }),
     productsList: build.query<ProductsListApiResponse, ProductsListApiArg>({
@@ -833,8 +836,6 @@ export type HealthNetworksListApiArg = {
   name?: string;
   search?: string;
 };
-export type LambdaPartialUpdateApiResponse = unknown;
-export type LambdaPartialUpdateApiArg = void;
 export type ManufacturersListApiResponse = /** status 200  */ Manufacturer[];
 export type ManufacturersListApiArg = void;
 export type ManufacturersCreateApiResponse = /** status 201  */ Manufacturer;
@@ -992,6 +993,13 @@ export type OrganizationsUsersCreateApiArg = {
   id: string;
   organizationUpsertUser: OrganizationUpsertUser;
 };
+export type OrganizationsSystemsLocationsListApiResponse =
+  /** status 200  */ RouterLocation[];
+export type OrganizationsSystemsLocationsListApiArg = {
+  orgId: string;
+  systemId: string;
+  system?: number;
+};
 export type ProductsListApiResponse = /** status 200  */ Product[];
 export type ProductsListApiArg = {
   manufacturer?: number;
@@ -1000,8 +1008,7 @@ export type ProductsCreateApiResponse = /** status 201  */ ProductCreate;
 export type ProductsCreateApiArg = {
   productCreate: ProductCreate;
 };
-export type ProductsModelsListApiResponse =
-  /** status 200  */ ProductModelDetail[];
+export type ProductsModelsListApiResponse = /** status 200  */ ProductModel[];
 export type ProductsModelsListApiArg = {
   modality?: number;
   product?: number;
@@ -1255,7 +1262,7 @@ export type WebsshlogCreateApiResponse = /** status 201  */ WebSshLog;
 export type WebsshlogCreateApiArg = {
   webSshLog: WebSshLog;
 };
-export type Meta = {
+export type MetaSerialzer = {
   profile_picture?: string;
   title?: string;
   location?: string;
@@ -1264,7 +1271,7 @@ export type Meta = {
   zoom_link?: string;
 };
 export type UserRequestAccess = {
-  meta?: Meta;
+  meta?: MetaSerialzer;
   first_name: string;
   last_name: string;
   email: string;
@@ -1306,7 +1313,7 @@ export type NoteSerialier = {
   id?: number;
   note: string;
 };
-export type Appearance = {
+export type OrganizationAppearance = {
   sidebar_text?: string;
   button_text?: string;
   sidebar_color?: string;
@@ -1327,7 +1334,7 @@ export type Organization = {
   id?: number;
   name: string;
   number_of_seats?: number | null;
-  appearance?: Appearance;
+  appearance?: OrganizationAppearance;
   sites?: MetaSite[];
 };
 export type Site = {
@@ -1337,19 +1344,19 @@ export type Site = {
   modalities?: string[];
   connections?: number;
 };
-export type Appearance2 = {
+export type HealthNetworkAppearance = {
   logo: string;
 };
 export type HealthNetwork = {
   id?: number;
   name: string;
-  appearance?: Appearance2;
+  appearance?: HealthNetworkAppearance;
   sites?: MetaSite[];
 };
 export type HealthNetworkCreate = {
   id?: number | null;
   name: string;
-  appearance?: Appearance2;
+  appearance?: HealthNetworkAppearance;
   sites?: MetaSite[];
 };
 export type OrganizationHealthNetwork = {
@@ -1407,24 +1414,24 @@ export type Documentation = {
   id?: number;
   url: string;
 };
-export type ProductModelDetail = {
+export type ProductModel = {
   id?: number;
   product: Product;
   model: string;
   modality: Modality;
   documentation: Documentation;
 };
-export type HisRisInfo = {
+export type SystemInfo = {
   ip?: string;
   title?: string;
   port?: number | null;
   ae_title?: string;
 };
-export type MriEmbeddedParameters = {
+export type MriInfo = {
   helium?: string;
   magnet_pressure?: string;
 };
-export type ConnectionOptions = {
+export type SystemConnectionOptions = {
   vfse: boolean;
   virtual_media_control: boolean;
   service_web_browser: boolean;
@@ -1439,20 +1446,23 @@ export type System = {
   system_contact_info?: string | null;
   grafana_link?: string | null;
   product_model: number;
-  product_model_detail?: ProductModelDetail;
+  product_model_detail?: ProductModel;
   image?: number | null;
   software_version?: string | null;
   asset_number?: string | null;
   ip_address?: string | null;
   local_ae_title?: string | null;
-  his_ris_info?: HisRisInfo;
-  dicom_info?: HisRisInfo;
-  mri_embedded_parameters?: MriEmbeddedParameters;
-  connection_options?: ConnectionOptions;
+  his_ris_info?: SystemInfo;
+  dicom_info?: SystemInfo;
+  mri_embedded_parameters?: MriInfo;
+  connection_options?: SystemConnectionOptions;
   image_url?: string;
   documentation?: string;
   is_online?: boolean;
   last_successful_ping_at?: string | null;
+  access_url?: string | null;
+  vnc_port?: string | null;
+  service_page_url?: string | null;
 };
 export type SeatList = {
   system: System;
@@ -1477,9 +1487,13 @@ export type OrganizationSite = {
 export type InfluxSystems = {
   systems: number[];
 };
-export type Manager = {
+export type ManagerMeta = {
   email: string;
   name: string;
+};
+export type UserSystem = {
+  system: number;
+  is_read_only?: boolean;
 };
 export type User = {
   id?: number;
@@ -1499,17 +1513,17 @@ export type User = {
   is_one_time?: boolean;
   documentation_url?: boolean;
   role?: string[];
-  manager?: Manager;
+  manager?: ManagerMeta;
   image?: string;
   location?: string;
   slack_link?: string;
   calender_link?: string;
   zoom_link?: string;
   sites?: string[];
-  systems?: number[];
+  systems?: UserSystem[];
 };
 export type UpsertUser = {
-  meta?: Meta;
+  meta?: MetaSerialzer;
   first_name: string;
   last_name: string;
   email: string;
@@ -1533,11 +1547,17 @@ export type UpsertUser = {
   view_only: boolean;
   is_one_time: boolean;
   documentation_url: boolean;
-  systems: number[];
+  systems: UserSystem[];
 };
 export type OrganizationUpsertUser = {
   id?: number;
   memberships: UpsertUser[];
+};
+export type RouterLocation = {
+  system: number;
+  long: string;
+  lat: string;
+  name?: string;
 };
 export type ProductCreate = {
   id?: number;
@@ -1579,7 +1599,7 @@ export type UpsertUserPassword = {
 export type MeUpdate = {
   first_name?: string;
   last_name?: string;
-  meta?: Meta;
+  meta?: MetaSerialzer;
 };
 export type Role = {
   value: string;
@@ -1597,7 +1617,7 @@ export type Category = {
   color?: string;
   folders?: Folder[];
 };
-export type UserProfile = {
+export type ProfileMeta = {
   id?: number;
   name?: string;
   image?: string;
@@ -1607,7 +1627,7 @@ export type Comment = {
   topic?: number;
   user?: number;
   comment: string;
-  user_profile?: UserProfile;
+  user_profile?: ProfileMeta;
   created_at?: string;
   number_of_replies?: number;
 };
@@ -1635,10 +1655,10 @@ export type TopicCategory = {
 };
 export type TopicDetail = {
   id?: number;
-  user?: UserProfile;
+  user?: ProfileMeta;
   title: string;
   description: string;
-  followers?: UserProfile[];
+  followers?: ProfileMeta[];
   image?: string | null;
   categories: TopicCategory[];
   reply_email_notification?: boolean;
@@ -1652,7 +1672,7 @@ export type Topic = {
   user?: number;
   title: string;
   description: string;
-  followers?: UserProfile[];
+  followers?: ProfileMeta[];
   image?: string | null;
   categories?: number[];
   reply_email_notification?: boolean;
@@ -1666,17 +1686,17 @@ export type FollowUnfollow = {
 };
 export type RecentActivity = {
   id?: number;
-  user?: UserProfile;
+  user?: ProfileMeta;
   topic: number;
   action: string;
   created_at?: string;
 };
-export type System2 = {
+export type SystemMeta = {
   name: string;
   image_url?: string;
 };
 export type WorkOrderDetail = {
-  system: System2;
+  system: SystemMeta;
   description: string;
   work_started?: boolean;
   work_completed?: boolean;
@@ -1695,7 +1715,6 @@ export type WebSshLog = {
 export const {
   useAccountsRequestsCreateMutation,
   useHealthNetworksListQuery,
-  useLambdaPartialUpdateMutation,
   useManufacturersListQuery,
   useManufacturersCreateMutation,
   useManufacturersImagesListQuery,
@@ -1728,6 +1747,7 @@ export const {
   useOrganizationsSystemsUpdateFromInfluxMutation,
   useOrganizationsUsersListQuery,
   useOrganizationsUsersCreateMutation,
+  useOrganizationsSystemsLocationsListQuery,
   useProductsListQuery,
   useProductsCreateMutation,
   useProductsModelsListQuery,

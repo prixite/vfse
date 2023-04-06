@@ -91,22 +91,6 @@
             },
             "parameters": []
         },
-        "/lambda/": {
-            "patch": {
-                "operationId": "lambda_partial_update",
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": ""
-                    }
-                },
-                "tags": [
-                    "lambda"
-                ]
-            },
-            "parameters": []
-        },
         "/manufacturers/": {
             "get": {
                 "operationId": "manufacturers_list",
@@ -963,6 +947,49 @@
             "parameters": [
                 {
                     "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ]
+        },
+        "/organizations/{org_id}/systems/{system_id}/locations/": {
+            "get": {
+                "operationId": "organizations_systems_locations_list",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "system",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/RouterLocation"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "organizations"
+                ]
+            },
+            "parameters": [
+                {
+                    "name": "org_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "system_id",
                     "in": "path",
                     "required": true,
                     "type": "string"
@@ -2528,8 +2555,6 @@
     },
     "definitions": {
         "MetaSerialzer": {
-            "title": "Meta",
-            "description": "",
             "type": "object",
             "properties": {
                 "profile_picture": {
@@ -2574,7 +2599,6 @@
             }
         },
         "UserRequestAccess": {
-            "description": "",
             "required": [
                 "first_name",
                 "last_name",
@@ -2686,7 +2710,6 @@
             }
         },
         "HealthNetworkList": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -2700,13 +2723,12 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 }
             }
         },
         "Manufacturer": {
-            "description": "Manufacturer(id, name, image, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -2720,7 +2742,7 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 },
                 "image": {
@@ -2731,7 +2753,6 @@
             }
         },
         "ManufacturerImage": {
-            "description": "ManufacturerImage(id, image, created_at, updated_at)",
             "type": "object",
             "properties": {
                 "image": {
@@ -2744,7 +2765,6 @@
             }
         },
         "NoteSerialier": {
-            "description": "Note(id, system, author, note, created_at, updated_at)",
             "required": [
                 "note"
             ],
@@ -2763,8 +2783,6 @@
             }
         },
         "OrganizationAppearance": {
-            "title": "Appearance",
-            "description": "",
             "type": "object",
             "properties": {
                 "sidebar_text": {
@@ -2845,7 +2863,6 @@
             }
         },
         "MetaSite": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
                 "address"
@@ -2860,7 +2877,7 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 },
                 "address": {
@@ -2871,7 +2888,6 @@
             }
         },
         "Organization": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -2899,7 +2915,6 @@
                     "$ref": "#/definitions/OrganizationAppearance"
                 },
                 "sites": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MetaSite"
@@ -2909,7 +2924,6 @@
             }
         },
         "Site": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
                 "address"
@@ -2924,7 +2938,7 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 },
                 "address": {
@@ -2933,7 +2947,6 @@
                     "minLength": 1
                 },
                 "modalities": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "string",
@@ -2949,8 +2962,6 @@
             }
         },
         "HealthNetworkAppearance": {
-            "title": "Appearance",
-            "description": "",
             "required": [
                 "logo"
             ],
@@ -2968,7 +2979,6 @@
             }
         },
         "HealthNetwork": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -2989,7 +2999,6 @@
                     "$ref": "#/definitions/HealthNetworkAppearance"
                 },
                 "sites": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MetaSite"
@@ -2999,7 +3008,6 @@
             }
         },
         "HealthNetworkCreate": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -3020,7 +3028,6 @@
                     "$ref": "#/definitions/HealthNetworkAppearance"
                 },
                 "sites": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/MetaSite"
@@ -3030,7 +3037,6 @@
             }
         },
         "OrganizationHealthNetwork": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "health_networks"
             ],
@@ -3042,7 +3048,6 @@
                     "readOnly": true
                 },
                 "health_networks": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/HealthNetworkCreate"
@@ -3051,7 +3056,6 @@
             }
         },
         "Me": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "required": [
                 "profile_picture",
                 "can_leave_notes",
@@ -3157,7 +3161,6 @@
             }
         },
         "Modality": {
-            "description": "Modality(id, name, group, show_ris, show_dicom, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -3203,8 +3206,6 @@
             }
         },
         "Product": {
-            "title": "Product",
-            "description": "Product(id, name, manufacturer, created_at, updated_at)",
             "required": [
                 "name",
                 "manufacturer"
@@ -3219,7 +3220,7 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 },
                 "manufacturer": {
@@ -3228,8 +3229,6 @@
             }
         },
         "Documentation": {
-            "title": "Documentation",
-            "description": "Documentation(id, url, created_at, updated_at)",
             "required": [
                 "url"
             ],
@@ -3250,8 +3249,6 @@
             }
         },
         "ProductModel": {
-            "title": "Product model detail",
-            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
                 "product",
                 "model",
@@ -3283,8 +3280,6 @@
             }
         },
         "SystemInfo": {
-            "title": "His ris info",
-            "description": "",
             "type": "object",
             "properties": {
                 "ip": {
@@ -3313,8 +3308,6 @@
             }
         },
         "MriInfo": {
-            "title": "Mri embedded parameters",
-            "description": "",
             "type": "object",
             "properties": {
                 "helium": {
@@ -3332,8 +3325,6 @@
             }
         },
         "SystemConnectionOptions": {
-            "title": "Connection options",
-            "description": "",
             "required": [
                 "vfse",
                 "virtual_media_control",
@@ -3361,8 +3352,6 @@
             }
         },
         "System": {
-            "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name",
                 "site",
@@ -3476,11 +3465,28 @@
                     "type": "string",
                     "format": "date-time",
                     "x-nullable": true
+                },
+                "access_url": {
+                    "title": "Access url",
+                    "type": "string",
+                    "maxLength": 512,
+                    "x-nullable": true
+                },
+                "vnc_port": {
+                    "title": "Vnc port",
+                    "type": "string",
+                    "maxLength": 8,
+                    "x-nullable": true
+                },
+                "service_page_url": {
+                    "title": "Service page url",
+                    "type": "string",
+                    "maxLength": 512,
+                    "x-nullable": true
                 }
             }
         },
         "SeatList": {
-            "description": "Seat(id, system, organization, created_at, updated_at)",
             "required": [
                 "system"
             ],
@@ -3492,7 +3498,6 @@
             }
         },
         "Seat": {
-            "description": "Seat(id, system, organization, created_at, updated_at)",
             "required": [
                 "system"
             ],
@@ -3505,14 +3510,12 @@
             }
         },
         "OrganizationSeatSeriazlier": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "seats"
             ],
             "type": "object",
             "properties": {
                 "seats": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Seat"
@@ -3521,7 +3524,6 @@
             }
         },
         "SiteCreate": {
-            "description": "Site(id, organization, name, address, created_at, updated_at)",
             "required": [
                 "name",
                 "address"
@@ -3536,7 +3538,7 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 },
                 "address": {
@@ -3545,7 +3547,6 @@
                     "minLength": 1
                 },
                 "modalities": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "string",
@@ -3561,7 +3562,6 @@
             }
         },
         "OrganizationSite": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "sites"
             ],
@@ -3573,7 +3573,6 @@
                     "readOnly": true
                 },
                 "sites": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/SiteCreate"
@@ -3582,7 +3581,6 @@
             }
         },
         "InfluxSystems": {
-            "description": "",
             "required": [
                 "systems"
             ],
@@ -3598,8 +3596,6 @@
             }
         },
         "ManagerMeta": {
-            "title": "Manager",
-            "description": "",
             "required": [
                 "email",
                 "name"
@@ -3619,8 +3615,24 @@
                 }
             }
         },
+        "UserSystem": {
+            "required": [
+                "system"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                },
+                "is_read_only": {
+                    "title": "Is read only",
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
         "User": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "required": [
                 "username"
             ],
@@ -3660,7 +3672,6 @@
                     "type": "boolean"
                 },
                 "health_networks": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "string",
@@ -3670,7 +3681,6 @@
                     "readOnly": true
                 },
                 "modalities": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "string",
@@ -3680,7 +3690,6 @@
                     "readOnly": true
                 },
                 "organizations": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "string",
@@ -3767,7 +3776,6 @@
                     "minLength": 1
                 },
                 "sites": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "type": "string",
@@ -3777,17 +3785,15 @@
                     "readOnly": true
                 },
                 "systems": {
-                    "description": "",
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "$ref": "#/definitions/UserSystem"
                     },
                     "readOnly": true
                 }
             }
         },
         "UpsertUser": {
-            "description": "",
             "required": [
                 "first_name",
                 "last_name",
@@ -3890,16 +3896,14 @@
                     "type": "boolean"
                 },
                 "systems": {
-                    "description": "",
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "$ref": "#/definitions/UserSystem"
                     }
                 }
             }
         },
         "OrganizationUpsertUser": {
-            "description": "Organization(id, name, is_customer, number_of_seats, is_default, appearance, created_at, updated_at)",
             "required": [
                 "memberships"
             ],
@@ -3911,7 +3915,6 @@
                     "readOnly": true
                 },
                 "memberships": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/UpsertUser"
@@ -3919,8 +3922,37 @@
                 }
             }
         },
+        "RouterLocation": {
+            "required": [
+                "system",
+                "long",
+                "lat"
+            ],
+            "type": "object",
+            "properties": {
+                "system": {
+                    "title": "System",
+                    "type": "integer"
+                },
+                "long": {
+                    "title": "Long",
+                    "type": "string",
+                    "format": "decimal"
+                },
+                "lat": {
+                    "title": "Lat",
+                    "type": "string",
+                    "format": "decimal"
+                },
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "readOnly": true,
+                    "minLength": 1
+                }
+            }
+        },
         "ProductCreate": {
-            "description": "Product(id, name, manufacturer, created_at, updated_at)",
             "required": [
                 "name",
                 "manufacturer"
@@ -3935,7 +3967,7 @@
                 "name": {
                     "title": "Name",
                     "type": "string",
-                    "maxLength": 32,
+                    "maxLength": 64,
                     "minLength": 1
                 },
                 "manufacturer": {
@@ -3945,7 +3977,6 @@
             }
         },
         "ProductModelCreate": {
-            "description": "ProductModel(id, product, model, modality, documentation, created_at, updated_at)",
             "required": [
                 "model",
                 "documentation",
@@ -3979,7 +4010,6 @@
             }
         },
         "SystemImage": {
-            "description": "SystemImage(id, image, created_at, updated_at)",
             "required": [
                 "image"
             ],
@@ -4000,7 +4030,6 @@
             }
         },
         "SystemNotes": {
-            "description": "Note(id, system, author, note, created_at, updated_at)",
             "required": [
                 "author",
                 "note"
@@ -4043,7 +4072,6 @@
             }
         },
         "SystemAccess": {
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -4076,7 +4104,6 @@
             }
         },
         "UserEnableDisable": {
-            "description": "",
             "required": [
                 "users"
             ],
@@ -4092,7 +4119,6 @@
             }
         },
         "UpsertUserPassword": {
-            "description": "",
             "required": [
                 "password",
                 "old_password"
@@ -4112,7 +4138,6 @@
             }
         },
         "MeUpdate": {
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "type": "object",
             "properties": {
                 "first_name": {
@@ -4131,7 +4156,6 @@
             }
         },
         "Role": {
-            "description": "",
             "required": [
                 "value",
                 "title"
@@ -4151,7 +4175,6 @@
             }
         },
         "Folder": {
-            "description": "Folder(id, name, created_at, updated_at)",
             "required": [
                 "name",
                 "categories"
@@ -4184,7 +4207,6 @@
             }
         },
         "Category": {
-            "description": "Category(id, name, color)",
             "required": [
                 "name"
             ],
@@ -4208,7 +4230,6 @@
                     "minLength": 1
                 },
                 "folders": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Folder"
@@ -4217,8 +4238,6 @@
             }
         },
         "ProfileMeta": {
-            "title": "User profile",
-            "description": "User(id, password, last_login, is_superuser, first_name, last_name, email, is_staff, is_active, date_joined, username, is_supermanager, is_lambda_user, is_request_user, is_remote_user)",
             "type": "object",
             "properties": {
                 "id": {
@@ -4242,7 +4261,6 @@
             }
         },
         "Comment": {
-            "description": "Comment(id, topic, user, comment, parent, created_at, updated_at)",
             "required": [
                 "comment"
             ],
@@ -4283,7 +4301,6 @@
             }
         },
         "Document": {
-            "description": "Document(id, folder, title, text, created_by, favorite, document_link, created_at, updated_at)",
             "required": [
                 "title",
                 "text",
@@ -4337,7 +4354,6 @@
             }
         },
         "FolderDetail": {
-            "description": "Folder(id, name, created_at, updated_at)",
             "required": [
                 "name",
                 "categories",
@@ -4364,7 +4380,6 @@
                     "uniqueItems": true
                 },
                 "documents": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/Document"
@@ -4373,7 +4388,6 @@
             }
         },
         "TopicCategory": {
-            "description": "Category(id, name, color)",
             "required": [
                 "name",
                 "folders"
@@ -4407,7 +4421,6 @@
             }
         },
         "TopicDetail": {
-            "description": "Topic(id, user, title, description, image, reply_email_notification, created_at, updated_at)",
             "required": [
                 "title",
                 "description",
@@ -4435,7 +4448,6 @@
                     "minLength": 1
                 },
                 "followers": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ProfileMeta"
@@ -4450,7 +4462,6 @@
                     "x-nullable": true
                 },
                 "categories": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/TopicCategory"
@@ -4485,7 +4496,6 @@
             }
         },
         "Topic": {
-            "description": "Topic(id, user, title, description, image, reply_email_notification, created_at, updated_at)",
             "required": [
                 "title",
                 "description"
@@ -4513,7 +4523,6 @@
                     "minLength": 1
                 },
                 "followers": {
-                    "description": "",
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/ProfileMeta"
@@ -4563,7 +4572,6 @@
             }
         },
         "FollowUnfollow": {
-            "description": "",
             "required": [
                 "follow"
             ],
@@ -4576,7 +4584,6 @@
             }
         },
         "RecentActivity": {
-            "description": "RecentActivity(id, user, topic, action, created_at)",
             "required": [
                 "topic",
                 "action"
@@ -4610,8 +4617,6 @@
             }
         },
         "SystemMeta": {
-            "title": "System",
-            "description": "System(id, name, site, product_model, image, software_version, asset_number, ip_address, local_ae_title, serial_number, location_in_building, system_contact_info, chatbot_content, connection_monitoring, grafana_link, system_option, other, his_ris_info, dicom_info, mri_embedded_parameters, connection_options, is_online, ssh_password, ssh_user, last_successful_ping_at, created_at, updated_at)",
             "required": [
                 "name"
             ],
@@ -4631,7 +4636,6 @@
             }
         },
         "WorkOrderDetail": {
-            "description": "WorkOrder(id, system, description, work_started, work_started_at, work_completed, work_completed_at, created_at, updated_at)",
             "required": [
                 "system",
                 "description"
@@ -4657,7 +4661,6 @@
             }
         },
         "WorkOrder": {
-            "description": "WorkOrder(id, system, description, work_started, work_started_at, work_completed, work_completed_at, created_at, updated_at)",
             "required": [
                 "system",
                 "description"
@@ -4684,7 +4687,6 @@
             }
         },
         "WebSshLog": {
-            "description": "WebSshLog(id, system, user, log, created_at, updated_at)",
             "required": [
                 "system",
                 "log"
