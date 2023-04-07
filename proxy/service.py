@@ -22,7 +22,9 @@ async def index_proxy(
     system = await get_system(user, organization_id, system_id)
 
     if not system.connection_options.get("service_web_browser"):
-        raise HTTPException(status_code=400, detail="No service browser access for system")
+        raise HTTPException(
+            status_code=400, detail="No service browser access for system"
+        )
 
     if not path.startswith("service"):
         path = f"service/{path}"
