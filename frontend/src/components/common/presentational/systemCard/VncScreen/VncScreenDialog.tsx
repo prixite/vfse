@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { VncScreen } from "react-vnc";
 
 import { timeOut } from "@src/helpers/utils/constants";
+import { useSelectedOrganization } from "@src/store/hooks";
+import { Organization } from "@src/store/reducers/api";
 import { System } from "@src/store/reducers/generated";
 
 interface VncScreenProps {
@@ -28,6 +30,7 @@ const VncScreenDialog = ({
   system,
   password,
 }: VncScreenProps) => {
+  const selectedOrganization: Organization = useSelectedOrganization();
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
   const [fullScreen, setFullScreen] = useState(false);
@@ -37,9 +40,9 @@ const VncScreenDialog = ({
     ip_address: ipAddress,
   } = system;
 
-  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}?host=${
-    accessUrl || ipAddress
-  }&port=${vncPort}`;
+  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}${
+    selectedOrganization.id
+  }/${system.id}?host=${accessUrl || ipAddress}&port=${vncPort}`;
 
   const RfbOptions = {
     shared: true,
