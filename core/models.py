@@ -3,7 +3,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Count, Q
 from django.db.models.query import Prefetch
-from rest_framework.authtoken.models import Token
 
 
 class Role(models.TextChoices):
@@ -44,8 +43,6 @@ class User(AbstractUser):
     )
 
     is_supermanager = models.BooleanField(default=False)
-    # lambda user can access api from AWS Lambda functions
-    is_lambda_user = models.BooleanField(default=False)
     # request user can access api from "Register Now" page.
     is_request_user = models.BooleanField(default=False)
     # Remote user can access certain APIs remotely, using the token
@@ -360,14 +357,6 @@ class Organization(models.Model):
 
     def __str__(self) -> str:
         return self.name
-
-    def get_lambda_admin_token(self):
-        user = Membership.objects.get(
-            user__username=f"org-{self.id}-lambda-user",
-            organization=self,
-            role=Role.LAMBDA_ADMIN,
-        ).user
-        return Token.objects.get(user=user).key
 
     @staticmethod
     def get_organization_health_networks(organization_pk):

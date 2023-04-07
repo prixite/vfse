@@ -1,3 +1,5 @@
+from rest_framework.authtoken.models import Token
+
 from core import models
 from core.tests import factories
 from core.tests.base import BaseTestCase
@@ -448,7 +450,7 @@ class SystemSSHTestCase(BaseTestCase):
         self.token_user = self.super_admin
         self.token_user.is_remote_user = True
         self.token_user.save()
-        models.Token.objects.create(user=self.token_user)
+        Token.objects.create(user=self.token_user)
 
     def test_ssh_connection_request_permission_denied(self):
         self.client.force_token_login(self.super_admin)

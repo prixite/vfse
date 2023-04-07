@@ -17,7 +17,7 @@ class UnrestrictedURLsTestCase(BaseTestCase):
             "/api/manufacturers/",
             "/api/manufacturers/images/",
         ]:
-            for user in models.User.objects.filter(is_lambda_user=False):
+            for user in models.User.objects.all():
                 with self.subTest(user=user, url=url):
                     self.client.force_login(user)
                     self.assertEqual(self.client.get(url).status_code, 200)
