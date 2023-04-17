@@ -28,7 +28,7 @@ async def raw_websocket(
     user = await get_user_from_request(websocket)
     system = await get_system(user, organization_id, system_id)
 
-    if not system.connection_options.get("virtual_media_control"):
+    if not system.connection_options.get("vfse"):
         raise HTTPException(status_code=400, detail="No vnc access for system")
 
     await websocket.accept()
