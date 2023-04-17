@@ -1,5 +1,4 @@
 import re
-from functools import lru_cache
 from importlib import import_module
 
 from asgiref.sync import sync_to_async
@@ -8,6 +7,9 @@ from django.contrib.auth import SESSION_KEY
 from fastapi import HTTPException, Request, WebSocket
 
 from core.models import System, User
+from proxy.cached_dict import CacheDict
+
+USER_CACHE = CacheDict(cache_len=2**9)
 
 
 def is_authenticated(request: Request | WebSocket) -> bool:
@@ -26,9 +28,14 @@ async def get_user_from_request(request: Request | WebSocket):
     return await get_user_from_id(await get_user_id_from_request(request))
 
 
-@lru_cache(maxsize=2**9)
 async def get_user_from_id(user_id):
+    if user_id in USER_CACHE:
+        return USER_CACHE[user_id]
+
     user = await User.objects.aget(id=user_id)
+
+    USER_CACHE[user_id] = user
+
     return user
 
 
