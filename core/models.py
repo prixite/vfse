@@ -512,6 +512,9 @@ class System(models.Model):
     ssh_user = models.CharField(max_length=25, default="root")
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
     service_page_url = models.CharField(max_length=2**9, null=True, blank=True)
+    telnet_username = models.CharField(max_length=64, null=True, blank=True)
+    telnet_password = models.CharField(max_length=64, null=True, blank=True)
+    vnc_server_path = models.CharField(max_length=512, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
