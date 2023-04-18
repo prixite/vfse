@@ -606,7 +606,6 @@ class SystemSerializer(serializers.ModelSerializer):
             "documentation",
             "is_online",
             "last_successful_ping_at",
-            "access_url",
             "vnc_port",
             "service_page_url",
         ]

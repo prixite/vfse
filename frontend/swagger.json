@@ -3466,12 +3466,6 @@
                     "format": "date-time",
                     "x-nullable": true
                 },
-                "access_url": {
-                    "title": "Access url",
-                    "type": "string",
-                    "maxLength": 512,
-                    "x-nullable": true
-                },
                 "vnc_port": {
                     "title": "Vnc port",
                     "type": "string",
