@@ -19,9 +19,7 @@ async def vnc_to_ws(websocket: WebSocket, reader):
 
 
 @app.websocket("/sockify/{organization_id:int}/{system_id:int}")
-async def raw_websocket(
-    organization_id: int, system_id: int, websocket: WebSocket, host: str, port: str
-):
+async def raw_websocket(organization_id: int, system_id: int, websocket: WebSocket):
     if not is_authenticated(websocket):
         raise HTTPException(status_code=403, detail="Not authenticated")
 
@@ -32,8 +30,8 @@ async def raw_websocket(
         raise HTTPException(status_code=400, detail="No vnc access for system")
 
     await websocket.accept()
-    reader, writer = await asyncio.open_connection(host, port)
-    logging.info(f"Connection with {host}:{port} established")
+    reader, writer = await asyncio.open_connection(system.ip_address, system.vnc_port)
+    logging.info(f"Connection with {system.ip_address}:{system.vnc_port} established")
     task = asyncio.get_event_loop().create_task(vnc_to_ws(websocket, reader))
 
     try:
