@@ -1460,7 +1460,6 @@ export type System = {
   documentation?: string;
   is_online?: boolean;
   last_successful_ping_at?: string | null;
-  access_url?: string | null;
   vnc_port?: string | null;
   service_page_url?: string | null;
 };

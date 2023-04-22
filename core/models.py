@@ -493,7 +493,6 @@ class System(models.Model):
     asset_number = models.CharField(max_length=32, blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     vnc_port = models.CharField(max_length=8, blank=True, null=True, default="5900")
-    access_url = models.CharField(max_length=512, null=True, blank=True)
     local_ae_title = models.CharField(max_length=32, blank=True, null=True)
     serial_number = models.CharField(max_length=32, blank=True, null=True)
     location_in_building = models.CharField(max_length=32, blank=True, null=True)

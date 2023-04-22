@@ -34,15 +34,8 @@ const VncScreenDialog = ({
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
   const { connect, connected, disconnect } = vncScreenRef.current ?? {};
   const [fullScreen, setFullScreen] = useState(false);
-  const {
-    access_url: accessUrl,
-    vnc_port: vncPort,
-    ip_address: ipAddress,
-  } = system;
 
-  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}${
-    selectedOrganization.id
-  }/${system.id}?host=${accessUrl || ipAddress}&port=${vncPort}`;
+  const websockifyUrl = `${process.env.WEBSOCKIFY_WS}${selectedOrganization.id}/${system.id}`;
 
   const RfbOptions = {
     shared: true,

@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0095_remove_user_is_lambda_user'),
+        ("core", "0095_remove_user_is_lambda_user"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='system',
-            name='telnet_password',
+            model_name="system",
+            name="telnet_password",
             field=models.CharField(blank=True, max_length=64, null=True),
         ),
         migrations.AddField(
-            model_name='system',
-            name='telnet_username',
+            model_name="system",
+            name="telnet_username",
             field=models.CharField(blank=True, max_length=64, null=True),
         ),
         migrations.AddField(
-            model_name='system',
-            name='vnc_server_path',
+            model_name="system",
+            name="vnc_server_path",
             field=models.CharField(blank=True, max_length=512, null=True),
         ),
     ]
