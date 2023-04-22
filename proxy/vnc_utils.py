@@ -1,10 +1,11 @@
 import asyncio
 import logging
-import telnetlib
 
+from asgiref.sync import sync_to_async
 from fastapi import WebSocket, WebSocketDisconnect
 
 from core.models import System
+from proxy.telnetlib import Telnet
 
 
 async def vnc_to_ws(websocket: WebSocket, reader):
@@ -29,33 +30,42 @@ async def connect_to_server(websocket: WebSocket, system: System):
     await asyncio.wait([task])
 
 
-def try_vnc_server_through_telnet(system):
-    if not (
-        system.telnet_username and system.telnet_password and system.vnc_server_path
-    ):
-        return
+@sync_to_async
+def start_vnc_server_using_telnet(telnet: Telnet, system: System):
+    telnet.open(system.ip_address)
+    telnet.read_until(b"login: ", timeout=5)
 
-    telnet = telnetlib.Telnet(system.ip_address)
-    telnet.read_until(b"login: ")
+    assert system.telnet_username
     telnet.write(system.telnet_username.encode("ascii") + b"\n")
-    telnet.read_until(b"Password: ")
+
+    telnet.read_until(b"Password: ", timeout=5)
+
+    assert system.telnet_password
     telnet.write(system.telnet_password.encode("ascii") + b"\n")
 
-    telnet.write(b"cd " + system.vnc_server_path.encode("ascii"))
-    telnet.write(b"./gemsvnc")
+    telnet.read_until(b"Terminal type?", timeout=5)
+    telnet.read_until(b" ", timeout=5)
+    telnet.write(b"xterm-256color\n")
+
+    telnet.expect([system.telnet_username.encode("ascii") + b"@"], timeout=5)
+
+    assert system.vnc_server_path
+    telnet.write(b"cd " + system.vnc_server_path.encode("ascii") + b"\n")
+    telnet.write(b"./gemsvnc\n")
+    telnet.read_until(b"GEMS VNC Server ready")
 
 
-async def run_cmd(cmd):
-    return await asyncio.create_subprocess_shell(
-        cmd,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
+class TelnetContextManager:
+    def __init__(self, system: System):
+        self.system = system
+        self.telnet = Telnet()
 
+    async def __aenter__(self):
+        await start_vnc_server_using_telnet(self.telnet, self.system)
 
-async def main():
-    pass
+    async def __aexit__(self, exc_type, exc, tb):
+        @sync_to_async
+        def close():
+            self.telnet.close()
 
-
-if __name__ == "__main__":
-    asyncio.run(main())
+        await close()

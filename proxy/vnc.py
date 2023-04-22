@@ -5,7 +5,7 @@ from proxy.service_utils import (
     get_user_from_request,
     is_authenticated,
 )
-from proxy.vnc_utils import connect_to_server
+from proxy.vnc_utils import TelnetContextManager, connect_to_server
 
 app = FastAPI()
 
@@ -22,4 +22,8 @@ async def raw_websocket(organization_id: int, system_id: int, websocket: WebSock
         raise HTTPException(status_code=400, detail="No vnc access for system")
 
     await websocket.accept()
-    await connect_to_server(websocket, system)
+    if system.telnet_username:
+        async with TelnetContextManager(system):
+            await connect_to_server(websocket, system)
+    else:
+        await connect_to_server(websocket, system)
