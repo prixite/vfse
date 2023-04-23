@@ -300,15 +300,10 @@ LOGGING = {
             "level": "INFO",
             "class": "logging.StreamHandler",
         },
-        "file": {
-            "level": "ERROR",
-            "class": "logging.FileHandler",
-            "filename": "/tmp/vfse-error.log",
-        },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file"],
+            "handlers": ["console"],
             "level": env("DJANGO_LOG_LEVEL"),
             "propagate": False,
         },
