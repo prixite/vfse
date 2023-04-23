@@ -38,22 +38,27 @@ def start_vnc_server_using_telnet(telnet: Telnet, system: System):
 
     assert system.telnet_username
     telnet.write(system.telnet_username.encode("ascii") + b"\n")
+    telnet.msg("Username written")
 
     telnet.read_until(b"Password: ", timeout=5)
 
     assert system.telnet_password
     telnet.write(system.telnet_password.encode("ascii") + b"\n")
+    telnet.msg("Password written")
 
     telnet.read_until(b"Terminal type?", timeout=5)
     telnet.read_until(b" ", timeout=5)
     telnet.write(b"xterm-256color\n")
+    telnet.msg("Terminal type set")
 
     telnet.expect([system.telnet_username.encode("ascii") + b"@"], timeout=5)
+    telnet.msg("Login success")
 
     assert system.vnc_server_path
     telnet.write(b"cd " + system.vnc_server_path.encode("ascii") + b"\n")
     telnet.write(b"./gemsvnc\n")
     telnet.read_until(b"GEMS VNC Server ready")
+    telnet.msg("GEMS VNC started")
 
 
 class TelnetContextManager:
