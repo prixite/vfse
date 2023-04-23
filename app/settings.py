@@ -62,7 +62,7 @@ env = environ.Env(
     ENCRYPTION_KEY=(str, None),
     HTML_PROXY_HOST=(str, ""),
     HTML_PROXY_PATH=(str, "/htmlproxy/"),
-    DJANGO_LOG_LEVEL=(str, "DEBUG"),
+    DJANGO_LOG_LEVEL=(str, "INFO"),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
