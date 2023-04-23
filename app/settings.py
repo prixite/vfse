@@ -62,6 +62,7 @@ env = environ.Env(
     ENCRYPTION_KEY=(str, None),
     HTML_PROXY_HOST=(str, ""),
     HTML_PROXY_PATH=(str, "/htmlproxy/"),
+    DJANGO_LOG_LEVEL=(str, "DEBUG"),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -290,3 +291,20 @@ CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS")
 
 HTML_PROXY_HOST = env("HTML_PROXY_HOST")
 HTML_PROXY_PATH = env("HTML_PROXY_PATH")
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": env("DJANGO_LOG_LEVEL"),
+            "propagate": False,
+        },
+    },
+}
