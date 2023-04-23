@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from asgiref.sync import sync_to_async
+from django.conf import settings
 from fastapi import WebSocket, WebSocketDisconnect
 
 from core.models import System
@@ -59,6 +60,7 @@ class TelnetContextManager:
     def __init__(self, system: System):
         self.system = system
         self.telnet = Telnet()
+        self.telnet.set_debuglevel(settings.TELNET_LOG_LEVEL)
 
     async def __aenter__(self):
         await start_vnc_server_using_telnet(self.telnet, self.system)

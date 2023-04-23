@@ -63,6 +63,7 @@ env = environ.Env(
     HTML_PROXY_HOST=(str, ""),
     HTML_PROXY_PATH=(str, "/htmlproxy/"),
     DJANGO_LOG_LEVEL=(str, "INFO"),
+    TELNET_LOG_LEVEL=(int, 0),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -309,3 +310,5 @@ LOGGING = {
         },
     },
 }
+
+TELNET_LOG_LEVEL = env("TELNET_LOG_LEVEL")
