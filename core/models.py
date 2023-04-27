@@ -509,7 +509,7 @@ class System(models.Model):
     is_online = models.BooleanField(default=False)
     last_successful_ping_at = models.DateTimeField(null=True, blank=True)
     service_page_url = models.CharField(max_length=2**9, null=True, blank=True)
-    ssh_user = models.CharField(max_length=25, default="root")
+    ssh_user = models.CharField(max_length=25, blank=True, null=True)
     ssh_password = models.CharField(max_length=30, null=True, blank=True)
     telnet_username = models.CharField(max_length=64, null=True, blank=True)
     telnet_password = models.CharField(max_length=64, null=True, blank=True)

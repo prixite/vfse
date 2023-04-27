@@ -3482,7 +3482,7 @@
                     "title": "Ssh user",
                     "type": "string",
                     "maxLength": 25,
-                    "minLength": 1
+                    "x-nullable": true
                 }
             }
         },
@@ -4099,7 +4099,7 @@
                     "title": "Ssh user",
                     "type": "string",
                     "maxLength": 25,
-                    "minLength": 1
+                    "x-nullable": true
                 }
             }
         },
