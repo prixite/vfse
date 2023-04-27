@@ -3477,6 +3477,12 @@
                     "type": "string",
                     "maxLength": 512,
                     "x-nullable": true
+                },
+                "ssh_user": {
+                    "title": "Ssh user",
+                    "type": "string",
+                    "maxLength": 25,
+                    "minLength": 1
                 }
             }
         },

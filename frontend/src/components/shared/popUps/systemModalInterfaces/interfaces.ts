@@ -25,6 +25,8 @@ export interface FormState {
     web: boolean;
     virtual: boolean;
   };
+  sshUser: string;
+  sshPassword: string;
   contactInfo: string;
   grafana: string;
   ris: {

@@ -72,6 +72,8 @@ const initialState: FormState = {
     web: false,
     virtual: false,
   },
+  sshUser: "",
+  sshPassword: "",
   contactInfo: "",
   grafana: "",
   ris: {
@@ -383,6 +385,8 @@ export default function SystemModal(props: SystemProps) {
           web: props.system.connection_options.service_web_browser,
           ssh: props.system.connection_options.ssh,
         },
+        sshUser: props.system.ssh_user,
+        sshPassword: "",
         contactInfo: props.system.system_contact_info,
         grafana: props.system.grafana_link,
         ris: {
@@ -738,7 +742,42 @@ export default function SystemModal(props: SystemProps) {
                 <span className="text">{virtualMediaControl}</span>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            {formik.values.connection.ssh && (
+              <Grid container spacing={2} style={{ marginTop: "5px" }}>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">SSH User</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="sdc"
+                      name="sshUser"
+                      value={formik.values.sshUser}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">SSH Password</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      type="password"
+                      size="small"
+                      placeholder="Password"
+                      name="sshPassword"
+                      value={formik.values.sshPassword}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            )}
+            <Grid container spacing={2} style={{ marginTop: "5px" }}>
               <Grid item xs={12}>
                 <div className="info-section">
                   <p className="info-label">{systemContactInfo}</p>

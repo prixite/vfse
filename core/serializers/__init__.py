@@ -608,6 +608,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "last_successful_ping_at",
             "vnc_port",
             "service_page_url",
+            "ssh_user",
         ]
         validators = [
             UniqueTogetherValidator(

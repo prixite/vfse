@@ -1462,6 +1462,7 @@ export type System = {
   last_successful_ping_at?: string | null;
   vnc_port?: string | null;
   service_page_url?: string | null;
+  ssh_user?: string;
 };
 export type SeatList = {
   system: System;
