@@ -131,6 +131,7 @@ const getPayload = (values: FormState): System => {
     ris,
     dicom,
     mri,
+    sshUser,
   } = values;
   return {
     image,
@@ -167,6 +168,7 @@ const getPayload = (values: FormState): System => {
       helium: mri.helium,
       magnet_pressure: mri.magnet,
     },
+    ssh_user: sshUser,
   };
 };
 
