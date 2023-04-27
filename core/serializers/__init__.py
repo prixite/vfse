@@ -609,6 +609,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "vnc_port",
             "service_page_url",
             "ssh_user",
+            "telnet_username",
         ]
         validators = [
             UniqueTogetherValidator(

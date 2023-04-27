@@ -3483,6 +3483,12 @@
                     "type": "string",
                     "maxLength": 25,
                     "x-nullable": true
+                },
+                "telnet_username": {
+                    "title": "Telnet username",
+                    "type": "string",
+                    "maxLength": 64,
+                    "x-nullable": true
                 }
             }
         },

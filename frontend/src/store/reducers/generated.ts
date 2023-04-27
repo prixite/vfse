@@ -1463,6 +1463,7 @@ export type System = {
   vnc_port?: string | null;
   service_page_url?: string | null;
   ssh_user?: string | null;
+  telnet_username?: string | null;
 };
 export type SeatList = {
   system: System;

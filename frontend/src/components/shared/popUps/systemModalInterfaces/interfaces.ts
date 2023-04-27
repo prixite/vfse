@@ -27,6 +27,8 @@ export interface FormState {
   };
   sshUser: string;
   sshPassword: string;
+  telnetUser: string;
+  telnetPassword: string;
   contactInfo: string;
   grafana: string;
   ris: {

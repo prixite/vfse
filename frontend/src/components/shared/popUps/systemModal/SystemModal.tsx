@@ -74,6 +74,8 @@ const initialState: FormState = {
   },
   sshUser: "",
   sshPassword: "",
+  telnetUser: "",
+  telnetPassword: "",
   contactInfo: "",
   grafana: "",
   ris: {
@@ -132,6 +134,7 @@ const getPayload = (values: FormState): System => {
     dicom,
     mri,
     sshUser,
+    telnetUser,
   } = values;
   return {
     image,
@@ -169,6 +172,7 @@ const getPayload = (values: FormState): System => {
       magnet_pressure: mri.magnet,
     },
     ssh_user: sshUser,
+    telnet_username: telnetUser,
   };
 };
 
@@ -389,6 +393,8 @@ export default function SystemModal(props: SystemProps) {
         },
         sshUser: props.system.ssh_user,
         sshPassword: "",
+        telnetUser: props.system.telnet_username,
+        telnetPassword: "",
         contactInfo: props.system.system_contact_info,
         grafana: props.system.grafana_link,
         ris: {
@@ -773,6 +779,41 @@ export default function SystemModal(props: SystemProps) {
                       placeholder="Password"
                       name="sshPassword"
                       value={formik.values.sshPassword}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            )}
+            {formik.values.connection.vfse && (
+              <Grid container spacing={2} style={{ marginTop: "5px" }}>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">Telnet User</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="sdc"
+                      name="telnetUser"
+                      value={formik.values.telnetUser}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">Telnet Password</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      type="password"
+                      size="small"
+                      placeholder="Password"
+                      name="telnetPassword"
+                      value={formik.values.telnetPassword}
                       onChange={formik.handleChange}
                     />
                   </div>
