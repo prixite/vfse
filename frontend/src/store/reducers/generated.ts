@@ -1466,6 +1466,7 @@ export type System = {
   ssh_password?: string | null;
   telnet_username?: string | null;
   telnet_password?: string | null;
+  vnc_server_path?: string | null;
 };
 export type SeatList = {
   system: System;

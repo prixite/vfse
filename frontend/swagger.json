@@ -3499,6 +3499,12 @@
                     "title": "Telnet password",
                     "type": "string",
                     "x-nullable": true
+                },
+                "vnc_server_path": {
+                    "title": "Vnc server path",
+                    "type": "string",
+                    "maxLength": 512,
+                    "x-nullable": true
                 }
             }
         },

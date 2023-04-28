@@ -29,6 +29,7 @@ export interface FormState {
   sshPassword: string;
   telnetUser: string;
   telnetPassword: string;
+  vncServerPath: string;
   contactInfo: string;
   grafana: string;
   ris: {

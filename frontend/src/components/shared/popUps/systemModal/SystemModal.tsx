@@ -78,6 +78,7 @@ const initialState: FormState = {
   sshPassword: "",
   telnetUser: "",
   telnetPassword: "",
+  vncServerPath: "",
   contactInfo: "",
   grafana: "",
   ris: {
@@ -139,6 +140,7 @@ const getPayload = (values: FormState): System => {
     sshPassword,
     telnetUser,
     telnetPassword,
+    vncServerPath,
   } = values;
   return {
     image,
@@ -178,7 +180,9 @@ const getPayload = (values: FormState): System => {
     ssh_user: sshUser,
     ssh_password: sshPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : sshPassword,
     telnet_username: telnetUser,
-    telnet_password: telnetPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : telnetPassword,
+    telnet_password:
+      telnetPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : telnetPassword,
+    vnc_server_path: vncServerPath,
   };
 };
 
@@ -401,6 +405,7 @@ export default function SystemModal(props: SystemProps) {
         sshPassword: FAKE_PASSWORD_PLACEHOLDER,
         telnetUser: props.system.telnet_username,
         telnetPassword: FAKE_PASSWORD_PLACEHOLDER,
+        vncServerPath: props.system.vnc_server_path,
         contactInfo: props.system.system_contact_info,
         grafana: props.system.grafana_link,
         ris: {
@@ -820,6 +825,25 @@ export default function SystemModal(props: SystemProps) {
                       placeholder="Password"
                       name="telnetPassword"
                       value={formik.values.telnetPassword}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            )}
+            {formik.values.connection.vfse && (
+              <Grid container spacing={2} style={{ marginTop: "5px" }}>
+                <Grid item xs={12}>
+                  <div className="info-section">
+                    <p className="info-label">VNC Server Directory</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="Path"
+                      name="vncServerPath"
+                      value={formik.values.vncServerPath}
                       onChange={formik.handleChange}
                     />
                   </div>
