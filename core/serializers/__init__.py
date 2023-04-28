@@ -583,6 +583,9 @@ class SystemSerializer(serializers.ModelSerializer):
     ssh_password = serializers.CharField(
         write_only=True, allow_blank=True, allow_null=True, required=False
     )
+    telnet_password = serializers.CharField(
+        write_only=True, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = models.System
@@ -614,6 +617,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "ssh_user",
             "ssh_password",
             "telnet_username",
+            "telnet_password",
         ]
         validators = [
             UniqueTogetherValidator(
@@ -653,6 +657,9 @@ class SystemSerializer(serializers.ModelSerializer):
 
         if not validated_data.get("ssh_password"):
             validated_data["ssh_password"] = instance.ssh_password
+
+        if not validated_data.get("telnet_password"):
+            validated_data["telnet_password"] = instance.telnet_password
 
         return super().update(instance, validated_data)
 

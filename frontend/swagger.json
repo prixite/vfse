@@ -3494,6 +3494,11 @@
                     "type": "string",
                     "maxLength": 64,
                     "x-nullable": true
+                },
+                "telnet_password": {
+                    "title": "Telnet password",
+                    "type": "string",
+                    "x-nullable": true
                 }
             }
         },

@@ -138,6 +138,7 @@ const getPayload = (values: FormState): System => {
     sshUser,
     sshPassword,
     telnetUser,
+    telnetPassword,
   } = values;
   return {
     image,
@@ -177,6 +178,7 @@ const getPayload = (values: FormState): System => {
     ssh_user: sshUser,
     ssh_password: sshPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : sshPassword,
     telnet_username: telnetUser,
+    telnet_password: telnetPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : telnetPassword,
   };
 };
 
@@ -398,7 +400,7 @@ export default function SystemModal(props: SystemProps) {
         sshUser: props.system.ssh_user,
         sshPassword: FAKE_PASSWORD_PLACEHOLDER,
         telnetUser: props.system.telnet_username,
-        telnetPassword: "",
+        telnetPassword: FAKE_PASSWORD_PLACEHOLDER,
         contactInfo: props.system.system_contact_info,
         grafana: props.system.grafana_link,
         ris: {
