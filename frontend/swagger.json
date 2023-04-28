@@ -3484,6 +3484,11 @@
                     "maxLength": 25,
                     "x-nullable": true
                 },
+                "ssh_password": {
+                    "title": "Ssh password",
+                    "type": "string",
+                    "x-nullable": true
+                },
                 "telnet_username": {
                     "title": "Telnet username",
                     "type": "string",

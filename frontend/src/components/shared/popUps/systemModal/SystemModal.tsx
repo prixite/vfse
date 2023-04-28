@@ -45,6 +45,8 @@ import {
 
 import "@src/components/shared/popUps/systemModal/systemModal.scss";
 
+const FAKE_PASSWORD_PLACEHOLDER = "fake";
+
 interface SystemProps {
   open: boolean;
   handleClose: () => void;
@@ -134,6 +136,7 @@ const getPayload = (values: FormState): System => {
     dicom,
     mri,
     sshUser,
+    sshPassword,
     telnetUser,
   } = values;
   return {
@@ -172,6 +175,7 @@ const getPayload = (values: FormState): System => {
       magnet_pressure: mri.magnet,
     },
     ssh_user: sshUser,
+    ssh_password: sshPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : sshPassword,
     telnet_username: telnetUser,
   };
 };
@@ -392,7 +396,7 @@ export default function SystemModal(props: SystemProps) {
           ssh: props.system.connection_options.ssh,
         },
         sshUser: props.system.ssh_user,
-        sshPassword: "",
+        sshPassword: FAKE_PASSWORD_PLACEHOLDER,
         telnetUser: props.system.telnet_username,
         telnetPassword: "",
         contactInfo: props.system.system_contact_info,
