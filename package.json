@@ -83,6 +83,9 @@
     "webpack-dev-server": "^4.13.2",
     "workbox-webpack-plugin": "^6.5.4"
   },
+  "overrides": {
+    "typescript": "^5.0.4"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
