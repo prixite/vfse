@@ -45,6 +45,8 @@ import {
 
 import "@src/components/shared/popUps/systemModal/systemModal.scss";
 
+const FAKE_PASSWORD_PLACEHOLDER = "fake";
+
 interface SystemProps {
   open: boolean;
   handleClose: () => void;
@@ -72,6 +74,11 @@ const initialState: FormState = {
     web: false,
     virtual: false,
   },
+  sshUser: "",
+  sshPassword: "",
+  telnetUser: "",
+  telnetPassword: "",
+  vncServerPath: "",
   contactInfo: "",
   grafana: "",
   ris: {
@@ -129,6 +136,11 @@ const getPayload = (values: FormState): System => {
     ris,
     dicom,
     mri,
+    sshUser,
+    sshPassword,
+    telnetUser,
+    telnetPassword,
+    vncServerPath,
   } = values;
   return {
     image,
@@ -165,6 +177,12 @@ const getPayload = (values: FormState): System => {
       helium: mri.helium,
       magnet_pressure: mri.magnet,
     },
+    ssh_user: sshUser,
+    ssh_password: sshPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : sshPassword,
+    telnet_username: telnetUser,
+    telnet_password:
+      telnetPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : telnetPassword,
+    vnc_server_path: vncServerPath,
   };
 };
 
@@ -383,6 +401,11 @@ export default function SystemModal(props: SystemProps) {
           web: props.system.connection_options.service_web_browser,
           ssh: props.system.connection_options.ssh,
         },
+        sshUser: props.system.ssh_user,
+        sshPassword: FAKE_PASSWORD_PLACEHOLDER,
+        telnetUser: props.system.telnet_username,
+        telnetPassword: FAKE_PASSWORD_PLACEHOLDER,
+        vncServerPath: props.system.vnc_server_path,
         contactInfo: props.system.system_contact_info,
         grafana: props.system.grafana_link,
         ris: {
@@ -738,7 +761,96 @@ export default function SystemModal(props: SystemProps) {
                 <span className="text">{virtualMediaControl}</span>
               </Grid>
             </Grid>
-            <Grid container spacing={2}>
+            {formik.values.connection.ssh && (
+              <Grid container spacing={2} style={{ marginTop: "5px" }}>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">SSH User</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="sdc"
+                      name="sshUser"
+                      value={formik.values.sshUser}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">SSH Password</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      type="password"
+                      size="small"
+                      placeholder="Password"
+                      name="sshPassword"
+                      value={formik.values.sshPassword}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            )}
+            {formik.values.connection.vfse && (
+              <Grid container spacing={2} style={{ marginTop: "5px" }}>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">Telnet User</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="sdc"
+                      name="telnetUser"
+                      value={formik.values.telnetUser}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <div className="info-section">
+                    <p className="info-label">Telnet Password</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      type="password"
+                      size="small"
+                      placeholder="Password"
+                      name="telnetPassword"
+                      value={formik.values.telnetPassword}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            )}
+            {formik.values.connection.vfse && (
+              <Grid container spacing={2} style={{ marginTop: "5px" }}>
+                <Grid item xs={12}>
+                  <div className="info-section">
+                    <p className="info-label">VNC Server Directory</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="Path"
+                      name="vncServerPath"
+                      value={formik.values.vncServerPath}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+              </Grid>
+            )}
+            <Grid container spacing={2} style={{ marginTop: "5px" }}>
               <Grid item xs={12}>
                 <div className="info-section">
                   <p className="info-label">{systemContactInfo}</p>

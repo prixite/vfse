@@ -1462,6 +1462,11 @@ export type System = {
   last_successful_ping_at?: string | null;
   vnc_port?: string | null;
   service_page_url?: string | null;
+  ssh_user?: string | null;
+  ssh_password?: string | null;
+  telnet_username?: string | null;
+  telnet_password?: string | null;
+  vnc_server_path?: string | null;
 };
 export type SeatList = {
   system: System;
@@ -1586,7 +1591,7 @@ export type SystemAccess = {
   name: string;
   ip_address?: string | null;
   ssh_password?: string | null;
-  ssh_user?: string;
+  ssh_user?: string | null;
 };
 export type UserEnableDisable = {
   users: number[];

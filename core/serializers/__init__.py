@@ -580,6 +580,12 @@ class SystemSerializer(serializers.ModelSerializer):
     ip_address = serializers.IPAddressField(
         allow_blank=True, allow_null=True, required=False
     )
+    ssh_password = serializers.CharField(
+        write_only=True, allow_blank=True, allow_null=True, required=False
+    )
+    telnet_password = serializers.CharField(
+        write_only=True, allow_blank=True, allow_null=True, required=False
+    )
 
     class Meta:
         model = models.System
@@ -608,6 +614,11 @@ class SystemSerializer(serializers.ModelSerializer):
             "last_successful_ping_at",
             "vnc_port",
             "service_page_url",
+            "ssh_user",
+            "ssh_password",
+            "telnet_username",
+            "telnet_password",
+            "vnc_server_path",
         ]
         validators = [
             UniqueTogetherValidator(
@@ -644,6 +655,13 @@ class SystemSerializer(serializers.ModelSerializer):
                 models.Seat.objects.create(
                     system=instance, organization=instance.site.organization
                 )
+
+        if not validated_data.get("ssh_password"):
+            validated_data["ssh_password"] = instance.ssh_password
+
+        if not validated_data.get("telnet_password"):
+            validated_data["telnet_password"] = instance.telnet_password
+
         return super().update(instance, validated_data)
 
 

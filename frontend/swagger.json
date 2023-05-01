@@ -3477,6 +3477,34 @@
                     "type": "string",
                     "maxLength": 512,
                     "x-nullable": true
+                },
+                "ssh_user": {
+                    "title": "Ssh user",
+                    "type": "string",
+                    "maxLength": 25,
+                    "x-nullable": true
+                },
+                "ssh_password": {
+                    "title": "Ssh password",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "telnet_username": {
+                    "title": "Telnet username",
+                    "type": "string",
+                    "maxLength": 64,
+                    "x-nullable": true
+                },
+                "telnet_password": {
+                    "title": "Telnet password",
+                    "type": "string",
+                    "x-nullable": true
+                },
+                "vnc_server_path": {
+                    "title": "Vnc server path",
+                    "type": "string",
+                    "maxLength": 512,
+                    "x-nullable": true
                 }
             }
         },
@@ -4093,7 +4121,7 @@
                     "title": "Ssh user",
                     "type": "string",
                     "maxLength": 25,
-                    "minLength": 1
+                    "x-nullable": true
                 }
             }
         },
