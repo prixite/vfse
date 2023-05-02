@@ -36,4 +36,4 @@ class Command(BaseCommand):
                 self.stdout.write(
                     self.style.SUCCESS(f"Ping Successfull @ {system.ip_address}")
                 )
-            system.save()
+            system.save(update_fields=["is_online", "last_successful_ping_at"])

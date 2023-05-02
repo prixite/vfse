@@ -23,6 +23,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: ping
+    restart: always
     depends_on:
       - app
 
