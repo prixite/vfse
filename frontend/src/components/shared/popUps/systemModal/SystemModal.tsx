@@ -142,6 +142,7 @@ const getPayload = (values: FormState): System => {
     telnetUser,
     telnetPassword,
     vncServerPath,
+    vncPort,
     connectionMonitoring,
   } = values;
   return {
@@ -185,6 +186,7 @@ const getPayload = (values: FormState): System => {
     telnet_password:
       telnetPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : telnetPassword,
     vnc_server_path: vncServerPath,
+    vnc_port: vncPort,
     connection_monitoring: connectionMonitoring,
   };
 };
@@ -409,6 +411,7 @@ export default function SystemModal(props: SystemProps) {
         telnetUser: props.system.telnet_username,
         telnetPassword: FAKE_PASSWORD_PLACEHOLDER,
         vncServerPath: props.system.vnc_server_path,
+        vncPort: props.system.vnc_port,
         contactInfo: props.system.system_contact_info,
         grafana: props.system.grafana_link,
         ris: {
@@ -850,7 +853,7 @@ export default function SystemModal(props: SystemProps) {
             )}
             {formik.values.connection.vfse && (
               <Grid container spacing={2} style={{ marginTop: "5px" }}>
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={8} lg={8}>
                   <div className="info-section">
                     <p className="info-label">VNC Server Directory</p>
                     <TextField
@@ -861,6 +864,21 @@ export default function SystemModal(props: SystemProps) {
                       placeholder="Path"
                       name="vncServerPath"
                       value={formik.values.vncServerPath}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={4} lg={4}>
+                  <div className="info-section">
+                    <p className="info-label">VNC Port</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      variant="outlined"
+                      size="small"
+                      placeholder="Path"
+                      name="vncPort"
+                      value={formik.values.vncPort}
                       onChange={formik.handleChange}
                     />
                   </div>

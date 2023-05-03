@@ -30,6 +30,7 @@ export interface FormState {
   telnetUser: string;
   telnetPassword: string;
   vncServerPath: string;
+  vncPort: number;
   contactInfo: string;
   grafana: string;
   ris: {
