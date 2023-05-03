@@ -11,6 +11,7 @@ import {
   Button,
   Menu,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -384,6 +385,23 @@ const SystemCard = ({
       toastAPIError(toastData.systemCardConnectionError, err.status, err.data);
     }
   };
+
+  const getTooltip = () => {
+    if (!system?.is_online) {
+      return "System is offline";
+    }
+    if (
+      !(
+        system?.connection_options?.service_web_browser ||
+        system?.connection_options?.ssh ||
+        system?.connection_options?.vfse ||
+        system?.connection_options?.virtual_media_control
+      )
+    ) {
+      return "Connection method not selected";
+    }
+  };
+
   return (
     <div className={classes.systemCard}>
       <div>
@@ -420,97 +438,101 @@ const SystemCard = ({
             src={system.image_url == "" ? Machine : system.image_url}
           />
           <div className={classes.btnSection}>
-            <Button
-              style={{
-                backgroundColor: buttonBackground,
-                color: buttonTextColor,
-                position: "relative",
-              }}
-              className={classes.connectBtn}
-              onClick={(e) => handleConnectClick(e)}
-              disabled={
-                !(
-                  system?.connection_options?.service_web_browser ||
-                  system?.connection_options?.ssh ||
-                  system?.connection_options?.vfse ||
-                  system?.connection_options?.virtual_media_control
-                ) || !system?.is_online
-              }
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              {loginProgress ? (
-                <CircularProgress
-                  color="inherit"
-                  className={classes.submitProgress}
-                  size={22}
-                />
-              ) : (
-                <>
-                  {connect}
-                  <MoreVertIcon
-                    sx={{
-                      marginBottom: "2px",
-                      position: "absolute",
-                      width: "25px",
-                      height: "22px",
-                      right: "0px",
+            <Tooltip title={getTooltip()}>
+              <span>
+                <Button
+                  style={{
+                    backgroundColor: buttonBackground,
+                    color: buttonTextColor,
+                    position: "relative",
+                  }}
+                  className={classes.connectBtn}
+                  onClick={(e) => handleConnectClick(e)}
+                  disabled={
+                    !(
+                      system?.connection_options?.service_web_browser ||
+                      system?.connection_options?.ssh ||
+                      system?.connection_options?.vfse ||
+                      system?.connection_options?.virtual_media_control
+                    ) || !system?.is_online
+                  }
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  {loginProgress ? (
+                    <CircularProgress
+                      color="inherit"
+                      className={classes.submitProgress}
+                      size={22}
+                    />
+                  ) : (
+                    <>
+                      {connect}
+                      <MoreVertIcon
+                        sx={{
+                          marginBottom: "2px",
+                          position: "absolute",
+                          width: "25px",
+                          height: "22px",
+                          right: "0px",
+                        }}
+                      />
+                    </>
+                  )}
+                  <Menu
+                    id="demo-positioned-menu"
+                    aria-labelledby="client-options-button"
+                    anchorEl={anchorConnect}
+                    open={openConnect}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "center",
                     }}
-                  />
-                </>
-              )}
-              <Menu
-                id="demo-positioned-menu"
-                aria-labelledby="client-options-button"
-                anchorEl={anchorConnect}
-                open={openConnect}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                onClose={handleClose}
-                sx={{
-                  "& ul": {
-                    minWidth: "195px",
-                  },
-                }}
-              >
-                {system.connection_options.ssh && (
-                  <MenuItem onClick={(e) => handleConnect(e, system.id)}>
-                    <span style={{ marginLeft: "12px" }}>SSH</span>
-                  </MenuItem>
-                )}
-                {system.connection_options.vfse && (
-                  <MenuItem onClick={() => setOpenVnc(true)}>
-                    <span style={{ marginLeft: "12px" }}>Control</span>
-                  </MenuItem>
-                )}
-                {system.connection_options.virtual_media_control && (
-                  <MenuItem>
-                    <span style={{ marginLeft: "12px" }}>
-                      Virtual Media Control
-                    </span>
-                  </MenuItem>
-                )}
-                {system.connection_options.service_web_browser && (
-                  <MenuItem
-                    onClick={() =>
-                      window.open(
-                        `${process.env.HTML_PROXY_HOST}${process.env.HTML_PROXY_PATH}${selectedOrganization.id}/${system.id}/service/`,
-                        "_blank"
-                      )
-                    }
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "center",
+                    }}
+                    onClose={handleClose}
+                    sx={{
+                      "& ul": {
+                        minWidth: "195px",
+                      },
+                    }}
                   >
-                    <span style={{ marginLeft: "12px" }}>
-                      Service Web Browser
-                    </span>
-                  </MenuItem>
-                )}
-              </Menu>
-            </Button>
+                    {system.connection_options.ssh && (
+                      <MenuItem onClick={(e) => handleConnect(e, system.id)}>
+                        <span style={{ marginLeft: "12px" }}>SSH</span>
+                      </MenuItem>
+                    )}
+                    {system.connection_options.vfse && (
+                      <MenuItem onClick={() => setOpenVnc(true)}>
+                        <span style={{ marginLeft: "12px" }}>Control</span>
+                      </MenuItem>
+                    )}
+                    {system.connection_options.virtual_media_control && (
+                      <MenuItem>
+                        <span style={{ marginLeft: "12px" }}>
+                          Virtual Media Control
+                        </span>
+                      </MenuItem>
+                    )}
+                    {system.connection_options.service_web_browser && (
+                      <MenuItem
+                        onClick={() =>
+                          window.open(
+                            `${process.env.HTML_PROXY_HOST}${process.env.HTML_PROXY_PATH}${selectedOrganization.id}/${system.id}/service/`,
+                            "_blank"
+                          )
+                        }
+                      >
+                        <span style={{ marginLeft: "12px" }}>
+                          Service Web Browser
+                        </span>
+                      </MenuItem>
+                    )}
+                  </Menu>
+                </Button>
+              </span>
+            </Tooltip>
             {system?.grafana_link ? (
               <Button
                 variant="contained"
