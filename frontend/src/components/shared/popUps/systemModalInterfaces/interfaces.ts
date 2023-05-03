@@ -48,6 +48,7 @@ export interface FormState {
     helium: string;
     magnet: string;
   };
+  connectionMonitoring: boolean;
 }
 
 export interface SiteModalFormState {

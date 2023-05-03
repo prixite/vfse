@@ -619,6 +619,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "telnet_username",
             "telnet_password",
             "vnc_server_path",
+            "connection_monitoring",
         ]
         validators = [
             UniqueTogetherValidator(

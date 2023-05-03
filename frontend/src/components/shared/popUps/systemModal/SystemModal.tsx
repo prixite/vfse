@@ -97,6 +97,7 @@ const initialState: FormState = {
     helium: "",
     magnet: "",
   },
+  connectionMonitoring: false,
 };
 
 const validationSchema = yup.object({
@@ -141,6 +142,7 @@ const getPayload = (values: FormState): System => {
     telnetUser,
     telnetPassword,
     vncServerPath,
+    connectionMonitoring,
   } = values;
   return {
     image,
@@ -183,6 +185,7 @@ const getPayload = (values: FormState): System => {
     telnet_password:
       telnetPassword === FAKE_PASSWORD_PLACEHOLDER ? "" : telnetPassword,
     vnc_server_path: vncServerPath,
+    connection_monitoring: connectionMonitoring,
   };
 };
 
@@ -424,6 +427,7 @@ export default function SystemModal(props: SystemProps) {
           helium: props.system.mri_embedded_parameters.helium,
           magnet: props.system.mri_embedded_parameters.magnet_pressure,
         },
+        connectionMonitoring: props.system.connection_monitoring,
       });
     }
   }, [props.system]);
@@ -759,6 +763,19 @@ export default function SystemModal(props: SystemProps) {
                   checked={formik.values.connection.virtual}
                 />
                 <span className="text">{virtualMediaControl}</span>
+              </Grid>
+              <Grid item xs={12} md={4} lg={4} className="checkBox">
+                <Checkbox
+                  name="connectionMonitoring"
+                  onClick={formik.handleChange}
+                  style={{
+                    color: formik.values.connectionMonitoring
+                      ? buttonBackground
+                      : "",
+                  }}
+                  checked={formik.values.connectionMonitoring}
+                />
+                <span className="text">Connection Monitoring</span>
               </Grid>
             </Grid>
             {formik.values.connection.ssh && (

@@ -1467,6 +1467,7 @@ export type System = {
   telnet_username?: string | null;
   telnet_password?: string | null;
   vnc_server_path?: string | null;
+  connection_monitoring: boolean;
 };
 export type SeatList = {
   system: System;

@@ -3505,6 +3505,10 @@
                     "type": "string",
                     "maxLength": 512,
                     "x-nullable": true
+                },
+                "connection_monitoring": {
+                    "title": "Connection monitoring",
+                    "type": "boolean"
                 }
             }
         },
