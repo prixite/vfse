@@ -2,6 +2,7 @@ import openai
 import openai.error
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.template.loader import render_to_string
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
@@ -138,3 +139,13 @@ def get_data_from_influxdb(system_ip_address):
             client.close()
 
         return data
+
+
+def get_system(user, organization_id, system_id):
+    queryset = user.get_organization_systems(organization_id)
+    try:
+        system = queryset.filter(id=system_id).get()
+    except models.System.DoesNotExist:
+        raise HttpResponse("Not found")
+
+    return system

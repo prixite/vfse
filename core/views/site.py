@@ -1,13 +1,17 @@
+import re
+
 import duo_universal
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import views as auth_views
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
+from revproxy.views import ProxyView
 
 from core import forms, models
+from core.utils import get_system
 
 
 class HomeView(TemplateView):
@@ -112,3 +116,32 @@ class WelcomeView(TemplateView):
 
 class RequestView(TemplateView):
     template_name = "request.html"
+
+
+class TestProxyView(ProxyView):
+    def dispatch(self, request, *args, **kwargs):
+        # Get the upstream URL from the query parameters
+        if not request.user.is_authenticated:
+            return HttpResponse("User is not authenticated")
+
+        upstream_url = ""
+        organization_id = request.GET.get("organization_id", None)
+        system_id = request.GET.get("system_id", None)
+
+        system = get_system(request.user, organization_id, system_id)
+
+        if not system.connection_options.get("service_web_browser"):
+            return HttpResponse("No service browser access for system")
+
+        url_pattern = re.compile(r"^https?://\S+$")
+        if url_pattern.match(system.service_page_url):
+            upstream_url = system.service_page_url
+
+        if system.service_page_url.startswith("/"):
+            upstream_url = f"http://{system.ip_address}/service/{kwargs.get('path')}"
+
+        if not upstream_url:
+            return HttpResponse("upstream url not found.")
+
+        self.upstream = upstream_url
+        return super().dispatch(request, *args, **kwargs)

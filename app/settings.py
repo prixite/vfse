@@ -98,6 +98,7 @@ INSTALLED_APPS = [
     "django_filters",
     "webpack_loader",
     "corsheaders",
+    "revproxy",
     # apps
     "core",
     "emailbackend",

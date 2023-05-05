@@ -6,6 +6,7 @@ django-cors-headers==3.14.0
 django-environ==0.10.0
 django-extensions==3.2.1
 django-filter==23.2
+-e git+https://github.com/jazzband/django-revproxy.git@592dc02#egg=django-revproxy==0.11.0
 django-webpack-loader==1.8.1
 djangorestframework==3.14.0
 djangorestframework-link-header-pagination==0.1.1
