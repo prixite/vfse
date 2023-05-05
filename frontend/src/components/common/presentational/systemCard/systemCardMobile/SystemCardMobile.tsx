@@ -103,7 +103,6 @@ const SystemCardMobile = ({
     setIsOpen(true);
     setSystem(system);
   };
-
   return (
     <>
       <Accordion className="SystemCardMobile">
