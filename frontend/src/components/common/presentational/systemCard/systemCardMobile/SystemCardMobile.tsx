@@ -35,8 +35,11 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 const SystemCardMobile = ({
   system,
   handleEdit,
+  setSystem,
+  setIsOpen,
   canLeaveNotes,
   currentUser,
+  viewSystemLocation,
 }: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
@@ -65,7 +68,7 @@ const SystemCardMobile = ({
     grafana_link_txt,
   } = localizedData().systems_card;
   const { toastData } = constantsData;
-  const { yes, no, format_LT, format_l, blank, edit, comments, deleteText } =
+  const { yes, no, format_LT, format_l, blank, edit, support, comments, deleteText } =
     constantsData.systemCard;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -73,6 +76,10 @@ const SystemCardMobile = ({
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const onSupport = () => {
+    handleSupportChatBox();
+    handleClose();
   };
 
   const onEdit = () => {
@@ -92,6 +99,11 @@ const SystemCardMobile = ({
     dispatch(openSystemDrawer(system?.id));
     handleClose();
   };
+  const handleSupportChatBox = () => {
+    setIsOpen(true);
+    setSystem(system);
+  };
+
   return (
     <>
       <Accordion className="SystemCardMobile">
@@ -258,6 +270,12 @@ const SystemCardMobile = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
+          <MenuItem onClick={() => viewSystemLocation(system)}>
+              <span style={{ marginLeft: "12px" }}>View Location</span>
+            </MenuItem>
+            <MenuItem onClick={() => onSupport()}>
+              <span style={{ marginLeft: "12px" }}>{support}</span>
+            </MenuItem>
           {currentUser?.role !== "end-user" && (
             <MenuItem onClick={onEdit}>
               <span style={{ marginLeft: "12px" }}>{edit}</span>

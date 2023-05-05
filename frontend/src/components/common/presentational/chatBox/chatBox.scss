@@ -59,3 +59,23 @@
   padding: 10px;
   cursor: pointer;
 }
+
+@media(max-width: 390px) {
+  .chatBox {
+    width: 250px;
+    height: 355px;
+    position: relative;
+    margin-top: 94px;
+    right: 5px;
+    left: 114px;
+
+    .chatHeader {
+      height: 12%;
+      width: 100%;
+    }
+
+    .InputSection {
+      height: 19%;
+    }
+  }
+}
