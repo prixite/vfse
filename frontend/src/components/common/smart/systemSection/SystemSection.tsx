@@ -569,34 +569,31 @@ const SystemSection = () => {
           points={systemLocationList}
         />
       </Box>
-      {
-        chatModal && browserWidth > mobileWidth  ? 
+      {chatModal && browserWidth > mobileWidth ? ( 
         <ChatBox
           // IsOpen={chatModal}
           setIsOpen={setChatModal}
           system={chatBoxSystem}
         />
-        :
-        <></>
-      }
-        {
-         chatModal && browserWidth < mobileWidth  ? 
-         <ChatBox
-          // IsOpen={chatModal}
-          setIsOpen={setChatModal}
-          system={chatBoxSystem}
-        />
-        :
-        <></>
-      }
-   {/*      
-      {chatModal && browserWidth > mobileWidth && (
+      ) : (
+        <></> 
+      )}
+      {chatModal && browserWidth < mobileWidth ? ( 
         <ChatBox
           // IsOpen={chatModal}
           setIsOpen={setChatModal}
           system={chatBoxSystem}
         />
-      )} */}
+      ) : (
+        <></>
+      )}
+    {/*  {chatModal && browserWidth > mobileWidth && (
+        <ChatBox
+          // IsOpen={chatModal}
+          setIsOpen={setChatModal}
+          system={chatBoxSystem}
+         />
+       )} */}
     </>
   );
 };
