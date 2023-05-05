@@ -269,12 +269,12 @@ const SystemCardMobile = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
-            <MenuItem onClick={() => viewSystemLocation(system)}>
-              <span style={{ marginLeft: "12px" }}>View Location</span>
-            </MenuItem>
-            <MenuItem onClick={() => onSupport()}>
-              <span style={{ marginLeft: "12px" }}>{support}</span>
-            </MenuItem>
+          <MenuItem onClick={() => viewSystemLocation(system)}>
+            <span style={{ marginLeft: "12px" }}>View Location</span>
+          </MenuItem>
+          <MenuItem onClick={() => onSupport()}>
+            <span style={{ marginLeft: "12px" }}>{support}</span>
+          </MenuItem>
           {currentUser?.role !== "end-user" && (
             <MenuItem onClick={onEdit}>
               <span style={{ marginLeft: "12px" }}>{edit}</span>
