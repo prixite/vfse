@@ -68,8 +68,7 @@ const SystemCardMobile = ({
     grafana_link_txt,
   } = localizedData().systems_card;
   const { toastData } = constantsData;
-  const { yes, no, format_LT, format_l, blank, edit, support, comments, deleteText } =
-    constantsData.systemCard;
+  const { yes, no, format_LT, format_l, blank, edit, support, comments, deleteText } = constantsData.systemCard;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
