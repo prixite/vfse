@@ -375,7 +375,7 @@ urlpatterns = (
         path("accounts/", include("django.contrib.auth.urls")),
         path("accounts/duo/login/", site.duo_login, name="duo_login"),
         path("request/", site.RequestView.as_view(), name="request"),
-        path("proxy/<path:path>/", site.TestProxyView.as_view(), name="proxy"),
+        path("proxy/<path:path>/", site.HttpProxyView.as_view(), name="proxy"),
         # Home should be the last mapping. We want everything else to pass to React.
         re_path(r"^$|^.+/$", login_required(site.HomeView.as_view()), name="home"),
     ]

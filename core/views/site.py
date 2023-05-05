@@ -4,14 +4,13 @@ import duo_universal
 from django.conf import settings
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import views as auth_views
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, resolve_url
 from django.views.generic.base import TemplateView
 from duo_universal.client import DuoException
 from revproxy.views import ProxyView
 
 from core import forms, models
-from core.utils import get_system
 
 
 class HomeView(TemplateView):
@@ -118,9 +117,8 @@ class RequestView(TemplateView):
     template_name = "request.html"
 
 
-class TestProxyView(ProxyView):
+class HttpProxyView(ProxyView):
     def dispatch(self, request, *args, **kwargs):
-        # Get the upstream URL from the query parameters
         if not request.user.is_authenticated:
             return HttpResponse("User is not authenticated")
 
@@ -128,7 +126,14 @@ class TestProxyView(ProxyView):
         organization_id = request.GET.get("organization_id", None)
         system_id = request.GET.get("system_id", None)
 
-        system = get_system(request.user, organization_id, system_id)
+        try:
+            system = (
+                request.user.get_organization_systems(organization_id)
+                .filter(id=system_id)
+                .get()
+            )
+        except models.System.DoesNotExist:
+            raise Http404("System not found")
 
         if not system.connection_options.get("service_web_browser"):
             return HttpResponse("No service browser access for system")
@@ -138,7 +143,7 @@ class TestProxyView(ProxyView):
             upstream_url = system.service_page_url
 
         if system.service_page_url.startswith("/"):
-            upstream_url = f"http://{system.ip_address}/service/{kwargs.get('path')}"
+            upstream_url = f"http://{system.ip_address}{system.service_page_url}"
 
         if not upstream_url:
             return HttpResponse("upstream url not found.")
