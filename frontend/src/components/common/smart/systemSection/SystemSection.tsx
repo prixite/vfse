@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
 import ChatBox from "@src/components/common/presentational/chatBox/ChatBox";
 import SystemCard from "@src/components/common/presentational/systemCard/SystemCard";
@@ -36,6 +38,7 @@ import {
   System,
   useOrganizationsMeReadQuery,
 } from "@src/store/reducers/generated";
+
 import "@src/components/common/smart/systemSection/systemSection.scss";
 
 const SystemSection = () => {
@@ -51,7 +54,9 @@ const SystemSection = () => {
     health_network,
   } = constantsData.systemSection;
   const { loading } = constantsData.common;
+  
   const dispatch = useAppDispatch();
+  
   const queryParams = new URLSearchParams(location?.search);
   const paramModality = queryParams?.get(modalityText);
   const [sites, setSites] = useState([]);
@@ -73,6 +78,7 @@ const SystemSection = () => {
   const [callSystemsApi, setCallSystemsApi] = useState(false);
   const [chatModal, setChatModal] = useState(false);
   const [chatBoxSystem, setChatBoxSystem] = useState<System>();
+  
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
   const { siteId, networkId, id } = useParams<{
@@ -83,10 +89,12 @@ const SystemSection = () => {
   const { noDataTitle, noDataDescription } = localizedData().systems;
   const { searching } = localizedData().common;
   const selectedID = networkId || id;
+  
   const { data: systemLocationList = [] } = api.useGetSystemLocationsQuery(
     { organizationId: selectedID, systemId: system?.id },
     { skip: !system?.id || !selectedID }
   );
+  
   const { data: organization, isFetching: fetching } =
     useOrganizationsReadQuery(
       {
@@ -96,11 +104,13 @@ const SystemSection = () => {
         skip: !selectedID,
       }
     );
+  
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
   const { data: me } = useOrganizationsMeReadQuery({
     id: selectedOrganization?.id.toString(),
   });
+  
   const { data: allSites, isLoading: isAllSitesLoading } =
     useOrganizationsAssociatedSitesListQuery(
       {
@@ -108,18 +118,22 @@ const SystemSection = () => {
       },
       { skip: !selectedOrganization }
     );
+  
   const { isLoading: isModalitiesLoading, data: modalitiesList } =
     useOrganizationsModalitiesListQuery(
       { id: selectedOrganization.id.toString() },
       { skip: !selectedOrganization }
     );
+  
   const [apiArgData, setApiArgData] = useState<OrganizationsSystemsListApiArg>({
     id: selectedOrganization?.id.toString(),
   });
+  
   const { data: systemsData, isLoading: isSystemDataLoading } =
     useOrganizationsSystemsListQuery(apiArgData, {
       skip: !(apiArgData && callSystemsApi),
     });
+  
   const [updateFromInflux] = useOrganizationsSystemsUpdateFromInfluxMutation();
 
   useEffect(() => {
@@ -138,6 +152,7 @@ const SystemSection = () => {
     setOpen(true);
     setSystem(system);
   };
+  
   const returnSiteName = () => {
     if (
       location.pathname.includes(networksText) &&
@@ -149,6 +164,7 @@ const SystemSection = () => {
     }
     return selectedOrganization?.name;
   };
+  
   const changeModality = (item) => {
     if (item == null) {
       // if no modality selected
@@ -178,6 +194,7 @@ const SystemSection = () => {
       );
     }
   };
+  
   useEffect(() => {
     if (firstRender && systemsData && selectedOrganization) {
       Promise.all(
@@ -185,6 +202,7 @@ const SystemSection = () => {
           if (system.product_model_detail.modality.group !== mri) {
             return system;
           }
+          
           const data = await updateFromInflux({
             id: selectedOrganization.id.toString(),
             systemPk: system.id.toString(),
@@ -211,11 +229,13 @@ const SystemSection = () => {
       });
     }
   }, [selectedOrganization, systemsData, firstRender]);
+  
   useEffect(() => {
     if (!isSystemDataLoading && systemsData?.length) {
       setFirstRender(false);
     }
   }, [itemsList]);
+  
   useEffect(() => {
     if (searchText?.length >= 1 && systemList?.results) {
       setItemsList(systemList?.results);
@@ -225,12 +245,14 @@ const SystemSection = () => {
       setFirstRender(false);
     }
   }, [searchText, systemsData, systemList]);
+  
   useEffect(() => {
     if (networkId) {
       setApiArgData((prevState) => {
         return { ...prevState, healthNetwork: networkId.toString() };
       });
     }
+    
     if (!networkId) {
       if (
         Object.keys(networkFilter).length !== 0 &&
@@ -274,6 +296,7 @@ const SystemSection = () => {
         return { ...prevState, site: siteId.toString() };
       });
     }
+    
     if (!siteId) {
       if (
         Object.keys(siteFilter).length !== 0 &&
@@ -293,6 +316,7 @@ const SystemSection = () => {
         const TempArg = {
           ...apiArgData,
         };
+        
         delete TempArg.site;
         setApiArgData({ ...TempArg });
       }
@@ -315,6 +339,7 @@ const SystemSection = () => {
     }
     setCallSystemsApi(true);
   }, [modality]);
+  
   const addBreadcrumbs = () => {
     if (
       location.pathname.includes(sitesText) &&
@@ -426,6 +451,7 @@ const SystemSection = () => {
       </div>
     );
   };
+  
   const { data: healthNetwork } = useOrganizationsReadQuery(
     {
       id: selectedID,
@@ -442,6 +468,7 @@ const SystemSection = () => {
       setSites(selectedOrganization.sites);
     }
   }, [healthNetwork, selectedOrganization, isAllSitesLoading, allSites]);
+  
   const viewSystemLocation = (system: System) => {
     setSystem(system);
     setOpenMapModal(true);
@@ -573,4 +600,5 @@ const SystemSection = () => {
     </>
   );
 };
+
 export default SystemSection;
