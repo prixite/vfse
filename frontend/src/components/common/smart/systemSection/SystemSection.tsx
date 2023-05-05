@@ -570,7 +570,6 @@ const SystemSection = () => {
           points={systemLocationList}
         />
       </Box>
-
       {
         chatModal && browserWidth > mobileWidth  ? 
         <ChatBox
