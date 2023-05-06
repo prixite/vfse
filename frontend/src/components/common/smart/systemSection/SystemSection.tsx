@@ -587,7 +587,7 @@ const SystemSection = () => {
       ) : (
         <></>
       )}
-    {/*  {chatModal && browserWidth > mobileWidth && (
+      {/*  {chatModal && browserWidth > mobileWidth && (
         <ChatBox
           // IsOpen={chatModal}
           setIsOpen={setChatModal}
