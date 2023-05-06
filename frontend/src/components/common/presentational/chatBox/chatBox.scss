@@ -12,6 +12,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
   .chatHeader {
     height: 10%;
     width: 100%;
@@ -20,17 +21,20 @@
     align-items: center;
     padding: 8px;
     background-color: #f5f6f7;
+
     .title {
       font-size: 20px;
       font-weight: 600;
       color: #151e39;
     }
   }
+
   .chatSection {
     height: 75%;
     width: 100%;
     overflow-y: auto;
   }
+
   .InputSection {
     height: 15%;
     box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2);
@@ -39,10 +43,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     .sendIcon {
       width: 34px;
       height: 33px;
     }
+
     .sendIcon-Container {
       height: 56px;
       width: 72px;
@@ -54,8 +60,49 @@
     }
   }
 }
+
 .chatBotResponse {
   width: 95%;
   padding: 10px;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 540px) {
+  .chatBox {
+    width: 250px;
+    height: 355px;
+    position: relative;
+    margin-top: 94px;
+    right: 5px;
+    left: 225px;
+
+    .chatHeader {
+      width: 100%;
+      height: 12%;
+    }
+
+    .InputSection {
+      height: 19%;
+    }
+  }
+}
+
+@media only screen and (max-width: 390px) {
+  .chatBox {
+    width: 250px;
+    height: 355px;
+    position: relative;
+    margin-top: 94px;
+    right: 5px;
+    left: 114px;
+
+    .chatHeader {
+      width: 100%;
+      height: 12%;
+    }
+
+    .InputSection {
+      height: 19%;
+    }
+  }
 }
