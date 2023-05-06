@@ -82,7 +82,6 @@ const SystemCardMobile = ({
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -90,7 +89,6 @@ const SystemCardMobile = ({
     handleSupportChatBox();
     handleClose();
   };
-
   const onEdit = () => {
     handleEdit(system);
     handleClose();
