@@ -82,9 +82,11 @@ const SystemCardMobile = ({
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  
   const handleClose = () => {
     setAnchorEl(null);
   };
+  
   const onSupport = () => {
     handleSupportChatBox();
     handleClose();
@@ -106,10 +108,12 @@ const SystemCardMobile = ({
     dispatch(openSystemDrawer(system?.id));
     handleClose();
   };
+  
   const handleSupportChatBox = () => {
     setIsOpen(true);
     setSystem(system);
   };
+  
   return (
     <>
       <Accordion className="SystemCardMobile">
