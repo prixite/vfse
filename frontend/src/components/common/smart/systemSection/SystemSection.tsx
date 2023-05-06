@@ -473,6 +473,7 @@ const SystemSection = () => {
     setSystem(system);
     setOpenMapModal(true);
   };
+  
   return (
     <>
       {addBreadcrumbs()}
