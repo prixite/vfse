@@ -55,25 +55,19 @@ services:
     expose:
       - 8888
 
-  vnc_proxy:
-    image: vfse_app
-    env_file:
-      - ./docker/env.db
-      - ./.env
-    container_name: vnc_proxy
-    depends_on:
-      - app
-    command: bash -c 'uvicorn --host 0.0.0.0 --port 8001 proxy.vnc:app'
+  guacd:
+    image: guacamole/guacd
 
-  html_proxy:
+  guac_proxy:
     image: vfse_app
     env_file:
       - ./docker/env.db
       - ./.env
-    container_name: html_proxy
+    container_name: guac_proxy
     depends_on:
       - app
-    command: bash -c 'uvicorn --host 0.0.0.0 --port 8002 proxy.service:app'
+      - guacd
+    command: "uvicorn guac:app --host 0.0.0.0"
 
 volumes:
   static_volume:
