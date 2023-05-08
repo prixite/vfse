@@ -571,30 +571,15 @@ const SystemSection = () => {
         />
       </Box>
       {chatModal && browserWidth > mobileWidth ? (
-        <ChatBox
-          // IsOpen={chatModal}
-          setIsOpen={setChatModal}
-          system={chatBoxSystem}
-        />
+        <ChatBox setIsOpen={setChatModal} system={chatBoxSystem} />
       ) : (
         <></>
       )}
       {chatModal && browserWidth < mobileWidth ? (
-        <ChatBox
-          // IsOpen={chatModal}
-          setIsOpen={setChatModal}
-          system={chatBoxSystem}
-        />
+        <ChatBox setIsOpen={setChatModal} system={chatBoxSystem} />
       ) : (
         <></>
       )}
-      {/* {chatModal && browserWidth > mobileWidth && (
-        <ChatBox
-          // IsOpen={chatModal}
-          setIsOpen={setChatModal}
-          system={chatBoxSystem}
-        />
-     )} */}
     </>
   );
 };

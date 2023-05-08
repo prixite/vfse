@@ -9,9 +9,6 @@
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   box-shadow: 0 12px 28px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
 
   .chatHeader {
     height: 10%;
@@ -32,7 +29,6 @@
   .chatSection {
     height: 75%;
     width: 100%;
-    overflow-y: auto;
   }
 
   .InputSection {
@@ -75,6 +71,8 @@
     margin-top: 94px;
     right: 5px;
     left: 225px;
+    display: flex;
+    flex-direction: column;
 
     .chatHeader {
       width: 100%;
@@ -95,6 +93,8 @@
     margin-top: 94px;
     right: 5px;
     left: 114px;
+    display: flex;
+    flex-direction: column;
 
     .chatHeader {
       width: 100%;

@@ -69,10 +69,10 @@ const SystemCardMobile = ({
   } = localizedData().systems_card;
   const { toastData } = constantsData;
   const {
-    yes,
-    no,
-    format_LT,
-    format_l,
+    online,
+    offline,
+    date_format,
+    format_date,
     blank,
     edit,
     support,
@@ -157,7 +157,7 @@ const SystemCardMobile = ({
             </div>
             <div className="option">
               <h3 className="title">{is_online}</h3>
-              <h3 className="value">{system.is_online ? yes : no}</h3>
+              <h3 className="value">{system.is_online ? online : offline}</h3>
             </div>
             <div className="option">
               <h3 className="title">{asset_txt}</h3>
@@ -179,8 +179,8 @@ const SystemCardMobile = ({
               <div className="option">
                 <h3 className="title">{latest_ping}</h3>
                 <h3 className="value">
-                  {moment(system.last_successful_ping_at).format(format_l)}{" "}
-                  {moment(system.last_successful_ping_at).format(format_LT)}
+                  {moment(system.last_successful_ping_at).format(format_date)}{" "}
+                  {moment(system.last_successful_ping_at).format(date_format)}
                 </h3>
               </div>
             )}
