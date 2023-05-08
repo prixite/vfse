@@ -1,5 +1,5 @@
 -r requirements.txt
 django-types==0.17.0
-ipython==8.12.0
+ipython==8.13.2
 nplusone==1.0.0
 pre-commit==3.3.0
