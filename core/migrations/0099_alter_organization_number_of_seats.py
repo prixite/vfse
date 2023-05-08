@@ -7,13 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0098_alter_system_ssh_user'),
+        ("core", "0098_alter_system_ssh_user"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='organization',
-            name='number_of_seats',
-            field=models.PositiveIntegerField(blank=True, null=True, validators=[django.core.validators.MaxValueValidator(2000), django.core.validators.MinValueValidator(0)]),
+            model_name="organization",
+            name="number_of_seats",
+            field=models.PositiveIntegerField(
+                blank=True,
+                null=True,
+                validators=[
+                    django.core.validators.MaxValueValidator(2000),
+                    django.core.validators.MinValueValidator(0),
+                ],
+            ),
         ),
     ]
