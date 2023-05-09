@@ -48,6 +48,10 @@ services:
       - ./docker/env.db
       - ./.env
     container_name: guac_proxy
+    volumes:
+      - .:/opt/code
+    ports:
+      - "8003:8003"
     depends_on:
       - app
       - guacd

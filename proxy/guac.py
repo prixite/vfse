@@ -3,8 +3,8 @@ import logging
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
-from guacamole.client import GuacamoleClient
-from guacamole.instruction import Instruction
+from proxy.guacamole.client import GuacamoleClient
+from proxy.guacamole.instruction import Instruction
 
 app = FastAPI()
 

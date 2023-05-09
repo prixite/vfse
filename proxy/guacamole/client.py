@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from guacamole.instruction import Connect, Instruction
+from proxy.guacamole.instruction import Connect, Instruction
 
 logger = logging
 
