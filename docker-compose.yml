@@ -39,6 +39,24 @@ services:
       - "8002:8002"
     command: bash -c 'uvicorn --reload --host 0.0.0.0 --port 8002 proxy.service:app'
 
+  guacd:
+    image: guacamole/guacd
+
+  guac_proxy:
+    image: vfse_app
+    env_file:
+      - ./docker/env.db
+      - ./.env
+    container_name: guac_proxy
+    volumes:
+      - .:/opt/code
+    ports:
+      - "8003:8003"
+    depends_on:
+      - app
+      - guacd
+    command: bash -c 'uvicorn --host 0.0.0.0 --port 8003 proxy.guac:app'
+
   frontend:
     image: vfse_app
     volumes:
