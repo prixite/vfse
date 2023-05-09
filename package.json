@@ -77,7 +77,7 @@
     "style-loader": "^3.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "webpack": "^5.78.0",
+    "webpack": "^5.82.0",
     "webpack-bundle-tracker": "^1.8.1",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.15.0",
