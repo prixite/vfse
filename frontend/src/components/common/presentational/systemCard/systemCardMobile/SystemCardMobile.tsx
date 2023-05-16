@@ -71,8 +71,8 @@ const SystemCardMobile = ({
   const {
     online,
     offline,
+    time_format,
     date_format,
-    format_date,
     blank,
     edit,
     support,
@@ -179,8 +179,8 @@ const SystemCardMobile = ({
               <div className="option">
                 <h3 className="title">{latest_ping}</h3>
                 <h3 className="value">
-                  {moment(system.last_successful_ping_at).format(format_date)}{" "}
-                  {moment(system.last_successful_ping_at).format(date_format)}
+                  {moment(system.last_successful_ping_at).format(date_format)}{" "}
+                  {moment(system.last_successful_ping_at).format(time_format)}
                 </h3>
               </div>
             )}

@@ -121,8 +121,8 @@ const SystemCard = ({
     blank,
     online,
     offline,
-    format_date,
     date_format,
+    time_format,
     support,
     edit,
     comments,
@@ -608,8 +608,8 @@ const SystemCard = ({
                 <p className={classes.option}>
                   {latest_ping} <br />
                   <strong className={classes.titleStrong}>
-                    {moment(system.last_successful_ping_at).format(format_date)}{" "}
-                    {moment(system.last_successful_ping_at).format(date_format)}
+                    {moment(system.last_successful_ping_at).format(date_format)}{" "}
+                    {moment(system.last_successful_ping_at).format(time_format)}
                   </strong>
                 </p>
               )}
