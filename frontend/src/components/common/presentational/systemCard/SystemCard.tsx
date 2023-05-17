@@ -48,7 +48,7 @@ import {
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-import PasswordDialog from "./VncScreen/PasswordModal";
+import PasswordDialog from "./vncScreen/PasswordModal";
 
 import "../../../../../../node_modules/xterm/css/xterm.css";
 
@@ -499,9 +499,14 @@ const SystemCard = ({
                     }}
                   >
                     {system.connection_options.ssh && (
-                      <MenuItem onClick={(e) => handleConnect(e, system.id)}>
-                        <span style={{ marginLeft: "12px" }}>SSH</span>
-                      </MenuItem>
+                      <>
+                        <MenuItem onClick={(e) => handleConnect(e, system.id)}>
+                          <span style={{ marginLeft: "12px" }}>SSH</span>
+                        </MenuItem>
+                        <MenuItem onClick={(e) => handleConnect(e, system.id)}>
+                          <span style={{ marginLeft: "12px" }}>Telnet</span>
+                        </MenuItem>
+                      </>
                     )}
                     {system.connection_options.vfse && (
                       <MenuItem onClick={() => setOpenVnc(true)}>

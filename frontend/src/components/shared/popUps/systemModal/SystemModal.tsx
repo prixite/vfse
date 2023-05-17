@@ -200,7 +200,6 @@ export default function SystemModal(props: SystemProps) {
     selectImage,
     systemImageText,
     vFSE,
-    ssh,
     serviceWebBrowser,
     virtualMediaControl,
     systemContactInfo,
@@ -816,7 +815,8 @@ export default function SystemModal(props: SystemProps) {
                 </Grid>
               </Grid>
             )}
-            {(formik.values.connection.vfse || formik.values.connection.ssh) && (
+            {(formik.values.connection.vfse ||
+              formik.values.connection.ssh) && (
               <Grid container spacing={2} style={{ marginTop: "5px" }}>
                 <Grid item xs={12} sm={6}>
                   <div className="info-section">
