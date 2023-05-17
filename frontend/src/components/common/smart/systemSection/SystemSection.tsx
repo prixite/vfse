@@ -514,8 +514,11 @@ const SystemSection = () => {
             itemsList.map((item, key) => (
               <div key={key} style={{ marginTop: "16px" }}>
                 <SystemCardMobile
+                  viewSystemLocation={viewSystemLocation}
                   system={item}
                   handleEdit={handleEdit}
+                  setSystem={setChatBoxSystem}
+                  setIsOpen={setChatModal}
                   canLeaveNotes={me?.can_leave_notes}
                   currentUser={me}
                 />
@@ -567,12 +570,15 @@ const SystemSection = () => {
           points={systemLocationList}
         />
       </Box>
-      {chatModal && browserWidth > mobileWidth && (
-        <ChatBox
-          // IsOpen={chatModal}
-          setIsOpen={setChatModal}
-          system={chatBoxSystem}
-        />
+      {chatModal && browserWidth > mobileWidth ? (
+        <ChatBox setIsOpen={setChatModal} system={chatBoxSystem} />
+      ) : (
+        <></>
+      )}
+      {chatModal && browserWidth < mobileWidth ? (
+        <ChatBox setIsOpen={setChatModal} system={chatBoxSystem} />
+      ) : (
+        <></>
       )}
     </>
   );

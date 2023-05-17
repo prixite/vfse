@@ -119,10 +119,10 @@ const SystemCard = ({
     term,
     sshTerminalText,
     blank,
-    yes,
-    no,
-    format_l,
-    format_LT,
+    online,
+    offline,
+    date_format,
+    time_format,
     support,
     edit,
     comments,
@@ -581,7 +581,7 @@ const SystemCard = ({
               <p className={classes.option}>
                 {is_online} <br />
                 <strong className={classes.titleStrong}>
-                  {system.is_online ? yes : no}
+                  {system.is_online ? online : offline}
                 </strong>
               </p>
             </div>
@@ -613,8 +613,8 @@ const SystemCard = ({
                 <p className={classes.option}>
                   {latest_ping} <br />
                   <strong className={classes.titleStrong}>
-                    {moment(system.last_successful_ping_at).format(format_l)}{" "}
-                    {moment(system.last_successful_ping_at).format(format_LT)}
+                    {moment(system.last_successful_ping_at).format(date_format)}{" "}
+                    {moment(system.last_successful_ping_at).format(time_format)}
                   </strong>
                 </p>
               )}
