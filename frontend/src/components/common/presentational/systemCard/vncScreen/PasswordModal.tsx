@@ -11,7 +11,7 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { System } from "@src/store/reducers/generated";
 
 import VncScreenDialog from "./VncScreenDialog";
-import "@src/components/common/presentational/systemCard/VncScreen/PasswordModal.scss";
+import "@src/components/common/presentational/systemCard/vncScreen/PasswordModal.scss";
 
 interface PasswordDialogProps {
   openModal: boolean;

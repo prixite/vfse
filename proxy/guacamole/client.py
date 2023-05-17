@@ -62,14 +62,6 @@ class GuacamoleClient:
         instruction = await self.read()
         assert instruction.opcode == "args"
 
-        while True:
-            data = await websocket.receive_text()
-            creds = Instruction.from_string(data)
-            if creds.opcode == "creds":
-                self.config["args"]["username"] = creds.args[0]
-                self.config["args"]["password"] = creds.args[1]
-                break
-
         await self.send(Connect(instruction.args, self.config["args"]))
         instruction = await self.read()
         assert instruction.opcode == "ready"

@@ -41,6 +41,8 @@ services:
 
   guacd:
     image: guacamole/guacd
+    ports:
+      - "127.0.0.1:4822:4822"
 
   guac_proxy:
     image: vfse_app

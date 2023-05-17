@@ -1,10 +1,16 @@
 import asyncio
 import logging
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from django.conf import settings
+from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 
 from proxy.guacamole.client import GuacamoleClient
 from proxy.guacamole.instruction import Instruction
+from proxy.service_utils import (
+    get_system,
+    get_user_from_request,
+    is_authenticated,
+)
 
 app = FastAPI()
 
@@ -22,22 +28,27 @@ def index():
     return {"Hello": "World"}
 
 
-@app.websocket("/websocket/")
+@app.websocket("/terminal/")
 async def websocket_endpoint(
     websocket: WebSocket,
-    guacd_host: str,
-    guacd_port: str,
     protocol: str,
-    remote_host: str,
-    remote_port: str,
+    system_id: int,
+    organization_id: int,
     width: str,
     height: str,
     dpi: str,
 ):
     await websocket.accept(subprotocol="guacamole")
+
+    if not is_authenticated(websocket):
+        raise HTTPException(status_code=403, detail="Not authenticated")
+
+    user = await get_user_from_request(websocket)
+    system = await get_system(user, organization_id, system_id)
+
     client = GuacamoleClient(
-        guacd_host,
-        guacd_port,
+        settings.GUACD_HOST,
+        settings.GUACD_PORT,
         {
             "protocol": protocol,
             "size": [width, height, dpi],
@@ -45,8 +56,8 @@ async def websocket_endpoint(
             "video": [],
             "image": [],
             "args": {
-                "hostname": remote_host,
-                "port": remote_port,
+                "hostname": system.ip_address,
+                "port": 22 if protocol == "ssh" else 23,
             },
         },
         debug=False,
