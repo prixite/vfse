@@ -25,11 +25,8 @@ def index():
 @app.websocket("/websocket/")
 async def websocket_endpoint(
     websocket: WebSocket,
-    guacd_host: str,
-    guacd_port: str,
     protocol: str,
-    remote_host: str,
-    remote_port: str,
+    system_id: int,
     width: str,
     height: str,
     dpi: str,
