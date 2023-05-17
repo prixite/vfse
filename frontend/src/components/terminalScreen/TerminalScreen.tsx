@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 
 import Guacamole, { WebSocketTunnel } from "guacamole-common-js";
 
+import { useSelectedOrganization } from "@src/store/hooks";
 import { System } from "@src/store/reducers/generated";
 
 interface TerminalScreenProp {
@@ -10,6 +11,7 @@ interface TerminalScreenProp {
 }
 
 export function TerminalScreen({ system, protocol }: TerminalScreenProp) {
+  const selectedOrganization = useSelectedOrganization();
   const tunnelURL = process.env.GUACD_PROXY_WS;
   const width = 1024;
   const height = 768;
@@ -25,6 +27,8 @@ export function TerminalScreen({ system, protocol }: TerminalScreenProp) {
     guac.current.connect(
       [
         `protocol=${protocol}`,
+        `organization_id=${selectedOrganization?.id}`,
+        `system_id=${system.id}`,
         `width=${width}`,
         `height=${height}`,
         `dpi=96`,

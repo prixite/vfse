@@ -1,18 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-
 import CloseIcon from "@mui/icons-material/Close";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { toast } from "react-toastify";
 
-import { timeOut } from "@src/helpers/utils/constants";
-import { useSelectedOrganization } from "@src/store/hooks";
-import { Organization } from "@src/store/reducers/api";
+import { TerminalScreen } from "@src/components/terminalScreen/TerminalScreen";
 import { System } from "@src/store/reducers/generated";
-import {TerminalScreen} from "@src/components/terminalScreen/TerminalScreen";
 
 interface TerminalScreenProps {
   openModal: boolean;
