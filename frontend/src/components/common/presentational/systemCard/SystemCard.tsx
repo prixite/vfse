@@ -30,6 +30,7 @@ import { FitAddon } from "xterm-addon-fit";
 import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import TerminalScreenDialog from "@src/components/terminalScreen/TerminalScreenDialog";
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { localizedData } from "@src/helpers/utils/language";
@@ -77,6 +78,7 @@ const SystemCard = ({
   const [anchorConnect, setAnchorConnect] = useState(null);
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
+  const [telnetModal, setTelnetModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -404,6 +406,13 @@ const SystemCard = ({
 
   return (
     <div className={classes.systemCard}>
+      <div>
+        <TerminalScreenDialog
+          openModal={telnetModal}
+          handleModalClose={() => setTelnetModal(false)}
+          system={system}
+        />
+      </div>
       <div>
         <Dialog
           maxWidth="lg"

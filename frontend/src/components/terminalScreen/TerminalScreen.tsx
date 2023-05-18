@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 
-import Guacamole, { WebSocketTunnel } from "guacamole-common-js";
+import Guacamole from "guacamole-common-js";
 
 import { useSelectedOrganization } from "@src/store/hooks";
 import { System } from "@src/store/reducers/generated";
@@ -21,7 +21,7 @@ export function TerminalScreen({ system, protocol }: TerminalScreenProp) {
   const displayRef = useRef(null);
 
   useEffect(() => {
-    const tunnel = new WebSocketTunnel(tunnelURL);
+    const tunnel = new Guacamole.WebSocketTunnel(tunnelURL);
     guac.current = new Guacamole.Client(tunnel);
     displayRef.current.appendChild(guac.current.getDisplay().getElement());
     guac.current.connect(
