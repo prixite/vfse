@@ -200,7 +200,6 @@ export default function SystemModal(props: SystemProps) {
     selectImage,
     systemImageText,
     vFSE,
-    ssh,
     serviceWebBrowser,
     virtualMediaControl,
     systemContactInfo,
@@ -741,7 +740,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.ssh}
                 />
-                <span className="text">{ssh}[or terminal]</span>
+                <span className="text">Terminal</span>
               </Grid>
               <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -816,7 +815,8 @@ export default function SystemModal(props: SystemProps) {
                 </Grid>
               </Grid>
             )}
-            {formik.values.connection.vfse && (
+            {(formik.values.connection.vfse ||
+              formik.values.connection.ssh) && (
               <Grid container spacing={2} style={{ marginTop: "5px" }}>
                 <Grid item xs={12} sm={6}>
                   <div className="info-section">

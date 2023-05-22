@@ -2,23 +2,22 @@ import { useRef, useEffect } from "react";
 
 import Guacamole, { WebSocketTunnel } from "guacamole-common-js";
 
+import { useSelectedOrganization } from "@src/store/hooks";
 import { System } from "@src/store/reducers/generated";
 
-interface VncScreenProp {
+interface TerminalScreenProp {
   system: System;
-  username: string;
-  password: string;
+  protocol: "ssh" | "telnet";
 }
 
-export function VncScreen({ system, username, password }: VncScreenProp) {
-  const GUACD_HOST = process.env.GUACD_HOST;
-  const GUACD_PORT = process.env.GUACD_PORT;
+export function TerminalScreen({ system, protocol }: TerminalScreenProp) {
+  const selectedOrganization = useSelectedOrganization();
   const tunnelURL = process.env.GUACD_PROXY_WS;
   const width = 1024;
   const height = 768;
 
   const guac = useRef(null);
-  const mouse = useRef(null);
+  const keyboard = useRef(null);
   const displayRef = useRef(null);
 
   useEffect(() => {
@@ -27,33 +26,25 @@ export function VncScreen({ system, username, password }: VncScreenProp) {
     displayRef.current.appendChild(guac.current.getDisplay().getElement());
     guac.current.connect(
       [
-        `guacd_host=${GUACD_HOST}`,
-        `guacd_port=${GUACD_PORT}`,
-        `protocol=vnc`,
-        `remote_host=${system.access_url}`,
-        `remote_port=${system.vnc_port}`,
+        `protocol=${protocol}`,
+        `organization_id=${selectedOrganization?.id}`,
+        `system_id=${system.id}`,
         `width=${width}`,
         `height=${height}`,
         `dpi=96`,
       ].join("&")
     );
 
-    const checkConnected = setInterval(() => {
-      if (tunnel.isConnected()) {
-        tunnel.sendMessage("creds", username, password);
-        clearInterval(checkConnected);
-      }
-    }, 100);
+    // Keyboard
+    keyboard.current = new Guacamole.Keyboard(document);
 
-    // Mouse
-    mouse.current = new Guacamole.Mouse(guac.current.getDisplay().getElement());
+    keyboard.current.onkeydown = function (keysym) {
+      guac.current.sendKeyEvent(1, keysym);
+    };
 
-    mouse.current.onmousedown =
-      mouse.current.onmouseup =
-      mouse.current.onmousemove =
-        function (mouseState) {
-          guac.current.sendMouseState(mouseState);
-        };
+    keyboard.current.onkeyup = function (keysym) {
+      guac.current.sendKeyEvent(0, keysym);
+    };
 
     return function cleanup() {
       guac.current.disconnect();

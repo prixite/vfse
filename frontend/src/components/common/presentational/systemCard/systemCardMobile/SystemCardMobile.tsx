@@ -34,6 +34,8 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 const SystemCardMobile = ({
   system,
+  setSystem,
+  setIsOpen,
   handleEdit,
   canLeaveNotes,
   currentUser,
@@ -86,6 +88,10 @@ const SystemCardMobile = ({
     setAnchorEl(null);
   };
 
+  const onSupport = () => {
+    handleSupportChatBox();
+    handleClose();
+  };
   const onEdit = () => {
     handleEdit(system);
     handleClose();
