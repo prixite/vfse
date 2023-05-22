@@ -85,11 +85,6 @@ const SystemCardMobile = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const onSupport = () => {
-    handleSupportChatBox();
-    handleClose();
-  };
   const onEdit = () => {
     handleEdit(system);
     handleClose();
