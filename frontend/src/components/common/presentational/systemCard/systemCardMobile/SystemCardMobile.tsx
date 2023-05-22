@@ -34,8 +34,6 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 const SystemCardMobile = ({
   system,
-  setSystem,
-  setIsOpen,
   handleEdit,
   canLeaveNotes,
   currentUser,
