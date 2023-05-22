@@ -77,8 +77,6 @@ const SystemSection = () => {
   const [modality, setModality] = useState();
   const [callSystemsApi, setCallSystemsApi] = useState(false);
   const [chatModal, setChatModal] = useState(false);
-  const [chatBoxSystem, setChatBoxSystem] = useState<System>();
-
   const [browserWidth] = useWindowSize();
   const { organizationRoute } = constants;
   const { siteId, networkId, id } = useParams<{
@@ -473,7 +471,10 @@ const SystemSection = () => {
     setSystem(system);
     setOpenMapModal(true);
   };
-
+  const onSupport = (system: System) => {
+    setSystem(system);
+    setChatModal(true);
+  };
   return (
     <>
       {addBreadcrumbs()}
@@ -503,8 +504,7 @@ const SystemSection = () => {
                   viewSystemLocation={viewSystemLocation}
                   system={item}
                   handleEdit={handleEdit}
-                  setSystem={setChatBoxSystem}
-                  setIsOpen={setChatModal}
+                  onSupport={onSupport}
                   canLeaveNotes={me?.can_leave_notes}
                   currentUser={me}
                 />
@@ -517,8 +517,7 @@ const SystemSection = () => {
                   viewSystemLocation={viewSystemLocation}
                   system={item}
                   handleEdit={handleEdit}
-                  setSystem={setChatBoxSystem}
-                  setIsOpen={setChatModal}
+                  onSupport={onSupport}
                   canLeaveNotes={me?.can_leave_notes}
                   currentUser={me}
                 />
@@ -571,12 +570,12 @@ const SystemSection = () => {
         />
       </Box>
       {chatModal && browserWidth > mobileWidth ? (
-        <ChatBox setIsOpen={setChatModal} system={chatBoxSystem} />
+        <ChatBox setIsOpen={setChatModal} system={system} />
       ) : (
         <></>
       )}
       {chatModal && browserWidth < mobileWidth ? (
-        <ChatBox setIsOpen={setChatModal} system={chatBoxSystem} />
+        <ChatBox setIsOpen={setChatModal} system={system} />
       ) : (
         <></>
       )}

@@ -2,20 +2,21 @@ import { useState, Dispatch, SetStateAction } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
-import "@src/components/common/presentational/chatBox/chatBox.scss";
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Grid, TextField, Dialog } from "@mui/material";
 
 import { toastAPIError } from "@src/helpers/utils/utils";
 import constants from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { System } from "@src/store/reducers/generated";
+import "@src/components/common/presentational/chatBox/chatBox.scss";
 
-interface ChatBoxInterface {
+interface chatBoxInterface {
+  handleClose: () => void;
   setIsOpen?: Dispatch<SetStateAction<boolean>>;
   system: System;
 }
-const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
+const ChatBox = ({ setIsOpen, system, handleClose }: chatBoxInterface) => {
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const { chatBox, toastData } = constants;
   const [isLoading, setIsLoading] = useState(false);
@@ -66,107 +67,109 @@ const ChatBox = ({ setIsOpen, system }: ChatBoxInterface) => {
   };
 
   return (
-    <Box component="div" className="chatBox">
-      <Box component="div" className="chatHeader">
-        <p className="title">{system?.name}</p>
-        <CloseIcon
-          style={{ cursor: "pointer" }}
-          onClick={() => {
-            setIsOpen(false);
-          }}
-        />
-      </Box>
-      <Box component="div" className="chatSection">
-        <div className="chatBotResponse">
-          {arrayToDisplay?.map((item, index) => {
-            return (
-              <>
-                <Grid
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  marginBottom={1}
-                  key={item}
-                >
-                  <Box
-                    style={
-                      (index + 1) % 2 !== 0
-                        ? {
-                            // Odd
-                            border: `2px solid ${buttonBackground}`,
-                            width: "95%",
-                            marginRight: "auto",
-                            padding: "5px",
-                            borderRadius: "8px",
-                            boxShadow:
-                              "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-                          }
-                        : {
-                            //Even
-                            border: "2px solid #fff",
-                            width: "95%",
-                            marginLeft: "auto",
-                            padding: "5px",
-                            borderRadius: "8px",
-                            boxShadow:
-                              "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
-                          }
-                    }
+    <Dialog open={setIsOpen} onClose={handleClose}>
+      <Box component="div" className="chatBox">
+        <Box component="div" className="chatHeader">
+          <p className="title">{system?.name}</p>
+          <CloseIcon
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          />
+        </Box>
+        <Box component="div" className="chatSection">
+          <div className="chatBotResponse">
+            {arrayToDisplay?.map((item, index) => {
+              return (
+                <>
+                  <Grid
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    marginBottom={1}
+                    key={item}
                   >
-                    <p style={{ wordBreak: "break-word" }}>{item}</p>
-                  </Box>
-                </Grid>
-              </>
-            );
-          })}
-        </div>
-      </Box>
-      <Box component="div" className="InputSection">
-        <TextField
-          id="outlined-basic"
-          variant="outlined"
-          inputProps={{ autoComplete: "off" }}
-          placeholder={placeholder}
-          onChange={(e) => {
-            setYourQuery(e.target.value.toString());
-          }}
-          value={yourQuery}
-          disabled={isLoading}
-          sx={{
-            width: "inherit",
-            "&:hover fieldset": {
-              borderColor: "grey",
-            },
-          }}
-          onKeyPress={keyPressEnter}
-        />
-        {!isLoading && yourQuery ? (
-          <div
-            className="sendIcon-Container"
-            style={{
-              backgroundColor: `${buttonBackground}`,
-            }}
-          >
-            <SendIcon
-              className="sendIcon"
-              onClick={() => handleChatting()}
-              style={{ color: "white", cursor: "pointer" }}
-            />
+                    <Box
+                      style={
+                        (index + 1) % 2 !== 0
+                          ? {
+                              // Odd
+                              border: `2px solid ${buttonBackground}`,
+                              width: "95%",
+                              marginRight: "auto",
+                              padding: "5px",
+                              borderRadius: "8px",
+                              boxShadow:
+                                "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                            }
+                          : {
+                              //Even
+                              border: "2px solid #fff",
+                              width: "95%",
+                              marginLeft: "auto",
+                              padding: "5px",
+                              borderRadius: "8px",
+                              boxShadow:
+                                "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                            }
+                      }
+                    >
+                      <p style={{ wordBreak: "break-word" }}>{item}</p>
+                    </Box>
+                  </Grid>
+                </>
+              );
+            })}
           </div>
-        ) : (
-          <div
-            className="sendIcon-Container"
-            style={{
-              border: `2px solid #94989E`,
+        </Box>
+        <Box component="div" className="InputSection">
+          <TextField
+            id="outlined-basic"
+            variant="outlined"
+            inputProps={{ autoComplete: "off" }}
+            placeholder={placeholder}
+            onChange={(e) => {
+              setYourQuery(e.target.value.toString());
             }}
-          >
-            <SendIcon className="sendIcon" style={{ color: `#94989E` }} />
-          </div>
-        )}
+            value={yourQuery}
+            disabled={isLoading}
+            sx={{
+              width: "inherit",
+              "&:hover fieldset": {
+                borderColor: "grey",
+              },
+            }}
+            onKeyPress={keyPressEnter}
+          />
+          {!isLoading && yourQuery ? (
+            <div
+              className="sendIcon-Container"
+              style={{
+                backgroundColor: `${buttonBackground}`,
+              }}
+            >
+              <SendIcon
+                className="sendIcon"
+                onClick={() => handleChatting()}
+                style={{ color: "white", cursor: "pointer" }}
+              />
+            </div>
+          ) : (
+            <div
+              className="sendIcon-Container"
+              style={{
+                border: `2px solid #94989E`,
+              }}
+            >
+              <SendIcon className="sendIcon" style={{ color: `#94989E` }} />
+            </div>
+          )}
+        </Box>
       </Box>
-    </Box>
+    </Dialog>
   );
 };
 

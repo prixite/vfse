@@ -64,10 +64,9 @@ const Transition = React.forwardRef(function Transition(
 const SystemCard = ({
   system,
   handleEdit,
-  setSystem,
-  setIsOpen,
   canLeaveNotes,
   currentUser,
+  onSupport,
   viewSystemLocation,
 }: SystemInterfaceProps) => {
   const classes = useStyles();
@@ -145,10 +144,6 @@ const SystemCard = ({
     setAnchorConnect(null);
   };
 
-  const onSupport = (e) => {
-    handleSupportChatBox();
-    handleClose(e);
-  };
   const onEdit = (e) => {
     handleEdit(system);
     handleClose(e);
@@ -170,11 +165,6 @@ const SystemCard = ({
   const onComment = (e) => {
     dispatch(openSystemDrawer(system?.id));
     handleClose(e);
-  };
-
-  const handleSupportChatBox = () => {
-    setIsOpen(true);
-    setSystem(system);
   };
 
   const handleLogsOnEnter = (prev) => {
@@ -701,7 +691,7 @@ const SystemCard = ({
             <MenuItem onClick={() => viewSystemLocation(system)}>
               <span style={{ marginLeft: "12px" }}>View Location</span>
             </MenuItem>
-            <MenuItem onClick={(e) => onSupport(e)}>
+            <MenuItem onClick={() => onSupport(system)}>
               <span style={{ marginLeft: "12px" }}>{support}</span>
             </MenuItem>
             {currentUser?.role !== "end-user" && (
