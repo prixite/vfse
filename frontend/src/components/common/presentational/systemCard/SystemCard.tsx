@@ -407,11 +407,29 @@ const SystemCard = ({
   return (
     <div className={classes.systemCard}>
       <div>
-        <TerminalScreenDialog
-          openModal={telnetModal}
-          handleModalClose={() => setTelnetModal(false)}
-          system={system}
-        />
+        <Dialog
+          maxWidth="lg"
+          open={true}
+          onClose={handleModalClose}
+          TransitionComponent={Transition}
+        >
+          <AppBar sx={{ position: "relative" }}>
+            <Toolbar>
+              <IconButton
+                edge="start"
+                color="inherit"
+                onClick={handleModalClose}
+                aria-label="close"
+              >
+                <CloseIcon />
+              </IconButton>
+              <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                {sshTerminalText}
+              </Typography>
+            </Toolbar>
+          </AppBar>
+          <p>Hello</p>
+        </Dialog>
       </div>
       <div>
         <Dialog
