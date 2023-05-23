@@ -34,12 +34,11 @@ import { openSystemDrawer } from "@src/store/reducers/appStore";
 
 const SystemCardMobile = ({
   system,
-  setSystem,
-  setIsOpen,
   handleEdit,
   canLeaveNotes,
   currentUser,
   viewSystemLocation,
+  onSupport,
 }: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
@@ -86,11 +85,6 @@ const SystemCardMobile = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const onSupport = () => {
-    handleSupportChatBox();
-    handleClose();
-  };
   const onEdit = () => {
     handleEdit(system);
     handleClose();
@@ -107,11 +101,6 @@ const SystemCardMobile = ({
   const onComment = () => {
     dispatch(openSystemDrawer(system?.id));
     handleClose();
-  };
-
-  const handleSupportChatBox = () => {
-    setIsOpen(true);
-    setSystem(system);
   };
 
   return (
@@ -283,7 +272,7 @@ const SystemCardMobile = ({
           <MenuItem onClick={() => viewSystemLocation(system)}>
             <span style={{ marginLeft: "12px" }}>View Location</span>
           </MenuItem>
-          <MenuItem onClick={() => onSupport()}>
+          <MenuItem onClick={() => onSupport(system)}>
             <span style={{ marginLeft: "12px" }}>{support}</span>
           </MenuItem>
           {currentUser?.role !== "end-user" && (
