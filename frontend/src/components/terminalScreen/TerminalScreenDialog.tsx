@@ -52,7 +52,7 @@ const TerminalScreenDialog = ({
             </Typography>
           </Toolbar>
         </AppBar>
-        <TerminalScreen system={system} protocol="telnet" />
+        SSH
       </Dialog>
     </>
   );
