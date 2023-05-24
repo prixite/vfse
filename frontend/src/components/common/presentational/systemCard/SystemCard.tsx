@@ -86,7 +86,7 @@ const SystemCard = ({
   const dispatch = useAppDispatch();
   const { toastData, systemCard } = constantsData;
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
-  const [openModal, setOpenModal] = useState(false);
+  const [openSSHModal, setOpenSSHModal] = useState(false);
   const [openVnc, setOpenVnc] = useState(false);
 
   const open = Boolean(anchorEl);
@@ -132,7 +132,7 @@ const SystemCard = ({
   } = systemCard;
 
   const handleModalClose = () => {
-    setOpenModal(false);
+    setOpenSSHModal(false);
   };
 
   const handleClick = (event) => {
@@ -209,7 +209,7 @@ const SystemCard = ({
       setLoginProgress(false);
     } else {
       setLoginProgress(false);
-      setOpenModal(true);
+      setOpenSSHModal(true);
       const url = `${process.env.WEBSSH_WS_SERVER}ws?id=${msg.id}`;
       const title_element: { text: string } = undefined;
       const url_opts_data: unknown = {};
@@ -353,7 +353,7 @@ const SystemCard = ({
         read_file_as_text(msg.data, term_write, decoder);
       };
       sock.onclose = function () {
-        setOpenModal(false);
+        setOpenSSHModal(false);
         term.dispose();
         sock = undefined;
       };
@@ -408,12 +408,12 @@ const SystemCard = ({
   return (
     <div className={classes.systemCard}>
       <div>
-        {openModal && <TerminalScreenDialog openModal={openModal} handleModalClose={() => setOpenModal(false)} system={system} />}
+        {openSSHModal && <TerminalScreenDialog openModal={openSSHModal} handleModalClose={() => setOpenSSHModal(false)} system={system} />}
       </div>
       <div>
         <Dialog
           maxWidth="lg"
-          open={openModal}
+          open={openSSHModal}
           onClose={handleModalClose}
           TransitionComponent={Transition}
         >
