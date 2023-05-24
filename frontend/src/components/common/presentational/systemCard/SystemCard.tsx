@@ -87,6 +87,7 @@ const SystemCard = ({
   const { toastData, systemCard } = constantsData;
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const [openSSHModal, setOpenSSHModal] = useState(false);
+  const [openTelnetModal, setOpenTelnetModal] = useState(false);
   const [openVnc, setOpenVnc] = useState(false);
 
   const open = Boolean(anchorEl);
@@ -131,7 +132,7 @@ const SystemCard = ({
     deleteText,
   } = systemCard;
 
-  const handleModalClose = () => {
+  const handleSSHModalClose = () => {
     setOpenSSHModal(false);
   };
 
@@ -414,7 +415,7 @@ const SystemCard = ({
         <Dialog
           maxWidth="lg"
           open={openSSHModal}
-          onClose={handleModalClose}
+          onClose={handleSSHModalClose}
           TransitionComponent={Transition}
         >
           <AppBar sx={{ position: "relative" }}>
@@ -422,7 +423,7 @@ const SystemCard = ({
               <IconButton
                 edge="start"
                 color="inherit"
-                onClick={handleModalClose}
+                onClick={handleSSHModalClose}
                 aria-label="close"
               >
                 <CloseIcon />
