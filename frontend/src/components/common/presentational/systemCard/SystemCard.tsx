@@ -78,7 +78,6 @@ const SystemCard = ({
   const [anchorConnect, setAnchorConnect] = useState(null);
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
-  const [telnetModal, setTelnetModal] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -409,7 +408,13 @@ const SystemCard = ({
   return (
     <div className={classes.systemCard}>
       <div>
-        {openSSHModal && <TerminalScreenDialog openModal={openSSHModal} handleModalClose={() => setOpenSSHModal(false)} system={system} />}
+        {openTelnetModal && (
+          <TerminalScreenDialog
+            openModal={openTelnetModal}
+            handleModalClose={() => setOpenTelnetModal(false)}
+            system={system}
+          />
+        )}
       </div>
       <div>
         <Dialog
@@ -510,7 +515,7 @@ const SystemCard = ({
                         <MenuItem onClick={(e) => handleConnect(e, system.id)}>
                           <span style={{ marginLeft: "12px" }}>SSH</span>
                         </MenuItem>
-                        <MenuItem onClick={(e) => handleConnect(e, system.id)}>
+                        <MenuItem onClick={() => setOpenTelnetModal(true)}>
                           <span style={{ marginLeft: "12px" }}>Telnet</span>
                         </MenuItem>
                       </>
