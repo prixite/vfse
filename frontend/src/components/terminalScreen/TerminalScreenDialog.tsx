@@ -1,3 +1,5 @@
+import React from "react";
+
 import CloseIcon from "@mui/icons-material/Close";
 import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
