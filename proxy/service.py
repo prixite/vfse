@@ -11,6 +11,11 @@ from proxy.service_utils import (
 app = FastAPI()
 
 
+@app.get("/health")
+def health(request: Request):
+    return "OK"
+
+
 @app.get("/{organization_id:int}/{system_id:int}/{path:path}")
 async def index_proxy(
     organization_id: int, system_id: int, path: str, request: Request

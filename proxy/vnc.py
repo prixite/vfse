@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, WebSocket
+from fastapi import FastAPI, HTTPException, Request, WebSocket
 
 from proxy.service_utils import (
     get_system,
@@ -8,6 +8,11 @@ from proxy.service_utils import (
 from proxy.vnc_utils import TelnetContextManager, connect_to_server
 
 app = FastAPI()
+
+
+@app.get("/health")
+def health(request: Request):
+    return "OK"
 
 
 @app.websocket("/sockify/{organization_id:int}/{system_id:int}")
