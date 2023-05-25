@@ -74,7 +74,6 @@ const PageTwo = ({
         val,
       ]);
     }
-
     const { systemInSiteExists } = handelSitesOfSystem(site);
     if (
       !e?.target?.checked && //uncheck
@@ -89,9 +88,9 @@ const PageTwo = ({
       modifySelectedSiteList(site);
     }
 
-    modifySelectedModalities(site, e.target.checked);
+    modifySelectedModalities(site, e.target.checked, false);
   };
-
+  console.log(formik.values.selectedSystems);
   const handleSitesSelection = (e) => {
     const val = parseInt(e.target.value);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
@@ -102,26 +101,31 @@ const PageTwo = ({
         setSystemStatus(tempStatusMap);
       });
     }
-    modifySelectedModalities(val, e.target.checked);
+    modifySelectedModalities(val, e.target.checked, true);
     if (!systemInSiteExists) {
       formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
         ...systemsSiteList.map((x) => x.id),
       ]);
+      console.log(formik.values.selectedSystems);
     } else {
       const selectedSystemsInSite = formik.values.selectedSystems.filter(
         (x) => !systemsSiteList.some((j) => x === j.id)
       );
       formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
     }
-
     modifySelectedSiteList(val);
   };
 
-  const modifySelectedModalities = (site: number, checked: boolean) => {
-    const selectedSiteSystems = systemsList.filter(
-      (sys) =>
-        formik.values.selectedSystems.includes(sys.id) && site === sys.site
+  const modifySelectedModalities = (
+    site: number,
+    checked: boolean,
+    allSystems: boolean
+  ) => {
+    const selectedSiteSystems = systemsList.filter((sys) =>
+      !allSystems
+        ? formik.values.selectedSystems.includes(sys.id) && site === sys.site
+        : site === sys.site
     );
     const allModalitiesSystemsMap = new Map();
     for (const item of systemsList) {
@@ -307,9 +311,8 @@ const PageTwo = ({
         {sitesLength() > 0 ? (
           <p className="modalities-header">
             <span className="info-label">{constantUserData.sitesText}</span>
-            <span className="checked-ratio">{`${
-              formik.values.selectedSites.length
-            }/${sitesLength()}`}</span>
+            <span className="checked-ratio">{`${formik.values.selectedSites.length
+              }/${sitesLength()}`}</span>
           </p>
         ) : (
           ""
