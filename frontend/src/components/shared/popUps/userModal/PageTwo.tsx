@@ -90,7 +90,6 @@ const PageTwo = ({
 
     modifySelectedModalities(site, e.target.checked, false);
   };
-  console.log(formik.values.selectedSystems);
   const handleSitesSelection = (e) => {
     const val = parseInt(e.target.value);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
@@ -107,7 +106,6 @@ const PageTwo = ({
         ...formik.values.selectedSystems,
         ...systemsSiteList.map((x) => x.id),
       ]);
-      console.log(formik.values.selectedSystems);
     } else {
       const selectedSystemsInSite = formik.values.selectedSystems.filter(
         (x) => !systemsSiteList.some((j) => x === j.id)
@@ -311,8 +309,9 @@ const PageTwo = ({
         {sitesLength() > 0 ? (
           <p className="modalities-header">
             <span className="info-label">{constantUserData.sitesText}</span>
-            <span className="checked-ratio">{`${formik.values.selectedSites.length
-              }/${sitesLength()}`}</span>
+            <span className="checked-ratio">{`${
+              formik.values.selectedSites.length
+            }/${sitesLength()}`}</span>
           </p>
         ) : (
           ""
