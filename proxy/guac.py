@@ -23,7 +23,7 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
-@app.get("/")
+@app.get("/health")
 def index():
     return "OK"
 
