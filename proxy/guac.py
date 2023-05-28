@@ -23,6 +23,18 @@ async def guacd_to_client(websocket: WebSocket, client: GuacamoleClient):
         await websocket.send_text(str(instruction))
 
 
+class TerminalAttributes:
+    def __init__(self, system, protocol):
+        if protocol == "ssh":
+            self.port = 22
+            self.username = system.ssh_user
+            self.password = system.ssh_password
+        else:
+            self.port = 23
+            self.username = system.telnet_username
+            self.password = system.telnet_password
+
+
 @app.get("/health")
 def index():
     return "OK"
@@ -45,6 +57,7 @@ async def websocket_endpoint(
 
     user = await get_user_from_request(websocket)
     system = await get_system(user, organization_id, system_id)
+    terminal_attributes = TerminalAttributes(system, protocol)
 
     client = GuacamoleClient(
         settings.GUACD_HOST,
@@ -57,7 +70,9 @@ async def websocket_endpoint(
             "image": [],
             "args": {
                 "hostname": system.ip_address,
-                "port": 22 if protocol == "ssh" else 23,
+                "port": terminal_attributes.port,
+                "username": terminal_attributes.username,
+                "password": terminal_attributes.password,
             },
         },
         debug=False,
