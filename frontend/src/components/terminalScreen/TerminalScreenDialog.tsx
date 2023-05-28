@@ -12,12 +12,14 @@ interface TerminalScreenProps {
   openModal: boolean;
   handleModalClose: () => void;
   system: System;
+  protocol: "telnet" | "ssh";
 }
 
 const TerminalScreenDialog = ({
   openModal,
   handleModalClose,
   system,
+  protocol,
 }: TerminalScreenProps) => {
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
@@ -52,7 +54,7 @@ const TerminalScreenDialog = ({
             </Typography>
           </Toolbar>
         </AppBar>
-        <TerminalScreen system={system} protocol="telnet" />
+        <TerminalScreen system={system} protocol={protocol} />
       </Dialog>
     </>
   );

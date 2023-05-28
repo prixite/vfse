@@ -403,6 +403,7 @@ const SystemCard = ({
             openModal={openTelnetModal}
             handleModalClose={() => setOpenTelnetModal(false)}
             system={system}
+            protocol="telnet"
           />
         )}
       </div>
