@@ -47,6 +47,8 @@ export function TerminalScreen({ system, protocol }: TerminalScreenProp) {
     };
 
     return function cleanup() {
+      keyboard.current.onkeydown = null;
+      keyboard.current.onkeyup = null;
       guac.current.disconnect();
     };
   }, []);
