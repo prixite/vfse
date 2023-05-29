@@ -129,7 +129,7 @@ const PageTwo = ({
     );
     const modalitiesSet = new Set([]);
     for (const sys of selectedSiteSystems) {
-      modalitiesSet.add(sys.product_model_detail.modality.name);
+      modalitiesSet.add(sys.product_model_detail.modality.id);
     }
     formik.setFieldValue(
       constantUserData.selectedModalities,
