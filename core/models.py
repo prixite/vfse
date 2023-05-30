@@ -1,3 +1,4 @@
+from urllib import parse
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -524,6 +525,18 @@ class System(models.Model):
             models.UniqueConstraint(fields=["name", "site"], name="unique_system"),
         ]
         ordering = ["-id"]
+
+    @property
+    def safe_service_page_url(self):
+        if not self.service_page_url:
+            return f"http://{self.ip_address}/service"
+
+        return self.service_page_url
+
+    @property
+    def service_page_path(self):
+        result = parse.urlparse(self.safe_service_page_url)
+        return result.path
 
     @property
     def documentation(self):
