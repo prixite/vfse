@@ -1,6 +1,6 @@
 from urllib import parse
+
 import httpx
-from django.conf import settings
 from fastapi import FastAPI, HTTPException, Request, Response
 
 from proxy.service_utils import (
@@ -8,7 +8,6 @@ from proxy.service_utils import (
     get_user_from_request,
     is_authenticated,
 )
-from core import models
 
 app = FastAPI()
 
@@ -20,8 +19,8 @@ def health(request: Request):
 
 def get_system_info_from_hostname(request: Request):
     result = parse.urlparse(str(request.base_url))
-    system_info, *_ = result.netloc.split('.')
-    _, organization_id, system_id = system_info.split('-')
+    system_info, *_ = result.netloc.split(".")
+    _, organization_id, system_id = system_info.split("-")
     return int(organization_id), int(system_id)
 
 
