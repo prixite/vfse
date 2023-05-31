@@ -592,7 +592,7 @@ export default function SystemModal(props: SystemProps) {
                         </span>
                       )
                     }
-                    value={formik.values.name}
+                    value={formik.values.name || ""}
                     onChange={formik.handleChange}
                   />
                 </div>
@@ -611,7 +611,7 @@ export default function SystemModal(props: SystemProps) {
                       placeholder="Select site"
                       inputProps={{ "aria-label": "Without label" }}
                       style={{ height: "48px", marginRight: "15px" }}
-                      value={formik.values.site}
+                      value={formik.values.site || ""}
                       onChange={formik.handleChange}
                     >
                       {sites.map((item, index) => (
@@ -635,7 +635,7 @@ export default function SystemModal(props: SystemProps) {
                     variant="outlined"
                     size="small"
                     name="serialNumber"
-                    value={formik.values.serialNumber}
+                    value={formik.values.serialNumber || ""}
                     placeholder="9xuiua002"
                     onChange={formik.handleChange}
                   />
@@ -650,7 +650,7 @@ export default function SystemModal(props: SystemProps) {
                     variant="outlined"
                     size="small"
                     name="buildingLocation"
-                    value={formik.values.buildingLocation}
+                    value={formik.values.buildingLocation || ""}
                     placeholder="3161 Cunningham Avenue Suite 905"
                     onChange={formik.handleChange}
                   />
@@ -665,7 +665,7 @@ export default function SystemModal(props: SystemProps) {
                     variant="outlined"
                     size="small"
                     name="version"
-                    value={formik.values.version}
+                    value={formik.values.version || ""}
                     placeholder="v2.7"
                     onChange={formik.handleChange}
                   />
@@ -680,7 +680,7 @@ export default function SystemModal(props: SystemProps) {
                     variant="outlined"
                     size="small"
                     name="ip"
-                    value={formik.values.ip}
+                    value={formik.values.ip || ""}
                     placeholder="192.165.3.2"
                     onChange={formik.handleChange}
                   />
@@ -695,7 +695,7 @@ export default function SystemModal(props: SystemProps) {
                     variant="outlined"
                     size="small"
                     name="asset"
-                    value={formik.values.asset}
+                    value={formik.values.asset || ""}
                     placeholder="Wm90d47P84"
                     onChange={formik.handleChange}
                   />
@@ -710,7 +710,7 @@ export default function SystemModal(props: SystemProps) {
                     variant="outlined"
                     size="small"
                     name="localAE"
-                    value={formik.values.localAE}
+                    value={formik.values.localAE || ""}
                     placeholder="HS1"
                     onChange={formik.handleChange}
                   />
@@ -792,7 +792,7 @@ export default function SystemModal(props: SystemProps) {
                       size="small"
                       placeholder="sdc"
                       name="sshUser"
-                      value={formik.values.sshUser}
+                      value={formik.values.sshUser || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -808,7 +808,7 @@ export default function SystemModal(props: SystemProps) {
                       size="small"
                       placeholder="Password"
                       name="sshPassword"
-                      value={formik.values.sshPassword}
+                      value={formik.values.sshPassword || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -828,7 +828,7 @@ export default function SystemModal(props: SystemProps) {
                       size="small"
                       placeholder="sdc"
                       name="telnetUser"
-                      value={formik.values.telnetUser}
+                      value={formik.values.telnetUser || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -844,7 +844,7 @@ export default function SystemModal(props: SystemProps) {
                       size="small"
                       placeholder="Password"
                       name="telnetPassword"
-                      value={formik.values.telnetPassword}
+                      value={formik.values.telnetPassword || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -863,7 +863,7 @@ export default function SystemModal(props: SystemProps) {
                       size="small"
                       placeholder="Path"
                       name="vncServerPath"
-                      value={formik.values.vncServerPath}
+                      value={formik.values.vncServerPath || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -878,7 +878,7 @@ export default function SystemModal(props: SystemProps) {
                       size="small"
                       placeholder="Path"
                       name="vncPort"
-                      value={formik.values.vncPort}
+                      value={formik.values.vncPort || ""}
                       onChange={formik.handleChange}
                     />
                   </div>
@@ -896,7 +896,7 @@ export default function SystemModal(props: SystemProps) {
                     size="small"
                     placeholder="971-091-9353x05482"
                     name="contactInfo"
-                    value={formik.values.contactInfo}
+                    value={formik.values.contactInfo || ""}
                     onChange={formik.handleChange}
                   />
                 </div>
@@ -918,7 +918,7 @@ export default function SystemModal(props: SystemProps) {
                       formik.touched.grafana && Boolean(formik.errors.grafana)
                     }
                     helperText={formik.touched.grafana && formik.errors.grafana}
-                    value={formik.values.grafana}
+                    value={formik.values.grafana || ""}
                     onChange={formik.handleChange}
                   />
                 </div>
@@ -940,7 +940,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="192.165.3.2"
                           name="ris.ip"
-                          value={formik.values.ris.ip}
+                          value={formik.values.ris.ip || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -953,7 +953,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="HS1"
                           name="ris.title"
-                          value={formik.values.ris.title}
+                          value={formik.values.ris.title || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -967,7 +967,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           type="number"
                           name="ris.port"
-                          value={formik.values.ris.port}
+                          value={formik.values.ris.port || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -980,7 +980,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="system 1"
                           name="ris.ae"
-                          value={formik.values.ris.ae}
+                          value={formik.values.ris.ae || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -1002,7 +1002,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="192.165.3.2"
                           name="dicom.ip"
-                          value={formik.values.dicom.ip}
+                          value={formik.values.dicom.ip || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -1015,7 +1015,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="Dic 1"
                           name="dicom.title"
-                          value={formik.values.dicom.title}
+                          value={formik.values.dicom.title || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -1029,7 +1029,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           type="number"
                           name="dicom.port"
-                          value={formik.values.dicom.port}
+                          value={formik.values.dicom.port || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -1042,7 +1042,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="system 1"
                           name="dicom.ae"
-                          value={formik.values.dicom.ae}
+                          value={formik.values.dicom.ae || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -1064,7 +1064,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="strong"
                           name="mri.helium"
-                          value={formik.values.mri.helium}
+                          value={formik.values.mri.helium || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -1077,7 +1077,7 @@ export default function SystemModal(props: SystemProps) {
                           size="small"
                           placeholder="low"
                           name="mri.magnet"
-                          value={formik.values.mri.magnet}
+                          value={formik.values.mri.magnet || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
