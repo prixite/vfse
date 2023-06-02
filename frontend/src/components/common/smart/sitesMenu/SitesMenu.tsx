@@ -5,8 +5,8 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import SystemReadOnly from "@src/components/common/smart/SystemReadOnly";
+import { Formik } from "@src/helpers/interfaces/sharedInterfaces";
 import { Site, System } from "@src/store/reducers/generated";
-import { Formik } from "@src/types/interfaces";
 
 interface Props {
   site: Site;

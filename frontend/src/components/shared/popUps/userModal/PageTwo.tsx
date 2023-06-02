@@ -9,13 +9,13 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
+import { Formik } from "@src/helpers/interfaces/sharedInterfaces";
 import {
   Modality,
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
   useOrganizationsSystemsListQuery,
 } from "@src/store/reducers/generated";
-import { Formik } from "@src/types/interfaces";
 
 interface Props {
   formik: Formik;

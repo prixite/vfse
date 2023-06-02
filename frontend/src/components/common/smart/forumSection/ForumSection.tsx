@@ -7,10 +7,10 @@ import { useTranslation } from "react-i18next";
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
 import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopSection";
 import TopicModal from "@src/components/shared/popUps/topicModal/TopicModal";
+import { getTopicListArg } from "@src/helpers/interfaces/sharedInterfaces";
 import { parseLink } from "@src/helpers/paging";
 import { api } from "@src/store/reducers/api";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
-import { getTopicListArg } from "@src/types/interfaces";
 
 export default function ForumSection() {
   const { t } = useTranslation();
