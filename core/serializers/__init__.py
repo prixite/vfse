@@ -613,7 +613,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "is_online",
             "last_successful_ping_at",
             "vnc_port",
-            "service_page_url",
+            "service_page_path",
             "ssh_user",
             "ssh_password",
             "telnet_username",
