@@ -527,7 +527,7 @@ const SystemCard = ({
                       <MenuItem
                         onClick={() =>
                           window.open(
-                            `s-${selectedOrganization.id}-${system.id}.${process.env.HTML_PROXY_DOMAIN}${system.service_page_path}`,
+                            `//s-${selectedOrganization.id}-${system.id}.vfse.io${system.service_page_path}`,
                             "_blank"
                           )
                         }

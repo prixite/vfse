@@ -65,6 +65,7 @@ env = environ.Env(
     GUACD_HOST=(str, "guacd"),
     GUACD_PORT=(int, 4822),
     GUACD_PROXY_WS=(str, None),
+    SESSION_COOKIE_DOMAIN=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -314,3 +315,5 @@ TELNET_LOG_LEVEL = env("TELNET_LOG_LEVEL")
 GUACD_HOST = env("GUACD_HOST")
 GUACD_PORT = env("GUACD_PORT")
 GUACD_PROXY_WS = env("GUACD_PROXY_WS")
+
+SESSION_COOKIE_DOMAIN = env("SESSION_COOKIE_DOMAIN")
