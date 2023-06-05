@@ -91,7 +91,7 @@ const SystemCard = ({
   const openConnect = Boolean(anchorConnect);
 
   const handleModalClose = () => {
-    setOpenModal(false);
+    setOpenSSHModal(false);
   };
 
   const handleClick = (event) => {
