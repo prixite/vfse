@@ -45,10 +45,11 @@ async def proxy(method_name: str, path: str, request: Request, data=None):
     base_url = to_base_url(system.safe_service_page_url)
     async with httpx.AsyncClient() as client:
         method = getattr(client, method_name)
+        url = f"{base_url}/{path}"
         if data is None:
-            proxy = await method(f"{base_url}/{path}")
+            proxy = await method(url)
         else:
-            proxy = await method(f"{base_url}/{path}", data=dict(data))
+            proxy = await method(url, data=dict(data))
 
     response = Response(content=proxy.content)
     response.headers.update(proxy.headers)
