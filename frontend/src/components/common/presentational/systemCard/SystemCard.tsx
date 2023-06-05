@@ -90,10 +90,6 @@ const SystemCard = ({
   const open = Boolean(anchorEl);
   const openConnect = Boolean(anchorConnect);
 
-  const handleModalClose = () => {
-    setOpenSSHModal(false);
-  };
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
