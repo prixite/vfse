@@ -33,8 +33,8 @@ export default function FormikAutoComplete({
   parent,
   optionLabel = "name",
 }: Props) {
-  const [value, setValue] = useState(null);
-  const [inputValue, setInputValue] = useState(null);
+  const [value, setValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const preParent = usePrevious(formik.values[parent]);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function FormikAutoComplete({
       autoHighlight
       getOptionLabel={(option) => (option ? option[optionLabel] : "")}
       value={value}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      isOptionEqualToValue={(option, value) => option.value === value.value}
       onChange={(_, newValue) => {
         setValue(newValue);
         formik.setFieldTouched(field, true);

@@ -92,3 +92,21 @@ API definitions are available at http://localhost:8000/openapi/. We use [OpenAPI
 Generate OpenAPI specification using the following command. This will create/update two files. Commit both files.
 
     ./scripts/generate_swagger
+
+
+## Connect local frontend with staging
+Copy the following settings in .env:
+
+    API_SERVER="https://vfse.prixite.com/api/"
+    PUBLIC_PATH="/"
+    AUTH_TOKEN="fake" # Copy from staging
+    WEBSSH_SERVER="https://vfse.prixite.com/webssh/"
+    WEBSSH_WS_SERVER="wss://vfse.prixite.com/webssh/"
+
+
+Run the frontend using:
+
+    npm run dev:serve
+
+
+Go to http://localhost:3000/clients/1/.

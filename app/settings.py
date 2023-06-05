@@ -60,10 +60,12 @@ env = environ.Env(
     X_ECM_API_KEY=(str, None),
     AUTHENTICATION_CLASSES=(list, []),
     ENCRYPTION_KEY=(str, None),
-    HTML_PROXY_HOST=(str, ""),
-    HTML_PROXY_PATH=(str, "/htmlproxy/"),
     DJANGO_LOG_LEVEL=(str, "INFO"),
     TELNET_LOG_LEVEL=(int, 0),
+    GUACD_HOST=(str, "guacd"),
+    GUACD_PORT=(int, 4822),
+    GUACD_PROXY_WS=(str, None),
+    SESSION_COOKIE_DOMAIN=(str, None),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
@@ -290,9 +292,6 @@ X_ECM_API_KEY = env("X_ECM_API_KEY")
 
 CORS_ALLOWED_ORIGINS = env("CORS_ALLOWED_ORIGINS")
 
-HTML_PROXY_HOST = env("HTML_PROXY_HOST")
-HTML_PROXY_PATH = env("HTML_PROXY_PATH")
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -312,3 +311,9 @@ LOGGING = {
 }
 
 TELNET_LOG_LEVEL = env("TELNET_LOG_LEVEL")
+
+GUACD_HOST = env("GUACD_HOST")
+GUACD_PORT = env("GUACD_PORT")
+GUACD_PROXY_WS = env("GUACD_PROXY_WS")
+
+SESSION_COOKIE_DOMAIN = env("SESSION_COOKIE_DOMAIN")

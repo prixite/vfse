@@ -1,5 +1,6 @@
+from urllib import parse
+
 import httpx
-from django.conf import settings
 from fastapi import FastAPI, HTTPException, Request, Response
 
 from proxy.service_utils import (
@@ -11,14 +12,29 @@ from proxy.service_utils import (
 app = FastAPI()
 
 
-@app.get("/{organization_id:int}/{system_id:int}/{path:path}")
-async def index_proxy(
-    organization_id: int, system_id: int, path: str, request: Request
-):
+@app.get("/health")
+def health(request: Request):
+    return "OK"
+
+
+def get_system_info_from_hostname(request: Request):
+    result = parse.urlparse(str(request.base_url))
+    system_info, *_ = result.netloc.split(".")
+    _, organization_id, system_id = system_info.split("-")
+    return int(organization_id), int(system_id)
+
+
+def to_base_url(url: str):
+    result = parse.urlparse(url)
+    return f"{result.scheme}://{result.netloc}"
+
+
+async def proxy(method_name: str, path: str, request: Request, data=None):
     if not is_authenticated(request):
         raise HTTPException(status_code=403, detail="Not authenticated")
 
     user = await get_user_from_request(request)
+    organization_id, system_id = get_system_info_from_hostname(request)
     system = await get_system(user, organization_id, system_id)
 
     if not system.connection_options.get("service_web_browser"):
@@ -26,73 +42,26 @@ async def index_proxy(
             status_code=400, detail="No service browser access for system"
         )
 
-    if not path.startswith("service"):
-        path = f"service/{path}"
-
-    url = f"http://{system.ip_address}/{path}"
+    base_url = to_base_url(system.safe_service_page_url)
     async with httpx.AsyncClient() as client:
-        proxy = await client.get(url)
-
-    content = proxy.content.replace(
-        b"/service/",
-        settings.HTML_PROXY_PATH.encode()
-        + str(organization_id).encode()
-        + b"/"
-        + str(system_id).encode()
-        + b"/service/",
-    )
-
-    keys = [
-        b"dd/site.htm",
-        b"dd/lastkey.htm",
-        b"global/execform.htm",
-        b"global/stopform.htm",
-        b"global/terminateform.htm",
-        b"global/debugform.htm",
-        b"ggjscript/ggjscript.htm",
-        b"access/access.htm",
-        b"homemenu/homemenu.stm",
-    ]
-
-    if settings.HTML_PROXY_PATH == "/":
-        for key in keys:
-            content = content.replace(key, str(system_id).encode() + b"/" + key)
-    else:
-        for key in keys:
-            content = content.replace(
-                key,
-                str(organization_id).encode()
-                + b"/"
-                + str(system_id).encode()
-                + b"/"
-                + key,
-            )
-
-    proxy.headers.update({"content-length": str(len(content))})
-    response = Response(content=content)
-    response.headers.update(proxy.headers)
-    response.status_code = proxy.status_code
-    return response
-
-
-@app.post("/{organization_id:int}/{system_id:int}/{path:path}")
-async def post_proxy(organization_id: int, system_id: int, path: str, request: Request):
-    if not is_authenticated(request):
-        raise HTTPException(status_code=403, detail="Not authenticated")
-
-    user = await get_user_from_request(request)
-    system = await get_system(user, organization_id, system_id)
-
-    if not path.startswith("service"):
-        path = f"service/{path}"
-
-    url = f"http://{system.ip_address}/{path}"
-
-    data = await request.form()
-    async with httpx.AsyncClient() as client:
-        proxy = await client.post(url, data=dict(data))
+        method = getattr(client, method_name)
+        url = f"{base_url}/{path}"
+        if data is None:
+            proxy = await method(url)
+        else:
+            proxy = await method(url, data=dict(data))
 
     response = Response(content=proxy.content)
     response.headers.update(proxy.headers)
     response.status_code = proxy.status_code
     return response
+
+
+@app.get("/{path:path}")
+async def get_proxy(path: str, request: Request):
+    return await proxy("get", path, request)
+
+
+@app.post("/{path:path}")
+async def post_proxy(path: str, request: Request):
+    return await proxy("post", path, request, request.form())

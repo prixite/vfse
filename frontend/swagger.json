@@ -2907,7 +2907,7 @@
                 "number_of_seats": {
                     "title": "Number of seats",
                     "type": "integer",
-                    "maximum": 200,
+                    "maximum": 65536,
                     "minimum": 0,
                     "x-nullable": true
                 },
@@ -3472,11 +3472,10 @@
                     "maxLength": 8,
                     "x-nullable": true
                 },
-                "service_page_url": {
-                    "title": "Service page url",
+                "service_page_path": {
+                    "title": "Service page path",
                     "type": "string",
-                    "maxLength": 512,
-                    "x-nullable": true
+                    "readOnly": true
                 },
                 "ssh_user": {
                     "title": "Ssh user",

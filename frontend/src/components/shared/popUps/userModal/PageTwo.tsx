@@ -56,6 +56,7 @@ const PageTwo = ({
   const constantUserData = localizedData().users.popUp;
 
   const handleSystemSelection = (e, site) => {
+    let checkedSystems: number[];
     const val = parseInt(e.target.value);
     if (e?.target?.checked === false) {
       const tempStatusMap = new Map(systemStatus);
@@ -68,13 +69,14 @@ const PageTwo = ({
       formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
       ]);
+      checkedSystems = [...formik.values.selectedSystems];
     } else {
       formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
         val,
       ]);
+      checkedSystems = [...formik.values.selectedSystems, val];
     }
-
     const { systemInSiteExists } = handelSitesOfSystem(site);
     if (
       !e?.target?.checked && //uncheck
@@ -88,10 +90,8 @@ const PageTwo = ({
     ) {
       modifySelectedSiteList(site);
     }
-
-    modifySelectedModalities(site, e.target.checked);
+    modifySelectedModalities(site, checkedSystems);
   };
-
   const handleSitesSelection = (e) => {
     const val = parseInt(e.target.value);
     const { systemsSiteList, systemInSiteExists } = handelSitesOfSystem(val);
@@ -102,7 +102,10 @@ const PageTwo = ({
         setSystemStatus(tempStatusMap);
       });
     }
-    modifySelectedModalities(val, e.target.checked);
+    const modifiedSystems = e.target.checked
+      ? systemsList.filter((sys) => val === sys.site).map((obj) => obj.id)
+      : [];
+    modifySelectedModalities(val, modifiedSystems);
     if (!systemInSiteExists) {
       formik.setFieldValue("selectedSystems", [
         ...formik.values.selectedSystems,
@@ -114,60 +117,19 @@ const PageTwo = ({
       );
       formik.setFieldValue("selectedSystems", [...selectedSystemsInSite]);
     }
-
     modifySelectedSiteList(val);
   };
 
-  const modifySelectedModalities = (site: number, checked: boolean) => {
+  const modifySelectedModalities = (
+    site: number,
+    selectedSystems: number[]
+  ) => {
     const selectedSiteSystems = systemsList.filter(
-      (sys) =>
-        formik.values.selectedSystems.includes(sys.id) && site === sys.site
+      (sys) => selectedSystems.includes(sys.id) && site === sys.site
     );
-    const allModalitiesSystemsMap = new Map();
-    for (const item of systemsList) {
-      const modalitySiteMatrix = allModalitiesSystemsMap.get(
-        item.product_model_detail.modality.id
-      );
-      if (modalitySiteMatrix?.length) {
-        modalitySiteMatrix.push(item);
-        allModalitiesSystemsMap.set(item.product_model_detail.modality.id, [
-          ...modalitySiteMatrix,
-        ]);
-      } else {
-        allModalitiesSystemsMap.set(item.product_model_detail.modality.id, [
-          item,
-        ]);
-      }
-    }
-    const modalitiesMap = new Map();
-
-    for (const item of selectedSiteSystems) {
-      const modalitySiteMatrix = modalitiesMap.get(
-        item.product_model_detail.modality.id
-      );
-      if (modalitySiteMatrix?.length) {
-        modalitySiteMatrix.push(item);
-        modalitiesMap.set(item.product_model_detail.modality.id, [
-          ...modalitySiteMatrix,
-        ]);
-      } else {
-        modalitiesMap.set(item.product_model_detail.modality.id, [item]);
-      }
-    }
-    const modalitiesSet = new Set([...formik.values.selectedModalities]);
-
+    const modalitiesSet = new Set([]);
     for (const sys of selectedSiteSystems) {
-      const modalitySiteMatrix = modalitiesMap.get(
-        sys.product_model_detail.modality.id
-      )?.size;
-      const allModalityMatrix = allModalitiesSystemsMap.get(
-        sys.product_model_detail.modality.id
-      )?.size;
-      if (!checked && modalitySiteMatrix === allModalityMatrix) {
-        modalitiesSet.delete(sys.product_model_detail.modality.id);
-      } else {
-        modalitiesSet.add(sys.product_model_detail.modality.id);
-      }
+      modalitiesSet.add(sys.product_model_detail.modality.id);
     }
     formik.setFieldValue(
       constantUserData.selectedModalities,

@@ -1461,7 +1461,7 @@ export type System = {
   is_online?: boolean;
   last_successful_ping_at?: string | null;
   vnc_port?: string | null;
-  service_page_url?: string | null;
+  service_page_path?: string | null;
   ssh_user?: string | null;
   ssh_password?: string | null;
   telnet_username?: string | null;

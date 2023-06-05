@@ -214,6 +214,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     border: "1px solid black",
     boxShadow: "none",
     height: "max-content",
+    marginTop: "4px",
     padding: "6px 12px",
     [theme.breakpoints.down("sm")]: {},
   },

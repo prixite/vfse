@@ -31,6 +31,7 @@ import { FitAddon } from "xterm-addon-fit";
 import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
+import TerminalScreenDialog from "@src/components/terminalScreen/TerminalScreenDialog";
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
@@ -47,7 +48,7 @@ import {
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
 
-import PasswordDialog from "./VncScreen/PasswordModal";
+import PasswordDialog from "./vncScreen/PasswordModal";
 
 import "../../../../../../node_modules/xterm/css/xterm.css";
 
@@ -63,10 +64,9 @@ const Transition = React.forwardRef(function Transition(
 const SystemCard = ({
   system,
   handleEdit,
-  setSystem,
-  setIsOpen,
   canLeaveNotes,
   currentUser,
+  onSupport,
   viewSystemLocation,
 }: SystemInterfaceProps) => {
   const { t, i18n } = useTranslation();
@@ -83,7 +83,8 @@ const SystemCard = ({
   const selectedOrganization: Organization = useSelectedOrganization();
   const dispatch = useAppDispatch();
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
-  const [openModal, setOpenModal] = useState(false);
+  const [openSSHModal, setOpenSSHModal] = useState(false);
+  const [openTelnetModal, setOpenTelnetModal] = useState(false);
   const [openVnc, setOpenVnc] = useState(false);
 
   const open = Boolean(anchorEl);
@@ -106,10 +107,6 @@ const SystemCard = ({
     setAnchorConnect(null);
   };
 
-  const onSupport = (e) => {
-    handleSupportChatBox();
-    handleClose(e);
-  };
   const onEdit = (e) => {
     handleEdit(system);
     handleClose(e);
@@ -131,11 +128,6 @@ const SystemCard = ({
   const onComment = (e) => {
     dispatch(openSystemDrawer(system?.id));
     handleClose(e);
-  };
-
-  const handleSupportChatBox = () => {
-    setIsOpen(true);
-    setSystem(system);
   };
 
   const handleLogsOnEnter = (prev) => {
@@ -167,7 +159,7 @@ const SystemCard = ({
       setLoginProgress(false);
     } else {
       setLoginProgress(false);
-      setOpenModal(true);
+      setOpenSSHModal(true);
       const url = `${process.env.WEBSSH_WS_SERVER}ws?id=${msg.id}`;
       const title_element: { text: string } = undefined;
       const url_opts_data: unknown = {};
@@ -311,7 +303,7 @@ const SystemCard = ({
         read_file_as_text(msg.data, term_write, decoder);
       };
       sock.onclose = function () {
-        setOpenModal(false);
+        setOpenSSHModal(false);
         term.dispose();
         sock = undefined;
       };
@@ -366,10 +358,20 @@ const SystemCard = ({
   return (
     <div className={classes.systemCard}>
       <div>
+        {openTelnetModal && (
+          <TerminalScreenDialog
+            openModal={openTelnetModal}
+            handleModalClose={() => setOpenTelnetModal(false)}
+            system={system}
+            protocol="telnet"
+          />
+        )}
+      </div>
+      <div>
         <Dialog
           maxWidth="lg"
-          open={openModal}
-          onClose={handleModalClose}
+          open={openSSHModal}
+          onClose={handleSSHModalClose}
           TransitionComponent={Transition}
         >
           <AppBar sx={{ position: "relative" }}>
@@ -377,7 +379,7 @@ const SystemCard = ({
               <IconButton
                 edge="start"
                 color="inherit"
-                onClick={handleModalClose}
+                onClick={handleSSHModalClose}
                 aria-label="close"
               >
                 <CloseIcon />
@@ -460,9 +462,14 @@ const SystemCard = ({
                     }}
                   >
                     {system.connection_options.ssh && (
-                      <MenuItem onClick={(e) => handleConnect(e, system.id)}>
-                        <span style={{ marginLeft: "12px" }}>SSH</span>
-                      </MenuItem>
+                      <>
+                        <MenuItem onClick={(e) => handleConnect(e, system.id)}>
+                          <span style={{ marginLeft: "12px" }}>SSH</span>
+                        </MenuItem>
+                        <MenuItem onClick={() => setOpenTelnetModal(true)}>
+                          <span style={{ marginLeft: "12px" }}>Telnet</span>
+                        </MenuItem>
+                      </>
                     )}
                     {system.connection_options.vfse && (
                       <MenuItem onClick={() => setOpenVnc(true)}>
@@ -480,7 +487,7 @@ const SystemCard = ({
                       <MenuItem
                         onClick={() =>
                           window.open(
-                            `${process.env.HTML_PROXY_HOST}${process.env.HTML_PROXY_PATH}${selectedOrganization.id}/${system.id}/service/`,
+                            `//s-${selectedOrganization.id}-${system.id}.vfse.io${system.service_page_path}`,
                             "_blank"
                           )
                         }

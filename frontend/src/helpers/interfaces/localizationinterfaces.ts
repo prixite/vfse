@@ -510,4 +510,5 @@ export interface SystemInterfaceProps {
   canLeaveNotes: boolean;
   currentUser: Me;
   viewSystemLocation?: (system: System) => void;
+  onSupport?: (system: System) => void;
 }

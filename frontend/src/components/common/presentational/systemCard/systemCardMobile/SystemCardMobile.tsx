@@ -37,6 +37,8 @@ const SystemCardMobile = ({
   handleEdit,
   canLeaveNotes,
   currentUser,
+  viewSystemLocation,
+  onSupport,
 }: SystemInterfaceProps) => {
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state?.myTheme
@@ -65,8 +67,17 @@ const SystemCardMobile = ({
     grafana_link_txt,
   } = localizedData().systems_card;
   const { toastData } = constantsData;
-  const { yes, no, format_LT, format_l, blank, edit, comments, deleteText } =
-    constantsData.systemCard;
+  const {
+    online,
+    offline,
+    time_format,
+    date_format,
+    blank,
+    edit,
+    support,
+    comments,
+    deleteText,
+  } = constantsData.systemCard;
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,7 +85,6 @@ const SystemCardMobile = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const onEdit = () => {
     handleEdit(system);
     handleClose();
@@ -92,6 +102,7 @@ const SystemCardMobile = ({
     dispatch(openSystemDrawer(system?.id));
     handleClose();
   };
+
   return (
     <>
       <Accordion className="SystemCardMobile">
@@ -135,7 +146,7 @@ const SystemCardMobile = ({
             </div>
             <div className="option">
               <h3 className="title">{is_online}</h3>
-              <h3 className="value">{system.is_online ? yes : no}</h3>
+              <h3 className="value">{system.is_online ? online : offline}</h3>
             </div>
             <div className="option">
               <h3 className="title">{asset_txt}</h3>
@@ -157,8 +168,8 @@ const SystemCardMobile = ({
               <div className="option">
                 <h3 className="title">{latest_ping}</h3>
                 <h3 className="value">
-                  {moment(system.last_successful_ping_at).format(format_l)}{" "}
-                  {moment(system.last_successful_ping_at).format(format_LT)}
+                  {moment(system.last_successful_ping_at).format(date_format)}{" "}
+                  {moment(system.last_successful_ping_at).format(time_format)}
                 </h3>
               </div>
             )}
@@ -258,6 +269,12 @@ const SystemCardMobile = ({
           className="system-dropdownMenu"
           onClose={handleClose}
         >
+          <MenuItem onClick={() => viewSystemLocation(system)}>
+            <span style={{ marginLeft: "12px" }}>View Location</span>
+          </MenuItem>
+          <MenuItem onClick={() => onSupport(system)}>
+            <span style={{ marginLeft: "12px" }}>{support}</span>
+          </MenuItem>
           {currentUser?.role !== "end-user" && (
             <MenuItem onClick={onEdit}>
               <span style={{ marginLeft: "12px" }}>{edit}</span>
