@@ -23,6 +23,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { TransitionProps } from "@mui/material/transitions";
 import Typography from "@mui/material/Typography";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
@@ -32,9 +33,7 @@ import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
   useAppDispatch,
@@ -70,6 +69,7 @@ const SystemCard = ({
   currentUser,
   viewSystemLocation,
 }: SystemInterfaceProps) => {
+  const { t, i18n } = useTranslation();
   const classes = useStyles();
   const [webSSHPayload] = api.useWebsshlogCreateMutation();
   const [consoleMsg, setConsoleMsg] = useState<string>("");
@@ -82,52 +82,13 @@ const SystemCard = ({
   );
   const selectedOrganization: Organization = useSelectedOrganization();
   const dispatch = useAppDispatch();
-  const { toastData, systemCard } = constantsData;
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const [openModal, setOpenModal] = useState(false);
   const [openVnc, setOpenVnc] = useState(false);
 
   const open = Boolean(anchorEl);
   const openConnect = Boolean(anchorConnect);
-  const {
-    his_ris_info_txt,
-    dicom_info_txt,
-    serial_txt,
-    is_online,
-    asset_txt,
-    helium_level,
-    mpc_status,
-    latest_ping,
-    copy_btn,
-    ip_address_txt,
-    local_ae_title_txt,
-    software_version_txt,
-    location,
-    connect,
-    grafana_link_txt,
-  } = localizedData().systems_card;
 
-  const {
-    textDecoder_utf_8,
-    organizationId,
-    id,
-    port,
-    portNumber,
-    root,
-    color,
-    username,
-    term,
-    sshTerminalText,
-    blank,
-    yes,
-    no,
-    format_l,
-    format_LT,
-    support,
-    edit,
-    comments,
-    deleteText,
-  } = systemCard;
   const handleModalClose = () => {
     setOpenModal(false);
   };
@@ -211,7 +172,7 @@ const SystemCard = ({
       const title_element: { text: string } = undefined;
       const url_opts_data: unknown = {};
       const style: { width: number; height: number } = undefined;
-      const encoding = textDecoder_utf_8;
+      const encoding = "utf-8";
       const decoder = window.TextDecoder
         ? new window.TextDecoder(encoding)
         : encoding;
@@ -250,7 +211,7 @@ const SystemCard = ({
         const reader = new window.FileReader();
 
         if (encoding === undefined) {
-          encoding = textDecoder_utf_8;
+          encoding = "utf-8";
         }
 
         reader.onload = function () {
@@ -265,7 +226,7 @@ const SystemCard = ({
         const reader = new window.FileReader();
 
         if (decoder === undefined) {
-          decoder = new window.TextDecoder(textDecoder_utf_8, { fatal: true });
+          decoder = new window.TextDecoder("utf-8", { fatal: true });
         }
 
         reader.onload = function () {
@@ -364,13 +325,13 @@ const SystemCard = ({
     try {
       const data = new FormData();
       data.append(
-        organizationId,
+        "organization_id",
         selectedOrganization?.id as unknown as string
       );
-      data.append(id, systemId.toString());
-      data.append(port, portNumber);
-      data.append(username, root);
-      data.append(term, color);
+      data.append("system_id", systemId.toString());
+      data.append("port", "22");
+      data.append("username", "root");
+      data.append("term", "xterm-256color");
 
       fetch(url, {
         credentials: "include",
@@ -422,7 +383,7 @@ const SystemCard = ({
                 <CloseIcon />
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                {sshTerminalText}
+                {t("systemcard.SSH Terminal")}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -466,7 +427,7 @@ const SystemCard = ({
                     />
                   ) : (
                     <>
-                      {connect}
+                      {i18n.t("Connect")}
                       <MoreVertIcon
                         sx={{
                           marginBottom: "2px",
@@ -537,11 +498,11 @@ const SystemCard = ({
               <Button
                 variant="contained"
                 className={classes.linkBtn}
-                onClick={() => window?.open(system.grafana_link, blank)}
+                onClick={() => window?.open(system.grafana_link, "_blank")}
               >
                 <div className="btn-content">
                   <AttachFileIcon className={classes.icon} />
-                  <span>{grafana_link_txt}</span>
+                  <span>{i18n.t("systemcard.Dashboard Link")}</span>
                 </div>
               </Button>
             ) : (
@@ -553,7 +514,7 @@ const SystemCard = ({
           <div className={classes.features}>
             <div className={classes.featuresOptions}>
               <p className={classes.option}>
-                {his_ris_info_txt} <br />
+                {i18n.t("systemcard.HIS/RIS info")} <br />
                 <strong
                   className={classes.titleStrong}
                   style={{ overflowWrap: "anywhere" }}
@@ -562,27 +523,27 @@ const SystemCard = ({
                 </strong>
               </p>
               <p className={classes.option}>
-                {dicom_info_txt} <br />
+                {i18n.t("systemcard.Dicom info")} <br />
                 <strong className={classes.titleStrong}>
                   {system.dicom_info?.title || "-"}
                 </strong>
               </p>
               <p className={classes.option}>
-                {serial_txt} <br />
+                {i18n.t("systemcard.Serial")} <br />
                 <strong className={classes.titleStrong}>
                   {system.serial_number || "-"}
                 </strong>
               </p>
               <p className={classes.option}>
-                {is_online} <br />
+                {i18n.t("systemcard.Is Online")} <br />
                 <strong className={classes.titleStrong}>
-                  {system.is_online ? yes : no}
+                  {system.is_online ? "Yes" : "No"}
                 </strong>
               </p>
             </div>
             <div>
               <p className={classes.option}>
-                {asset_txt} <br />
+                {i18n.t("systemcard.Asset")} <br />
                 <strong className={classes.titleStrong}>
                   {system.asset_number || "-"}
                 </strong>
@@ -590,7 +551,7 @@ const SystemCard = ({
               {system.product_model_detail?.modality?.group.toLowerCase() ===
               "mri" ? (
                 <p className={classes.option}>
-                  {helium_level} <br />
+                  {i18n.t("systemcard.Helium Level")} <br />
                   <strong className={classes.titleStrong}>
                     {system.mri_embedded_parameters?.helium || "-"}
                   </strong>
@@ -599,17 +560,17 @@ const SystemCard = ({
                 ""
               )}
               <p className={classes.option}>
-                {mpc_status} <br />
+                {i18n.t("systemcard.MPC Status")} <br />
                 <strong className={classes.titleStrong}>
                   {system.mri_embedded_parameters?.magnet_pressure || "-"}
                 </strong>
               </p>
               {system.last_successful_ping_at && (
                 <p className={classes.option}>
-                  {latest_ping} <br />
+                  {i18n.t("systemcard.Latest Ping")} <br />
                   <strong className={classes.titleStrong}>
-                    {moment(system.last_successful_ping_at).format(format_l)}{" "}
-                    {moment(system.last_successful_ping_at).format(format_LT)}
+                    {moment(system.last_successful_ping_at).format("l")}{" "}
+                    {moment(system.last_successful_ping_at).format("LT")}
                   </strong>
                 </p>
               )}
@@ -639,7 +600,7 @@ const SystemCard = ({
                         });
                       }}
                     >
-                      {copy_btn}
+                      {i18n.t("Copy")}
                     </Button>
                   </InputAdornment>
                 ),
@@ -651,25 +612,25 @@ const SystemCard = ({
         </div>
         <div className={classes.infoSection}>
           <p className={classes.option}>
-            {ip_address_txt} <br />
+            {i18n.t("systemcard.IP adress")} <br />
             <strong className={classes.titleStrong}>
               {system.ip_address || "-"}
             </strong>
           </p>
           <p className={classes.option}>
-            {local_ae_title_txt} <br />
+            {i18n.t("systemcard.Local AE title")} <br />
             <strong className={classes.titleStrong}>
               {system.local_ae_title || "-"}
             </strong>
           </p>
           <p className={classes.option}>
-            {software_version_txt} <br />
+            {i18n.t("systemcard.Software Version")} <br />
             <strong className={classes.titleStrong}>
               {system.software_version || "-"}
             </strong>
           </p>
           <p className={classes.option}>
-            {location} <br />
+            {i18n.t("systemcard.Location")} <br />
             <strong className={classes.titleStrong}>
               {system.location_in_building || "-"}
             </strong>
@@ -702,21 +663,29 @@ const SystemCard = ({
               <span style={{ marginLeft: "12px" }}>View Location</span>
             </MenuItem>
             <MenuItem onClick={(e) => onSupport(e)}>
-              <span style={{ marginLeft: "12px" }}>{support}</span>
+              <span style={{ marginLeft: "12px" }}>
+                {i18n.t("systemcard.Support")}
+              </span>
             </MenuItem>
             {currentUser?.role !== "end-user" && (
               <MenuItem onClick={(e) => onEdit(e)}>
-                <span style={{ marginLeft: "12px" }}>{edit}</span>
+                <span style={{ marginLeft: "12px" }}>
+                  {i18n.t("systemcard.Edit")}
+                </span>
               </MenuItem>
             )}
             {canLeaveNotes && (
               <MenuItem onClick={(e) => onComment(e)}>
-                <span style={{ marginLeft: "12px" }}>{comments}</span>
+                <span style={{ marginLeft: "12px" }}>
+                  {i18n.t("systemcard.Comments")}
+                </span>
               </MenuItem>
             )}
             {currentUser?.role !== "end-user" && (
               <MenuItem onClick={() => setModal(true)}>
-                <span style={{ marginLeft: "12px" }}>{deleteText}</span>
+                <span style={{ marginLeft: "12px" }}>
+                  {i18n.t("systemcard.Delete")}
+                </span>
               </MenuItem>
             )}
           </Menu>
