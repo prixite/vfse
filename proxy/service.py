@@ -29,6 +29,17 @@ def to_base_url(url: str):
     return f"{result.scheme}://{result.netloc}"
 
 
+def replace_host_in_location(base_url: str, location: str, request: Request):
+    location_base_url = to_base_url(location)
+    if base_url == location_base_url:
+        host = request.headers["host"]
+        protocol = request.headers["x-forwarded-proto"]
+        result = parse.urlparse(location)
+        return f"{protocol}://{host}{result.path}"
+
+    return location
+
+
 async def proxy(method_name: str, path: str, request: Request, data=None):
     if not is_authenticated(request):
         raise HTTPException(status_code=403, detail="Not authenticated")
@@ -53,6 +64,11 @@ async def proxy(method_name: str, path: str, request: Request, data=None):
 
     response = Response(content=proxy.content)
     response.headers.update(proxy.headers)
+    if "location" in response.headers:
+        location = response.headers["location"]
+        new_location = replace_host_in_location(base_url, location, request)
+        response.headers["location"] = new_location
+
     response.status_code = proxy.status_code
     return response
 
