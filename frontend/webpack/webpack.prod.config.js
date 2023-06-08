@@ -18,7 +18,7 @@ module.exports = merge.mergeWithCustomize({
       // and not allow any straggling "old" SWs to hang around
       clientsClaim: true,
       skipWaiting: true,
-      swDest: path.resolve("frontend/dist/web/sw"),
+      swDest: path.join("frontend", "dist", "web", "sw"),
     }),
   ],
   mode: "production",
