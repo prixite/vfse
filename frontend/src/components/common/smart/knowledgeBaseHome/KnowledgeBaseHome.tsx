@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
@@ -11,12 +12,11 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import NoDataFoundCard from "@src/components/shared/noDataFound/NoDataFoundCard";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import { api, Category, Document } from "@src/store/reducers/api";
 
 import CategoryOptionsSection from "../categoryOptionsSection/categoryOptionsSection";
 const KnowledgeBaseHome = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [categoryListForSearch, setCategoryListForSearch] = useState<
     Category[]
@@ -33,9 +33,6 @@ const KnowledgeBaseHome = () => {
     folderCategoryIDS: [],
   });
   const [folderOpen, setFolderOpen] = useState(false);
-  const { knowledgeBase } = constantsData;
-  const { noDataTitle, noDataDescription } = localizedData().systems;
-  const { Message } = localizedData().allCategoriesSection;
   const { id } = useParams<{ id?: string }>();
   //APIs
   const { data: topData = [] } = api.useGetTopArticlesQuery();
@@ -96,7 +93,7 @@ const KnowledgeBaseHome = () => {
         actualData={categoriesList || topData}
         setData={setCategoryListForSearch}
       />
-      <h2 className={classes.subHeading}>{knowledgeBase.subTitle}</h2>
+      <h2 className={classes.subHeading}>{t("Top Help Articles")}</h2>
       <Grid
         container
         spacing={{ xs: 2, sm: 1, md: 1, lg: 1, xl: 1 }}
@@ -145,7 +142,9 @@ const KnowledgeBaseHome = () => {
                 </Grid>
               ))
             ) : (
-              <NoDataFoundCard message={Message} />
+              <NoDataFoundCard
+                message={t("Sorry, no folders found against this category.")}
+              />
             )}
           </Grid>
         </div>
@@ -157,8 +156,8 @@ const KnowledgeBaseHome = () => {
             search
             setQuery={setQuery}
             queryText={query}
-            title={noDataTitle}
-            description={noDataDescription}
+            title={t("Sorry! No results found. :(")}
+            description={t("Try Again")}
           />
         )}
       <ArticleModal open={open} handleClose={handleClose} />

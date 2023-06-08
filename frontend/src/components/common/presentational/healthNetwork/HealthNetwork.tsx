@@ -2,12 +2,12 @@ import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
+import { useTranslation } from "react-i18next";
 
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import "@src/components/common/presentational/healthNetwork/healthNetwork.scss";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { localizedData } from "@src/helpers/utils/language";
 import { HealthNetwork as HealthNeworkArg } from "@src/store/reducers/api";
 
 interface HealthNetworkProps {
@@ -30,9 +30,7 @@ const HealthNetwork = ({
   setIsNetworkImageUploading,
   allNetworks,
 }: HealthNetworkProps) => {
-  const constantData = localizedData()?.healthNetwork;
-  const { name, logo, nameRequired, imageRequired, networkDuplicateError } =
-    constantData;
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState([]);
   const [networkNameErr, setNetworkNameErr] = useState("");
   const [networkDuplicationErr, setNetworkDuplicationErr] = useState("");
@@ -78,14 +76,14 @@ const HealthNetwork = ({
     if (isDataPartiallyfilled) {
       if (network?.name === "" && network?.appearance?.logo !== "") {
         setNetworkImageErr("");
-        setNetworkNameErr(nameRequired);
+        setNetworkNameErr("Name is required");
       }
       if (network?.name !== "" && network?.appearance?.logo === "") {
-        setNetworkImageErr(imageRequired);
+        setNetworkImageErr("Image is required");
         setNetworkNameErr("");
       }
       if (network?.name === organizationName) {
-        setNetworkDuplicationErr(networkDuplicateError);
+        setNetworkDuplicationErr("Organization with this Name already exists");
       }
       if (
         (network?.name === "" && network?.appearance?.logo === "") ||
@@ -103,7 +101,7 @@ const HealthNetwork = ({
   return (
     <div className="health-section">
       <CloseIcon className="close-icon" onClick={networkCloseHandler} />
-      <p className="info-label required">{name}</p>
+      <p className="info-label required">{t("Health Network Name")}</p>
       <TextField
         className="info-field"
         variant="outlined"
@@ -117,7 +115,7 @@ const HealthNetwork = ({
       </p>
       <div className="health-info">
         <div style={{ width: "100%", marginTop: "25px" }}>
-          <p className="dropzone-title required">{logo}</p>
+          <p className="dropzone-title required">{t("Logo")}</p>
           <DropzoneBox
             imgSrc={network?.appearance?.logo}
             setSelectedImage={setSelectedImage}

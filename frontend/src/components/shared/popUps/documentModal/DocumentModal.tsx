@@ -16,15 +16,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { DocumentationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import {
   addProductModelService,
   updateProductModelService,
@@ -53,12 +52,8 @@ const initialState: DocumentationModalFormState = {
   modality: null,
 };
 const validationSchema = yup.object({
-  docLink: yup
-    .string()
-    .required(constantsData.documentation.popUp.documentNotUploaded),
-  modelName: yup
-    .string()
-    .required(constantsData.documentation.popUp.modelNameRequired),
+  docLink: yup.string().required("Document is not uploaded"),
+  modelName: yup.string().required("Model Name is required"),
 });
 
 export default function DocumentModal({
@@ -68,11 +63,11 @@ export default function DocumentModal({
   selectedDoc,
   action,
 }: Props) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [addProductModel] = useProductsModelsCreateMutation();
   const [updateProductModel] = useProductsModelsPartialUpdateMutation();
   const [onChangeValidation, setOnChangeValidation] = useState(false);
-  const { toastData } = constantsData;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -86,24 +81,6 @@ export default function DocumentModal({
     { id: selectedOrganization.id.toString() },
     { skip: !selectedOrganization }
   );
-  const {
-    title,
-    editTitle,
-    link,
-    upload_btn,
-    model,
-    product_model,
-    modalities,
-    btnSave,
-    btnCancel,
-    btnToSave,
-    addText,
-    docLinkText,
-    modalText,
-    modalityText,
-    editText,
-    pdf,
-  } = localizedData().documentation.popUp;
 
   const dropdownStyles = {
     PaperProps: {
@@ -115,7 +92,7 @@ export default function DocumentModal({
   };
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: pdf,
+    accept: ".pdf",
     onDrop: (acceptedFiles) =>
       acceptedFiles.map((file) =>
         Object.assign(file, {
@@ -128,7 +105,7 @@ export default function DocumentModal({
     validationSchema: validationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (action === addText) {
+      if (action === "add") {
         handleAddDocument();
       } else {
         handleEditDocument();
@@ -142,7 +119,7 @@ export default function DocumentModal({
         setIsLoading(true);
         await uploadImageToS3(acceptedFiles[0]).then(
           async (data: S3Interface) => {
-            formik.setFieldValue(docLinkText, data?.location);
+            formik.setFieldValue("docLink", data?.location);
             setIsLoading(false);
           }
         );
@@ -152,18 +129,18 @@ export default function DocumentModal({
 
   useEffect(() => {
     if (productData?.length) {
-      formik.setFieldValue(modalText, productData[0]);
+      formik.setFieldValue("modal", productData[0]);
     }
   }, [productData]);
 
   useEffect(() => {
     if (modalitiesList?.length) {
-      formik.setFieldValue(modalityText, modalitiesList[0]);
+      formik.setFieldValue("modality", modalitiesList[0]);
     }
   }, [modalitiesList]);
 
   useEffect(() => {
-    if (selectedDoc && action === editText) {
+    if (selectedDoc && action === "edit") {
       populateEditableData();
     }
   }, [selectedDoc, action]);
@@ -193,7 +170,11 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            toastAPIError(toastData.modalAlreadyExists, err.status, err.data);
+            toastAPIError(
+              "Model with given name already exists for selected product",
+              err.status,
+              err.data
+            );
             setIsLoading(false);
           });
       }
@@ -219,7 +200,11 @@ export default function DocumentModal({
             }, 500);
           })
           .catch((err) => {
-            toastAPIError(toastData.modalAlreadyExists, err.status, err.data);
+            toastAPIError(
+              "Model with given name already exists for selected product",
+              err.status,
+              err.data
+            );
             setIsLoading(false);
           });
       }
@@ -266,7 +251,7 @@ export default function DocumentModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {action === "add" ? title : editTitle}
+            {action === "add" ? "Add Documentation" : "Edit Documentation"}
           </span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
@@ -276,7 +261,7 @@ export default function DocumentModal({
       <DialogContent>
         <div className="modal-content">
           <div className="info-section">
-            <p className="info-label required">{link}</p>
+            <p className="info-label required">{t("Documentation Link")}</p>
             <TextField
               autoComplete="off"
               inputProps={{ readOnly: true }}
@@ -292,7 +277,7 @@ export default function DocumentModal({
                     <div style={{ zIndex: "100" }}>
                       <div {...getRootProps()}>
                         <input {...getInputProps()} />
-                        <Button className="copy-btn">{upload_btn}</Button>
+                        <Button className="copy-btn">{t("Upload")}</Button>
                       </div>
                     </div>
                   </InputAdornment>
@@ -302,7 +287,7 @@ export default function DocumentModal({
             <p className="errorText">{formik.errors.docLink}</p>
           </div>
           <div className="info-section">
-            <p className="info-label required">{model}</p>
+            <p className="info-label required">{t("Model")}</p>
             <TextField
               autoComplete="off"
               name="modelName"
@@ -320,7 +305,7 @@ export default function DocumentModal({
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={6}>
                 <div className="info-section">
-                  <p className="info-label">{product_model}</p>
+                  <p className="info-label">{t("Product")}</p>
                   {!isProductsModelsLoading && (
                     <Autocomplete
                       id="modal"
@@ -356,7 +341,7 @@ export default function DocumentModal({
                 sx={{ marginLeft: "auto" }}
               >
                 <div className="info-section">
-                  <p className="info-label">{modalities}</p>
+                  <p className="info-label">{t("Modalities")}</p>
                   <FormControl sx={{ minWidth: "100%" }}>
                     <Select
                       name="modality"
@@ -407,7 +392,7 @@ export default function DocumentModal({
           onClick={resetModal}
           disabled={isLoading}
         >
-          {btnCancel}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -428,7 +413,7 @@ export default function DocumentModal({
             formik.handleSubmit();
           }}
         >
-          {action === addText ? btnSave : btnToSave}
+          {action === "add" ? "Add" : "Save"}
         </Button>
       </DialogActions>
     </Dialog>

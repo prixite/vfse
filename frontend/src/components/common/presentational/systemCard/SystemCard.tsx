@@ -69,7 +69,7 @@ const SystemCard = ({
   onSupport,
   viewSystemLocation,
 }: SystemInterfaceProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const classes = useStyles();
   const [webSSHPayload] = api.useWebsshlogCreateMutation();
   const [consoleMsg, setConsoleMsg] = useState<string>("");
@@ -89,6 +89,10 @@ const SystemCard = ({
 
   const open = Boolean(anchorEl);
   const openConnect = Boolean(anchorConnect);
+
+  const handleSSHModalClose = () => {
+    setOpenSSHModal(false);
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -114,7 +118,7 @@ const SystemCard = ({
       system.id,
       deleteSystem
     );
-    toast.success(toastData.systemCardDeleteSuccess, {
+    toast.success("System successfully deleted.", {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -331,7 +335,7 @@ const SystemCard = ({
         .then((res) => webSSHConnection(res));
     } catch (err) {
       setLoginProgress(false);
-      toastAPIError(toastData.systemCardConnectionError, err.status, err.data);
+      toastAPIError("Could not connect.", err.status, err.data);
     }
   };
 
@@ -381,7 +385,7 @@ const SystemCard = ({
                 <CloseIcon />
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                {t("systemcard.SSH Terminal")}
+                {t("SSH Terminal")}
               </Typography>
             </Toolbar>
           </AppBar>
@@ -425,7 +429,7 @@ const SystemCard = ({
                     />
                   ) : (
                     <>
-                      {i18n.t("Connect")}
+                      {t("Connect")}
                       <MoreVertIcon
                         sx={{
                           marginBottom: "2px",
@@ -505,7 +509,7 @@ const SystemCard = ({
               >
                 <div className="btn-content">
                   <AttachFileIcon className={classes.icon} />
-                  <span>{i18n.t("systemcard.Dashboard Link")}</span>
+                  <span>{t("Dashboard Link")}</span>
                 </div>
               </Button>
             ) : (
@@ -517,7 +521,7 @@ const SystemCard = ({
           <div className={classes.features}>
             <div className={classes.featuresOptions}>
               <p className={classes.option}>
-                {i18n.t("systemcard.HIS/RIS info")} <br />
+                {t("HIS/RIS info")} <br />
                 <strong
                   className={classes.titleStrong}
                   style={{ overflowWrap: "anywhere" }}
@@ -526,19 +530,19 @@ const SystemCard = ({
                 </strong>
               </p>
               <p className={classes.option}>
-                {i18n.t("systemcard.Dicom info")} <br />
+                {t("Dicom info")} <br />
                 <strong className={classes.titleStrong}>
                   {system.dicom_info?.title || "-"}
                 </strong>
               </p>
               <p className={classes.option}>
-                {i18n.t("systemcard.Serial")} <br />
+                {t("Serial")} <br />
                 <strong className={classes.titleStrong}>
                   {system.serial_number || "-"}
                 </strong>
               </p>
               <p className={classes.option}>
-                {i18n.t("systemcard.Is Online")} <br />
+                {t("Is Online")} <br />
                 <strong className={classes.titleStrong}>
                   {system.is_online ? "Yes" : "No"}
                 </strong>
@@ -546,7 +550,7 @@ const SystemCard = ({
             </div>
             <div>
               <p className={classes.option}>
-                {i18n.t("systemcard.Asset")} <br />
+                {t("Asset")} <br />
                 <strong className={classes.titleStrong}>
                   {system.asset_number || "-"}
                 </strong>
@@ -554,7 +558,7 @@ const SystemCard = ({
               {system.product_model_detail?.modality?.group.toLowerCase() ===
               "mri" ? (
                 <p className={classes.option}>
-                  {i18n.t("systemcard.Helium Level")} <br />
+                  {t("Helium Level")} <br />
                   <strong className={classes.titleStrong}>
                     {system.mri_embedded_parameters?.helium || "-"}
                   </strong>
@@ -563,14 +567,14 @@ const SystemCard = ({
                 ""
               )}
               <p className={classes.option}>
-                {i18n.t("systemcard.MPC Status")} <br />
+                {t("MPC Status")} <br />
                 <strong className={classes.titleStrong}>
                   {system.mri_embedded_parameters?.magnet_pressure || "-"}
                 </strong>
               </p>
               {system.last_successful_ping_at && (
                 <p className={classes.option}>
-                  {i18n.t("systemcard.Latest Ping")} <br />
+                  {t("Latest Ping")} <br />
                   <strong className={classes.titleStrong}>
                     {moment(system.last_successful_ping_at).format("l")}{" "}
                     {moment(system.last_successful_ping_at).format("LT")}
@@ -597,13 +601,13 @@ const SystemCard = ({
                       className={classes.copyBtn}
                       onClick={() => {
                         navigator?.clipboard?.writeText(system.documentation);
-                        toast.success(toastData.systemCardLinkCopiedSuccess, {
+                        toast.success("Link Copied.", {
                           autoClose: timeOut,
                           pauseOnHover: false,
                         });
                       }}
                     >
-                      {i18n.t("Copy")}
+                      {t("Copy")}
                     </Button>
                   </InputAdornment>
                 ),
@@ -615,25 +619,25 @@ const SystemCard = ({
         </div>
         <div className={classes.infoSection}>
           <p className={classes.option}>
-            {i18n.t("systemcard.IP adress")} <br />
+            {t("IP adress")} <br />
             <strong className={classes.titleStrong}>
               {system.ip_address || "-"}
             </strong>
           </p>
           <p className={classes.option}>
-            {i18n.t("systemcard.Local AE title")} <br />
+            {t("Local AE title")} <br />
             <strong className={classes.titleStrong}>
               {system.local_ae_title || "-"}
             </strong>
           </p>
           <p className={classes.option}>
-            {i18n.t("systemcard.Software Version")} <br />
+            {t("Software Version")} <br />
             <strong className={classes.titleStrong}>
               {system.software_version || "-"}
             </strong>
           </p>
           <p className={classes.option}>
-            {i18n.t("systemcard.Location")} <br />
+            {t("Location")} <br />
             <strong className={classes.titleStrong}>
               {system.location_in_building || "-"}
             </strong>
@@ -666,29 +670,21 @@ const SystemCard = ({
               <span style={{ marginLeft: "12px" }}>View Location</span>
             </MenuItem>
             <MenuItem onClick={(e) => onSupport(e)}>
-              <span style={{ marginLeft: "12px" }}>
-                {i18n.t("systemcard.Support")}
-              </span>
+              <span style={{ marginLeft: "12px" }}>{t("Support")}</span>
             </MenuItem>
             {currentUser?.role !== "end-user" && (
               <MenuItem onClick={(e) => onEdit(e)}>
-                <span style={{ marginLeft: "12px" }}>
-                  {i18n.t("systemcard.Edit")}
-                </span>
+                <span style={{ marginLeft: "12px" }}>{t("Edit")}</span>
               </MenuItem>
             )}
             {canLeaveNotes && (
               <MenuItem onClick={(e) => onComment(e)}>
-                <span style={{ marginLeft: "12px" }}>
-                  {i18n.t("systemcard.Comments")}
-                </span>
+                <span style={{ marginLeft: "12px" }}>{t("Comments")}</span>
               </MenuItem>
             )}
             {currentUser?.role !== "end-user" && (
               <MenuItem onClick={() => setModal(true)}>
-                <span style={{ marginLeft: "12px" }}>
-                  {i18n.t("systemcard.Delete")}
-                </span>
+                <span style={{ marginLeft: "12px" }}>{t("Delete")}</span>
               </MenuItem>
             )}
           </Menu>

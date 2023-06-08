@@ -1,13 +1,13 @@
 import { Fragment, useState, useEffect } from "react";
 
 import { DataGrid } from "@mui/x-data-grid";
+import { useTranslation } from "react-i18next";
 
 import UserSectionMobile from "@src/components/common/smart/activeUsersSection/userSectionMobile/UserSectionMobile";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { localizedData } from "@src/helpers/utils/language";
 import { User, api } from "@src/store/reducers/api";
 
 import "@src/views/user/userView.scss";
@@ -39,6 +39,7 @@ const headers = [
 // const temp = ["abcdefg", "abcdg", "abcdefghijk"];
 
 export default function ActiveUserSection() {
+  const { t } = useTranslation();
   const [page, setPage] = useState<number>(0);
 
   const {
@@ -50,8 +51,6 @@ export default function ActiveUserSection() {
   const [query, setQuery] = useState("");
   const [hasData, setHasData] = useState(false);
   const [browserWidth] = useWindowSize();
-  const { searching } = localizedData().common;
-  const { noDataDescription, noDataTitle } = localizedData().organization;
   const [userList, setUserList] = useState({});
   const [itemsList, setItemsList] = useState<Array<User>>([]);
 
@@ -199,7 +198,10 @@ export default function ActiveUserSection() {
             )}
           </>
         ) : (
-          <NoDataFound title={noDataTitle} description={noDataDescription} />
+          <NoDataFound
+            title={t("Sorry! No results found. :(")}
+            description={t("Try Again")}
+          />
         )}
         {isActiveUsersLoading ? (
           <div
@@ -209,7 +211,7 @@ export default function ActiveUserSection() {
               marginTop: "20%",
             }}
           >
-            <h2>{query?.trim().length > 2 ? searching : "Loading..."}</h2>
+            <h2>{query?.trim().length > 2 ? "Searching..." : "Loading..."}</h2>
           </div>
         ) : (
           ""

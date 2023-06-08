@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import Popover from "@mui/material/Popover";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector, useAppDispatch } from "@src/store/hooks";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
 import {
@@ -21,10 +21,10 @@ interface Props {
 }
 
 const ProfilePopOver = ({ profilePicture, className }: Props) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { profilePopOver } = constantsData;
   const defaultOrganizationData = useAppSelector(
     (state) => state.organization.currentOrganization
   );
@@ -104,7 +104,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>{profilePopOver.profile}</a>
+          <a style={{ textDecoration: "none" }}>{t("Profile")}</a>
         </div>
         <div
           className="profile-item"
@@ -117,7 +117,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           style={{ padding: "4px 8px 4px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>{profilePopOver.account}</a>
+          <a style={{ textDecoration: "none" }}>{t("Account")}</a>
         </div>
         <div
           className="profile-item"
@@ -128,7 +128,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
             style={{ textDecoration: "none" }}
             onClick={(e) => setDefaultOrganization(e)}
           >
-            {profilePopOver.defaultOrganization}
+            {t("Default Organization")}
           </a>
         </div>
         <div
@@ -137,7 +137,7 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
           style={{ padding: "4px 8px 8px 8px", cursor: "pointer" }}
         >
           {" "}
-          <a style={{ textDecoration: "none" }}>{profilePopOver.logout}</a>
+          <a style={{ textDecoration: "none" }}>{t("Logout")}</a>
         </div>
       </Popover>
     </div>

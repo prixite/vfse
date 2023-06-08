@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 
 import { Grid, Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import "@src/components/common/smart/folderSection/folderSection.scss";
-import { localizedData } from "@src/helpers/utils/language";
 import { Category, Folder } from "@src/store/reducers/generated";
 interface FolderSetionProps {
   categoryData?: Category;
 }
 const FolderSection = ({ categoryData }: FolderSetionProps) => {
+  const { t } = useTranslation();
   const [folderList, setFolderList] = useState<Folder[]>([]);
   const [folderDataState, setFolderDataState] = useState({
     title: "",
@@ -21,7 +22,6 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
     folderCategoryIDS: [],
   });
 
-  const { Message } = localizedData().allCategoriesSection;
   const [query, setQuery] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -29,7 +29,6 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
     setFolderDataState((prevState) => ({ ...prevState, action: "add" }));
     setOpen(false);
   };
-  const { noDataTitle, noDataDescription } = localizedData().systems;
   const handleSearchQuery = (searchQuery: string) => {
     const dataForSearch = [
       ...categoryData.folders.filter((data) =>
@@ -82,7 +81,9 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
               </Grid>
             ))
           ) : (
-            <NoDataFound title={Message} />
+            <NoDataFound
+              title={t("Sorry, no folders found against this category.")}
+            />
           )}
 
           {!folderList?.length && query?.length > 2 && (
@@ -90,8 +91,8 @@ const FolderSection = ({ categoryData }: FolderSetionProps) => {
               search
               setQuery={setQuery}
               queryText={query}
-              title={noDataTitle}
-              description={noDataDescription}
+              title={t("Sorry! No results found. :(")}
+              description={t("Try Again")}
             />
           )}
         </Grid>

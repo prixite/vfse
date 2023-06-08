@@ -5,7 +5,6 @@ import SendIcon from "@mui/icons-material/Send";
 import { Box, Grid, TextField, Dialog } from "@mui/material";
 
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constants from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { System } from "@src/store/reducers/generated";
@@ -18,12 +17,11 @@ interface chatBoxInterface {
 }
 const ChatBox = ({ setIsOpen, system, handleClose }: chatBoxInterface) => {
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-  const { chatBox, toastData } = constants;
   const [isLoading, setIsLoading] = useState(false);
   const [postChat] = api.usePostChatBotMutation();
   const [yourQuery, setYourQuery] = useState<string>("");
   const [placeholder, setPlaceHolder] = useState<string>(
-    chatBox.placeholderText
+    "How may I answer your query..."
   );
   const [arrayToDisplay, setArrayToDiplay] = useState<string[]>([]);
   const resetQuery = () => {
@@ -52,13 +50,17 @@ const ChatBox = ({ setIsOpen, system, handleClose }: chatBoxInterface) => {
             ...oldArray,
             `I'm sorry, I don't understand. Could you say it again?`,
           ]);
-          toastAPIError(toastData.chatBoxReqProceedError, err.status, err.data);
+          toastAPIError(
+            "We cannot process your request at the moment",
+            err.status,
+            err.data
+          );
         } else {
           setArrayToDiplay((oldArray) => [
             ...oldArray,
             `Re-establish connection. Some Error ${err?.originalStatus} occured.`,
           ]);
-          toastAPIError(toastData.chatBoxErrorOcccured, err.status, err.data);
+          toastAPIError("Error occured", err.status, err.data);
         }
       })
       .finally(() => {

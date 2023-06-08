@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import BackBtn from "@src/components/common/presentational/backBtn/BackBtn";
@@ -9,16 +10,15 @@ import useStyles from "@src/components/common/smart/folderDetailSection/Style";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
-import { localizedData } from "@src/helpers/utils/language";
 import { api, Document } from "@src/store/reducers/api";
 import "@src/components/common/smart/folderDetailSection/folderDetailSection.scss";
 
 const FolderDetailSection = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [articlesList, setArticlesList] = useState<Document[]>([]);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const { noDataTitle, noDataDescription } = localizedData().systems;
   const { folderId } = useParams<{ folderId: string }>();
   const { data: folderData } = api.useGetFolderQuery({
     id: parseInt(folderId),
@@ -91,8 +91,8 @@ const FolderDetailSection = () => {
             search
             setQuery={setQuery}
             queryText={query}
-            title={noDataTitle}
-            description={noDataDescription}
+            title={t("Sorry! No results found. :(")}
+            description={t("Try Again")}
           />
         )}
       </Box>

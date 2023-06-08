@@ -7,13 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { SiteModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject, toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import {
   addNewSiteService,
   updateSitesService,
@@ -48,23 +47,16 @@ const initialState: SiteModalFormState = {
   siteAddress: "",
 };
 const validationSchema = yup.object({
-  siteName: yup.string().required(constantsData.siteModal.popUp.nameRequired),
-  siteAddress: yup
-    .string()
-    .required(constantsData.siteModal.popUp.addressRequired),
+  siteName: yup.string().required("Name is required"),
+  siteAddress: yup.string().required("Address is required"),
 });
 export default function SiteModal(props: siteProps) {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [reset, setReset] = useState(true);
-  const { addText, editText, addSite, editSite } =
-    constantsData.siteModal.popUp;
-  const { toastData } = constantsData;
   const [addNewSite] = useOrganizationsSitesCreateMutation();
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const dispatch = useAppDispatch();
-
-  const { fieldName, fieldAddress, btnAdd, btnEdit, btnCancel } =
-    localizedData().siteModal;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -79,7 +71,7 @@ export default function SiteModal(props: siteProps) {
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: () => {
-      if (props?.action === addText) {
+      if (props?.action === "add") {
         handleAddSite();
       } else {
         handleEditSite();
@@ -106,7 +98,11 @@ export default function SiteModal(props: siteProps) {
         setReset(false);
       })
       .catch((error) => {
-        toastAPIError(toastData.saveSiteError, error.status, error.data);
+        toastAPIError(
+          "Error occured while saving site",
+          error.status,
+          error.data
+        );
       })
       .finally(() => setIsLoading(false));
   };
@@ -149,7 +145,7 @@ export default function SiteModal(props: siteProps) {
         props?.selectionID,
         updatedSites,
         updateSite,
-        editText
+        "edit"
       )
         .then(() => {
           setTimeout(() => {
@@ -159,7 +155,11 @@ export default function SiteModal(props: siteProps) {
           }, 500);
         })
         .catch((err) => {
-          toastAPIError(toastData.siteAlreadyExistsError, err.status, err.data);
+          toastAPIError(
+            "Site with this name already exists.",
+            err.status,
+            err.data
+          );
           setIsLoading(false);
         });
     } else {
@@ -185,7 +185,7 @@ export default function SiteModal(props: siteProps) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {props?.action == addText ? addSite : editSite}
+            {props?.action == "add" ? "Add Site" : "Edit Site"}
           </span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
@@ -198,7 +198,7 @@ export default function SiteModal(props: siteProps) {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{fieldName}</p>
+                  <p className="info-label">{t("Name")}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -215,7 +215,7 @@ export default function SiteModal(props: siteProps) {
               </Grid>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{fieldAddress}</p>
+                  <p className="info-label">{t("Address")}</p>
                   <TextField
                     className="info-field"
                     variant="outlined"
@@ -252,7 +252,7 @@ export default function SiteModal(props: siteProps) {
             onClick={resetModal}
             disabled={isLoading}
           >
-            {btnCancel}
+            {t("Cancel")}
           </Button>
           <Button
             className="add-btn"
@@ -270,7 +270,7 @@ export default function SiteModal(props: siteProps) {
             disabled={isLoading}
             type="submit"
           >
-            {props?.action == addText ? btnAdd : btnEdit}
+            {props?.action == "add" ? "Add" : "Edit"}
           </Button>
         </DialogActions>
       </form>

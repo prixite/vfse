@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import StarIcon from "@mui/icons-material/Star";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import { Box, Menu, MenuItem, Tooltip, IconButton } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -12,7 +13,6 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
@@ -34,13 +34,13 @@ const KnowledgeTopCard = ({
   path,
   article,
 }: props) => {
+  const { t } = useTranslation();
   const param: RouteParam = useParams();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [cardText, setCardText] = useState(description);
   const { organizationRoute } = constants;
   const location = useLocation();
-  const { knowledgeBase, toastData } = constantsData;
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
   const selectedOrganization = useSelectedOrganization();
   const [isFavouriteDisabled, setFavouriteButtonDisabled] = useState(false);
@@ -75,7 +75,7 @@ const KnowledgeTopCard = ({
     deleteArticle({ id: id })
       .unwrap()
       .then(() => {
-        toast.success(toastData.knowledgeCardArticleDeleteSuccess, {
+        toast.success("Article successfully deleted.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -83,7 +83,7 @@ const KnowledgeTopCard = ({
       })
       .catch((err) => {
         toastAPIError(
-          toastData.knowledgeCardArticleDeleteError,
+          "Problem occured while deleting Article",
           err.status,
           err.data
         );
@@ -190,9 +190,7 @@ const KnowledgeTopCard = ({
               className="dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem onClick={handleModalOpen}>
-                {knowledgeBase.delete}
-              </MenuItem>
+              <MenuItem onClick={handleModalOpen}>{t("Delete")}</MenuItem>
               <MenuItem>
                 <Link
                   className="knowledge-top-card"

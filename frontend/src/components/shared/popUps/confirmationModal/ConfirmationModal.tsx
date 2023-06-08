@@ -3,9 +3,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import { useTranslation } from "react-i18next";
 
 import ModalIcon from "@src/assets/modalicon.png";
-import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/confirmationModal/confirmationModal.scss";
@@ -23,18 +23,17 @@ const ConfirmationModal = ({
   handleDeleteOrganization,
   name,
 }: Props) => {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const { dialogMessage, noButton, yesButton } =
-    localizedData().organization.deleteDialog;
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ConfirmationModal">
         <DialogContent className="ConfirmationModal__Content">
           <img src={ModalIcon} style={{ marginBottom: "16px" }} />
           <DialogContentText className="DialogueMessage">
-            {dialogMessage}
+            {t("Are you sure you want to delete?")}
           </DialogContentText>
           <DialogContentText className="ClientName">{name}</DialogContentText>
         </DialogContent>
@@ -47,7 +46,7 @@ const ConfirmationModal = ({
             className="btnModal"
             onClick={handleClose}
           >
-            {noButton}
+            {t("No")}
           </Button>
           <Button
             style={{
@@ -57,7 +56,7 @@ const ConfirmationModal = ({
             className="btnModal"
             onClick={handleDeleteOrganization}
           >
-            {yesButton}
+            {t("Yes")}
           </Button>
         </DialogActions>
       </Dialog>

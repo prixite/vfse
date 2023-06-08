@@ -1,18 +1,18 @@
 import { Box, Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import CountingInfoSection from "@src/components/common/smart/countingInfoSection/CountingInfoSection";
 import LastActiveUsers from "@src/components/common/smart/lastActiveUser/LastActiveUser";
 import WorkOrderSection from "@src/components/common/smart/workOrderSection/WorkOrderSection";
-import { localizedData } from "@src/helpers/utils/language";
 
 import "@src/components/common/smart/faqSection/faqSection.scss";
 import TopicUpdatesSection from "../topicUpdatesSection/TopicUpdatesSection";
 
-const { dashboard } = localizedData().Faq;
 export default function FaqSection() {
+  const { t } = useTranslation();
   return (
     <div className="VfseDashboardSection">
-      <h2 className="faqHeading">{dashboard}</h2>
+      <h2 className="faqHeading">{t("Dashboard")}</h2>
       {/* CountingInfoSection  */}
       <CountingInfoSection />
 

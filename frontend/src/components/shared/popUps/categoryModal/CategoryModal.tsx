@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -14,7 +15,6 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import {
@@ -34,22 +34,15 @@ const initialState: Category = {
 };
 
 const validationSchema = yup.object({
-  name: yup
-    .string()
-    .min(1)
-    .max(20)
-    .required(constantsData.categoryModal.colorTextRequired),
-  color: yup
-    .string()
-    .min(1)
-    .max(10)
-    .required(constantsData.categoryModal.colorRequired),
+  name: yup.string().min(1).max(20).required("Name is required!"),
+  color: yup.string().min(1).max(10).required("Color is required!"),
 });
 
 export default function CategoryModal({
   open,
   handleClose,
 }: CategoryModalProps) {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -58,9 +51,6 @@ export default function CategoryModal({
   const [isLoading, setIsLoading] = useState(false);
   //API
   const [addNewCategory] = api.useAddCategoryMutation();
-  const { addCategoryText, colorNameText, cancelText } =
-    constantsData.categoryModal;
-  const { toastData } = constantsData;
 
   const formik = useFormik({
     initialValues: initialState,
@@ -76,14 +66,18 @@ export default function CategoryModal({
     addNewCategory({ category: { ...formik.values } })
       .unwrap()
       .then(() => {
-        toast.success(toastData.categoryAddSuccess, {
+        toast.success("Category Successfully added.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
         resetModal();
       })
       .catch((err) => {
-        toastAPIError(toastData.categoryAddError, err.status, err.data);
+        toastAPIError(
+          "Error occured while adding Category",
+          err.status,
+          err.data
+        );
       })
       .finally(() => {
         resetModal();
@@ -106,7 +100,7 @@ export default function CategoryModal({
     <Dialog className="category-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">{addCategoryText}</span>
+          <span className="modal-header">{t("Add Category")}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -123,7 +117,7 @@ export default function CategoryModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{colorNameText}</p>
+                  <p className="info-label required">{t("Name")}</p>
                   <TextField
                     autoComplete="off"
                     name="name"
@@ -160,7 +154,7 @@ export default function CategoryModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelText}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -174,7 +168,7 @@ export default function CategoryModal({
           }}
           disabled={isLoading}
         >
-          {addCategoryText}
+          {t("Add Category")}
         </Button>
       </DialogActions>
     </Dialog>

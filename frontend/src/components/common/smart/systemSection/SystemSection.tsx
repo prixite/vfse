@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import Flicking from "@egjs/react-flicking";
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import BreadCrumb from "@src/components/common/presentational/breadCrumb/BreadCrumb";
@@ -17,9 +18,7 @@ import SystemModal from "@src/components/shared/popUps/systemModal/SystemModal";
 import ViewMapModal from "@src/components/shared/popUps/viewMapModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { returnSearchedOject } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import {
   useAppDispatch,
   useAppSelector,
@@ -42,23 +41,14 @@ import {
 import "@src/components/common/smart/systemSection/systemSection.scss";
 
 const SystemSection = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    networksText,
-    sitesText,
-    modalityText,
-    siteText,
-    mri,
-    organizationsSystemsList,
-    health_network,
-  } = constantsData.systemSection;
-  const { loading } = constantsData.common;
 
   const dispatch = useAppDispatch();
 
   const queryParams = new URLSearchParams(location?.search);
-  const paramModality = queryParams?.get(modalityText);
+  const paramModality = queryParams?.get("modality");
   const [sites, setSites] = useState([]);
   const [networkFilter, setNetworkFilter] = useState({});
   const [siteFilter, setSiteFilter] = useState({});
@@ -84,8 +74,6 @@ const SystemSection = () => {
     networkId: string;
     id: string;
   }>();
-  const { noDataTitle, noDataDescription } = localizedData().systems;
-  const { searching } = localizedData().common;
   const selectedID = networkId || id;
 
   const { data: systemLocationList = [] } = api.useGetSystemLocationsQuery(
@@ -153,11 +141,11 @@ const SystemSection = () => {
 
   const returnSiteName = () => {
     if (
-      location.pathname.includes(networksText) &&
-      location.pathname.includes(sitesText)
+      location.pathname.includes("networks") &&
+      location.pathname.includes("sites")
     ) {
       return returnSearchedOject(organization?.sites, siteId)[0]?.name;
-    } else if (location.pathname.includes(sitesText)) {
+    } else if (location.pathname.includes("sites")) {
       return returnSearchedOject(sites, siteId)[0]?.name;
     }
     return selectedOrganization?.name;
@@ -172,7 +160,7 @@ const SystemSection = () => {
       delete TempArgs?.modality;
       setApiArgData({ ...TempArgs });
       setModality(null);
-      queryParams.delete(modalityText);
+      queryParams.delete("modality");
       navigate(
         {
           search: queryParams.toString(),
@@ -182,7 +170,7 @@ const SystemSection = () => {
     } else {
       setModality(item?.id.toString());
       setApiArgData({ ...apiArgData, modality: item?.id.toString() });
-      queryParams.set(modalityText, item?.id.toString());
+      queryParams.set("modality", item?.id.toString());
       navigate(
         {
           pathname: location.pathname,
@@ -197,7 +185,7 @@ const SystemSection = () => {
     if (firstRender && systemsData && selectedOrganization) {
       Promise.all(
         systemsData.map(async (system) => {
-          if (system.product_model_detail.modality.group !== mri) {
+          if (system.product_model_detail.modality.group !== "mri") {
             return system;
           }
 
@@ -216,7 +204,7 @@ const SystemSection = () => {
         // send request to backend.
         dispatch(
           api.util.updateQueryData(
-            organizationsSystemsList, // TODO: See if we can avoid hard-coding.
+            "organizationsSystemsList", // TODO: See if we can avoid hard-coding.
             { id: selectedOrganization.id.toString() },
             (draftSystems) => {
               Object.assign(draftSystems, systems);
@@ -254,20 +242,20 @@ const SystemSection = () => {
     if (!networkId) {
       if (
         Object.keys(networkFilter).length !== 0 &&
-        (queryParams.get(health_network) == null ||
-          queryParams.get(health_network) !== null)
+        (queryParams.get("health_network") == null ||
+          queryParams.get("health_network") !== null)
       ) {
         setApiArgData((prevState) => {
           return { ...prevState, healthNetwork: networkFilter?.id };
         });
-        queryParams.set(health_network, networkFilter?.id?.toString());
+        queryParams.set("health_network", networkFilter?.id?.toString());
         navigate({
           pathname: location.pathname,
           search: queryParams.toString(),
         });
       } else if (
         Object.keys(networkFilter).length === 0 &&
-        queryParams.get(health_network) === null
+        queryParams.get("health_network") === null
       ) {
         const TempArgs = {
           ...apiArgData,
@@ -277,11 +265,11 @@ const SystemSection = () => {
       }
       if (
         apiArgData.healthNetwork == undefined &&
-        queryParams.get(health_network) !== null
+        queryParams.get("health_network") !== null
       ) {
         const TempNetwork = Object.keys(networkFilter).length
           ? networkFilter?.id
-          : queryParams.get(health_network);
+          : queryParams.get("health_network");
         setApiArgData((prevState) => {
           return { ...prevState, healthNetwork: TempNetwork };
         });
@@ -298,18 +286,17 @@ const SystemSection = () => {
     if (!siteId) {
       if (
         Object.keys(siteFilter).length !== 0 &&
-        (queryParams.get(siteText) == null ||
-          queryParams.get(siteText) !== null)
+        (queryParams.get("site") == null || queryParams.get("site") !== null)
       ) {
         setApiArgData({ ...apiArgData, site: siteFilter?.id });
-        queryParams.set(siteText, siteFilter?.id?.toString());
+        queryParams.set("site", siteFilter?.id?.toString());
         navigate({
           pathname: location.pathname,
           search: queryParams.toString(),
         });
       } else if (
         Object.keys(siteFilter).length === 0 &&
-        queryParams.get(siteText) === null
+        queryParams.get("site") === null
       ) {
         const TempArg = {
           ...apiArgData,
@@ -318,10 +305,10 @@ const SystemSection = () => {
         delete TempArg.site;
         setApiArgData({ ...TempArg });
       }
-      if (apiArgData.site == undefined && queryParams.get(siteText) !== null) {
+      if (apiArgData.site == undefined && queryParams.get("site") !== null) {
         const tempSite = Object.keys(siteFilter).length
           ? siteFilter?.id
-          : queryParams.get(siteText);
+          : queryParams.get("site");
         setApiArgData((prevState) => {
           return { ...prevState, site: tempSite };
         });
@@ -340,9 +327,9 @@ const SystemSection = () => {
 
   const addBreadcrumbs = () => {
     if (
-      location.pathname.includes(sitesText) &&
+      location.pathname.includes("site") &&
       !fetching &&
-      location.pathname.includes(networksText)
+      location.pathname.includes("networks")
     ) {
       return (
         <BreadCrumb
@@ -365,7 +352,7 @@ const SystemSection = () => {
           ]}
         />
       );
-    } else if (location.pathname.includes(sitesText) && !fetching) {
+    } else if (location.pathname.includes("sites") && !fetching) {
       return (
         <BreadCrumb
           breadCrumbList={[
@@ -530,8 +517,8 @@ const SystemSection = () => {
               search
               setQuery={setSearchText}
               queryText={searchText}
-              title={noDataTitle}
-              description={noDataDescription}
+              title={t("Sorry! No results found. :(")}
+              description={t("Try Again")}
             />
           </>
         ) : (
@@ -542,7 +529,7 @@ const SystemSection = () => {
               marginTop: "20%",
             }}
           >
-            <h2>{searchText.length > 2 ? searching : loading}</h2>
+            <h2>{searchText.length > 2 ? "Searching..." : "Loading..."}</h2>
           </div>
         )}
         {open ? (

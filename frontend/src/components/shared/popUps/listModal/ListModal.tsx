@@ -3,8 +3,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useTranslation } from "react-i18next";
 
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/listModal/listModal.scss";
@@ -17,10 +17,10 @@ interface Props {
 }
 
 const ListModal = ({ open, handleClose, name, list }: Props) => {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const { close } = constantsData.listModalPopUp;
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ListModal">
@@ -45,7 +45,7 @@ const ListModal = ({ open, handleClose, name, list }: Props) => {
             className="btnModal"
             onClick={handleClose}
           >
-            {close}
+            {t("Close")}
           </Button>
         </DialogActions>
       </Dialog>

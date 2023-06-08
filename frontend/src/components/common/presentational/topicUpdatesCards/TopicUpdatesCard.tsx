@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import { Box, Button } from "@mui/material";
 import "@src/components/common/presentational/topicUpdatesCards/topicUpdatesCard.scss";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import { constants } from "@src/helpers/utils/constants";
-import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import {
@@ -35,9 +35,9 @@ const TopicUpdatesCards = ({
   user,
   followers,
 }: TopicUpdatesCards) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { organizationRoute } = constants;
-  const { follow, following } = constantsData.topicUpdateCard;
   const [isFollowing, setIsFollowing] = useState(
     followers.some((follower) => follower?.id === me?.id)
   );
@@ -116,11 +116,11 @@ const TopicUpdatesCards = ({
                       style={{ color: "#568000", marginRight: "9px" }}
                     />
                     <p className="text" style={{ color: "#568000" }}>
-                      {following}
+                      {t("Following")}
                     </p>
                   </>
                 ) : (
-                  <p className="text"> {follow} </p>
+                  <p className="text"> {t("Follow")} </p>
                 )}
               </Button>
             </div>

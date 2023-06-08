@@ -1,11 +1,11 @@
 import { Box, Grid, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError, passwordReg, validUrl } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import {
   updateUserPassword,
   updateUsernameService,
@@ -20,28 +20,10 @@ import {
 import "@src/components/common/smart/accountSection/accountSection.scss";
 
 const AccountSection = () => {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-
-  const { toastData } = constantsData;
-  const {
-    firstNameRequired,
-    lastNameRequired,
-    profilePictureTitle,
-    oldPasswordRequired,
-    passwordRequired,
-    confirmPasswordRequired,
-    passwordValidationError,
-    somethingWrong,
-    password,
-    passwordsDoNotMatch,
-    accountSettings,
-    updateInfo,
-    save,
-    updatePasswordText,
-    invalidUrl,
-  } = constantsData.accountSection;
 
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
@@ -60,11 +42,11 @@ const AccountSection = () => {
       zoomlink: currentUser?.zoom_link || "",
     },
     validationSchema: yup.object({
-      firstname: yup.string().required(firstNameRequired),
-      lastname: yup.string().required(lastNameRequired),
-      slacklink: yup.string().matches(validUrl, invalidUrl),
-      calenderlink: yup.string().matches(validUrl, invalidUrl),
-      zoomlink: yup.string().matches(validUrl, invalidUrl),
+      firstname: yup.string().required("First name is required!"),
+      lastname: yup.string().required("Last name is required!"),
+      slacklink: yup.string().matches(validUrl, "Invalid URL"),
+      calenderlink: yup.string().matches(validUrl, "Invalid URL"),
+      zoomlink: yup.string().matches(validUrl, "Invalid URL"),
     }),
     validateOnChange: true,
     onSubmit: async (values) => {
@@ -74,7 +56,7 @@ const AccountSection = () => {
           last_name: values?.lastname,
           meta: {
             profile_picture: currentUser?.profile_picture,
-            title: profilePictureTitle,
+            title: "Profile picture",
             location: values?.location,
             slack_link: values?.slacklink,
             calender_link: values?.calenderlink,
@@ -84,13 +66,13 @@ const AccountSection = () => {
         updateUsername
       )
         .then(async () => {
-          toast.success(toastData.accountSectionUsernameUpdateSuccess, {
+          toast.success("Information successfully updated.", {
             autoClose: timeOut,
             pauseOnHover: false,
           });
         })
         .catch((err) => {
-          toastAPIError(somethingWrong, err.status, err.data);
+          toastAPIError("Something went wrong", err.status, err.data);
         });
     },
   });
@@ -102,20 +84,23 @@ const AccountSection = () => {
       confirmPassword: "",
     },
     validationSchema: yup.object({
-      oldPassword: yup.string().required(oldPasswordRequired),
+      oldPassword: yup.string().required("Old password is required!"),
       password: yup
         .string()
-        .required(passwordRequired)
-        .matches(passwordReg, passwordValidationError),
+        .required("Password is required!")
+        .matches(
+          passwordReg,
+          "Your password must be 8 characters long and a mixture of uppercase, lowercase and special characters"
+        ),
       confirmPassword: yup
         .string()
-        .required(confirmPasswordRequired)
-        .when(password, {
+        .required("Confirm password is required!")
+        .when("password", {
           is: (val) => (val && val.length > 0 ? true : false),
           then: yup
             .string()
 
-            .oneOf([yup.ref(password)], passwordsDoNotMatch),
+            .oneOf([yup.ref("password")], "Passwords do not match!"),
         }),
     }),
     validateOnChange: true,
@@ -133,9 +118,9 @@ const AccountSection = () => {
   return (
     <div>
       <Box component="div">
-        <h2>{accountSettings}</h2>
+        <h2>{t("Account Settings")}</h2>
         <Box component="div" sx={{ background: "#fff" }} mt={3} mb={1} p={4}>
-          <h3>{updateInfo}</h3>
+          <h3>{t("Update Personal Information")}</h3>
           <form onSubmit={formik.handleSubmit}>
             <Grid
               container
@@ -241,7 +226,7 @@ const AccountSection = () => {
                     color: buttonTextColor,
                   }}
                 >
-                  {save}
+                  {t("Save")}
                 </Button>
               </Grid>
             </Grid>
@@ -254,7 +239,7 @@ const AccountSection = () => {
           p={4}
           marginTop="20px"
         >
-          <h3>{updatePasswordText}</h3>
+          <h3>{t("Update Password")}</h3>
           <form onSubmit={passwordFormik.handleSubmit}>
             <Grid
               container
@@ -321,7 +306,7 @@ const AccountSection = () => {
                     color: buttonTextColor,
                   }}
                 >
-                  {save}
+                  {t("Save")}
                 </Button>
               </Grid>
             </Grid>

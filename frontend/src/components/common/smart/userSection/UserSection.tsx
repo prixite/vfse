@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 
 import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
@@ -13,8 +14,6 @@ import ListModal from "@src/components/shared/popUps/listModal/ListModal";
 import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import {
   deactivateUserService,
   activateUserService,
@@ -154,8 +153,8 @@ const headers = [
 // const temp = ["abcdefg", "abcdg", "abcdefghijk"];
 
 export default function UserSection() {
+  const { t } = useTranslation();
   const [pageSize, setPageSize] = useState(14);
-  const { userAdministration } = localizedData().users;
   const [open, setOpen] = useState(false);
   const [tableColumns, setTableColumns] = useState(headers);
   const [columnHeaders, setColumnHeaders] = useState(columns);
@@ -174,15 +173,8 @@ export default function UserSection() {
   const [currentUser, setCurrentUser] = useState(null);
   const [status, setStatus] = useState(null);
   const [browserWidth] = useWindowSize();
-  const { searching } = localizedData().common;
   const [userDeactivateMutation] = useUsersDeactivatePartialUpdateMutation();
   const [userActivateMutation] = useUsersActivatePartialUpdateMutation();
-  const { toastData } = constantsData;
-  const { loading } = constantsData.common;
-
-  const { noDataDescription, noDataTitle } = localizedData().organization;
-
-  const { lock, unlock, edit } = localizedData().user_menu_options;
 
   const selectedOrganization = useSelectedOrganization();
   const { data: items, isLoading: isUsersLoading } = useScopeUsersListQuery({
@@ -299,7 +291,7 @@ export default function UserSection() {
 
   const deactivateUser = async (id) => {
     await deactivateUserService(id, userDeactivateMutation);
-    toast.success(toastData.userSectionLocked, {
+    toast.success("User is locked.", {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -308,7 +300,7 @@ export default function UserSection() {
 
   const activateUser = async (id) => {
     await activateUserService(id, userActivateMutation);
-    toast.success(toastData.userSectionUnlocked, {
+    toast.success("User is unlocked", {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -344,7 +336,7 @@ export default function UserSection() {
   };
   return (
     <Fragment>
-      <h2>{userAdministration}</h2>
+      <h2>{t("User Administration")}</h2>
       <TopViewBtns
         setOpen={setOpen}
         path="users"
@@ -526,7 +518,10 @@ export default function UserSection() {
             )}
           </>
         ) : (
-          <NoDataFound title={noDataTitle} description={noDataDescription} />
+          <NoDataFound
+            title={"Sorry! No results found. :("}
+            description={"Try Again"}
+          />
         )}
         {isUsersLoading ? (
           <div
@@ -536,7 +531,7 @@ export default function UserSection() {
               marginTop: "20%",
             }}
           >
-            <h2>{query?.trim().length > 2 ? searching : loading}</h2>
+            <h2>{query?.trim().length > 2 ? "Searching..." : "Loading..."}</h2>
           </div>
         ) : (
           ""
@@ -553,14 +548,14 @@ export default function UserSection() {
       >
         {status ? (
           <MenuItem onClick={() => deactivateUser(currentUser)}>
-            {lock}
+            {t("Lock")}
           </MenuItem>
         ) : (
           <MenuItem onClick={() => activateUser(currentUser)}>
-            {unlock}
+            {t("Unlock")}
           </MenuItem>
         )}
-        <MenuItem onClick={() => editUserModal()}>{edit}</MenuItem>
+        <MenuItem onClick={() => editUserModal()}>{t("Edit")}</MenuItem>
       </Menu>
       <ListModal
         name={modalHeader}

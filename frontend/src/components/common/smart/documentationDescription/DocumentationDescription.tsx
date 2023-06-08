@@ -19,7 +19,6 @@ import {
   convertImages,
   toastAPIError,
 } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import "@src/components/common/smart/documentationDescription/documentationDescription.scss";
@@ -30,7 +29,6 @@ const DocumentationDescription = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [htmlText, setHtmlText] = useState("");
   const { docId } = useParams<{ docId: string }>();
-  const { toastData } = constantsData;
   const { data: articleData } = api.useGetArticleQuery({ id: parseInt(docId) });
   const [updateArticle] = api.useUpdateArticleMutation();
 
@@ -58,7 +56,7 @@ const DocumentationDescription = () => {
     })
       .unwrap()
       .then(() => {
-        toast.success(toastData.articleUpdateSuccess, {
+        toast.success("Article Updated Successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });

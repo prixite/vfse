@@ -2,24 +2,21 @@ import "@src/components/common/smart/lastActiveUser/lastActiveUser.scss";
 
 import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastActiveMobile/LastActiveMobile";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import { useUsersActiveUsersListQuery } from "@src/store/reducers/generated";
 
-const { lastActiveUser, seeAll } = localizedData().Faq;
-
 const LastActiveUser = () => {
+  const { t } = useTranslation();
   const [browserWidth] = useWindowSize();
   const { id } = useParams();
   const { organizationRoute } = constants;
   const { data, isLoading } = useUsersActiveUsersListQuery({ page: 1 });
-  const { loading } = constantsData.common;
   return (
     <>
       {browserWidth > mobileWidth ? (
@@ -27,13 +24,13 @@ const LastActiveUser = () => {
           {data && data?.length && !isLoading ? (
             <Box component="div" className="last_active_users">
               <div className="heading_section">
-                <h2 className="heading">{lastActiveUser}</h2>
+                <h2 className="heading">{t("Last active users")}</h2>
                 <Link
                   to={`/${organizationRoute}/${id}/active-users`}
                   key={id}
                   style={{ textDecoration: "none" }}
                 >
-                  <h3 className="subheading">{seeAll}</h3>
+                  <h3 className="subheading">{t("See All")}</h3>
                 </Link>
               </div>
               <div className="last_active_user_table">
@@ -121,14 +118,14 @@ const LastActiveUser = () => {
               </div>
             </Box>
           ) : (
-            <p> {loading}</p>
+            <p> {t("Loading ...")}</p>
           )}
         </>
       ) : (
         <Box component="div" className="last_active_users_mobile">
           <div className="heading_section">
-            <h2 className="heading">{lastActiveUser}</h2>
-            <h3 className="subheading">{seeAll}</h3>
+            <h2 className="heading">{t("Last active users")}</h2>
+            <h3 className="subheading">{t("See All")}</h3>
           </div>
           <div className="last_active_user_table_mobile">
             <LastActiveMobile lastActiveDoc={data} />

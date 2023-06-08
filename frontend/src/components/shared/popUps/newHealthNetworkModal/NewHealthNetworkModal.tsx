@@ -5,12 +5,12 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useTranslation } from "react-i18next";
 
 import AddBtn from "@src/assets/svgs/add.svg";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import HealthNetwork from "@src/components/common/presentational/healthNetwork/HealthNetwork";
 import "@src/components/shared/popUps/organizationModal/organizationModal.scss";
-import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 import { Organization } from "@src/store/reducers/api";
 
@@ -21,18 +21,11 @@ interface Props {
 }
 
 export default function NewHealthNetwotkModal(props: Props) {
+  const { t } = useTranslation();
   const [networks, setNetworks] = useState([1]);
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const {
-    newOrganizationBtnSave,
-    newOrganizationBtnCancel,
-    newOrganizationHealthNetworks,
-    newOrganizationAddNetwork,
-  } = localizedData().organization.popUp;
-
-  const { newHealthNetwork } = localizedData().organization;
 
   const addNetworks = () => {
     setNetworks([...networks, networks.length]);
@@ -47,7 +40,7 @@ export default function NewHealthNetwotkModal(props: Props) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {props.organization?.name ?? newHealthNetwork}
+            {props.organization?.name ?? " New Health Network"}
           </span>
           <span className="dialog-page">
             <img
@@ -62,12 +55,10 @@ export default function NewHealthNetwotkModal(props: Props) {
         <div className="modal-content">
           <>
             <div className="health-header">
-              <span className="heading-txt">
-                {newOrganizationHealthNetworks}
-              </span>
+              <span className="heading-txt">{t("Health networks")}</span>
               <Button className="heading-btn" onClick={addNetworks}>
                 <img src={AddBtn} className="add-btn" />
-                {newOrganizationAddNetwork}
+                {t("Add Network")}
               </Button>
             </div>
             {networks.map((network, index) => (
@@ -85,7 +76,7 @@ export default function NewHealthNetwotkModal(props: Props) {
           onClick={props.handleClose}
           className="cancel-btn"
         >
-          {newOrganizationBtnCancel}
+          {t("Cancel")}
         </Button>
         <Button
           style={{
@@ -95,7 +86,7 @@ export default function NewHealthNetwotkModal(props: Props) {
           onClick={props.handleClose}
           className="add-btn"
         >
-          {newOrganizationBtnSave}
+          {t("Add")}
         </Button>
       </DialogActions>
     </Dialog>

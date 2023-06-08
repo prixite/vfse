@@ -5,10 +5,7 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import { Grid, Button } from "@mui/material";
 import { toast } from "react-toastify";
 
-import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
-import { localizedData } from "@src/helpers/utils/language";
 import {} from "@mui/icons-material";
-import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization, useAppSelector } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 
@@ -53,12 +50,9 @@ const DocumentationBtnSection = ({
   handleEditText,
   saveText,
 }: btnProps) => {
-  const localization: LocalizationInterface = localizedData();
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
-  const { btnEdit, btnCopy } = localization.document;
-  const { toastData } = constantsData;
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -66,7 +60,7 @@ const DocumentationBtnSection = ({
   const cancelEdit = () => handleEditText(false);
   const copyLink = () => {
     navigator?.clipboard?.writeText(window.location.href);
-    toast.success(toastData.documentationBtnLinkCopy, {
+    toast.success("Link Copied", {
       autoClose: 1000,
       pauseOnHover: false,
     });
@@ -81,7 +75,7 @@ const DocumentationBtnSection = ({
                 handleClick={edit}
                 bgColor={secondaryColor}
                 btnTextColor={buttonTextColor}
-                btnText={btnEdit}
+                btnText={"Edit"}
                 icon={
                   <ModeEditOutlineOutlinedIcon
                     style={{ marginRight: "10px" }}
@@ -106,7 +100,7 @@ const DocumentationBtnSection = ({
           <Btn
             bgColor={buttonBackground}
             btnTextColor={buttonTextColor}
-            btnText={btnCopy}
+            btnText={"Copy link"}
             handleClick={copyLink}
             icon={
               <InsertLinkOutlinedIcon

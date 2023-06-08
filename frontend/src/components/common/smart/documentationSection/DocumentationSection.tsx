@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { Menu, MenuItem } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import EditLogo from "@src/assets/svgs/edit.svg";
@@ -15,8 +16,6 @@ import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/C
 import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,
@@ -94,7 +93,7 @@ const headers = [
 ];
 
 export default function DocumentationSection() {
-  const { title } = localizedData().documentation;
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [tableColumns, setTableColumns] = useState(columns);
   const [columnHeaders, setColumnHeaders] = useState(headers);
@@ -103,7 +102,6 @@ export default function DocumentationSection() {
   const [hideModality, setHideModality] = useState(false);
   const [hideLink, setHideLink] = useState(false);
   const [hasData, setHasData] = useState(false);
-  const { searching } = localizedData().common;
   const [open, setOpen] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
   const [currentProductModel, setCurrentProductModel] = useState(null);
@@ -113,11 +111,7 @@ export default function DocumentationSection() {
   const openModal = Boolean(anchorEl);
   const [openConfModal, setOpenConfModal] = useState(false);
   const [browserWidth] = useWindowSize();
-  const { toastData, documentationSection } = constantsData;
-
   const [deleteProductModel] = useProductsModelsDeleteMutation();
-
-  const { noDataDescription, noDataTitle } = localizedData().organization;
 
   const { data: rows, isLoading } = useProductsModelsListQuery({});
 
@@ -216,7 +210,7 @@ export default function DocumentationSection() {
           src={LinkLogo}
           onClick={() => {
             navigator?.clipboard?.writeText(link);
-            toast.success(toastData.documentationSectionLinkCopiedSuccess, {
+            toast.success("Link Copied", {
               autoClose: timeOut,
               pauseOnHover: false,
             });
@@ -244,7 +238,7 @@ export default function DocumentationSection() {
 
   const handleActionClose = () => {
     setAnchorEl(null);
-    setAction(documentationSection.add);
+    setAction("add");
     setCurrentProductModel(null);
   };
 
@@ -252,7 +246,7 @@ export default function DocumentationSection() {
     handleModalClose();
     handleActionClose();
     await deleteProductModelService(currentDoc, deleteProductModel);
-    toast.success(toastData.documentationSectionDeleteSuccess, {
+    toast.success("Documentation successfully deleted.", {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -267,14 +261,14 @@ export default function DocumentationSection() {
   };
 
   const editDocumentModal = async () => {
-    setAction(documentationSection.edit);
+    setAction("edit");
     setOpen(true);
     setAnchorEl(null);
   };
 
   return (
     <div className="documentaion-section">
-      <h2>{title}</h2>
+      <h2>{t("Documentation database")}</h2>
       <TopViewBtns
         setOpen={setOpen}
         path="documentation"
@@ -355,7 +349,10 @@ export default function DocumentationSection() {
             )}
           </>
         ) : searchedList?.query === query ? (
-          <NoDataFound title={noDataTitle} description={noDataDescription} />
+          <NoDataFound
+            title={"Sorry! No results found. :("}
+            description={"Try Again"}
+          />
         ) : (
           <div
             style={{
@@ -364,7 +361,7 @@ export default function DocumentationSection() {
               marginTop: "20%",
             }}
           >
-            <h2>{searching}</h2>
+            <h2>{t("Searching ...")}</h2>
           </div>
         )}
       </div>
@@ -382,12 +379,8 @@ export default function DocumentationSection() {
         className="UserDropdownMenu"
         onClose={handleActionClose}
       >
-        <MenuItem onClick={() => editDocumentModal()}>
-          {documentationSection.editText}
-        </MenuItem>
-        <MenuItem onClick={handleModalOpen}>
-          {documentationSection.deleteText}
-        </MenuItem>
+        <MenuItem onClick={() => editDocumentModal()}>{t("Edit")}</MenuItem>
+        <MenuItem onClick={handleModalOpen}>{t("Delete")}</MenuItem>
       </Menu>
       <DocumentModal
         open={open}

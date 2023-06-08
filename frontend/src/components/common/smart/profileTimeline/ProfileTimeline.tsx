@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Box, Grid } from "@mui/material";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 
 import ProfileTimeLineCards from "@src/components/common/presentational/profileTimeLineCards/ProfileTimeLineCards";
 import RecentActivity from "@src/components/common/presentational/recentActivity/RecentActivity";
@@ -9,7 +10,6 @@ import TopicToggler from "@src/components/common/presentational/topicToggler/Top
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
 import CustomPagination from "@src/components/shared/layout/customPagination/CustomPagination";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-import constantsData from "@src/localization/en.json";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/api";
 import { getTopicListArg } from "@src/types/interfaces";
 
@@ -57,8 +57,8 @@ const ProfileTimeline = ({
   count,
   onChange,
 }: Props) => {
+  const { t } = useTranslation();
   const classes = useStyles();
-  const { loading } = constantsData.common;
 
   const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
 
@@ -130,7 +130,7 @@ const ProfileTimeline = ({
               )}
             </Grid>
           ) : (
-            <p>{loading}</p>
+            <p>{t("Loading ...")}</p>
           )}
           {/* RecentActivity */}
           <Grid item xs={3} className={classes.recentActivity}>

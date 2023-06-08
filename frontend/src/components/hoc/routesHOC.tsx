@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react";
 
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Routes, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
-import constantsData from "@src/localization/en.json";
 import { routes, vfseRoutes } from "@src/routes";
 
 const OrganizationView = lazy(
@@ -80,8 +80,8 @@ interface Props {
   isLoading: boolean;
 }
 const RoutesHOC = ({ isLoading }: Props) => {
+  const { t } = useTranslation();
   const { organizationRoute, networkRoute, sitesRoute } = constants;
-  const { loading } = constantsData.common;
   return (
     <Box
       sx={{
@@ -98,7 +98,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
               element={
-                <Suspense fallback={<>{loading}</>}>
+                <Suspense fallback={<>{t("Loading ...")}</>}>
                   <route.component />
                 </Suspense>
               }
@@ -109,7 +109,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
             <Route
               path={`/${organizationRoute}/:id${route.path}`}
               element={
-                <Suspense fallback={<>{loading}</>}>
+                <Suspense fallback={<>{t("Loading ...")}</>}>
                   <route.component />
                 </Suspense>
               }
@@ -119,7 +119,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/template/`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <TemplateView />
               </Suspense>
             }
@@ -127,7 +127,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <OrganizationView />
               </Suspense>
             }
@@ -135,7 +135,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <OrganizationView />
               </Suspense>
             }
@@ -143,7 +143,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/account/`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <Account />
               </Suspense>
             }
@@ -151,7 +151,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <SitesView />
               </Suspense>
             }
@@ -159,7 +159,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${sitesRoute}/:siteId/systems`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <SystemsView />
               </Suspense>
             }
@@ -167,7 +167,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/${networkRoute}/:networkId/${sitesRoute}/:siteId/systems`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <SystemsView />
               </Suspense>
             }
@@ -175,7 +175,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId/folder/:folderId`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <FolderView />
               </Suspense>
             }
@@ -191,7 +191,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/folder/:folderId/documentation/:docId`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <ArticleDocumentation />
               </Suspense>
             }
@@ -199,7 +199,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/documentation/:docId`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <ArticleDocumentation />
               </Suspense>
             }
@@ -207,7 +207,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/knowledge-base/category/:categoryId`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <CategoryDetailView />
               </Suspense>
             }
@@ -215,7 +215,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path={`/${organizationRoute}/:id/forum/topic/:topicId`}
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <TopicView />
               </Suspense>
             }
@@ -223,7 +223,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path="/"
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <HomeView />
               </Suspense>
             }
@@ -231,7 +231,7 @@ const RoutesHOC = ({ isLoading }: Props) => {
           <Route
             path="*"
             element={
-              <Suspense fallback={<p>{loading}</p>}>
+              <Suspense fallback={<p>{t("Loading ...")}</p>}>
                 <NotFoundPage />
               </Suspense>
             }

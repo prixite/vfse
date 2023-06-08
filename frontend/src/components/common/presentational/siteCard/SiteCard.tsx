@@ -2,13 +2,13 @@ import React, { useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 import locationLogo from "@src/assets/images/locationIcon.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import SiteModal from "@src/components/shared/popUps/siteModal/SiteModal";
 import { constants } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { updateSitesService } from "@src/services/sitesService";
 import { useOrganizationsSitesUpdateMutation } from "@src/store/reducers/api";
 
@@ -30,12 +30,12 @@ const SiteCard = ({
   connections,
   sites,
 }: SiteCardProps) => {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const { organizationRoute, networkRoute, sitesRoute, systemsRoute } =
     constants;
-  const { cardPopUp } = localizedData().sites;
   const [updateSite] = useOrganizationsSitesUpdateMutation();
   const { id, networkId } = useParams();
   const selectionID =
@@ -137,10 +137,10 @@ const SiteCard = ({
           onClose={handleClose}
         >
           <MenuItem onClick={handleEditModalOpen}>
-            <span style={{ marginLeft: "12px" }}>{cardPopUp?.editSite}</span>
+            <span style={{ marginLeft: "12px" }}>{t("Edit")}</span>
           </MenuItem>
           <MenuItem onClick={handleDeleteModalOpen}>
-            <span style={{ marginLeft: "12px" }}>{cardPopUp?.deleteSite}</span>
+            <span style={{ marginLeft: "12px" }}>{t("Delete")}</span>
           </MenuItem>
         </Menu>
       </div>

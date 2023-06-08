@@ -5,10 +5,10 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
-import { localizedData } from "@src/helpers/utils/language";
 import {
   Modality,
   useOrganizationsHealthNetworksListQuery,
@@ -32,6 +32,7 @@ const PageTwo = ({
   systemStatus,
   setSystemStatus,
 }: Props) => {
+  const { t } = useTranslation();
   const { data: systemsList = [], isLoading: systemsListLoading } =
     useOrganizationsSystemsListQuery({
       id: formik.values.customer?.toString(),
@@ -52,8 +53,6 @@ const PageTwo = ({
       skip: !formik.values.customer,
     }
   );
-
-  const constantUserData = localizedData().users.popUp;
 
   const handleSystemSelection = (e, site) => {
     let checkedSystems: number[];
@@ -131,10 +130,7 @@ const PageTwo = ({
     for (const sys of selectedSiteSystems) {
       modalitiesSet.add(sys.product_model_detail.modality.id);
     }
-    formik.setFieldValue(
-      constantUserData.selectedModalities,
-      Array.from(modalitiesSet)
-    );
+    formik.setFieldValue("selectedModalities", Array.from(modalitiesSet));
   };
 
   const handleSystemReadStatus = (systemID: number, is_read_only: boolean) => {
@@ -174,7 +170,7 @@ const PageTwo = ({
           selectedSitesSet.delete(item.site);
         }
       }
-      formik.setFieldValue(constantUserData.selectedModalities, [
+      formik.setFieldValue("selectedModalities", [
         ...formik.values.selectedModalities.filter(
           (x) => x != event.target.value
         ),
@@ -187,9 +183,7 @@ const PageTwo = ({
         selectedSystemsSet.add(system.id);
         selectedSitesSet.add(system.site);
       }
-      formik.setFieldValue(constantUserData.selectedModalities, [
-        ...newFormats,
-      ]);
+      formik.setFieldValue("selectedModalities", [...newFormats]);
     }
 
     formik.setFieldValue("selectedSystems", [
@@ -202,11 +196,9 @@ const PageTwo = ({
     const siteIndex = formik.values.selectedSites.indexOf(val);
     if (siteIndex > -1) {
       formik.values.selectedSites.splice(siteIndex, 1);
-      formik.setFieldValue(constantUserData.selectedSites, [
-        ...formik.values.selectedSites,
-      ]);
+      formik.setFieldValue("selectedSites", [...formik.values.selectedSites]);
     } else {
-      formik.setFieldValue(constantUserData.selectedSites, [
+      formik.setFieldValue("selectedSites", [
         ...formik.values.selectedSites,
         val,
       ]);
@@ -268,7 +260,7 @@ const PageTwo = ({
       <div>
         {sitesLength() > 0 ? (
           <p className="modalities-header">
-            <span className="info-label">{constantUserData.sitesText}</span>
+            <span className="info-label">{t("Sites")}</span>
             <span className="checked-ratio">{`${
               formik.values.selectedSites.length
             }/${sitesLength()}`}</span>
@@ -279,7 +271,7 @@ const PageTwo = ({
         {getNetworkSitesLength() > 0 ? (
           <p className="modalities-header">
             <span style={{ fontWeight: "600" }}>
-              {constantUserData.healthNetworkAccessText}
+              {t("Health Network Access")}
             </span>
           </p>
         ) : (
@@ -319,7 +311,7 @@ const PageTwo = ({
           <>
             <p className="modalities-header">
               <span style={{ fontWeight: "600" }}>
-                {constantUserData.organizationSitesText}
+                {t("Organization Sites")}
               </span>
             </p>
             <div className="network-details">
@@ -350,9 +342,7 @@ const PageTwo = ({
       <div>
         {modalitiesList.length ? (
           <p className="modalities-header">
-            <span className="info-label">
-              {constantUserData.accessToModalities}
-            </span>
+            <span className="info-label">{t("Access to modalities")}</span>
             <span className="checked-ratio">{`${formik.values.selectedModalities.length}/${modalitiesList.length}`}</span>
           </p>
         ) : (

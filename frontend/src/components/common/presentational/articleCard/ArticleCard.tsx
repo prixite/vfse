@@ -4,19 +4,15 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import { Box, Grid, Menu, MenuItem } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import FolderSVG from "@src/components/common/presentational/articleCard/FolderSVG";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import {
-  LocalizationInterface,
-  selectedArticleCard,
-} from "@src/helpers/interfaces/localizationinterfaces";
+import { selectedArticleCard } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 
@@ -43,15 +39,13 @@ const ArticleCard = ({
   categoryName,
   handleEdit,
 }: props) => {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const constantData: LocalizationInterface = localizedData();
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
-  const { explore, numberTitle } = constantData.articleCard;
   const { organizationRoute } = constants;
-  const { toastData, articleCard } = constantsData;
   const { id } = useParams();
   const [deleteFolder] = api.useDeleteFolderMutation();
   const open = Boolean(anchorEl);
@@ -82,7 +76,7 @@ const ArticleCard = ({
     deleteFolder({ id: folderId })
       .unwrap()
       .then(() => {
-        toast.success(toastData.articleCardFolderDeleteSuccess, {
+        toast.success("Article successfully deleted.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -122,11 +116,11 @@ const ArticleCard = ({
                     marginRight: "10px",
                   }}
                 />
-                <p>{`${articleNo} ${numberTitle}`}</p>
+                <p>{`${articleNo} ${t("articles")}`}</p>
               </div>
               <div className="explore">
                 <p className="text" style={{ color: "#696F77" }}>
-                  {explore}
+                  {t("Explore")}
                 </p>
                 <ArrowRightAltIcon style={{ color: "#696F77" }} />
               </div>
@@ -156,10 +150,8 @@ const ArticleCard = ({
               className="dropdownMenu"
               onClose={handleClose}
             >
-              <MenuItem onClick={handleModalOpen}>
-                {articleCard.deleteCard}
-              </MenuItem>
-              <MenuItem onClick={onEdit}>{articleCard.editCard}</MenuItem>
+              <MenuItem onClick={handleModalOpen}>{t("Delete")}</MenuItem>
+              <MenuItem onClick={onEdit}>{t("Edit")}</MenuItem>
             </Menu>
           </div>
         ) : (

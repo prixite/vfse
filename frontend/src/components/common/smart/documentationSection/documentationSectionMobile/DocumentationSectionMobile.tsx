@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
-import "@src/components/common/smart/documentationSection/documentationSectionMobile/documentationSectionMobile.scss";
 import { Box } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import "@src/components/common/smart/documentationSection/documentationSectionMobile/documentationSectionMobile.scss";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import DocumentationCard from "@src/components/common/smart/documentationSection/documentationCard/DocumentationCard";
-import constantsData from "@src/localization/en.json";
 
 interface DocumentationSectionMobileProps {
   docList: {
@@ -25,10 +25,10 @@ const DocumentationSectionMobile = ({
   documentationLink,
   openDropDown,
 }: DocumentationSectionMobileProps) => {
+  const { t } = useTranslation();
   const [slicePointer, setSlicePointer] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [paginatedDocs, setPaginatedDocs] = useState([]);
-  const { common } = constantsData;
   const fetchMoreSection = () => {
     setSlicePointer((prevState) => prevState + 2);
     if (slicePointer + 2 >= docList.length) {
@@ -53,7 +53,7 @@ const DocumentationSectionMobile = ({
         hasMore={hasMore}
         loader={
           <h4 style={{ width: "100%", textAlign: "center", color: "#696f77" }}>
-            {common.loading}
+            {t("Loading ...")}
           </h4>
         }
       >

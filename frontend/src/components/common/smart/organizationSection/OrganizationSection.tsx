@@ -4,6 +4,7 @@ import * as React from "react";
 import { Box, Grid } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import { useTranslation } from "react-i18next";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 
@@ -17,8 +18,6 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import OrganizationModal from "@src/components/shared/popUps/organizationModal/OrganizationModal";
 import { constants, organizationTabs } from "@src/helpers/utils/constants";
 import "@src/components/common/smart/organizationSection/organizationSection.scss";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import {
   useAppDispatch,
   useAppSelector,
@@ -32,8 +31,8 @@ import {
 import { closeAddModal } from "@src/store/reducers/appStore";
 
 const OrganizationSection = () => {
+  const { t } = useTranslation();
   const [tabValue, setTabValue] = React.useState(0);
-  const { common, organization: organizationData } = constantsData;
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -64,12 +63,8 @@ const OrganizationSection = () => {
   );
 
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
-  const { searching } = localizedData().common;
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   const { id } = useParams();
-
-  const { title, noDataDescription, noDataTitle } =
-    localizedData().organization;
 
   const handleClose = () => dispatch(closeAddModal());
   const handleChange = (event, newValue) => {
@@ -102,9 +97,8 @@ const OrganizationSection = () => {
     const pathUrl = location.pathname.split("/");
     return (
       (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) ==
-        organizationData.networksText ||
-      (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) ==
-        organizationData.sitesText
+        "networks" ||
+      (pathUrl[pathUrl.length - 1] || pathUrl[pathUrl.length - 2]) == "sites"
     );
   };
   const handleSearchQuery = async (searchQuery: string) => {
@@ -123,7 +117,7 @@ const OrganizationSection = () => {
     }
   };
   useEffect(() => {
-    if (location.pathname.includes(organizationData.sitesText)) {
+    if (location.pathname.includes("sites")) {
       setTabValue(1);
     }
   }, []);
@@ -152,8 +146,8 @@ const OrganizationSection = () => {
 
   return (
     <>
-      {location.pathname.includes(organizationData.networksText) ||
-      location.pathname.includes(organizationData.sitesText) ? (
+      {location.pathname.includes("networks") ||
+      location.pathname.includes("sites") ? (
         <BreadCrumb
           breadCrumbList={[
             {
@@ -170,7 +164,9 @@ const OrganizationSection = () => {
       )}
       <Box component="div" className="OrganizationSection">
         {!showTabs() ? (
-          <h2 style={{ lineHeight: "1.3", marginTop: "10px" }}>{title}</h2>
+          <h2 style={{ lineHeight: "1.3", marginTop: "10px" }}>
+            {t("Organization Administration")}
+          </h2>
         ) : (
           <h2>{selectedOrganization?.name}</h2>
         )}
@@ -246,8 +242,8 @@ const OrganizationSection = () => {
                     search
                     setQuery={setSearchText}
                     queryText={searchText}
-                    title={noDataTitle}
-                    description={noDataDescription}
+                    title={t("Sorry! No results found. :(")}
+                    description={t("Try Again")}
                   />
                 ) : (
                   <div
@@ -257,7 +253,7 @@ const OrganizationSection = () => {
                       marginTop: "20%",
                     }}
                   >
-                    <h2>{searching}</h2>
+                    <h2>{t("Searching ...")}</h2>
                   </div>
                 )
               ) : paginatedOrganizationList &&
@@ -274,7 +270,7 @@ const OrganizationSection = () => {
                         color: "#696f77",
                       }}
                     >
-                      {common.loading}
+                      {t("Loading ...")}
                     </h4>
                   }
                 >
@@ -303,8 +299,8 @@ const OrganizationSection = () => {
                 </InfiniteScroll>
               ) : (
                 <NoDataFound
-                  title={noDataTitle}
-                  description={noDataDescription}
+                  title={t("Sorry! No results found. :(")}
+                  description={t("Try Again")}
                 />
               )}
             </Grid>

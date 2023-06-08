@@ -3,10 +3,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import { useTranslation } from "react-i18next";
 
 import ModalIcon from "@src/assets/modalicon.png";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 
 import "@src/components/shared/popUps/deleteNoteModal/deleteNoteModal.scss";
@@ -18,18 +17,17 @@ interface Props {
 }
 
 const DeleteNoteModal = ({ open, handleClose, handleNoteDelete }: Props) => {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const { noButton, yesButton } = localizedData().organization.deleteDialog;
-  const { deleteThisComment } = constantsData.deleteNoteModal;
   return (
     <>
       <Dialog open={open} onClose={handleClose} className="ConfirmationModal">
         <DialogContent className="ConfirmationModal__Content">
           <img src={ModalIcon} style={{ marginBottom: "16px" }} />
           <DialogContentText className="DialogueMessage">
-            {deleteThisComment}
+            {t("Delete this comment?")}
           </DialogContentText>
         </DialogContent>
         <DialogActions className="ConfirmationModal__Actions">
@@ -41,7 +39,7 @@ const DeleteNoteModal = ({ open, handleClose, handleNoteDelete }: Props) => {
             className="btnModal"
             onClick={handleClose}
           >
-            {noButton}
+            {t("No")}
           </Button>
           <Button
             style={{
@@ -51,7 +49,7 @@ const DeleteNoteModal = ({ open, handleClose, handleNoteDelete }: Props) => {
             className="btnModal"
             onClick={handleNoteDelete}
           >
-            {yesButton}
+            {t("Yes")}
           </Button>
         </DialogActions>
       </Dialog>
