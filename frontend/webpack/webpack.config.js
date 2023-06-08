@@ -55,7 +55,7 @@ module.exports = {
       WEBSOCKIFY_WS: "",
       HTML_PROXY_DOMAIN: "",
     }),
-    new BundleTracker({ filename: "./webpack-stats.json" }),
+    new BundleTracker({ path: "./", filename: "webpack-stats.json" }),
   ],
   resolve: {
     alias: {
