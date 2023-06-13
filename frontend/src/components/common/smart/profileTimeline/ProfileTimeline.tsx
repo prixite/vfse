@@ -10,11 +10,7 @@ import TopicToggler from "@src/components/common/presentational/topicToggler/Top
 import useStyles from "@src/components/common/smart/profileTimeline/Styles";
 import CustomPagination from "@src/components/shared/layout/customPagination/CustomPagination";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
-<<<<<<< HEAD
-=======
 import { getTopicListArg } from "@src/helpers/interfaces/sharedInterfaces";
-import constantsData from "@src/localization/en.json";
->>>>>>> Refactor interfaces file structure.
 import { VfseTopicsListApiResponse } from "@src/store/reducers/api";
 
 function TabPanel(props) {

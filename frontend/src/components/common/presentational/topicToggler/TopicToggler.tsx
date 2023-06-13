@@ -8,7 +8,7 @@ import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import useStyles from "@src/components/common/presentational/topicToggler/Styles";
-import { getTopicListArg } from "@src/types/interfaces";
+import { getTopicListArg } from "@src/helpers/interfaces/sharedInterfaces";
 
 interface TopicTogglerInterface {
   setTopicListPayload: Dispatch<SetStateAction<getTopicListArg>>;
