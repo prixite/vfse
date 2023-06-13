@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
     def perform_ping(self, *args, **options):
         systems = models.System.objects.filter(connection_monitoring=True)
-        for system in systems:
+        for system in [x for x in systems if x.ip_address]:
             system.is_online = False
 
             response = ping(address=system.ip_address, count=1)
