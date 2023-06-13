@@ -24,9 +24,20 @@ def get_system_info_from_hostname(request: Request):
     return int(organization_id), int(system_id)
 
 
-def to_base_url(url: str):
+def to_netloc(url: str):
     result = parse.urlparse(url)
-    return f"{result.scheme}://{result.netloc}"
+    return result.netloc
+
+
+def replace_host_in_location(base_url: str, location: str, request: Request):
+    location_base_url = to_netloc(location)
+    if base_url == location_base_url:
+        host = request.headers["host"]
+        protocol = request.headers["x-forwarded-proto"]
+        result = parse.urlparse(location)
+        return f"{protocol}://{host}{result.path}"
+
+    return location
 
 
 async def proxy(method_name: str, path: str, request: Request, data=None):
@@ -42,10 +53,10 @@ async def proxy(method_name: str, path: str, request: Request, data=None):
             status_code=400, detail="No service browser access for system"
         )
 
-    base_url = to_base_url(system.safe_service_page_url)
+    base_url = to_netloc(system.safe_service_page_url)
     async with httpx.AsyncClient() as client:
         method = getattr(client, method_name)
-        url = f"{base_url}/{path}"
+        url = f"http://{base_url}/{path}"
         if data is None:
             proxy = await method(url)
         else:
@@ -53,6 +64,11 @@ async def proxy(method_name: str, path: str, request: Request, data=None):
 
     response = Response(content=proxy.content)
     response.headers.update(proxy.headers)
+    if "location" in response.headers:
+        location = response.headers["location"]
+        new_location = replace_host_in_location(base_url, location, request)
+        response.headers["location"] = new_location
+
     response.status_code = proxy.status_code
     return response
 

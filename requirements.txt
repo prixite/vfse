@@ -1,10 +1,10 @@
-boto3==1.26.142
+boto3==1.26.147
 coverage==7.2.7
 dj-database-url==2.0.0
-Django==4.2.1
+Django==4.2.2
 django-cors-headers==4.0.0
 django-environ==0.10.0
-django-extensions==3.2.1
+django-extensions==3.2.3
 django-filter==23.2
 django-webpack-loader==2.0.0
 djangorestframework==3.14.0
@@ -12,7 +12,7 @@ djangorestframework-link-header-pagination==0.1.1
 drf-yasg==1.21.5
 duo-universal==2.0.3
 factory-boy==3.2.1
-fastapi==0.95.2
+fastapi==0.96.0
 gunicorn==20.1.0
 httpx==0.24.1
 icmplib==3.0.3
