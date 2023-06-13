@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 
 import { Box, Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import SiteCard from "@src/components/common/presentational/siteCard/SiteCard";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import SiteModal from "@src/components/shared/popUps/siteModal/SiteModal";
-import { localizedData } from "@src/helpers/utils/language";
 import { useOrganizationsSitesListQuery, Site } from "@src/store/reducers/api";
 import "react-toastify/dist/ReactToastify.css";
 import "@src/components/common/smart/siteSection/siteSection.scss";
 
 const SiteSection = () => {
+  const { t } = useTranslation();
   const [site, setSite] = useState(null); // eslint-disable-line
   const [sitesList, setSitesList] = useState({});
   const [searchText, setSearchText] = useState("");
@@ -28,8 +29,6 @@ const SiteSection = () => {
       id: selectionID,
     });
 
-  const { title, noDataTitle, noDataDescription } = localizedData().sites;
-  const { searching } = localizedData().common;
   const handleClose = () => setOpen(false);
   const handleSearchQuery = (searchQuery: string) => {
     setItemsList(
@@ -51,7 +50,7 @@ const SiteSection = () => {
   return (
     <>
       <Box component="div" className="SiteSection">
-        {networkId == undefined ? "" : <h2>{title}</h2>}
+        {networkId == undefined ? "" : <h2>{t("All Sites")}</h2>}
         {!isSitesFetching ? (
           <TopViewBtns
             setOpen={setOpen}
@@ -67,7 +66,10 @@ const SiteSection = () => {
           ""
         )}
         {!isSitesFetching && !sitesData?.length ? (
-          <NoDataFound title={noDataTitle} description={noDataDescription} />
+          <NoDataFound
+            title={t("Sorry! No results found. :(")}
+            description={t("Try Again")}
+          />
         ) : (
           <Grid container spacing={2} className="SiteSection__AllClients">
             {searchText?.length > 2 ? (
@@ -89,14 +91,14 @@ const SiteSection = () => {
                   search
                   setQuery={setSearchText}
                   queryText={searchText}
-                  title={noDataTitle}
-                  description={noDataDescription}
+                  title={t("Sorry! No results found. :(")}
+                  description={t("Try Again")}
                 />
               ) : (
                 <div
                   style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}
                 >
-                  <h2>{searching}</h2>
+                  <h2>{t("Searching...")}</h2>
                 </div>
               )
             ) : sitesData && sitesData?.length ? (

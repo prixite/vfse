@@ -3,6 +3,7 @@ import { useState } from "react";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { Avatar, Box, Typography, Stack, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import calender from "@src/assets/svgs/g-calendar.svg";
@@ -10,9 +11,7 @@ import gmail from "@src/assets/svgs/gmail.svg";
 import msg from "@src/assets/svgs/msg.svg";
 import slack from "@src/assets/svgs/slack.svg";
 import zoom from "@src/assets/svgs/zoom.svg";
-import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { constants } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useUsersRolesListQuery } from "@src/store/reducers/api";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
@@ -22,13 +21,12 @@ import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";
 import "@src/components/common/presentational/profileHeader/profileHeader.scss";
 
 const ProfileHeader = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     me && setOpen(true);
   };
   const navigate = useNavigate();
-  const constantData: LocalizationInterface = localizedData();
-  const { editText } = constantData.profileHeader;
   const { data: usersRoles } = useUsersRolesListQuery();
   const { data: me } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
@@ -58,7 +56,7 @@ const ProfileHeader = () => {
             <span style={{ paddingTop: 6, paddingRight: 6 }}>
               <EditIcon fontSize="small" />
             </span>
-            <span className="show-hide">{editText}</span>
+            <span className="show-hide">{t("Edit")}</span>
           </Button>
           <Avatar
             alt="Profile"

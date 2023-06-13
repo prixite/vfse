@@ -1,27 +1,25 @@
 import { useState, useEffect } from "react";
 
 import { Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import KnowledgeTopCard from "@src/components/common/presentational/knowledgeTopCard/KnowledgeTopCard";
 import useStyles from "@src/components/common/smart/knowledgeSection/Styles.tsx";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
 import { Document } from "@src/store/reducers/generated";
 
 const SeeAllArticles = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [articlesList, setArticlesList] = useState<Document[]>([]);
   const [query, setQuery] = useState("");
-  const { article } = constantsData;
   const [open, setOpen] = useState(false);
   const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
   const { data: topData = [] } = api.useGetAllArticlesQuery();
   // eslint-disable-next-line
-  const { noDataTitle, noDataDescription } = localizedData().systems;
   const handleSearchQuery = (searchQuery: string) => {
     // logic to search article from searchBar
     const dataForSearch = [
@@ -64,7 +62,7 @@ const SeeAllArticles = () => {
         setData={setArticlesList}
         actualData={topData}
       />
-      <h2 className={classes.subHeading}>{article.allArticles}</h2>
+      <h2 className={classes.subHeading}>{t("All Articles")}</h2>
       {articlesList.length ? (
         <Grid container spacing={2}>
           {articlesList.map((item, index) => (
@@ -96,8 +94,8 @@ const SeeAllArticles = () => {
               search
               setQuery={setQuery}
               queryText={query}
-              title={noDataTitle}
-              description={noDataDescription}
+              title={t("Sorry! No results found. :(")}
+              description={t("Try Again")}
             />
           )}
         </>

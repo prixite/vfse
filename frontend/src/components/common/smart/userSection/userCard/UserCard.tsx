@@ -1,13 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 import EditLogo from "@src/assets/svgs/edit.svg";
 import "@src/components/common/smart/userSection/userCard/userCard.scss";
-import constantsData from "@src/localization/en.json";
 import { User } from "@src/store/reducers/api";
 interface UserCardProps {
   user: User;
   handleClick: (event: unknown, id: number, active: boolean) => void;
 }
 const UserCard = ({ user, handleClick }: UserCardProps) => {
-  const { userCard } = constantsData;
+  const { t } = useTranslation();
   return (
     <div className="UserCard">
       <div className="user">
@@ -18,15 +19,15 @@ const UserCard = ({ user, handleClick }: UserCardProps) => {
         />
       </div>
       <div className="userInfo">
-        <h3 className="name">{userCard.email}</h3>
+        <h3 className="name">{t("Email")}</h3>
         <p className="name">{user?.email}</p>
       </div>
       <div className="userInfo">
-        <h3 className="name">{userCard.customer}</h3>
+        <h3 className="name">{t("Customer")}</h3>
         <p className="name">{user?.organizations}</p>
       </div>
       <div className="userInfo">
-        <h3 className="name">{userCard.status}</h3>
+        <h3 className="name">{t("Status")}</h3>
         <p className="name" style={user?.is_active ? {} : { color: "red" }}>
           {user?.is_active ? "Active" : "Locked"}
         </p>

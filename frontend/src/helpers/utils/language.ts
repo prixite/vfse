@@ -1,15 +1,13 @@
 import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
-import en from "@src/localization/en.json";
-import fr from "@src/localization/fr.json";
 
 export const localizedData = (): LocalizationInterface => {
   const lang = navigator.language;
   switch (lang) {
     case "en-US":
-      return en;
+      return;
     case "fr":
-      return fr;
+      return;
     default:
-      return en;
+      return;
   }
 };

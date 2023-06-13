@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -19,9 +20,7 @@ import {
   deleteImageFromS3,
   uploadImageToS3,
 } from "@src/helpers/utils/imageUploadUtils";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import {
   addNewHealthNetworkService,
   updateHealthNetworkService,
@@ -47,15 +46,12 @@ const initialState: NetworkModalFormState = {
   sitePointer: [{ name: "", address: "" }],
 };
 const validationSchema = yup.object({
-  networkName: yup
-    .string()
-    .required(constantsData.networkModalPopUp.nameRequired),
-  networkLogo: yup
-    .string()
-    .required(constantsData.networkModalPopUp.imageNotSelected),
+  networkName: yup.string().required("Name is required"),
+  networkLogo: yup.string().required("Image is not selected"),
 });
 
 export default function NetworkModal(props: Props) {
+  const { t } = useTranslation();
   const selectedOrganization = useSelectedOrganization();
   const { appearance } = selectedOrganization;
   const [updateOrganization] = useOrganizationsPartialUpdateMutation();
@@ -63,27 +59,17 @@ export default function NetworkModal(props: Props) {
   const [updateOrganizationSites] = useOrganizationsSitesUpdateMutation();
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { toastData } = constantsData;
-  const { editText, networkLogoText, sitePointerText } =
-    constantsData.networkModalPopUp;
+
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
   const [isSiteDataPartiallyFilled, setIsSiteDataPartiallyFilled] =
     useState(false);
-  const {
-    newNetworkAddSite,
-    newNetworkLogo,
-    newNetworkName,
-    newNetworkBtnSave,
-    newNetworkBtnCancel,
-  } = localizedData().modalities.popUp;
-
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
     onSubmit: () => {
-      if (props.action === editText) {
+      if (props.action === "edit") {
         handleEditOrganization();
       } else {
         handleAddNewHealthNetwork();
@@ -103,7 +89,7 @@ export default function NetworkModal(props: Props) {
 
   useEffect(() => {
     if (selectedImage.length) {
-      formik.setFieldValue(networkLogoText, selectedImage[0]);
+      formik.setFieldValue("networkLogo", selectedImage[0]);
     }
   }, [selectedImage.length]);
 
@@ -145,7 +131,7 @@ export default function NetworkModal(props: Props) {
                 })
                 .catch(async (error) => {
                   toastAPIError(
-                    toastData.saveHealthNetworkError,
+                    "Error occurred while saving health network",
                     error?.status,
                     error.data
                   );
@@ -170,7 +156,7 @@ export default function NetworkModal(props: Props) {
             })
             .catch((error) => {
               toastAPIError(
-                toastData.saveHealthNetworkError,
+                "Error occurred while saving health network",
                 error?.status,
                 error.data
               );
@@ -206,7 +192,7 @@ export default function NetworkModal(props: Props) {
                 })
                 .catch(async (error) => {
                   toastAPIError(
-                    toastData.addHealthNetworkError,
+                    "Error occurred while adding health network",
                     error?.status,
                     error.data
                   );
@@ -215,11 +201,7 @@ export default function NetworkModal(props: Props) {
             }
           })
           .catch((err) => {
-            toastAPIError(
-              toastData.uploadImageFailedError,
-              err.status,
-              err.data
-            );
+            toastAPIError("Failed to upload image", err.status, err.data);
           });
       }
     }
@@ -251,7 +233,7 @@ export default function NetworkModal(props: Props) {
   };
 
   const addSite = () => {
-    formik.setFieldValue(sitePointerText, [
+    formik.setFieldValue("sitePointer", [
       ...formik.values.sitePointer,
       { name: "", address: "" },
     ]);
@@ -266,7 +248,7 @@ export default function NetworkModal(props: Props) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {props?.action === editText
+            {props?.action === "edit"
               ? `Edit ${props?.organization?.name} Network`
               : "Add Network"}
           </span>
@@ -278,7 +260,7 @@ export default function NetworkModal(props: Props) {
       <DialogContent>
         <div className="modal-content">
           <div>
-            <p className="dropzone-title required">{newNetworkLogo}</p>
+            <p className="dropzone-title required">{t("Logo")}</p>
             <DropzoneBox
               setSelectedImage={setSelectedImage}
               imgSrc={formik.values.networkLogo}
@@ -291,7 +273,7 @@ export default function NetworkModal(props: Props) {
             )}
           </div>
           <div className="network-info">
-            <p className="info-label required">{newNetworkName}</p>
+            <p className="info-label required">{t("Health Network")}</p>
             <TextField
               name="networkName"
               className="info-field"
@@ -313,7 +295,7 @@ export default function NetworkModal(props: Props) {
               index={index}
               sitee={site}
               setSites={(args) =>
-                formik.setFieldValue(sitePointerText, [...args])
+                formik.setFieldValue("sitePointer", [...args])
               }
               isSiteDataPartiallyFilled={isSiteDataPartiallyFilled}
               setIsSiteDataPartiallyFilled={setIsSiteDataPartiallyFilled}
@@ -340,7 +322,7 @@ export default function NetworkModal(props: Props) {
             >
               <AddIcon style={{ height: "30px", width: "30px" }} />
             </Button>
-            {newNetworkAddSite}
+            {t("Add Site")}
           </div>
         </div>
       </DialogContent>
@@ -363,7 +345,7 @@ export default function NetworkModal(props: Props) {
           disabled={isLoading}
           className="cancel-btn"
         >
-          {newNetworkBtnCancel}
+          {t("Cancel")}
         </Button>
         <Button
           style={
@@ -381,7 +363,7 @@ export default function NetworkModal(props: Props) {
           disabled={isLoading}
           className="add-btn"
         >
-          {props?.action === "edit" ? "Edit" : newNetworkBtnSave}
+          {props?.action === "edit" ? "Edit" : "Add"}
         </Button>
       </DialogActions>
     </Dialog>

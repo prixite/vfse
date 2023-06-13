@@ -3,8 +3,8 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { Grid, TextField, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
+import { useTranslation } from "react-i18next";
 
-import constantsData from "@src/localization/en.json";
 import { api, Folder, Document } from "@src/store/reducers/api";
 
 import "@src/components/common/presentational/articleMetaCard/articleMetaCard.scss";
@@ -32,8 +32,8 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
   setTitle,
   setCategory,
 }) => {
+  const { t } = useTranslation();
   const [folderList, setFolderList] = useState<Folder[]>([]);
-  const { categoryText, folderText, titleText } = constantsData.articleModal;
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
   const [catFormats, setCatFormats] = useState<number[]>([
@@ -93,7 +93,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
         <div className="info-section">
           <Grid item xs={12}>
             <div className="info-section">
-              <p className="info-label">{categoryText}(1)</p>
+              <p className="info-label">{t("Category")}(1)</p>
               <ToggleButtonGroup
                 defaultValue="none"
                 value={catFormats || ""}
@@ -121,7 +121,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
             {folderList.length > 0 && (
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{folderText}</p>
+                  <p className="info-label">{t("Folder")}</p>
                   <ToggleButtonGroup
                     value={folFormats || ""}
                     color="primary"
@@ -146,7 +146,7 @@ const ArticleMetaCard: FC<ArticleMetaCardProps> = ({
                 </div>
               </Grid>
             )}
-            <p className="info-label">{titleText}</p>
+            <p className="info-label">{t("Title")}</p>
             <TextField
               autoComplete="off"
               name="title"

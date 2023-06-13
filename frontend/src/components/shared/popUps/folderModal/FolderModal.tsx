@@ -9,15 +9,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut, categories } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Category, Folder } from "@src/store/reducers/generated";
@@ -41,13 +39,8 @@ const initialState: Folder = {
   name: "",
   categories: [],
 };
-const constantData: LocalizationInterface = localizedData();
 const validationSchema = yup.object({
-  name: yup
-    .string()
-    .min(1)
-    .max(50)
-    .required(constantData.FolderModalPopUp.nameRequired),
+  name: yup.string().min(1).max(50).required("Name is required"),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
@@ -65,6 +58,7 @@ export default function FolderModal({
   categoryData,
   folderDataState,
 }: FolderModalProps) {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -72,16 +66,6 @@ export default function FolderModal({
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const { data: categoriesList = [] } = api.useGetCategoriesQuery();
   const [isLoading, setIsLoading] = useState(false);
-
-  const {
-    addFolderText,
-    folderNameText,
-    chooseCategories,
-    cancel,
-    editFolderText,
-  } = constantData.FolderModalPopUp;
-  const { categoriesText } = constantsData.topicModal;
-  const { toastData } = constantData;
 
   //API
   const [addNewFolder] = api.useAddFolderMutation();
@@ -129,13 +113,17 @@ export default function FolderModal({
     })
       .unwrap()
       .then(() => {
-        toast.success(toastData.folderAddSuccess, {
+        toast.success("Folder Successfully added.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
       })
       .catch((err) => {
-        toastAPIError(toastData.folderAddError, err.status, err.data);
+        toastAPIError(
+          "Error occured while adding Folder",
+          err.status,
+          err.data
+        );
       })
       .finally(() => {
         resetModal();
@@ -153,13 +141,17 @@ export default function FolderModal({
       },
     })
       .then(() => {
-        toast.success(toastData.folderUpdateSuccess, {
+        toast.success("Folder Updated Successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
       })
       .catch((err) => {
-        toastAPIError(toastData.folderUpdateError, err.status, err.data);
+        toastAPIError(
+          "Error occured while updating Folder",
+          err.status,
+          err.data
+        );
       })
       .finally(() => {
         resetModal();
@@ -168,7 +160,7 @@ export default function FolderModal({
   };
   const handleSelectedCategories = (event, newFormats) => {
     if (newFormats.length) {
-      formik.setFieldValue(categoriesText, newFormats);
+      formik.setFieldValue("categories", newFormats);
     }
   };
   const resetModal = () => {
@@ -181,7 +173,7 @@ export default function FolderModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {folderDataState.action === "add" ? addFolderText : editFolderText}
+            {folderDataState.action === "add" ? "Add Folder" : "Edit Folder"}
           </span>
           <span className="dialog-page">
             <img
@@ -199,7 +191,7 @@ export default function FolderModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{folderNameText} </p>
+                  <p className="info-label">{t("Folder Name")} </p>
                   <TextField
                     name="name"
                     className="info-field"
@@ -219,7 +211,9 @@ export default function FolderModal({
                 <div className="modal-content-header">
                   {categories?.length && (
                     <p className="topics-header">
-                      <span className="info-label">{chooseCategories}(1)</span>
+                      <span className="info-label">
+                        {t("Choose categories min")}(1)
+                      </span>
                     </p>
                   )}
                   <ToggleButtonGroup
@@ -254,7 +248,7 @@ export default function FolderModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancel}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -268,7 +262,7 @@ export default function FolderModal({
           }}
           disabled={isLoading}
         >
-          {folderDataState.action === "add" ? addFolderText : editFolderText}
+          {folderDataState.action === "add" ? "Add Folder" : "Edit Folder"}
         </Button>
       </DialogActions>
     </Dialog>

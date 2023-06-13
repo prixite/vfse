@@ -1,12 +1,12 @@
 import { Box, Grid } from "@mui/material";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import activityIcon from "@src/assets/svgs/activity.svg";
 import profileIcon from "@src/assets/svgs/profilepic.svg";
 import "@src/components/common/presentational/recentActivity/style.scss";
-import constantsData from "@src/localization/en.json";
 import { api } from "@src/store/reducers/api";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -15,9 +15,9 @@ interface props {
   topicID?: number;
 }
 const RecentActivity = ({ topicID }: props) => {
+  const { t } = useTranslation();
   const { data: userActivityList, isLoading } =
     api.useVfseUserActivityListQuery({ topic: topicID });
-  const { recentActivity } = constantsData;
 
   const totalPageNumber = () => {
     const totalPages = Math.ceil(userActivityList?.length / 4);
@@ -30,7 +30,7 @@ const RecentActivity = ({ topicID }: props) => {
         <div className="allTopicImg">
           <img src={activityIcon} className="imgStylingMessage" />
         </div>
-        <div className="topicHeading">{recentActivity.title}</div>
+        <div className="topicHeading">{t("Recent Activity")}</div>
       </div>
 
       {!isLoading ? (

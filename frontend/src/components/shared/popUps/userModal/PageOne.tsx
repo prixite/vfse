@@ -5,10 +5,10 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
-import { localizedData } from "@src/helpers/utils/language";
 import {
   Organization,
   Role,
@@ -35,6 +35,7 @@ const PageOne = ({
   organizationData,
   action,
 }: Props) => {
+  const { t } = useTranslation();
   const { data: managers = [] } = useOrganizationsUsersListQuery(
     {
       id: formik.values.customer?.toString(),
@@ -44,14 +45,10 @@ const PageOne = ({
     }
   );
 
-  const constantUserData = localizedData().users.popUp;
-
   return (
     <>
       <div>
-        <p className="info-label required">
-          {constantUserData.profileImageText}
-        </p>
+        <p className="info-label required">{t("Profile Image")}</p>
         <DropzoneBox
           imgSrc={formik.values.userProfileImage}
           setSelectedImage={setSelectedImage}
@@ -64,7 +61,7 @@ const PageOne = ({
         }
       </div>
       <div>
-        <p className="info-label required">{constantUserData.userFirstName}</p>
+        <p className="info-label required">{t("First Name")}</p>
         <TextField
           autoComplete="off"
           name="firstname"
@@ -80,7 +77,7 @@ const PageOne = ({
         </p>
       </div>
       <div>
-        <p className="info-label required">{constantUserData.userLastName}</p>
+        <p className="info-label required">{t("Last Name")}</p>
         <TextField
           autoComplete="off"
           name="lastname"
@@ -97,7 +94,7 @@ const PageOne = ({
       </div>
       <div className="divided-div">
         <div>
-          <p className="info-label required">{constantUserData.userEmail}</p>
+          <p className="info-label required">{t("User Email")}</p>
           <TextField
             autoComplete="off"
             name="email"
@@ -113,9 +110,7 @@ const PageOne = ({
           </p>
         </div>
         <div>
-          <p className="info-label required">
-            {constantUserData.userPhoneNumber}
-          </p>
+          <p className="info-label required">{t("Phone Number")}</p>
           <TextField
             autoComplete="off"
             name="phone"
@@ -140,7 +135,7 @@ const PageOne = ({
       </div>
       <div className="divided-div">
         <div>
-          <p className="info-label">{constantUserData.userRole}</p>
+          <p className="info-label">{t("Role")}</p>
           <FormControl sx={{ minWidth: 356 }}>
             <Select
               name="role"
@@ -161,7 +156,7 @@ const PageOne = ({
           </FormControl>
         </div>
         <div>
-          <p className="info-label">{constantUserData.userManager}</p>
+          <p className="info-label">{t("Manager")}</p>
           <FormControl sx={{ minWidth: 356 }}>
             <Select
               name="manager"
@@ -190,7 +185,7 @@ const PageOne = ({
         </div>
       </div>
       <div>
-        <p className="info-label">{constantUserData.userCustomer}</p>
+        <p className="info-label">{t("Customer")}</p>
         <FormControl sx={{ width: "100%" }}>
           <Select
             name="customer"

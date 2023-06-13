@@ -7,12 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -29,8 +29,6 @@ const initialState = {
   model: "",
 };
 
-const { title, addBtn, cancelBtn } = localizedData().addProductModelDialog;
-
 const validationSchema = yup.object({
   model: yup.string().min(1).max(20).required("Product Model is required!"),
 });
@@ -42,6 +40,7 @@ export default function AddProductModelDialog({
   modality,
   product,
 }: AddProductModelDialogProps) {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -95,7 +94,7 @@ export default function AddProductModelDialog({
     <Dialog className="product-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">{title}</span>
+          <span className="modal-header">{t("Add Product Model")}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -139,7 +138,7 @@ export default function AddProductModelDialog({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelBtn}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -153,7 +152,7 @@ export default function AddProductModelDialog({
             formik.handleSubmit();
           }}
         >
-          {addBtn}
+          {t("Add")}
         </Button>
       </DialogActions>
     </Dialog>

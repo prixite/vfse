@@ -2,9 +2,9 @@ import { useState, Dispatch, SetStateAction } from "react";
 
 import "@src/components/common/smart/commentsDrawer/editComment/editComment.scss";
 import { TextField, InputAdornment, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { updateSystemNoteService } from "@src/services/systemServices";
 import { useAppSelector } from "@src/store/hooks";
 import { useNotesPartialUpdateMutation } from "@src/store/reducers/api";
@@ -14,9 +14,9 @@ interface EditCommentProps {
   setEditMode: Dispatch<SetStateAction<boolean>>;
 }
 const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
+  const { t } = useTranslation();
   const [editNote, setEditNote] = useState(note);
   const [isLoading, setIsLoading] = useState(false);
-  const { toastData, commentsDrawer } = constantsData;
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -27,7 +27,7 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
   const editCommentHandler = async () => {
     setIsLoading(true);
     await updateSystemNoteService(noteId, editNote, updateNote).catch((err) => {
-      toastAPIError(toastData.editCommentUpdateError, err.status, err.data);
+      toastAPIError("Failed to update comment", err.status, err.data);
     });
     setEditMode(false);
   };
@@ -66,7 +66,7 @@ const EditComment = ({ note, noteId, setEditMode }: EditCommentProps) => {
                     className="AddCommentBtn"
                     onClick={editCommentHandler}
                   >
-                    {commentsDrawer.save}
+                    {t("Save")}
                   </Button>
                 </InputAdornment>
               ),

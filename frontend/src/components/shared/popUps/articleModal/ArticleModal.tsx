@@ -19,6 +19,7 @@ import { convertToRaw, EditorState } from "draft-js";
 import draftjsToHtml from "draftjs-to-html";
 import { useFormik } from "formik";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -34,7 +35,6 @@ import {
   convertImages,
   toastAPIError,
 } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Document, Folder } from "@src/store/reducers/generated";
@@ -55,12 +55,9 @@ const initialState: Document = {
   categories: [],
 };
 const validationSchema = yup.object({
-  title: yup.string().required(constantsData.articleModal.titleRequired),
-  text: yup.string().required(constantsData.articleModal.textRequired),
-  categories: yup
-    .array()
-    .min(1)
-    .required(constantsData.articleModal.categoryRequired),
+  title: yup.string().required("Title is required"),
+  text: yup.string().required("Text is required"),
+  categories: yup.array().min(1).required("Category is required"),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
@@ -72,26 +69,13 @@ const ToggleButton = styled(MuiToggleButton)(
   })
 );
 export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    pdf,
-    document_link,
-    categories,
-    folder,
-    addArticleText,
-    titleText,
-    contentText,
-    categoryText,
-    folderText,
-    uploadDocumentText,
-    uploadText,
-    cancelText,
-  } = constantsData.articleModal;
-  const { toastData } = constantsData;
+
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
   const [folderList, setFolderList] = useState<Folder[]>([]);
@@ -112,7 +96,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: pdf,
+    accept: ".pdf",
     onDrop: (acceptedFiles) =>
       acceptedFiles.map((file) =>
         Object.assign(file, {
@@ -129,7 +113,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     addNewDocument({ document: { ...payload } })
       .unwrap()
       .then(() => {
-        toast.success(toastData.articleAddSuccess, {
+        toast.success("Article Successfully added.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -157,7 +141,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
         setIsLoading(true);
         await uploadImageToS3(acceptedFiles[0]).then(
           async (data: S3Interface) => {
-            formik.setFieldValue(document_link, data?.location);
+            formik.setFieldValue("document_link", data?.location);
             setIsLoading(false);
           }
         );
@@ -185,7 +169,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
   useEffect(() => {
     if (categoriesList && categoriesList.length && open) {
       if (categoryId) {
-        formik.setFieldValue(categories, [
+        formik.setFieldValue("categories", [
           categoriesList.find(
             (category) => category?.id.toString() === categoryId
           )?.id,
@@ -228,7 +212,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
 
   useEffect(() => {
     if (open && folderId) {
-      formik.setFieldValue(folder, folderId);
+      formik.setFieldValue("folder", folderId);
     }
   }, [folderId, open]);
 
@@ -236,21 +220,21 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
     event: React.MouseEvent<HTMLElement>,
     newFormats: number[]
   ) => {
-    formik.setFieldValue(categories, newFormats);
+    formik.setFieldValue("categories", newFormats);
   };
 
   const handleOnChangeFolders = (
     event: React.MouseEvent<HTMLElement>,
     newFormats: number[]
   ) => {
-    formik.setFieldValue(folder, newFormats);
+    formik.setFieldValue("folder", newFormats);
   };
 
   return (
     <Dialog className="article-modal" open={open}>
       <DialogTitle>
         <div className="title-section title-cross">
-          <span className="modal-header">{addArticleText}</span>
+          <span className="modal-header">{t("Add Article")}</span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
@@ -262,7 +246,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{titleText}</p>
+                  <p className="info-label required">{t("Title")}</p>
                   <TextField
                     autoComplete="off"
                     name="title"
@@ -280,7 +264,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
               </Grid>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{contentText}</p>
+                  <p className="info-label required">{t("Content")}</p>
                   <Hint />
                   <TextEditor
                     htmlText={formik.values.text}
@@ -295,9 +279,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
 
               <Grid item xs={12}>
                 <div className="info-section">
-                  {categories?.length && (
+                  {"categories"?.length && (
                     <p style={{ marginBottom: "6px" }}>
-                      <span className="info-label">{categoryText}</span>
+                      <span className="info-label">{t("Category")}</span>
                     </p>
                   )}
                   <FormControl sx={{ minWidth: "100%" }}>
@@ -335,7 +319,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   {formik.values.categories?.length ? (
                     <p style={{ marginBottom: "6px" }}>
-                      <span className="info-label">{folderText}</span>
+                      <span className="info-label">{t("Folder")}</span>
                     </p>
                   ) : (
                     ""
@@ -370,7 +354,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
               </Grid>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{uploadDocumentText} (optional)</p>
+                  <p className="info-label">
+                    {t("Upload a document")} (optional)
+                  </p>
                   <TextField
                     autoComplete="off"
                     inputProps={{ readOnly: true }}
@@ -386,7 +372,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                           <div style={{ zIndex: "100" }}>
                             <div {...getRootProps()}>
                               <input {...getInputProps()} />
-                              <Button className="copy-btn">{uploadText}</Button>
+                              <Button className="copy-btn">
+                                {t("upload")}
+                              </Button>
                             </div>
                           </div>
                         </InputAdornment>
@@ -406,7 +394,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelText}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -417,7 +405,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
           onClick={handleOnClick}
           disabled={isLoading}
         >
-          {addArticleText}
+          {t("Add Article")}
         </Button>
       </DialogActions>
     </Dialog>

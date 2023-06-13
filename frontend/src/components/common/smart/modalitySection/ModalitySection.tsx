@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Box, Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import "react-toastify/dist/ReactToastify.css";
@@ -9,7 +10,6 @@ import "@src/components/common/smart/modalitySection/modalitySection.scss";
 import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import NetworkModal from "@src/components/shared/popUps/networkModal/NetworkModal";
-import { localizedData } from "@src/helpers/utils/language";
 import {
   useAppDispatch,
   useAppSelector,
@@ -22,6 +22,7 @@ import {
 import { closeNetworkModal } from "@src/store/reducers/appStore";
 
 const ModalitySection = () => {
+  const { t } = useTranslation();
   const [network, setNetwork] = useState(null);
   const [itemsList, setItemsList] = useState<Array<HealthNetwork>>([]);
   const { openAddNetworkModal } = useAppSelector((state) => state.app);
@@ -35,8 +36,6 @@ const ModalitySection = () => {
   const [action, setAction] = useState("");
   const [networksList, setNetworksList] = useState({});
   const [searchText, setSearchText] = useState("");
-  const { title, noDataTitle, noDataDescription } = localizedData().modalities;
-  const { searching } = localizedData().common;
   const selectedOrganization = useSelectedOrganization();
 
   const { data: networksData, isLoading: isNetworkDataLoading } =
@@ -65,7 +64,7 @@ const ModalitySection = () => {
   return (
     <>
       <Box component="div" className="ModalitySection">
-        {networkId == undefined ? "" : <h2>{title}</h2>}
+        {networkId == undefined ? "" : <h2>{t("All Networks")}</h2>}
         {!isNetworkDataLoading ? (
           <TopViewBtns
             path="modality"
@@ -102,14 +101,14 @@ const ModalitySection = () => {
                 search
                 setQuery={setSearchText}
                 queryText={searchText}
-                title={noDataTitle}
-                description={noDataDescription}
+                title={t("Sorry! No results found. :(")}
+                description={t("Try Again")}
               />
             ) : (
               <div
                 style={{ color: "gray", marginLeft: "45%", marginTop: "20%" }}
               >
-                <h2>{searching}</h2>
+                <h2>{t("Searching...")}</h2>
               </div>
             )
           ) : networksData && networksData?.length ? (
@@ -143,7 +142,10 @@ const ModalitySection = () => {
         )}
       </Box>
       {!isNetworkDataLoading && !networksData?.length ? (
-        <NoDataFound title={noDataTitle} description={noDataDescription} />
+        <NoDataFound
+          title={t("Sorry! No results found. :(")}
+          description={t("Try Again")}
+        />
       ) : (
         ""
       )}

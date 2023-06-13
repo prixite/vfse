@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Radio from "@mui/material/Radio";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
@@ -16,14 +17,12 @@ import PageTwo from "@src/components/shared/popUps/userModal/PageTwo";
 import useUserSite from "@src/components/shared/popUps/userModal/useUserSites";
 import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { localizedData } from "@src/helpers/utils/language";
 import {
   toastAPIError,
   emailRegX,
   nameReg,
   phoneReg,
 } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import {
   addNewUserService,
   updateUserService,
@@ -63,47 +62,21 @@ const userFormInitialState: UserForm = {
 };
 
 const userFormValidationSchema = yup.object({
-  userProfileImage: yup
-    .string()
-    .required(constantsData.users.popUp.imageRequired),
-  firstname: yup
-    .string()
-    .matches(nameReg)
-    .required(constantsData.users.popUp.firstNameRequired),
-  lastname: yup
-    .string()
-    .matches(nameReg)
-    .required(constantsData.users.popUp.lastNameRequired),
+  userProfileImage: yup.string().required("Image is required!"),
+  firstname: yup.string().matches(nameReg).required("First name is required!"),
+  lastname: yup.string().matches(nameReg).required("Last name is required!"),
   email: yup
     .string()
-    .matches(emailRegX, constantsData.users.popUp.invalidEmailText) //TODO
-    .required(constantsData.users.popUp.emailRequired),
+    .matches(emailRegX, "Invalid E-mail!") //TODO
+    .required("Email is required!"),
 });
 
 export default function UserModal(props: UserModalProps) {
+  const { t } = useTranslation();
   const [page, setPage] = useState("1");
   const [selectedImage, setSelectedImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isPhoneError, setIsPhoneError] = useState("");
-  const { toastData } = constantsData;
-  const constantData = localizedData().users.popUp;
-  const {
-    addNewUser,
-    pageTrackerdesc1,
-    pageTrackerdesc2,
-    btnCancel,
-    btnNext,
-    btnAddUser,
-    btnToSave,
-    addText,
-    manager,
-    customer,
-    role,
-    edit,
-    userProfileImage,
-    userProfileImageText,
-    editUserText,
-  } = constantData;
 
   const [systemStatus, setSystemStatus] = useState(new Map());
 
@@ -114,7 +87,7 @@ export default function UserModal(props: UserModalProps) {
     validationSchema: userFormValidationSchema,
     validateOnChange: onChangeValidation,
     onSubmit: () => {
-      if (props.action === addText) {
+      if (props.action === "add") {
         handleAddUser();
       } else {
         handleEditUser();
@@ -176,29 +149,26 @@ export default function UserModal(props: UserModalProps) {
         email: editedUser?.email,
       });
       if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
-        formik.setFieldValue(
-          constantData.phone,
-          editedUser?.phone?.substring(2)
-        );
+        formik.setFieldValue("phone", editedUser?.phone?.substring(2));
       }
       if (editedUser?.role?.length) {
-        formik.setFieldValue(constantData.role, editedUser.role[0]);
+        formik.setFieldValue("role", editedUser.role[0]);
       }
       if (editedUser?.manager) {
         formik.setFieldValue(
-          constantData.manager,
+          "manager",
           usersData?.filter(
             (user) => user?.email == editedUser?.manager?.email
           )[0]?.id
         );
       } else {
         if (usersData?.length) {
-          formik.setFieldValue(constantData.manager, usersData[0]?.id);
+          formik.setFieldValue("manager", usersData[0]?.id);
         }
       }
       if (editedUser?.organizations?.length) {
         formik.setFieldValue(
-          constantData.customer,
+          "customer",
           organizationData?.filter((org) => {
             return (
               org?.name?.toString() == editedUser?.organizations[0]?.toString()
@@ -207,9 +177,7 @@ export default function UserModal(props: UserModalProps) {
         );
       }
       if (editedUser?.sites) {
-        formik.setFieldValue(constantData.selectedSites, [
-          ...userSitesMap.keys(),
-        ]);
+        formik.setFieldValue("selectedSites", [...userSitesMap.keys()]);
       }
 
       if (editedUser?.systems?.length) {
@@ -231,60 +199,48 @@ export default function UserModal(props: UserModalProps) {
         filterModalities?.forEach((mod) => {
           mod_ids.push(mod.id);
         });
-        formik.setFieldValue(constantData.selectedModalities, mod_ids);
+        formik.setFieldValue("selectedModalities", mod_ids);
       }
       if (editedUser?.fse_accessible) {
         formik.setFieldValue(
-          constantData.accessToFSEFunctions,
+          "accessToFSEFunctions",
           editedUser?.fse_accessible
         );
       }
       if (editedUser?.audit_enabled) {
-        formik.setFieldValue(
-          constantData.auditEnable,
-          editedUser?.audit_enabled
-        );
+        formik.setFieldValue("auditEnable", editedUser?.audit_enabled);
       }
       if (editedUser?.can_leave_notes) {
-        formik.setFieldValue(
-          constantData.possibilitytoLeave,
-          editedUser?.can_leave_notes
-        );
+        formik.setFieldValue("possibilitytoLeave", editedUser?.can_leave_notes);
       }
       if (editedUser?.view_only) {
-        formik.setFieldValue(constantData.viewOnly, editedUser?.view_only);
+        formik.setFieldValue("viewOnly", editedUser?.view_only);
       }
       if (editedUser?.is_one_time) {
-        formik.setFieldValue(
-          constantData.oneTimeLinkCreation,
-          editedUser?.is_one_time
-        );
+        formik.setFieldValue("oneTimeLinkCreation", editedUser?.is_one_time);
       }
       if (editedUser?.documentation_url) {
-        formik.setFieldValue(
-          constantData.docLink,
-          editedUser?.documentation_url
-        );
+        formik.setFieldValue("docLink", editedUser?.documentation_url);
       }
     }
   };
 
   useEffect(() => {
-    if (props.action == addText) {
+    if (props.action == "add") {
       if (usersData.length) {
-        formik.setFieldValue(manager, usersData[0]?.id);
+        formik.setFieldValue("manager", usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
-        formik.setFieldValue(customer, props?.organizationData[0]?.id);
+        formik.setFieldValue("customer", props?.organizationData[0]?.id);
       }
       if (props.roles.length) {
-        formik.setFieldValue(role, props.roles[0].value);
+        formik.setFieldValue("role", props.roles[0].value);
       }
     }
   }, []);
 
   useEffect(() => {
-    if (props?.selectedUser && props.action == edit) {
+    if (props?.selectedUser && props.action == "edit") {
       populateUserModalEditableData(
         editedUser,
         formik,
@@ -298,7 +254,7 @@ export default function UserModal(props: UserModalProps) {
 
   useEffect(() => {
     if (selectedImage.length) {
-      formik.setFieldValue(userProfileImage, selectedImage[0]);
+      formik.setFieldValue("userProfileImage", selectedImage[0]);
     }
   }, [selectedImage]);
 
@@ -328,7 +284,11 @@ export default function UserModal(props: UserModalProps) {
               }, 500);
             })
             .catch((err) => {
-              toastAPIError(toastData.userAlreadyExists, err.status, err.data);
+              toastAPIError(
+                "User with this username already exists.",
+                err.status,
+                err.data
+              );
               setIsLoading(false);
             });
         }
@@ -392,7 +352,7 @@ export default function UserModal(props: UserModalProps) {
   };
 
   const performEditUser = async (data: string) => {
-    const userObject = constructObject(data, userProfileImageText);
+    const userObject = constructObject(data, "User Profile Image");
     await updateUserService(props?.selectedUser, userObject, updateUser)
       .then(() => {
         setTimeout(() => {
@@ -401,28 +361,32 @@ export default function UserModal(props: UserModalProps) {
         }, 500);
       })
       .catch((error) => {
-        toastAPIError(toastData.saveUserError, error.status, error.data);
+        toastAPIError(
+          "Error occurred while saving user",
+          error.status,
+          error.data
+        );
         setIsLoading(false);
       });
   };
 
   const getUserObject = (imageUrl: string) => {
     return {
-      memberships: [constructObject(imageUrl, userProfileImageText)],
+      memberships: [constructObject(imageUrl, "User Profile Image")],
     };
   };
 
   const resetModal = () => {
-    if (props.action == addText) {
+    if (props.action == "add") {
       formik.resetForm();
-      formik.setFieldValue(userProfileImage, selectedImage[0]);
+      formik.setFieldValue("userProfileImage", selectedImage[0]);
       if (usersData.length) {
-        formik.setFieldValue(manager, usersData[0]?.id);
+        formik.setFieldValue("manager", usersData[0]?.id);
       }
       if (props?.organizationData?.length) {
-        formik.setFieldValue(customer, props?.organizationData[0]?.id);
+        formik.setFieldValue("customer", props?.organizationData[0]?.id);
       }
-    } else if (props.action == edit) {
+    } else if (props.action == "edit") {
       populateUserModalEditableData(
         editedUser,
         formik,
@@ -432,7 +396,7 @@ export default function UserModal(props: UserModalProps) {
         props?.modalitiesList
       );
       formik.resetForm();
-      formik.setFieldValue(userProfileImage, selectedImage[0]);
+      formik.setFieldValue("userProfileImage", selectedImage[0]);
     }
     props.handleClose();
   };
@@ -444,7 +408,7 @@ export default function UserModal(props: UserModalProps) {
       setPage("2");
       setIsPhoneError("");
     } else {
-      setIsPhoneError(constantsData.users.popUp.invalidPhoneFormat);
+      setIsPhoneError("Invalid Phone Format");
       setOnChangeValidation(true);
     }
   };
@@ -454,11 +418,11 @@ export default function UserModal(props: UserModalProps) {
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {!props?.selectedUser ? addNewUser : editUserText}
+            {!props?.selectedUser ? "Add User" : "Edit User"}
           </span>
           <span className="dialog-page">
             <span className="pg-number">
-              {`${pageTrackerdesc1} ${page} ${pageTrackerdesc2}`}
+              {`${"Step"} ${page} ${"of 2"}`}
               <span style={{ marginLeft: "16px" }}>
                 <Radio
                   checked={page === "1"}
@@ -541,7 +505,7 @@ export default function UserModal(props: UserModalProps) {
           disabled={isLoading}
           className="cancel-btn"
         >
-          {btnCancel}
+          {t("Cancel")}
         </Button>
 
         {page === "1" ? (
@@ -553,7 +517,7 @@ export default function UserModal(props: UserModalProps) {
             onClick={moveToNextPage}
             className="add-btn"
           >
-            {btnNext}
+            {t("Next")}
           </Button>
         ) : (
           <Button
@@ -572,7 +536,7 @@ export default function UserModal(props: UserModalProps) {
             onClick={() => formik.handleSubmit()}
             className="add-btn"
           >
-            {props.action == "add" ? btnAddUser : btnToSave}
+            {props.action == "add" ? "Add User" : "Save"}
           </Button>
         )}
       </DialogActions>

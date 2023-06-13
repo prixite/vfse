@@ -15,14 +15,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
-import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
   useAppDispatch,
@@ -49,35 +48,8 @@ const SystemCardMobile = ({
   const dispatch = useAppDispatch();
   const [deleteSystem] = useOrganizationsSystemsDeleteMutation();
   const open = Boolean(anchorEl);
-  const {
-    his_ris_info_txt,
-    dicom_info_txt,
-    serial_txt,
-    is_online,
-    asset_txt,
-    helium_level,
-    mpc_status,
-    latest_ping,
-    copy_btn,
-    ip_address_txt,
-    local_ae_title_txt,
-    software_version_txt,
-    location,
-    connect,
-    grafana_link_txt,
-  } = localizedData().systems_card;
-  const { toastData } = constantsData;
-  const {
-    online,
-    offline,
-    time_format,
-    date_format,
-    blank,
-    edit,
-    support,
-    comments,
-    deleteText,
-  } = constantsData.systemCard;
+
+  const { t } = useTranslation();
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -133,43 +105,43 @@ const SystemCardMobile = ({
         <AccordionDetails className="SystemCardMobile__details ">
           <div className="featureSection">
             <div className="option">
-              <h3 className="title">{his_ris_info_txt}</h3>
+              <h3 className="title">{t("HIS/RIS info")}</h3>
               <h3 className="value">{system.his_ris_info?.title}</h3>
             </div>
             <div className="option">
-              <h3 className="title">{dicom_info_txt}</h3>
+              <h3 className="title">{t("Dicom info")}</h3>
               <h3 className="value">{system.dicom_info?.title}</h3>
             </div>
             <div className="option">
-              <h3 className="title">{serial_txt}</h3>
+              <h3 className="title">{t("Serial")}</h3>
               <h3 className="value">{system.serial_number}</h3>
             </div>
             <div className="option">
-              <h3 className="title">{is_online}</h3>
-              <h3 className="value">{system.is_online ? online : offline}</h3>
+              <h3 className="title">{t("Is Online")}</h3>
+              <h3 className="value">{system.is_online ? "Yes" : "No"}</h3>
             </div>
             <div className="option">
-              <h3 className="title">{asset_txt}</h3>
+              <h3 className="title">{t("Asset")}</h3>
               <h3 className="value">{system.asset_number}</h3>
             </div>
             <div className="option">
-              <h3 className="title">{helium_level}</h3>
+              <h3 className="title">{t("Helium Level")}</h3>
               <h3 className="value">
                 {system.mri_embedded_parameters?.helium}
               </h3>
             </div>
             <div className="option">
-              <h3 className="title">{mpc_status}</h3>
+              <h3 className="title">{t("MPC Status")}</h3>
               <h3 className="value">
                 {system.mri_embedded_parameters?.magnet_pressure}
               </h3>
             </div>
             {system.last_successful_ping_at && (
               <div className="option">
-                <h3 className="title">{latest_ping}</h3>
+                <h3 className="title">{t("Latest Ping")}</h3>
                 <h3 className="value">
-                  {moment(system.last_successful_ping_at).format(date_format)}{" "}
-                  {moment(system.last_successful_ping_at).format(time_format)}
+                  {moment(system.last_successful_ping_at).format("l")}{" "}
+                  {moment(system.last_successful_ping_at).format("LT")}
                 </h3>
               </div>
             )}
@@ -191,13 +163,13 @@ const SystemCardMobile = ({
                         className="copy-btn"
                         onClick={() => {
                           navigator?.clipboard?.writeText(system.documentation);
-                          toast.success(toastData.systemCardLinkCopiedSuccess, {
+                          toast.success("Link Copied.", {
                             autoClose: timeOut,
                             pauseOnHover: false,
                           });
                         }}
                       >
-                        {copy_btn}
+                        {t("Copy")}
                       </Button>
                     </InputAdornment>
                   ),
@@ -209,19 +181,19 @@ const SystemCardMobile = ({
           </div>
           <div className="infoSection">
             <div className="option">
-              <h3 className="title">{ip_address_txt}</h3>
+              <h3 className="title">{t("IP adress")}</h3>
               <h3 className="value">{system.ip_address}</h3>
             </div>
             <div className="option">
-              <h3 className="title">{local_ae_title_txt}</h3>
+              <h3 className="title">{t("Local AE title")}</h3>
               <h3 className="value">{system.local_ae_title}</h3>
             </div>
             <div className="option">
-              <h3 className="title"> {software_version_txt}</h3>
+              <h3 className="title"> {t("Software Version")}</h3>
               <h3 className="value">{system.software_version}</h3>
             </div>
             <div className="option">
-              <h3 className="title"> {location}</h3>
+              <h3 className="title"> {t("Location")}</h3>
               <h3 className="value">{system.location_in_building}</h3>
             </div>
           </div>
@@ -233,17 +205,17 @@ const SystemCardMobile = ({
               }}
               className="connect-btn"
             >
-              <p>{connect}</p>
+              <p>{t("Connect")}</p>
             </Button>
             {system?.grafana_link ? (
               <Button
                 variant="contained"
                 className="link-btn"
-                onClick={() => window?.open(system.grafana_link, blank)}
+                onClick={() => window?.open(system.grafana_link, "_blank")}
               >
                 <div className="btn-content">
                   <AttachFileIcon className="icon" />
-                  <span>{grafana_link_txt}</span>
+                  <span>{t("Dashboard Link")}</span>
                 </div>
               </Button>
             ) : (
@@ -273,21 +245,21 @@ const SystemCardMobile = ({
             <span style={{ marginLeft: "12px" }}>View Location</span>
           </MenuItem>
           <MenuItem onClick={() => onSupport(system)}>
-            <span style={{ marginLeft: "12px" }}>{support}</span>
+            <span style={{ marginLeft: "12px" }}>{t("Support")}</span>
           </MenuItem>
           {currentUser?.role !== "end-user" && (
             <MenuItem onClick={onEdit}>
-              <span style={{ marginLeft: "12px" }}>{edit}</span>
+              <span style={{ marginLeft: "12px" }}>{t("Edit")}</span>
             </MenuItem>
           )}
           {canLeaveNotes && (
             <MenuItem onClick={onComment}>
-              <span style={{ marginLeft: "12px" }}>{comments}</span>
+              <span style={{ marginLeft: "12px" }}>{t("Comments")}</span>
             </MenuItem>
           )}
           {currentUser?.role !== "end-user" && (
             <MenuItem onClick={() => setModal(true)}>
-              <span style={{ marginLeft: "12px" }}>{deleteText}</span>
+              <span style={{ marginLeft: "12px" }}>{t("Delete")}</span>
             </MenuItem>
           )}
         </Menu>

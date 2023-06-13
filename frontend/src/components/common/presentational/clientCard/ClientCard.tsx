@@ -3,15 +3,14 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Box, Menu, MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import "@src/components/common/presentational/clientCard/clientCard.scss";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { constants, timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { returnPayloadThemeObject } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { DeleteOrganizationService } from "@src/services/organizationService";
 import { useAppDispatch, useAppSelector } from "@src/store/hooks";
 import {
@@ -43,6 +42,7 @@ const ClientCard = ({
   selected,
   superuser,
 }: ClientCardProps) => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -52,14 +52,10 @@ const ClientCard = ({
   const open = Boolean(anchorEl);
   const [deleteOrganization] = useOrganizationsDeleteMutation();
   const { organizationRoute, networkRoute } = constants;
-  const { toastData } = constantsData;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-
-  const { switch_org, edit, new_network, delete_org } =
-    localizedData().organization_menu_options;
 
   const { data: organizationList, isLoading } = useOrganizationsListQuery({});
 
@@ -99,7 +95,7 @@ const ClientCard = ({
   const handleDeleteOrganization = async () => {
     handleModalClose();
     await DeleteOrganizationService(id, deleteOrganization);
-    toast.success(toastData.clientCardOrgDeleteSuccess, {
+    toast.success("Organization successfully deleted.", {
       autoClose: timeOut,
       pauseOnHover: false,
     });
@@ -158,7 +154,7 @@ const ClientCard = ({
         size="small"
         variant="outlined"
       >
-        {switch_org}
+        {t("Select")}
       </Button>
       <ConfirmationModal
         name={name}
@@ -189,10 +185,14 @@ const ClientCard = ({
             className="dropdownMenu"
             onClose={handleClose}
           >
-            <MenuItem onClick={handleEditAppearance}>{edit}</MenuItem>
-            <MenuItem onClick={handleNetworkModal}>{new_network}</MenuItem>
+            <MenuItem onClick={handleEditAppearance}>
+              {t("Edit appearance")}
+            </MenuItem>
+            <MenuItem onClick={handleNetworkModal}>
+              {t("Add new health network")}
+            </MenuItem>
             <MenuItem onClick={handleModalOpen} style={{ marginBottom: "0px" }}>
-              {delete_org}
+              {t("Delete")}
             </MenuItem>
           </Menu>
         </div>

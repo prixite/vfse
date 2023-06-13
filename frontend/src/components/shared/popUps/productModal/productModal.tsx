@@ -7,12 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/productModal/productModal.scss";
@@ -31,8 +31,6 @@ const initialState = {
   model: "",
 };
 
-const { title, addBtn, cancelBtn, subHeading } = localizedData().ProductModal;
-
 const validationSchema = yup.object({
   name: yup.string().min(1).max(20).required("Product Name is required!"),
   model: yup.string().min(1).max(20).required("Product Model is required!"),
@@ -45,6 +43,7 @@ export default function ProductModal({
   modality,
   manufacturer,
 }: ProductModalProps) {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -102,7 +101,7 @@ export default function ProductModal({
     <Dialog className="product-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">{title}</span>
+          <span className="modal-header">{t("Add product")}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -119,7 +118,7 @@ export default function ProductModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{subHeading}</p>
+                  <p className="info-label required">{t("Product Name")}</p>
                   <TextField
                     autoComplete="off"
                     name="name"
@@ -160,7 +159,7 @@ export default function ProductModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelBtn}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -174,7 +173,7 @@ export default function ProductModal({
             formik.handleSubmit();
           }}
         >
-          {addBtn}
+          {t("Add")}
         </Button>
       </DialogActions>
     </Dialog>

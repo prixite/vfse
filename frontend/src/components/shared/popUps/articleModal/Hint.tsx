@@ -1,13 +1,12 @@
 import InfoIcon from "@mui/icons-material/Info";
 import { Paper, Stack, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/articleModal/articleModal.scss";
 
 const Hint = () => {
-  const { hintText } = constantsData.articleModal;
-
+  const { t } = useTranslation();
   const { buttonBackground } = useAppSelector((state) => state.myTheme);
 
   return (
@@ -18,7 +17,9 @@ const Hint = () => {
             color: buttonBackground,
           }}
         />
-        <Typography className="hintText">{hintText}</Typography>
+        <Typography className="hintText">
+          {t("Use shift+enter to insert multiple line breaks")}
+        </Typography>
       </Stack>
     </Paper>
   );

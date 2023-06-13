@@ -1,16 +1,16 @@
 import React from "react";
 
 import { Box, Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import activityIcon from "@src/assets/svgs/activity.svg";
 import "@src/components/common/smart/activitySection/style.scss";
-import constantsData from "@src/localization/en.json";
 
 const ActivitySection: React.FC<{
   children: React.ReactNode;
   isLoading: boolean;
 }> = ({ children, isLoading }) => {
-  const { recentActivity } = constantsData;
+  const { t } = useTranslation();
 
   return (
     <Box component="div" className="recentActivitycard">
@@ -18,7 +18,7 @@ const ActivitySection: React.FC<{
         <div className="allTopicImg">
           <img src={activityIcon} className="imgStylingMessage" />
         </div>
-        <div className="topicHeading">{recentActivity.title}</div>
+        <div className="topicHeading">{t("Recent Activity")}</div>
       </div>
 
       {!isLoading ? (

@@ -7,12 +7,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import { timeOut } from "@src/helpers/utils/constants";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
@@ -31,13 +31,10 @@ const initialState = {
   model: "",
 };
 
-const { nameRequired, title, addBtn, cancelBtn, subHeading } =
-  localizedData().ManufacturerModal;
-
 const validationSchema = yup.object({
-  manufacturerName: yup.string().min(1).max(20).required(nameRequired),
-  productName: yup.string().min(1).max(20).required(nameRequired),
-  model: yup.string().min(1).max(20).required(nameRequired),
+  manufacturerName: yup.string().min(1).max(20).required("Name is required!"),
+  productName: yup.string().min(1).max(20).required("Name is required!"),
+  model: yup.string().min(1).max(20).required("Name is required!"),
 });
 
 export default function AddManufacturerModal({
@@ -46,6 +43,7 @@ export default function AddManufacturerModal({
   modality,
   setModalityValue,
 }: CategoryModalProps) {
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -111,7 +109,7 @@ export default function AddManufacturerModal({
     <Dialog className="category-modal" open={open}>
       <DialogTitle>
         <div id="title-cross" className="title-section">
-          <span className="modal-header">{title}</span>
+          <span className="modal-header">{t("Add Manufacturer")}</span>
           <span className="dialog-page">
             <img
               alt=""
@@ -128,7 +126,9 @@ export default function AddManufacturerModal({
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{subHeading}</p>
+                  <p className="info-label required">
+                    {t("Manufacturer Name")}
+                  </p>
                   <TextField
                     autoComplete="off"
                     name="manufacturerName"
@@ -183,7 +183,7 @@ export default function AddManufacturerModal({
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelBtn}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"
@@ -197,7 +197,7 @@ export default function AddManufacturerModal({
           }}
           disabled={isLoading}
         >
-          {addBtn}
+          {t("Add")}
         </Button>
       </DialogActions>
     </Dialog>

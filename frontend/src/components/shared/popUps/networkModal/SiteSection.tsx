@@ -4,7 +4,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { TextField, InputAdornment } from "@mui/material";
 
 import LocationIcon from "@src/assets/svgs/location.svg";
-import { localizedData } from "@src/helpers/utils/language";
 import { Site } from "@src/store/reducers/api";
 
 interface SiteSectionProps {
@@ -28,8 +27,6 @@ const SiteSection = ({
   const [siteNameErr, setSiteNameErr] = useState("");
   const [siteAddress, setSiteAddress] = useState("");
   const [siteAddressErr, setSiteAddressErr] = useState("");
-  const constantData = localizedData()?.siteSection;
-  const { site } = constantData;
 
   useEffect(() => {
     if (sitee) {
@@ -87,7 +84,7 @@ const SiteSection = ({
       >
         <CloseIcon className="close-icon" onClick={deleteSiteCardHandler} />
         <div className="network-info">
-          <p className="info-label">{`${site}${index + 1}`}</p>
+          <p className="info-label">{`${"Site Name #"}${index + 1}`}</p>
           <TextField
             className="info-field"
             variant="outlined"

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Grid } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import ArticleCard from "@src/components/common/presentational/articleCard/ArticleCard";
@@ -10,12 +11,12 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import NoDataFoundCard from "@src/components/shared/noDataFound/NoDataFoundCard";
 import CategoryModal from "@src/components/shared/popUps/categoryModal/CategoryModal";
 import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
-import { localizedData } from "@src/helpers/utils/language";
 import { api, Category } from "@src/store/reducers/api";
 
 import CategoryOptionsSection from "../categoryOptionsSection/categoryOptionsSection";
 
 const AllCategoriesSection = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [folderList, setFolderList] = useState<Category[]>([]);
   const [folderDataState, setFolderDataState] = useState({
@@ -36,8 +37,6 @@ const AllCategoriesSection = () => {
   const handleFolderClose = () => {
     setFolderOpen(false);
   };
-  const { noDataTitle, noDataDescription } = localizedData().systems;
-  const { Message } = localizedData().allCategoriesSection;
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
@@ -102,7 +101,9 @@ const AllCategoriesSection = () => {
                 </Grid>
               ))
             ) : (
-              <NoDataFoundCard message={Message} />
+              <NoDataFoundCard
+                message={t("Sorry, no folders found against this category.")}
+              />
             )}
           </Grid>
         </div>
@@ -112,8 +113,8 @@ const AllCategoriesSection = () => {
           search
           setQuery={setQuery}
           queryText={query}
-          title={noDataTitle}
-          description={noDataDescription}
+          title={t("Sorry! No results found. :(")}
+          description={t("Try Again")}
         />
       )}
       <CategoryModal open={open} handleClose={handleClose} />

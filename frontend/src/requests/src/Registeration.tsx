@@ -22,7 +22,6 @@ import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import SectionTwo from "@src/requests/src/components/smart/sectionTwo/SectionTwo";
 import "@src/requests/src/registeration.scss";
 import api, {
@@ -59,7 +58,6 @@ const Registeration = () => {
   const [auditEnable, setAuditEnable] = useState<boolean>(false);
   const [oneTimeLinkCreation, setOneTimeLinkCreation] =
     useState<boolean>(false);
-  const { toastData } = constantsData;
 
   const [organizationId, setOrganizationId] = useState<string>("");
   const [role, setRole] = useState<string>("");
@@ -140,7 +138,7 @@ const Registeration = () => {
     })
       .unwrap()
       .then(() => {
-        toast.success(toastData.registerUserSuccessMsg);
+        toast.success("Registered Successfully.");
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -160,7 +158,11 @@ const Registeration = () => {
         setPage(1);
       })
       .catch((err) => {
-        toastAPIError(toastData.registerUserErrorMsg, err.status, err.data);
+        toastAPIError(
+          "Something went wrong. Please try again!",
+          err.status,
+          err.data
+        );
       });
   }, [
     firstName,

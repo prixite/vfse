@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 
 import { Box, Grid } from "@mui/material";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 import replyIcon from "@src/assets/images/replyIcon.png";
 import messageIcon from "@src/assets/svgs/message.svg";
@@ -9,7 +10,6 @@ import shareIcon from "@src/assets/svgs/share.svg";
 import "@src/components/common/presentational/topicComment/topicComment.scss";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
-import constantsData from "@src/localization/en.json";
 import { Comment } from "@src/store/reducers/generated";
 
 import TopicReply from "../topicReply/TopicReply";
@@ -17,12 +17,11 @@ interface TopicCommentProps {
   commentData: Comment;
 }
 const TopicComment = ({ commentData }: TopicCommentProps) => {
+  const { t } = useTranslation();
   const [browserWidth] = useWindowSize();
   const [replyChecked, setReplyChecked] = useState<boolean>(false);
   const [shared, setShared] = useState(false);
   const { number_of_replies: numberOfReplies } = commentData;
-  const { topicComments } = constantsData;
-  const { replies, reply, sharedText, copied } = topicComments;
   const handleShare = () => {
     setShared(true);
     navigator.clipboard.writeText(commentData?.comment);
@@ -64,7 +63,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     onClick={handleReply}
                   >
                     <img src={messageIcon} alt="msgIcon" className="icon" />
-                    <span className="actionDescription">{reply}</span>
+                    <span className="actionDescription">{t("Reply")}</span>
                   </div>
 
                   <div
@@ -73,7 +72,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                   >
                     <img src={shareIcon} alt="msgIcon" className="icon" />
                     <span className="actionDescription">
-                      {!shared ? sharedText : copied}
+                      {!shared ? "Shared" : "Copied"}
                     </span>
                   </div>
                 </div>
@@ -82,8 +81,8 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     <img src={replyIcon} alt="replyIcon" />
                     <span className="replyIconText">
                       {numberOfReplies > 1
-                        ? numberOfReplies + replies
-                        : numberOfReplies + reply}
+                        ? numberOfReplies + "Replies"
+                        : numberOfReplies + "Reply"}
                     </span>
                   </div>
                 )}
@@ -165,7 +164,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                           }
                     }
                   >
-                    {reply}
+                    {t("Reply")}
                   </span>
                 </Grid>
 
@@ -207,7 +206,7 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                           }
                     }
                   >
-                    {!shared ? sharedText : copied}
+                    {!shared ? "Shared" : "Copied"}
                   </span>
                 </Grid>
                 <Grid xs={4} sm={4} md={4} lg={4}></Grid>
@@ -226,8 +225,8 @@ const TopicComment = ({ commentData }: TopicCommentProps) => {
                     }
                   >
                     {numberOfReplies > 1
-                      ? numberOfReplies + replies
-                      : numberOfReplies + reply}
+                      ? numberOfReplies + "Replies"
+                      : numberOfReplies + "Reply"}
                   </span>
                 </Grid>
               )}

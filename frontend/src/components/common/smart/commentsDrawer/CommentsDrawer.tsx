@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { TextField, Drawer, InputAdornment, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import CommentCard from "@src/components/common/presentational/commentCard/CommentCard";
 import NoCommentsFound from "@src/components/common/presentational/noCommentsFound/NoCommentsFound";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { addNewSystemNoteService } from "@src/services/systemServices";
 import {
   useAppSelector,
@@ -22,9 +22,9 @@ import {
 import { closeSystemDrawer } from "@src/store/reducers/appStore";
 
 const CommentsDrawer = () => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [note, setNote] = useState("");
-  const { toastData, commentsDrawer } = constantsData;
   const { fontTwo, buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
@@ -59,12 +59,7 @@ const CommentsDrawer = () => {
     setIsLoading(true);
     if (note) {
       await addNewSystemNoteService(me?.id, systemID, note, addNewNote).catch(
-        (err) =>
-          toastAPIError(
-            toastData.commentsDrawerAddNoteError,
-            err.status,
-            err.data
-          )
+        (err) => toastAPIError("Note not added", err.status, err.data)
       );
     }
     resetNoteHandler();
@@ -89,7 +84,7 @@ const CommentsDrawer = () => {
       onClose={() => dispatch(closeSystemDrawer())}
     >
       <div className="DrawerHeader">
-        <h3 className="title">{commentsDrawer.commentsText}</h3>
+        <h3 className="title">{t("Comments")}</h3>
         <CloseIcon
           style={{ cursor: "pointer" }}
           onClick={() => dispatch(closeSystemDrawer())}
@@ -128,7 +123,7 @@ const CommentsDrawer = () => {
                   className="AddSystemCommentBtn"
                   onClick={addNewComment}
                 >
-                  {commentsDrawer.add}
+                  {t("Add")}
                 </Button>
               </InputAdornment>
             ),

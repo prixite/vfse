@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { Box } from "@mui/material";
-
 // import useStyles from "@src/components/common/smart/forumSection/Styles";
+import { useTranslation } from "react-i18next";
+
 import ProfileTimeline from "@src/components/common/smart/profileTimeline/ProfileTimeline";
 import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopSection";
 import TopicModal from "@src/components/shared/popUps/topicModal/TopicModal";
 import { parseLink } from "@src/helpers/paging";
-import { localizedData } from "@src/helpers/utils/language";
 import { api } from "@src/store/reducers/api";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
 import { getTopicListArg } from "@src/types/interfaces";
 
-const { forum, title } = localizedData().Forum;
 export default function ForumSection() {
+  const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [topicListPayload, setTopicListPayload] = useState<getTopicListArg>({});
   const {
@@ -49,11 +49,11 @@ export default function ForumSection() {
   return (
     <>
       <Box component="div">
-        <h2 style={{ marginBottom: "32px" }}>{forum}</h2>
+        <h2 style={{ marginBottom: "32px" }}>{t("Forum")}</h2>
         {/* PopularTopis */}
         <VfseTopSection
           setOpen={setOpen}
-          title={title}
+          title={t("Popular topics")}
           seeAll=""
           paginatedTopics={paginatedTopics}
           setPaginatedTopics={setPaginatedTopics}

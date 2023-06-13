@@ -16,6 +16,7 @@ import { styled } from "@mui/material/styles";
 import MuiToggleButton from "@mui/material/ToggleButton";
 import { Buffer } from "buffer";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -25,7 +26,6 @@ import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { categories, timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
 import { api } from "@src/store/reducers/api";
@@ -42,10 +42,8 @@ const initialState: Topic = {
   reply_email_notification: false,
 };
 const validationSchema = yup.object({
-  title: yup.string().required(constantsData.topicModal.titleRequired),
-  description: yup
-    .string()
-    .required(constantsData.topicModal.descriptionRequired),
+  title: yup.string().required("Title is required"),
+  description: yup.string().required("Description is required"),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
@@ -58,25 +56,12 @@ const ToggleButton = styled(MuiToggleButton)(
 );
 
 export default function TopicModal({ open, handleClose }: Props) {
+  const { t } = useTranslation();
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [postTopics] = api.useAddTopicMutation();
   const [selectedImage, setSelectedImage] = useState([]);
   const [isImageUploading, setIsImageUploading] = useState(false);
-  const {
-    categoriesText,
-    imageText,
-    createTopic,
-    titleText,
-    descriptionText,
-    chooseCategoriesMax,
-    imageOptional,
-    replyEmailNotification,
-    labelText,
-    cancel,
-    publish,
-  } = constantsData.topicModal;
-  const { toastData } = constantsData;
   const { data: categoriesList = [] } = api.useGetCategoriesQuery();
 
   const formik = useFormik({
@@ -93,14 +78,14 @@ export default function TopicModal({ open, handleClose }: Props) {
   );
   const handleSelectedCategories = (event, newFormats) => {
     if (newFormats.length <= 3) {
-      formik.setFieldValue(categoriesText, newFormats);
+      formik.setFieldValue("categories", newFormats);
     }
   };
   const handleImageUploadChange = () => {
     setIsImageUploading(true);
     uploadImageToS3(selectedImage[0])
       .then(async (data: S3Interface) => {
-        formik.setFieldValue(imageText, data?.location);
+        formik.setFieldValue("image", data?.location);
       })
       .finally(() => {
         setIsImageUploading(false);
@@ -119,13 +104,13 @@ export default function TopicModal({ open, handleClose }: Props) {
     })
       .unwrap()
       .then(() => {
-        toast.success(`${toastData.topicCreatedSuccess}`, {
+        toast.success(`${"Successfully Created"}`, {
           autoClose: timeOut,
           pauseOnHover: false,
         });
       })
       .catch((err) => {
-        toastAPIError(toastData.topicCreatedError, err?.status, err.data);
+        toastAPIError("Error occured", err?.status, err.data);
       })
       .finally(() => {
         setIsLoading(false);
@@ -143,7 +128,7 @@ export default function TopicModal({ open, handleClose }: Props) {
     <Dialog className="topic-modal" open={open} onClose={resetModal}>
       <DialogTitle>
         <div className="title-section title-cross">
-          <span className="modal-header">{createTopic}</span>
+          <span className="modal-header">{t("Create Topic")}</span>
           <span className="dialog-page">
             <img src={CloseBtn} className="cross-btn" onClick={resetModal} />
           </span>
@@ -153,7 +138,7 @@ export default function TopicModal({ open, handleClose }: Props) {
         <div className="modal-content">
           <>
             <div className="modal-content-title">
-              <p className="info-label required">{titleText}</p>
+              <p className="info-label required">{t("Title")}</p>
               <TextField
                 autoComplete="off"
                 name="title"
@@ -170,7 +155,7 @@ export default function TopicModal({ open, handleClose }: Props) {
               )}
             </div>
             <div className="modal-content-description">
-              <p className="info-label required">{descriptionText}</p>
+              <p className="info-label required">{t("Description")}</p>
               <TextField
                 className="full-field-desc"
                 type="text"
@@ -188,7 +173,9 @@ export default function TopicModal({ open, handleClose }: Props) {
             <div className="modal-content-header">
               {categories?.length && (
                 <p className="topics-header">
-                  <span className="info-label">{chooseCategoriesMax}(3)</span>
+                  <span className="info-label">
+                    {t("Choose categories max")}(3)
+                  </span>
                 </p>
               )}
               <ToggleButtonGroup
@@ -212,7 +199,7 @@ export default function TopicModal({ open, handleClose }: Props) {
               </ToggleButtonGroup>
             </div>
             <div className="modal-content-label">
-              <p className="info-label">{imageOptional} (optional)</p>
+              <p className="info-label">{t("Image")} (optional)</p>
               <DropzoneBox
                 setSelectedImage={setSelectedImage}
                 selectedImage={selectedImage}
@@ -227,13 +214,13 @@ export default function TopicModal({ open, handleClose }: Props) {
                       checked={formik.values.reply_email_notification}
                       onChange={(e) =>
                         formik.setFieldValue(
-                          replyEmailNotification,
+                          "reply_email_notification",
                           e.target.checked
                         )
                       }
                     />
                   }
-                  label={labelText}
+                  label={t("Notify me on follow-up replies via email")}
                 />
               </FormGroup>
             </div>
@@ -254,7 +241,7 @@ export default function TopicModal({ open, handleClose }: Props) {
           onClick={resetModal}
           className="cancel-btn"
         >
-          {cancel}
+          {t("Cancel")}
         </Button>
         <Button
           style={{
@@ -268,7 +255,7 @@ export default function TopicModal({ open, handleClose }: Props) {
           className="add-btn"
           disabled={isLoading}
         >
-          {publish}
+          {t("Publish")}
         </Button>
       </DialogActions>
     </Dialog>

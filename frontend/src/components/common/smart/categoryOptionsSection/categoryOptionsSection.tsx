@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -11,15 +12,14 @@ import CategoryEditModal from "@src/components/shared/popUps/categoryEditModal/c
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { Category, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { useVfseCategoriesDeleteMutation } from "@src/store/reducers/generated";
 
 const CategoryOptionsSection = ({ category, id }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const { organizationRoute } = constants;
-  const { toastData } = constantsData;
   const { data: currentUser } = useOrganizationsMeReadQuery({
     id: useSelectedOrganization().id.toString(),
   });
@@ -32,7 +32,6 @@ const CategoryOptionsSection = ({ category, id }) => {
   const handleCloseDeleteCategoryModal = () => {
     setOpenDeleteCategoryModal(false);
   };
-  const { knowledgeBase } = constantsData;
 
   const [selectedCategory, setSelectedCategory] = useState<Category>();
 
@@ -44,14 +43,18 @@ const CategoryOptionsSection = ({ category, id }) => {
     })
       .unwrap()
       .then(() => {
-        toast.success(toastData.categoryDeleteSuccess, {
+        toast.success("Category deleted successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
         handleCloseDeleteCategoryModal();
       })
       .catch((err) => {
-        toastAPIError(toastData.categoryDeleteError, err.status, err.data);
+        toastAPIError(
+          "Error occured while deleting Category",
+          err.status,
+          err.data
+        );
         handleCloseDeleteCategoryModal();
       });
   };
@@ -83,7 +86,7 @@ const CategoryOptionsSection = ({ category, id }) => {
           className={classes.seeAll}
           to={`/${organizationRoute}/${id}/knowledge-base/category/${category?.id}`}
         >
-          {knowledgeBase.seeAllFolders}
+          {t("See All Folders")}
         </Link>
       </div>
       {selectedCategory && (

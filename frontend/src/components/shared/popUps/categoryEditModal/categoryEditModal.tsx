@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -15,7 +16,6 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector } from "@src/store/hooks";
 import {
   Category,
@@ -25,19 +25,12 @@ import {
 import "@src/components/shared/popUps/categoryEditModal/categoryEditModal.scss";
 
 const validationSchema = yup.object({
-  name: yup
-    .string()
-    .min(1)
-    .max(20)
-    .required(constantsData.categoryModal.colorTextRequired),
-  color: yup
-    .string()
-    .min(1)
-    .max(10)
-    .required(constantsData.categoryModal.colorRequired),
+  name: yup.string().min(1).max(20).required("Name is required!"),
+  color: yup.string().min(1).max(10).required("Color is required!"),
 });
 
 export default function CategoryEditModal({ open, handleClose, id }) {
+  const { t } = useTranslation();
   const { data: category } = useVfseCategoriesReadQuery({ id });
   const [editCategory] = useVfseCategoriesPartialUpdateMutation();
 
@@ -53,9 +46,6 @@ export default function CategoryEditModal({ open, handleClose, id }) {
   const [onChangeValidation, setOnChangeValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   //API
-  const { colorNameText, cancelText } = constantsData.categoryModal;
-  const { toastData } = constantsData;
-
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
@@ -75,7 +65,7 @@ export default function CategoryEditModal({ open, handleClose, id }) {
     editCategory({ id, category: { ...formik.values } })
       .unwrap()
       .then(() => {
-        toast.success(toastData.categoryEditSuccess, {
+        toast.success("Category updated successfully.", {
           autoClose: timeOut,
           pauseOnHover: false,
         });
@@ -84,7 +74,11 @@ export default function CategoryEditModal({ open, handleClose, id }) {
       })
       .catch((err) => {
         setIsLoading(false);
-        toastAPIError(toastData.categoryEditError, err.status, err.data);
+        toastAPIError(
+          "Error occured while updating category",
+          err.status,
+          err.data
+        );
       });
   };
 
@@ -118,7 +112,7 @@ export default function CategoryEditModal({ open, handleClose, id }) {
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label required">{colorNameText}</p>
+                  <p className="info-label required">{t("Name")}</p>
                   <TextField
                     autoComplete="off"
                     name="name"
@@ -155,7 +149,7 @@ export default function CategoryEditModal({ open, handleClose, id }) {
           style={{ backgroundColor: secondaryColor, color: buttonTextColor }}
           onClick={resetModal}
         >
-          {cancelText}
+          {t("Cancel")}
         </Button>
         <Button
           className="add-btn"

@@ -4,9 +4,9 @@ import "@src/components/common/presentational/dropzoneBox/dropzoneBox.scss";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDropzone } from "react-dropzone";
+import { useTranslation } from "react-i18next";
 
 import UploadBtn from "@src/assets/svgs/upload-icon.svg";
-import { localizedData } from "@src/helpers/utils/language";
 import { useAppSelector } from "@src/store/hooks";
 interface DropzoneProps {
   setSelectedImage: Dispatch<SetStateAction<unknown[]>>;
@@ -35,15 +35,14 @@ const DropzoneBox = ({
     },
   });
 
-  const constantData: object = localizedData()?.dropzone;
+  const { t } = useTranslation();
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
   );
-  const { heading, description, button, info, options } = constantData;
   const dropzoneOptions =
     acceptedFiles?.length || imgSrc
-      ? `${options.uploadAndHide}`
-      : `${options.upload}`;
+      ? `${"Uploadoptions hideOptions"}`
+      : `${"Uploadoptions"}`;
 
   useEffect(() => {
     if (acceptedFiles && acceptedFiles?.length) {
@@ -81,8 +80,8 @@ const DropzoneBox = ({
       <div style={{ zIndex: "550" }} className={dropzoneOptions}>
         <img src={UploadBtn} className="" />
         <p>
-          <b>{heading}</b>
-          {description}
+          <b>{t("Drag & Drop")}</b>
+          {t(" files here or")}
         </p>
         <div>
           <Button
@@ -92,10 +91,10 @@ const DropzoneBox = ({
               color: buttonTextColor,
             }}
           >
-            {button}
+            {t("Browse")}
           </Button>
         </div>
-        <p className="file-info">{info}</p>
+        <p className="file-info">{t("up to 20mb")}</p>
       </div>
     </section>
   );

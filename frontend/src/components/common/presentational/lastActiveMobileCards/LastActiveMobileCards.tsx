@@ -1,17 +1,16 @@
 import { Box } from "@mui/material";
-
 import "@src/components/common/presentational/lastActiveMobileCards/lastActiveMobileCards.scss";
-import ThreeDots from "@src/assets/svgs/three-dots.svg";
-import { localizedData } from "@src/helpers/utils/language";
-import { User } from "@src/store/reducers/generated";
+import { useTranslation } from "react-i18next";
 
-const { healthNetwork, status } = localizedData().Faq;
+import ThreeDots from "@src/assets/svgs/three-dots.svg";
+import { User } from "@src/store/reducers/generated";
 
 interface LastActiveMobileCards {
   keyNumber?: number;
   doc: User;
 }
 const LastActiveMobileCards = ({ keyNumber, doc }: LastActiveMobileCards) => {
+  const { t } = useTranslation();
   return (
     <Box component="div" className="card-faq">
       <div className="userInfo">
@@ -21,11 +20,11 @@ const LastActiveMobileCards = ({ keyNumber, doc }: LastActiveMobileCards) => {
         </div>
       </div>
       <div className="healthNetwork">
-        <div className="networkName">{healthNetwork}</div>
+        <div className="networkName">{t("HEALTH NETWORK")}</div>
         <div className="networkValue">{doc?.health_networks[keyNumber]}</div>
       </div>
       <div className="userStatus">
-        <div className="statusTitle">{status}</div>
+        <div className="statusTitle">{t("STATUS")}</div>
         <div
           className="statusValue"
           style={{ color: `${doc?.is_active ? "#6B7280" : "red"}` }}

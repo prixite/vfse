@@ -1,16 +1,16 @@
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 const { organizationRoute } = constants;
-import constantsData from "@src/localization/en.json";
 import { vfseRoutes } from "@src/routes";
 import { useSelectedOrganization } from "@src/store/hooks";
 import "@src/components/common/presentational/backBtn/backBtn.scss";
 
 const BackBtn = () => {
   const selectedOrganization = useSelectedOrganization();
-  const { articleDescription } = constantsData;
+  const { t } = useTranslation();
   const navigate = useNavigate();
   return (
     <div className="back-btn">
@@ -25,7 +25,7 @@ const BackBtn = () => {
         <ArrowRightAltIcon
           style={{ transform: "rotate(180deg)", color: "rgb(0, 0, 0)" }}
         />
-        <p className="back-text">{articleDescription.backBtn}</p>
+        <p className="back-text">{t("Back to all")}</p>
       </div>
     </div>
   );

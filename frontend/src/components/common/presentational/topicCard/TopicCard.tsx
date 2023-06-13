@@ -1,19 +1,19 @@
 import { Box } from "@mui/material";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 import messageIcon from "@src/assets/svgs/message.svg";
 import "@src/components/common/presentational/topicCard/topicCard.scss";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
-import constantsData from "@src/localization/en.json";
 import { TopicDetail } from "@src/store/reducers/generated";
 
 interface TopicCardProps {
   topic: TopicDetail;
 }
 const TopicCard = ({ topic }: TopicCardProps) => {
+  const { t } = useTranslation();
   const [browserWidth] = useWindowSize();
-  const { follower, followers, noFollowers } = constantsData.topicCard;
   return (
     <Box component="div" className="topicCard">
       <>
@@ -97,10 +97,10 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                     <div className="followerText" style={{ marginTop: "5px" }}>
                       <p style={{ width: "100px" }}>
                         {topic?.number_of_followers > 0
-                          ? `${topic?.number_of_followers} ${followers}`
+                          ? `${topic?.number_of_followers} ${t("Followers")}`
                           : topic?.number_of_followers === 1
-                          ? `${topic?.number_of_followers} ${follower} `
-                          : `${noFollowers}`}
+                          ? `${topic?.number_of_followers} ${t("Follower")} `
+                          : `${t("No Followers")}`}
                       </p>
                     </div>
                   </div>

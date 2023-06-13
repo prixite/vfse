@@ -16,6 +16,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -27,9 +28,7 @@ import AddProductModelDialog from "@src/components/shared/popUps/addProductModel
 import ProductModal from "@src/components/shared/popUps/productModal/productModal";
 import FormikAutoComplete from "@src/components/shared/popUps/systemModal/FormikAutoComplete";
 import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { localizedData } from "@src/helpers/utils/language";
 import { toastAPIError } from "@src/helpers/utils/utils";
-import constantsData from "@src/localization/en.json";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   System,
@@ -101,21 +100,13 @@ const initialState: FormState = {
 };
 
 const validationSchema = yup.object({
-  systemImage: yup
-    .string()
-    .required(constantsData.systemModal.popUp.imageRequired),
-  modality: yup
-    .string()
-    .required(constantsData.systemModal.popUp.modalityRequired),
-  manufacturer: yup
-    .string()
-    .required(constantsData.systemModal.popUp.manufacturerRequired),
-  product: yup
-    .string()
-    .required(constantsData.systemModal.popUp.productRequired),
-  model: yup.string().required(constantsData.systemModal.popUp.modelRequired),
-  name: yup.string().required(constantsData.systemModal.popUp.nameRequired),
-  site: yup.string().required(constantsData.systemModal.popUp.siteRequired),
+  systemImage: yup.string().required("Image is a required field"),
+  modality: yup.string().required("Modality is a required field"),
+  manufacturer: yup.string().required("Manufacturer is a required field"),
+  product: yup.string().required("Product is a required field"),
+  model: yup.string().required("Model is a required field"),
+  name: yup.string().required("Name is a required field"),
+  site: yup.string().required("Site is a required field"),
   grafana: yup.string().url().nullable(),
 });
 
@@ -192,19 +183,9 @@ const getPayload = (values: FormState): System => {
 };
 
 export default function SystemModal(props: SystemProps) {
+  const { t } = useTranslation();
   const [disableButton, setDisableButton] = useState(false);
   const [sites, setSites] = useState([]);
-  const {
-    mriText,
-    siteText,
-    selectImage,
-    systemImageText,
-    vFSE,
-    serviceWebBrowser,
-    virtualMediaControl,
-    systemContactInfo,
-  } = constantsData.systemModal.popUp;
-  const { toastData } = constantsData;
   const [openManufacturerModal, setOpenManufacturerModal] = useState(false);
   const [openProductModal, setOpenProductModal] = useState(false);
   const [openAddProductModelDialog, setOpenAddProductModelDialog] =
@@ -230,10 +211,14 @@ export default function SystemModal(props: SystemProps) {
           id: selectedOrganization.id.toString(),
           system: getPayload(values),
         }).unwrap();
-        toast.success(toastData.systemSaveSuccess);
+        toast.success("System successfully saved");
       } catch (error) {
         setDisableButton(false);
-        toastAPIError(toastData.systemSaveError, error.status, error.data);
+        toastAPIError(
+          "Error occured while saving system",
+          error.status,
+          error.data
+        );
       } finally {
         handleClear();
       }
@@ -309,7 +294,7 @@ export default function SystemModal(props: SystemProps) {
       Boolean(
         modalityData.find(
           (value) =>
-            value.group === mriText &&
+            value.group === "mri" &&
             value.id === parseInt(formik.values.modality)
         )
       ),
@@ -338,38 +323,6 @@ export default function SystemModal(props: SystemProps) {
       ),
     [modalityData.length, formik.values.modality]
   );
-
-  const {
-    fieldName,
-    fieldManufacturer,
-    fieldModality,
-    fieldProduct,
-    fieldLocation,
-    fieldLink,
-    fieldNumber,
-    fieldSite,
-    fieldModal,
-    fieldVersion,
-    fieldIp,
-    fieldAsset,
-    fieldLocalAE,
-    fieldRisName,
-    fieldRisIp,
-    fieldRisTitle,
-    fieldRisPort,
-    fieldRisAE,
-    fieldDicomName,
-    fieldDicomIp,
-    fieldDicomTitle,
-    fieldDicomPort,
-    fieldDicomAE,
-    fieldMRIname,
-    fieldMRIHelium,
-    fieldMRIMagnet,
-    btnAdd,
-    btnCancel,
-    btnEdit,
-  } = localizedData().systemModal;
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -455,7 +408,7 @@ export default function SystemModal(props: SystemProps) {
 
   useEffect(() => {
     if (sites.length && !props.system) {
-      formik.setFieldValue(siteText, sites[0].id);
+      formik.setFieldValue("site", sites[0].id);
     }
   }, [sites.length, Boolean(props.system)]);
 
@@ -473,10 +426,10 @@ export default function SystemModal(props: SystemProps) {
       </DialogTitle>
       <DialogContent>
         <div className="modal-content">
-          <p className="gallery-title required">{selectImage}</p>
+          <p className="gallery-title required">{t("Select Image")}</p>
           <SystemImageGallery
             setSystemImage={(value) =>
-              formik.setFieldValue(systemImageText, value)
+              formik.setFieldValue("systemImage", value)
             }
             systemImage={formik.values.systemImage}
           />
@@ -484,7 +437,7 @@ export default function SystemModal(props: SystemProps) {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldModality}</p>
+                  <p className="info-label required">{t("Modality")}</p>
                   <FormikAutoComplete
                     isLoading={isModalityLoading}
                     options={modalityData}
@@ -496,7 +449,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldManufacturer}</p>
+                  <p className="info-label required">{t("Manufacturer")}</p>
                   <FormikAutoComplete
                     isLoading={isManufacturerLoading}
                     options={manufacturerData}
@@ -522,7 +475,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldProduct}</p>
+                  <p className="info-label required">{t("Product")}</p>
                   <FormikAutoComplete
                     isLoading={isProductLoading}
                     options={productData}
@@ -548,7 +501,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldModal}</p>
+                  <p className="info-label required">{t("Product Model")}</p>
                   <FormikAutoComplete
                     isLoading={isProductsModelsLoading}
                     options={productModelData}
@@ -575,7 +528,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldName}</p>
+                  <p className="info-label required">{t("Name")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -599,7 +552,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label required">{fieldSite}</p>
+                  <p className="info-label required">{t("Site")}</p>
                   <FormControl
                     sx={{ minWidth: "100%" }}
                     error={formik.touched.site && Boolean(formik.errors.site)}
@@ -628,7 +581,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldNumber}</p>
+                  <p className="info-label">{t("Serial Number")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -643,7 +596,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldLocation}</p>
+                  <p className="info-label">{t("Location in the building")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -658,7 +611,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldVersion}</p>
+                  <p className="info-label">{t("Software Version")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -673,7 +626,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldIp}</p>
+                  <p className="info-label">{t("IP")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -688,7 +641,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldAsset}</p>
+                  <p className="info-label">{t("Asset Number")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -703,7 +656,7 @@ export default function SystemModal(props: SystemProps) {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <div className="info-section">
-                  <p className="info-label">{fieldLocalAE}</p>
+                  <p className="info-label">{t("Local AE Title")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -729,7 +682,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.vfse}
                 />
-                <span className="text">{vFSE} [VNC OR OTHER]</span>
+                <span className="text">{t("vFSE")} [VNC OR OTHER]</span>
               </Grid>
               <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -751,7 +704,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.web}
                 />
-                <span className="text">{serviceWebBrowser}</span>
+                <span className="text">{t("Service web browser")}</span>
               </Grid>
               <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -764,7 +717,7 @@ export default function SystemModal(props: SystemProps) {
                   }}
                   checked={formik.values.connection.virtual}
                 />
-                <span className="text">{virtualMediaControl}</span>
+                <span className="text">{t("Virtual media control")}</span>
               </Grid>
               <Grid item xs={12} md={4} lg={4} className="checkBox">
                 <Checkbox
@@ -888,7 +841,7 @@ export default function SystemModal(props: SystemProps) {
             <Grid container spacing={2} style={{ marginTop: "5px" }}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{systemContactInfo}</p>
+                  <p className="info-label">{t("System contact info")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -905,7 +858,7 @@ export default function SystemModal(props: SystemProps) {
             <Grid container spacing={2} style={{ marginTop: "5px" }}>
               <Grid item xs={12}>
                 <div className="info-section">
-                  <p className="info-label">{fieldLink}</p>
+                  <p className="info-label">{t("Dashboard Link")}</p>
                   <TextField
                     autoComplete="off"
                     className="info-field"
@@ -928,11 +881,11 @@ export default function SystemModal(props: SystemProps) {
               {isShowRis && (
                 <>
                   {" "}
-                  <p className="heading">{fieldRisName}</p>
+                  <p className="heading">{t("HIS/RIS Info")}</p>
                   <div className="box">
                     <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldRisIp}</p>
+                        <p className="info-label">{t("IP")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -945,7 +898,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldRisTitle}</p>
+                        <p className="info-label">{t("Title")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -958,7 +911,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldRisPort}</p>
+                        <p className="info-label">{t("Port")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -972,7 +925,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldRisAE}</p>
+                        <p className="info-label">{t("AE Title")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -990,11 +943,11 @@ export default function SystemModal(props: SystemProps) {
               )}
               {isDiscom && (
                 <div className="box-heading">
-                  <p className="heading">{fieldDicomName}</p>
+                  <p className="heading">{t("Dicom info")}</p>
                   <div className="box">
                     <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldDicomIp}</p>
+                        <p className="info-label">{t("IP")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -1007,7 +960,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldDicomTitle}</p>
+                        <p className="info-label">{t("Title")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -1020,7 +973,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldDicomPort}</p>
+                        <p className="info-label">{t("Port")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -1034,7 +987,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldDicomAE}</p>
+                        <p className="info-label">{t("AE Title")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -1052,11 +1005,11 @@ export default function SystemModal(props: SystemProps) {
               )}
               {isMri ? (
                 <div className="box-heading">
-                  <p className="heading">{fieldMRIname}</p>
+                  <p className="heading">{t("MRI embedded parmeters")}</p>
                   <div className="box">
                     <Grid container spacing={2} style={{ marginBottom: "5px" }}>
                       <Grid item xs={6}>
-                        <p className="info-label">{fieldMRIHelium}</p>
+                        <p className="info-label">{t("Helium")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -1069,7 +1022,7 @@ export default function SystemModal(props: SystemProps) {
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <p className="info-label">{fieldMRIMagnet}</p>
+                        <p className="info-label">{t("Magnet pressure")}</p>
                         <TextField
                           autoComplete="off"
                           className="info-field"
@@ -1102,7 +1055,7 @@ export default function SystemModal(props: SystemProps) {
             onClick={handleClear}
             disabled={disableButton}
           >
-            {btnCancel}
+            {t("Cancel")}
           </Button>
           <Button
             className="add-btn"
@@ -1113,7 +1066,7 @@ export default function SystemModal(props: SystemProps) {
             type="submit"
             disabled={disableButton}
           >
-            {props.system ? btnEdit : btnAdd}
+            {props.system ? "Edit" : "Add"}
           </Button>
         </DialogActions>
         <AddManufacturerModal
