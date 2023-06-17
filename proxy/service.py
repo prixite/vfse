@@ -1,3 +1,5 @@
+import gzip
+import time
 from urllib import parse
 
 import httpx
@@ -8,6 +10,10 @@ from proxy.service_utils import (
     get_user_from_request,
     is_authenticated,
 )
+
+PROTOCOL_CACHE = {}
+MAX_CACHE_SIZE = 500
+
 
 app = FastAPI()
 
@@ -30,17 +36,38 @@ def to_netloc(url: str):
 
 
 def replace_host_in_location(base_url: str, location: str, request: Request):
-    location_base_url = to_netloc(location)
-    if base_url == location_base_url:
+    result = parse.urlparse(location)
+    if base_url == result.netloc:
+        set_protocol(base_url, result.scheme)
         host = request.headers["host"]
-        protocol = request.headers["x-forwarded-proto"]
+        protocol = request.headers.get("x-forwarded-proto", "http")
         result = parse.urlparse(location)
         return f"{protocol}://{host}{result.path}"
 
     return location
 
 
-async def proxy(method_name: str, path: str, request: Request, data=None):
+def set_protocol(base_url, value):
+    if len(PROTOCOL_CACHE) >= MAX_CACHE_SIZE:
+        data = [(k, v["time"]) for k, v in PROTOCOL_CACHE.items()]
+        data.sort()
+        for k, _ in data[:50]:
+            PROTOCOL_CACHE.pop(k)
+
+    PROTOCOL_CACHE[base_url] = {"time": time.time(), "value": value}
+
+
+def get_protocol(base_url):
+    try:
+        value = PROTOCOL_CACHE[base_url]["value"]
+        set_protocol(base_url, value)
+    except KeyError:
+        value = "http"
+
+    return value
+
+
+async def proxy(method_name: str, path: str, request: Request):
     if not is_authenticated(request):
         raise HTTPException(status_code=403, detail="Not authenticated")
 
@@ -54,22 +81,30 @@ async def proxy(method_name: str, path: str, request: Request, data=None):
         )
 
     base_url = to_netloc(system.safe_service_page_url)
+    headers = {k: v for k, v in request.headers.items() if k not in ["cookie", "host"]}
     async with httpx.AsyncClient() as client:
         method = getattr(client, method_name)
-        url = f"http://{base_url}/{path}"
-        if data is None:
-            proxy = await method(url)
+        url = f"{get_protocol(base_url)}://{base_url}/{path}"
+        if method_name in ["post"]:
+            data = await request.form()
+            proxy_result = await method(url, data=data, headers=headers)
         else:
-            proxy = await method(url, data=dict(data))
+            proxy_result = await method(
+                url, params=request.query_params, headers=headers
+            )
 
-    response = Response(content=proxy.content)
-    response.headers.update(proxy.headers)
+    content = proxy_result.content
+    if proxy_result.headers.get("content-encoding") == "gzip":
+        content = gzip.compress(content)
+
+    response = Response(content=content)
+    response.headers.update(proxy_result.headers)
     if "location" in response.headers:
         location = response.headers["location"]
         new_location = replace_host_in_location(base_url, location, request)
         response.headers["location"] = new_location
 
-    response.status_code = proxy.status_code
+    response.status_code = proxy_result.status_code
     return response
 
 
@@ -80,4 +115,4 @@ async def get_proxy(path: str, request: Request):
 
 @app.post("/{path:path}")
 async def post_proxy(path: str, request: Request):
-    return await proxy("post", path, request, request.form())
+    return await proxy("post", path, request)
