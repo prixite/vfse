@@ -1,10 +1,10 @@
+import gzip
 import time
 from urllib import parse
 
 import httpx
 from fastapi import FastAPI, HTTPException, Request, Response
 
-from core import models
 from proxy.service_utils import (
     get_system,
     get_user_from_request,
@@ -71,12 +71,9 @@ async def proxy(method_name: str, path: str, request: Request):
     if not is_authenticated(request):
         raise HTTPException(status_code=403, detail="Not authenticated")
 
-    """
     user = await get_user_from_request(request)
     organization_id, system_id = get_system_info_from_hostname(request)
     system = await get_system(user, organization_id, system_id)
-    """
-    system = await models.System.objects.aget(id=61)
 
     if not system.connection_options.get("service_web_browser"):
         raise HTTPException(
@@ -96,14 +93,11 @@ async def proxy(method_name: str, path: str, request: Request):
                 url, params=request.query_params, headers=headers
             )
 
-    """
-    import pprint
+    content = proxy_result.content
+    if proxy_result.headers.get("content-encoding") == "gzip":
+        content = gzip.compress(content)
 
-    pprint.pprint(dict(headers))
-    pprint.pprint(dict(proxy_result.headers))
-    # return Response(content="Hello")
-    """
-    response = Response(content=proxy_result.content)
+    response = Response(content=content)
     response.headers.update(proxy_result.headers)
     if "location" in response.headers:
         location = response.headers["location"]
