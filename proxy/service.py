@@ -82,7 +82,7 @@ async def proxy(method_name: str, path: str, request: Request):
 
     base_url = to_netloc(system.safe_service_page_url)
     headers = {k: v for k, v in request.headers.items() if k not in ["cookie", "host"]}
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(verify=False) as client:
         method = getattr(client, method_name)
         url = f"{get_protocol(base_url)}://{base_url}/{path}"
         if method_name in ["post"]:
