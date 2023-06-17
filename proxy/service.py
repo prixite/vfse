@@ -99,6 +99,8 @@ async def proxy(method_name: str, path: str, request: Request):
 
     response = Response(content=content)
     response.headers.update(proxy_result.headers)
+    response.headers.update({"content-length": str(len(content))})
+
     if "location" in response.headers:
         location = response.headers["location"]
         new_location = replace_host_in_location(base_url, location, request)
