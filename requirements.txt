@@ -11,7 +11,7 @@ djangorestframework==3.14.0
 djangorestframework-link-header-pagination==0.1.1
 drf-yasg==1.21.6
 duo-universal==2.0.3
-factory-boy==3.2.1
+factory-boy==3.3.0
 fastapi==0.100.0
 gunicorn==20.1.0
 httpx==0.24.1
