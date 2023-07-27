@@ -9,7 +9,7 @@ django-filter==23.2
 django-webpack-loader==2.0.1
 djangorestframework==3.14.0
 djangorestframework-link-header-pagination==0.1.1
-drf-yasg==1.21.6
+drf-yasg==1.21.7
 duo-universal==2.0.3
 factory-boy==3.3.0
 fastapi==0.100.0
