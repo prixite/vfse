@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import moment from "moment";
 import { useTranslation } from "react-i18next";
-import { Pagination } from "swiper";
+import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import activityIcon from "@src/assets/svgs/activity.svg";
