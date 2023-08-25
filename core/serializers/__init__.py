@@ -540,7 +540,7 @@ class SystemImageSerializer(serializers.ModelSerializer):
 
 
 class SystemConnectionOptions(serializers.Serializer):
-    vfse = serializers.BooleanField()
+    vfse = serializers.SerializerMethodField()
     virtual_media_control = serializers.BooleanField(
         source="connection_options.virtual_media_control"
     )
@@ -548,6 +548,9 @@ class SystemConnectionOptions(serializers.Serializer):
         source="connection_options.service_web_browser"
     )
     ssh = serializers.BooleanField(source="connection_options.ssh")
+
+    def get_vfse(self, obj):
+        return obj.connection_options.get("vfse", False)
 
 
 class SystemVncUrlSerializer(serializers.ModelSerializer):
