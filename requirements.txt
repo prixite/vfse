@@ -1,4 +1,4 @@
-boto3==1.28.33
+boto3==1.28.36
 coverage==7.3.0
 dj-database-url==2.0.0
 Django==4.2.4
