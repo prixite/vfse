@@ -14,8 +14,10 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import SiteSection from "@src/components/shared/popUps/networkModal/SiteSection";
-import { NetworkModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+// import { NetworkModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
+import { NetworkModalFormState } from "@src/types/interfaces";
+// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { S3Interface } from "@src/types/interfaces";
 import {
   deleteImageFromS3,
   uploadImageToS3,

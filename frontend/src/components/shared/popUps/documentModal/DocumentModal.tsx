@@ -20,8 +20,10 @@ import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-import { DocumentationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+// import { DocumentationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
+import { DocumentationModalFormState } from "@src/types/interfaces";
+// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { S3Interface } from "@src/types/interfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import {

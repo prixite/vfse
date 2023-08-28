@@ -10,7 +10,8 @@ import { toast } from "react-toastify";
 
 import FolderSVG from "@src/components/common/presentational/articleCard/FolderSVG";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { selectedArticleCard } from "@src/helpers/interfaces/localizationinterfaces";
+// import { selectedArticleCard } from "@src/helpers/interfaces/localizationinterfaces";
+import { selectedArticleCard } from "@src/types/interfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useSelectedOrganization } from "@src/store/hooks";

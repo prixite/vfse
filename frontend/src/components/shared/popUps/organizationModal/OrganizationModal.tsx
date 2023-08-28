@@ -18,8 +18,10 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import HealthNetwork from "@src/components/common/presentational/healthNetwork/HealthNetwork";
-import { OrganizationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+// import { OrganizationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
+import { OrganizationModalFormState } from "@src/types/interfaces";
+// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { S3Interface } from "@src/types/interfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import {

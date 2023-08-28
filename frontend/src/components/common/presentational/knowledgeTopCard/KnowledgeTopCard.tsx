@@ -10,7 +10,8 @@ import { toast } from "react-toastify";
 
 import fileImage from "@src/assets/svgs/fileImage.svg";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
+// import { RouteParam } from "@src/helpers/interfaces/appInterfaces";
+import { RouteParam } from "@src/types/interfaces";
 import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";

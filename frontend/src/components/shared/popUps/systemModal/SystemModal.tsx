@@ -27,7 +27,8 @@ import AddManufacturerModal from "@src/components/shared/popUps/addManufacturerM
 import AddProductModelDialog from "@src/components/shared/popUps/addProductModelDialog/AddProductModelDialog";
 import ProductModal from "@src/components/shared/popUps/productModal/productModal";
 import FormikAutoComplete from "@src/components/shared/popUps/systemModal/FormikAutoComplete";
-import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
+// import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
+import { FormState } from "@src/types/interfaces";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {

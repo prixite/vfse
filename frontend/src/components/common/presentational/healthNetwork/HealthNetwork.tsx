@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import "@src/components/common/presentational/healthNetwork/healthNetwork.scss";
-import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
+import { S3Interface } from "@src/types/interfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { HealthNetwork as HealthNeworkArg } from "@src/store/reducers/api";
 

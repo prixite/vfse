@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import ProfilePopOver from "@src/components/common/presentational/profilePopOver/ProfilePopOver";
 import VfsePopOver from "@src/components/common/presentational/vfsePopOver/VfsePopOver";
-import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
+import { routeItem } from "@src/types/interfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
 import { routes } from "@src/routes";

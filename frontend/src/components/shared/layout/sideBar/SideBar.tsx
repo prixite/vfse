@@ -22,7 +22,7 @@ import OpenBtn from "@src/assets/images/opendrawer.png";
 import ProfilePopOver from "@src/components/common/presentational/profilePopOver/ProfilePopOver";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import MobileNavbar from "@src/components/shared/layout/mobileNavbar/MobileNavbar";
-import { routeItem } from "@src/helpers/interfaces/routeInterfaces";
+import { routeItem } from "@src/types/interfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
