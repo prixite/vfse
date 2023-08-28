@@ -17,7 +17,7 @@ gunicorn==21.2.0
 httpx==0.24.1
 icmplib==3.0.3
 influxdb-client==1.37.0
-openai==0.27.8
+openai==0.27.9
 Pillow==10.0.0
 python-multipart==0.0.6
 uvicorn==0.23.2
