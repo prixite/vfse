@@ -632,7 +632,8 @@ class SystemSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        add_to_vfse = validated_data.get("connection_options").get("vfse")
+        connection_options = validated_data.get("connection_options", {})
+        add_to_vfse = connection_options.get("vfse", None)
         system = super().create(validated_data)
         seat_serializer = OrganizationSeatSeriazlier(
             data={"seats": [{"system": system.id}]},
@@ -646,7 +647,8 @@ class SystemSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        add_to_vfse = validated_data.get("connection_options").get("vfse")
+        connection_options = validated_data.get("connection_options", {})
+        add_to_vfse = connection_options.get("vfse", None)
         if instance.vfse and not add_to_vfse:
             models.Seat.objects.filter(
                 system=instance, organization=instance.site.organization
