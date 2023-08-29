@@ -48,6 +48,17 @@ export interface WorkOrderResponse {
   work_completed?: boolean;
 }
 
+export interface Organization {
+  title: string;
+  btnFilter: string;
+  btnAdd: string;
+  noDataTitle: string;
+  noDataDescription: string;
+  newHealthNetwork: string;
+  popUp: PopUp5;
+  deleteDialog: DeleteDialog3;
+}
+
 export interface UserModalProps {
   open: boolean;
   handleClose: () => void;
@@ -169,52 +180,239 @@ export interface selectedArticleCard {
   categoryName: string;
 }
 
-export interface LocalizationInterface {
-  Faq: { dashboard: unknown; topicUpdates: unknown; seeAll: unknown };
-  Forum: { btnCreateTopic: unknown; forum: unknown; title: string };
-  common: Common;
-  users: Users;
-  user_menu_options: UserMenuOptions;
-  modalities: Modalities;
-  sites: Sites;
-  documentation: Documentation;
-  systems: Systems;
-  systems_card: SystemsCard;
-  profileHeader: profileHeader;
-  organization_menu_options: OrganizationMenuOptions;
-  organization: Organization;
-  page404: Page404;
-  dataNotFound: DataNotFound;
-  page505: Page505;
-  dropzone: Dropzone;
-  healthNetwork: HealthNetwork;
-  siteSection: SiteSection;
-  siteModal: SiteModal;
-  systemModal: SystemModal;
-  confirmSiteDialog: ConfirmSiteDialog;
-  knowledgeBase: KnowledgeBase;
-  articleCard: ArticleCard;
-  folderSection: folderSection;
-  document: document;
-  articleDescription: articleDescription;
-  ManufacturerModal: ManufacturerInterface;
-  ProductModal: ProductInterface;
-  addProductModelDialog: AddProductModelDialogInterface;
-  selectedArticleCard: selectedArticleCard;
-  toastData: toastData;
-  FolderModalPopUp: FolderModalPopUp;
-  allCategoriesSection: allCategoriesSection;
+export interface Common {
+  searching: string;
+  Forum: string;
 }
 
-export interface FolderModalPopUp {
-  nameRequired: string;
-  addFolderText: string;
-  folderNameText: string;
-  folderCategoryText: string;
-  cancel: string;
-  editFolderText: string;
-  chooseCategories: string;
+export interface Users {
+  addUser: string;
+  userAdministration: string;
+  btnFilter: string;
+  btnAdd: string;
+  popUp: PopUp;
 }
+
+export interface UserMenuOptions {
+  lock: string;
+  unlock: string;
+  edit: string;
+  delete_user: string;
+}
+
+export interface Modalities {
+  title: string;
+  btnFilter: string;
+  btnAdd: string;
+  noDataTitle: string;
+  noDataDescription: string;
+  cardPopUp: CardPopUp;
+  popUp: PopUp2;
+  deleteDialog: DeleteDialog;
+}
+
+export interface Sites {
+  title: string;
+  btnFilter: string;
+  btnAdd: string;
+  btnEdit: string;
+  noResultMsg: string;
+  noDataTitle: string;
+  noDataDescription: string;
+  popUp: PopUp3;
+  cardPopUp: CardPopUp2;
+  deleteDialog: DeleteDialog2;
+}
+
+export interface Documentation {
+  title: string;
+  btnFilter: string;
+  btnCol: string;
+  btnAsset: string;
+  btnAdd: string;
+  popUp: PopUp4;
+}
+
+export interface Systems {
+  title: string;
+  btnFilter: string;
+  btnCol: string;
+  btnAsset: string;
+  noDataTitle: string;
+  noDataDescription: string;
+  btnAdd: string;
+}
+
+export interface SystemsCard {
+  his_ris_info_txt: string;
+  dicom_info_txt: string;
+  serial_txt: string;
+  is_online: string;
+  latest_ping: string;
+  asset_txt: string;
+  helium_level: string;
+  mpc_status: string;
+  copy_btn: string;
+  ip_address_txt: string;
+  local_ae_title_txt: string;
+  software_version_txt: string;
+  location: string;
+  connect: string;
+  grafana_link_txt: string;
+}
+
+export interface profileHeader {
+  editText: string;
+}
+
+export interface OrganizationMenuOptions {
+  switch_org: string;
+  edit: string;
+  new_network: string;
+  delete_org: string;
+}
+
+export interface Page404 {
+  title: string;
+  description: string;
+  backbtn: string;
+}
+
+export interface DataNotFound {
+  title: string;
+  description: string;
+  backbtn: string;
+}
+
+export interface Page505 {
+  title: string;
+  description: string;
+}
+
+export interface Dropzone {
+  heading: string;
+  description: string;
+  button: string;
+  info: string;
+  options: DropzoneOptions;
+}
+
+export interface HealthNetwork {
+  name: string;
+  logo: string;
+  color1: string;
+  color2: string;
+  color3: string;
+  color4: string;
+  nameRequired: string;
+  imageRequired: string;
+  networkDuplicateError: string;
+}
+
+export interface SiteSection {
+  site: string;
+}
+
+export interface SiteModal {
+  fieldName: string;
+  fieldAddress: string;
+  btnAdd: string;
+  btnEdit: string;
+  btnCancel: string;
+}
+
+export interface SystemModal {
+  fieldName: string;
+  fieldManufacturer: string;
+  fieldModality: string;
+  fieldProduct: string;
+  fieldLocation: string;
+  fieldLink: string;
+  fieldNumber: string;
+  fieldSite: string;
+  fieldModal: string;
+  fieldVersion: string;
+  fieldAsset: string;
+  fieldIp: string;
+  fieldLocalAE: string;
+  fieldRisName: string;
+  fieldRisIp: string;
+  fieldRisTitle: string;
+  fieldRisPort: string;
+  fieldRisAE: string;
+  fieldDicomName: string;
+  fieldDicomIp: string;
+  fieldDicomTitle: string;
+  fieldDicomPort: string;
+  fieldDicomAE: string;
+  fieldMRIname: string;
+  fieldMRIHelium: string;
+  fieldMRIMagnet: string;
+  headdingAddInfo: string;
+  btnAdd: string;
+  btnEdit: string;
+  btnCancel: string;
+}
+
+export interface ConfirmSiteDialog {
+  dialogMessage: string;
+  noButton: string;
+  yesButton: string;
+}
+
+export interface KnowledgeBase {
+  title: string;
+  subTitle: string;
+}
+
+export interface ArticleCard {
+  numberTitle: string;
+  explore: string;
+  deleteCard: string;
+}
+
+export interface folderSection {
+  backBtn: string;
+}
+
+export interface document {
+  backBtn: string;
+  title: string;
+  btnEdit: string;
+  btnCopy: string;
+}
+
+export interface articleDescription {
+  backBtn: string;
+  title1: string;
+  title2: string;
+  title3: string;
+}
+
+export interface ManufacturerInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
+
+export interface ProductInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
+
+export interface AddProductModelDialogInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
+
 export interface toastData {
   documentationBtnLinkCopy: string;
   commentCardCommentFailed: string;
@@ -267,199 +465,95 @@ export interface toastData {
   userAlreadyExists: string;
   saveUserError: string;
 }
-export interface AddProductModelDialogInterface {
+
+export interface FolderModalPopUp {
   nameRequired: string;
-  title: string;
-  addBtn: string;
-  cancelBtn: string;
-  subHeading: string;
+  addFolderText: string;
+  folderNameText: string;
+  folderCategoryText: string;
+  cancel: string;
+  editFolderText: string;
+  chooseCategories: string;
 }
 
-export interface ProductInterface {
-  nameRequired: string;
-  title: string;
-  addBtn: string;
-  cancelBtn: string;
-  subHeading: string;
-}
-export interface ManufacturerInterface {
-  nameRequired: string;
-  title: string;
-  addBtn: string;
-  cancelBtn: string;
-  subHeading: string;
-}
-export interface articleDescription {
-  backBtn: string;
-  title1: string;
-  title2: string;
-  title3: string;
-}
-export interface document {
-  backBtn: string;
-  title: string;
-  btnEdit: string;
-  btnCopy: string;
-}
-
-export interface ArticleCard {
-  numberTitle: string;
-  explore: string;
-  deleteCard: string;
-}
-
-export interface folderSection {
-  backBtn: string;
-}
 export interface allCategoriesSection {
   Message: string;
 }
-export interface SystemModal {
-  fieldName: string;
-  fieldManufacturer: string;
-  fieldModality: string;
-  fieldProduct: string;
-  fieldLocation: string;
-  fieldLink: string;
-  fieldNumber: string;
-  fieldSite: string;
-  fieldModal: string;
-  fieldVersion: string;
-  fieldAsset: string;
-  fieldIp: string;
-  fieldLocalAE: string;
-  fieldRisName: string;
-  fieldRisIp: string;
-  fieldRisTitle: string;
-  fieldRisPort: string;
-  fieldRisAE: string;
-  fieldDicomName: string;
-  fieldDicomIp: string;
-  fieldDicomTitle: string;
-  fieldDicomPort: string;
-  fieldDicomAE: string;
-  fieldMRIname: string;
-  fieldMRIHelium: string;
-  fieldMRIMagnet: string;
-  headdingAddInfo: string;
-  btnAdd: string;
-  btnEdit: string;
-  btnCancel: string;
+export interface LocalizationInterface {
+  Faq: { dashboard: unknown; topicUpdates: unknown; seeAll: unknown };
+  Forum: { btnCreateTopic: unknown; forum: unknown; title: string };
+  common: Common;
+  users: Users;
+  user_menu_options: UserMenuOptions;
+  modalities: Modalities;
+  sites: Sites;
+  documentation: Documentation;
+  systems: Systems;
+  systems_card: SystemsCard;
+  profileHeader: profileHeader;
+  organization_menu_options: OrganizationMenuOptions;
+  organization: Organization;
+  page404: Page404;
+  dataNotFound: DataNotFound;
+  page505: Page505;
+  dropzone: Dropzone;
+  healthNetwork: HealthNetwork;
+  siteSection: SiteSection;
+  siteModal: SiteModal;
+  systemModal: SystemModal;
+  confirmSiteDialog: ConfirmSiteDialog;
+  knowledgeBase: KnowledgeBase;
+  articleCard: ArticleCard;
+  folderSection: folderSection;
+  document: document;
+  articleDescription: articleDescription;
+  ManufacturerModal: ManufacturerInterface;
+  ProductModal: ProductInterface;
+  addProductModelDialog: AddProductModelDialogInterface;
+  selectedArticleCard: selectedArticleCard;
+  toastData: toastData;
+  FolderModalPopUp: FolderModalPopUp;
+  allCategoriesSection: allCategoriesSection;
 }
 
-export interface ConfirmSiteDialog {
-  dialogMessage: string;
-  noButton: string;
-  yesButton: string;
-}
 
-export interface KnowledgeBase {
-  title: string;
-  subTitle: string;
-}
 
-export interface HealthNetwork {
-  name: string;
-  logo: string;
-  color1: string;
-  color2: string;
-  color3: string;
-  color4: string;
-  nameRequired: string;
-  imageRequired: string;
-  networkDuplicateError: string;
-}
 
-export interface SiteSection {
-  site: string;
-}
 
-export interface SiteModal {
-  fieldName: string;
-  fieldAddress: string;
-  btnAdd: string;
-  btnEdit: string;
-  btnCancel: string;
-}
-export interface Common {
-  searching: string;
-  Forum: string;
-}
 
-export interface Page505 {
-  title: string;
-  description: string;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export interface DropzoneOptions {
   uploadAndHide: string;
   upload: string;
 }
-export interface Dropzone {
-  heading: string;
-  description: string;
-  button: string;
-  info: string;
-  options: DropzoneOptions;
-}
-export interface Page404 {
-  title: string;
-  description: string;
-  backbtn: string;
-}
-
-export interface DataNotFound {
-  title: string;
-  description: string;
-  backbtn: string;
-}
 
 
-export interface profileHeader {
-  editText: string;
-}
 
-export interface OrganizationMenuOptions {
-  switch_org: string;
-  edit: string;
-  new_network: string;
-  delete_org: string;
-}
-export interface Systems {
-  title: string;
-  btnFilter: string;
-  btnCol: string;
-  btnAsset: string;
-  noDataTitle: string;
-  noDataDescription: string;
-  btnAdd: string;
-}
 
-export interface SystemsCard {
-  his_ris_info_txt: string;
-  dicom_info_txt: string;
-  serial_txt: string;
-  is_online: string;
-  latest_ping: string;
-  asset_txt: string;
-  helium_level: string;
-  mpc_status: string;
-  copy_btn: string;
-  ip_address_txt: string;
-  local_ae_title_txt: string;
-  software_version_txt: string;
-  location: string;
-  connect: string;
-  grafana_link_txt: string;
-}
-export interface Documentation {
-  title: string;
-  btnFilter: string;
-  btnCol: string;
-  btnAsset: string;
-  btnAdd: string;
-  popUp: PopUp4;
-}
+
+
+
+
+
+
 
 export interface PopUp4 {
   title: string;
@@ -480,20 +574,9 @@ export interface PopUp4 {
   editText: string;
   pdf: string;
 }
-export interface Users {
-  addUser: string;
-  userAdministration: string;
-  btnFilter: string;
-  btnAdd: string;
-  popUp: PopUp;
-}
 
-export interface UserMenuOptions {
-  lock: string;
-  unlock: string;
-  edit: string;
-  delete_user: string;
-}
+
+
 
 export interface ConfirmSiteModal {
   dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
@@ -555,16 +638,7 @@ export interface PopUp {
   accessToModalities: string;
 }
 
-export interface Modalities {
-  title: string;
-  btnFilter: string;
-  btnAdd: string;
-  noDataTitle: string;
-  noDataDescription: string;
-  cardPopUp: CardPopUp;
-  popUp: PopUp2;
-  deleteDialog: DeleteDialog;
-}
+
 
 export interface PopUp5 {
   popUpNewOrganization: string;
@@ -584,17 +658,6 @@ export interface PopUp5 {
   newOrganizationFont2: string;
   newOrganizationHealthNetworks: string;
   newOrganizationAddNetwork: string;
-}
-
-export interface Organization {
-  title: string;
-  btnFilter: string;
-  btnAdd: string;
-  noDataTitle: string;
-  noDataDescription: string;
-  newHealthNetwork: string;
-  popUp: PopUp5;
-  deleteDialog: DeleteDialog3;
 }
 
 export interface DeleteDialog3 {
@@ -622,18 +685,7 @@ export interface DeleteDialog {
   yesButton: string;
 }
 
-export interface Sites {
-  title: string;
-  btnFilter: string;
-  btnAdd: string;
-  btnEdit: string;
-  noResultMsg: string;
-  noDataTitle: string;
-  noDataDescription: string;
-  popUp: PopUp3;
-  cardPopUp: CardPopUp2;
-  deleteDialog: DeleteDialog2;
-}
+
 
 export interface PopUp3 {
   popUpNewNetwork: string;

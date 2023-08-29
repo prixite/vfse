@@ -19,7 +19,7 @@ import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import * as yup from "yup";
-
+import { api } from "@src/store/reducers/api";
 import { Topic } from "@src/store/reducers/generated";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
@@ -30,7 +30,7 @@ import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
-import { api } from "@src/store/reducers/api";
+
 
 
 window.Buffer = window.Buffer || Buffer;
