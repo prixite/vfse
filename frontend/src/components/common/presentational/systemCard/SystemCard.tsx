@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import CloseIcon from "@mui/icons-material/Close";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -27,14 +26,12 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
-
 import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import TerminalScreenDialog from "@src/components/terminalScreen/TerminalScreenDialog";
 // import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { SystemInterfaceProps } from "@src/types/interfaces";
-
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import {
   Box,
   TextField,
@@ -13,12 +12,10 @@ import { Buffer } from "buffer";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-
 import ColorPicker from "@src/components/common/presentational/colorPicker/ColorPicker";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 // import { AppearanceFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { AppearanceFormState } from "@src/types/interfaces";
-
 // import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { S3Interface } from "@src/types/interfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
