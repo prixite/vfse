@@ -1,9 +1,9 @@
-import {
-  HealthNetwork,
-  Modality,
-  Product,
-  Site,
-} from "@src/store/reducers/generated";
+// import {
+//   HealthNetwork,
+//   Modality,
+//   Product,
+//   Site,
+// } from "@src/store/reducers/generated";
 
 // export interface FormState {
 //   systemImage: number;
