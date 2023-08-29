@@ -32,7 +32,7 @@ import {
   useOrganizationsHealthNetworksCreateMutation,
   useOrganizationsSitesUpdateMutation,
 } from "@src/store/reducers/api";
-import { S3Interface , NetworkModalFormState } from "@src/types/interfaces";
+import { S3Interface, NetworkModalFormState } from "@src/types/interfaces";
 import "@src/components/shared/popUps/networkModal/networkModal.scss";
 
 interface Props {

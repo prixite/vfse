@@ -22,7 +22,6 @@ import OpenBtn from "@src/assets/images/opendrawer.png";
 import ProfilePopOver from "@src/components/common/presentational/profilePopOver/ProfilePopOver";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import MobileNavbar from "@src/components/shared/layout/mobileNavbar/MobileNavbar";
-import { routeItem } from "@src/types/interfaces";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
@@ -34,6 +33,7 @@ import {
 } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
 import { openAddModal } from "@src/store/reducers/appStore";
+import { routeItem } from "@src/types/interfaces";
 import "@src/components/shared/layout/sideBar/sideBar.scss";
 
 const drawerWidth = 400;
