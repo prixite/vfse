@@ -86,12 +86,12 @@ const initialState: FormState = {
     port: null,
     ae: "",
   },
-  // ris: {
-  //   ip: "",
-  //   title: "",
-  //   port: null,
-  //   ae: "",
-  // },
+  dicom: {
+    ip: "",
+    title: "",
+    port: null,
+    ae: "",
+  },
   mri: {
     helium: "",
     magnet: "",
@@ -126,6 +126,7 @@ const getPayload = (values: FormState): System => {
     contactInfo: system_contact_info,
     grafana: grafana_link,
     ris,
+    dicom,
     mri,
     sshUser,
     sshPassword,
@@ -161,10 +162,10 @@ const getPayload = (values: FormState): System => {
       ae_title: ris.ae,
     },
     dicom_info: {
-      ip: ris.ip,
-      title: ris.title,
-      port: ris.port,
-      ae_title: ris.ae,
+      ip: dicom.ip,
+      title: dicom.title,
+      port: dicom.port,
+      ae_title: dicom.ae,
     },
     mri_embedded_parameters: {
       helium: mri.helium,
@@ -371,7 +372,7 @@ export default function SystemModal(props: SystemProps) {
           port: props.system.his_ris_info.port,
           ae: props.system.his_ris_info.ae_title,
         },
-        ris: {
+        dicom: {
           ip: props.system.dicom_info.ip,
           title: props.system.dicom_info.title,
           port: props.system.dicom_info.port,
@@ -953,8 +954,8 @@ export default function SystemModal(props: SystemProps) {
                           variant="outlined"
                           size="small"
                           placeholder="192.165.3.2"
-                          name="ris.ip"
-                          value={formik.values.ris.ip || ""}
+                          name="dicom.ip"
+                          value={formik.values.dicom.ip || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -966,8 +967,8 @@ export default function SystemModal(props: SystemProps) {
                           variant="outlined"
                           size="small"
                           placeholder="Dic 1"
-                          name="ris.title"
-                          value={formik.values.ris.title || ""}
+                          name="dicom.title"
+                          value={formik.values.dicom.title || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -980,8 +981,8 @@ export default function SystemModal(props: SystemProps) {
                           placeholder="280"
                           size="small"
                           type="number"
-                          name="ris.port"
-                          value={formik.values.ris.port || ""}
+                          name="dicom.port"
+                          value={formik.values.dicom.port || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>
@@ -993,8 +994,8 @@ export default function SystemModal(props: SystemProps) {
                           variant="outlined"
                           size="small"
                           placeholder="system 1"
-                          name="ris.ae"
-                          value={formik.values.ris.ae || ""}
+                          name="dicom.ae"
+                          value={formik.values.dicom.ae || ""}
                           onChange={formik.handleChange}
                         />
                       </Grid>

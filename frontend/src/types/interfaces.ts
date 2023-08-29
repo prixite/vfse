@@ -668,6 +668,13 @@ export interface RouteParam {
   docId?: string;
 }
 
+interface ImagingInfo {
+  ip: string;
+  title: string;
+  port?: number;
+  ae: string;
+}
+
 export interface FormState {
   systemImage: number;
   modality: string;
@@ -696,18 +703,8 @@ export interface FormState {
   vncPort: number;
   contactInfo: string;
   grafana: string;
-  ris: {
-    ip: string;
-    title: string;
-    port?: number;
-    ae: string;
-  };
-  dicom: {
-    ip: string;
-    title: string;
-    port?: number;
-    ae: string;
-  };
+  ris: ImagingInfo;
+  dicom: ImagingInfo;
   mri: {
     helium: string;
     magnet: string;
