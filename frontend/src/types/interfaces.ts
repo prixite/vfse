@@ -48,6 +48,31 @@ export interface WorkOrderResponse {
   work_completed?: boolean;
 }
 
+export interface PopUp5 {
+  popUpNewOrganization: string;
+  newOrganizationPageTrackerdesc1: string;
+  newOrganizationPageTrackerdesc2: string;
+  newOrganizationName: string;
+  newOrganizationSeats: string;
+  newOrganizationBtnNext: string;
+  newOrganizationBtnSave: string;
+  newOrganizationBtnCancel: string;
+  newOrganizationLogo: string;
+  newOrganizationColor1: string;
+  newOrganizationColor2: string;
+  newOrganizationColor3: string;
+  newOrganizationColor4: string;
+  newOrganizationFont1: string;
+  newOrganizationFont2: string;
+  newOrganizationHealthNetworks: string;
+  newOrganizationAddNetwork: string;
+}
+
+export interface DeleteDialog3 {
+  dialogMessage: string;
+  noButton: string;
+  yesButton: string;
+}
 export interface Organization {
   title: string;
   btnFilter: string;
@@ -185,6 +210,60 @@ export interface Common {
   Forum: string;
 }
 
+export interface PopUp {
+  userNameText: string;
+  emailText: string;
+  btnAdd: string;
+  btnCancel: string;
+  btnSave: string;
+  btnNext: string;
+  btnAddUser: string;
+  btnEditUser: string;
+  addNewUser: string;
+  pageTrackerdesc1: string;
+  pageTrackerdesc2: string;
+  userFirstName: string;
+  btnToSave: string;
+  userLastName: string;
+  userEmail: string;
+  userPhoneNumber: string;
+  userRole: string;
+  userManager: string;
+  userCustomer: string;
+  newUser: string;
+  imageRequired: string;
+  firstNameRequired: string;
+  lastNameRequired: string;
+  invalidEmailText: string;
+  emailRequired: string;
+  phoneNumberValidation: string;
+  invalidPhoneFormat: string;
+  phoneRequired: string;
+  addText: string;
+  selectManager: string;
+  manager: string;
+  customer: string;
+  role: string;
+  edit: string;
+  userProfileImage: string;
+  phone: string;
+  selectedSites: string;
+  selectedSystems: string;
+  selectedModalities: string;
+  accessToFSEFunctions: string;
+  auditEnable: string;
+  possibilitytoLeave: string;
+  viewOnly: string;
+  oneTimeLinkCreation: string;
+  docLink: string;
+  userProfileImageText: string;
+  editUserText: string;
+  profileImageText: string;
+  sitesText: string;
+  healthNetworkAccessText: string;
+  organizationSitesText: string;
+  accessToModalities: string;
+}
 export interface Users {
   addUser: string;
   userAdministration: string;
@@ -200,6 +279,25 @@ export interface UserMenuOptions {
   delete_user: string;
 }
 
+export interface CardPopUp {
+  edit: string;
+  delete: string;
+}
+
+export interface PopUp2 {
+  popUpNewNetwork: string;
+  newNetworkAddSite: string;
+  newNetworkLogo: string;
+  newNetworkName: string;
+  newNetworkBtnSave: string;
+  newNetworkBtnCancel: string;
+}
+
+export interface DeleteDialog {
+  dialogMessage: string;
+  noButton: string;
+  yesButton: string;
+}
 export interface Modalities {
   title: string;
   btnFilter: string;
@@ -211,6 +309,25 @@ export interface Modalities {
   deleteDialog: DeleteDialog;
 }
 
+export interface PopUp3 {
+  popUpNewNetwork: string;
+  newNetworkAddSite: string;
+  newNetworkLogo: string;
+  newNetworkName: string;
+  newNetworkBtnSave: string;
+  newNetworkBtnCancel: string;
+}
+
+export interface CardPopUp2 {
+  editSite: string;
+  deleteSite: string;
+}
+
+export interface DeleteDialog2 {
+  dialogMessage: string;
+  noButton: string;
+  yesButton: string;
+}
 export interface Sites {
   title: string;
   btnFilter: string;
@@ -222,6 +339,26 @@ export interface Sites {
   popUp: PopUp3;
   cardPopUp: CardPopUp2;
   deleteDialog: DeleteDialog2;
+}
+
+export interface PopUp4 {
+  title: string;
+  editTitle: string;
+  link: string;
+  upload_btn: string;
+  model: string;
+  product_model: string;
+  btnSave: string;
+  btnToSave: string;
+  modalities: string;
+  btnEdit: string;
+  btnCancel: string;
+  addText: string;
+  docLinkText: string;
+  modalText: string;
+  modalityText: string;
+  editText: string;
+  pdf: string;
 }
 
 export interface Documentation {
@@ -287,6 +424,11 @@ export interface DataNotFound {
 export interface Page505 {
   title: string;
   description: string;
+}
+
+export interface DropzoneOptions {
+  uploadAndHide: string;
+  upload: string;
 }
 
 export interface Dropzone {
@@ -516,195 +658,10 @@ export interface LocalizationInterface {
   allCategoriesSection: allCategoriesSection;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export interface DropzoneOptions {
-  uploadAndHide: string;
-  upload: string;
-}
-
-
-
-
-
-
-
-
-
-
-
-export interface PopUp4 {
-  title: string;
-  editTitle: string;
-  link: string;
-  upload_btn: string;
-  model: string;
-  product_model: string;
-  btnSave: string;
-  btnToSave: string;
-  modalities: string;
-  btnEdit: string;
-  btnCancel: string;
-  addText: string;
-  docLinkText: string;
-  modalText: string;
-  modalityText: string;
-  editText: string;
-  pdf: string;
-}
-
-
-
-
 export interface ConfirmSiteModal {
   dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
   noButton: "Cancel";
   yesButton: "Add Site";
-}
-export interface PopUp {
-  userNameText: string;
-  emailText: string;
-  btnAdd: string;
-  btnCancel: string;
-  btnSave: string;
-  btnNext: string;
-  btnAddUser: string;
-  btnEditUser: string;
-  addNewUser: string;
-  pageTrackerdesc1: string;
-  pageTrackerdesc2: string;
-  userFirstName: string;
-  btnToSave: string;
-  userLastName: string;
-  userEmail: string;
-  userPhoneNumber: string;
-  userRole: string;
-  userManager: string;
-  userCustomer: string;
-  newUser: string;
-  imageRequired: string;
-  firstNameRequired: string;
-  lastNameRequired: string;
-  invalidEmailText: string;
-  emailRequired: string;
-  phoneNumberValidation: string;
-  invalidPhoneFormat: string;
-  phoneRequired: string;
-  addText: string;
-  selectManager: string;
-  manager: string;
-  customer: string;
-  role: string;
-  edit: string;
-  userProfileImage: string;
-  phone: string;
-  selectedSites: string;
-  selectedSystems: string;
-  selectedModalities: string;
-  accessToFSEFunctions: string;
-  auditEnable: string;
-  possibilitytoLeave: string;
-  viewOnly: string;
-  oneTimeLinkCreation: string;
-  docLink: string;
-  userProfileImageText: string;
-  editUserText: string;
-  profileImageText: string;
-  sitesText: string;
-  healthNetworkAccessText: string;
-  organizationSitesText: string;
-  accessToModalities: string;
-}
-
-
-
-export interface PopUp5 {
-  popUpNewOrganization: string;
-  newOrganizationPageTrackerdesc1: string;
-  newOrganizationPageTrackerdesc2: string;
-  newOrganizationName: string;
-  newOrganizationSeats: string;
-  newOrganizationBtnNext: string;
-  newOrganizationBtnSave: string;
-  newOrganizationBtnCancel: string;
-  newOrganizationLogo: string;
-  newOrganizationColor1: string;
-  newOrganizationColor2: string;
-  newOrganizationColor3: string;
-  newOrganizationColor4: string;
-  newOrganizationFont1: string;
-  newOrganizationFont2: string;
-  newOrganizationHealthNetworks: string;
-  newOrganizationAddNetwork: string;
-}
-
-export interface DeleteDialog3 {
-  dialogMessage: string;
-  noButton: string;
-  yesButton: string;
-}
-export interface CardPopUp {
-  edit: string;
-  delete: string;
-}
-
-export interface PopUp2 {
-  popUpNewNetwork: string;
-  newNetworkAddSite: string;
-  newNetworkLogo: string;
-  newNetworkName: string;
-  newNetworkBtnSave: string;
-  newNetworkBtnCancel: string;
-}
-
-export interface DeleteDialog {
-  dialogMessage: string;
-  noButton: string;
-  yesButton: string;
-}
-
-
-
-export interface PopUp3 {
-  popUpNewNetwork: string;
-  newNetworkAddSite: string;
-  newNetworkLogo: string;
-  newNetworkName: string;
-  newNetworkBtnSave: string;
-  newNetworkBtnCancel: string;
-}
-
-export interface CardPopUp2 {
-  editSite: string;
-  deleteSite: string;
-}
-
-export interface DeleteDialog2 {
-  dialogMessage: string;
-  noButton: string;
-  yesButton: string;
 }
 
 export interface S3Interface {
