@@ -15,7 +15,6 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import PageOne from "@src/components/shared/popUps/userModal/PageOne";
 import PageTwo from "@src/components/shared/popUps/userModal/PageTwo";
 import useUserSite from "@src/components/shared/popUps/userModal/useUserSites";
-// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import {
   toastAPIError,

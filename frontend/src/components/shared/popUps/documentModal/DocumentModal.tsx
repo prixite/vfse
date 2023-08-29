@@ -35,12 +35,10 @@ import {
   ProductModelDetail,
   useProductsModelsPartialUpdateMutation,
 } from "@src/store/reducers/api";
-// import { DocumentationModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import {
   DocumentationModalFormState,
   S3Interface,
 } from "@src/types/interfaces";
-// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 
 interface Props {
   open: boolean;

@@ -27,7 +27,6 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import Hint from "@src/components/shared/popUps/articleModal/Hint";
-// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import {

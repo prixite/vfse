@@ -18,7 +18,6 @@ import LoginImage from "@src/assets/images/loginImage.png";
 import vfseLogo from "@src/assets/svgs/logo.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
-// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";

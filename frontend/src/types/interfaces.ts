@@ -408,13 +408,6 @@ export interface OrganizationMenuOptions {
   new_network: string;
   delete_org: string;
 }
-
-export interface Page404 {
-  title: string;
-  description: string;
-  backbtn: string;
-}
-
 export interface DataNotFound {
   title: string;
   description: string;
@@ -635,7 +628,6 @@ export interface LocalizationInterface {
   profileHeader: profileHeader;
   organization_menu_options: OrganizationMenuOptions;
   organization: Organization;
-  page404: Page404;
   dataNotFound: DataNotFound;
   page505: Page505;
   dropzone: Dropzone;

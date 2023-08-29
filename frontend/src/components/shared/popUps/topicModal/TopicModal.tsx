@@ -22,7 +22,6 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
-// import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { categories, timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";

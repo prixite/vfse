@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-// import { SiteModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
 import { returnSearchedOject, toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewSiteService,

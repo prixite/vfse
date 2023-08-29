@@ -8,7 +8,6 @@ import GroupIcon from "@mui/icons-material/Group";
 import HomeIcon from "@mui/icons-material/Home";
 
 import { routeItem } from "@src/types/interfaces";
-// import ModalityView from "@src/views/modality/ModalityView";
 
 const OrganizationView = lazy(
   async () =>

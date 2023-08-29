@@ -20,7 +20,6 @@ import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-// import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
