@@ -12,7 +12,6 @@ import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 // import { SiteModalFormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { SiteModalFormState } from "@src/types/interfaces";
 import { returnSearchedOject, toastAPIError } from "@src/helpers/utils/utils";
 import {
   addNewSiteService,
@@ -29,6 +28,7 @@ import {
   useOrganizationsListQuery,
 } from "@src/store/reducers/api";
 import { setSelectedOrganization } from "@src/store/reducers/organizationStore";
+import { SiteModalFormState } from "@src/types/interfaces";
 
 import "@src/components/shared/popUps/siteModal/siteModal.scss";
 

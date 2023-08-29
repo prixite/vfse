@@ -1,17 +1,11 @@
+import { Dispatch, SetStateAction } from "react";
+
+import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
 import { FormikErrors } from "formik";
 
-import {
-  Modality,
-  Role,
-  User,
-} from "@src/store/reducers/generated";
-import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
-import { Me, System } from "@src/store/reducers/generated";
-import { Dispatch, SetStateAction } from "react";
-import {
-  Product,
-  Site,
-} from "@src/store/reducers/generated";
+import { Modality, Role, User , Me, System , Product, Site } from "@src/store/reducers/generated";
+
+
 
 export enum UserRole {
   FSE_ADMIN = "fse-admin",
@@ -184,7 +178,7 @@ export type routeItem = {
   component: React.LazyExoticComponent<() => JSX.Element>;
   flag: string;
   icon: typeof SvgIcon;
-}
+};
 
 export interface SystemInterfaceProps {
   system: System;

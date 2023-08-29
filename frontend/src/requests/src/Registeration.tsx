@@ -19,7 +19,6 @@ import vfseLogo from "@src/assets/svgs/logo.svg";
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 // import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
-import { S3Interface } from "@src/types/interfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
@@ -34,6 +33,7 @@ import api, {
   useOrganizationsModalitiesListQuery,
 } from "@src/requests/src/store/reducers/api";
 import { UserRequestAccess } from "@src/store/reducers/generated";
+import { S3Interface } from "@src/types/interfaces";
 
 window.Buffer = window.Buffer || Buffer;
 

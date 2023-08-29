@@ -28,7 +28,6 @@ import AddProductModelDialog from "@src/components/shared/popUps/addProductModel
 import ProductModal from "@src/components/shared/popUps/productModal/productModal";
 import FormikAutoComplete from "@src/components/shared/popUps/systemModal/FormikAutoComplete";
 // import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
-import { FormState } from "@src/types/interfaces";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
@@ -42,6 +41,7 @@ import {
   useProductsListQuery,
   useOrganizationsAssociatedSitesListQuery,
 } from "@src/store/reducers/api";
+import { FormState } from "@src/types/interfaces";
 
 import "@src/components/shared/popUps/systemModal/systemModal.scss";
 

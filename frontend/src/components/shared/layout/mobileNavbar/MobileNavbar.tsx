@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 
 import ProfilePopOver from "@src/components/common/presentational/profilePopOver/ProfilePopOver";
 import VfsePopOver from "@src/components/common/presentational/vfsePopOver/VfsePopOver";
-import { routeItem } from "@src/types/interfaces";
 import { constants } from "@src/helpers/utils/constants";
 import { hexToRgb } from "@src/helpers/utils/utils";
 import { routes } from "@src/routes";
 import "@src/components/shared/layout/mobileNavbar/mobileNavbar.scss";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
+import { routeItem } from "@src/types/interfaces";
 const MobileNavbar = () => {
   const pathRoute = window.location.pathname;
   const [currentRoute, setCurrentRoute] = useState(pathRoute);
