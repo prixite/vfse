@@ -1,9 +1,10 @@
-import {
-  HealthNetwork,
-  Modality,
-  Product,
-  Site,
-} from "@src/store/reducers/generated";
+// import {
+//   HealthNetwork,
+//   Modality,
+//   Product,
+//   Site,
+// } from "@src/store/reducers/generated";
+import { HealthNetwork, Modality, Product, Site} from "@src/store/reducers/generatedWrapper";
 
 export interface FormState {
   systemImage: number;

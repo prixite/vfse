@@ -1,11 +1,18 @@
 import { FormikErrors } from "formik";
 
+// import {
+//   Modality,
+//   Organization,
+//   Role,
+//   User,
+// } from "@src/store/reducers/generated";
+
 import {
   Modality,
   Organization,
   Role,
   User,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 export enum UserRole {
   FSE_ADMIN = "fse-admin",

@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 
+// import {
+//   MetaSite,
+//   OrganizationsHealthNetworksListApiResponse,
+//   OrganizationsSitesListApiResponse,
+// } from "@src/store/reducers/generated";
 import {
   MetaSite,
   OrganizationsHealthNetworksListApiResponse,
   OrganizationsSitesListApiResponse,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 type SitesType = {
   networksData: OrganizationsHealthNetworksListApiResponse;

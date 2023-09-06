@@ -3,7 +3,8 @@ import { useRef, useEffect } from "react";
 import Guacamole from "guacamole-common-js";
 
 import { useSelectedOrganization } from "@src/store/hooks";
-import { System } from "@src/store/reducers/generated";
+// import { System } from "@src/store/reducers/generated";
+import { System } from "@src/store/reducers/generatedWrapper";
 
 interface TerminalScreenProp {
   system: System;

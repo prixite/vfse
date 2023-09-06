@@ -6,7 +6,8 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
 import { TerminalScreen } from "@src/components/terminalScreen/TerminalScreen";
-import { System } from "@src/store/reducers/generated";
+// import { System } from "@src/store/reducers/generated";
+import { System } from "@src/store/reducers/generatedWrapper";
 
 interface TerminalScreenProps {
   openModal: boolean;

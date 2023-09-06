@@ -1,5 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+// import {
+//   Organization,
+//   HealthNetwork,
+//   Role,
+//   User,
+//   UserRequestAccess,
+//   Site,
+//   Modality,
+// } from "@src/store/reducers/generated";
 import {
   Organization,
   HealthNetwork,
@@ -8,7 +17,7 @@ import {
   UserRequestAccess,
   Site,
   Modality,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 const token = process.env.REQUEST_TOKEN;
 

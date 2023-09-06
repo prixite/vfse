@@ -33,10 +33,14 @@ import {
   useOrganizationsSystemsUpdateFromInfluxMutation,
   api,
 } from "@src/store/reducers/api";
+// import {
+//   System,
+//   useOrganizationsMeReadQuery,
+// } from "@src/store/reducers/generated";
 import {
   System,
   useOrganizationsMeReadQuery,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 import "@src/components/common/smart/systemSection/systemSection.scss";
 

@@ -19,10 +19,15 @@ import {
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { updateUsernameService } from "@src/services/userService";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
+// import {
+//   useOrganizationsMeReadQuery,
+//   useUsersMePartialUpdateMutation,
+// } from "@src/store/reducers/generated";
 import {
   useOrganizationsMeReadQuery,
   useUsersMePartialUpdateMutation,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
+
 import "@src/components/common/presentational/editProfilePicModal/editProfileModal.scss";
 
 const EditProfilePicModal = ({ open, setOpen }) => {

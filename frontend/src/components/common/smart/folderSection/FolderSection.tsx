@@ -8,7 +8,8 @@ import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import FolderModal from "@src/components/shared/popUps/folderModal/FolderModal";
 import "@src/components/common/smart/folderSection/folderSection.scss";
-import { Category, Folder } from "@src/store/reducers/generated";
+// import { Category, Folder } from "@src/store/reducers/generated";
+import { Category, Folder } from "@src/store/reducers/generatedWrapper";
 interface FolderSetionProps {
   categoryData?: Category;
 }

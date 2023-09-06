@@ -1,4 +1,6 @@
-import { rtk } from "@src/store/reducers/generated";
+// import { rtk } from "@src/store/reducers/generated";
+import { rtk } from "./generatedWrapper";
+
 
 const enhancedRtkApi = rtk.enhanceEndpoints({
   addTagTypes: [
@@ -356,4 +358,13 @@ const enhancedRtkApi = rtk.enhanceEndpoints({
 });
 
 export * from "@src/store/reducers/generated";
+
+
+// export const exportedFunctions = {
+//   useOrganizationsMeReadQuery: generatedimports.useOrganizationsMeReadQuery,
+//   useOrganizationsReadQuery: generatedimports.useOrganizationsReadQuery,
+//  api: api,
+ 
+// };
+
 export { enhancedRtkApi as api };

@@ -9,7 +9,8 @@ import VfseTopSection from "@src/components/common/smart/vfseTopSection/VfseTopS
 import TopicModal from "@src/components/shared/popUps/topicModal/TopicModal";
 import { parseLink } from "@src/helpers/paging";
 import { api } from "@src/store/reducers/api";
-import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
+// import { VfseTopicsListApiResponse } from "@src/store/reducers/generated";
+import { VfseTopicsListApiResponse } from "@src/store/reducers/generatedWrapper";
 import { getTopicListArg } from "@src/types/interfaces";
 
 export default function ForumSection() {

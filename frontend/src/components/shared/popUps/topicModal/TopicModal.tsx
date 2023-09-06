@@ -29,7 +29,8 @@ import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import "@src/components/shared/popUps/topicModal/topicModal.scss";
 import { api } from "@src/store/reducers/api";
-import { Topic } from "@src/store/reducers/generated";
+// import { Topic } from "@src/store/reducers/generated";
+import { Topic } from "@src/store/reducers/generatedWrapper";
 
 window.Buffer = window.Buffer || Buffer;
 interface Props {

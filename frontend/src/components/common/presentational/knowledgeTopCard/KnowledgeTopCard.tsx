@@ -15,7 +15,8 @@ import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { api, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
-import { Document } from "@src/store/reducers/generated";
+// import { Document } from "@src/store/reducers/generated";
+import { Document } from "@src/store/reducers/generatedWrapper";
 import "@src/components/common/presentational/knowledgeTopCard/knowledgeTopCard.scss";
 interface props {
   title: string;

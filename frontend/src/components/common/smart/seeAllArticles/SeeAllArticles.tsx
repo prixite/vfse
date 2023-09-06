@@ -9,7 +9,8 @@ import TopViewBtns from "@src/components/common/smart/topViewBtns/TopViewBtns";
 import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ArticleModal from "@src/components/shared/popUps/articleModal/ArticleModal";
 import { api } from "@src/store/reducers/api";
-import { Document } from "@src/store/reducers/generated";
+// import { Document } from "@src/store/reducers/generated";
+import { Document } from "@src/store/reducers/generatedWrapper";
 
 const SeeAllArticles = () => {
   const { t } = useTranslation();

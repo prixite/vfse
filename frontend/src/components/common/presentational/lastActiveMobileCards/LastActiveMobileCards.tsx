@@ -3,8 +3,8 @@ import "@src/components/common/presentational/lastActiveMobileCards/lastActiveMo
 import { useTranslation } from "react-i18next";
 
 import ThreeDots from "@src/assets/svgs/three-dots.svg";
-import { User } from "@src/store/reducers/generated";
-
+// import { User } from "@src/store/reducers/generated";
+import { User } from "@src/store/reducers/generatedWrapper";
 interface LastActiveMobileCards {
   keyNumber?: number;
   doc: User;
