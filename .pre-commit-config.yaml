@@ -49,21 +49,6 @@ repos:
           - "@typescript-eslint/eslint-plugin"
           - "@typescript-eslint/parser"
 
-        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
-        exclude: frontend/src/store/reducers/generatedWrapper.ts
-        types: [file]
-        verbose: true
-        args:
-          - --color
-          - --fix
-        additional_dependencies:
-          - eslint
-          - eslint-plugin-react
-          - eslint-plugin-import
-          - eslint-import-resolver-webpack
-          - "@typescript-eslint/eslint-plugin"
-          - "@typescript-eslint/parser"
-
   # - repo: local
   #   hooks:
   #     - id: openapi
