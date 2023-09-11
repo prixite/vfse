@@ -17,10 +17,6 @@ import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-// import {
-//   Category,
-//   // useVfseCategoriesListQuery, /* Api */
-// } from "@src/store/reducers/generated";
 import { Category } from "@src/store/reducers/generatedWrapper";
 
 import "@src/components/shared/popUps/categoryModal/categoryModal.scss";

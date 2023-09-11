@@ -18,7 +18,6 @@ import { timeOut, categories } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-// import { Category, Folder } from "@src/store/reducers/generated";
 import { Category, Folder } from "@src/store/reducers/generatedWrapper";
 
 import "@src/components/shared/popUps/folderModal/folderModal.scss";

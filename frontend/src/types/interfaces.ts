@@ -1,12 +1,5 @@
 import { FormikErrors } from "formik";
 
-// import {
-//   Modality,
-//   Organization,
-//   Role,
-//   User,
-// } from "@src/store/reducers/generated";
-
 import {
   Modality,
   Organization,

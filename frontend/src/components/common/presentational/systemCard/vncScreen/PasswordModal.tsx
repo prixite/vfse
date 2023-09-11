@@ -8,7 +8,6 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
-// import { System } from "@src/store/reducers/generated";
 import { System } from "@src/store/reducers/generatedWrapper";
 
 import VncScreenDialog from "./VncScreenDialog";

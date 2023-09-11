@@ -11,11 +11,6 @@ import useStyles from "@src/components/common/presentational/profileTimeLineCard
 import { constants } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/api";
-// import {
-//   User2,
-//   TopicCategory,
-//   useVfseTopicsFollowPartialUpdateMutation,
-// } from "@src/store/reducers/generated";
 import {
   User2,
   TopicCategory,

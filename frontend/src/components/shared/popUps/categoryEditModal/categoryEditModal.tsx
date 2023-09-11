@@ -17,11 +17,6 @@ import ColorPicker from "@src/components/common/presentational/colorPicker/Color
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
-// import {
-//   Category,
-//   useVfseCategoriesPartialUpdateMutation,
-//   useVfseCategoriesReadQuery,
-// } from "@src/store/reducers/generated";
 import {
   Category,
   useVfseCategoriesPartialUpdateMutation,

@@ -9,11 +9,6 @@ import { useTranslation } from "react-i18next";
 
 import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
-// import {
-//   Organization,
-//   Role,
-//   useOrganizationsUsersListQuery,
-// } from "@src/store/reducers/generated";
 import {
   Organization,
   Role,

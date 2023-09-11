@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
 
-// import { Me, System } from "@src/store/reducers/generated";
 import { Me, System } from "@src/store/reducers/generatedWrapper";
 
 export interface Common {

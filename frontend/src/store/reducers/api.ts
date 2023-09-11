@@ -1,4 +1,3 @@
-// import { rtk } from "@src/store/reducers/generated";
 import { rtk } from "./generatedWrapper";
 
 const enhancedRtkApi = rtk.enhanceEndpoints({

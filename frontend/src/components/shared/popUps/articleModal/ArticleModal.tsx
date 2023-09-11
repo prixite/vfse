@@ -37,7 +37,6 @@ import {
 } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-// import { Document, Folder } from "@src/store/reducers/generated";
 import { Document, Folder } from "@src/store/reducers/generatedWrapper";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "@src/components/common/smart/textEditor/textEditor.scss";

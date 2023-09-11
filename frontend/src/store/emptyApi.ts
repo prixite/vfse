@@ -1,31 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// import {
-//   Category,
-//   Document,
-//   Folder,
-//   FolderDetail,
-//   VfseTopicsListApiResponse,
-//   VfseTopicsCreateApiResponse,
-//   VfseTopicsCreateApiArg,
-//   VfseTopicsReadApiResponse,
-//   VfseTopicsReadApiArg,
-//   WorkOrder,
-//   VfseTopicsPopularListApiResponse,
-//   VfseTopicsPopularListApiArg,
-//   VfseTopicsCommentsCreateApiResponse,
-//   VfseTopicsCommentsCreateApiArg,
-//   VfseTopicsCommentsListApiResponse,
-//   VfseTopicsCommentsListApiArg,
-//   VfseCommentsRepliesListApiResponse,
-//   VfseCommentsRepliesListApiArg,
-//   VfseUserMeActivityListApiResponse,
-//   VfseUserMeActivityListApiArg,
-//   VfseUserTopicListApiArg,
-//   VfseUserTopicListApiResponse,
-//   UsersActiveUsersListApiArg,
-//   UsersActiveUsersListApiResponse,
-// } from "@src/store/reducers/generated";
 import {
   ChatBotResponse,
   getTopicListArg,

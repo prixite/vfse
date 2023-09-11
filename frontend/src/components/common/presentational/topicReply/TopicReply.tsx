@@ -8,7 +8,6 @@ import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { parseLink } from "@src/helpers/paging";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { api, VfseCommentsRepliesCreateApiArg } from "@src/store/reducers/api";
-// import { Comment } from "@src/store/reducers/generated";
 import { Comment } from "@src/store/reducers/generatedWrapper";
 
 type TopicReplyProps = {

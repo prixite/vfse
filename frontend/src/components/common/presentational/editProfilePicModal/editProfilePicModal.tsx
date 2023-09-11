@@ -19,10 +19,6 @@ import {
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { updateUsernameService } from "@src/services/userService";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
-// import {
-//   useOrganizationsMeReadQuery,
-//   useUsersMePartialUpdateMutation,
-// } from "@src/store/reducers/generated";
 import {
   useOrganizationsMeReadQuery,
   useUsersMePartialUpdateMutation,

@@ -1,10 +1,4 @@
 import { useEffect, useState } from "react";
-
-// import {
-//   MetaSite,
-//   OrganizationsHealthNetworksListApiResponse,
-//   OrganizationsSitesListApiResponse,
-// } from "@src/store/reducers/generated";
 import {
   MetaSite,
   OrganizationsHealthNetworksListApiResponse,

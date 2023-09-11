@@ -1,14 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// import {
-//   Organization,
-//   HealthNetwork,
-//   Role,
-//   User,
-//   UserRequestAccess,
-//   Site,
-//   Modality,
-// } from "@src/store/reducers/generated";
 import {
   Organization,
   HealthNetwork,

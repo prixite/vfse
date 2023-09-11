@@ -11,11 +11,6 @@ import {
   updateUsernameService,
 } from "@src/services/userService";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
-// import {
-//   useOrganizationsMeReadQuery,
-//   useUsersChangePasswordPartialUpdateMutation,
-//   useUsersMePartialUpdateMutation,
-// } from "@src/store/reducers/generated";
 import {
   useOrganizationsMeReadQuery,
   useUsersChangePasswordPartialUpdateMutation,

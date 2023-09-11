@@ -14,7 +14,6 @@ import zoom from "@src/assets/svgs/zoom.svg";
 import { constants } from "@src/helpers/utils/constants";
 import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import { useUsersRolesListQuery } from "@src/store/reducers/api";
-// import { useOrganizationsMeReadQuery } from "@src/store/reducers/generated";
 import { useOrganizationsMeReadQuery } from "@src/store/reducers/generatedWrapper";
 
 import EditProfilePicModal from "../editProfilePicModal/editProfilePicModal";

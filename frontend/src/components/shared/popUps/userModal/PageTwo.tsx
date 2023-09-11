@@ -9,12 +9,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 import SitesMenu from "@src/components/common/smart/sitesMenu/SitesMenu";
-// import {
-//   Modality,
-//   useOrganizationsHealthNetworksListQuery,
-//   useOrganizationsSitesListQuery,
-//   useOrganizationsSystemsListQuery,
-// } from "@src/store/reducers/generated";
 import {
   Modality,
   useOrganizationsHealthNetworksListQuery,
