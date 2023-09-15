@@ -1,4 +1,4 @@
-import { LocalizationInterface } from "@src/helpers/interfaces/localizationinterfaces";
+import { LocalizationInterface } from "@src/types/interfaces";
 
 export const localizedData = (): LocalizationInterface => {
   const lang = navigator.language;

@@ -15,7 +15,6 @@ import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import PageOne from "@src/components/shared/popUps/userModal/PageOne";
 import PageTwo from "@src/components/shared/popUps/userModal/PageTwo";
 import useUserSite from "@src/components/shared/popUps/userModal/useUserSites";
-import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import {
   toastAPIError,
@@ -35,7 +34,8 @@ import {
   useScopeUsersCreateMutation,
   UpsertUser,
 } from "@src/store/reducers/api";
-import { UserForm, UserModalProps } from "@src/types/interfaces";
+import { S3Interface, UserForm, UserModalProps } from "@src/types/interfaces";
+
 import "@src/components/shared/popUps/userModal/userModal.scss";
 // eslint-disable-next-line
 

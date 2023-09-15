@@ -27,7 +27,6 @@ import * as yup from "yup";
 import CloseBtn from "@src/assets/svgs/cross-icon.svg";
 import TextEditor from "@src/components/common/smart/textEditor/TextEditor";
 import Hint from "@src/components/shared/popUps/articleModal/Hint";
-import { S3Interface } from "@src/helpers/interfaces/appInterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import {
@@ -38,6 +37,7 @@ import {
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
 import { Document, Folder } from "@src/store/reducers/generated";
+import { S3Interface } from "@src/types/interfaces";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import "@src/components/common/smart/textEditor/textEditor.scss";
 import "@src/components/shared/popUps/articleModal/articleModal.scss";
