@@ -3,11 +3,7 @@ import { Dispatch, SetStateAction } from "react";
 import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
 import { FormikErrors } from "formik";
 
-import {
-  Modality,
-  Role,
-  User,
-} from "@src/store/reducers/generatedWrapper";
+import { Modality, Role, User } from "@src/store/reducers/generatedWrapper";
 
 export enum UserRole {
   FSE_ADMIN = "fse-admin",
