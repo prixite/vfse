@@ -4,7 +4,7 @@ import { TextField, Autocomplete } from "@mui/material";
 import { FormikProps } from "formik";
 
 import usePrevious from "@src/components/shared/customHooks/usePrevious";
-import { FormState } from "@src/components/shared/popUps/systemModalInterfaces/interfaces";
+import { FormState } from "@src/types/interfaces";
 
 interface Props {
   isLoading: boolean;

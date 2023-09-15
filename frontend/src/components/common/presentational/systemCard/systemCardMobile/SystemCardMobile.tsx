@@ -20,7 +20,6 @@ import { toast } from "react-toastify";
 
 import Machine from "@src/assets/images/system.png";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
-import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
 import {
@@ -30,6 +29,7 @@ import {
 } from "@src/store/hooks";
 import { useOrganizationsSystemsDeleteMutation } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
+import { SystemInterfaceProps } from "@src/types/interfaces";
 
 const SystemCardMobile = ({
   system,

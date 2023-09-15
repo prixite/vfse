@@ -32,7 +32,6 @@ import Machine from "@src/assets/images/system.png";
 import useStyles from "@src/components/common/presentational/systemCard/Style";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import TerminalScreenDialog from "@src/components/terminalScreen/TerminalScreenDialog";
-import { SystemInterfaceProps } from "@src/helpers/interfaces/localizationinterfaces";
 import { timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { DeleteOrganizationSystemService } from "@src/services/systemServices";
@@ -47,6 +46,7 @@ import {
   Organization,
 } from "@src/store/reducers/api";
 import { openSystemDrawer } from "@src/store/reducers/appStore";
+import { SystemInterfaceProps } from "@src/types/interfaces";
 
 import PasswordDialog from "./vncScreen/PasswordModal";
 
