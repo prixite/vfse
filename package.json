@@ -73,7 +73,7 @@
     "html-webpack-plugin": "^5.5.3",
     "miragejs": "^0.1.47",
     "openapi-typescript": "^6.4.0",
-    "regenerator-runtime": "^0.13.10",
+    "regenerator-runtime": "^0.14.0",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
