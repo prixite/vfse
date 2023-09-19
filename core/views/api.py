@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 
+import requests
+from django.conf import settings
 from django.contrib.auth import update_session_auth_hash
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
@@ -14,7 +16,7 @@ from rest_framework.authentication import (
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.views import APIView, status
 from rest_framework.viewsets import ModelViewSet
 
 from core import filters, models, permissions, serializers, utils
@@ -865,3 +867,25 @@ class SystemLocationViewSet(ModelViewSet):
         ).order_by("-created_at")
 
         return queryset
+
+
+class AwsUploadFileApiView(APIView):
+    def post(self, request, *args, **kwargs):
+        filename = request.data.get("filename")
+        filetype = request.data.get("filetype")
+        response = utils.create_presigned_url(filename, filetype)
+
+        return Response(
+            {
+                "signedRequest": response,
+                "location": f"https://{settings.AWS_STORAGE_BUCKET_NAME}.s3.{settings.AWS_DEFAULT_REGION}.amazonaws.com/{filename}",  # noqa
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class AwsDelteFileApiView(APIView):
+    def delete(self, request, *args, **kwargs):
+        response = utils.create_predesigned_url_delete(kwargs.get("key"))
+        requests.delete(response)
+        return Response(status=status.HTTP_204_NO_CONTENT)

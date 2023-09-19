@@ -1,27 +1,56 @@
-import S3 from "react-aws-s3";
+export const uploadImageToS3 = async (imageFile: File) => {
+  const filename = `${Date.now()}_${imageFile.name
+    .replace(/\s+/g, "")
+    .toLowerCase()}`;
 
-const config = {
-  bucketName: process.env.AWS_STORAGE_BUCKET_NAME,
-  region: process.env.AWS_DEFAULT_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  s3Url: `https://${process.env.AWS_STORAGE_BUCKET_NAME}.s3.${process.env.AWS_DEFAULT_REGION}.amazonaws.com`,
-  dirName: "media",
+  return new Promise((resolve, reject) => {
+    fetch(`${process.env.DOMAIN_NAME}/api/aws_upload_file/`, {
+      method: "POST",
+      body: JSON.stringify({
+        filename,
+        filetype: imageFile.type,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
+      },
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        fetch(data.signedRequest, {
+          method: "PUT",
+          body: imageFile,
+          headers: { "Content-Type": imageFile.type },
+        })
+          .then((_data) => {
+            if (!_data.ok) reject(_data.statusText);
+            resolve(data);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 };
 
-const ReactS3Client = new S3(config);
-
-export const uploadImageToS3 = (imageFile: string) =>
-  new Promise((resolve, reject) => {
-    ReactS3Client.uploadFile(imageFile)
+export const deleteImageFromS3 = async (url: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(
+      `${process.env.DOMAIN_NAME}/api/aws_delete_file/${url.split("/")[3]}/`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
+        },
+      }
+    )
       .then((data) => resolve(data))
       .catch((err) => reject(err));
   });
-
-export const deleteImageFromS3 = async (url: string) => {
-  const deleteResult = await fetch(url, { method: "delete" });
-  return {
-    ...deleteResult,
-    message: "File deleted",
-  };
 };
