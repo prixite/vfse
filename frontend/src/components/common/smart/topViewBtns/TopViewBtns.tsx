@@ -216,7 +216,7 @@ const TopViewBtns = ({
   };
 
   const handleClick = (event, item) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
 
     const clickedNetwork = item.name;
 
@@ -242,7 +242,7 @@ const TopViewBtns = ({
   };
 
   const handleClickSite = (event, item) => {
-    event.stopPropagation(); 
+    event.stopPropagation();
 
     const clickedSite = item.name;
 
@@ -259,9 +259,7 @@ const TopViewBtns = ({
       setSelectedSite([]);
     } else {
       setSite([clickedSite]);
-      siteFilter(
-        sitesData?.filter((item) => clickedSite === item.name)[0]
-      );
+      siteFilter(sitesData?.filter((item) => clickedSite === item.name)[0]);
       setSelectedSite([clickedSite]);
     }
   };
@@ -362,98 +360,112 @@ const TopViewBtns = ({
             {path === "systems" ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (
-              <FormControl
-      sx={{
-        m: 0,
-        mr: 1,
-        maxWidth: "30%",
-        minWidth: "26%",
-        background: "#ffffff",
-      }}
-    >
-      <InputLabel id="networkInputLabel" style={{ marginTop: "-3px" }}>
-        {t("Filter by network")}
-      </InputLabel>
-      <Select
-        labelId="networks-dropdown"
-        id="network-dropdown"
-        defaultValue={[]}
-        value={network}
-        style={{ width: "100%", height: "100%" }}
-        input={<OutlinedInput label={"Filter by network"} />}
-        renderValue={(selected) => selected}
-        MenuProps={dropdownStyles}
-      >
-        <MenuItem style={{ display: "none" }} value="">
-          <ListItemText primary={``} />
-        </MenuItem>
-        {networksData?.map((item, index) => (
-          <MenuItem
-            key={index}
-            value={item.name}
-            onClick={(event) => handleClick(event, item)}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Checkbox
-                checked={selectedNetwork === item.name}
-                onClick={(event) => handleClick(event, item)}
-              />
-              <label onClick={(event) => handleClick(event, item)}>
-                <ListItemText primary={item.name} />
-              </label>
-            </div>
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+                  <FormControl
+                    sx={{
+                      m: 0,
+                      mr: 1,
+                      maxWidth: "30%",
+                      minWidth: "26%",
+                      background: "#ffffff",
+                    }}
+                  >
+                    <InputLabel
+                      id="networkInputLabel"
+                      style={{ marginTop: "-3px" }}
+                    >
+                      {t("Filter by network")}
+                    </InputLabel>
+                    <Select
+                      labelId="networks-dropdown"
+                      id="network-dropdown"
+                      defaultValue={[]}
+                      value={network}
+                      style={{ width: "100%", height: "100%" }}
+                      input={<OutlinedInput label={"Filter by network"} />}
+                      renderValue={(selected) => selected}
+                      MenuProps={dropdownStyles}
+                    >
+                      <MenuItem style={{ display: "none" }} value="">
+                        <ListItemText primary={``} />
+                      </MenuItem>
+                      {networksData?.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          value={item.name}
+                          onClick={(event) => handleClick(event, item)}
+                        >
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Checkbox
+                              checked={selectedNetwork === item.name}
+                              onClick={(event) => handleClick(event, item)}
+                            />
+                            <label
+                              onClick={(event) => handleClick(event, item)}
+                            >
+                              <ListItemText primary={item.name} />
+                            </label>
+                          </div>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 ) : (
                   ""
                 )}
                 {!isSitesFetching && !siteId && sitesData?.length ? (
-       <FormControl
-       sx={{
-         m: 0,
-         mr: 1,
-         maxWidth: "30%",
-         minWidth: "26%",
-         background: "#ffffff",
-       }}
-     >
-       <InputLabel id="siteInputlabel" style={{ marginTop: "-3px" }}>
-         {t("Filter by site")}
-       </InputLabel>
-       <Select
-         labelId="site-dropdown"
-         id="site-dropdown"
-         defaultValue={[]}
-         value={site}
-         style={{ width: "100%", height: "100%" }}
-         input={<OutlinedInput label={"Filter by site"} />}
-         renderValue={(selected) => selected}
-         MenuProps={dropdownStyles}
-       >
-         <MenuItem style={{ display: "none" }} value="">
-           <ListItemText primary={``} />
-         </MenuItem>
-         {sitesData?.map((item, index) => (
-           <MenuItem
-             key={index}
-             value={item.name}
-             onClick={(event) => handleClickSite(event, item)}
-           >
-             <div style={{ display: "flex", alignItems: "center" }}>
-               <Checkbox
-                 checked={selectedSite.includes(item.name)}
-                 onClick={(event) => handleClickSite(event, item)}
-               />
-               <label onClick={(event) => handleClickSite(event, item)}>
-                 <ListItemText primary={item.name} />
-               </label>
-             </div>
-           </MenuItem>
-         ))}
-       </Select>
-     </FormControl>
+                  <FormControl
+                    sx={{
+                      m: 0,
+                      mr: 1,
+                      maxWidth: "30%",
+                      minWidth: "26%",
+                      background: "#ffffff",
+                    }}
+                  >
+                    <InputLabel
+                      id="siteInputlabel"
+                      style={{ marginTop: "-3px" }}
+                    >
+                      {t("Filter by site")}
+                    </InputLabel>
+                    <Select
+                      labelId="site-dropdown"
+                      id="site-dropdown"
+                      defaultValue={[]}
+                      value={site}
+                      style={{ width: "100%", height: "100%" }}
+                      input={<OutlinedInput label={"Filter by site"} />}
+                      renderValue={(selected) => selected}
+                      MenuProps={dropdownStyles}
+                    >
+                      <MenuItem style={{ display: "none" }} value="">
+                        <ListItemText primary={``} />
+                      </MenuItem>
+                      {sitesData?.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          value={item.name}
+                          onClick={(event) => handleClickSite(event, item)}
+                        >
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Checkbox
+                              checked={selectedSite.includes(item.name)}
+                              onClick={(event) => handleClickSite(event, item)}
+                            />
+                            <label
+                              onClick={(event) => handleClickSite(event, item)}
+                            >
+                              <ListItemText primary={item.name} />
+                            </label>
+                          </div>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 ) : (
                   ""
                 )}
