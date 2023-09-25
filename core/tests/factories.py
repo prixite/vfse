@@ -372,6 +372,7 @@ class SystemFactory(factory.django.DjangoModelFactory):
         "magnet_pressure": "Low",
     }
     connection_options = {
+        "vfse": False,
         "virtual_media_control": False,
         "service_web_browser": False,
         "ssh": False,

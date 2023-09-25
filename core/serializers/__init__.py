@@ -540,7 +540,7 @@ class SystemImageSerializer(serializers.ModelSerializer):
 
 
 class SystemConnectionOptions(serializers.Serializer):
-    vfse = serializers.BooleanField()
+    vfse = serializers.BooleanField(source="connection_options.vfse")
     virtual_media_control = serializers.BooleanField(
         source="connection_options.virtual_media_control"
     )
@@ -632,7 +632,8 @@ class SystemSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        add_to_vfse = validated_data.pop("vfse")
+        connection_options = validated_data.get("connection_options", {})
+        add_to_vfse = connection_options.get("vfse", None)
         system = super().create(validated_data)
         seat_serializer = OrganizationSeatSeriazlier(
             data={"seats": [{"system": system.id}]},
@@ -646,17 +647,16 @@ class SystemSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
-        if "vfse" in validated_data:
-            add_to_vfse = validated_data.pop("vfse")
-            validated_data["connection_options"]["vfse"] = add_to_vfse
-            if instance.vfse and not add_to_vfse:
-                models.Seat.objects.filter(
-                    system=instance, organization=instance.site.organization
-                ).delete()
-            elif not instance.vfse and add_to_vfse:
-                models.Seat.objects.create(
-                    system=instance, organization=instance.site.organization
-                )
+        connection_options = validated_data.get("connection_options", {})
+        add_to_vfse = connection_options.get("vfse", None)
+        if instance.vfse and not add_to_vfse:
+            models.Seat.objects.filter(
+                system=instance, organization=instance.site.organization
+            ).delete()
+        elif not instance.vfse and add_to_vfse:
+            models.Seat.objects.create(
+                system=instance, organization=instance.site.organization
+            )
 
         if not validated_data.get("ssh_password"):
             validated_data["ssh_password"] = instance.ssh_password
