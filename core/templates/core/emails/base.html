@@ -2,103 +2,78 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title></title>
-
-    <style>
-      @font-face {
-        font-family: "ProximaNova-Regular";
-        src: url("/static/assets/fonts/ProximaNova-Regular.otf")
-          format("opentype");
-        font-display: swap;
-        font-weight: normal;
-      }
-
-      * {
-        font-family: "ProximaNova-Regular", sans-serif;
-      }
-      body {
-        background-color: whitesmoke;
-      }
-
-      .wrapper {
-        background-color: #ececec;
-        display: flex;
-      }
-      .container {
-        display: inline-block !important;
-      }
-
-      .wrapper div {
-        border-radius: 10px;
-      }
-      .wrapper,
-      .container {
-        padding: 5px;
-      }
-
-      .link {
-        text-decoration: none;
-        margin: auto;
-      }
-
-      .img {
-        color: white !important;
-      }
-
-      .logo {
-        display: flex !important;
-        background-color: #15c;
-        border-bottom-left-radius: 0 !important;
-        border-bottom-right-radius: 0 !important;
-        padding: 5px 0;
-      }
-
-      .logo,
-      .content,
-      .btn {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .content {
-        background-color: white;
-        width: 400px;
-        padding: 20px;
-        border-top-left-radius: 0 !important;
-        border-top-right-radius: 0 !important;
-      }
-
-      .btn {
-        margin: 25px 0px 5px 0px;
-        text-decoration: none;
-        color: white !important;
-        padding: 10px;
-        background-color: tomato;
-        text-align: center;
-        align-content: middle;
-        border-radius: 5px;
-        font-size: 20px;
-      }
-    </style>
   </head>
   <body>
-    <div class="wrapper">
-      <div class="container">
-        <div class="logo">
-          <a href="{{protocol}}://{{domain}}/" class="link">
-            <img
-              class="img"
-              src="{{protocol}}://{{domain}}/static/assets/logo.svg"
-              alt="Logo"
-            />
-          </a>
+    <div
+      class="wrapper"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <div
+        class="card"
+        style="
+          background-color: white;
+          width: 400px;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+        "
+      >
+        <div
+          class="logo"
+          style="
+            background-color: #15c;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+          "
+        >
+          Logo
         </div>
-        <div class="content">
-          <h3>Hi {% firstof user.first_name user.email%},</h3>
-          {% block content %} {%endblock%}
+        <div
+          class="content"
+          style="
+            background-color: white;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            text-align: center;
+            border: 1px solid rgba(236, 236, 236, 1);
+          "
+        >
+          <div
+            class="greeting"
+            style="
+              font-size: 24px;
+              color: #333;
+              margin-bottom: 10px;
+            "
+          >
+            Hi
+            <span
+              class="user-name"
+            >
+              {% firstof user.first_name user.email %},
+            </span
+            >
+          </div>
+          {% block content %} {% endblock %}
         </div>
       </div>
     </div>
