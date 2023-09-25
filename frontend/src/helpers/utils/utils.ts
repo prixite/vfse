@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 
-import { Organization } from "@src/store/reducers/generated";
+import { Organization } from "@src/store/reducers/generatedWrapper";
 import { ApiError } from "@src/types/interfaces";
 
 const validateIPaddress = (ipaddress: string) => {

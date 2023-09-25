@@ -31,8 +31,7 @@ import api, {
   useOrganizationsSitesListQuery,
   useOrganizationsModalitiesListQuery,
 } from "@src/requests/src/store/reducers/api";
-import { UserRequestAccess } from "@src/store/reducers/generated";
-import { S3Interface } from "@src/types/interfaces";
+import { UserRequestAccess } from "@src/store/reducers/generatedWrapper";
 
 window.Buffer = window.Buffer || Buffer;
 

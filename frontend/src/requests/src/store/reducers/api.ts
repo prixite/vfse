@@ -8,7 +8,7 @@ import {
   UserRequestAccess,
   Site,
   Modality,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 const token = process.env.REQUEST_TOKEN;
 

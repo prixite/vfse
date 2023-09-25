@@ -27,9 +27,7 @@ import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import { Topic } from "@src/store/reducers/generated";
-import { S3Interface } from "@src/types/interfaces";
-import "@src/components/shared/popUps/topicModal/topicModal.scss";
+import { Topic } from "@src/store/reducers/generatedWrapper";
 
 window.Buffer = window.Buffer || Buffer;
 interface Props {

@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import {
+  ChatBotResponse,
+  getTopicListArg,
+  SystemLocation,
+} from "@src/types/interfaces";
+
+import {
   Category,
   Document,
   Folder,
@@ -25,12 +31,7 @@ import {
   VfseUserTopicListApiResponse,
   UsersActiveUsersListApiArg,
   UsersActiveUsersListApiResponse,
-} from "@src/store/reducers/generated";
-import {
-  ChatBotResponse,
-  getTopicListArg,
-  SystemLocation,
-} from "@src/types/interfaces";
+} from "./reducers/generatedWrapper";
 
 type TopicListResponse = {
   data: VfseTopicsListApiResponse;

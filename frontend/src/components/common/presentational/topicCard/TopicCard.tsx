@@ -6,7 +6,7 @@ import messageIcon from "@src/assets/svgs/message.svg";
 import "@src/components/common/presentational/topicCard/topicCard.scss";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { TopicDetail } from "@src/store/reducers/generated";
+import { TopicDetail } from "@src/store/reducers/generatedWrapper";
 
 interface TopicCardProps {
   topic: TopicDetail;

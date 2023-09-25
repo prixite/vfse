@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 
 import "@src/components/common/smart/lastActiveUser/lastActiveMobile/lastActiveMobile.scss";
 import LastActiveMobileCards from "@src/components/common/presentational/lastActiveMobileCards/LastActiveMobileCards";
-import { UsersActiveUsersListApiResponse } from "@src/store/reducers/generated";
+import { UsersActiveUsersListApiResponse } from "@src/store/reducers/generatedWrapper";
 
 interface LastActiveMobileProps {
   lastActiveDoc: UsersActiveUsersListApiResponse;

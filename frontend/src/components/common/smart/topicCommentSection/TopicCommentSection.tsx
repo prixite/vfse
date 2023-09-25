@@ -12,7 +12,8 @@ import { useOrganizationsMeReadQuery, api } from "@src/store/reducers/api";
 import {
   VfseTopicsCommentsCreateApiArg,
   VfseTopicsCommentsListApiResponse,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
+
 import "@src/components/common/smart/topicCommentSection/topicCommentSection.scss";
 
 const TopicCommentSection = () => {

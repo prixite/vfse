@@ -7,7 +7,7 @@ import { Box, Grid, TextField, Dialog } from "@mui/material";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useAppSelector } from "@src/store/hooks";
 import { api } from "@src/store/reducers/api";
-import { System } from "@src/store/reducers/generated";
+import { System } from "@src/store/reducers/generatedWrapper";
 import "@src/components/common/presentational/chatBox/chatBox.scss";
 
 interface chatBoxInterface {

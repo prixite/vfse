@@ -10,7 +10,7 @@ import shareIcon from "@src/assets/svgs/share.svg";
 import "@src/components/common/presentational/topicComment/topicComment.scss";
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { Comment } from "@src/store/reducers/generated";
+import { Comment } from "@src/store/reducers/generatedWrapper";
 
 import TopicReply from "../topicReply/TopicReply";
 interface TopicCommentProps {

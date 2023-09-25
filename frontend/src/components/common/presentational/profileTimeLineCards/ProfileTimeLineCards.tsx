@@ -15,7 +15,7 @@ import {
   User2,
   TopicCategory,
   useVfseTopicsFollowPartialUpdateMutation,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 interface ProfileTimelineCards {
   id: number;

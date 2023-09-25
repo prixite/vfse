@@ -14,7 +14,6 @@ import { constants, timeOut } from "@src/helpers/utils/constants";
 import { toastAPIError } from "@src/helpers/utils/utils";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { Category, useOrganizationsMeReadQuery } from "@src/store/reducers/api";
-import { useVfseCategoriesDeleteMutation } from "@src/store/reducers/generated";
 
 const CategoryOptionsSection = ({ category, id }) => {
   const { t } = useTranslation();

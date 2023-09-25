@@ -14,7 +14,7 @@ import {
   useOrganizationsHealthNetworksListQuery,
   useOrganizationsSitesListQuery,
   useOrganizationsSystemsListQuery,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 import { Formik } from "@src/types/interfaces";
 
 interface Props {

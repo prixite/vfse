@@ -15,7 +15,7 @@ import {
   useOrganizationsMeReadQuery,
   useUsersChangePasswordPartialUpdateMutation,
   useUsersMePartialUpdateMutation,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 import "@src/components/common/smart/accountSection/accountSection.scss";
 

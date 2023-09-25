@@ -1,201 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-import SvgIcon from "@mui/material/SvgIcon/SvgIcon";
-import { FormikErrors } from "formik";
-
-import { Modality, Role, User } from "@src/store/reducers/generatedWrapper";
-
-export enum UserRole {
-  FSE_ADMIN = "fse-admin",
-  CUSTOMER_ADMIN = "customer-admin",
-  USER_ADMIN = "user-admin",
-  FSE = "fse",
-  END_USER = "end-user",
-  VIEW_ONLY = "view-only",
-  ONE_TIME = "one-time",
-  CRYO = "cryo",
-  CRYO_FSE = "cryo-fse",
-  CRYO_ADMIN = "cryo-admin",
-}
-
-export interface ApiError {
-  status: number;
-  data: Record<string, Array<string>>;
-}
-
-export interface ChatBotResponse {
-  response_text: string;
-}
-export interface getTopicListArg {
-  followed?: boolean;
-  created?: boolean;
-  page?: number;
-}
-//we also need system name and image in workOrderApi Response
-export interface WorkOrderResponse {
-  id: number;
-  system: number;
-  description: string;
-  work_started?: boolean;
-  work_completed?: boolean;
-}
-
-export interface PopUp5 {
-  popUpNewOrganization: string;
-  newOrganizationPageTrackerdesc1: string;
-  newOrganizationPageTrackerdesc2: string;
-  newOrganizationName: string;
-  newOrganizationSeats: string;
-  newOrganizationBtnNext: string;
-  newOrganizationBtnSave: string;
-  newOrganizationBtnCancel: string;
-  newOrganizationLogo: string;
-  newOrganizationColor1: string;
-  newOrganizationColor2: string;
-  newOrganizationColor3: string;
-  newOrganizationColor4: string;
-  newOrganizationFont1: string;
-  newOrganizationFont2: string;
-  newOrganizationHealthNetworks: string;
-  newOrganizationAddNetwork: string;
-}
-
-export interface DeleteDialog3 {
-  dialogMessage: string;
-  noButton: string;
-  yesButton: string;
-}
-export interface Organization {
-  title: string;
-  btnFilter: string;
-  btnAdd: string;
-  noDataTitle: string;
-  noDataDescription: string;
-  newHealthNetwork: string;
-  popUp: PopUp5;
-  deleteDialog: DeleteDialog3;
-}
-
-export interface UserModalProps {
-  open: boolean;
-  handleClose: () => void;
-  selectedUser?: number;
-  usersData?: Array<User>;
-  roles: Role[];
-  organizationData?: Array<Organization>;
-  modalitiesList?: Array<Modality>;
-  action: string;
-}
-
-export interface UserForm {
-  userProfileImage: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  role:
-    | "fse-admin"
-    | "customer-admin"
-    | "user-admin"
-    | "fse"
-    | "end-user"
-    | "cryo"
-    | "cryo-fse"
-    | "cryo-admin";
-  manager: number;
-  customer: number;
-  selectedModalities: Array<number>;
-  selectedSites: Array<number>;
-  selectedSystems: Array<number>;
-  docLink: boolean;
-  possibilitytoLeave: boolean;
-  accessToFSEFunctions: boolean;
-  viewOnly: boolean;
-  auditEnable: boolean;
-  oneTimeLinkCreation: boolean;
-}
-
-export interface Formik {
-  initialValues: UserForm;
-  initialStatus: UserForm;
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-  handleChange: (e: React.ChangeEvent<any>) => void;
-  values: UserForm;
-  errors?: FormikErrors<UserForm>;
-  setFieldValue: (
-    field: string,
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    value: any,
-    shouldValidate?: boolean | undefined
-  ) => Promise<FormikErrors<UserForm>> | Promise<void>;
-  submitCount: number;
-}
-
-export type Router = {
-  account: string;
-  actual_firmware: string;
-  asset_id: null | number;
-  config_status: string;
-  configuration_manager: string;
-  created_at: string;
-  custom1: unknown;
-  custom2: unknown;
-  description: string;
-  device_type: string;
-  full_product_name: string;
-  group: string;
-  id: string;
-  ipv4_address: string;
-  lans: string;
-  last_known_location: string;
-  locality: string;
-  mac: string;
-  name: string;
-  overlay_network_binding: string;
-  product: string;
-  reboot_required: false;
-  resource_url: string;
-  serial_number: string;
-  state: string;
-  state_updated_at: string;
-  target_firmware: string;
-  updated_at: string;
-  upgrade_pending: false;
-};
-
-export type SystemLocation = {
-  system: number;
-  name: string;
-  lat: string;
-  long: string;
-};
-
-export type routeItem = {
-  name?: string | undefined;
-  path: string;
-  component: React.LazyExoticComponent<() => JSX.Element>;
-  flag: string;
-  icon: typeof SvgIcon;
-};
-
-export interface SystemInterfaceProps {
-  system: System;
-  handleEdit?: (system: System) => void;
-  setSystem?: Dispatch<SetStateAction<System>>;
-  setIsOpen?: Dispatch<SetStateAction<boolean>>;
-  canLeaveNotes: boolean;
-  currentUser: Me;
-  viewSystemLocation?: (system: System) => void;
-  onSupport?: (system: System) => void;
-}
-
-export interface selectedArticleCard {
-  text: string;
-  title: string;
-  folderId: number;
-  categories: number[];
-  categoryName: string;
-}
+import { Me, System } from "@src/store/reducers/generatedWrapper";
 
 export interface Common {
   searching: string;
@@ -256,12 +61,21 @@ export interface PopUp {
   organizationSitesText: string;
   accessToModalities: string;
 }
+
 export interface Users {
   addUser: string;
   userAdministration: string;
   btnFilter: string;
   btnAdd: string;
   popUp: PopUp;
+}
+
+export interface ManufacturerInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
 }
 
 export interface UserMenuOptions {
@@ -284,12 +98,27 @@ export interface PopUp2 {
   newNetworkBtnSave: string;
   newNetworkBtnCancel: string;
 }
+export interface ProductInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
 
+export interface AddProductModelDialogInterface {
+  nameRequired: string;
+  title: string;
+  addBtn: string;
+  cancelBtn: string;
+  subHeading: string;
+}
 export interface DeleteDialog {
   dialogMessage: string;
   noButton: string;
   yesButton: string;
 }
+
 export interface Modalities {
   title: string;
   btnFilter: string;
@@ -320,6 +149,7 @@ export interface DeleteDialog2 {
   noButton: string;
   yesButton: string;
 }
+
 export interface Sites {
   title: string;
   btnFilter: string;
@@ -389,7 +219,6 @@ export interface SystemsCard {
   connect: string;
   grafana_link_txt: string;
 }
-
 export interface profileHeader {
   editText: string;
 }
@@ -400,6 +229,50 @@ export interface OrganizationMenuOptions {
   new_network: string;
   delete_org: string;
 }
+
+export interface PopUp5 {
+  popUpNewOrganization: string;
+  newOrganizationPageTrackerdesc1: string;
+  newOrganizationPageTrackerdesc2: string;
+  newOrganizationName: string;
+  newOrganizationSeats: string;
+  newOrganizationBtnNext: string;
+  newOrganizationBtnSave: string;
+  newOrganizationBtnCancel: string;
+  newOrganizationLogo: string;
+  newOrganizationColor1: string;
+  newOrganizationColor2: string;
+  newOrganizationColor3: string;
+  newOrganizationColor4: string;
+  newOrganizationFont1: string;
+  newOrganizationFont2: string;
+  newOrganizationHealthNetworks: string;
+  newOrganizationAddNetwork: string;
+}
+
+export interface DeleteDialog3 {
+  dialogMessage: string;
+  noButton: string;
+  yesButton: string;
+}
+
+export interface Organization {
+  title: string;
+  btnFilter: string;
+  btnAdd: string;
+  noDataTitle: string;
+  noDataDescription: string;
+  newHealthNetwork: string;
+  popUp: PopUp5;
+  deleteDialog: DeleteDialog3;
+}
+
+export interface Page404 {
+  title: string;
+  description: string;
+  backbtn: string;
+}
+
 export interface DataNotFound {
   title: string;
   description: string;
@@ -415,7 +288,6 @@ export interface DropzoneOptions {
   uploadAndHide: string;
   upload: string;
 }
-
 export interface Dropzone {
   heading: string;
   description: string;
@@ -501,6 +373,15 @@ export interface ArticleCard {
 export interface folderSection {
   backBtn: string;
 }
+export interface allCategoriesSection {
+  Message: string;
+}
+
+export interface ConfirmSiteModal {
+  dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
+  noButton: "Cancel";
+  yesButton: "Add Site";
+}
 
 export interface document {
   backBtn: string;
@@ -515,31 +396,13 @@ export interface articleDescription {
   title2: string;
   title3: string;
 }
-
-export interface ManufacturerInterface {
-  nameRequired: string;
+export interface selectedArticleCard {
+  text: string;
   title: string;
-  addBtn: string;
-  cancelBtn: string;
-  subHeading: string;
+  folderId: number;
+  categories: number[];
+  categoryName: string;
 }
-
-export interface ProductInterface {
-  nameRequired: string;
-  title: string;
-  addBtn: string;
-  cancelBtn: string;
-  subHeading: string;
-}
-
-export interface AddProductModelDialogInterface {
-  nameRequired: string;
-  title: string;
-  addBtn: string;
-  cancelBtn: string;
-  subHeading: string;
-}
-
 export interface toastData {
   documentationBtnLinkCopy: string;
   commentCardCommentFailed: string;
@@ -592,7 +455,6 @@ export interface toastData {
   userAlreadyExists: string;
   saveUserError: string;
 }
-
 export interface FolderModalPopUp {
   nameRequired: string;
   addFolderText: string;
@@ -603,9 +465,6 @@ export interface FolderModalPopUp {
   chooseCategories: string;
 }
 
-export interface allCategoriesSection {
-  Message: string;
-}
 export interface LocalizationInterface {
   Faq: { dashboard: unknown; topicUpdates: unknown; seeAll: unknown };
   Forum: { btnCreateTopic: unknown; forum: unknown; title: string };
@@ -620,6 +479,7 @@ export interface LocalizationInterface {
   profileHeader: profileHeader;
   organization_menu_options: OrganizationMenuOptions;
   organization: Organization;
+  page404: Page404;
   dataNotFound: DataNotFound;
   page505: Page505;
   dropzone: Dropzone;
@@ -642,106 +502,13 @@ export interface LocalizationInterface {
   allCategoriesSection: allCategoriesSection;
 }
 
-export interface ConfirmSiteModal {
-  dialogMessage: "Sites do not exist for this organization, you have to create site first to create system.";
-  noButton: "Cancel";
-  yesButton: "Add Site";
-}
-
-export interface S3Interface {
-  bucket: string;
-  key: string;
-  location: string;
-}
-
-export interface RouteParam {
-  id?: string;
-  folderId?: string;
-  docId?: string;
-}
-
-interface ImagingInfo {
-  ip: string;
-  title: string;
-  port?: number;
-  ae: string;
-}
-
-export interface FormState {
-  systemImage: number;
-  modality: string;
-  manufacturer: string;
-  product: string;
-  model: string;
-  name: string;
-  site: string;
-  serialNumber: string;
-  buildingLocation: string;
-  version: string;
-  ip: string;
-  asset: string;
-  localAE: string;
-  connection: {
-    vfse: boolean;
-    ssh: boolean;
-    web: boolean;
-    virtual: boolean;
-  };
-  sshUser: string;
-  sshPassword: string;
-  telnetUser: string;
-  telnetPassword: string;
-  vncServerPath: string;
-  vncPort: number;
-  contactInfo: string;
-  grafana: string;
-  ris: ImagingInfo;
-  dicom: ImagingInfo;
-  mri: {
-    helium: string;
-    magnet: string;
-  };
-  connectionMonitoring: boolean;
-}
-
-export interface SiteModalFormState {
-  siteName: string;
-  siteAddress: string;
-}
-
-export interface OrganizationModalFormState {
-  organizationName: string;
-  organizationSeats: string;
-  organizationLogo: string;
-  networks: HealthNetwork[];
-  sidebarColor: string;
-  sidebarTextColor: string;
-  ButtonTextColor: string;
-  ButtonColor: string;
-  secondColor: string;
-  fontone: string;
-  fonttwo: string;
-}
-
-export interface DocumentationModalFormState {
-  docLink: string;
-  modelName: string;
-  modality: Modality;
-  modal: Product;
-}
-
-export interface NetworkModalFormState {
-  networkName: string;
-  networkLogo: string;
-  sitePointer: Site[];
-}
-
-export interface AppearanceFormState {
-  sidebarColor: string;
-  sidebarContentColor: string;
-  buttonColor: string;
-  buttonContentColor: string;
-  secondColor: string;
-  sideBarFont: string;
-  mainContentFont: string;
+export interface SystemInterfaceProps {
+  system: System;
+  handleEdit?: (system: System) => void;
+  setSystem?: Dispatch<SetStateAction<System>>;
+  setIsOpen?: Dispatch<SetStateAction<boolean>>;
+  canLeaveNotes: boolean;
+  currentUser: Me;
+  viewSystemLocation?: (system: System) => void;
+  onSupport?: (system: System) => void;
 }

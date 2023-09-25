@@ -63,5 +63,6 @@
         "config": "./frontend/webpack/webpack.dev.config.js"
       }
     }
-  }
+  },
+  "ignorePatterns": ["frontend/src/store/reducers/generatedWrapper.ts", "frontend/src/store/reducers/generated.ts"]
 }

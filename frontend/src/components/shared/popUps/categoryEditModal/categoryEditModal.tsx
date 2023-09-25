@@ -21,7 +21,7 @@ import {
   Category,
   useVfseCategoriesPartialUpdateMutation,
   useVfseCategoriesReadQuery,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 import "@src/components/shared/popUps/categoryEditModal/categoryEditModal.scss";
 
 const validationSchema = yup.object({

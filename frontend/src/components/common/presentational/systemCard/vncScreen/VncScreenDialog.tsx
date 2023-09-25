@@ -12,7 +12,7 @@ import { VncScreen } from "react-vnc";
 import { timeOut } from "@src/helpers/utils/constants";
 import { useSelectedOrganization } from "@src/store/hooks";
 import { Organization } from "@src/store/reducers/api";
-import { System } from "@src/store/reducers/generated";
+import { System } from "@src/store/reducers/generatedWrapper";
 
 interface VncScreenProps {
   openModal: boolean;

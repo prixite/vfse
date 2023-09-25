@@ -11,7 +11,11 @@ import {
 
 import "@src/requests/src/components/smart/sectionTwo/sectionTwo.scss";
 import Permissions from "@src/requests/src/components/presentational/permissions/Permissions";
-import { HealthNetwork, Modality, Site } from "@src/store/reducers/generated";
+import {
+  HealthNetwork,
+  Modality,
+  Site,
+} from "@src/store/reducers/generatedWrapper";
 interface SectionTwoProps {
   docLink: boolean;
   setDocLink: React.Dispatch<React.SetStateAction<boolean>>;

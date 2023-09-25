@@ -14,7 +14,7 @@ import {
   TopicCategory,
   useVfseTopicsFollowPartialUpdateMutation,
   User2,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
 
 interface TopicUpdatesCards {
   id: number;

@@ -9,7 +9,7 @@ import LastActiveMobile from "@src/components/common/smart/lastActiveUser/lastAc
 import useWindowSize from "@src/components/shared/customHooks/useWindowSize";
 import { mobileWidth } from "@src/helpers/utils/config";
 import { constants } from "@src/helpers/utils/constants";
-import { useUsersActiveUsersListQuery } from "@src/store/reducers/generated";
+import { useUsersActiveUsersListQuery } from "@src/store/reducers/generatedWrapper";
 
 const LastActiveUser = () => {
   const { t } = useTranslation();

@@ -22,7 +22,8 @@ import { useAppSelector, useSelectedOrganization } from "@src/store/hooks";
 import {
   useOrganizationsMeReadQuery,
   useUsersMePartialUpdateMutation,
-} from "@src/store/reducers/generated";
+} from "@src/store/reducers/generatedWrapper";
+
 import "@src/components/common/presentational/editProfilePicModal/editProfileModal.scss";
 
 const EditProfilePicModal = ({ open, setOpen }) => {
