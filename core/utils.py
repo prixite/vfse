@@ -1,5 +1,7 @@
+import boto3
 import openai
 import openai.error
+from botocore.exceptions import ClientError
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -119,7 +121,6 @@ def get_data_from_influxdb(system_ip_address):
         token=settings.INFLUX_TOKEN,
         org=settings.INFLUX_ORG,
     ) as client:
-
         query = f"""
             from(bucket: "{settings.INFLUX_BUCKET}")
             |> range(start: -7d)
@@ -138,3 +139,44 @@ def get_data_from_influxdb(system_ip_address):
             client.close()
 
         return data
+
+
+def create_presigned_url(filename, filetype, expiration=300):
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name=settings.AWS_DEFAULT_REGION,
+    )
+    try:
+        response = s3_client.generate_presigned_url(
+            "put_object",
+            {
+                "Bucket": settings.AWS_STORAGE_BUCKET_NAME,
+                "Key": filename,
+                "ContentType": filetype,
+                "ACL": "public-read",
+            },
+            ExpiresIn=expiration,
+        )
+        return response
+    except ClientError:
+        return None
+
+
+def create_predesigned_url_delete(key, expiration=300):
+    s3_client = boto3.client(
+        "s3",
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+        region_name=settings.AWS_DEFAULT_REGION,
+    )
+    try:
+        response = s3_client.generate_presigned_url(
+            "delete_object",
+            {"Bucket": settings.AWS_STORAGE_BUCKET_NAME, "Key": key},
+            ExpiresIn=expiration,
+        )
+        return response
+    except ClientError:
+        return None

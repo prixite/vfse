@@ -311,6 +311,14 @@ api_urlpatterns = [
         "api/organizations/<int:org_id>/systems/<int:system_id>/locations/",
         api.SystemLocationViewSet.as_view({"get": "list"}),
     ),
+    path(
+        "api/aws_upload_file/",
+        api.AwsUploadFileApiView.as_view(),
+    ),
+    path(
+        "api/aws_delete_file/<str:key>/",
+        api.AwsDelteFileApiView.as_view(),
+    ),
 ]
 
 urlpatterns = (
