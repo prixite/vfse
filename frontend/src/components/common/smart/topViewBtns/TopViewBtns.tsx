@@ -93,7 +93,9 @@ const TopViewBtns = ({
   const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
   const [network, setNetwork] = useState([]);
+  const [selectedNetwork, setSelectedNetwork] = useState(null);
   const [site, setSite] = useState([]);
+  const [selectedSite, setSelectedSite] = useState([]);
   let btnAdd: string;
   if (path === "modality") {
     btnAdd = "Add Network";
@@ -213,50 +215,52 @@ const TopViewBtns = ({
     },
   };
 
-  const handleClickNetwork = (event: {
-    target: { outerText: string | unknown[] };
-  }) => {
-    if (event?.target?.outerText !== "") {
-      if (network?.length && event?.target?.outerText == network) {
-        setNetwork([]);
-        networkFilter({});
-        queryParams.delete("health_network");
-        navigate(
-          {
-            search: queryParams.toString(),
-          },
-          { replace: true }
-        );
-      } else {
-        queryParams.delete("health_network");
-        setNetwork([event?.target?.outerText]);
-        networkFilter(
-          networksData?.filter((item) => event.target.outerText == item.name)[0]
-        );
-      }
+  const handleClick = (event, item) => {
+    event.stopPropagation();
+
+    const clickedNetwork = item.name;
+
+    if (selectedNetwork === clickedNetwork) {
+      setNetwork([]);
+      networkFilter({});
+      queryParams.delete("health_network");
+      navigate(
+        {
+          search: queryParams.toString(),
+        },
+        { replace: true }
+      );
+      setSelectedNetwork(null);
+    } else {
+      queryParams.delete("health_network");
+      setNetwork([clickedNetwork]);
+      networkFilter(
+        networksData?.filter((item) => clickedNetwork === item.name)[0]
+      );
+      setSelectedNetwork(clickedNetwork);
     }
   };
 
-  const handleClickSite = (event: {
-    target: { outerText: string | unknown[] };
-  }) => {
-    if (event?.target?.outerText !== "") {
-      if (site?.length && event?.target?.outerText == site) {
-        setSite([]);
-        siteFilter({});
-        queryParams.delete("site");
-        navigate(
-          {
-            search: queryParams.toString(),
-          },
-          { replace: true }
-        );
-      } else {
-        setSite([event?.target?.outerText]);
-        siteFilter(
-          sitesData?.filter((item) => event?.target?.outerText == item?.name)[0]
-        );
-      }
+  const handleClickSite = (event, item) => {
+    event.stopPropagation();
+
+    const clickedSite = item.name;
+
+    if (selectedSite.includes(clickedSite)) {
+      setSite([]);
+      siteFilter({});
+      queryParams.delete("site");
+      navigate(
+        {
+          search: queryParams.toString(),
+        },
+        { replace: true }
+      );
+      setSelectedSite([]);
+    } else {
+      setSite([clickedSite]);
+      siteFilter(sitesData?.filter((item) => clickedSite === item.name)[0]);
+      setSelectedSite([clickedSite]);
     }
   };
 
@@ -376,28 +380,33 @@ const TopViewBtns = ({
                       id="network-dropdown"
                       defaultValue={[]}
                       value={network}
-                      onClick={handleClickNetwork}
                       style={{ width: "100%", height: "100%" }}
                       input={<OutlinedInput label={"Filter by network"} />}
                       renderValue={(selected) => selected}
                       MenuProps={dropdownStyles}
                     >
-                      <MenuItem
-                        style={{ marginLeft: "-15px", display: "none" }}
-                        value=""
-                      >
+                      <MenuItem style={{ display: "none" }} value="">
                         <ListItemText primary={``} />
                       </MenuItem>
                       {networksData?.map((item, index) => (
                         <MenuItem
-                          style={{ marginLeft: "-15px" }}
                           key={index}
                           value={item.name}
+                          onClick={(event) => handleClick(event, item)}
                         >
-                          <Checkbox
-                            checked={network?.indexOf(item.name) > -1}
-                          />
-                          <ListItemText primary={item.name} />
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Checkbox
+                              checked={selectedNetwork === item.name}
+                              onClick={(event) => handleClick(event, item)}
+                            />
+                            <label
+                              onClick={(event) => handleClick(event, item)}
+                            >
+                              <ListItemText primary={item.name} />
+                            </label>
+                          </div>
                         </MenuItem>
                       ))}
                     </Select>
@@ -424,27 +433,35 @@ const TopViewBtns = ({
                     <Select
                       labelId="site-dropdown"
                       id="site-dropdown"
+                      defaultValue={[]}
                       value={site}
-                      onClick={handleClickSite}
                       style={{ width: "100%", height: "100%" }}
                       input={<OutlinedInput label={"Filter by site"} />}
                       renderValue={(selected) => selected}
                       MenuProps={dropdownStyles}
                     >
-                      <MenuItem
-                        style={{ marginLeft: "-15px", display: "none" }}
-                        value=""
-                      >
+                      <MenuItem style={{ display: "none" }} value="">
                         <ListItemText primary={``} />
                       </MenuItem>
                       {sitesData?.map((item, index) => (
                         <MenuItem
-                          style={{ marginLeft: "-15px" }}
                           key={index}
                           value={item.name}
+                          onClick={(event) => handleClickSite(event, item)}
                         >
-                          <Checkbox checked={site?.indexOf(item.name) > -1} />
-                          <ListItemText primary={item.name} />
+                          <div
+                            style={{ display: "flex", alignItems: "center" }}
+                          >
+                            <Checkbox
+                              checked={selectedSite.includes(item.name)}
+                              onClick={(event) => handleClickSite(event, item)}
+                            />
+                            <label
+                              onClick={(event) => handleClickSite(event, item)}
+                            >
+                              <ListItemText primary={item.name} />
+                            </label>
+                          </div>
                         </MenuItem>
                       ))}
                     </Select>
