@@ -1,0 +1,42 @@
+# If any PR is closed, find the related issue number, Add tags and assign to QA team
+name: ready-for-qa
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  add_qa_labels:
+    if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.head.ref != 'staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: if_pr
+        if: github.event.pull_request
+        run: |
+          echo An pull request was closed
+          echo "${{github.event.pull_request.number}}"
+      - uses: actions/checkout@v4
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          -name: Upon Merge Approval Reasign to QA with Label
+        run: |
+          gh pr view "${{github.event.pull_request.number}}" > tmp.log
+          TEMP=$(grep -hnr "#" tmp.log)
+          for i in $TEMP
+          do
+            :
+            ISSUENO=${i#*#}
+            printf -v ISSUENO '%s' $ISSUENO
+            re='^[0-9]+$'
+            if [[ $ISSUENO =~ $re ]]
+            then
+              gh issue close "$ISSUENO"
+              gh issue reopen "$ISSUENO"
+              gh issue edit "$ISSUENO" --add-label "ready-for-qa"
+              gh issue edit "$ISSUENO" --add-label "staging"
+              gh issue edit "$ISSUENO" --remove-assignee ${{ github.event.pull_request.user.login }}
+              gh issue view "$ISSUENO" > tmp.log
+              LABELS=$(grep "labels:" tmp.log)
+              gh issue edit "$ISSUENO" --add-assignee mariaa595
+            fi
+          done
