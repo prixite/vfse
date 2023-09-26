@@ -249,42 +249,42 @@ export default function DocumentationSection() {
                 columns={[
                   ...columnHeaders.filter((item) => !item.hide),
                   ...(columnHeaders.some((item) => item.hide === false)
-                  ? [
-                      {
-                        field: "Actions",
-                        headerAlign: "center",
-                        align: "center",
-                        disableColumnMenu: true,
-                        width: 95,
-                        sortable: false,
-                        renderCell: (cellValues) => (
-                          <div
-                            onClick={(e) =>
-                              handleClick(
-                                e,
-                                cellValues?.row?.id,
-                                cellValues?.row?.name
-                              )
-                            }
-                            style={{
-                              cursor: "pointer",
-                              padding: "15px",
-                              marginLeft: "auto",
-                              marginTop: "10px",
-                            }}
-                          >
-                            {actionLink()}
-                          </div>
-                        ),
-                      },
-                    ]
-                  : [])
-              ]}
-              loading={isLoading}
-              pageSize={pageSize}
-              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-              rowsPerPageOptions={[14, 16, 18, 20]}
-            />
+                    ? [
+                        {
+                          field: "Actions",
+                          headerAlign: "center",
+                          align: "center",
+                          disableColumnMenu: true,
+                          width: 95,
+                          sortable: false,
+                          renderCell: (cellValues) => (
+                            <div
+                              onClick={(e) =>
+                                handleClick(
+                                  e,
+                                  cellValues?.row?.id,
+                                  cellValues?.row?.name
+                                )
+                              }
+                              style={{
+                                cursor: "pointer",
+                                padding: "15px",
+                                marginLeft: "auto",
+                                marginTop: "10px",
+                              }}
+                            >
+                              {actionLink()}
+                            </div>
+                          ),
+                        },
+                      ]
+                    : []),
+                ]}
+                loading={isLoading}
+                pageSize={pageSize}
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[14, 16, 18, 20]}
+              />
             ) : (
               <DocumentationSectionMobile
                 docList={docList}
