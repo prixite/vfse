@@ -22,85 +22,11 @@ import {
   useProductsModelsDeleteMutation,
 } from "@src/store/reducers/api";
 
-const columns = [
-  {
-    field: "model",
-    headerName: "MODEL NAME",
-    width: 200,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "name",
-    headerName: "SYSTEM NAME",
-    width: 230,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "manufacturer",
-    headerName: "MANUFACTURER",
-    width: 250,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "modality",
-    headerName: "MODALITY",
-    width: 250,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "documentation",
-    headerName: "DOCUMENTATION LINK",
-    width: 500,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-];
-
-const headers = [
-  {
-    field: "model",
-    headerName: "MODEL NAME",
-    width: 200,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "name",
-    headerName: "SYSTEM NAME",
-    width: 230,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "manufacturer",
-    headerName: "MANUFACTURER",
-    width: 250,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-];
-
 export default function DocumentationSection() {
   const { t } = useTranslation();
   const [query, setQuery] = useState("");
-  const [tableColumns, setTableColumns] = useState(columns);
-  const [columnHeaders, setColumnHeaders] = useState(headers);
   const [pageSize, setPageSize] = useState(14);
   const [docData, setDocData] = useState([]);
-  const [hideModality, setHideModality] = useState(false);
-  const [hideLink, setHideLink] = useState(false);
   const [hasData, setHasData] = useState(false);
   const [open, setOpen] = useState(false);
   const [currentDoc, setCurrentDoc] = useState(null);
@@ -146,21 +72,6 @@ export default function DocumentationSection() {
     });
     setDocData([...dataArray]);
   }, [rows]);
-
-  useEffect(() => {
-    if (tableColumns[3]?.hide === true) {
-      setHideModality(true);
-    } else {
-      setHideModality(false);
-    }
-    if (tableColumns[4]?.hide === true) {
-      setHideLink(true);
-    } else {
-      setHideLink(false);
-    }
-    const headers = [tableColumns[0], tableColumns[1], tableColumns[2]];
-    setColumnHeaders(headers);
-  }, [tableColumns]);
 
   const handleSearchQuery = async (searchQuery: string) => {
     const itemsToBeSet = [
@@ -266,14 +177,62 @@ export default function DocumentationSection() {
     setAnchorEl(null);
   };
 
+  const headers = [
+    {
+      field: "model",
+      headerName: "MODEL NAME",
+      width: 200,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: "name",
+      headerName: "SYSTEM NAME",
+      width: 230,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: "manufacturer",
+      headerName: "MANUFACTURER",
+      width: 250,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: "MODALITY",
+      headerName: "MODALITY",
+      disableColumnMenu: true,
+      width: 250,
+      hide: false,
+      sortable: false,
+      renderCell: (cellValues) => renderModalities([cellValues?.row?.modality]),
+    },
+    {
+      field: "DOCUMENTATION LINK",
+      headerName: "DOCUMENTATION LINK",
+      disableColumnMenu: true,
+      width: 500,
+      hide: false,
+      sortable: false,
+      renderCell: (cellValues) =>
+        documentationLink(cellValues?.row?.documentation),
+    },
+  ];
+
+  const [columnHeaders, setColumnHeaders] = useState(headers);
+
   return (
     <div className="documentaion-section">
       <h2>{t("Documentation database")}</h2>
       <TopViewBtns
         setOpen={setOpen}
         path="documentation"
-        tableColumns={tableColumns}
-        setTableColumns={setTableColumns}
+        tableColumns={columnHeaders}
+        setTableColumns={setColumnHeaders}
         setList={setSearchedList}
         actualData={rows}
         searchText={query}
@@ -288,25 +247,8 @@ export default function DocumentationSection() {
                 rows={docList}
                 autoHeight
                 columns={[
-                  ...columnHeaders,
-                  {
-                    field: "MODALITY",
-                    disableColumnMenu: true,
-                    width: 250,
-                    hide: hideModality,
-                    sortable: false,
-                    renderCell: (cellValues) =>
-                      renderModalities([cellValues?.row?.modality]),
-                  },
-                  {
-                    field: "DOCUMENTATION LINK",
-                    disableColumnMenu: true,
-                    width: 500,
-                    hide: hideLink,
-                    sortable: false,
-                    renderCell: (cellValues) =>
-                      documentationLink(cellValues?.row?.documentation),
-                  },
+                  ...columnHeaders.filter((item) => !item.hide),
+
                   {
                     field: "Actions",
                     headerAlign: "center",
