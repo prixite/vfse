@@ -9,13 +9,6 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Button, InputAdornment, TextField } from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import ListItemText from "@mui/material/ListItemText";
-import MenuItem from "@mui/material/MenuItem";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import Select from "@mui/material/Select";
 import debounce from "debounce";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -34,7 +27,9 @@ import {
   useOrganizationsSitesListQuery,
 } from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
+
 import "@src/components/common/smart/topViewBtns/TopViewBtns.scss";
+import FilterSelect from "./FilterSelect";
 
 interface Props {
   path: string;
@@ -77,7 +72,6 @@ const TopViewBtns = ({
   searchText,
   setSearchText,
   networkFilter,
-  siteFilter,
   tableColumns,
   setTableColumns,
   setAction,
@@ -93,9 +87,9 @@ const TopViewBtns = ({
   const queryParams = new URLSearchParams(location?.search);
   const dispatch = useAppDispatch();
   const [network, setNetwork] = useState([]);
-  const [selectedNetwork, setSelectedNetwork] = useState(null);
+  const [selectedNetwork, setSelectedNetwork] = useState("");
   const [site, setSite] = useState([]);
-  const [selectedSite, setSelectedSite] = useState([]);
+  const [selectedSite, setSelectedSite] = useState("");
   let btnAdd: string;
   if (path === "modality") {
     btnAdd = "Add Network";
@@ -206,63 +200,64 @@ const TopViewBtns = ({
     }
   };
 
-  const dropdownStyles = {
-    PaperProps: {
-      style: {
-        maxHeight: 300,
-        width: 220,
-      },
-    },
+  const handleFilterClick = (event, item, id) => {
+    event.stopPropagation();
+    const clickedItem = item.name;
+
+    if (id === "network") {
+      handleNetworkClick(clickedItem);
+    } else if (id === "site") {
+      handleSiteClick(clickedItem);
+    }
   };
 
-  const handleClick = (event, item) => {
-    event.stopPropagation();
-
-    const clickedNetwork = item.name;
-
+  const handleNetworkClick = (clickedNetwork) => {
     if (selectedNetwork === clickedNetwork) {
-      setNetwork([]);
-      networkFilter({});
-      queryParams.delete("health_network");
-      navigate(
-        {
-          search: queryParams.toString(),
-        },
-        { replace: true }
-      );
       setSelectedNetwork(null);
+      queryParams.delete("selectedNetwork");
     } else {
-      queryParams.delete("health_network");
-      setNetwork([clickedNetwork]);
-      networkFilter(
-        networksData?.filter((item) => clickedNetwork === item.name)[0]
-      );
       setSelectedNetwork(clickedNetwork);
+      queryParams.set("selectedNetwork", clickedNetwork);
     }
+
+    navigate(
+      {
+        search: queryParams.toString(),
+      },
+      { replace: true }
+    );
   };
 
-  const handleClickSite = (event, item) => {
-    event.stopPropagation();
-
-    const clickedSite = item.name;
-
-    if (selectedSite.includes(clickedSite)) {
-      setSite([]);
-      siteFilter({});
+  const handleSiteClick = (clickedSite) => {
+    if (selectedSite === clickedSite) {
+      setSelectedSite(null);
       queryParams.delete("site");
-      navigate(
-        {
-          search: queryParams.toString(),
-        },
-        { replace: true }
-      );
-      setSelectedSite([]);
     } else {
-      setSite([clickedSite]);
-      siteFilter(sitesData?.filter((item) => clickedSite === item.name)[0]);
-      setSelectedSite([clickedSite]);
+      setSelectedSite(clickedSite);
+      queryParams.set("site", clickedSite);
     }
+
+    navigate(
+      {
+        search: queryParams.toString(),
+      },
+      { replace: true }
+    );
   };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedNetworkParam = urlParams.get("selectedNetwork");
+    const selectedSiteParam = urlParams.get("site");
+
+    if (selectedNetworkParam) {
+      setSelectedNetwork(selectedNetworkParam);
+    }
+
+    if (selectedSiteParam) {
+      setSelectedSite(selectedSiteParam);
+    }
+  }, []);
 
   // const handleSort = () => {
   //   // sortSystems();
@@ -360,112 +355,24 @@ const TopViewBtns = ({
             {path === "systems" ? (
               <>
                 {!isNetworkDataLoading && !networkId && networksData?.length ? (
-                  <FormControl
-                    sx={{
-                      m: 0,
-                      mr: 1,
-                      maxWidth: "30%",
-                      minWidth: "26%",
-                      background: "#ffffff",
-                    }}
-                  >
-                    <InputLabel
-                      id="networkInputLabel"
-                      style={{ marginTop: "-3px" }}
-                    >
-                      {t("Filter by network")}
-                    </InputLabel>
-                    <Select
-                      labelId="networks-dropdown"
-                      id="network-dropdown"
-                      defaultValue={[]}
-                      value={network}
-                      style={{ width: "100%", height: "100%" }}
-                      input={<OutlinedInput label={"Filter by network"} />}
-                      renderValue={(selected) => selected}
-                      MenuProps={dropdownStyles}
-                    >
-                      <MenuItem style={{ display: "none" }} value="">
-                        <ListItemText primary={``} />
-                      </MenuItem>
-                      {networksData?.map((item, index) => (
-                        <MenuItem
-                          key={index}
-                          value={item.name}
-                          onClick={(event) => handleClick(event, item)}
-                        >
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <Checkbox
-                              checked={selectedNetwork === item.name}
-                              onClick={(event) => handleClick(event, item)}
-                            />
-                            <label
-                              onClick={(event) => handleClick(event, item)}
-                            >
-                              <ListItemText primary={item.name} />
-                            </label>
-                          </div>
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <FilterSelect
+                    label={t("Filter by network")}
+                    id="network"
+                    data={networksData}
+                    selected={selectedNetwork}
+                    handleClick={handleFilterClick}
+                  />
                 ) : (
                   ""
                 )}
                 {!isSitesFetching && !siteId && sitesData?.length ? (
-                  <FormControl
-                    sx={{
-                      m: 0,
-                      mr: 1,
-                      maxWidth: "30%",
-                      minWidth: "26%",
-                      background: "#ffffff",
-                    }}
-                  >
-                    <InputLabel
-                      id="siteInputlabel"
-                      style={{ marginTop: "-3px" }}
-                    >
-                      {t("Filter by site")}
-                    </InputLabel>
-                    <Select
-                      labelId="site-dropdown"
-                      id="site-dropdown"
-                      defaultValue={[]}
-                      value={site}
-                      style={{ width: "100%", height: "100%" }}
-                      input={<OutlinedInput label={"Filter by site"} />}
-                      renderValue={(selected) => selected}
-                      MenuProps={dropdownStyles}
-                    >
-                      <MenuItem style={{ display: "none" }} value="">
-                        <ListItemText primary={``} />
-                      </MenuItem>
-                      {sitesData?.map((item, index) => (
-                        <MenuItem
-                          key={index}
-                          value={item.name}
-                          onClick={(event) => handleClickSite(event, item)}
-                        >
-                          <div
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <Checkbox
-                              checked={selectedSite.includes(item.name)}
-                              onClick={(event) => handleClickSite(event, item)}
-                            />
-                            <label
-                              onClick={(event) => handleClickSite(event, item)}
-                            >
-                              <ListItemText primary={item.name} />
-                            </label>
-                          </div>
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <FilterSelect
+                    label={t("Filter by site")}
+                    id="site"
+                    data={sitesData}
+                    selected={selectedSite}
+                    handleClick={handleFilterClick}
+                  />
                 ) : (
                   ""
                 )}
