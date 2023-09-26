@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, InputAdornment, TextField } from "@mui/material";
+import React, { FunctionComponent } from "react";
+
 import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,15 +8,37 @@ import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
 
-function FilterSelect({ label, id, data, selected, handleClick, t, navigate, queryParams }) {
-    const dropdownStyles = {
-        PaperProps: {
-          style: {
-            maxHeight: 300,
-            width: 220,
-          },
-        },
-      };
+interface FilterSelectProps {
+  label: string;
+  id: string;
+  data: { name: string }[];
+  selected: string;
+  handleClick: (
+    event: React.MouseEvent,
+    item: { name: string },
+    id: string
+  ) => void;
+  t?: () => void;
+  navigate?: () => void;
+  queryParams?: Record<string, string>;
+}
+
+const FilterSelect: FunctionComponent<FilterSelectProps> = ({
+  label,
+  id,
+  data,
+  selected,
+  handleClick,
+}) => {
+  const dropdownStyles = {
+    PaperProps: {
+      style: {
+        maxHeight: 300,
+        width: 220,
+      },
+    },
+  };
+
   return (
     <FormControl
       sx={{
@@ -33,10 +55,10 @@ function FilterSelect({ label, id, data, selected, handleClick, t, navigate, que
       <Select
         labelId={`${id}-dropdown`}
         id={id}
-        value={selected || ''} // Set the selected value as the value
+        value={selected || ""}
         style={{ width: "100%", height: "100%" }}
         input={<OutlinedInput label={label} />}
-        renderValue={(selected) => selected}
+        renderValue={(selected) => selected as string}
         MenuProps={dropdownStyles}
       >
         <MenuItem style={{ display: "none" }} value="">
@@ -62,6 +84,6 @@ function FilterSelect({ label, id, data, selected, handleClick, t, navigate, que
       </Select>
     </FormControl>
   );
-}
+};
 
 export default FilterSelect;
