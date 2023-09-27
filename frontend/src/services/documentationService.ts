@@ -6,7 +6,7 @@ const addProductModelService = async (ProductModelCreate, addProductModel) => {
   await addProductModel({ productModelCreate: ProductModelCreate })
     .unwrap()
     .then(async () => {
-      toast.success("New User Added.", {
+      toast.success("Documentation Successfully Uploaded.", {
         autoClose: timeOut,
         pauseOnHover: false,
       });
