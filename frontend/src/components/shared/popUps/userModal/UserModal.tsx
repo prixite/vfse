@@ -401,12 +401,26 @@ export default function UserModal(props: UserModalProps) {
     props.handleClose();
   };
 
+  // const moveToNextPage = async () => {
+  //   const phoneValue = `+1${formik.values.phone}`;
+  //   const errors = await formik.validateForm();
+  //   if (phoneValue.match(phoneReg)) {
+  //     setPage("2");
+  //     setIsPhoneError("correct");
+  //   } else {
+  //     setIsPhoneError("Invalid Phone Format");
+  //     setOnChangeValidation(true);
+  //   }
+  // };
+
   const moveToNextPage = async () => {
     const phoneValue = `+1${formik.values.phone}`;
     const errors = await formik.validateForm();
-    if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
-      setPage("2");
+    if (phoneValue.match(phoneReg)) {
       setIsPhoneError("");
+      if (Object.keys(errors).length === 0) {
+        setPage("2");
+      }
     } else {
       setIsPhoneError("Invalid Phone Format");
       setOnChangeValidation(true);

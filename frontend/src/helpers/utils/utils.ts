@@ -153,7 +153,9 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
 const nameReg = /^[A-Za-z ]*$/;
 
 // eslint-disable-next-line
-const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+const emailRegX =
+  /^([A-Za-z0-9_\-\.+])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const validUrl =
   // eslint-disable-next-line
