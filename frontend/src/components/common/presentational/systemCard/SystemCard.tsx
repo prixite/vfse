@@ -669,7 +669,7 @@ const SystemCard = ({
             <MenuItem onClick={() => viewSystemLocation(system)}>
               <span style={{ marginLeft: "12px" }}>View Location</span>
             </MenuItem>
-            <MenuItem onClick={(e) => onSupport(e)}>
+            <MenuItem onClick={() => onSupport(system)}>
               <span style={{ marginLeft: "12px" }}>{t("Support")}</span>
             </MenuItem>
             {currentUser?.role !== "end-user" && (
