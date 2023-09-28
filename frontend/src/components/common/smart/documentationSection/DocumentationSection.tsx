@@ -15,7 +15,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { timeOut } from "@src/helpers/utils/constants";
+import { timeOut , COLUMN_HEADERS, COLUMN_FIELDS } from "@src/helpers/utils/constants";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,
@@ -101,18 +101,6 @@ export default function DocumentationSection() {
     handleActionClose();
   };
 
-  const renderModalities = (modalities) => {
-    return (
-      <div className="modality-section">
-        {modalities.map((modality, index) => (
-          <span key={index} className="modality">
-            {modality}
-          </span>
-        ))}
-      </div>
-    );
-  };
-
   const documentationLink = (link) => {
     return (
       <div className="documentaion-link">
@@ -179,32 +167,32 @@ export default function DocumentationSection() {
 
   const headers = [
     {
-      field: "model",
-      headerName: "MODEL NAME",
+      field: COLUMN_FIELDS.MODEL,
+      headerName: COLUMN_HEADERS.MODEL,
       width: 200,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: "name",
-      headerName: "SYSTEM NAME",
+      field: COLUMN_FIELDS.SYSTEM_NAME,
+      headerName: COLUMN_HEADERS.SYSTEM_NAME,
       width: 230,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: "manufacturer",
-      headerName: "MANUFACTURER",
+      field: COLUMN_FIELDS.MANUFACTURER,
+      headerName: COLUMN_HEADERS.MANUFACTURER,
       width: 250,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: "MODALITY",
-      headerName: "MODALITY",
+      field: COLUMN_FIELDS.MODALITY,
+      headerName: COLUMN_HEADERS.MODALITY,
       disableColumnMenu: true,
       width: 250,
       hide: false,
@@ -212,8 +200,8 @@ export default function DocumentationSection() {
       renderCell: (cellValues) => renderModalities([cellValues?.row?.modality]),
     },
     {
-      field: "DOCUMENTATION LINK",
-      headerName: "DOCUMENTATION LINK",
+      field: COLUMN_FIELDS.DOCUMENTATION,
+      headerName: COLUMN_HEADERS.DOCUMENTATION,
       disableColumnMenu: true,
       width: 500,
       hide: false,
@@ -247,8 +235,8 @@ export default function DocumentationSection() {
                 rows={docList}
                 autoHeight
                 columns={[
-                  ...columnHeaders.filter((item) => !item.hide),
-                  ...(columnHeaders.some((item) => item.hide === false)
+                  ...columnHeaders.filter((header) => !header.hide),
+                  ...(columnHeaders.some((header) => header.hide === false)
                     ? [
                         {
                           field: "Actions",
