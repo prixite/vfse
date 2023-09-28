@@ -15,7 +15,11 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { timeOut , COLUMN_HEADERS, COLUMN_FIELDS } from "@src/helpers/utils/constants";
+import {
+  timeOut,
+  COLUMN_HEADERS,
+  COLUMN_FIELDS,
+} from "@src/helpers/utils/constants";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,
