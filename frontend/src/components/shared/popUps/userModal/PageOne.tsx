@@ -31,7 +31,6 @@ const PageOne = ({
   selectedImage,
   setSelectedImage,
   roles,
-  isPhoneError,
   organizationData,
   action,
 }: Props) => {
@@ -115,9 +114,9 @@ const PageOne = ({
             autoComplete="off"
             name="phone"
             className="info-field"
+            type="number"
             variant="outlined"
             value={formik.values.phone}
-            type="number"
             onChange={formik.handleChange}
             placeholder="1234567890"
             InputProps={{
@@ -129,7 +128,7 @@ const PageOne = ({
             }}
           />
           <p className="errorText" style={{ marginTop: "5px" }}>
-            {isPhoneError}
+            {formik.errors.phone}
           </p>
         </div>
       </div>
