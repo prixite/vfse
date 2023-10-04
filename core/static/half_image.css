@@ -147,6 +147,11 @@ form input:focus {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: fixed;
+  width: 50%;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .welcome-page .card .card-body {
@@ -249,8 +254,19 @@ form input:focus {
   }
   .first-half div.content-wrapper {
     display: block !important;
+    width: 100%;
+  }
+  .welcome-page {
+    padding-left: 0;
   }
   .welcome-page a.btn {
     width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1001px) {
+  .welcome-page {
+    padding-left: 100px;
+    padding-right: 10px;
   }
 }
