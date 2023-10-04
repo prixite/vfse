@@ -255,7 +255,11 @@ export default function UserSection() {
       field: USER_TABLE_FIELDS.MODALITIES,
       headerName: USER_TABLE_HEADERS.MODALITIES,
       hide: false,
-      renderCell: (cellValues) => renderModalities(cellValues.row.modalities),
+      renderCell: (cellValues) => (
+        <div className="modalities-cell">
+          {renderModalities(cellValues.row.modalities)}
+        </div>
+      ),
     },
     {
       field: USER_TABLE_FIELDS.SITES,

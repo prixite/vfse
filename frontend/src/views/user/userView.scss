@@ -66,3 +66,23 @@
     }
   }
 }
+
+.modalities-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.MuiDataGrid-colCell[data-field="modalities"],
+.MuiDataGrid-columnHeader[data-field="modalities"] {
+  height: 56px;
+  width: 100%;
+  min-width: 310px !important;
+  max-width: 310px !important;
+}
+
+.MuiDataGrid-cell[data-field="modalities"] {
+  max-width: 310px !important;
+}
