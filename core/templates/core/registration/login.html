@@ -11,34 +11,37 @@
     {% csrf_token %}
 
     <div class="mb-3">
-      <label for="id_username" class="form-label">Username</label>
+      <label for="id_username" class="form-label label">User Email</label>
       <input type="text"
-             class="form-control form-control-lg"
-             placeholder="Enter your username" name="username"
-             autocapitalize="none"
-             autocomplete="Username"
-             maxlength="150"
-             id="id_username" required autofocus>
+      class="form-control form-control-lg input-placeholder"
+      placeholder="Enter your email" name="username"
+      autocapitalize="none"
+      autocomplete="Username"
+      maxlength="150"
+      id="id_username" required autofocus
+      >
+
       {{ form.username.errors }}
     </div>
 
-    <div class="mb-3">
-      <label for="id_password" class="form-label">Password</label>
-      <div class="input-group input-group-lg mb-3">
-        <input type="password"
-               class="form-control"
-               placeholder="Enter your password"
-               aria-describedby="basic-addon1"
-               name="password"
-               autocomplete="current-password"
-               id="id_password" required />
+<div class="mb-3">
+  <label for="id_password" class="form-label label">Password</label>
+  <div class="input-group mb-3">
+    <input type="password"
+           class="form-control form-control-lg input-placeholder"
+           placeholder="Enter your password"
+           aria-describedby="basic-addon1"
+           name="password"
+           autocomplete="current-password"
+           id="id_password" required />
 
-        <a class="btn btn-outline-secondary" onclick="showHidePassword('id_password')" href="#" role="button">
-          <i class="fas fa-eye"></i>
-        </a>
-      </div>
-      {{ form.password.errors }}
-    </div>
+    <a class="btn btn-outline-secondary toggle-password" id="password" onclick="showHidePassword('id_password')" href="#" role="button">
+      <i class="fas fa-eye"></i>
+    </a>
+  </div>
+  {{ form.password.errors }}
+</div>
+
     {% if form.errors %}
     {% include 'core/_error.html' with form=form%}
     {%endif%}

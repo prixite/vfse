@@ -96,11 +96,14 @@
       }
       .login-section {
         margin-top: -17px;
+        display: flex;
+        align-items: baseline;
         .login-btn {
           text-transform: capitalize;
           margin-top: 2px;
           text-decoration: underline;
           font-size: 15px;
+          padding-left: 0px;
         }
       }
       .btn-group {
@@ -130,7 +133,7 @@
   }
   .CoverSection {
     position: fixed;
-    width: 45%;
+    width: 50%;
     top: 0;
     bottom: 0;
     right: 0;
