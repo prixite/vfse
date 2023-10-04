@@ -152,14 +152,16 @@ const toastAPIError = (message: string, status?: number, data?: unknown) => {
 
 const nameReg = /^[A-Za-z ]*$/;
 
+const emailRegex =
+  // eslint-disable-next-line
+  /^([A-Za-z0-9_\-\.+])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 // eslint-disable-next-line
-const emailRegX = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const validUrl =
   // eslint-disable-next-line
   /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 
-const phoneReg = /^(\+1)[0-9]{10}$/;
+const phoneRegex = /^(\+1)[0-9]{10}$/;
 
 export {
   toastAPIError,
@@ -172,8 +174,8 @@ export {
   isNonFieldError,
   returnPayloadThemeObject,
   nameReg,
-  emailRegX,
-  phoneReg,
+  emailRegex,
+  phoneRegex,
   passwordReg,
   validUrl,
   addIdToHeadings,

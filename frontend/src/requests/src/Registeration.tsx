@@ -216,6 +216,7 @@ const Registeration = () => {
     }
     setPhone(e.target.value);
   };
+
   const handleErrors = () => {
     !selectedImage.length
       ? setImageError("Image is not selected")
