@@ -312,7 +312,8 @@ const Registeration = () => {
                       autoComplete="off"
                       className="info-field"
                       variant="outlined"
-                      type="number"
+                      type="tel"
+                      inputMode="numeric"
                       placeholder="1234567890"
                       InputProps={{
                         startAdornment: (
