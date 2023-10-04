@@ -26,3 +26,19 @@ export const categories = [
   "DFS",
   "GFD",
 ];
+
+export const COLUMN_HEADERS = {
+  MODEL: "MODEL NAME",
+  SYSTEM_NAME: "SYSTEM NAME",
+  MANUFACTURER: "MANUFACTURER",
+  MODALITY: "MODALITY",
+  DOCUMENTATION: "DOCUMENTATION LINK",
+};
+
+export const COLUMN_FIELDS = {
+  MODEL: "model",
+  SYSTEM_NAME: "name",
+  MANUFACTURER: "manufacturer",
+  MODALITY: "modality",
+  DOCUMENTATION: "documentation",
+};

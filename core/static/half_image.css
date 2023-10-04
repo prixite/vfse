@@ -52,8 +52,41 @@
   font-family: "ProximaNova-Regular", sans-serif;
 }
 
+.label {
+  font-weight: 600;
+}
+
+.input-placeholder {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1rem !important;
+  line-height: 1.4375em;
+  letter-spacing: 0.00938em;
+  color: #d4d6db;
+  border: 1px solid #d4d6db;
+  border-radius: 8px;
+}
+
+.input-placeholder::placeholder {
+  opacity: 0.7;
+}
+
+.input-placeholder:focus {
+  border: 2px solid #773cbe;
+}
+
+.toggle-password {
+  border: 1px solid #d4d6db;
+}
+
+.toggle-password:focus {
+  border: 2px solid #773cbe;
+  box-shadow: none !important;
+}
+
 .brand-color {
   color: #773cbe !important;
+  margin-left: 3px;
 }
 
 .brand-background-color {
@@ -67,6 +100,11 @@
 form button {
   background-color: #773cbe !important;
   border-color: #773cbe !important;
+  color: #efe1ff !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  padding: 12px 20px !important;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 form input:focus {
@@ -83,7 +121,7 @@ form input:focus {
 }
 
 .half-image div.content {
-  margin-top: 18%;
+  margin-top: 10%;
 }
 
 .first-half div.content-wrapper {
@@ -95,7 +133,7 @@ form input:focus {
 
 .first-half img.logo {
   position: absolute;
-  left: 10px;
+  left: 110px;
   width: 80px;
 }
 
@@ -107,6 +145,8 @@ form input:focus {
 
 .second-half img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .welcome-page .card .card-body {
@@ -159,6 +199,12 @@ form input:focus {
   }
   .second-half {
     display: none;
+  }
+  .first-half img.logo {
+    left: 10px;
+  }
+  .half-image div.content {
+    margin-top: 18%;
   }
 }
 

@@ -18,9 +18,9 @@ import useUserSite from "@src/components/shared/popUps/userModal/useUserSites";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
 import {
   toastAPIError,
-  emailRegX,
+  emailRegex,
   nameReg,
-  phoneReg,
+  phoneRegex,
 } from "@src/helpers/utils/utils";
 import {
   addNewUserService,
@@ -65,10 +65,18 @@ const userFormValidationSchema = yup.object({
   userProfileImage: yup.string().required("Image is required!"),
   firstname: yup.string().matches(nameReg).required("First name is required!"),
   lastname: yup.string().matches(nameReg).required("Last name is required!"),
+
   email: yup
     .string()
-    .matches(emailRegX, "Invalid E-mail!") //TODO
+    .matches(emailRegex, "Invalid E-mail!")
     .required("Email is required!"),
+  phone: yup
+    .string()
+    .test("phone", "Invalid Phone Format", (value) => {
+      const phoneValue = `+1${value}`;
+      return phoneValue.match(phoneRegex);
+    })
+    .required("Phone number is required!"),
 });
 
 export default function UserModal(props: UserModalProps) {
@@ -147,6 +155,7 @@ export default function UserModal(props: UserModalProps) {
         firstname: editedUser?.first_name,
         lastname: editedUser?.last_name,
         email: editedUser?.email,
+        phone: editedUser?.phone,
       });
       if (editedUser?.phone?.length && editedUser?.phone?.indexOf("+1") > -1) {
         formik.setFieldValue("phone", editedUser?.phone?.substring(2));
@@ -402,12 +411,15 @@ export default function UserModal(props: UserModalProps) {
   };
 
   const moveToNextPage = async () => {
-    const phoneValue = `+1${formik.values.phone}`;
-    const errors = await formik.validateForm();
-    if (!Object.keys(errors).length && phoneValue.match(phoneReg)) {
-      setPage("2");
-      setIsPhoneError("");
-    } else {
+    try {
+      const errors = await formik.validateForm();
+      if (Object.keys(errors).length === 0) {
+        setPage("2");
+      } else {
+        setIsPhoneError("Please fix the form errors.");
+        setOnChangeValidation(true);
+      }
+    } catch (error) {
       setIsPhoneError("Invalid Phone Format");
       setOnChangeValidation(true);
     }
