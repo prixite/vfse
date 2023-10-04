@@ -13,7 +13,11 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ListModal from "@src/components/shared/popUps/listModal/ListModal";
 import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
-import { timeOut } from "@src/helpers/utils/constants";
+import {
+  timeOut,
+  USER_TABLE_HEADERS,
+  USER_TABLE_FIELDS,
+} from "@src/helpers/utils/constants";
 import {
   deactivateUserService,
   activateUserService,
@@ -32,141 +36,14 @@ import {
 import "@src/views/user/userView.scss";
 import "@src/components/common/smart/userSection/userSection.scss";
 
-const columns = [
-  {
-    field: "first_name",
-    headerName: "First Name",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "last_name",
-    headerName: "Last Name",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "username",
-    headerName: "Username",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 270,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "phone",
-    headerName: "Phone",
-    width: 160,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  // {
-  //   field: "manager",
-  //   headerName: "Manager",
-  //   width: 180,
-  //   hide: false,
-  //   disableColumnMenu: true,
-  //   sortable: false,
-  // },
-];
-
-const headers = [
-  {
-    field: "first_name",
-    headerName: "First Name",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "last_name",
-    headerName: "Last Name",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "username",
-    headerName: "Username",
-    width: 220,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 270,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    field: "phone",
-    headerName: "Phone",
-    width: 160,
-    hide: false,
-    disableColumnMenu: true,
-    sortable: false,
-  },
-  {
-    headerName: "Role",
-    hide: false,
-  },
-  {
-    headerName: "Manager",
-    hide: false,
-  },
-  {
-    headerName: "Customer",
-    hide: false,
-  },
-  {
-    headerName: "Modalities",
-    hide: false,
-  },
-  {
-    headerName: "Sites",
-    hide: false,
-  },
-  {
-    headerName: "Status",
-    hide: false,
-  },
-];
-
-// const temp = ["abcdefg", "abcdg", "abcdefghijk"];
-
 export default function UserSection() {
   const { t } = useTranslation();
   const [pageSize, setPageSize] = useState(14);
   const [open, setOpen] = useState(false);
-  const [tableColumns, setTableColumns] = useState(headers);
-  const [columnHeaders, setColumnHeaders] = useState(columns);
   const [anchorEl, setAnchorEl] = useState(null);
   const [query, setQuery] = useState("");
   const openModal = Boolean(anchorEl);
   const [hasData, setHasData] = useState(false);
-  const [hideManager, setHideManager] = useState(false);
-  const [hideCustomer, setHideCustomer] = useState(false);
-  const [hideModality, setHideModality] = useState(false);
-  const [hideNetwork, setHideNetwork] = useState(false);
-  const [hideStatus, setHideStatus] = useState(false);
   const [openListModal, setOpenListModal] = useState(false);
   const [modalHeader, setModalHeader] = useState("");
   const [modalList, setModalList] = useState(null);
@@ -204,42 +81,6 @@ export default function UserSection() {
       setHasData(false);
     }
   }, [query, userList, items]);
-
-  useEffect(() => {
-    if (tableColumns[6]?.hide === true) {
-      setHideManager(true);
-    } else {
-      setHideManager(false);
-    }
-    if (tableColumns[7]?.hide === true) {
-      setHideCustomer(true);
-    } else {
-      setHideCustomer(false);
-    }
-    if (tableColumns[8]?.hide === true) {
-      setHideModality(true);
-    } else {
-      setHideModality(false);
-    }
-    if (tableColumns[9]?.hide === true) {
-      setHideNetwork(true);
-    } else {
-      setHideNetwork(false);
-    }
-    if (tableColumns[10]?.hide === true) {
-      setHideStatus(true);
-    } else {
-      setHideStatus(false);
-    }
-    const header = [
-      tableColumns[0],
-      tableColumns[1],
-      tableColumns[2],
-      tableColumns[3],
-      tableColumns[4],
-    ];
-    setColumnHeaders(header);
-  }, [tableColumns]);
 
   if (isUsersLoading) {
     return <p>Loading</p>;
@@ -311,6 +152,17 @@ export default function UserSection() {
     setOpen(true);
   };
 
+  const renderCustomers = (customers) => {
+    return (
+      <div>{customers?.length > 1 ? `${customers[0]},...` : customers[0]}</div>
+    );
+  };
+  const handleModalClick = (name, list) => {
+    setModalHeader(name);
+    setModalList(list);
+    setOpenListModal(true);
+  };
+
   const renderModalities = (modalities) => {
     return (
       <div className="modality-section">
@@ -323,25 +175,133 @@ export default function UserSection() {
     );
   };
 
-  const renderCustomers = (customers) => {
-    return (
-      <div>{customers?.length > 1 ? `${customers[0]},...` : customers[0]}</div>
-    );
-  };
+  const headers = [
+    {
+      field: USER_TABLE_FIELDS.FIRST_NAME,
+      headerName: USER_TABLE_HEADERS.FIRST_NAME,
+      width: 220,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: USER_TABLE_FIELDS.LAST_NAME,
+      headerName: USER_TABLE_HEADERS.LAST_NAME,
+      width: 220,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: USER_TABLE_FIELDS.USERNAME,
+      headerName: USER_TABLE_HEADERS.USERNAME,
+      width: 220,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: USER_TABLE_FIELDS.EMAIL,
+      headerName: USER_TABLE_HEADERS.EMAIL,
+      width: 270,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: USER_TABLE_FIELDS.PHONE,
+      headerName: USER_TABLE_HEADERS.PHONE,
+      width: 160,
+      hide: false,
+      disableColumnMenu: true,
+      sortable: false,
+    },
+    {
+      field: USER_TABLE_FIELDS.ROLE,
+      headerName: USER_TABLE_HEADERS.ROLE,
+      hide: false,
+      renderCell: (cellValues) =>
+        usersRoles?.find((x) => x?.value === cellValues?.row?.role[0])?.title,
+    },
+    {
+      field: USER_TABLE_FIELDS.MANAGER,
+      headerName: USER_TABLE_HEADERS.MANAGER,
+      hide: false,
+      renderCell: (cellValues) => <div>{cellValues.row.manager?.name}</div>,
+    },
+    {
+      field: USER_TABLE_FIELDS.CUSTOMER,
+      headerName: USER_TABLE_HEADERS.CUSTOMER,
+      hide: false,
+      renderCell: (cellValues) => (
+        <div
+          onClick={
+            cellValues?.row?.organizations?.length > 1
+              ? () =>
+                  handleModalClick("Customers", cellValues?.row?.organizations)
+              : undefined
+          }
+          style={{
+            cursor: `${
+              cellValues?.row?.organizations?.length > 1 ? "pointer" : ""
+            }`,
+          }}
+        >
+          {renderCustomers(cellValues?.row?.organizations)}
+        </div>
+      ),
+    },
+    {
+      field: USER_TABLE_FIELDS.MODALITIES,
+      headerName: USER_TABLE_HEADERS.MODALITIES,
+      hide: false,
+      renderCell: (cellValues) => renderModalities(cellValues.row.modalities),
+    },
+    {
+      field: USER_TABLE_FIELDS.SITES,
+      headerName: USER_TABLE_HEADERS.SITES,
+      hide: false,
+      renderCell: (cellValues) => (
+        <div
+          onClick={
+            cellValues?.row?.sites?.length > 1
+              ? () => handleModalClick("Sites", cellValues?.row?.sites)
+              : undefined
+          }
+          style={{
+            cursor: `${cellValues?.row?.sites?.length > 1 ? "pointer" : ""}`,
+          }}
+        >
+          {renderCustomers(cellValues?.row?.sites)}
+        </div>
+      ),
+    },
+    {
+      field: USER_TABLE_FIELDS.STATUS,
+      headerName: USER_TABLE_HEADERS.STATUS,
+      hide: false,
+      renderCell: (cellValues) => (
+        <span
+          style={{
+            color: `${cellValues.row.is_active ? "" : "red"}`,
+          }}
+        >
+          {cellValues.row.is_active ? "Active" : "Locked"}
+        </span>
+      ),
+    },
+  ];
 
-  const handleModalClick = (name, list) => {
-    setModalHeader(name);
-    setModalList(list);
-    setOpenListModal(true);
-  };
+  const [columnHeaders, setColumnHeaders] = useState(headers);
+
   return (
     <Fragment>
       <h2>{t("User Administration")}</h2>
       <TopViewBtns
         setOpen={setOpen}
         path="users"
-        tableColumns={tableColumns}
-        setTableColumns={setTableColumns}
+        tableColumns={columnHeaders}
+        setTableColumns={setColumnHeaders}
         setList={setUserList}
         handleSearchQuery={handleSearchQuery}
         searchText={query}
@@ -374,136 +334,38 @@ export default function UserSection() {
                 rows={itemsList}
                 autoHeight
                 columns={[
-                  ...columnHeaders,
-                  {
-                    field: "Role",
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 180,
-                    hide: false,
-                    renderCell: (cellValues) =>
-                      usersRoles?.find(
-                        (x) => x?.value === cellValues?.row?.role[0]
-                      )?.title,
-                  },
-                  {
-                    field: "Manager",
-                    hide: hideManager,
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 180,
-                    renderCell: (cellValues) => (
-                      <div>{cellValues.row.manager?.name}</div>
-                    ),
-                  },
-                  {
-                    field: "Customer",
-                    hide: hideCustomer,
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 170,
-                    renderCell: (cellValues) => (
-                      <div
-                        onClick={
-                          cellValues?.row?.organizations?.length > 1
-                            ? () =>
-                                handleModalClick(
-                                  "Customers",
-                                  cellValues?.row?.organizations
+                  ...columnHeaders.filter((header) => !header.hide),
+                  ...(columnHeaders.some((header) => header.hide === false)
+                    ? [
+                        {
+                          field: "Actions",
+                          headerAlign: "center",
+                          align: "center",
+                          disableColumnMenu: true,
+                          width: 85,
+                          sortable: false,
+                          renderCell: (cellValues) => (
+                            <div
+                              onClick={(e) =>
+                                handleClick(
+                                  e,
+                                  cellValues.row.id,
+                                  cellValues.row.is_active
                                 )
-                            : undefined
-                        }
-                        style={{
-                          cursor: `${
-                            cellValues?.row?.organizations?.length > 1
-                              ? "pointer"
-                              : ""
-                          }`,
-                        }}
-                      >
-                        {renderCustomers(cellValues?.row?.organizations)}
-                      </div>
-                    ),
-                  },
-                  {
-                    field: "Modalities",
-                    hide: hideModality,
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 280,
-                    renderCell: (cellValues) =>
-                      renderModalities(cellValues.row.modalities),
-                  },
-                  {
-                    field: "Sites",
-                    hide: hideNetwork,
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 190,
-                    renderCell: (cellValues) => (
-                      <div
-                        onClick={
-                          cellValues?.row?.sites?.length > 1
-                            ? () =>
-                                handleModalClick(
-                                  "Sites",
-                                  cellValues?.row?.sites
-                                )
-                            : undefined
-                        }
-                        style={{
-                          cursor: `${
-                            cellValues?.row?.sites?.length > 1 ? "pointer" : ""
-                          }`,
-                        }}
-                      >
-                        {renderCustomers(cellValues?.row?.sites)}
-                      </div>
-                    ),
-                  },
-                  {
-                    field: "Status",
-                    hide: hideStatus,
-                    disableColumnMenu: true,
-                    sortable: false,
-                    width: 100,
-                    renderCell: (cellValues) => (
-                      <span
-                        style={{
-                          color: `${cellValues.row.is_active ? "" : "red"}`,
-                        }}
-                      >
-                        {cellValues.row.is_active ? "Active" : "Locked"}
-                      </span>
-                    ),
-                  },
-                  {
-                    field: "Actions",
-                    headerAlign: "center",
-                    align: "center",
-                    disableColumnMenu: true,
-                    width: 85,
-                    sortable: false,
-                    renderCell: (cellValues) => (
-                      <div
-                        onClick={(e) =>
-                          handleClick(
-                            e,
-                            cellValues.row.id,
-                            cellValues.row.is_active
-                          )
-                        }
-                        style={{
-                          cursor: "pointer",
-                          padding: "15px",
-                          marginLeft: "auto",
-                          marginTop: "10px",
-                        }}
-                      >
-                        <img src={ThreeDots} />
-                      </div>
-                    ),
-                  },
+                              }
+                              style={{
+                                cursor: "pointer",
+                                padding: "15px",
+                                marginLeft: "auto",
+                                marginTop: "10px",
+                              }}
+                            >
+                              <img src={ThreeDots} />
+                            </div>
+                          ),
+                        },
+                      ]
+                    : []),
                 ]}
                 loading={isUsersLoading}
                 pageSize={pageSize}

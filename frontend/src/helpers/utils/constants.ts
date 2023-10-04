@@ -42,3 +42,31 @@ export const COLUMN_FIELDS = {
   MODALITY: "modality",
   DOCUMENTATION: "documentation",
 };
+
+export const USER_TABLE_HEADERS = {
+  FIRST_NAME: "First Name",
+  LAST_NAME: "Last Name",
+  USERNAME: "Username",
+  EMAIL: "Email",
+  PHONE: "Phone",
+  ROLE: "Role",
+  MANAGER: "Manager",
+  CUSTOMER: "Customer",
+  MODALITIES: "Modalities",
+  SITES: "Sites",
+  STATUS: "Status",
+};
+
+export const USER_TABLE_FIELDS = {
+  FIRST_NAME: "first_name",
+  LAST_NAME: "last_name",
+  USERNAME: "username",
+  EMAIL: "email",
+  PHONE: "phone",
+  ROLE: "role",
+  MANAGER: "manager",
+  CUSTOMER: "customer",
+  MODALITIES: "modalities",
+  SITES: "sites",
+  STATUS: "status",
+};

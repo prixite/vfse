@@ -169,6 +169,18 @@ export default function DocumentationSection() {
     setAnchorEl(null);
   };
 
+  const renderModalities = (modalities) => {
+    return (
+      <div className="modality-section">
+        {modalities.map((modality, index) => (
+          <span key={index} className="modality">
+            {modality}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   const headers = [
     {
       field: COLUMN_FIELDS.MODEL,
