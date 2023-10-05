@@ -15,11 +15,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ConfirmationModal from "@src/components/shared/popUps/confirmationModal/ConfirmationModal";
 import DocumentModal from "@src/components/shared/popUps/documentModal/DocumentModal";
 import { mobileWidth } from "@src/helpers/utils/config";
-import {
-  timeOut,
-  COLUMN_HEADERS,
-  COLUMN_FIELDS,
-} from "@src/helpers/utils/constants";
+import { timeOut, COLUMN_METADATA } from "@src/helpers/utils/constants";
 import { deleteProductModelService } from "@src/services/documentationService";
 import {
   useProductsModelsListQuery,
@@ -183,32 +179,32 @@ export default function DocumentationSection() {
 
   const headers = [
     {
-      field: COLUMN_FIELDS.MODEL,
-      headerName: COLUMN_HEADERS.MODEL,
+      field: COLUMN_METADATA.MODEL.field,
+      headerName: COLUMN_METADATA.MODEL.header,
       width: 200,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: COLUMN_FIELDS.SYSTEM_NAME,
-      headerName: COLUMN_HEADERS.SYSTEM_NAME,
+      field: COLUMN_METADATA.SYSTEM_NAME.field,
+      headerName: COLUMN_METADATA.SYSTEM_NAME.header,
       width: 230,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: COLUMN_FIELDS.MANUFACTURER,
-      headerName: COLUMN_HEADERS.MANUFACTURER,
+      field: COLUMN_METADATA.MANUFACTURER.field,
+      headerName: COLUMN_METADATA.MANUFACTURER.header,
       width: 250,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: COLUMN_FIELDS.MODALITY,
-      headerName: COLUMN_HEADERS.MODALITY,
+      field: COLUMN_METADATA.MODALITY.field,
+      headerName: COLUMN_METADATA.MODALITY.header,
       disableColumnMenu: true,
       width: 250,
       hide: false,
@@ -216,8 +212,8 @@ export default function DocumentationSection() {
       renderCell: (cellValues) => renderModalities([cellValues?.row?.modality]),
     },
     {
-      field: COLUMN_FIELDS.DOCUMENTATION,
-      headerName: COLUMN_HEADERS.DOCUMENTATION,
+      field: COLUMN_METADATA.DOCUMENTATION.field,
+      headerName: COLUMN_METADATA.DOCUMENTATION.header,
       disableColumnMenu: true,
       width: 500,
       hide: false,
