@@ -91,7 +91,7 @@ export const routes: routeItem[] = [
     icon: GroupIcon,
   },
   {
-    name: "Documentation database",
+    name: "Documentation Administration",
     path: "/documentation/",
     component: Documentation,
     flag: "documentation",
