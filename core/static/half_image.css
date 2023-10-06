@@ -71,7 +71,8 @@
   opacity: 0.7;
 }
 
-.input-placeholder:focus {
+.input-placeholder:focus,
+.email-input:focus {
   border: 2px solid #773cbe;
 }
 
@@ -124,29 +125,34 @@ form input:focus {
   margin-top: 10%;
 }
 
-.first-half div.content-wrapper {
+.first-half {
   display: flex;
   justify-content: center;
+}
+
+.first-half div.content-wrapper {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
 .first-half img.logo {
-  position: absolute;
-  left: 110px;
   width: 80px;
 }
 
 .second-half {
   height: 100vh;
   padding: 0;
-  background-color: #49138a;
 }
 
 .second-half img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  position: fixed;
+  width: 50%;
+  top: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .welcome-page .card .card-body {
@@ -179,15 +185,6 @@ form input:focus {
   width: 250px;
 }
 
-.login-page form,
-.reset-password-page form,
-.password-reset-confirm form,
-.reset-password-page p,
-.reset-done-page p,
-.alert {
-  width: 400px;
-}
-
 @media only screen and (max-width: 480px) {
   .login-page form,
   .reset-password-page form,
@@ -199,9 +196,6 @@ form input:focus {
   }
   .second-half {
     display: none;
-  }
-  .first-half img.logo {
-    left: 10px;
   }
   .half-image div.content {
     margin-top: 18%;
@@ -249,8 +243,31 @@ form input:focus {
   }
   .first-half div.content-wrapper {
     display: block !important;
+    width: 100%;
+  }
+  .welcome-page {
+    padding-left: 0;
   }
   .welcome-page a.btn {
     width: 100%;
+  }
+}
+
+@media only screen and (min-width: 1001px) {
+  .welcome-page {
+    padding-left: 100px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) {
+  .content-wrapper {
+    width: 75%;
   }
 }

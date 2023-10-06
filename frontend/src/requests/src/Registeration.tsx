@@ -309,7 +309,7 @@ const Registeration = () => {
                     <p className="info-label required">Phone Number</p>
                     <TextField
                       autoComplete="off"
-                      className="info-field"
+                      className="info-field phone"
                       variant="outlined"
                       type="number"
                       placeholder="1234567890"
