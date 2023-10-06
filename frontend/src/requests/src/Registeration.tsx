@@ -216,6 +216,7 @@ const Registeration = () => {
     }
     setPhone(e.target.value);
   };
+
   const handleErrors = () => {
     !selectedImage.length
       ? setImageError("Image is not selected")
@@ -311,7 +312,8 @@ const Registeration = () => {
                       autoComplete="off"
                       className="info-field phone"
                       variant="outlined"
-                      type="number"
+                      type="tel"
+                      inputMode="numeric"
                       placeholder="1234567890"
                       InputProps={{
                         startAdornment: (
