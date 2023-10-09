@@ -44,7 +44,6 @@
         .dropzone-style {
           border: 1px dashed #a7aeb2;
           height: 200px;
-          width: 60%;
           margin-bottom: 10px;
         }
         .info-label {
@@ -64,6 +63,16 @@
             padding: 10px 13px;
           }
         }
+
+        .phone {
+          input {
+            padding: 10px 0px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+
         .divided-div {
           display: flex;
           justify-content: space-between;
@@ -204,5 +213,8 @@
   }
   .CoverSection {
     display: none;
+  }
+  .phone input {
+    margin-left: -6px;
   }
 }
