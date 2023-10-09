@@ -752,6 +752,8 @@ class UserRequestAccessViewSet(ModelViewSet, mixins.UserMixin):
                 for key in ["email", "first_name", "last_name"]
             },
         )
+        user.set_password(serializer.validated_data["password"])
+        user.save()
 
         self.create_membership(serializer.validated_data, user.id)
         self.update_profile(serializer.validated_data, user.id)
