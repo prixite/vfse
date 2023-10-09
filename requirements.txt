@@ -1,5 +1,5 @@
 boto3==1.28.58
-coverage==7.3.0
+coverage==7.3.2
 dj-database-url==2.1.0
 Django==4.2.4
 django-cors-headers==4.2.0
