@@ -870,6 +870,8 @@ class SystemLocationViewSet(ModelViewSet):
 
 
 class AwsUploadFileApiView(APIView):
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+
     def post(self, request, *args, **kwargs):
         filename = request.data.get("filename")
         filetype = request.data.get("filetype")
