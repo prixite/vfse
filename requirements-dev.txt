@@ -1,5 +1,5 @@
 -r requirements.txt
-django-types==0.17.0
+django-types==0.18.0
 ipython==8.14.0
 nplusone==1.0.0
 pre-commit==3.3.3
