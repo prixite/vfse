@@ -13,11 +13,7 @@ import NoDataFound from "@src/components/shared/noDataFound/NoDataFound";
 import ListModal from "@src/components/shared/popUps/listModal/ListModal";
 import UserModal from "@src/components/shared/popUps/userModal/UserModal";
 import { mobileWidth } from "@src/helpers/utils/config";
-import {
-  timeOut,
-  USER_TABLE_HEADERS,
-  USER_TABLE_FIELDS,
-} from "@src/helpers/utils/constants";
+import { timeOut, USER_TABLE_METADATA } from "@src/helpers/utils/constants";
 import {
   deactivateUserService,
   activateUserService,
@@ -177,61 +173,61 @@ export default function UserSection() {
 
   const headers = [
     {
-      field: USER_TABLE_FIELDS.FIRST_NAME,
-      headerName: USER_TABLE_HEADERS.FIRST_NAME,
+      field: USER_TABLE_METADATA.FIRST_NAME.field,
+      headerName: USER_TABLE_METADATA.FIRST_NAME.header,
       width: 220,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: USER_TABLE_FIELDS.LAST_NAME,
-      headerName: USER_TABLE_HEADERS.LAST_NAME,
+      field: USER_TABLE_METADATA.LAST_NAME.field,
+      headerName: USER_TABLE_METADATA.LAST_NAME.header,
       width: 220,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: USER_TABLE_FIELDS.USERNAME,
-      headerName: USER_TABLE_HEADERS.USERNAME,
+      field: USER_TABLE_METADATA.USERNAME.field,
+      headerName: USER_TABLE_METADATA.USERNAME.header,
       width: 220,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: USER_TABLE_FIELDS.EMAIL,
-      headerName: USER_TABLE_HEADERS.EMAIL,
+      field: USER_TABLE_METADATA.EMAIL.field,
+      headerName: USER_TABLE_METADATA.EMAIL.header,
       width: 270,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: USER_TABLE_FIELDS.PHONE,
-      headerName: USER_TABLE_HEADERS.PHONE,
+      field: USER_TABLE_METADATA.PHONE.field,
+      headerName: USER_TABLE_METADATA.PHONE.header,
       width: 160,
       hide: false,
       disableColumnMenu: true,
       sortable: false,
     },
     {
-      field: USER_TABLE_FIELDS.ROLE,
-      headerName: USER_TABLE_HEADERS.ROLE,
+      field: USER_TABLE_METADATA.ROLE.field,
+      headerName: USER_TABLE_METADATA.ROLE.header,
       hide: false,
       renderCell: (cellValues) =>
         usersRoles?.find((x) => x?.value === cellValues?.row?.role[0])?.title,
     },
     {
-      field: USER_TABLE_FIELDS.MANAGER,
-      headerName: USER_TABLE_HEADERS.MANAGER,
+      field: USER_TABLE_METADATA.MANAGER.field,
+      headerName: USER_TABLE_METADATA.MANAGER.header,
       hide: false,
       renderCell: (cellValues) => <div>{cellValues.row.manager?.name}</div>,
     },
     {
-      field: USER_TABLE_FIELDS.CUSTOMER,
-      headerName: USER_TABLE_HEADERS.CUSTOMER,
+      field: USER_TABLE_METADATA.CUSTOMER.field,
+      headerName: USER_TABLE_METADATA.CUSTOMER.header,
       hide: false,
       renderCell: (cellValues) => (
         <div
@@ -252,8 +248,8 @@ export default function UserSection() {
       ),
     },
     {
-      field: USER_TABLE_FIELDS.MODALITIES,
-      headerName: USER_TABLE_HEADERS.MODALITIES,
+      field: USER_TABLE_METADATA.MODALITIES.field,
+      headerName: USER_TABLE_METADATA.MODALITIES.header,
       hide: false,
       renderCell: (cellValues) => (
         <div className="modalities-cell">
@@ -262,8 +258,8 @@ export default function UserSection() {
       ),
     },
     {
-      field: USER_TABLE_FIELDS.SITES,
-      headerName: USER_TABLE_HEADERS.SITES,
+      field: USER_TABLE_METADATA.SITES.field,
+      headerName: USER_TABLE_METADATA.SITES.header,
       hide: false,
       renderCell: (cellValues) => (
         <div
@@ -281,8 +277,8 @@ export default function UserSection() {
       ),
     },
     {
-      field: USER_TABLE_FIELDS.STATUS,
-      headerName: USER_TABLE_HEADERS.STATUS,
+      field: USER_TABLE_METADATA.STATUS.field,
+      headerName: USER_TABLE_METADATA.STATUS.header,
       hide: false,
       renderCell: (cellValues) => (
         <span

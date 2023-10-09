@@ -27,46 +27,24 @@ export const categories = [
   "GFD",
 ];
 
-export const COLUMN_HEADERS = {
-  MODEL: "MODEL NAME",
-  SYSTEM_NAME: "SYSTEM NAME",
-  MANUFACTURER: "MANUFACTURER",
-  MODALITY: "MODALITY",
-  DOCUMENTATION: "DOCUMENTATION LINK",
+export const COLUMN_METADATA = {
+  MODEL: { header: "MODEL NAME", field: "model" },
+  SYSTEM_NAME: { header: "SYSTEM NAME", field: "name" },
+  MANUFACTURER: { header: "MANUFACTURER", field: "manufacturer" },
+  MODALITY: { header: "MODALITY", field: "modality" },
+  DOCUMENTATION: { header: "DOCUMENTATION LINK", field: "documentation" },
 };
 
-export const COLUMN_FIELDS = {
-  MODEL: "model",
-  SYSTEM_NAME: "name",
-  MANUFACTURER: "manufacturer",
-  MODALITY: "modality",
-  DOCUMENTATION: "documentation",
-};
-
-export const USER_TABLE_HEADERS = {
-  FIRST_NAME: "First Name",
-  LAST_NAME: "Last Name",
-  USERNAME: "Username",
-  EMAIL: "Email",
-  PHONE: "Phone",
-  ROLE: "Role",
-  MANAGER: "Manager",
-  CUSTOMER: "Customer",
-  MODALITIES: "Modalities",
-  SITES: "Sites",
-  STATUS: "Status",
-};
-
-export const USER_TABLE_FIELDS = {
-  FIRST_NAME: "first_name",
-  LAST_NAME: "last_name",
-  USERNAME: "username",
-  EMAIL: "email",
-  PHONE: "phone",
-  ROLE: "role",
-  MANAGER: "manager",
-  CUSTOMER: "customer",
-  MODALITIES: "modalities",
-  SITES: "sites",
-  STATUS: "status",
+export const USER_TABLE_METADATA = {
+  FIRST_NAME: { header: "First Name", field: "first_name" },
+  LAST_NAME: { header: "Last Name", field: "last_name" },
+  USERNAME: { header: "Username", field: "username" },
+  EMAIL: { header: "Email", field: "email" },
+  PHONE: { header: "Phone", field: "phone" },
+  ROLE: { header: "Role", field: "role" },
+  MANAGER: { header: "Manager", field: "manager" },
+  CUSTOMER: { header: "Customer", field: "customer" },
+  MODALITIES: { header: "Modalities", field: "modalities" },
+  SITES: { header: "Sites", field: "sites" },
+  STATUS: { header: "Status", field: "status" },
 };
