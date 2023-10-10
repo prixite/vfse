@@ -76,6 +76,16 @@
   border: 2px solid #773cbe;
 }
 
+.input-placeholder:not(:placeholder-shown) {
+  color: black;
+  background-color: rgb(232, 240, 254);
+}
+
+.input-placeholder:focus:not(:placeholder-shown) {
+  color: black;
+  background-color: rgb(232, 240, 254);
+}
+
 .toggle-password {
   border: 1px solid #d4d6db;
 }
