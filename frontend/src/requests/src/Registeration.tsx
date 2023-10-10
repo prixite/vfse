@@ -20,7 +20,7 @@ import NumberIcon from "@src/assets/svgs/number.svg";
 import DropzoneBox from "@src/components/common/presentational/dropzoneBox/DropzoneBox";
 import { timeOut } from "@src/helpers/utils/constants";
 import { uploadImageToS3 } from "@src/helpers/utils/imageUploadUtils";
-import { toastAPIError } from "@src/helpers/utils/utils";
+import { toastAPIError, passwordReg } from "@src/helpers/utils/utils";
 import SectionTwo from "@src/requests/src/components/smart/sectionTwo/SectionTwo";
 import "@src/requests/src/registeration.scss";
 import api, {
@@ -46,6 +46,10 @@ const Registeration = () => {
   const [lastName, setLastName] = useState("");
   const [lastnameError, setLastNameError] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phone, setPhone] = useState("");
   const [phoneError, setPhoneError] = useState("");
@@ -97,6 +101,7 @@ const Registeration = () => {
       first_name: firstName,
       last_name: lastName,
       email: email,
+      password: password,
       phone: "+1" + phone,
       role: role as UserRequestAccess["role"],
       organization: parseInt(organizationId),
@@ -141,6 +146,8 @@ const Registeration = () => {
         setFirstName("");
         setLastName("");
         setEmail("");
+        setPassword("");
+        setConfirmPassword("");
         setPhone("");
         setSelectedImage([]);
         setDocLink(false);
@@ -167,6 +174,7 @@ const Registeration = () => {
     firstName,
     lastName,
     email,
+    password,
     phone,
     role,
     manager,
@@ -210,6 +218,18 @@ const Registeration = () => {
     }
     setEmail(e.target.value);
   };
+  const handlPassword = (e) => {
+    if (passwordReg.test(e.target.value) === true) {
+      setPasswordError("");
+    }
+    setPassword(e.target.value);
+  };
+  const handlConfirmPassword = (e) => {
+    if (confirmPassword == password) {
+      setConfirmPasswordError("");
+    }
+    setConfirmPassword(e.target.value);
+  };
   const handlePhone = (e) => {
     if (e.target.value.length === 10) {
       setPhoneError("");
@@ -232,6 +252,16 @@ const Registeration = () => {
       : emailReg.test(email) == false
       ? setEmailError("Invalid Email.")
       : setEmailError("");
+    !password
+      ? setPasswordError("Password is required.")
+      : passwordReg.test(password) == false
+      ? setPasswordError("Invalid Password.")
+      : setPasswordError("");
+    !confirmPassword
+      ? setConfirmPasswordError("Confirm Password is required.")
+      : confirmPassword != password
+      ? setConfirmPasswordError("Password do not match.")
+      : setConfirmPasswordError("");
     !phone
       ? setPhoneError("Phone number is required.")
       : phone?.length !== 10
@@ -246,6 +276,10 @@ const Registeration = () => {
       lastName.length &&
       email?.length &&
       emailReg.test(email) == true &&
+      password?.length &&
+      passwordReg.test(password) == true &&
+      confirmPassword?.length &&
+      confirmPassword == password &&
       phone?.length &&
       phone?.length == 10 &&
       role &&
@@ -326,6 +360,34 @@ const Registeration = () => {
                       onChange={handlePhone}
                     />
                     <p className="errorText">{phoneError}</p>
+                  </div>
+                </div>
+                <div className="divided-div">
+                  <div className="group">
+                    <p className="info-label required">Password</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      type="password"
+                      variant="outlined"
+                      placeholder="Password"
+                      value={password}
+                      onChange={handlPassword}
+                    />
+                    <p className="errorText">{passwordError}</p>
+                  </div>
+                  <div className="group">
+                    <p className="info-label required">Confirm Password</p>
+                    <TextField
+                      autoComplete="off"
+                      className="info-field"
+                      type="password"
+                      variant="outlined"
+                      placeholder="Confirm Password"
+                      value={confirmPassword}
+                      onChange={handlConfirmPassword}
+                    />
+                    <p className="errorText">{confirmPasswordError}</p>
                   </div>
                 </div>
                 <div className="divided-div">

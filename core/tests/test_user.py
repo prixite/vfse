@@ -54,6 +54,7 @@ class UserTestCase(BaseTestCase):
             "first_name": "John",
             "last_name": "Doe",
             "email": "johndoe@request.com",
+            "password": "Fake!234",
             "phone": "+19876543210",
             "role": models.Role.FSE,
             "manager": self.customer_admin.id,

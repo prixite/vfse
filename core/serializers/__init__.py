@@ -755,6 +755,7 @@ class OrganizationSeatSeriazlier(serializers.ModelSerializer):
 
 
 class UserRequestAccessSerializer(GeneralUpsertUserSerializer):
+    password = serializers.CharField(min_length=8, required=True)
     health_networks = serializers.PrimaryKeyRelatedField(
         queryset=models.Organization.objects.all(), many=True
     )

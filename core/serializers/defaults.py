@@ -62,6 +62,10 @@ class ProfileMetaDefault:
         return {
             "profile_picture": f"{settings.DOMAIN_NAME}{static('assets/profile.png')}",
             "title": "",
+            "location": "",
+            "slack_link": "",
+            "calender_link": "",
+            "zoom_link": "",
         }
 
 
