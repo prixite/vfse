@@ -5,8 +5,10 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDropzone, FileRejection } from "react-dropzone";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 import UploadBtn from "@src/assets/svgs/upload-icon.svg";
+import { timeOut } from "@src/helpers/utils/constants";
 import { useAppSelector } from "@src/store/hooks";
 interface DropzoneProps {
   setSelectedImage: Dispatch<SetStateAction<unknown[]>>;
@@ -55,7 +57,7 @@ const DropzoneBox = ({
   }, [acceptedFiles]);
 
   useEffect(() => {
-    if (fileRejections && fileRejections.length) {
+    if (fileRejections?.length) {
       const invalidFormatFiles = fileRejections.filter(
         (rejection: FileRejection) =>
           rejection.errors.some((error) => error.code === "file-invalid-type")
@@ -66,13 +68,20 @@ const DropzoneBox = ({
       );
 
       if (invalidFormatFiles.length > 0) {
-        alert(
-          "One or more files have an invalid format. Only JPG, JPEG, PNG, and GIF formats are allowed."
+        toast.success(
+          "One or more files have an invalid format. Only JPG, JPEG, PNG, and GIF formats are allowed.",
+          {
+            autoClose: timeOut,
+            pauseOnHover: false,
+          }
         );
       }
 
       if (oversizedFiles.length > 0) {
-        alert("One or more files exceed the maximum size of 20MB.");
+        toast.success("One or more files exceed the maximum size of 20MB.", {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
       }
     }
   }, [fileRejections]);
