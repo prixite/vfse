@@ -13,6 +13,7 @@ export const uploadImageToS3 = async (imageFile: File) => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Token ${process.env.REQUEST_TOKEN}`,
         "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
       },
     })
