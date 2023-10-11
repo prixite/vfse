@@ -62,9 +62,6 @@
   font-size: 1rem !important;
   line-height: 1.4375em;
   letter-spacing: 0.00938em;
-  color: #d4d6db;
-  border: 1px solid #d4d6db;
-  border-radius: 8px;
 }
 
 .input-placeholder::placeholder {
@@ -74,11 +71,6 @@
 .input-placeholder:focus,
 .email-input:focus {
   border: 2px solid #773cbe;
-}
-
-.input-placeholder:focus:not(:placeholder-shown) {
-  color: black;
-  background-color: rgb(232, 240, 254);
 }
 
 .toggle-password {
