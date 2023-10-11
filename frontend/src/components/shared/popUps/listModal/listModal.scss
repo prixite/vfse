@@ -1,4 +1,12 @@
 .ListModal {
+  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    padding: 24px;
+    width: 460px;
+    min-height: 400px;
+    align-items: center;
+    box-shadow: unset;
+    border-radius: 4px;
+  }
   &__Content {
     display: list-item;
     width: 100%;
@@ -37,7 +45,7 @@
       }
     }
   }
-  h2 {
+  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
     width: 100%;
     background-color: #f5f6f7 !important;
     text-align: center;
