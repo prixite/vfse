@@ -80,10 +80,7 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                 }
               >
                 <div className="profile_side">
-                  <div
-                    className="follower_img_container"
-                    style={{ height: "32px", width: "39px" }}
-                  >
+                  <div className="follower_img_container">
                     {topic?.followers.length > 0 &&
                       topic?.followers
                         ?.slice(0, 3)
@@ -95,7 +92,7 @@ const TopicCard = ({ topic }: TopicCardProps) => {
                           />
                         ))}
                     <div className="followerText" style={{ marginTop: "5px" }}>
-                      <p style={{ width: "100px" }}>
+                      <p>
                         {topic?.number_of_followers > 0
                           ? `${topic?.number_of_followers} ${t("Followers")}`
                           : topic?.number_of_followers === 1
