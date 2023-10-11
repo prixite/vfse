@@ -1,12 +1,4 @@
 .ListModal {
-  .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
-    padding: 24px;
-    width: 460px;
-    min-height: 400px;
-    align-items: center;
-    box-shadow: unset;
-    border-radius: 4px;
-  }
   &__Content {
     display: list-item;
     width: 100%;
@@ -45,7 +37,7 @@
       }
     }
   }
-  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  h2 {
     width: 100%;
     background-color: #f5f6f7 !important;
     text-align: center;
@@ -54,16 +46,6 @@
     padding-bottom: 14px;
   }
 }
-// .css-ypiqx9-MuiDialogContent-root {
-//   padding: 20px 0px !important;
-// }
 .ListModal .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   padding: 0px 0px !important;
 }
-// .css-bdhsul-MuiTypography-root-MuiDialogTitle-root{
-//   width: 100%;
-//   text-align: center;
-//   padding: 12px 24px;
-//   background: #f5f6f7;
-//   border-bottom: 1px solid #ebeced;
-// }
