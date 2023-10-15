@@ -84,5 +84,6 @@
 }
 
 .MuiDataGrid-cell[data-field="modalities"] {
-  max-width: 310px !important;
+  max-width: 300px !important;
+  min-width: 300px !important;
 }
