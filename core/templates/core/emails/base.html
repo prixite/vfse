@@ -14,7 +14,6 @@
   </head>
   <body>
     <div
-      class="wrapper"
       style="
         display: flex;
         flex-direction: column;
@@ -24,7 +23,6 @@
       "
     >
       <div
-        class="card"
         style="
           background-color: white;
           width: 400px;
@@ -33,22 +31,22 @@
           text-align: center;
         "
       >
+      <div
+        style="
+          background-color: #15c;
+          padding: 10px;
+          border-radius: 10px 10px 0 0;
+          text-align: center;
+          color: white;
+          font-weight: bold;
+          font-size: 20px;
+        "
+      >
+        <a href="{{protocol}}://{{domain}}/">
+          <img style="background-color : white; width: 50px;" src="{{protocol}}://{{domain}}/static/assets/logo.png" />
+        </a>
+      </div>
         <div
-          class="logo"
-          style="
-            background-color: #15c;
-            padding: 10px;
-            border-radius: 10px 10px 0 0;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-          "
-        >
-          Logo
-        </div>
-        <div
-          class="content"
           style="
             background-color: white;
             padding: 20px;
@@ -58,7 +56,6 @@
           "
         >
           <div
-            class="greeting"
             style="
               font-size: 24px;
               color: #333;
@@ -66,9 +63,7 @@
             "
           >
             Hi
-            <span
-              class="user-name"
-            >
+            <span>
               {% firstof user.first_name user.email %},
             </span
             >
