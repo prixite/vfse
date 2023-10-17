@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
   Grid,
@@ -9,6 +9,8 @@ import {
   Button,
   FormControl,
   InputAdornment,
+  IconButton,
+  OutlinedInput,
 } from "@mui/material";
 import { Buffer } from "buffer";
 import { toast, ToastContainer } from "react-toastify";
@@ -67,6 +69,8 @@ const Registeration = () => {
   const [manager, setManager] = useState<string>("");
   const [selectedSites, setSelectedSites] = useState([]);
   const [selectedModalities, setSelectedModalities] = useState([]);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { data: userRoles = [] } = useGetRolesQuery();
   const { data: organizations = [] } = useGetOrganizationsQuery();
   const { data: managers = [] } = useGetManagersQuery(
@@ -255,7 +259,9 @@ const Registeration = () => {
     !password
       ? setPasswordError("Password is required.")
       : passwordReg.test(password) == false
-      ? setPasswordError("Invalid Password.")
+      ? setPasswordError(
+          "Password must be be 8 characters long and should include digit, special character, lowercase, uppercase."
+        )
       : setPasswordError("");
     !confirmPassword
       ? setConfirmPasswordError("Confirm Password is required.")
@@ -365,27 +371,55 @@ const Registeration = () => {
                 <div className="divided-div">
                   <div className="group">
                     <p className="info-label required">Password</p>
-                    <TextField
+                    <OutlinedInput
                       autoComplete="off"
                       className="info-field"
-                      type="password"
                       variant="outlined"
                       placeholder="Password"
                       value={password}
                       onChange={handlPassword}
+                      type={showPassword ? "text" : "password"}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
                     />
                     <p className="errorText">{passwordError}</p>
                   </div>
                   <div className="group">
                     <p className="info-label required">Confirm Password</p>
-                    <TextField
+                    <OutlinedInput
                       autoComplete="off"
                       className="info-field"
-                      type="password"
                       variant="outlined"
                       placeholder="Confirm Password"
                       value={confirmPassword}
                       onChange={handlConfirmPassword}
+                      type={showConfirmPassword ? "text" : "password"}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                            edge="end"
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      }
                     />
                     <p className="errorText">{confirmPasswordError}</p>
                   </div>
