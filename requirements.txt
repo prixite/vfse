@@ -15,7 +15,7 @@ factory-boy==3.3.0
 fastapi==0.103.2
 gunicorn==21.2.0
 httpx==0.24.1
-icmplib==3.0.3
+icmplib==3.0.4
 influxdb-client==1.37.0
 openai==0.28.0
 Pillow==10.1.0
