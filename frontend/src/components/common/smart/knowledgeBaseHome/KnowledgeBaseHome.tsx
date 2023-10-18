@@ -57,6 +57,7 @@ const KnowledgeBaseHome = () => {
     setArticlesList(dataForSearchArticles);
     setCategoryListForSearch(dataForSearchCategories);
   };
+
   const handleFolderClose = () => {
     setFolderOpen(false);
   };
@@ -93,32 +94,36 @@ const KnowledgeBaseHome = () => {
         actualData={categoriesList || topData}
         setData={setCategoryListForSearch}
       />
-      <h2 className={classes.subHeading}>{t("Top Help Articles")}</h2>
-      <Grid
-        container
-        spacing={{ xs: 2, sm: 1, md: 1, lg: 1, xl: 1 }}
-        mt={3}
-        className={classes.knowledgeBaseCardsContainer}
-      >
-        {articlesList.map((item, index) => (
+      {articlesList.length > 0 && (
+        <>
+          <h2 className={classes.subHeading}>{t("Top Help Articles")}</h2>
           <Grid
-            item={true}
-            xs={12}
-            sm={6}
-            md={4}
-            lg={3}
-            xl={2}
-            key={index}
-            className={classes.knowledgeTopCard}
+            container
+            spacing={{ xs: 2, sm: 1, md: 1, lg: 1, xl: 1 }}
+            mt={3}
+            className={classes.knowledgeBaseCardsContainer}
           >
-            <KnowledgeTopCard
-              title={item?.title}
-              description={item?.text}
-              id={item?.id}
-            />
+            {articlesList.map((item, index) => (
+              <Grid
+                item={true}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                xl={2}
+                key={index}
+                className={classes.knowledgeTopCard}
+              >
+                <KnowledgeTopCard
+                  title={item?.title}
+                  description={item?.text}
+                  id={item?.id}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </>
+      )}
       {categoryListForSearch?.map((category, index) => (
         <div key={index}>
           <div className={classes.seeAllDiv}>
