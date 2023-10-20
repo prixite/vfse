@@ -261,13 +261,13 @@ const Registeration = () => {
       ? setPasswordError("Password is required.")
       : passwordReg.test(password) == false
       ? setPasswordError(
-          "Password must be be 8 characters long and should include digit, special character, lowercase, uppercase."
+          "Password must be 8 characters long and should include digit, special character, lowercase, uppercase."
         )
       : setPasswordError("");
     !confirmPassword
       ? setConfirmPasswordError("Confirm Password is required.")
       : confirmPassword != password
-      ? setConfirmPasswordError("Password do not match.")
+      ? setConfirmPasswordError("Password does not match.")
       : setConfirmPasswordError("");
     !phone
       ? setPhoneError("Phone number is required.")
