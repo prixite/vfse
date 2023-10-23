@@ -371,7 +371,7 @@ export default function OrganizationModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {organization?.name ?? "Add Client"}
+            {organization?.name ?? "Add Clienttt="}
           </span>
           <span className="dialog-page">
             {action !== "new" ? (
@@ -649,15 +649,7 @@ export default function OrganizationModal({
           disabled={isLoading || isNetworkImageUploading}
           className="add-btn"
         >
-          {isLoading
-            ? "Loading ..."
-            : action === "edit"
-            ? page === "1"
-              ? "Next"
-              : "Edit"
-            : page === "1"
-            ? "Next"
-            : "Add"}
+          {isLoading ? "Loading ..." : action === "edit" ? "Edit" : "Add"}
         </Button>
       </DialogActions>
     </Dialog>
