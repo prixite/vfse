@@ -37,6 +37,16 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
     });
     handleClose();
   };
+
+  function formatDateTime(dateTimeString) {
+    if (!dateTimeString) return "";
+
+    const date = dateTimeString.slice(0, 10);
+    const time = dateTimeString.slice(10);
+
+    return `${date} ${time}`;
+  }
+
   return (
     <>
       <div className="CommentCard">
@@ -45,7 +55,9 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
             <Avatar alt="author Image" src={comment?.author_image} />
             <div className="author">
               <h3 className="author__name">{comment?.author_full_name} </h3>
-              <p className="author__date">{comment?.created_at}</p>
+              <p className="author__date">
+                {formatDateTime(comment?.created_at)}
+              </p>
             </div>
           </div>
           {userId === comment?.author ? (
