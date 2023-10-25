@@ -198,7 +198,12 @@ const KnowledgeTopCard = ({
                     height: "100%",
                     color: "#111827",
                   }}
-                  to={{ pathname: `documentation/${id}/` }}
+                  to={{
+                    pathname: location.pathname.includes("folder")
+                      ? `/${organizationRoute}/${param?.id}/knowledge-base/folder/${param?.folderId}/documentation/${id}/`
+                      : `/${organizationRoute}/${param?.id}/knowledge-base/documentation/${id}/`,
+                    state: { edit: true },
+                  }}
                   state={{ edit: true }}
                 >
                   Update
