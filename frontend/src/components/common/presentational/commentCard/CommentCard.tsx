@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
+import moment from "moment";
 
 import DeleteLogo from "@src/assets/svgs/delete.svg";
 import EditLogo from "@src/assets/svgs/edit.svg";
@@ -11,7 +12,6 @@ import { toastAPIError } from "@src/helpers/utils/utils";
 import { deleteSystemNoteService } from "@src/services/systemServices";
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
 import "@src/components/common/presentational/commentCard/commentCard.scss";
-
 interface CommentProps {
   comment: SystemNotes;
   userId: number;
@@ -41,10 +41,11 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
   function formatDateTime(dateTimeString) {
     if (!dateTimeString) return "";
 
-    const date = dateTimeString.slice(0, 10);
-    const time = dateTimeString.slice(10);
+    const date = moment(dateTimeString).format("YYYY-MM-DD");
+    const time = moment(dateTimeString).format("HH:mm:ss.SSSSSS");
+    const formattedDateTime = `${date} T${time}Z`;
 
-    return `${date} ${time}`;
+    return formattedDateTime;
   }
 
   return (
