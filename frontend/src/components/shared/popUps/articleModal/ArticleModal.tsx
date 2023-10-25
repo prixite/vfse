@@ -280,7 +280,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   {"categories"?.length && (
                     <p style={{ marginBottom: "6px" }}>
-                      <span className="info-label">{t("Category")}</span>
+                      <span className="info-label required">{t("Category")}</span>
                     </p>
                   )}
                   <FormControl sx={{ minWidth: "100%" }}>
