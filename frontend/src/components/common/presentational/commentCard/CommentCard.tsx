@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Avatar } from "@mui/material";
+import moment from "moment";
 
 import DeleteLogo from "@src/assets/svgs/delete.svg";
 import EditLogo from "@src/assets/svgs/edit.svg";
@@ -11,7 +12,6 @@ import { toastAPIError } from "@src/helpers/utils/utils";
 import { deleteSystemNoteService } from "@src/services/systemServices";
 import { SystemNotes, useNotesDeleteMutation } from "@src/store/reducers/api";
 import "@src/components/common/presentational/commentCard/commentCard.scss";
-
 interface CommentProps {
   comment: SystemNotes;
   userId: number;
@@ -37,6 +37,15 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
     });
     handleClose();
   };
+
+  function formatDateTime(dateTimeString) {
+    if (!dateTimeString) return "";
+
+    const date = moment(dateTimeString).format("YYYY-MM-DD");
+    const time = moment(dateTimeString).format("HH:mm:ss.SSSSSS");
+    return `${date} T${time}Z`;
+  }
+
   return (
     <>
       <div className="CommentCard">
@@ -45,7 +54,9 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
             <Avatar alt="author Image" src={comment?.author_image} />
             <div className="author">
               <h3 className="author__name">{comment?.author_full_name} </h3>
-              <p className="author__date">{comment?.created_at}</p>
+              <p className="author__date">
+                {formatDateTime(comment?.created_at)}
+              </p>
             </div>
           </div>
           {userId === comment?.author ? (
