@@ -43,9 +43,7 @@ const CommentCard = ({ comment, userId }: CommentProps) => {
 
     const date = moment(dateTimeString).format("YYYY-MM-DD");
     const time = moment(dateTimeString).format("HH:mm:ss.SSSSSS");
-    const formattedDateTime = `${date} T${time}Z`;
-
-    return formattedDateTime;
+    return `${date} T${time}Z`;
   }
 
   return (
