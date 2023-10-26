@@ -53,10 +53,11 @@ const initialState: Document = {
   text: "",
   categories: [],
 };
+
 const validationSchema = yup.object({
   title: yup.string().required("Title is required"),
   text: yup.string().required("Text is required"),
-  categories: yup.array().min(1).required("Category is required"),
+  categories: yup.array().min(1, "Category is required"),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
@@ -280,7 +281,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   {"categories"?.length && (
                     <p style={{ marginBottom: "6px" }}>
-                      <span className="info-label">{t("Category")}</span>
+                      <span className="info-label required">
+                        {t("Category")}
+                      </span>
                     </p>
                   )}
                   <FormControl sx={{ minWidth: "100%" }}>
