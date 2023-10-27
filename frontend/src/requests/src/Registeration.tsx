@@ -167,6 +167,7 @@ const Registeration = () => {
         setSelectedSites([]);
         setSelectedModalities([]);
         setPage(1);
+        window.location.replace("/accounts/login/?next=/");
       })
       .catch((err) => {
         toastAPIError(

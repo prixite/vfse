@@ -119,7 +119,7 @@ const TopicCommentSection = () => {
               display: { xs: "none", sm: "none", md: "flex" },
             }}
           >
-            {isCommentPosting ? "Posting..." : "Add Reply"}
+            {isCommentPosting ? "Posting..." : "Add Comment"}
           </Button>
         </Box>
       ) : (
