@@ -437,7 +437,9 @@ export default function OrganizationModal({
                 }
               >
                 <div className="info-section">
-                  <p className="info-label required">{t("Organization Name")}</p>
+                  <p className="info-label required">
+                    {t("Organization Name")}
+                  </p>
                   <TextField
                     name="organizationName"
                     value={formik.values.organizationName}
