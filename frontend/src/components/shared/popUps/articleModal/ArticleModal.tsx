@@ -254,7 +254,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                     className="info-field"
                     variant="outlined"
                     size="small"
-                    placeholder="Type in  title"
+                    placeholder="Type in title"
                   />
                   <p className="errorText" style={{ marginTop: "5px" }}>
                     {formik.errors.title}
@@ -280,7 +280,9 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                 <div className="info-section">
                   {"categories"?.length && (
                     <p style={{ marginBottom: "6px" }}>
-                      <span className="info-label">{t("Category")}</span>
+                      <span className="info-label required">
+                        {t("Category")}
+                      </span>
                     </p>
                   )}
                   <FormControl sx={{ minWidth: "100%" }}>
