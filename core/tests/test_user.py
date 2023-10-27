@@ -30,6 +30,25 @@ class UserTestCase(BaseTestCase):
         )
         self.assertEqual(response.context["user"].is_authenticated, True)
 
+    def test_user_cryo_login(self):
+        user = models.User.objects.create_user(
+            username="cryo-test@example.com", password="Fake!234"
+        )
+        models.Membership.objects.create(
+            organization=self.organization,
+            role=models.Role.CRYO,
+            user_id=user.pk,
+        )
+        response = test.Client().post(
+            "/accounts/login/",
+            data={
+                "username": user.username,
+                "password": "Fake!234",
+            },
+            follow=True,
+        )
+        self.assertEqual(response.context["user"].is_authenticated, True)
+
     def test_one_time_login_complete(self):
         user = factories.UserWithPasswordFactory(
             profile__is_one_time=True, profile__one_time_complete=True
