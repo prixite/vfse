@@ -227,7 +227,7 @@ export default function DocumentationSection() {
 
   return (
     <div className="documentaion-section">
-      <h2>{t("Documentation database")}</h2>
+      <h2>{t("Documentation Administration")}</h2>
       <TopViewBtns
         setOpen={setOpen}
         path="documentation"
