@@ -20,7 +20,7 @@ class CategoryViewSet(ModelViewSet):
     filterset_class = filters.CategoryFilterSet
 
     def get_queryset(self):
-        return models.Category.objects.all().order_by("-id")
+        return models.Category.objects.all()
 
 
 class FolderViewset(ModelViewSet):
