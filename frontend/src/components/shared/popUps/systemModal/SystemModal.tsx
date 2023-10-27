@@ -1066,7 +1066,7 @@ export default function SystemModal(props: SystemProps) {
             type="submit"
             disabled={disableButton}
           >
-            {props.system ? "Edit" : "Add"}
+            {props.system ? "Save" : "Add"}
           </Button>
         </DialogActions>
         <AddManufacturerModal
