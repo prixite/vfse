@@ -225,7 +225,7 @@ class User(AbstractUser):
             user=self,
             organization=organization_pk,
         ):
-            flags |= to_modules[membership.role]
+            flags |= to_modules.get(membership.role, set())
 
         if self.profile.fse_accessible:
             flags.add(vfse_flag)
