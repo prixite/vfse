@@ -12,9 +12,12 @@ class Folder(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=20)
     color = models.CharField(max_length=10, default="#28D4AB")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name_plural = "Categories"
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.name
