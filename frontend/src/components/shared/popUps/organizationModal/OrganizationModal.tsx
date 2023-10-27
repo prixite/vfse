@@ -371,7 +371,7 @@ export default function OrganizationModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {organization?.name ?? "Add Client"}
+            {organization?.name ?? "Add Organization"}
           </span>
           <span className="dialog-page">
             {action !== "new" ? (
