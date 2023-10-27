@@ -53,10 +53,11 @@ const initialState: Document = {
   text: "",
   categories: [],
 };
+
 const validationSchema = yup.object({
   title: yup.string().required("Title is required"),
   text: yup.string().required("Text is required"),
-  categories: yup.array().min(1).required("Category is required"),
+  categories: yup.array().min(1, "Category is required"),
 });
 
 const ToggleButton = styled(MuiToggleButton)(
