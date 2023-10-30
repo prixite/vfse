@@ -22,7 +22,7 @@
     "@egjs/react-flicking": "^4.10.10",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.14.11",
+    "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.14",
     "@mui/styles": "^5.14.14",
     "@mui/x-data-grid": "^6.16.0",
