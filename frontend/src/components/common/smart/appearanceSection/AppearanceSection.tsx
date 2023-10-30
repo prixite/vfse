@@ -159,7 +159,7 @@ const AppearanceSection = () => {
         <Box component="div" sx={{ background: "#fff", mt: "23px" }} p={4}>
           <Grid container>
             <Grid item>
-              <h4 style={{ marginBottom: "5px" }}>{t("Client Name")}</h4>
+              <h4 style={{ marginBottom: "5px" }}>{t("Organization Name")}</h4>
               <TextField
                 disabled
                 fullWidth

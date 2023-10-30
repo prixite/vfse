@@ -371,7 +371,7 @@ export default function OrganizationModal({
       <DialogTitle>
         <div className="title-section title-cross">
           <span className="modal-header">
-            {organization?.name ?? "Add Organization"}
+            {organization?.name ?? "Add Oragnization"}
           </span>
           <span className="dialog-page">
             {action !== "new" ? (
@@ -437,7 +437,9 @@ export default function OrganizationModal({
                 }
               >
                 <div className="info-section">
-                  <p className="info-label required">{t("Client Name")}</p>
+                  <p className="info-label required">
+                    {t("Organization Name")}
+                  </p>
                   <TextField
                     name="organizationName"
                     value={formik.values.organizationName}

@@ -478,7 +478,7 @@ const Registeration = () => {
                     </FormControl>
                   </div>
                 </div>
-                <p className="info-label required">Customer</p>
+                <p className="info-label required">Organization</p>
                 <FormControl>
                   <Select
                     inputProps={{ "aria-label": "Without label" }}
