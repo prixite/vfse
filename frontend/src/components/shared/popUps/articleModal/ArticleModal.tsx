@@ -367,7 +367,7 @@ export default function ArticleModal({ open, handleClose }: ArticleModalProps) {
                     variant="outlined"
                     size="small"
                     type="url"
-                    placeholder="PDF file to be uploaded"
+                    placeholder="Upload file"
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="start">
