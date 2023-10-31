@@ -77,7 +77,7 @@ const SystemCard = ({
   const [anchorConnect, setAnchorConnect] = useState(null);
   const [modal, setModal] = useState(false);
   const [loginProgress, setLoginProgress] = useState(false);
-  const { buttonBackground, buttonTextColor } = useAppSelector(
+  const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
   );
   const selectedOrganization: Organization = useSelectedOrganization();
@@ -506,6 +506,10 @@ const SystemCard = ({
                 variant="contained"
                 className={classes.linkBtn}
                 onClick={() => window?.open(system.grafana_link, "_blank")}
+                style={{
+                  backgroundColor: secondaryColor,
+                  color: buttonTextColor,
+                }}
               >
                 <div className="btn-content">
                   <AttachFileIcon className={classes.icon} />
