@@ -110,6 +110,7 @@ const VncScreenDialog = ({
         </AppBar>
         <VncScreen
           url={websockifyUrl}
+          viewOnly={system.is_read_only}
           scaleViewport={true}
           background="#000000"
           onSecurityFailure={(e) => securityFailure(e)}
