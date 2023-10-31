@@ -11,7 +11,6 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-
         factories.UserWithPasswordFactory(
             username="mfa@example.com",
             is_superuser=True,
@@ -146,6 +145,7 @@ class Command(BaseCommand):
                 "virtual_media_control": False,
                 "service_web_browser": False,
                 "ssh": True,
+                "vfse": False,
             },
         )
 
