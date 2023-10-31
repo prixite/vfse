@@ -209,7 +209,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down("sm")]: {},
   },
   linkBtn: {
-    backgroundColor: "transparent !important",
     color: "#696f77",
     border: "1px solid black",
     boxShadow: "none",
