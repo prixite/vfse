@@ -1,6 +1,15 @@
 import { useState } from "react";
 
-import { Dialog, Button, TextField, Grid } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Dialog,
+  Button,
+  Grid,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  FormControl,
+} from "@mui/material";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -39,6 +48,7 @@ const PasswordDialog = ({
   organizationId,
 }: PasswordDialogProps) => {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: validationSchema,
@@ -70,19 +80,32 @@ const PasswordDialog = ({
           </DialogTitle>
           <DialogContent>
             <Grid item xs={12} sm={6} className="modal-content">
-              <p className="info-label">Enter Password to Connect</p>
+              <p className="info-label">Enter Password To Connect</p>
               <form onSubmit={formik.handleSubmit}>
-                <TextField
-                  autoComplete="off"
-                  className="info-field"
-                  variant="outlined"
-                  placeholder="Password"
-                  name="passwordConfirmation"
-                  value={formik.values.passwordConfirmation}
-                  onChange={formik.handleChange}
-                  size="small"
-                  type="password"
-                />
+                <FormControl fullWidth>
+                  <OutlinedInput
+                    autoComplete="off"
+                    className="info-field"
+                    size="small"
+                    variant="outlined"
+                    placeholder="Password"
+                    name="passwordConfirmation"
+                    value={formik.values.passwordConfirmation}
+                    onChange={formik.handleChange}
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
                 <p className="errorText" style={{ marginTop: "5px" }}>
                   {formik.errors.passwordConfirmation}
                 </p>

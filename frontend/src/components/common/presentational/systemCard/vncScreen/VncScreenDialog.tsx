@@ -3,7 +3,15 @@ import React, { useEffect, useRef, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-import { AppBar, Dialog, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  CircularProgress,
+  Dialog,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { toast } from "react-toastify";
@@ -32,8 +40,9 @@ const VncScreenDialog = ({
 }: VncScreenProps) => {
   const selectedOrganization: Organization = useSelectedOrganization();
   const vncScreenRef = useRef<React.ElementRef<typeof VncScreen>>(null);
-  const { connect, connected, disconnect } = vncScreenRef.current ?? {};
+  const [serverConnected, setServerConnected] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
+  const { connect, connected, disconnect } = vncScreenRef.current ?? {};
 
   const websockifyUrl = `${process.env.WEBSOCKIFY_WS}${selectedOrganization.id}/${system.id}`;
 
@@ -50,6 +59,21 @@ const VncScreenDialog = ({
       connect?.();
     }
   }, []);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!serverConnected) {
+        toast.error("Failed to connect", {
+          autoClose: timeOut,
+          pauseOnHover: false,
+        });
+        handleModalClose();
+      }
+    }, 10000);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [serverConnected]);
 
   const securityFailure = (e) => {
     e?.detail?.status === 1 && e?.detail?.reason === "Authentication failure";
@@ -110,13 +134,30 @@ const VncScreenDialog = ({
         </AppBar>
         <VncScreen
           url={websockifyUrl}
+          viewOnly={system.is_read_only}
           scaleViewport={true}
-          background="#000000"
+          background="#fffff"
           onSecurityFailure={(e) => securityFailure(e)}
+          onConnect={() => setServerConnected(true)}
           style={{
-            width: `${fullScreen ? "100vw" : "60vw"}`,
-            height: `${fullScreen ? "100%" : "75vh"}`,
+            width: `${!serverConnected ? "0" : fullScreen ? "100vw" : "60vw"}`,
+            height: `${!serverConnected ? "0" : fullScreen ? "100%" : "75vh"}`,
           }}
+          loadingUI={
+            !serverConnected && (
+              <Box
+                sx={{
+                  display: "flex",
+                  width: "60vw",
+                  height: "75vh",
+                  paddingLeft: fullScreen ? "50vw" : "30vw",
+                  paddingTop: "32.5vh",
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )
+          }
           rfbOptions={RfbOptions}
           ref={vncScreenRef}
         />

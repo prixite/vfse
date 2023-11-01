@@ -586,6 +586,7 @@ class SystemSerializer(serializers.ModelSerializer):
     telnet_password = serializers.CharField(
         write_only=True, allow_blank=True, allow_null=True, required=False
     )
+    is_read_only = serializers.SerializerMethodField()
 
     class Meta:
         model = models.System
@@ -621,6 +622,7 @@ class SystemSerializer(serializers.ModelSerializer):
             "telnet_password",
             "vnc_server_path",
             "connection_monitoring",
+            "is_read_only",
         ]
         validators = [
             UniqueTogetherValidator(
@@ -629,6 +631,21 @@ class SystemSerializer(serializers.ModelSerializer):
                 message="System with given name for selected site already exists",
             )
         ]
+
+    def get_is_read_only(self, obj):
+        user = self.context.get("request").user
+        organization_pk = self.context.get("view").kwargs["pk"]
+        try:
+            return models.UserSystem.objects.get(user=user, system=obj).is_read_only
+        except models.UserSystem.DoesNotExist:
+            if (
+                user.is_superuser
+                or user.is_supermanager
+                or user.is_customer_admin(organization_pk)
+            ):
+                return False
+            else:
+                return True
 
     @transaction.atomic
     def create(self, validated_data):
