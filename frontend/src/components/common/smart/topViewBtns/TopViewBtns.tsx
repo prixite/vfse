@@ -90,6 +90,16 @@ const TopViewBtns = ({
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [site, setSite] = useState([]);
   const [selectedSite, setSelectedSite] = useState("");
+  const selectedOrganization = useSelectedOrganization();
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
+
   let btnAdd: string;
   if (path === "modality") {
     btnAdd = "Add Network";
@@ -321,6 +331,15 @@ const TopViewBtns = ({
       </Button>
     );
   };
+
+  const renderAddButton = () => {
+    if (me.role !== "customer-admin") {
+      return createAddButton();
+    } else {
+      return null;
+    }
+  };
+
   const renderAddConditionally = () => {
     if (path === "organizations" && currentUser?.is_superuser) return true;
     if (path === "systems" && currentUser?.role !== "end-user") return true;
@@ -435,7 +454,7 @@ const TopViewBtns = ({
             />
           </Box>
           {renderAddConditionally() && !currentUser?.view_only
-            ? createAddButton()
+            ? renderAddButton()
             : ""}
         </Box>
       </Box>
