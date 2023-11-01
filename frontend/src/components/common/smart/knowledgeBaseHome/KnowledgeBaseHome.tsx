@@ -22,7 +22,6 @@ const KnowledgeBaseHome = () => {
     Category[]
   >([]);
   const [articlesList, setArticlesList] = useState<Document[]>([]);
-
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [folderDataState, setFolderDataState] = useState({
@@ -36,11 +35,9 @@ const KnowledgeBaseHome = () => {
   const { id } = useParams<{ id?: string }>();
   //APIs
   const { data: topData = [] } = api.useGetTopArticlesQuery();
-
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
-
   // eslint-disable-next-line
   const handleSearchQuery = (searchQuery: string) => {
     // handleSearch Logic here
@@ -57,20 +54,25 @@ const KnowledgeBaseHome = () => {
     setArticlesList(dataForSearchArticles);
     setCategoryListForSearch(dataForSearchCategories);
   };
-
   const handleFolderClose = () => {
     setFolderOpen(false);
   };
   const handleClose = () => {
     setOpen(false);
   };
-
   useEffect(() => {
     if (query.length > 2) {
       handleSearchQuery(query);
     } else {
-      setArticlesList(topData);
-      setCategoryListForSearch(categoriesList);
+      if (
+        topData &&
+        categoriesList &&
+        topData.length &&
+        categoriesList.length
+      ) {
+        setArticlesList(topData);
+        setCategoryListForSearch(categoriesList);
+      }
     }
   }, [query, categoriesList, topData]);
   const handleEdit = (selectedArticle) => {
@@ -83,7 +85,6 @@ const KnowledgeBaseHome = () => {
       folderCategoryIDS: selectedArticle.categories,
     });
   };
-
   return (
     <>
       <TopViewBtns
@@ -174,5 +175,4 @@ const KnowledgeBaseHome = () => {
     </>
   );
 };
-
 export default KnowledgeBaseHome;
