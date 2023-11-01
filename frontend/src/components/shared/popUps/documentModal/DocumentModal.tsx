@@ -306,7 +306,7 @@ export default function DocumentModal({
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={6}>
                 <div className="info-section">
-                  <p className="info-label">{t("Product")}</p>
+                  <p className="info-label required">{t("Product")}</p>
                   {!isProductsModelsLoading && (
                     <FormControl fullWidth>
                       <Select
@@ -350,7 +350,7 @@ export default function DocumentModal({
                 sx={{ marginLeft: "auto" }}
               >
                 <div className="info-section">
-                  <p className="info-label">{t("Modalities")}</p>
+                  <p className="info-label required">{t("Modalities")}</p>
                   <FormControl sx={{ minWidth: "100%" }}>
                     <Select
                       name="modality"
