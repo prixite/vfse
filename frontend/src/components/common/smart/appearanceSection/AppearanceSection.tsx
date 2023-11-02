@@ -146,7 +146,7 @@ const AppearanceSection = () => {
         id: currentOrganiationDummyData.id.toString(),
         organization: currentOrganiationDummyData,
       }).unwrap();
-      toast.success("Client successfully updated.");
+      toast.success("Organization successfully updated.");
     } catch (err) {
       toastAPIError("Error updating client", err.status, err.data);
     }
