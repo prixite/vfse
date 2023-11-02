@@ -27,10 +27,10 @@ import {
   useOrganizationsSitesListQuery,
 } from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
-
 import "@src/components/common/smart/topViewBtns/TopViewBtns.scss";
-import FilterSelect from "./FilterSelect";
+import { UserRole } from "@src/types/interfaces";
 
+import FilterSelect from "./FilterSelect";
 interface Props {
   path: string;
   setOpen?: (arg: boolean) => void;
@@ -333,7 +333,7 @@ const TopViewBtns = ({
   };
 
   const renderAddButton = () => {
-    if (me.role !== "customer-admin") {
+    if (me.role !== UserRole.CUSTOMER_ADMIN) {
       return createAddButton();
     } else {
       return null;
