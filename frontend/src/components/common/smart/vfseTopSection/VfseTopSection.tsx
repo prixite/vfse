@@ -55,7 +55,7 @@ export default function VfseTopSection({
   const [sort, setSort] = useState<number>(0);
   const [filter, setfilter] = useState<number>(0);
   useEffect(() => {
-    if (popularTopicData && popularTopicData.length) {
+    if (popularTopicData?.length) {
       setListData(popularTopicData);
     }
   }, [popularTopicData]);

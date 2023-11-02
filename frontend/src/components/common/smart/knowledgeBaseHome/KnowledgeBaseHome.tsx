@@ -64,12 +64,7 @@ const KnowledgeBaseHome = () => {
     if (query.length > 2) {
       handleSearchQuery(query);
     } else {
-      if (
-        topData &&
-        categoriesList &&
-        topData.length &&
-        categoriesList.length
-      ) {
+      if (topData?.length && categoriesList?.length) {
         setArticlesList(topData);
         setCategoryListForSearch(categoriesList);
       }

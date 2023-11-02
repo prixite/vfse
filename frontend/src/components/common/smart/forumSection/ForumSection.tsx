@@ -33,7 +33,7 @@ export default function ForumSection() {
     setPage(value);
   };
   useEffect(() => {
-    if (topicsList.data && topicsList.data.length) {
+    if (topicsList.data?.length) {
       setPaginatedTopics(topicsList.data);
     }
   }, [topicsList?.data]);
