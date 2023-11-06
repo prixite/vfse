@@ -74,7 +74,7 @@
     "miragejs": "^0.1.48",
     "openapi-typescript": "^6.7.0",
     "regenerator-runtime": "^0.14.0",
-    "sass": "^1.69.4",
+    "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
     "style-loader": "^3.3.3",
     "ts-node": "^10.9.1",
