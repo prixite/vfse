@@ -11,7 +11,6 @@ import { parseLink } from "@src/helpers/paging";
 import { api } from "@src/store/reducers/api";
 import { VfseTopicsListApiResponse } from "@src/store/reducers/generatedWrapper";
 import { getTopicListArg } from "@src/types/interfaces";
-
 export default function ForumSection() {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
@@ -20,15 +19,12 @@ export default function ForumSection() {
     data: topicsList = { data: [], link: "" },
     // isLoading: isTopicsLoading,
   } = api.useGetTopicsListQuery({ page, ...topicListPayload });
-
   const [paginatedTopics, setPaginatedTopics] =
     useState<VfseTopicsListApiResponse>([]);
-
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
   };
-
   const handlePagination = (
     event: React.ChangeEvent<unknown>,
     value: number
@@ -36,16 +32,15 @@ export default function ForumSection() {
     event.preventDefault();
     setPage(value);
   };
-
   useEffect(() => {
-    setPaginatedTopics(topicsList.data);
+    if (topicsList.data?.length) {
+      setPaginatedTopics(topicsList.data);
+    }
   }, [topicsList?.data]);
-
   const totalTopicPages = useMemo(
     () => parseLink(topicsList?.link) || 1,
     [topicsList?.data]
   );
-
   return (
     <>
       <Box component="div">

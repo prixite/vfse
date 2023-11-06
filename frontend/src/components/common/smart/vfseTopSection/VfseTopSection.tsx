@@ -20,7 +20,6 @@ import {
 } from "@src/store/reducers/api";
 
 import useStyles from "../../smart/vfseTopSection/Styles";
-
 interface Props {
   setOpen?: (arg: boolean) => void;
   title: string;
@@ -30,7 +29,6 @@ interface Props {
     React.SetStateAction<VfseTopicsListApiResponse>
   >;
 }
-
 export default function VfseTopSection({
   setOpen,
   title,
@@ -49,7 +47,6 @@ export default function VfseTopSection({
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [listData, setListData] = useState([]);
-
   const [openSort, setOpenSort] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
   const { buttonBackground, buttonTextColor } = useAppSelector(
@@ -57,11 +54,11 @@ export default function VfseTopSection({
   );
   const [sort, setSort] = useState<number>(0);
   const [filter, setfilter] = useState<number>(0);
-
   useEffect(() => {
-    setListData(popularTopicData);
+    if (popularTopicData?.length) {
+      setListData(popularTopicData);
+    }
   }, [popularTopicData]);
-
   useEffect(() => {
     handleChangeFilter();
     handleChangeSortBy();
@@ -103,7 +100,6 @@ export default function VfseTopSection({
       setPaginatedTopics([...topicsList.data]);
     }
   }, [searchTerm, sort, filter]);
-
   const handleChangeFilter = async () => {
     if (filter === 10) {
       //ASC
@@ -128,7 +124,6 @@ export default function VfseTopSection({
         })
         .reverse();
       setListData([...reversePopularTopicsData]);
-
       const reverseTopicsListData = await [
         ...paginatedTopics.slice().sort((first, second) => {
           return first?.id - second?.id;
@@ -140,7 +135,6 @@ export default function VfseTopSection({
       setPaginatedTopics([...topicsList.data]);
     }
   };
-
   const handleChangeSortBy = async () => {
     if (sort === 10) {
       //Created At
@@ -173,7 +167,6 @@ export default function VfseTopSection({
           );
         });
       setListData(sortedUpdateAtDatesPopular);
-
       const sortedUpdatedAtDatesTopics = await paginatedTopics
         .slice()
         .sort((first, second) => {
@@ -188,42 +181,33 @@ export default function VfseTopSection({
       setPaginatedTopics(topicsList.data);
     }
   };
-
   const searchSetter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-
   //useMemo Hook is used to memoize a return value from our debounce function.
   const debouncedResults = useMemo(() => {
     return debouce(searchSetter, 300);
   }, []);
-
   useEffect(() => {
     return () => {
       debouncedResults.cancel();
     };
-  });
-
+  }, []);
   const handleClose = () => {
     setOpenSort(false);
   };
-
   const handleOpen = () => {
     setOpenSort(true);
   };
-
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
-
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
-
   const handleModal = () => {
     setOpen(true);
   };
-
   const sortSetter = (e) => {
     setSort(e.target.value);
   };
@@ -259,7 +243,6 @@ export default function VfseTopSection({
       </>
     );
   };
-
   return (
     <>
       <Grid
@@ -288,7 +271,6 @@ export default function VfseTopSection({
             </Select>
           </FormControl>
         </Grid>
-
         <Grid item sx={{ width: "50%" }}>
           <FormControl sx={{ backgroundColor: "#fff" }} fullWidth size="small">
             <InputLabel id="filter-dropdown">{t("Filter")}:</InputLabel>
@@ -357,7 +339,6 @@ export default function VfseTopSection({
           </Box>
         </Grid>
       </Grid>
-
       <Box className="rootSection">
         <Box component="div" className="div-wrapper"></Box>
       </Box>
