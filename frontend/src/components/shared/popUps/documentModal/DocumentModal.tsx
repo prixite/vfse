@@ -7,6 +7,7 @@ import {
   MenuItem,
   FormControl,
   Select,
+  Autocomplete,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -49,12 +50,14 @@ interface Props {
 const initialState: DocumentationModalFormState = {
   docLink: "",
   modelName: "",
-  modal: null,
-  modality: null,
+  modal: "",
+  modality: "",
 };
 const validationSchema = yup.object({
   docLink: yup.string().required("Document is not uploaded"),
   modelName: yup.string().required("Model Name is required"),
+  modal: yup.object().required("Product Name is required"),
+  modality: yup.object().required("Modality is required"),
 });
 
 export default function DocumentModal({
@@ -308,36 +311,30 @@ export default function DocumentModal({
                 <div className="info-section">
                   <p className="info-label required">{t("Product")}</p>
                   {!isProductsModelsLoading && (
-                    <FormControl fullWidth>
-                      <Select
-                        id="modal"
-                        value={formik.values.modal}
-                        onChange={(e) =>
-                          formik.setFieldValue("modal", e.target.value)
-                        }
-                        displayEmpty
-                        disabled={!productData?.length}
-                        className="info-field"
-                        inputProps={{ "aria-label": "Without label" }} // eslint-disable-line
-                        style={{
-                          height: "48px",
-                          marginRight: "15px",
-                          zIndex: "2000",
-                        }}
-                        MenuProps={dropdownStyles}
-                      >
-                        {productData?.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item}
-                            onKeyDown={(e) => e.stopPropagation()}
-                          >
-                            {item.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <Autocomplete
+                      id="modal"
+                      sx={{ width: "100%" }}
+                      style={{ height: "48px" }}
+                      value={formik.values.modal}
+                      onChange={(e, item) =>
+                        formik.setFieldValue("modal", item)
+                      } // eslint-disable-line
+                      options={productData ? productData : []}
+                      autoHighlight
+                      getOptionLabel={(option) => option?.name}
+                      renderInput={(params) => (
+                        <TextField
+                          autoComplete="off"
+                          {...params}
+                          inputProps={{
+                            ...params.inputProps,
+                            autoComplete: "new-password", // disable autocomplete and autofill
+                          }}
+                        />
+                      )}
+                    />
                   )}
+                  <p className="errorText">{formik.errors.modal}</p>
                 </div>
               </Grid>
 
@@ -377,6 +374,7 @@ export default function DocumentModal({
                         </MenuItem>
                       ))}
                     </Select>
+                    <p className="errorText">{formik.errors.modality}</p>
                   </FormControl>
                 </div>
               </Grid>
