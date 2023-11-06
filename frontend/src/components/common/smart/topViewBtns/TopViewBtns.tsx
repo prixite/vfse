@@ -27,10 +27,10 @@ import {
   useOrganizationsSitesListQuery,
 } from "@src/store/reducers/api";
 import { openAddModal, openNetworkModal } from "@src/store/reducers/appStore";
-
 import "@src/components/common/smart/topViewBtns/TopViewBtns.scss";
-import FilterSelect from "./FilterSelect";
+import { UserRole } from "@src/types/interfaces";
 
+import FilterSelect from "./FilterSelect";
 interface Props {
   path: string;
   setOpen?: (arg: boolean) => void;
@@ -90,6 +90,16 @@ const TopViewBtns = ({
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [site, setSite] = useState([]);
   const [selectedSite, setSelectedSite] = useState("");
+  const selectedOrganization = useSelectedOrganization();
+  const { data: me } = useOrganizationsMeReadQuery(
+    {
+      id: selectedOrganization?.id.toString(),
+    },
+    {
+      skip: !selectedOrganization,
+    }
+  );
+
   let btnAdd: string;
   if (path === "modality") {
     btnAdd = "Add Network";
@@ -321,6 +331,15 @@ const TopViewBtns = ({
       </Button>
     );
   };
+
+  const renderAddButton = () => {
+    if (me.role !== UserRole.CUSTOMER_ADMIN) {
+      return createAddButton();
+    } else {
+      return null;
+    }
+  };
+
   const renderAddConditionally = () => {
     if (path === "organizations" && currentUser?.is_superuser) return true;
     if (path === "systems" && currentUser?.role !== "end-user") return true;
@@ -435,7 +454,7 @@ const TopViewBtns = ({
             />
           </Box>
           {renderAddConditionally() && !currentUser?.view_only
-            ? createAddButton()
+            ? renderAddButton()
             : ""}
         </Box>
       </Box>
