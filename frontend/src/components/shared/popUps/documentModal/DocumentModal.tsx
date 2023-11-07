@@ -49,12 +49,14 @@ interface Props {
 const initialState: DocumentationModalFormState = {
   docLink: "",
   modelName: "",
-  modal: null,
-  modality: null,
+  modal: "",
+  modality: "",
 };
 const validationSchema = yup.object({
   docLink: yup.string().required("Document is not uploaded"),
   modelName: yup.string().required("Model Name is required"),
+  modal: yup.object().required("Product Name is required"),
+  modality: yup.object().required("Modality is required"),
 });
 
 export default function DocumentModal({
@@ -306,7 +308,7 @@ export default function DocumentModal({
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={6}>
                 <div className="info-section">
-                  <p className="info-label">{t("Product")}</p>
+                  <p className="info-label required">{t("Product")}</p>
                   {!isProductsModelsLoading && (
                     <FormControl fullWidth>
                       <Select
@@ -338,6 +340,7 @@ export default function DocumentModal({
                       </Select>
                     </FormControl>
                   )}
+                  <p className="errorText">{formik.errors.modal}</p>
                 </div>
               </Grid>
 
@@ -350,7 +353,7 @@ export default function DocumentModal({
                 sx={{ marginLeft: "auto" }}
               >
                 <div className="info-section">
-                  <p className="info-label">{t("Modalities")}</p>
+                  <p className="info-label required">{t("Modalities")}</p>
                   <FormControl sx={{ minWidth: "100%" }}>
                     <Select
                       name="modality"
@@ -377,6 +380,7 @@ export default function DocumentModal({
                         </MenuItem>
                       ))}
                     </Select>
+                    <p className="errorText">{formik.errors.modality}</p>
                   </FormControl>
                 </div>
               </Grid>
