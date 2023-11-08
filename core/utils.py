@@ -1,12 +1,12 @@
 import boto3
 import openai
-import openai.error
 from botocore.exceptions import ClientError
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
+from openai import OpenAI
 
 from core import models
 
@@ -46,7 +46,7 @@ def send_topic_email(topic, user, comment):
 
 
 def get_chat_bot_response(question, prompt):
-    openai.api_key = settings.OPENAI_API_KEY
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
     if not question:
         return "Please enter some text to get response."
 
@@ -60,8 +60,8 @@ def get_chat_bot_response(question, prompt):
     max_tokens = max(max_tokens, 256)
 
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
+        response = client.completions.create(
+            model="text-davinci-003",
             max_tokens=max_tokens,
             prompt=query,
             temperature=0.6,
@@ -69,14 +69,13 @@ def get_chat_bot_response(question, prompt):
             frequency_penalty=0,
             presence_penalty=0,
             timeout=15,
-            request_timeout=15,
         )
-    except openai.error.RateLimitError:
+    except openai.RateLimitError:
         return (
             "Temporary network failure occurred. "
             "Please try again in a couple of minutes."
         )
-    except openai.error.Timeout:
+    except openai.APITimeoutError:
         return "Request timed out. Can you try to rephrase your question?"
 
     if not response.choices[0].text:
