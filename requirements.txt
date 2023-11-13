@@ -14,7 +14,7 @@ duo-universal==2.0.3
 factory-boy==3.3.0
 fastapi==0.104.0
 gunicorn==21.2.0
-httpx==0.25.0
+httpx==0.25.1
 icmplib==3.0.4
 influxdb-client==1.38.0
 openai==1.1.1
