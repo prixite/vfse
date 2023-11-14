@@ -105,13 +105,13 @@ export default function VfseTopSection({
       //ASC
       const ascPopulatTopicsData = await [
         ...listData.slice().sort((first, second) => {
-          return first?.id - second?.id;
+          return first?.number_of_followers - second?.number_of_followers;
         }),
       ];
       setListData([...ascPopulatTopicsData]);
       const ascPaginatedTopicsData = await [
         ...paginatedTopics.slice().sort((first, second) => {
-          return first?.id - second?.id;
+          return first?.number_of_followers - second?.number_of_followers;
         }),
       ];
       setPaginatedTopics([...ascPaginatedTopicsData]);
@@ -120,13 +120,13 @@ export default function VfseTopSection({
       const reversePopularTopicsData = await listData
         .slice()
         .sort((first, second) => {
-          return first?.id - second?.id;
+          return first?.number_of_followers - second?.number_of_followers;
         })
         .reverse();
       setListData([...reversePopularTopicsData]);
       const reverseTopicsListData = await [
         ...paginatedTopics.slice().sort((first, second) => {
-          return first?.id - second?.id;
+          return first?.number_of_followers - second?.number_of_followers;
         }),
       ].reverse();
       setPaginatedTopics([...reverseTopicsListData]);
