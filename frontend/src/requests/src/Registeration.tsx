@@ -426,6 +426,24 @@ const Registeration = () => {
                     <p className="errorText">{confirmPasswordError}</p>
                   </div>
                 </div>
+                <p className="info-label required">Organization</p>
+                <FormControl className="info-field">
+                  <Select
+                    inputProps={{ "aria-label": "Without label" }}
+                    style={{ height: "43px", borderRadius: "8px" }}
+                    defaultValue=""
+                    disabled={!organizations.length}
+                    value={organizationId}
+                    onChange={(event) => setOrganizationId(event.target.value)}
+                    MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
+                  >
+                    {organizations.map((item, key) => (
+                      <MenuItem key={key} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
                 <div className="divided-div">
                   <div className="group">
                     <p className="info-label required">Roles</p>
@@ -437,7 +455,6 @@ const Registeration = () => {
                         defaultValue=""
                         value={role}
                         onChange={(event) => setRole(event.target.value)}
-                        className="info-field"
                         MenuProps={{
                           PaperProps: { style: { maxHeight: 250 } },
                         }}
@@ -463,7 +480,6 @@ const Registeration = () => {
                         MenuProps={{
                           PaperProps: { style: { maxHeight: 250 } },
                         }}
-                        className="info-field"
                         onChange={(event) => setManager(event.target.value)}
                       >
                         <MenuItem value="">
@@ -478,24 +494,6 @@ const Registeration = () => {
                     </FormControl>
                   </div>
                 </div>
-                <p className="info-label required">Organization</p>
-                <FormControl>
-                  <Select
-                    inputProps={{ "aria-label": "Without label" }}
-                    style={{ height: "43px", borderRadius: "8px" }}
-                    defaultValue=""
-                    disabled={!organizations.length}
-                    value={organizationId}
-                    onChange={(event) => setOrganizationId(event.target.value)}
-                    MenuProps={{ PaperProps: { style: { maxHeight: 250 } } }}
-                  >
-                    {organizations.map((item, key) => (
-                      <MenuItem key={key} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
               </div>
             ) : (
               <SectionTwo
