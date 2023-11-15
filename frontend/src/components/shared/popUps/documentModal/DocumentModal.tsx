@@ -339,7 +339,7 @@ export default function DocumentModal({
                         onChange={(e) =>
                           formik.setFieldValue("modal", e.target.value)
                         }
-                        // displayEmpty
+                        displayEmpty
                         disabled={!productData?.length}
                         className="info-field"
                         inputProps={{ "aria-label": "Without label" }} // eslint-disable-line
@@ -380,7 +380,7 @@ export default function DocumentModal({
                     <Select
                       name="modality"
                       value={formik.values.modality}
-                      // displayEmpty
+                      displayEmpty
                       disabled={!modalitiesList?.length}
                       className="info-field"
                       inputProps={{ "aria-label": "Without label" }}
