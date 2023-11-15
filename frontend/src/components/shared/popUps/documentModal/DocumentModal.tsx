@@ -71,6 +71,8 @@ export default function DocumentModal({
   const [addProductModel] = useProductsModelsCreateMutation();
   const [updateProductModel] = useProductsModelsPartialUpdateMutation();
   const [onChangeValidation, setOnChangeValidation] = useState(false);
+  const [initialProduct, setInitialProduct] = useState(null);
+  const [initialModality, setInitialModality] = useState(null);
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -243,8 +245,28 @@ export default function DocumentModal({
     };
   };
 
+  useEffect(() => {
+    if (productData?.length) {
+      setInitialProduct(productData[0]);
+    }
+  }, [productData]);
+
+  useEffect(() => {
+    if (modalitiesList?.length) {
+      setInitialModality(modalitiesList[0]);
+    }
+  }, [modalitiesList]);
+
+  const resetFormValues = () => {
+    formik.setValues({
+      ...formik.values,
+      modal: initialProduct || null,
+      modality: initialModality || null,
+    });
+  };
+
   const resetModal = () => {
-    formik.resetForm();
+    resetFormValues();
     setOnChangeValidation(false);
     handleClose();
   };
@@ -317,7 +339,7 @@ export default function DocumentModal({
                         onChange={(e) =>
                           formik.setFieldValue("modal", e.target.value)
                         }
-                        displayEmpty
+                        // displayEmpty
                         disabled={!productData?.length}
                         className="info-field"
                         inputProps={{ "aria-label": "Without label" }} // eslint-disable-line
@@ -358,7 +380,7 @@ export default function DocumentModal({
                     <Select
                       name="modality"
                       value={formik.values.modality}
-                      displayEmpty
+                      // displayEmpty
                       disabled={!modalitiesList?.length}
                       className="info-field"
                       inputProps={{ "aria-label": "Without label" }}
