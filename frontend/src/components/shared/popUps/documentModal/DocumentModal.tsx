@@ -259,9 +259,9 @@ export default function DocumentModal({
 
   const resetFormValues = () => {
     formik.setValues({
-      ...formik.values,
-      modal: initialProduct || null,
-      modality: initialModality || null,
+      ...formik.resetForm(),
+      modal: initialProduct,
+      modality: initialModality,
     });
   };
 
