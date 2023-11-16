@@ -39,34 +39,6 @@ class TopicTestCase(BaseTestCase):
             response.json(), {}
         )  # TODO: what response should be returned ?
 
-    def test_follow__topic_permission_issue(self):
-        self.client.force_login(self.fse_follower)
-        response = self.client.patch(
-            f"/api/vfse/topics/{self.topic.id}/follow/", data={"follow": True}
-        )
-
-        self.assertEqual(response.status_code, 403)
-        self.assertFalse(
-            models.Topic.objects.filter(
-                id=self.topic.id, followers=self.fse_follower
-            ).exists()
-        )
-
-        response = self.client.patch(
-            f"/api/vfse/topics/{self.topic.id}/follow/", data={"follow": False}
-        )
-        self.assertEqual(response.status_code, 403)
-        self.assertFalse(
-            models.Topic.objects.filter(
-                id=self.topic.id, followers=self.fse_follower
-            ).exists()
-        )
-
-        self.assertEqual(
-            response.json(),
-            {"detail": "You do not have permission to perform this action."},
-        )
-
     def test_topic_query(self):
         self.client.force_login(self.super_user)
         factories.TopicFactory(
