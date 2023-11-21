@@ -177,7 +177,7 @@ const PageOne = ({
                   value={item.id}
                   style={{ color: item.id == -1 ? "darkgray" : "" }}
                 >
-                  {item.username}
+                  {`${item.first_name || ""} ${item.last_name || ""}`}
                 </MenuItem>
               ))}
             </Select>
