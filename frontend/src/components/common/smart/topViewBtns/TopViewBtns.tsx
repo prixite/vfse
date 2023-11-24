@@ -323,6 +323,11 @@ const TopViewBtns = ({
       currentUser?.role == UserRole.CUSTOMER_ADMIN
     )
       return false;
+    if (
+      path === "knowledge-base" ||
+      (path === "knowledge-base-category" && currentUser?.role == UserRole.FSE)
+    )
+      return false;
     if (path === "systems" && currentUser?.role !== UserRole.END_USER)
       return true;
     if (path !== "active-users" && currentUser?.role !== UserRole.END_USER)

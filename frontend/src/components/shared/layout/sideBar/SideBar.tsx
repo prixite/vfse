@@ -236,34 +236,37 @@ export default function SideBar() {
                 }}
               >
                 <List component="div" disablePadding>
-                  {vfseRoutes?.map((route: routeItem) => (
-                    <ListItem
-                      button
-                      sx={{ pl: 4 }}
-                      component={Link}
-                      key={route.path}
-                      to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
-                      style={
-                        currentRoute ===
-                        `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
-                          ? {
-                              backgroundColor: "rgba(255, 255, 255, 0.06)",
-                              fontStyle: fontOne,
-                            }
-                          : {}
-                      }
-                      onClick={() =>
-                        setCurrentRoute(
+                  {vfseRoutes?.map((route: routeItem) => {
+                    return (route.flag == "knowledge" || route.flag == "faq") &&
+                      !me.fse_accessible ? null : (
+                      <ListItem
+                        button
+                        sx={{ pl: 4 }}
+                        component={Link}
+                        key={route.path}
+                        to={`/${organizationRoute}/${selectedOrganization?.id}${route.path}`}
+                        style={
+                          currentRoute ===
                           `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
-                        )
-                      }
-                    >
-                      <ListItemText
-                        style={{ paddingLeft: "16px" }}
-                        primary={route.name}
-                      />
-                    </ListItem>
-                  ))}
+                            ? {
+                                backgroundColor: "rgba(255, 255, 255, 0.06)",
+                                fontStyle: fontOne,
+                              }
+                            : {}
+                        }
+                        onClick={() =>
+                          setCurrentRoute(
+                            `/${organizationRoute}/${selectedOrganization?.id}${route.path}`
+                          )
+                        }
+                      >
+                        <ListItemText
+                          style={{ paddingLeft: "16px" }}
+                          primary={route.name}
+                        />
+                      </ListItem>
+                    );
+                  })}
                 </List>
               </Collapse>
             </Fragment>

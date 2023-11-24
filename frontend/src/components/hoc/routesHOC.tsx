@@ -6,6 +6,9 @@ import { Routes, Route } from "react-router-dom";
 
 import { constants } from "@src/helpers/utils/constants";
 import { routes, vfseRoutes } from "@src/routes";
+import { Me } from "@src/store/reducers/generatedWrapper";
+
+import SystemsView from "../../views/systems/SystemsView";
 
 const OrganizationView = lazy(
   async () =>
@@ -74,12 +77,11 @@ const TemplateView = lazy(
     import(/* webpackChunkName: "template" */ "@src/views/template/template")
 );
 
-import SystemsView from "../../views/systems/SystemsView";
-
 interface Props {
+  me: Me;
   isLoading: boolean;
 }
-const RoutesHOC = ({ isLoading }: Props) => {
+const RoutesHOC = ({ isLoading, me }: Props) => {
   const { t } = useTranslation();
   const { organizationRoute, networkRoute, sitesRoute } = constants;
   return (
@@ -105,17 +107,20 @@ const RoutesHOC = ({ isLoading }: Props) => {
               key={key}
             />
           ))}
-          {vfseRoutes.map((route, key) => (
-            <Route
-              path={`/${organizationRoute}/:id${route.path}`}
-              element={
-                <Suspense fallback={<>{t("Loading ...")}</>}>
-                  <route.component />
-                </Suspense>
-              }
-              key={key}
-            />
-          ))}
+          {vfseRoutes.map((route, key) => {
+            return (route.flag == "knowledge" || route.flag == "faq") &&
+              !me.fse_accessible ? null : (
+              <Route
+                path={`/${organizationRoute}/:id${route.path}`}
+                element={
+                  <Suspense fallback={<>{t("Loading ...")}</>}>
+                    <route.component />
+                  </Suspense>
+                }
+                key={key}
+              />
+            );
+          })}
           <Route
             path={`/${organizationRoute}/:id/template/`}
             element={

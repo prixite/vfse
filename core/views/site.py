@@ -75,7 +75,7 @@ class WelcomeView(TemplateView):
         "modality": "/systems/",
         "user": "/users/",
         "documentation": "/documentation/",
-        "vfse": "/knowledge-base/",
+        "vfse": "/forum/",
         "appearance": "/appearance/",
     }
 
