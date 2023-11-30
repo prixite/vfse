@@ -91,7 +91,7 @@ const App = () => {
       <CssBaseline />
       <ToastContainer />
       <PageLayout>
-        <RoutesHOC isLoading={isLoading} />
+        <RoutesHOC isLoading={isLoading} me={data} />
       </PageLayout>
     </ThemeProvider>
   );
