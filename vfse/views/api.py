@@ -1,6 +1,7 @@
 from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView, status
 from rest_framework.viewsets import ModelViewSet
@@ -259,10 +260,7 @@ class WorkOrderViewset(ModelViewSet):
 
 
 class FollowtopicViewset(ModelViewSet):
-    permission_classes = [
-        permissions.ViewOnlyPermissions,
-        permissions.FSEAccessPermissions,
-    ]
+    permission_classes = [IsAuthenticated]
     serializer_class = serializers.FollowUnfollowSerializer
 
     def get_queryset(self):
