@@ -71,6 +71,8 @@ export default function DocumentModal({
   const [addProductModel] = useProductsModelsCreateMutation();
   const [updateProductModel] = useProductsModelsPartialUpdateMutation();
   const [onChangeValidation, setOnChangeValidation] = useState(false);
+  const [initialProduct, setInitialProduct] = useState(null);
+  const [initialModality, setInitialModality] = useState(null);
 
   const { buttonBackground, buttonTextColor, secondaryColor } = useAppSelector(
     (state) => state.myTheme
@@ -243,8 +245,28 @@ export default function DocumentModal({
     };
   };
 
+  useEffect(() => {
+    if (productData?.length) {
+      setInitialProduct(productData[0]);
+    }
+  }, [productData]);
+
+  useEffect(() => {
+    if (modalitiesList?.length) {
+      setInitialModality(modalitiesList[0]);
+    }
+  }, [modalitiesList]);
+
+  const resetFormValues = () => {
+    formik.setValues({
+      ...formik.resetForm(),
+      modal: initialProduct,
+      modality: initialModality,
+    });
+  };
+
   const resetModal = () => {
-    formik.resetForm();
+    resetFormValues();
     setOnChangeValidation(false);
     handleClose();
   };
