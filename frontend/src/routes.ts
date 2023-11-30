@@ -57,8 +57,8 @@ const ProfileView = lazy(
 export const routes: routeItem[] = [
   {
     name: "vFSE",
-    path: "/faq/",
-    component: FaqView,
+    path: "/forum/",
+    component: ForumView,
     flag: "vfse",
     icon: HomeIcon,
   },

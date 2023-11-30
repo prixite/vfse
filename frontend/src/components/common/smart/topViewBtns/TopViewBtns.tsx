@@ -90,15 +90,6 @@ const TopViewBtns = ({
   const [selectedNetwork, setSelectedNetwork] = useState("");
   const [site, setSite] = useState([]);
   const [selectedSite, setSelectedSite] = useState("");
-  const selectedOrganization = useSelectedOrganization();
-  const { data: me } = useOrganizationsMeReadQuery(
-    {
-      id: selectedOrganization?.id.toString(),
-    },
-    {
-      skip: !selectedOrganization,
-    }
-  );
 
   let btnAdd: string;
   if (path === "modality") {
@@ -124,8 +115,6 @@ const TopViewBtns = ({
   } else if (path === "activeUsers") {
     btnAdd = "Add User";
   }
-
-  // const { btnAsset } = localizedData().systems;
 
   const { buttonBackground, buttonTextColor } = useAppSelector(
     (state) => state.myTheme
@@ -183,7 +172,6 @@ const TopViewBtns = ({
   const handleModal = () => {
     if (path === "users") {
       setOpen(true);
-      // setData(null);
     } else if (path === "modality") {
       dispatch(openNetworkModal());
       setAction("add");
@@ -269,10 +257,6 @@ const TopViewBtns = ({
     }
   }, []);
 
-  // const handleSort = () => {
-  //   // sortSystems();
-  // };
-
   const onEventSearch = useCallback(
     debounce((searchQuery: string) => {
       if (searchQuery?.length >= 1) {
@@ -332,18 +316,21 @@ const TopViewBtns = ({
     );
   };
 
-  const renderAddButton = () => {
-    if (me.role !== UserRole.CUSTOMER_ADMIN) {
-      return createAddButton();
-    } else {
-      return null;
-    }
-  };
-
   const renderAddConditionally = () => {
-    if (path === "organizations" && currentUser?.is_superuser) return true;
-    if (path === "systems" && currentUser?.role !== "end-user") return true;
-    if (path !== "active-users" && currentUser?.role !== "end-user")
+    if (currentUser?.is_superuser) return true;
+    if (
+      path === "organizations" &&
+      currentUser?.role == UserRole.CUSTOMER_ADMIN
+    )
+      return false;
+    if (
+      path === "knowledge-base" ||
+      (path === "knowledge-base-category" && currentUser?.role == UserRole.FSE)
+    )
+      return false;
+    if (path === "systems" && currentUser?.role !== UserRole.END_USER)
+      return true;
+    if (path !== "active-users" && currentUser?.role !== UserRole.END_USER)
       return true;
     return false;
   };
@@ -395,30 +382,6 @@ const TopViewBtns = ({
                 ) : (
                   ""
                 )}
-                {/* SORT BY ASSET BUTTON.............. */}
-                {/* <Button
-                variant="contained"
-                className="Filterbtn"
-                onClick={handleSort}
-              >
-                <div className="btn-content" style={{ textTransform: "none" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      fontSize: "11px",
-                    }}
-                  >
-                    <span style={{ height: "10px" }}>0</span>
-                    <span>9</span>
-                  </div>
-                  <img src={ArrowDown} style={{ marginRight: "10px" }} />
-                  <span>{btnAsset}</span>
-                  <span className="coloumns-icon">
-                    {/* <img className="asset-image" src={ArrowUpIcon} /> */}
-                {/* </span>
-                </div>
-              </Button> */}
               </>
             ) : (
               ""
@@ -439,7 +402,6 @@ const TopViewBtns = ({
               className={classes.SearchInput}
               variant="outlined"
               value={searchText}
-              // autoFocus={path === "organizations" ? true : false}
               autoComplete="off"
               onChange={handleInput}
               disabled={!actualData?.length}
@@ -454,7 +416,7 @@ const TopViewBtns = ({
             />
           </Box>
           {renderAddConditionally() && !currentUser?.view_only
-            ? renderAddButton()
+            ? createAddButton()
             : ""}
         </Box>
       </Box>
