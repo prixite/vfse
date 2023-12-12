@@ -29,7 +29,7 @@ const DropzoneBox = ({
     useDropzone({
       useFsAccessApi: false,
       accept: {
-        "image/png": [".jpg", ".jpeg", ".png", ".gif"],
+        "image/png": [".jpg", ".jpeg", ".png"],
       },
       maxSize: MAX_FILE_SIZE,
       onDrop: (acceptedFiles) => {
