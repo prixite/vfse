@@ -7,16 +7,23 @@ services:
       service: db
     volumes:
       - pgdata:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   app:
     extends:
       file: docker-compose.base.yml
       service: prod_app
     volumes:
-        - static_volume:/opt/code/static
-        - shm:/dev/shm
+      - static_volume:/opt/code/static
+      - shm:/dev/shm
     depends_on:
       - db
+    restart: always
 
   nginx:
     build:
@@ -35,6 +42,7 @@ services:
     extends:
       file: docker-compose.base.yml
       service: ping
+    restart: always
 
   cron:
     extends:
@@ -42,6 +50,7 @@ services:
       service: cron
     depends_on:
       - app
+    restart: always
 
   ssh:
     extends:
@@ -54,6 +63,7 @@ services:
       - app
     expose:
       - 8888
+    restart: always
 
   vnc_proxy:
     image: vfse_app
@@ -64,6 +74,7 @@ services:
     depends_on:
       - app
     command: bash -c 'uvicorn --host 0.0.0.0 --port 8001 proxy.vnc:app'
+    restart: always
 
   html_proxy:
     image: vfse_app
@@ -74,9 +85,11 @@ services:
     depends_on:
       - app
     command: bash -c 'uvicorn --host 0.0.0.0 --port 8002 proxy.service:app'
+    restart: always
 
   guacd:
     image: guacamole/guacd
+    restart: always
 
   guac_proxy:
     image: vfse_app
@@ -88,6 +101,7 @@ services:
       - app
       - guacd
     command: bash -c 'uvicorn --host 0.0.0.0 --port 8003 proxy.guac:app'
+    restart: always
 
 volumes:
   static_volume:
