@@ -27,7 +27,7 @@ const AllCategoriesSection = () => {
     folderCategoryIDS: [],
   });
   const [query, setQuery] = useState("");
-  // eslint-disable-next-line
+
   const [open, setOpen] = useState(false);
   const [folderOpen, setFolderOpen] = useState(false);
   const { id } = useParams<{ id?: string }>();
@@ -40,7 +40,6 @@ const AllCategoriesSection = () => {
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
-  // eslint-disable-next-line
 
   const handleSearchQuery = (searchQuery: string) => {
     // handleSearch Logic here

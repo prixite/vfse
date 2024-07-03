@@ -37,7 +37,6 @@ import {
 import { S3Interface, UserForm, UserModalProps } from "@src/types/interfaces";
 
 import "@src/components/shared/popUps/userModal/userModal.scss";
-// eslint-disable-next-line
 
 window.Buffer = window.Buffer || Buffer;
 

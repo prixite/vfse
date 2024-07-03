@@ -44,7 +44,7 @@ export const parseLink = (linkHeader: string) => {
     .map(parseLinkToObj)
     .filter(hasRel)
     .reduce(intoRels, {});
-  // eslint-disable-next-line
+
   let lastPage = 1;
   if (parsed.first) {
     lastPage = parsed.first.page || 2;

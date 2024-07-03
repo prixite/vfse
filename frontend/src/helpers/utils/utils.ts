@@ -6,7 +6,6 @@ import { ApiError } from "@src/types/interfaces";
 const validateIPaddress = (ipaddress: string) => {
   if (
     /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-      // eslint-disable-line
       ipaddress
     )
   ) {
@@ -155,7 +154,7 @@ const nameReg = /^[A-Za-z ]*$/;
 const emailRegex =
   // eslint-disable-next-line
   /^([A-Za-z0-9_\-\.+])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-// eslint-disable-next-line
+
 const passwordReg = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 const validUrl =
   // eslint-disable-next-line

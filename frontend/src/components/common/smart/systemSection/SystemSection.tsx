@@ -54,12 +54,12 @@ const SystemSection = () => {
   const [siteFilter, setSiteFilter] = useState({});
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [openMapModal, setOpenMapModal] = useState(false);
-  // eslint-disable-next-line
+
   const [open, setOpen] = useState(false);
-  // eslint-disable-next-line
+
   const [system, setSystem] = useState(null);
   const [index, setIndex] = useState(null);
-  // eslint-disable-next-line
+
   const [systemList, setSystemList] = useState({});
   const [itemsList, setItemsList] = useState<Array<System>>([]);
   const [searchText, setSearchText] = useState("");

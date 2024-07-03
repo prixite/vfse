@@ -85,7 +85,7 @@ const ProfileHeader = () => {
             fontWeight="bold"
             textAlign={{ xs: "center", md: "left" }}
           >
-            {`${me?.first_name} ${me?.last_name}` || "Jessie Hudson"}
+            {`${me?.first_name} ${me?.last_name}`}
           </Typography>
           <Stack className="iconsSec" direction={{ xs: "column", md: "row" }}>
             <Typography className="roleText">

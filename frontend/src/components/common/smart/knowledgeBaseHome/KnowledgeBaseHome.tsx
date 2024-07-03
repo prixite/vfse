@@ -38,7 +38,7 @@ const KnowledgeBaseHome = () => {
   // eslint-disable-next-line
   const { data: categoriesList = [], isLoading: isCategoriesLoading } =
     api.useGetCategoriesQuery();
-  // eslint-disable-next-line
+
   const handleSearchQuery = (searchQuery: string) => {
     // handleSearch Logic here
     const dataForSearchCategories = [

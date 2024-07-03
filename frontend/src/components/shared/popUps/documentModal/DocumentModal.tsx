@@ -342,7 +342,7 @@ export default function DocumentModal({
                         displayEmpty
                         disabled={!productData?.length}
                         className="info-field"
-                        inputProps={{ "aria-label": "Without label" }} // eslint-disable-line
+                        inputProps={{ "aria-label": "Without label" }}
                         style={{
                           height: "48px",
                           marginRight: "15px",

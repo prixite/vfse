@@ -138,7 +138,7 @@ const AppearanceSection = () => {
           );
           return tempData;
         })
-        .catch(() => currentOrganiationDummyData); // eslint-disable-line no-unused-vars
+        .catch(() => currentOrganiationDummyData);
     }
 
     try {

@@ -19,7 +19,7 @@ const SeeAllArticles = () => {
   const [open, setOpen] = useState(false);
   const [showNoDataFound, setShowNoDataFound] = useState<boolean>(false);
   const { data: topData = [] } = api.useGetAllArticlesQuery();
-  // eslint-disable-next-line
+
   const handleSearchQuery = (searchQuery: string) => {
     // logic to search article from searchBar
     const dataForSearch = [
