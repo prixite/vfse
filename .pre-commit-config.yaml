@@ -5,6 +5,7 @@ repos:
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: ^core/
       - id: trailing-whitespace
       - id: requirements-txt-fixer
   - repo: https://github.com/timothycrosley/isort
@@ -23,7 +24,7 @@ repos:
       - id: prettier
         files: \.(ts|tsx|js|jsx|scss|css)$
         exclude_types: [html]
-        exclude: frontend/src/store/api.ts
+        exclude: ^core/|frontend/src/store/api.ts
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
@@ -34,7 +35,7 @@ repos:
     rev: "v8.3.0"
     hooks:
       - id: eslint
-        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
+        files: \.[jt]sx?$ # *.js, *.jsx, *.ts and *.tsx
         # exclude: frontend/src/store/reducers/generated.ts
         types: [file]
         verbose: true
@@ -42,7 +43,7 @@ repos:
           - --color
           - --fix
         additional_dependencies:
-          - eslint
+          - eslint@8.57.0
           - eslint-plugin-react
           - eslint-plugin-import
           - eslint-import-resolver-webpack
