@@ -39,17 +39,17 @@ const ProfilePopOver = ({ profilePicture, className }: Props) => {
   };
 
   const handleLogout = async () => {
-    const response = await fetch('/accounts/logout/', {
-      method: 'POST',
+    const response = await fetch("/accounts/logout/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': document.forms.csrf.csrfmiddlewaretoken.value,
+        "Content-Type": "application/json",
+        "X-CSRFToken": document.forms.csrf.csrfmiddlewaretoken.value,
       },
     });
     if (response.ok) {
       window.location.href = response.url;
     }
-  }
+  };
 
   const handleClose = () => {
     setAnchorEl(null);

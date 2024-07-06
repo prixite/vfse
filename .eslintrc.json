@@ -5,10 +5,7 @@
     "es6": true
   },
   "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint",
-    "import"
-  ],
+  "plugins": ["@typescript-eslint", "import"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -64,5 +61,9 @@
       }
     }
   },
-  "ignorePatterns": ["frontend/src/store/reducers/generatedWrapper.ts", "frontend/src/store/reducers/generated.ts"]
+  "ignorePatterns": [
+    "frontend/src/store/reducers/generatedWrapper.ts",
+    "frontend/src/store/reducers/generated.ts",
+    "core/*"
+  ]
 }
